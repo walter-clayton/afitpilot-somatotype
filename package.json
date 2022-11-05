@@ -1,0 +1,31 @@
+{
+  "name": "somatotype",
+  "version": "2.0.0",
+  "description": "somatotype app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/walter-clayton/somatotype.git"
+  },
+  "author": "Walter Clayton",
+  "license": "UNLICENSED",
+  "private": "true",
+  "bugs": {
+    "url": "https://github.com/walter-clayton/somatotype/issues"
+  },
+  "homepage": "https://github.com/walter-clayton/somatotype#readme",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "concurrently": "^7.5.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.7.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
