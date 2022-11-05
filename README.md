@@ -16,8 +16,8 @@ npm run server
 
 ## Contributions
 
-Add your MONGO_URI to the .ENV file.
 
+Please go to this [page](contributions.md).
 
 
 ## App Info
