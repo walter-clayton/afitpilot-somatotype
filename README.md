@@ -30,9 +30,9 @@ Please go to this [page](contributions.md).
 ### Team
 [Bhama GurusWami]()
 
-[Younes El Miri]()
+[Younes El Miri](https://github.com/ElmiriYounes)
 
-[Arnaud Dalcq]()
+[Arnaud Dalcq](https://github.com/DalcqArnaud)
 
 ### Version
 
