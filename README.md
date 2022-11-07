@@ -28,7 +28,7 @@ Please go to this [page](contributions.md).
 [Walter Clayton](http://www.traversymedia.com)
 
 ### Team
-[Bhama GurusWami]()
+[Bhama GurusWami](https://github.com/BhamaGuruswami)
 
 [Younes El Miri](https://github.com/ElmiriYounes)
 
