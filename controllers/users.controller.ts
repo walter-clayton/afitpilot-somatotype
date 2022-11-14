@@ -13,7 +13,7 @@ usersCtrl.getUser = async (req: Request, res: Response) => {
   const { username } = req.body;
 
   try {
-    const user = await User.findByUsername(username).populate('somatotypes');
+    const user = await User.findByUsername(username).populate('somatotypes').populate('anthropometrics');
     if (user.length > 0) res.status(200).send(user);
     else res.status(404).send("user not found");
   } catch (error) {

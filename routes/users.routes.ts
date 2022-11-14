@@ -13,7 +13,7 @@ const {
 const Somatotype = require("../models/Somatotype");
 const User = require("../models/User");
 
-router.get("/getUser", getUser);
+router.get("/getUser", verifyToken, getUser);
 router.post("/register", verifyKey, verifyFields, verifyUser, register);
 router.delete("/deleteUser", verifyToken, deleteUser);
 
