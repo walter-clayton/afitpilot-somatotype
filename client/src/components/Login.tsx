@@ -51,17 +51,19 @@ export default function Login() {
     // for email validation
     console.log(typeof data.get('email'))
     if (isEmailValid(data.get('email'))) {
-      console.log("ok")
+      setSnackbarMessage("Email is correct")
     }
     else {
-      console.log('not ok')
+      setSnackbarMessage('Email is incorrect')
     }
+
+    if(isEmailValid(data.get('email')) && isPasswordValid(data.get('password')) )
         // for password validation
     if (isPasswordValid(data.get('password'))) {
-        console.log("password is correct")
+      setSnackbarMessage("password is correct")
       }
       else {
-        console.log('password is incorrect')
+        setSnackbarMessage('password is incorrect')
       }
   
     console.log({
@@ -92,6 +94,8 @@ export default function Login() {
 
   //snackbar example
   const [open, setOpen] = React.useState(false);
+ 
+  const [snackbarMessage, setSnackbarMessage] = React.useState("");
 
 
   const handleClose = (event:any, reason:any) => {
@@ -200,7 +204,8 @@ export default function Login() {
               open={open}
               autoHideDuration={6000}
               onClose={handleClose}
-              message="You have succesfully signed in"
+              message={snackbarMessage}
+              // setSnackbarMessage
               // action={action}
             />
 
