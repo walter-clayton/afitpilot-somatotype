@@ -149,22 +149,9 @@ export default function Login() {
               autoFocus
             />
             <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            >
-              <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-password"
-                type={values.showPassword ? 'text' : 'password'}
-                value={values.password}
-                onChange={handleChange('password')}
-                endAdornment={
+            inputProps={
+              {
+                endAdornment:(
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
@@ -175,9 +162,27 @@ export default function Login() {
                       {values.showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
-                }
+                
+  ),
+              }
+            }
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            >
+              {/* <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel> */}
+              {/* <OutlinedInput
+                id="outlined-adornment-password"
+                type={values.showPassword ? 'text' : 'password'}
+                value={values.password}
+                onChange={handleChange('password')}
                 label="Password"
-              />
+              /> */}
             </TextField>
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
