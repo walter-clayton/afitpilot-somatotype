@@ -50,22 +50,19 @@ export default function Login() {
     const data = new FormData(event.currentTarget);
     // for email validation
     console.log(typeof data.get('email'))
-    if (isEmailValid(data.get('email'))) {
-      setSnackbarMessage("Email is correct")
-    }
-    else {
-      setSnackbarMessage('Email is incorrect')
-    }
-
-    if(isEmailValid(data.get('email')) && isPasswordValid(data.get('password')) )
-        // for password validation
-    if (isPasswordValid(data.get('password'))) {
-      setSnackbarMessage("password is correct")
-      }
-      else {
-        setSnackbarMessage('password is incorrect')
-      }
+    if(isEmailValid(data.get('email')) && isPasswordValid(data.get('password')) ){
+    setSnackbarMessage("Everything is correct")
   
+    }  
+    else{
+      if(!isEmailValid(data.get('email'))) {
+        setSnackbarMessage('Email is incorrect')
+      }
+      if (!isPasswordValid(data.get('password'))) {
+        setSnackbarMessage("Password is incorrect")
+        }
+
+    }
     console.log({
       email: data.get('email'),
       password: data.get('password'),
