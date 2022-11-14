@@ -1,13 +1,11 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import {Link,Grid,Box,Button} from '@mui/material/';
+import { Link, Grid, Box, Button ,Checkbox,FormControlLabel} from '@mui/material/';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {Typography,Container} from '@mui/material/';
+import { Typography, Container } from '@mui/material/';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {InputLabel,OutlinedInput,InputAdornment,TextField} from '@mui/material/';
+import { InputLabel, OutlinedInput, InputAdornment, TextField } from '@mui/material/';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -18,47 +16,47 @@ const theme = createTheme();
 
 export default function Login() {
 
-/**
- *
- * @param email String
- * @returns Boolean
- */
- const isEmailValid = (email: FormDataEntryValue | null): boolean => {
+  /**
+   *
+   * @param email String
+   * @returns Boolean
+   */
+  const isEmailValid = (email: FormDataEntryValue | null): boolean => {
     const isValid: boolean =
       email?.toString().match(
         /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       ) !== null;
     return isValid;
-  }; 
-/**
- * password must contains at least: 6 characters, 1 lowercase letter, 1 uppercase letter, 1 symbol as !@#$%^&* and 1 number
- * @param pwd String
- * @returns Boolean
- */
- const isPasswordValid = (pwd: FormDataEntryValue | null): boolean => {
+  };
+  /**
+   * password must contains at least: 6 characters, 1 lowercase letter, 1 uppercase letter, 1 symbol as !@#$%^&* and 1 number
+   * @param pwd String
+   * @returns Boolean
+   */
+  const isPasswordValid = (pwd: FormDataEntryValue | null): boolean => {
     const isValid: boolean =
       pwd?.toString().match(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{6,20}$/) !==
       null;
     return isValid;
   };
-  
+
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // for email validation
     console.log(typeof data.get('email'))
-    if(isEmailValid(data.get('email')) && isPasswordValid(data.get('password')) ){
-    setSnackbarMessage("You have succesfully Logged in ")
-  
-    }  
-    else{
-      if(!isEmailValid(data.get('email'))) {
+    if (isEmailValid(data.get('email')) && isPasswordValid(data.get('password'))) {
+      setSnackbarMessage("You have succesfully Logged in ")
+
+    }
+    else {
+      if (!isEmailValid(data.get('email'))) {
         setSnackbarMessage('Email is incorrect')
       }
       if (!isPasswordValid(data.get('password'))) {
         setSnackbarMessage("Password is incorrect")
-        }
+      }
 
     }
     console.log({
@@ -89,11 +87,11 @@ export default function Login() {
 
   //snackbar example
   const [open, setOpen] = React.useState(false);
- 
+
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
 
 
-  const handleClose = (event:any, reason:any) => {
+  const handleClose = (event: any, reason: any) => {
     if (reason === 'clickaway') {
       return;
     }
@@ -200,8 +198,8 @@ export default function Login() {
               autoHideDuration={6000}
               onClose={handleClose}
               message={snackbarMessage}
-              // setSnackbarMessage
-              // action={action}
+            // setSnackbarMessage
+            // action={action}
             />
 
             <Grid container>
