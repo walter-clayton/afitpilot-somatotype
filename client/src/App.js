@@ -6,6 +6,7 @@ function App() {
     <div>
       <Button variant="contained">Hello World</Button>
       <h1>Hello</h1>
+      <p>welcome</p>
     </div>
   );
 }
