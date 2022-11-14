@@ -1,12 +1,10 @@
 import './App.css';
-import Button from '@mui/material/Button';
+import Landing from './components/Landing';
 
 function App() {
   return (
     <div>
-      <Button variant="contained">Hello World</Button>
-      <h1>Hello</h1>
-      <p>welcome</p>
+      <Landing/>
     </div>
   );
 }
