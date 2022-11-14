@@ -43,15 +43,13 @@ export default function Login() {
   };
   
 
-
-
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // for email validation
     console.log(typeof data.get('email'))
     if(isEmailValid(data.get('email')) && isPasswordValid(data.get('password')) ){
-    setSnackbarMessage("Everything is correct")
+    setSnackbarMessage("You have succesfully Logged in ")
   
     }  
     else{
