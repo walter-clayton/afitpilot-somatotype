@@ -11,7 +11,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Modal from '@mui/material/Modal';
-
+import { myform } from './Calculation'
 const theme = createTheme();
 
 export default function Landing() {
@@ -53,8 +53,8 @@ export default function Landing() {
             </AppBar>
 
 
-
-            <Box sx={{
+<Box>
+<Box sx={{
                 flexGrow: 1,
                 display: "flex",
                 flexDirection: 'column',
@@ -218,33 +218,36 @@ export default function Landing() {
                         </FormControl>
 
                     </Grid>
-                    <Box>
-                        <Button variant="contained"
-                            onClick={handleOpen}
+                    {/* button */}
+                    <Grid item xs={12} md={8}>
+                    <Box sx={{textalign:'center'}}>
+                        <Button variant="contained" 
+                            // onClick={handleOpen}
                             type="submit"
 
-                            // onSubmit={myform}
-                            color="grey">
+                            onClick={myform}
+                            >
                             Result</Button>
-                        <Modal
-                            open={open}
-                            onClose={handleClose}
-                            aria-labelledby="modal-modal-title"
-                            aria-describedby="modal-modal-description"
-                        >
-                            <Box sx={style}>
-                                <Typography id="modal-modal-title" variant="h6" component="h2">
-                                    Text in a modal
-                                </Typography>
-                                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                    Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                                </Typography>
-                            </Box>
-                        </Modal>
                     </Box>
 
+                    </Grid>
+
+                  
                 </Grid>
             </Box>
+            <Box item xs={12} sm={12}>
+<Grid>
+                        <Box sx={{display:'flex',justifyContent:'center'}}>
+                        <canvas id="somatotypeCanvas"
+                      height="577.5" width = "494"
+                            ></canvas>
+                        </Box>
+    
+                    </Grid>
+
+</Box>
+
+</Box>
 
         </ThemeProvider>
     );
