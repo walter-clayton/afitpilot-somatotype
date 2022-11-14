@@ -1,6 +1,8 @@
 import * as React from 'react';
 import {Button,TextField,Link,Grid,Box,Typography,Container} from '@mui/material/';
 import CssBaseline from '@mui/material/CssBaseline';
+import Snackbar from '@mui/material/Snackbar';
+
 // import { createTheme } from '@mui/material/styles';
 
 export default function Signup() {
@@ -13,25 +15,70 @@ const isUsernameValid = (username:FormDataEntryValue | null): boolean => {
     const isValid: boolean =  username?.toString().match(/^[a-zA-Z0-9]+$/) !== null;
     return isValid;
   };
- 
+  const isEmailValid = (email: FormDataEntryValue | null): boolean => {
+    const isValid: boolean =
+      email?.toString().match(
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      ) !== null;
+    return isValid;
+  };
+  const isPasswordValid = (pwd: FormDataEntryValue | null): boolean => {
+    const isValid: boolean =
+      pwd?.toString().match(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{6,20}$/) !==
+      null;
+    return isValid;
+  };
+
+  //message
     const handleSubmit = (event:any) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        if (isUsernameValid(data.get('username'))) {
-            console.log("username is correct ")
+        // if (isUsernameValid(data.get('username'))) {
+        //     setSnackbarMessage("username is correct ")
+        //   }
+        //   else {
+        //     setSnackbarMessage('username is wrong')
+        //   }
+      
+        // console.log({
+        //     firstName: data.get('firstName'),
+        //     email: data.get('email'),
+        //     password: data.get('password'),
+
+        // });
+        if (isEmailValid(data.get('email')) && isUsernameValid(data.get('username')) && isPasswordValid(data.get('password'))) {
+            setSnackbarMessage("You have succesfully Register ")
+      
           }
           else {
-            console.log('username is wrong')
+            if (!isPasswordValid(data.get('username'))) {
+                setSnackbarMessage("Username is incorrect")
+              }
+            if (!isEmailValid(data.get('email'))) {
+              setSnackbarMessage('Email is incorrect')
+            }
+            if (!isPasswordValid(data.get('password'))) {
+              setSnackbarMessage("Password is incorrect")
+            }
+      
           }
       
-        console.log({
-            firstName: data.get('firstName'),
-            email: data.get('email'),
-            password: data.get('password'),
-
-        });
     };
 
+    // snacbar message
+    const [open, setOpen] = React.useState(false);
+
+    const [snackbarMessage, setSnackbarMessage] = React.useState("");
+    const handleClose = (event: any, reason: any) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setOpen(false);
+      };
+      const handleClick = () => {
+        setOpen(true);
+      };
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -112,10 +159,20 @@ const isUsernameValid = (username:FormDataEntryValue | null): boolean => {
                     <Button
                         type="submit"
                         fullWidth
+                        onClick={handleClick}
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
                         Register                    </Button>
+                        <Snackbar
+              open={open}
+              autoHideDuration={6000}
+              onClose={handleClose}
+              message={snackbarMessage}
+            // setSnackbarMessage
+            // action={action}
+            />
+
                     <Grid container justifyContent="center">
                         <Grid item>
                             <Link href="/Login" variant="body2"
