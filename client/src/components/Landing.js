@@ -1,11 +1,11 @@
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
-import {Box,Button,Link} from '@mui/material/';
+import { Box, Button } from '@mui/material/';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {Grid} from '@mui/material/';
+import { Grid } from '@mui/material/';
 import FilledInput from '@mui/material/FilledInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -16,259 +16,236 @@ const theme = createTheme();
 
 export default function Landing() {
 
-//   const styles = (theme) => ({
-//     root: {
-//       backgroundColor: 'blue',
-//       // Match [0, md)
-//       //       [0, 900px)
-//       [theme.breakpoints.up('md')]: {
-//         backgroundColor: 'red',
-//       },
-//     },
-//   });
-  const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-//   const handleChange = (prop) => (event) => {
-//     setValues({ ...values, [prop]: event.target.value });
-//   };
-
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <AppBar
-        position="absolute"
-        color="default"
-        elevation={0}
-        sx={{
-          position: 'relative',
-          alignItems:"center",
-          // borderBottom: (t) => `1px solid ${t.palette.divider}`,
-        }}
-      >
-        <Toolbar>
-          <Typography variant="h5" color="inherit" noWrap>
-            Somatotype
-          </Typography>
-        </Toolbar>
-      </AppBar>
-  
+    return (
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <AppBar
+                position="absolute"
+                color="default"
+                elevation={0}
+                sx={{
+                    position: 'relative',
+                    alignItems: "center",
+                    // borderBottom: (t) => `1px solid ${t.palette.divider}`,
+                }}
+            >
+                <Toolbar>
+                    <Typography variant="h5" color="inherit" noWrap>
+                        Somatotype
+                    </Typography>
+                </Toolbar>
+            </AppBar>
 
 
-    <Box sx={{
-      flexGrow: 1,
-     display:"flex",
-     flexDirection:'column',
-     justifyContent:"center",
-     alignItems:"center",
-     minHeight:"450px",
- }} >
-      <Grid >
-      <Grid item xs={12} >
-     <FormControl fullWidth sx={{ m: 1 }}   variant="filled">
-     <FormHelperText id="filled-weight-helper-text" position="top">Height</FormHelperText>
 
-<FilledInput
-  id="filled-adornment-weight"
-  placeholder='180'
-  endAdornment={<InputAdornment position="end">cm</InputAdornment>}
+            <Box sx={{
+                flexGrow: 1,
+                display: "flex",
+                flexDirection: 'column',
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: "40px"
+                //  minHeight:"550px",
+            }} >
+                <Grid >
+                    <Grid item xs={12} >
+                        <FormControl fullWidth sx={{ m: 1 }} variant="filled">
+                            <FormHelperText id="filled-weight-helper-text" position="top">Height</FormHelperText>
 
-/>
-</FormControl>
+                            <FilledInput
+                                id="height"
+                                placeholder='180'
+                                endAdornment={<InputAdornment position="end">cm</InputAdornment>}
 
-     </Grid>
-     <Grid item xs={12} md={8}>
-     <FormControl  fullWidth sx={{ m: 1 }}  variant="filled">
-     <FormHelperText id="filled-weight-helper-text" position="top">Bodyweight</FormHelperText>
+                            />
+                        </FormControl>
 
-<FilledInput
-  id="filled-adornment-weight"
-  endAdornment={<InputAdornment position="end">kg</InputAdornment>}
-  aria-describedby="filled-weight-helper-text"
-  placeholder='80'
-/>
-</FormControl>
+                    </Grid>
+                    <Grid item xs={12} md={8}>
+                        <FormControl fullWidth sx={{ m: 1 }} variant="filled">
+                            <FormHelperText id="filled-weight-helper-text" position="top">Bodyweight</FormHelperText>
 
-     </Grid>     <Grid item xs={12} md={8} >
-     <FormControl  fullWidth sx={{ m: 1 }}  variant="filled">
-     <FormHelperText id="filled-weight-helper-text" position="top">Tricep skin fold </FormHelperText>
+                            <FilledInput
+                                id="bodyweight"
+                                endAdornment={<InputAdornment position="end">kg</InputAdornment>}
+                                aria-describedby="filled-weight-helper-text"
+                                placeholder='80'
+                            />
+                        </FormControl>
 
-<FilledInput
-  id="filled-adornment-weight"
-  endAdornment={<InputAdornment position="end">mm</InputAdornment>}
-  aria-describedby="filled-weight-helper-text"
-  startAdornment={<InputAdornment position="start">12</InputAdornment>}
-/>
-</FormControl>
+                    </Grid>     <Grid item xs={12} md={8} >
+                        <FormControl fullWidth sx={{ m: 1 }} variant="filled">
+                            <FormHelperText id="filled-weight-helper-text" position="top">Tricep skin fold </FormHelperText>
 
-     </Grid>    
-      <Grid item xs={12} md={8}>
-     <FormControl  fullWidth sx={{ m: 1 }}  variant="filled">
-     <FormHelperText id="filled-weight-helper-text" position="top">Subscapular skin fold</FormHelperText>
+                            <FilledInput
+                                id="tricep"
+                                endAdornment={<InputAdornment position="end">mm</InputAdornment>}
+                                aria-describedby="filled-weight-helper-text"
+                                placeholder='12'
+                            />
+                        </FormControl>
 
-<FilledInput
-  id="filled-adornment-weight"
-  placeholder='12'
-  endAdornment={<InputAdornment position="end">mm</InputAdornment>}
-  aria-describedby="filled-weight-helper-text"
-  label="With normal TextField"
+                    </Grid>
+                    <Grid item xs={12} md={8}>
+                        <FormControl fullWidth sx={{ m: 1 }} variant="filled">
+                            <FormHelperText id="filled-weight-helper-text" position="top">Subscapular skin fold</FormHelperText>
 
-/>
-</FormControl>
+                            <FilledInput
+                                id="subscapular"
+                                placeholder='12'
+                                endAdornment={<InputAdornment position="end">mm</InputAdornment>}
+                                aria-describedby="filled-weight-helper-text"
+                            // label="With normal TextField"
 
-     </Grid>
-     <Grid item xs={12} md={8}>
-     <FormControl  fullWidth sx={{ m: 1 }}  variant="filled">
-     <FormHelperText id="filled-weight-helper-text" position="top">Supraspinal skin fold
-            </FormHelperText>
+                            />
+                        </FormControl>
 
-            <FilledInput
-              id="filled-adornment-weight"
-              placeholder='12'
-              endAdornment={<InputAdornment position="end">mm</InputAdornment>}
-              aria-describedby="filled-weight-helper-text"
-            />
-</FormControl>
+                    </Grid>
+                    <Grid item xs={12} md={8}>
+                        <FormControl fullWidth sx={{ m: 1 }} variant="filled">
+                            <FormHelperText id="filled-weight-helper-text" position="top">Supraspinal skin fold
+                            </FormHelperText>
 
-     </Grid>
-     <Grid item xs={12} md={8}>
-     <FormControl  fullWidth sx={{ m: 1 }}  variant="filled">
-     <FormHelperText id="filled-weight-helper-text" position="top">Humerus breadth
-            </FormHelperText>
+                            <FilledInput
+                                id="supraspinal"
+                                placeholder='12'
+                                endAdornment={<InputAdornment position="end">mm</InputAdornment>}
+                                aria-describedby="filled-weight-helper-text"
+                            />
+                        </FormControl>
 
-            <FilledInput
-              id="filled-adornment-weight"
-              placeholder='7'
-              endAdornment={<InputAdornment position="end">cm</InputAdornment>}
-              aria-describedby="filled-weight-helper-text"
+                    </Grid>
+                    <Grid item xs={12} md={8}>
+                        <FormControl fullWidth sx={{ m: 1 }} variant="filled">
+                            <FormHelperText id="filled-weight-helper-text" position="top">Humerus breadth
+                            </FormHelperText>
 
-
-            />
-</FormControl>
-
-     </Grid>
-     <Grid item xs={12} md={8}>
-     <FormControl  fullWidth sx={{ m: 1 }}  variant="filled">
-     <FormHelperText id="filled-weight-helper-text" position="top">Femur breadth</FormHelperText>
-
-<FilledInput
-  id="filled-adornment-weight"
-placeholder='8'
-  endAdornment={<InputAdornment position="end">cm</InputAdornment>}
-  aria-describedby="filled-weight-helper-text"
-
-/>
-</FormControl>
-
-     </Grid>
-     <Grid item xs={12} md={8}>
-     <FormControl  fullWidth sx={{ m: 1 }}  variant="filled">
-     <FormHelperText id="filled-weight-helper-text" position="top">Calf circumference</FormHelperText>
-
-<FilledInput
-  id="filled-adornment-weight"
-  placeholder='38'
-  endAdornment={<InputAdornment position="end">cm</InputAdornment>}
-  aria-describedby="filled-weight-helper-text"
+                            <FilledInput
+                                id="humerus"
+                                placeholder='7'
+                                endAdornment={<InputAdornment position="end">cm</InputAdornment>}
+                                aria-describedby="filled-weight-helper-text"
 
 
-/>
-</FormControl>
+                            />
+                        </FormControl>
 
-     </Grid>
-     <Grid item xs={12} md={8}>
-     <FormControl  fullWidth sx={{ m: 1 }}  variant="filled">
-     <FormHelperText id="filled-weight-helper-text" position="top">Bicep circumference</FormHelperText>
+                    </Grid>
+                    <Grid item xs={12} md={8}>
+                        <FormControl fullWidth sx={{ m: 1 }} variant="filled">
+                            <FormHelperText id="filled-weight-helper-text" position="top">Femur breadth</FormHelperText>
 
-<FilledInput
-  id="filled-adornment-weight"
-placeholder='38'
-  endAdornment={<InputAdornment position="end">cm</InputAdornment>}
-  aria-describedby="filled-weight-helper-text"
-//   startAdornment={<InputAdornment position="start">38</InputAdornment>}
+                            <FilledInput
+                                id="femur"
+                                placeholder='8'
+                                endAdornment={<InputAdornment position="end">cm</InputAdornment>}
+                                aria-describedby="filled-weight-helper-text"
+
+                            />
+                        </FormControl>
+
+                    </Grid>
+                    <Grid item xs={12} md={8}>
+                        <FormControl fullWidth sx={{ m: 1 }} variant="filled">
+                            <FormHelperText id="filled-weight-helper-text" position="top">Calf circumference</FormHelperText>
+
+                            <FilledInput
+                                id="calf"
+                                placeholder='38'
+                                endAdornment={<InputAdornment position="end">cm</InputAdornment>}
+                                aria-describedby="filled-weight-helper-text"
 
 
-/>
-</FormControl>
+                            />
+                        </FormControl>
 
-     </Grid>
-     <Grid item xs={12} md={8}>
-     <FormControl  fullWidth sx={{ m: 1 }}  variant="filled">
-     <FormHelperText id="filled-weight-helper-text" position="top">Subscapular skin fold</FormHelperText>
+                    </Grid>
+                    <Grid item xs={12} md={8}>
+                        <FormControl fullWidth sx={{ m: 1 }} variant="filled">
+                            <FormHelperText id="filled-weight-helper-text" position="top">Bicep circumference</FormHelperText>
 
-<FilledInput
-  id="filled-adornment-weight"
-  placeholder='12'
-  endAdornment={<InputAdornment position="end">mm</InputAdornment>}
-  aria-describedby="filled-weight-helper-text"
-  label="With normal TextField"
+                            <FilledInput
+                                id="bicep"
+                                placeholder='38'
+                                endAdornment={<InputAdornment position="end">cm</InputAdornment>}
+                                aria-describedby="filled-weight-helper-text"
+                            />
+                        </FormControl>
 
-/>
-</FormControl>
+                    </Grid>
+                    <Grid item xs={12} md={8}>
+                        <FormControl fullWidth sx={{ m: 1 }} variant="filled">
+                            <FormHelperText id="filled-weight-helper-text" position="top">Subscapular skin fold</FormHelperText>
 
-     </Grid>
-     <Grid item xs={12} md={8}>
-     <FormControl  fullWidth sx={{ m: 1 }}  variant="filled">
-     <FormHelperText id="filled-weight-helper-text" position="top">Subscapular skin fold</FormHelperText>
+                            <FilledInput
+                                id="filled-adornment-weight"
+                                placeholder='12'
+                                endAdornment={<InputAdornment position="end">mm</InputAdornment>}
+                                aria-describedby="filled-weight-helper-text"
+                                label="With normal TextField"
 
-<FilledInput
-  id="filled-adornment-weight"
-  placeholder='12'
-  endAdornment={<InputAdornment position="end">mm</InputAdornment>}
-  aria-describedby="filled-weight-helper-text"
-  label="With normal TextField"
+                            />
+                        </FormControl>
 
-/>
-</FormControl>
+                    </Grid>
+                    <Grid item xs={12} md={8}>
+                        <FormControl fullWidth sx={{ m: 1 }} variant="filled">
+                            <FormHelperText id="filled-weight-helper-text" position="top">Subscapular skin fold</FormHelperText>
 
-     </Grid>
-     <Grid>
-        <Link href="/Login" variant="body2"
-                                textDecoration={'none'}
+                            <FilledInput
+                                id="filled-adornment-weight"
+                                placeholder='12'
+                                endAdornment={<InputAdornment position="end">mm</InputAdornment>}
+                                aria-describedby="filled-weight-helper-text"
+                                label="With normal TextField"
+                            />
+                        </FormControl>
 
-                            >
-                            
-                            </Link>
-         
-        </Grid>
+                    </Grid>
+                    <Box>
+                        <Button variant="contained"
+                            onClick={handleOpen}
+                            type="submit"
 
-<Box>
-<Button  variant="contained" onClick={handleOpen}  color="grey">
-Result</Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-        </Box>
-      </Modal>
-</Box>
+                            // onSubmit={myform}
+                            color="grey">
+                            Result</Button>
+                        <Modal
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="modal-modal-title"
+                            aria-describedby="modal-modal-description"
+                        >
+                            <Box sx={style}>
+                                <Typography id="modal-modal-title" variant="h6" component="h2">
+                                    Text in a modal
+                                </Typography>
+                                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                    Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                                </Typography>
+                            </Box>
+                        </Modal>
+                    </Box>
 
-      </Grid>
-    </Box>
+                </Grid>
+            </Box>
 
-    </ThemeProvider>
-  );
+        </ThemeProvider>
+    );
 }
