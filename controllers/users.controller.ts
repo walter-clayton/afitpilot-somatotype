@@ -13,8 +13,7 @@ usersCtrl.getUser = async (req: Request, res: Response) => {
   const { username } = req.body;
 
   try {
-    const user = await User.findByUsername(username);
-
+    const user = await User.findByUsername(username).populate('somatotypes');
     if (user.length > 0) res.status(200).send(user);
     else res.status(404).send("user not found");
   } catch (error) {
@@ -33,7 +32,7 @@ usersCtrl.register = async (req: Request, res: Response) => {
     const newUser: any = await User({ email, username, password });
     newUser.password = await newUser.encryptPassword(password);
 
-    newUser.save();
+    await newUser.save();
 
     res.status(201).send({
       message:

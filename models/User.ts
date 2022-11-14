@@ -9,6 +9,8 @@ const userSchema: Schema = new Schema<IUser>(
     email: { type: String, required: true },
     username: { type: String, required: true },
     password: { type: String, required: true },
+    somatotypes: [{ type: Schema.Types.ObjectId, ref: "Somatotype" }],
+    anthropometric: [{ type: Schema.Types.ObjectId, ref: "Anthropometric" }],
   },
   { timestamps: true }
 );
