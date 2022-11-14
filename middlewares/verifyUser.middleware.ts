@@ -7,6 +7,7 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
 
   try {
     let user = await User.findByEmail(email);
+
     if (user.length > 0)
       return res.status(403).send({ message: "Email already exists" });
 
@@ -16,12 +17,10 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
     next();
   } catch (error: unknown) {
     console.log(error);
-    res
-      .status(500)
-      .send({
-        message:
-          "Error with the database: please try again or contact the administrator.",
-      });
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
   }
 };
 
