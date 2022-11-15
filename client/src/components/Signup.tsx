@@ -125,6 +125,18 @@ export default function Signup() {
               />
             </Grid>
             <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name="password"
+                label="Confirm password"
+                type="password"
+                id="password2"
+                autoComplete="new-password"
+              />
+            </Grid>
+
+            <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
                   label="I agree to the Terms and Conditions" />
