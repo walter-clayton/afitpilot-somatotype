@@ -1,12 +1,11 @@
-<<<<<<< HEAD
 import Landing from './components/Landing';
-=======
->>>>>>> 1f70a67d5a67d11c46082f8e8e14018681169bcc
 import './App.css';
 import Button from '@mui/material/Button';
 import ResponsiveAppBar from './components/AppNavBar';
 import { useState } from 'react';
 import Profile from './Profile';
+import Login from './components/Login';
+import Signup from './components/Signup';
 
 function App() {
   const [currentPageIndex, setCurrentPageIndex] = useState(0); 
@@ -16,14 +15,10 @@ function App() {
   }
 
   return (
-<<<<<<< HEAD
-    
     <div>
-            <Landing/>
-
-=======
-    <div>
->>>>>>> 1f70a67d5a67d11c46082f8e8e14018681169bcc
+      <Landing/>
+      <Login/>
+      <Signup/>
       <ResponsiveAppBar changeCurrentPage={pageHandler}/>
       
       {currentPageIndex === 0 ? 
@@ -42,8 +37,4 @@ function App() {
   );
 }
 
-<<<<<<< HEAD
 export default App;
-=======
-export default App;
->>>>>>> 1f70a67d5a67d11c46082f8e8e14018681169bcc
