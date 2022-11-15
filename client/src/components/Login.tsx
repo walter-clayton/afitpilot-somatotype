@@ -59,17 +59,18 @@ export default function Login() {
     });
   };
 
-  const [values, setValues] = React.useState({
-    password: '',
-    showPassword: false,
-  });
+  // const [values, setValues] = React.useState({
+  //   password: '',
+  //   showPassword: false,
+  // });
 
 
   const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
-    });
+    setShowPassword(!showPassword);
+    // setValues({
+    //   ...values,
+    //   showPassword: !values.showPassword,
+    // });
   };
   // const handleChange = (prop: any) => (event: any) => {
   //   setValues({ ...values, [prop]: event.target.value });
@@ -109,6 +110,7 @@ export default function Login() {
   //   </React.Fragment>
   // );
 
+const [showPassword, setShowPassword] = React.useState(false);
 
   return (
     <ThemeProvider theme={theme}>
@@ -132,7 +134,15 @@ export default function Login() {
               autoFocus
             />
             <TextField
-              inputProps={
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type={showPassword ? 'text' : 'password'}
+              id="password"
+              autoComplete="current-password"
+              InputProps={
                 {
                   endAdornment: (
                     <InputAdornment position="end">
@@ -142,21 +152,13 @@ export default function Login() {
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >
-                        {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
                   ),
                 }
               }
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            >
+              >
               {/* <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel> */}
               {/* <OutlinedInput
                 id="outlined-adornment-password"
