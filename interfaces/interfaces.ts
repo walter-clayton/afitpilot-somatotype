@@ -9,7 +9,7 @@ export interface IUser {
   username: string;
   password: string;
   somatotypes: IRelationShip;
-  anthropometric: IAnthropometric
+  anthropometrics: IAnthropometric
 }
 
 export interface ISomatotype {
