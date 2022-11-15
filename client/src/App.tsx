@@ -1,4 +1,7 @@
 import './App.css';
+import Signup from './components/Signup';
+import Login from './components/Login';
+import { BrowserRouter as Router,Route, Routes} from "react-router-dom"
 import Button from '@mui/material/Button';
 import ResponsiveAppBar from './components/AppNavBar';
 import { useState } from 'react';
@@ -9,10 +12,18 @@ function App() {
 
   const pageHandler = (currentPageIndex:any) => {
     setCurrentPageIndex(currentPageIndex);
-  }
 
   return (
     <div>
+     <Router>
+      <Routes>
+      {/* <Route exact path="/" element={<Landing />}/> */}
+      <Route path="/" element={<Signup />}/>
+      <Route path='/Login' element={<Login/>}/>
+      </Routes>
+      </Router>
+       </div>
+        <div>
       <ResponsiveAppBar changeCurrentPage={pageHandler}/>
       
       {currentPageIndex === 0 ? 
@@ -28,7 +39,8 @@ function App() {
         null 
       }
     </div>
-  );
-}
+
+
+
 
 export default App;
