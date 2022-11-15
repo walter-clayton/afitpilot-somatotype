@@ -10,9 +10,9 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
+import {MenuItem} from '@mui/material/';
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = ['Products', 'Pricing','Blog'];
 
 const ResponsiveAppBar = (props:any) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -118,12 +118,16 @@ const ResponsiveAppBar = (props:any) => {
               </Button>
             ))}
           </Box>
+          <Box sx={{ flexGrow: 0 ,marginRight:"10px"}}>
+          <Button href='/Login'sx={{backgroundColor:'grey'}}  variant='contained' >SignIN</Button>
+          </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open profile page">
+            <Tooltip title="Open profile page">     
               <IconButton onClick={handleOpenProfilePage} sx={{ p: 0 }}>
                 <Avatar alt="Profil icon" src="/static/images/avatar/2.jpg" />
               </IconButton>
+              
             </Tooltip>
           </Box>
         </Toolbar>
