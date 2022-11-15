@@ -17,16 +17,10 @@ function App() {
 
   return (
     <div>
-      {/* <Landing />
-      <Login />
-      <Signup /> */}
       <ResponsiveAppBar changeCurrentPage={pageHandler} />
-
       {currentPageIndex === 0 ? (
         <div>
-          {/* <Button variant="contained">Hello World</Button>
-          <h1>Hello</h1> */}
-               <Router>
+       <Router>
       <Routes>
       <Route path="/" element={<Landing />}/>
       <Route path="/Signup" element={<Signup />}/>

@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import {MenuItem} from '@mui/material/';
 
-const pages = ['Products', 'Pricing',];
+const pages = ['Products', 'Pricing','Blog'];
 
 const ResponsiveAppBar = (props:any) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
