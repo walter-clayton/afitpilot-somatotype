@@ -1,7 +1,6 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
-import { Link, Grid, Box, Button, Checkbox, FormControlLabel } from '@mui/material/';
+import { Link, Grid, Box, Button, Checkbox, FormControlLabel,Avatar } from '@mui/material/';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Typography, Container } from '@mui/material/';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
