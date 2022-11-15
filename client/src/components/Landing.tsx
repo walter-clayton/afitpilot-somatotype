@@ -56,7 +56,7 @@ export default function Landing() {
                     <Grid>
                         <Grid item xs={12} >
                             <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText id="filled-weight-helper-text" position="top">Height</FormHelperText>
+                                <FormHelperText >Height</FormHelperText>
                                 <FilledInput
                                     id="height"
                                     placeholder='180'
@@ -66,7 +66,7 @@ export default function Landing() {
                         </Grid>
                         <Grid item xs={12} md={8}>
                             <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText id="filled-weight-helper-text" position="top">Bodyweight</FormHelperText>
+                                <FormHelperText >Bodyweight</FormHelperText>
                                 <FilledInput
                                     id="bodyweight"
                                     endAdornment={<InputAdornment position="end">kg</InputAdornment>}
@@ -76,7 +76,7 @@ export default function Landing() {
                         </Grid>
                         <Grid item xs={12} md={8} >
                             <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText id="filled-weight-helper-text" position="top">Tricep skin fold </FormHelperText>
+                                <FormHelperText >Tricep skin fold </FormHelperText>
                                 <FilledInput
                                     id="tricep"
                                     endAdornment={<InputAdornment position="end">mm</InputAdornment>}
@@ -86,7 +86,7 @@ export default function Landing() {
                         </Grid>
                         <Grid item xs={12} md={8}>
                             <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText id="filled-weight-helper-text" position="top">Subscapular skin fold</FormHelperText>
+                                <FormHelperText>Subscapular skin fold</FormHelperText>
 
                                 <FilledInput
                                     id="subscapular"
@@ -97,7 +97,7 @@ export default function Landing() {
                         </Grid>
                         <Grid item xs={12} md={8}>
                             <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText id="filled-weight-helper-text" position="top">Supraspinal skin fold
+                                <FormHelperText >Supraspinal skin fold
                                 </FormHelperText>
                                 <FilledInput
                                     id="supraspinal"
@@ -109,7 +109,7 @@ export default function Landing() {
                         </Grid>
                         <Grid item xs={12} md={8}>
                             <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText id="filled-weight-helper-text" position="top">Humerus breadth </FormHelperText>
+                                <FormHelperText >Humerus breadth </FormHelperText>
                                 <FilledInput
                                     id="humerus"
                                     placeholder='7'
@@ -120,7 +120,7 @@ export default function Landing() {
                         </Grid>
                         <Grid item xs={12} md={8}>
                             <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText id="filled-weight-helper-text" position="top">Femur breadth</FormHelperText>
+                                <FormHelperText >Femur breadth</FormHelperText>
                                 <FilledInput
                                     id="femur"
                                     placeholder='8'
@@ -131,7 +131,7 @@ export default function Landing() {
                         </Grid>
                         <Grid item xs={12} md={8}>
                             <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText id="filled-weight-helper-text" position="top">Calf circumference</FormHelperText>
+                                <FormHelperText>Calf circumference</FormHelperText>
                                 <FilledInput
                                     id="calf"
                                     placeholder='38'
@@ -142,7 +142,7 @@ export default function Landing() {
                         </Grid>
                         <Grid item xs={12} md={8}>
                             <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText id="filled-weight-helper-text" position="top">Bicep circumference</FormHelperText>
+                                <FormHelperText>Bicep circumference</FormHelperText>
                                 <FilledInput
                                     id="bicep"
                                     placeholder='38'
@@ -153,26 +153,26 @@ export default function Landing() {
                         </Grid>
                         <Grid item xs={12} md={8}>
                             <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText id="filled-weight-helper-text" position="top">Subscapular skin fold</FormHelperText>
+                                <FormHelperText >Subscapular skin fold</FormHelperText>
 
                                 <FilledInput
                                     id="filled-adornment-weight"
                                     placeholder='12'
                                     endAdornment={<InputAdornment position="end">mm</InputAdornment>}
                                     aria-describedby="filled-weight-helper-text"
-                                    label="With normal TextField"/>
+                                    />
                             </FormControl>
 
                         </Grid>
                         <Grid item xs={12} md={8}>
                             <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText id="filled-weight-helper-text" position="top">Subscapular skin fold</FormHelperText>
+                                <FormHelperText >Subscapular skin fold</FormHelperText>
                                 <FilledInput
                                     id="filled-adornment-weight"
                                     placeholder='12'
                                     endAdornment={<InputAdornment position="end">mm</InputAdornment>}
                                     aria-describedby="filled-weight-helper-text"
-                                    label="With normal TextField"/>
+                                    />
                             </FormControl>
 
                         </Grid>
@@ -192,7 +192,7 @@ export default function Landing() {
 
                     </Grid>
                 </Box>
-                <Box item xs={12} sm={12}>
+                {/* <Box item xs={12} sm={12}> */}
                     <Grid>
                         <Box sx={{ display: 'flex', justifyContent: 'center', marginLeft: "30px" }}>
                             <canvas id="somatotypeCanvas"
@@ -204,7 +204,7 @@ export default function Landing() {
 
                 </Box>
 
-            </Box>
+            {/* </Box> */}
 
         </ThemeProvider>
     );
