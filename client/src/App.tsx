@@ -6,6 +6,7 @@ import { useState } from "react";
 import Profile from "./Profile";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import { BrowserRouter as Router,Route, Routes} from "react-router-dom"
 
 function App() {
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
@@ -16,15 +17,23 @@ function App() {
 
   return (
     <div>
-      <Landing />
+      {/* <Landing />
       <Login />
-      <Signup />
+      <Signup /> */}
       <ResponsiveAppBar changeCurrentPage={pageHandler} />
 
       {currentPageIndex === 0 ? (
         <div>
-          <Button variant="contained">Hello World</Button>
-          <h1>Hello</h1>
+          {/* <Button variant="contained">Hello World</Button>
+          <h1>Hello</h1> */}
+               <Router>
+      <Routes>
+      <Route path="/" element={<Landing />}/>
+      <Route path="/Signup" element={<Signup />}/>
+      <Route path='/Login' element={<Login/>}/>
+      </Routes>
+      </Router>
+
         </div>
       ) : null}
 

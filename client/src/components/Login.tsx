@@ -10,7 +10,6 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Snackbar from '@mui/material/Snackbar';
-// import CloseIcon from '@mui/icons-material/Close';
 
 const theme = createTheme();
 export default function Login() {
@@ -58,23 +57,9 @@ export default function Login() {
       password: data.get('password'),
     });
   };
-
-  // const [values, setValues] = React.useState({
-  //   password: '',
-  //   showPassword: false,
-  // });
-
-
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
-    // setValues({
-    //   ...values,
-    //   showPassword: !values.showPassword,
-    // });
   };
-  // const handleChange = (prop: any) => (event: any) => {
-  //   setValues({ ...values, [prop]: event.target.value });
-  // };
   const handleMouseDownPassword = (event: any) => {
     event.preventDefault();
   };
@@ -92,24 +77,6 @@ export default function Login() {
   const handleClick = () => {
     setOpen(true);
   };
-
-  // const action = (
-  //   <React.Fragment>
-  //     <Button color="secondary" size="small" onClick={handleClose}
-  //     >
-  //       UNDO
-  //     </Button>
-  //     <IconButton
-  //       size="small"
-  //       aria-label="close"
-  //       color="inherit"
-  //       onClick={handleClose}
-  //     >
-  //       <CloseIcon fontSize="small" />
-  //     </IconButton>
-  //   </React.Fragment>
-  // );
-
 const [showPassword, setShowPassword] = React.useState(false);
 
   return (
@@ -159,19 +126,10 @@ const [showPassword, setShowPassword] = React.useState(false);
                 }
               }
               >
-              {/* <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel> */}
-              {/* <OutlinedInput
-                id="outlined-adornment-password"
-                type={values.showPassword ? 'text' : 'password'}
-                value={values.password}
-                onChange={handleChange('password')}
-                label="Password"
-              /> */}
             </TextField>
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+              label="Remember me"/>
             <Button
               type="submit"
               fullWidth
@@ -185,8 +143,6 @@ const [showPassword, setShowPassword] = React.useState(false);
               autoHideDuration={6000}
               onClose={handleClose}
               message={snackbarMessage}
-            // setSnackbarMessage
-            // action={action}
             />
             <Grid container>
               <Grid item xs>
