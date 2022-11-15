@@ -1,35 +1,34 @@
-import Landing from './components/Landing';
-import './App.css';
-import Button from '@mui/material/Button';
-import ResponsiveAppBar from './components/AppNavBar';
-import { useState } from 'react';
-import Profile from './Profile';
+import Landing from "./components/Landing";
+import "./App.css";
+import Button from "@mui/material/Button";
+import ResponsiveAppBar from "./components/AppNavBar";
+import { useState } from "react";
+import Profile from "./Profile";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 
 function App() {
-  const [currentPageIndex, setCurrentPageIndex] = useState(0); 
+  const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
-  const pageHandler = (currentPageIndex:any) => {
+  const pageHandler = (currentPageIndex: any) => {
     setCurrentPageIndex(currentPageIndex);
-  }
+  };
 
   return (
-    
     <div>
-         <Landing/>
-      <ResponsiveAppBar changeCurrentPage={pageHandler}/>
-      
-      {currentPageIndex === 0 ? 
+      <Landing />
+      <Login />
+      <Signup />
+      <ResponsiveAppBar changeCurrentPage={pageHandler} />
+
+      {currentPageIndex === 0 ? (
         <div>
           <Button variant="contained">Hello World</Button>
           <h1>Hello</h1>
-        </div> :
-        null 
-      }
+        </div>
+      ) : null}
 
-      {currentPageIndex === 1 ?
-        <Profile/> :
-        null 
-      }
+      {currentPageIndex === 1 ? <Profile /> : null}
     </div>
   );
 }
