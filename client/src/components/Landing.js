@@ -167,14 +167,12 @@ export default function Landing() {
                         <Grid item xs={12} md={8}>
                             <FormControl fullWidth sx={{ m: 1 }} variant="filled">
                                 <FormHelperText id="filled-weight-helper-text" position="top">Subscapular skin fold</FormHelperText>
-
                                 <FilledInput
                                     id="filled-adornment-weight"
                                     placeholder='12'
                                     endAdornment={<InputAdornment position="end">mm</InputAdornment>}
                                     aria-describedby="filled-weight-helper-text"
-                                    label="With normal TextField"
-                                />
+                                    label="With normal TextField"/>
                             </FormControl>
 
                         </Grid>
@@ -184,8 +182,7 @@ export default function Landing() {
                                 <Button variant="contained"
                                     // onClick={handleOpen}
                                     type="submit"
-
-                                    onClick={myform}
+                                onClick={myform}
                                 >
                                     Result</Button>
                             </Box>
