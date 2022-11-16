@@ -1,15 +1,10 @@
-export function myform() {
-    var somatotype = {
-     bodyweight : Number(document.getElementById("bodyweight").value), 
-     height : Number(document.getElementById("height").value), 
-     tricep : Number(document.getElementById("tricep").value), 
-     subscapular : Number(document.getElementById("subscapular").value), 
-     supraspinal : Number(document.getElementById("supraspinal").value), 
-     humerus : Number(document.getElementById("humerus").value), 
-     femur : Number(document.getElementById("femur").value), 
-     calf : Number(document.getElementById("calf").value), 
-     bicep : Number(document.getElementById("bicep").value),
-     }
+/**
+ * Calculate Endo/Meso/Ecto-morphes based on the given somatotype.
+ * The given somatotype Object need theses properties :
+ * bodyweight - height - tricep - subscapular - supraspinal - humerus - femur - calf - bicep
+ * @param {Object} somatotype 
+ */
+export function myform(somatotype) {
 
     var skinfolds = somatotype.tricep + somatotype.subscapular + somatotype.supraspinal;
     console.log( "skinfolds : " + skinfolds);
