@@ -5,6 +5,8 @@ interface IUsersCtrl {
   getUser?: (req: Request, res: Response) => void;
   register?: (req: Request, res: Response) => void;
   deleteUser?: (req: Request, res: Response) => void;
+  updateEmailAndUsername?: (req: Request, res: Response) => void;
+  updatePassword?: (req: Request, res: Response) => void;
 }
 
 const usersCtrl: IUsersCtrl = {};
@@ -35,8 +37,7 @@ usersCtrl.register = async (req: Request, res: Response) => {
     await newUser.save();
 
     res.status(201).send({
-      message:
-        "User registered successfully",
+      message: "User registered successfully",
     });
   } catch (error: unknown) {
     console.log(error);
@@ -55,9 +56,58 @@ usersCtrl.deleteUser = async (req: Request, res: Response) => {
 
     user.length > 0
       ? (await user[0].delete(),
-        res.status(200).send({message: "Account deleted successfully"}))
-      : res.status(404).send({message: "Account doesn't exists"});
+        res.status(200).send({ message: "Account deleted successfully" }))
+      : res.status(404).send({ message: "Account doesn't exists" });
   } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
+  }
+};
+
+usersCtrl.updateEmailAndUsername = async (req: Request, res: Response) => {
+  const { email, username } = req.query;
+
+  try {
+    const user = await User.findByEmail(req.user.email);
+
+    if (user[0].email !== email) user[0].email = email;
+    if (user[0].username !== username) user[0].username = username;
+
+    await user[0].save();
+
+    res.status(200).send({
+      message: "Account edited successfully",
+      user: {
+        email: user[0].email,
+        username: user[0].username,
+      },
+    });
+  } catch (error: unknown) {
+    console.log(error);
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
+  }
+};
+
+usersCtrl.updatePassword = async (req: Request, res: Response) => {
+  const newPassword = req.query.newPassword;
+
+  try {
+    const user = await User.findById(req.user_id);
+
+    user.password = await user.encryptPassword(newPassword);
+
+    await user.save();
+
+    res.status(200).send({
+      message: "Password edited successfully",
+    });
+  } catch (error: unknown) {
     console.log(error);
     res.status(500).send({
       message:
