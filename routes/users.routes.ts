@@ -3,7 +3,7 @@ import { Request, Response, Router } from "express";
 const router = Router();
 const verifyToken = require("../middlewares/verifyToken.middleware");
 const verifyKey = require("../middlewares/verifyKey.middleware");
-const verifyUser = require("../middlewares/verifyUser.middleware");
+const verifyUserRegister = require("../middlewares/verifyUserRegister.middleware");
 const verifyFields = require("../middlewares/verifyFieldsRegister.middleware");
 const {
   register,
@@ -14,7 +14,7 @@ const Somatotype = require("../models/Somatotype");
 const User = require("../models/User");
 
 router.get("/getUser", verifyToken, getUser);
-router.post("/register", verifyKey, verifyFields, verifyUser, register);
+router.post("/register", verifyKey, verifyFields, verifyUserRegister, register);
 router.delete("/deleteUser", verifyToken, deleteUser);
 
 module.exports = router;

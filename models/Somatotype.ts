@@ -7,7 +7,7 @@ const somatotypeSchema: Schema = new Schema<ISomatotype>(
     mesomorph: { type: Number, required: true },
     ectomorph: { type: Number, required: true },
     users: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    anthropometric: [{ type: Schema.Types.ObjectId, ref: "Anthropometric" }],
+    anthropometric: { type: Schema.Types.ObjectId, ref: "Anthropometric" },
   },
   { timestamps: true }
 );
