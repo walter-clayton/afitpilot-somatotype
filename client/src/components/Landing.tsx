@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Box, Button,Grid } from '@mui/material/';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -10,6 +11,71 @@ import { myform } from './Calculation'
 const theme = createTheme();
 
 export default function Landing() {
+
+    const [height, setHeight] = useState(180);
+    const [bodyweight, setBodyweight] = useState(80);
+    const [tricep, setTricep] = useState(12);
+    const [subscapular, setSubscapular] = useState(12);
+    const [supraspinal, setSupraspinal] = useState(12);
+    const [humerus, setHumerus] = useState(7);
+    const [femur, setFemur] = useState(8);
+    const [calf, setCalf] = useState(38);
+    const [bicep, setBicep] = useState(38);
+
+    const handleHeightChange = (event: React.FormEvent<any>) => {
+        setHeight(event.currentTarget.value);
+    }
+
+    const handleBodyWeightChange = (event: React.FormEvent<any>) => {
+        setBodyweight(event.currentTarget.value);
+    }
+
+    const handleTricepChange = (event: React.FormEvent<any>) => {
+        setTricep(event.currentTarget.value);
+    }
+
+    const handleSubscapularChange = (event: React.FormEvent<any>) => {
+        setSubscapular(event.currentTarget.value);
+    }
+
+    const handleSupraspinalChange = (event: React.FormEvent<any>) => {
+        setSupraspinal(event.currentTarget.value);
+    }
+
+    const handleHumerusChange = (event: React.FormEvent<any>) => {
+        setHumerus(event.currentTarget.value);
+    }
+
+    const handleFemurChange = (event: React.FormEvent<any>) => {
+        setFemur(event.currentTarget.value);
+    }
+
+    const handleCalfChange = (event: React.FormEvent<any>) => {
+        setCalf(event.currentTarget.value);
+    }
+
+    const handleBicepChange = (event: React.FormEvent<any>) => {
+        setBicep(event.currentTarget.value);
+    }
+
+
+
+    const handleResultClick = () => {
+        const somatotype = {
+            bodyweight : bodyweight, 
+            height : height, 
+            tricep : tricep, 
+            subscapular : subscapular, 
+            supraspinal : supraspinal, 
+            humerus : humerus, 
+            femur : femur, 
+            calf : calf, 
+            bicep : bicep,
+        }
+        myform(somatotype);
+    }
+
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
@@ -28,7 +94,8 @@ export default function Landing() {
                                 <FilledInput
                                     id="height"
                                     placeholder='180'
-                                    endAdornment={<InputAdornment position="end">cm</InputAdornment>} />
+                                    endAdornment={<InputAdornment position="end">cm</InputAdornment>} 
+                                    onChange={handleHeightChange}/>
                             </FormControl>
 
                         </Grid>
@@ -39,7 +106,8 @@ export default function Landing() {
                                     id="bodyweight"
                                     endAdornment={<InputAdornment position="end">kg</InputAdornment>}
                                     aria-describedby="filled-weight-helper-text"
-                                    placeholder='80' />
+                                    placeholder='80'
+                                    onChange={handleBodyWeightChange} />
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} md={8} >
@@ -49,7 +117,8 @@ export default function Landing() {
                                     id="tricep"
                                     endAdornment={<InputAdornment position="end">mm</InputAdornment>}
                                     aria-describedby="filled-weight-helper-text"
-                                    placeholder='12' />
+                                    placeholder='12' 
+                                    onChange={handleTricepChange}/>
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} md={8}>
@@ -60,7 +129,8 @@ export default function Landing() {
                                     id="subscapular"
                                     placeholder='12'
                                     endAdornment={<InputAdornment position="end">mm</InputAdornment>}
-                                    aria-describedby="filled-weight-helper-text" />
+                                    aria-describedby="filled-weight-helper-text" 
+                                    onChange={handleSubscapularChange}/>
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} md={8}>
@@ -71,7 +141,8 @@ export default function Landing() {
                                     id="supraspinal"
                                     placeholder='12'
                                     endAdornment={<InputAdornment position="end">mm</InputAdornment>}
-                                    aria-describedby="filled-weight-helper-text" />
+                                    aria-describedby="filled-weight-helper-text" 
+                                    onChange={handleSupraspinalChange}/>
                             </FormControl>
 
                         </Grid>
@@ -82,7 +153,8 @@ export default function Landing() {
                                     id="humerus"
                                     placeholder='7'
                                     endAdornment={<InputAdornment position="end">cm</InputAdornment>}
-                                    aria-describedby="filled-weight-helper-text" />
+                                    aria-describedby="filled-weight-helper-text" 
+                                    onChange={handleHumerusChange}/>
                             </FormControl>
 
                         </Grid>
@@ -93,7 +165,8 @@ export default function Landing() {
                                     id="femur"
                                     placeholder='8'
                                     endAdornment={<InputAdornment position="end">cm</InputAdornment>}
-                                    aria-describedby="filled-weight-helper-text" />
+                                    aria-describedby="filled-weight-helper-text" 
+                                    onChange={handleFemurChange}/>
                             </FormControl>
 
                         </Grid>
@@ -104,7 +177,8 @@ export default function Landing() {
                                     id="calf"
                                     placeholder='38'
                                     endAdornment={<InputAdornment position="end">cm</InputAdornment>}
-                                    aria-describedby="filled-weight-helper-text" />
+                                    aria-describedby="filled-weight-helper-text" 
+                                    onChange={handleCalfChange}/>
                             </FormControl>
 
                         </Grid>
@@ -115,29 +189,8 @@ export default function Landing() {
                                     id="bicep"
                                     placeholder='38'
                                     endAdornment={<InputAdornment position="end">cm</InputAdornment>}
-                                    aria-describedby="filled-weight-helper-text" />
-                            </FormControl>
-
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                            <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText >Subscapularskin fold</FormHelperText>
-                                <FilledInput
-                                    id="filled-adornment-weight"
-                                    placeholder='12'
-                                    endAdornment={<InputAdornment position="end">mm</InputAdornment>}
-                                    aria-describedby="filled-weight-helper-text"/>
-                            </FormControl>
-
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                            <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText >Subscapular skin fold</FormHelperText>
-                                <FilledInput
-                                    id="filled-adornment-weight"
-                                    placeholder='12'
-                                    endAdornment={<InputAdornment position="end">mm</InputAdornment>}
-                                    aria-describedby="filled-weight-helper-text"/>
+                                    aria-describedby="filled-weight-helper-text" 
+                                    onChange={handleBicepChange}/>
                             </FormControl>
 
                         </Grid>
@@ -146,7 +199,7 @@ export default function Landing() {
                             <Box sx={{ textalign: 'center' }}>
                                 <Button variant="contained"
                                     type="submit"
-                                    onClick={myform} >
+                                    onClick={handleResultClick} >
                                     Result
                                 </Button>
                             </Box>
