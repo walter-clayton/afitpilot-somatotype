@@ -1,4 +1,4 @@
-import express, { Express, NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 const User = require("../models/User");
 
 const verifyUser = async (req: Request, res: Response, next: NextFunction) => {

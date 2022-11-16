@@ -16,7 +16,7 @@ const userSchema: Schema = new Schema<IUser>(
 
 userSchema.methods.generateAuthToken = function (): string {
   const token = jwt.sign(
-    { email: this.email, username: this.username },
+    { id: this._id },
     process.env.ACCESS_TOKEN_SECRET,
     {
       expiresIn: "3600s",
