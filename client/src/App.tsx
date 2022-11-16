@@ -1,6 +1,5 @@
 import Landing from "./components/Landing";
 import "./App.css";
-import Button from "@mui/material/Button";
 import ResponsiveAppBar from "./components/AppNavBar";
 import { useState } from "react";
 import Profile from "./components/Profile";
@@ -9,6 +8,8 @@ import Signup from "./components/Signup";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { Snackbar } from "@mui/material";
+import Resetpass from "./components/Resetpass";
+import Forget from "./components/Forget";
 import Dashboard from "./components/Dashboard";
 
 function App() {
@@ -43,6 +44,8 @@ function App() {
             )
           }
         />
+        <Route path="/Forget" element={<Forget />} />
+        <Route path="/Resetpass" element={<Resetpass />} />
         <Route
           path="/Profile"
           element={
@@ -58,7 +61,7 @@ function App() {
           path="/Dashboard"
           element={
             cookies.user && (
-              <Dashboard/>
+              <Dashboard />
             )
           }
         />

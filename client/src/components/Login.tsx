@@ -99,7 +99,7 @@ export default function Login(props: any) {
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    
+
     // Snackbar message for validation
     if (
       isEmailValid(data.get("email")) &&
@@ -217,7 +217,7 @@ export default function Login(props: any) {
             />
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="/Forget" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
