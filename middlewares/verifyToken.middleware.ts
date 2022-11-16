@@ -1,4 +1,4 @@
-import express, { Express, NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 const jwt = require("jsonwebtoken");
 
 const verifyToken = (req: Request, res: Response, next: NextFunction) => {
@@ -13,7 +13,7 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
       return res.status(401).send({ message: "Unautorized: invalid token" });
     }
 
-    req.user = user;
+    req.user_id = user.id;
 
     next();
   });
