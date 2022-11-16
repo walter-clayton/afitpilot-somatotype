@@ -1,13 +1,13 @@
 // Declaration merging
 
 import express from "express";
-import { IUser } from "../interfaces/interfaces";
+import { IReqUser } from "../interfaces/interfaces";
 export {};
 
 declare global {
   namespace Express {
     interface Request {
-        user: IUser
+        user: IReqUser
     }
   }
 }

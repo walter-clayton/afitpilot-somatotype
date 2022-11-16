@@ -1,62 +1,110 @@
-import { Button, Grid, IconButton, InputAdornment, Snackbar, TextField, Typography } from '@mui/material'
-import React, { useState } from 'react'
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import {
+  Button,
+  CircularProgress,
+  Grid,
+  IconButton,
+  InputAdornment,
+  Snackbar,
+  TextField,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import { Navigate, useNavigate } from "react-router-dom";
 
-const Profile = () => {
+const Profile = (props: any) => {
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const defaultEmail = cookies.user.email;
+  const defaultUsername = cookies.user.username;
+  const defaultPassword = "*********";
+  const navigate = useNavigate();
 
-    const defaultEmail = "john.doe@gmail.com";
-    const defaultUsername = "JohnDoe";
-    const defaultPassword = "Password123$";
+  const [isEditing, setIsEditing] = useState(false);
+  const [hasChanges, setHasChanges] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-    const [isEditing, setIsEditing] = useState(false);
-    const [hasChanges, setHasChanges] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
+  const [fetching, setFetching] = React.useState<boolean>(false);
 
-    const [email, setEmail] = useState(defaultEmail);
-    const [username, setUsername] = useState(defaultUsername);
-    const [password, setPassword] = useState(defaultPassword);
+  const [email, setEmail] = useState(defaultEmail);
+  const [username, setUsername] = useState(defaultUsername);
+  const [password, setPassword] = useState(defaultPassword);
 
-    const [emailIsIncorrect, setEmailIsIncorrect] = useState(false);
-    const [usernameIsIncorrect, setUsernameIsIncorrect] = useState(false);
-    const [passwordIsIncorrect, setPasswordIsIncorrect] = useState(false);
+  const [emailIsIncorrect, setEmailIsIncorrect] = useState(false);
+  const [usernameIsIncorrect, setUsernameIsIncorrect] = useState(false);
+  const [passwordIsIncorrect, setPasswordIsIncorrect] = useState(false);
 
-    const [snackBarMessage, setSnackBarMessage] = useState('');
-    const [snackBarState, setSnackBarState] = React.useState({
-        open: false,
-        vertical: 'bottom',
-        horizontal: 'center',
-    });
+  const [snackBarMessage, setSnackBarMessage] = useState("");
+  const [snackBarState, setSnackBarState] = React.useState({
+    open: false,
+    vertical: "bottom",
+    horizontal: "center",
+  });
 
   const handleEditProfile = () => {
     setIsEditing(true);
-  }  
+  };
 
-  const handleDeleteAccount = () => {
-    console.log('delete account');
-  }   
+  const handleDeleteAccount = async () => {
+    try {
+      setFetching(true);
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${cookies.user.token}`,
+      };
+      const response = await axios.delete(process.env.REACT_APP_DELETE_URL!, {
+        headers: headers,
+        params: {
+          email: cookies.user.email,
+        },
+      });
+      console.log(response.data.message);
+      setFetching(false);
+      removeCookie("user", { path: "/", sameSite: "none", secure: true });
+      props.setOpen(true);
+      props.setSnackbarMessage("Account deleted successfully");
+      navigate("/Login");
+    } catch (error: any) {
+      // if (error.response) {
+      //   error.response.data.message
+      //     ? setSnackbarMessage(error.response.data.message)
+      //     : setSnackbarMessage(error.response.statusText);
+      // } else {
+      //   setSnackbarMessage("Error with the server");
+      // }
+
+      console.log("error ", error);
+      setFetching(false);
+    }
+  };
 
   const handleSaveChanges = () => {
-    if(isEmailValid(email) && isPasswordValid(password) && isUsernameValid(username)){
-        setSnackBarMessage('Changes saved!');
-        setHasChanges(false);
-        setIsEditing(false);
-        setEmailIsIncorrect(false);
-        setUsernameIsIncorrect(false);
-        setPasswordIsIncorrect(false);
+    if (
+      isEmailValid(email) &&
+      isPasswordValid(password) &&
+      isUsernameValid(username)
+    ) {
+      setSnackBarMessage("Changes saved!");
+      setHasChanges(false);
+      setIsEditing(false);
+      setEmailIsIncorrect(false);
+      setUsernameIsIncorrect(false);
+      setPasswordIsIncorrect(false);
     }
-    if(!isEmailValid(email)){
-        setSnackBarMessage('Invalid Email!');
+    if (!isEmailValid(email)) {
+      setSnackBarMessage("Invalid Email!");
     }
-    if(!isUsernameValid(username)){
-        setSnackBarMessage('Invalid Username!');
+    if (!isUsernameValid(username)) {
+      setSnackBarMessage("Invalid Username!");
     }
-    if(!isPasswordValid(password)){
-        setSnackBarMessage('Invalid Password!');
+    if (!isPasswordValid(password)) {
+      setSnackBarMessage("Invalid Password!");
     }
-    setSnackBarState({open:true, vertical:'bottom', horizontal:'center'})
-  } 
-  
+    setSnackBarState({ open: true, vertical: "bottom", horizontal: "center" });
+  };
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -65,42 +113,45 @@ const Profile = () => {
     event.preventDefault();
   };
 
-  const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChangeEmail = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setEmail(String(event.currentTarget.value).toLowerCase());
-    if(!isEmailValid(event.currentTarget.value)){
-        setEmailIsIncorrect(true);
-    }
-    else{
-        setEmailIsIncorrect(false);
+    if (!isEmailValid(event.currentTarget.value)) {
+      setEmailIsIncorrect(true);
+    } else {
+      setEmailIsIncorrect(false);
     }
     setHasChanges(true);
   };
 
-  const handleChangeUsername = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChangeUsername = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setUsername(event.currentTarget.value);
-    if(!isUsernameValid(event.currentTarget.value)){
-        setUsernameIsIncorrect(true);
-    }
-    else{
-        setUsernameIsIncorrect(false);
+    if (!isUsernameValid(event.currentTarget.value)) {
+      setUsernameIsIncorrect(true);
+    } else {
+      setUsernameIsIncorrect(false);
     }
     setHasChanges(true);
   };
 
-  const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChangePassword = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setPassword(event.currentTarget.value);
-    if(!isPasswordValid(event.currentTarget.value)){
-        setPasswordIsIncorrect(true);
-    }
-    else{
-        setPasswordIsIncorrect(false);
+    if (!isPasswordValid(event.currentTarget.value)) {
+      setPasswordIsIncorrect(true);
+    } else {
+      setPasswordIsIncorrect(false);
     }
     setHasChanges(true);
   };
 
   const handleSnackBarClose = () => {
-    setSnackBarState({...snackBarState, open:false})
-  }
+    setSnackBarState({ ...snackBarState, open: false });
+  };
 
   const isEmailValid = (email: string | undefined): boolean => {
     const isValid =
@@ -122,66 +173,170 @@ const Profile = () => {
     return isValid;
   };
 
-
   return (
     <>
-        <Grid container maxWidth='sm' sx={{textAlign:'center', margin:'0 auto', display:'flex', flexDirection:'column', justifyContent:'center'}}>
-            <Typography variant="h3" gutterBottom m={3}>Profile</Typography>
-            <TextField error={emailIsIncorrect ? true : false} onChange={handleChangeEmail} id="email" label="Email" variant="outlined" disabled={isEditing ? false : true} defaultValue={defaultEmail} margin="normal"/>
-            {emailIsIncorrect ? 
-                <Typography variant="caption" display="block" gutterBottom color='#ff0000'>• Please enter a valid email !</Typography> 
-                : null
-            }
-            
-            <TextField error={usernameIsIncorrect ? true : false} onChange={handleChangeUsername} id="username" label="Username" variant="outlined" disabled={isEditing ? false : true} defaultValue={defaultUsername} margin="normal"/>
-            {usernameIsIncorrect ? 
-                <Typography variant="caption" display="block" gutterBottom color='#ff0000'>• Username can't contain any symbols and/or spaces !</Typography>
-                : null
-            }
-
-            <TextField error={passwordIsIncorrect ? true : false} onChange={handleChangePassword} id="password" label="Password" variant="outlined" type={showPassword ? 'text' : 'password'} disabled={isEditing ? false : true} defaultValue={defaultPassword} margin="normal" 
-            InputProps={{
-                endAdornment:(
-                    <InputAdornment position="end">
-                        <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                            >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                    </InputAdornment>
-                ),
-            }}
-            />
-            {passwordIsIncorrect ? 
-                <>
-                    <Typography variant="caption" display="block" gutterBottom color='#ff0000'>• Password must contains at least: 6 characters !</Typography>
-                    <Typography variant="caption" display="block" gutterBottom color='#ff0000'>• Password must contains 1 lowercase letter !</Typography>
-                    <Typography variant="caption" display="block" gutterBottom color='#ff0000'>• Password must contains 1 uppercase letter !</Typography>
-                    <Typography variant="caption" display="block" gutterBottom color='#ff0000'>• Password must contains 1 symbol as !@#$%^&* !</Typography>
-                    <Typography variant="caption" display="block" gutterBottom color='#ff0000'>• Password must contains 1 number !</Typography>
-                </>
-                 : null
-            }
-            
-            {hasChanges ? 
-                <Button sx={{margin:'10px 0'}} variant="contained" onClick={handleSaveChanges}>Save changes</Button> :
-                null
-            }
-
-            <Button sx={{margin:'10px 0'}} variant="contained" onClick={handleEditProfile} disabled={isEditing ? true : false}>Edit Profile</Button>
-            <Button sx={{margin:'10px 0'}} variant="contained" onClick={handleDeleteAccount} color='error'>Delete account</Button>
-        </Grid>
-        <Snackbar
-            anchorOrigin={{ vertical:'bottom', horizontal:'center' }}
-            open={snackBarState.open}
-            onClose={handleSnackBarClose}
-            message={snackBarMessage}
+      <Grid
+        container
+        maxWidth="sm"
+        sx={{
+          textAlign: "center",
+          margin: "0 auto",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+        <Typography variant="h3" gutterBottom m={3}>
+          Profile
+        </Typography>
+        <TextField
+          error={emailIsIncorrect ? true : false}
+          onChange={handleChangeEmail}
+          id="email"
+          label="Email"
+          variant="outlined"
+          disabled={isEditing ? false : true}
+          defaultValue={defaultEmail}
+          margin="normal"
         />
-    </>
-  )
-}
+        {emailIsIncorrect ? (
+          <Typography
+            variant="caption"
+            display="block"
+            gutterBottom
+            color="#ff0000"
+          >
+            • Please enter a valid email !
+          </Typography>
+        ) : null}
 
-export default Profile
+        <TextField
+          error={usernameIsIncorrect ? true : false}
+          onChange={handleChangeUsername}
+          id="username"
+          label="Username"
+          variant="outlined"
+          disabled={isEditing ? false : true}
+          defaultValue={defaultUsername}
+          margin="normal"
+        />
+        {usernameIsIncorrect ? (
+          <Typography
+            variant="caption"
+            display="block"
+            gutterBottom
+            color="#ff0000"
+          >
+            • Username can't contain any symbols and/or spaces !
+          </Typography>
+        ) : null}
+
+        <TextField
+          error={passwordIsIncorrect ? true : false}
+          onChange={handleChangePassword}
+          id="password"
+          label="Password"
+          variant="outlined"
+          type={showPassword ? "text" : "password"}
+          disabled={isEditing ? false : true}
+          defaultValue={defaultPassword}
+          margin="normal"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+        {passwordIsIncorrect ? (
+          <>
+            <Typography
+              variant="caption"
+              display="block"
+              gutterBottom
+              color="#ff0000"
+            >
+              • Password must contains at least: 6 characters !
+            </Typography>
+            <Typography
+              variant="caption"
+              display="block"
+              gutterBottom
+              color="#ff0000"
+            >
+              • Password must contains 1 lowercase letter !
+            </Typography>
+            <Typography
+              variant="caption"
+              display="block"
+              gutterBottom
+              color="#ff0000"
+            >
+              • Password must contains 1 uppercase letter !
+            </Typography>
+            <Typography
+              variant="caption"
+              display="block"
+              gutterBottom
+              color="#ff0000"
+            >
+              • Password must contains 1 symbol as !@#$%^&* !
+            </Typography>
+            <Typography
+              variant="caption"
+              display="block"
+              gutterBottom
+              color="#ff0000"
+            >
+              • Password must contains 1 number !
+            </Typography>
+          </>
+        ) : null}
+
+        {hasChanges ? (
+          <Button
+            sx={{ margin: "10px 0" }}
+            variant="contained"
+            onClick={handleSaveChanges}
+          >
+            Save changes
+          </Button>
+        ) : null}
+
+        <Button
+          sx={{ margin: "10px 0" }}
+          variant="contained"
+          onClick={handleEditProfile}
+          disabled={isEditing ? true : false}
+        >
+          Edit Profile
+        </Button>
+        <Button
+          sx={{ margin: "10px 0" }}
+          variant="contained"
+          onClick={handleDeleteAccount}
+          color="error"
+          disabled={fetching}
+        >
+          {fetching ? <CircularProgress size={25} /> : "Delete account"}
+        </Button>
+      </Grid>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={snackBarState.open}
+        onClose={handleSnackBarClose}
+        message={snackBarMessage}
+      />
+    </>
+  );
+};
+
+export default Profile;
