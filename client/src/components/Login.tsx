@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import {
   Link,
@@ -28,6 +28,15 @@ export default function Login(props: any) {
   const navigate = useNavigate();
   const [fetching, setFetching] = React.useState<boolean>(false);
   const [cookies, setCookie] = useCookies(["user"]);
+
+  //validation
+  const [showPassword, setShowPassword] = React.useState(false)
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState("");
+
+  const [emailIsIncorrect, setEmailIsIncorrect] = useState(false);
+  const [passwordIsIncorrect, setPasswordIsIncorrect] = useState(false);
+  const [hasChanges, setHasChanges] = useState(false);
 
   /**
    * @param email String
@@ -135,7 +144,29 @@ export default function Login(props: any) {
   const handleClick = () => {
     setOpen(true);
   };
-  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleChangeEmail = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setEmail(String(event.currentTarget.value).toLowerCase());
+    if (!isEmailValid(event.currentTarget.value)) {
+      setEmailIsIncorrect(true);
+    } else {
+      setEmailIsIncorrect(false);
+    }
+    setHasChanges(true);
+  };
+  const handleChangePassword = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setPassword(event.currentTarget.value);
+    if (!isPasswordValid(event.currentTarget.value)) {
+      setPasswordIsIncorrect(true);
+    } else {
+      setPasswordIsIncorrect(false);
+    }
+    setHasChanges(true);
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -163,6 +194,8 @@ export default function Login(props: any) {
           >
             <TextField
               margin="normal"
+              onChange={handleChangeEmail}
+              error={emailIsIncorrect ? true : false}
               required
               fullWidth
               id="email"
@@ -171,10 +204,23 @@ export default function Login(props: any) {
               autoComplete="email"
               autoFocus
             />
+            {emailIsIncorrect ? (
+              <Typography
+                variant="caption"
+                display="block"
+                gutterBottom
+                color="#ff0000"
+              >
+                • Please enter a valid email !
+              </Typography>
+            ) : null}
+
+
             <TextField
               margin="normal"
               required
               fullWidth
+              onChange={handleChangePassword}
               name="password"
               label="Password"
               type={showPassword ? "text" : "password"}
@@ -195,6 +241,51 @@ export default function Login(props: any) {
                 ),
               }}
             ></TextField>
+            {passwordIsIncorrect ? (
+              <>
+                <Typography
+                  variant="caption"
+                  display="block"
+                  gutterBottom
+                  color="#ff0000"
+                >
+                  • Password must contains at least: 6 characters !
+                </Typography>
+                <Typography
+                  variant="caption"
+                  display="block"
+                  gutterBottom
+                  color="#ff0000"
+                >
+                  • Password must contains 1 lowercase letter !
+                </Typography>
+                <Typography
+                  variant="caption"
+                  display="block"
+                  gutterBottom
+                  color="#ff0000"
+                >
+                  • Password must contains 1 uppercase letter !
+                </Typography>
+                <Typography
+                  variant="caption"
+                  display="block"
+                  gutterBottom
+                  color="#ff0000"
+                >
+                  • Password must contains 1 symbol as !@#$%^&* !
+                </Typography>
+                <Typography
+                  variant="caption"
+                  display="block"
+                  gutterBottom
+                  color="#ff0000"
+                >
+                  • Password must contains 1 number !
+                </Typography>
+              </>
+            ) : null}
+
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
   Button,
   TextField,
@@ -9,16 +9,29 @@ import {
   Container,
   FormControlLabel,
   Checkbox,
-  CircularProgress 
+  CircularProgress,
+  InputAdornment
 } from "@mui/material/";
 import CssBaseline from "@mui/material/CssBaseline";
 import Snackbar from "@mui/material/Snackbar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 export default function Signup() {
   const naviguate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [emailIsIncorrect, setEmailIsIncorrect] = useState(false);
+  const [usernameIsIncorrect, setUsernameIsIncorrect] = useState(false);
+  const [passwordIsIncorrect, setPasswordIsIncorrect] = useState(false);
+  const [hasChanges, setHasChanges] = useState(false);
   const [fetching, setFetching] = React.useState<boolean>(false);
+  const [showPassword, setShowPassword] = React.useState(false);
 
   /**
    *
@@ -30,6 +43,7 @@ export default function Signup() {
       username?.toString().match(/^[a-zA-Z0-9]+$/) !== null;
     return isValid;
   };
+
   const isEmailValid = (email: FormDataEntryValue | null): boolean => {
     const isValid: boolean =
       email
@@ -39,6 +53,7 @@ export default function Signup() {
         ) !== null;
     return isValid;
   };
+
   const isPasswordValid = (pwd: FormDataEntryValue | null): boolean => {
     const isValid: boolean =
       pwd
@@ -47,6 +62,7 @@ export default function Signup() {
       null;
     return isValid;
   };
+
   const isPasswordMatch = (
     pwd: FormDataEntryValue | null,
     confirmPwd: FormDataEntryValue | null
@@ -84,18 +100,58 @@ export default function Signup() {
       } else {
         setSnackbarMessage("Error with the server");
       }
-
       console.log("error ", error);
       setFetching(false);
     }
   };
 
-  //message
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+  const handleMouseDownPassword = (event: any) => {
+    event.preventDefault();
+  };
+
+  const handleChangeEmail = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setEmail(String(event.currentTarget.value).toLowerCase());
+    if (!isEmailValid(event.currentTarget.value)) {
+      setEmailIsIncorrect(true);
+    } else {
+      setEmailIsIncorrect(false);
+    }
+    setHasChanges(true);
+  };
+
+  const handleChangeUsername = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setUsername(event.currentTarget.value);
+    if (!isUsernameValid(event.currentTarget.value)) {
+      setUsernameIsIncorrect(true);
+    } else {
+      setUsernameIsIncorrect(false);
+    }
+    setHasChanges(true);
+  };
+
+  const handleChangePassword = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setPassword(event.currentTarget.value);
+    if (!isPasswordValid(event.currentTarget.value)) {
+      setPasswordIsIncorrect(true);
+    } else {
+      setPasswordIsIncorrect(false);
+    }
+    setHasChanges(true);
+  };
+
   const handleSubmit = (event: any) => {
     event.preventDefault();
-
     const data = new FormData(event.currentTarget);
-    
+
     //validation message using snackbar
     if (
       isEmailValid(data.get("email")) &&
@@ -136,6 +192,7 @@ export default function Signup() {
   const handleClick = () => {
     setOpen(true);
   };
+  
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -152,19 +209,34 @@ export default function Signup() {
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-          <Grid item xs={12}>
+            <Grid item xs={12}>
               <TextField
                 required
                 fullWidth
+                error={emailIsIncorrect ? true : false}
+                onChange={handleChangeEmail}
                 id="email"
                 label="Email Address"
                 name="email"
                 autoComplete="email"
               />
+              {emailIsIncorrect ? (
+                <Typography
+                  variant="caption"
+                  display="block"
+                  gutterBottom
+                  color="#ff0000"
+                >
+                  • Please enter a valid email !
+                </Typography>
+              ) : null}
+
             </Grid>
             <Grid item xs={12}>
               <TextField
                 autoComplete="given-name"
+                error={usernameIsIncorrect ? true : false}
+                onChange={handleChangeUsername}
                 name="username"
                 required
                 fullWidth
@@ -172,28 +244,161 @@ export default function Signup() {
                 label="Username"
                 autoFocus
               />
+              {usernameIsIncorrect ? (
+                <Typography
+                  variant="caption"
+                  display="block"
+                  gutterBottom
+                  color="#ff0000"
+                >
+                  • Username can't contain any symbols and/or spaces !
+                </Typography>
+              ) : null}
+
             </Grid>
             <Grid item xs={12}>
               <TextField
                 required
                 fullWidth
+                error={passwordIsIncorrect ? true : false}
+                onChange={handleChangePassword}
                 name="password"
                 label="Password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
-                autoComplete="new-password"
+                autoComplete="current-password"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+
               />
+              {passwordIsIncorrect ? (
+                <>
+                  <Typography
+                    variant="caption"
+                    display="block"
+                    gutterBottom
+                    color="#ff0000"
+                  >
+                    • Password must contains at least: 6 characters !
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    display="block"
+                    gutterBottom
+                    color="#ff0000"
+                  >
+                    • Password must contains 1 lowercase letter !
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    display="block"
+                    gutterBottom
+                    color="#ff0000"
+                  >
+                    • Password must contains 1 uppercase letter !
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    display="block"
+                    gutterBottom
+                    color="#ff0000"
+                  >
+                    • Password must contains 1 symbol as !@#$%^&* !
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    display="block"
+                    gutterBottom
+                    color="#ff0000"
+                  >
+                    • Password must contains 1 number !
+                  </Typography>
+                </>
+              ) : null}
+
             </Grid>
             <Grid item xs={12}>
               <TextField
                 required
                 fullWidth
+                error={passwordIsIncorrect ? true : false}
+                onChange={handleChangePassword}
                 name="confirmPassword"
                 label="Confirm password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password2"
-                autoComplete="new-password"
+                autoComplete="current-password"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
+              {passwordIsIncorrect ? (
+                <>
+                  <Typography
+                    variant="caption"
+                    display="block"
+                    gutterBottom
+                    color="#ff0000"
+                  >
+                    • Password must contains at least: 6 characters !
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    display="block"
+                    gutterBottom
+                    color="#ff0000"
+                  >
+                    • Password must contains 1 lowercase letter !
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    display="block"
+                    gutterBottom
+                    color="#ff0000"
+                  >
+                    • Password must contains 1 uppercase letter !
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    display="block"
+                    gutterBottom
+                    color="#ff0000"
+                  >
+                    • Password must contains 1 symbol as !@#$%^&* !
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    display="block"
+                    gutterBottom
+                    color="#ff0000"
+                  >
+                    • Password must contains 1 number !
+                  </Typography>
+                </>
+              ) : null}
             </Grid>
 
             <Grid item xs={12}>
@@ -212,7 +417,7 @@ export default function Signup() {
             sx={{ mt: 3, mb: 2 }}
             disabled={fetching}
           >
-            {fetching ? <CircularProgress size={25}/> : "Register"}
+            {fetching ? <CircularProgress size={25} /> : "Register"}
           </Button>
 
           <Snackbar
