@@ -6,33 +6,61 @@ import { useState } from "react";
 import Profile from "./Profile";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-import { BrowserRouter as Router,Route, Routes} from "react-router-dom"
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import { Snackbar } from "@mui/material";
 
 function App() {
-  const [currentPageIndex, setCurrentPageIndex] = useState(0);
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const [open, setOpen] = useState<boolean>(false);
+  const [snackbarMessage, setSnackbarMessage] = useState<string>("");
 
-  const pageHandler = (currentPageIndex: any) => {
-    setCurrentPageIndex(currentPageIndex);
+  const handleClose = (event: any, reason: any) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
   };
 
   return (
-    <div>
-      <ResponsiveAppBar changeCurrentPage={pageHandler} />
-      {currentPageIndex === 0 ? (
-        <div>
-       <Router>
+    <Router>
+      <ResponsiveAppBar
+        setOpen={setOpen}
+        setSnackbarMessage={setSnackbarMessage}
+      />
       <Routes>
-      <Route path="/" element={<Landing />}/>
-      <Route path="/Signup" element={<Signup />}/>
-      <Route path='/Login' element={<Login/>}/>
+        <Route path="/" element={<Landing />} />
+        <Route path="/Signup" element={!cookies.user && <Signup />} />
+        <Route
+          path="/Login"
+          element={
+            !cookies.user && (
+              <Login
+                setOpen={setOpen}
+                setSnackbarMessage={setSnackbarMessage}
+              />
+            )
+          }
+        />
+        <Route
+          path="/Profile"
+          element={
+            cookies.user && (
+              <Profile
+                setOpen={setOpen}
+                setSnackbarMessage={setSnackbarMessage}
+              />
+            )
+          }
+        />
       </Routes>
-      </Router>
-
-        </div>
-      ) : null}
-
-      {currentPageIndex === 1 ? <Profile /> : null}
-    </div>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        message={snackbarMessage}
+        onClose={handleClose}
+      />
+    </Router>
   );
 }
 

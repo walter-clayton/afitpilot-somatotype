@@ -1,4 +1,3 @@
-import { IncomingHttpStatusHeader } from "http2";
 import { Schema, Model, model, ObjectId } from "mongoose";
 import { IUser } from "../interfaces/interfaces";
 const bcrypt = require("bcrypt");

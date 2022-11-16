@@ -13,7 +13,7 @@ usersCtrl.getUser = async (req: Request, res: Response) => {
   const { username } = req.body;
 
   try {
-    const user = await User.findByUsername(username).populate('somatotypes').populate('anthropometrics');
+    const user = await User.findByUsername(username);
     if (user.length > 0) res.status(200).send(user);
     else res.status(404).send("user not found");
   } catch (error) {
@@ -36,7 +36,7 @@ usersCtrl.register = async (req: Request, res: Response) => {
 
     res.status(201).send({
       message:
-        "User registered successfully, check your email to confirm your new account.",
+        "User registered successfully",
     });
   } catch (error: unknown) {
     console.log(error);
@@ -48,10 +48,10 @@ usersCtrl.register = async (req: Request, res: Response) => {
 };
 
 usersCtrl.deleteUser = async (req: Request, res: Response) => {
-  const { username } = req.body;
+  const { email } = req.query;
 
   try {
-    const user = await User.findByUsername(username);
+    const user = await User.findByEmail(email);
 
     user.length > 0
       ? (await user[0].delete(),
