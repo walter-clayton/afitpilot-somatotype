@@ -44,8 +44,8 @@ function App() {
             )
           }
         />
-                <Route path="/Forget" element={<Forget />} />
-                <Route path="/Resetpass" element={<Resetpass />} />
+        <Route path="/Forget" element={<Forget />} />
+        <Route path="/Resetpass" element={<Resetpass />} />
         <Route
           path="/Profile"
           element={
@@ -61,7 +61,7 @@ function App() {
           path="/Dashboard"
           element={
             cookies.user && (
-              <Dashboard/>
+              <Dashboard />
             )
           }
         />

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import { Box, Button, TextField, Avatar,InputAdornment } from '@mui/material/';
+import { Box, Button, TextField, Avatar, InputAdornment } from '@mui/material/';
 import { Typography, Container } from '@mui/material/';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Snackbar from '@mui/material/Snackbar';
@@ -51,14 +51,11 @@ export default function Resetpass() {
         console.log({
             password: data.get('password'),
             Confirm: data.get('confirmPassword'),
-
         });
     };
-
     //usestate for Snackbar 
     const [open, setOpen] = React.useState(false);
     const [snackbarMessage, setSnackbarMessage] = React.useState("");
-
     const handleClose = (event: any, reason: any) => {
         if (reason === 'clickaway') {
             return;
@@ -69,75 +66,73 @@ export default function Resetpass() {
         setOpen(true);
     };
     const [showPassword, setShowPassword] = React.useState(false);
-
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
-
-      };
-      const handleMouseDownPassword = (event: any) => {
+    };
+    const handleMouseDownPassword = (event: any) => {
         event.preventDefault();
-      };
-    
+    };
+
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
-                    sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                    sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                         <KeyIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">Create new password</Typography>
                     <Typography textAlign={'center'} variant="subtitle2">Your new password must be different from previous used password</Typography>
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                    <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="password"
-              type={showPassword ? "text" : "password"}
-              id="password"
-              autoComplete="current-password"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            ></TextField>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="confirmPassword"
-              label="Confirm password"
-              type={showPassword ? "text" : "password"}
-              id="password2"
-              autoComplete="current-password"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            ></TextField>
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="password"
+                            type={showPassword ? "text" : "password"}
+                            id="password"
+                            autoComplete="current-password"
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge="end"
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                        ></TextField>
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="confirmPassword"
+                            label="Confirm password"
+                            type={showPassword ? "text" : "password"}
+                            id="password2"
+                            autoComplete="current-password"
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge="end"
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                        ></TextField>
                         <Button
                             type="submit"
                             fullWidth

@@ -42,9 +42,7 @@ export default function Forget() {
         console.log({
             email: data.get('email')
         });
-
     };
-
     return (
         <div>
             <Container component="main" maxWidth="xs">
@@ -55,7 +53,7 @@ export default function Forget() {
                         <KeyIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">Forget password </Typography>
-                    <Typography  variant="subtitle2">Enter your email address</Typography>
+                    <Typography variant="subtitle2">Enter your email address</Typography>
                     <Box component="form" onSubmit={validateSubmit} noValidate sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
@@ -89,7 +87,6 @@ export default function Forget() {
                     </Box>
                 </Box>
             </Container>
-
         </div>
     )
 }
