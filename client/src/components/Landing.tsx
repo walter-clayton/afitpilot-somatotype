@@ -61,8 +61,6 @@ export default function Landing() {
         setBicep(event.currentTarget.value);
     }
 
-
-
     const handleResultClick = () => {
         const somatotype = {
             bodyweight : bodyweight, 
@@ -79,6 +77,9 @@ export default function Landing() {
         setShowResults(true);
     }
 
+    const handleSaveDatasClick = () => {
+        console.log("go to the sign up page to save your datas");
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -226,11 +227,31 @@ export default function Landing() {
                     :
                     null
                 }
+
                 <Grid>
                     <Box sx={{ display: 'flex', justifyContent: 'center', marginLeft: "30px" }}>
                         <canvas id="somatotypeCanvas" height="577.5" width="494"></canvas>
                     </Box>
                 </Grid>
+
+                {
+                    showResults ?
+                    <Box sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center"}}
+                    >
+                        <Button
+                            sx={{ margin: "10px auto", maxWidth:"sm"}}
+                            variant="contained"
+                            onClick={handleSaveDatasClick}
+                        >
+                            Save Datas
+                        </Button>
+                    </Box>
+                    :
+                    null
+                }
             </Box>
         </ThemeProvider>
     );
