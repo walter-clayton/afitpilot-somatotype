@@ -19,16 +19,12 @@ import { useNavigate } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Stack from '@mui/material/Stack';
 
 export default function Signup() {
   const naviguate = useNavigate();
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
   const [emailIsIncorrect, setEmailIsIncorrect] = useState(false);
-  const [usernameIsIncorrect, setUsernameIsIncorrect] = useState(false);
-  const [passwordIsIncorrect, setPasswordIsIncorrect] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [fetching, setFetching] = React.useState<boolean>(false);
   const [showPassword, setShowPassword] = React.useState(false);
@@ -123,31 +119,6 @@ export default function Signup() {
     }
     setHasChanges(true);
   };
-
-  const handleChangeUsername = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setUsername(event.currentTarget.value);
-    if (!isUsernameValid(event.currentTarget.value)) {
-      setUsernameIsIncorrect(true);
-    } else {
-      setUsernameIsIncorrect(false);
-    }
-    setHasChanges(true);
-  };
-
-  const handleChangePassword = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setPassword(event.currentTarget.value);
-    if (!isPasswordValid(event.currentTarget.value)) {
-      setPasswordIsIncorrect(true);
-    } else {
-      setPasswordIsIncorrect(false);
-    }
-    setHasChanges(true);
-  };
-
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -192,254 +163,66 @@ export default function Signup() {
   const handleClick = () => {
     setOpen(true);
   };
-  
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                error={emailIsIncorrect ? true : false}
-                onChange={handleChangeEmail}
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-              />
-              {emailIsIncorrect ? (
-                <Typography
-                  variant="caption"
-                  display="block"
-                  gutterBottom
-                  color="#ff0000"
-                >
-                  • Please enter a valid email !
-                </Typography>
-              ) : null}
-
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                autoComplete="given-name"
-                error={usernameIsIncorrect ? true : false}
-                onChange={handleChangeUsername}
-                name="username"
-                required
-                fullWidth
-                id="username"
-                label="Username"
-                autoFocus
-              />
-              {usernameIsIncorrect ? (
-                <Typography
-                  variant="caption"
-                  display="block"
-                  gutterBottom
-                  color="#ff0000"
-                >
-                  • Username can't contain any symbols and/or spaces !
-                </Typography>
-              ) : null}
-
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                error={passwordIsIncorrect ? true : false}
-                onChange={handleChangePassword}
-                name="password"
-                label="Password"
-                type={showPassword ? "text" : "password"}
-                id="password"
-                autoComplete="current-password"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-
-              />
-              {passwordIsIncorrect ? (
-                <>
-                  <Typography
-                    variant="caption"
-                    display="block"
-                    gutterBottom
-                    color="#ff0000"
-                  >
-                    • Password must contains at least: 6 characters !
-                  </Typography>
-                  <Typography
-                    variant="caption"
-                    display="block"
-                    gutterBottom
-                    color="#ff0000"
-                  >
-                    • Password must contains 1 lowercase letter !
-                  </Typography>
-                  <Typography
-                    variant="caption"
-                    display="block"
-                    gutterBottom
-                    color="#ff0000"
-                  >
-                    • Password must contains 1 uppercase letter !
-                  </Typography>
-                  <Typography
-                    variant="caption"
-                    display="block"
-                    gutterBottom
-                    color="#ff0000"
-                  >
-                    • Password must contains 1 symbol as !@#$%^&* !
-                  </Typography>
-                  <Typography
-                    variant="caption"
-                    display="block"
-                    gutterBottom
-                    color="#ff0000"
-                  >
-                    • Password must contains 1 number !
-                  </Typography>
-                </>
-              ) : null}
-
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                error={passwordIsIncorrect ? true : false}
-                onChange={handleChangePassword}
-                name="confirmPassword"
-                label="Confirm password"
-                type={showPassword ? "text" : "password"}
-                id="password2"
-                autoComplete="current-password"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              {passwordIsIncorrect ? (
-                <>
-                  <Typography
-                    variant="caption"
-                    display="block"
-                    gutterBottom
-                    color="#ff0000"
-                  >
-                    • Password must contains at least: 6 characters !
-                  </Typography>
-                  <Typography
-                    variant="caption"
-                    display="block"
-                    gutterBottom
-                    color="#ff0000"
-                  >
-                    • Password must contains 1 lowercase letter !
-                  </Typography>
-                  <Typography
-                    variant="caption"
-                    display="block"
-                    gutterBottom
-                    color="#ff0000"
-                  >
-                    • Password must contains 1 uppercase letter !
-                  </Typography>
-                  <Typography
-                    variant="caption"
-                    display="block"
-                    gutterBottom
-                    color="#ff0000"
-                  >
-                    • Password must contains 1 symbol as !@#$%^&* !
-                  </Typography>
-                  <Typography
-                    variant="caption"
-                    display="block"
-                    gutterBottom
-                    color="#ff0000"
-                  >
-                    • Password must contains 1 number !
-                  </Typography>
-                </>
-              ) : null}
-            </Grid>
-
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I agree to the Terms and Conditions"
-              />
-            </Grid>
-          </Grid>
-
-          <Button
-            type="submit"
+        sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Typography component="h1" variant="h5">Forget password </Typography>
+        <Typography variant="subtitle2">Enter your email  to save your data</Typography>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
             fullWidth
+            error={emailIsIncorrect ? true : false}
+            onChange={handleChangeEmail}
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
+          />
+          {emailIsIncorrect ? (
+            <Typography
+              variant="caption"
+              display="block"
+              gutterBottom
+              color="#ff0000"
+            >
+              • Please enter a valid email !
+            </Typography>
+          ) : null}
+          
+          <Button 
+            type="submit"
             onClick={handleClick}
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            variant="outlined"
+            size="large"
+            sx={{ mt: 3, mb: 2, marginRight: 5,marginLeft:8}}
             disabled={fetching}
           >
-            {fetching ? <CircularProgress size={25} /> : "Register"}
+            {fetching ? <CircularProgress size={25} /> : "GO BACK"}
           </Button>
-
+          <Button
+            type="submit"
+            onClick={handleClick}
+            variant="contained"
+            size="large"
+            sx={{ mt: 3, mb: 2,}}
+            disabled={fetching}
+          >
+            {fetching ? <CircularProgress size={25} /> : "SIGN UP"}
+          </Button>
           <Snackbar
             open={open}
             autoHideDuration={6000}
             onClose={handleClose}
             message={snackbarMessage}
           />
-          <Grid container justifyContent="center">
-            <Grid item>
-              <Link
-                onClick={() => {
-                  naviguate("/Login");
-                }}
-                sx={{ cursor: "pointer" }}
-              >
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
         </Box>
       </Box>
     </Container>
-  );
+  )
 }
