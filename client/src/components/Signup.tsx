@@ -153,8 +153,8 @@ export default function Signup() {
       <Box
         sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Typography component="h1" variant="h5">Forget password </Typography>
-        <Typography variant="subtitle2">Before you move on to your profile,would you like</Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Typography variant="subtitle2">Before you move on to your profile,would you like an email copy of your results?</Typography>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 0.2 }}>
           <TextField
             margin="normal"
             required
@@ -177,7 +177,6 @@ export default function Signup() {
               • Please enter a valid email !
             </Typography>
           ) : null}
-
           <Button
             type="submit"
             variant="outlined"
@@ -185,7 +184,7 @@ export default function Signup() {
             onClick={() => {
               handleClick();
               naviguate("/landing");
-          }}
+            }}
             sx={{ mt: 3, mb: 2, marginRight: 5, marginLeft: 8 }}
             disabled={fetching}
           >
