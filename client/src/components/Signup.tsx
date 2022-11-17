@@ -152,7 +152,7 @@ export default function Signup() {
       <CssBaseline />
       <Box
         sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Typography component="h1" variant="h5">Forget password </Typography>
+        <Typography component="h1" variant="h5">Sign up</Typography>
         <Typography variant="subtitle2">Before you move on to your profile,would you like an email copy of your results?</Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 0.2 }}>
           <TextField
