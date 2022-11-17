@@ -23,7 +23,6 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 
 const theme = createTheme();
-
 export default function Login(props: any) {
   const navigate = useNavigate();
   const [fetching, setFetching] = React.useState<boolean>(false);
@@ -99,7 +98,6 @@ export default function Login(props: any) {
       } else {
         setSnackbarMessage("Error with the server");
       }
-
       console.log("error ", error);
       setFetching(false);
     }
@@ -214,7 +212,6 @@ export default function Login(props: any) {
                 • Please enter a valid email !
               </Typography>
             ) : null}
-
 
             <TextField
               margin="normal"
