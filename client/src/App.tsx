@@ -1,7 +1,7 @@
 import Landing from "./components/Landing";
 import "./App.css";
 import ResponsiveAppBar from "./components/AppNavBar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Profile from "./components/Profile";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
@@ -12,10 +12,35 @@ import Resetpass from "./components/Resetpass";
 import Forget from "./components/Forget";
 import Dashboard from "./components/Dashboard";
 
+export interface ISomatotype{
+  endomorphy?: number | undefined;
+  mesomorphy?: number | undefined;
+  ectomorphy?: number | undefined;
+}
+
+export interface IAnthropometric{
+  height?: number | undefined;
+  weight?: number | undefined;
+  supraspinal_skinfold?: number | undefined;
+  subscapular_skinfold?: number | undefined;
+  tricep_skinfold?: number | undefined;
+  femur_breadth?: number | undefined;
+  humerus_breadth?: number | undefined;
+  calf_girth?: number | undefined;
+  bicep_girth?: number | undefined;
+}
+
+export interface IData{
+  somatotype?:ISomatotype | undefined;
+  anthropometric?: IAnthropometric |undefined;
+}
+
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [open, setOpen] = useState<boolean>(false);
   const [snackbarMessage, setSnackbarMessage] = useState<string>("");
+
+  const [data, setData] = useState<IData | undefined>(undefined);
 
   const handleClose = (event: any, reason: any) => {
     if (reason === "clickaway") {
@@ -31,8 +56,8 @@ function App() {
         setSnackbarMessage={setSnackbarMessage}
       />
       <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/Landing" element={<Landing />} />
+        <Route path="/" element={<Landing setData={setData}/>} />
+        {/* <Route path="/Landing" element={<Landing />} /> */}
         <Route path="/Signup" element={!cookies.user && <Signup />} />
         <Route
           path="/Login"
