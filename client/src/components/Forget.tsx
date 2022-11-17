@@ -1,10 +1,11 @@
-import * as React from 'react';
+import React, { useState } from "react";
 import CssBaseline from '@mui/material/CssBaseline';
 import { Grid, Box, Button, Avatar } from '@mui/material/';
 import { Typography, Container } from '@mui/material/';
 import { TextField } from '@mui/material/';
 import Snackbar from '@mui/material/Snackbar';
 import KeyIcon from '@mui/icons-material/Key';
+import { useNavigate } from "react-router-dom";
 export default function Forget() {
     /**
  * @param email String
@@ -17,7 +18,10 @@ export default function Forget() {
             ) !== null;
         return isValid;
     };
-
+    const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [emailIsIncorrect, setEmailIsIncorrect] = useState(false);
+    const [hasChanges, setHasChanges] = useState(false);
     const [open, setOpen] = React.useState(false);
     const [snackbarMessage, setSnackbarMessage] = React.useState("");
     const handleClose = (event: any, reason: any) => {
@@ -43,6 +47,18 @@ export default function Forget() {
             email: data.get('email')
         });
     };
+    const handleChangeEmail = (
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        setEmail(String(event.currentTarget.value).toLowerCase());
+        if (!isEmailValid(event.currentTarget.value)) {
+            setEmailIsIncorrect(true);
+        } else {
+            setEmailIsIncorrect(false);
+        }
+        setHasChanges(true);
+    };
+
     return (
         <div>
             <Container component="main" maxWidth="xs">
@@ -59,17 +75,32 @@ export default function Forget() {
                             margin="normal"
                             required
                             fullWidth
+                            error={emailIsIncorrect ? true : false}
+                            onChange={handleChangeEmail}
                             id="email"
                             label="Email Address"
                             name="email"
                             autoComplete="email"
                             autoFocus
                         />
+                        {emailIsIncorrect ? (
+                            <Typography
+                                variant="caption"
+                                display="block"
+                                gutterBottom
+                                color="#ff0000"
+                            >
+                                • Please enter a valid email !
+                            </Typography>
+                        ) : null}
+
                         <Button
                             type="submit"
-                            onClick={handleClick}
                             fullWidth
-                            href='/Resetpass'
+                            onClick={() => {
+                                handleClick();
+                                navigate("/Resetpass");
+                            }}
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}>
                             Send email

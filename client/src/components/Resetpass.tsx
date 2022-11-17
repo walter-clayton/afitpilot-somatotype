@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from "react";
 import CssBaseline from '@mui/material/CssBaseline';
 import { Box, Button, TextField, Avatar, InputAdornment } from '@mui/material/';
 import { Typography, Container } from '@mui/material/';
@@ -72,6 +72,21 @@ export default function Resetpass() {
     const handleMouseDownPassword = (event: any) => {
         event.preventDefault();
     };
+    const [password, setPassword] = useState("");
+    const [passwordIsIncorrect, setPasswordIsIncorrect] = useState(false);
+    const [hasChanges, setHasChanges] = useState(false);
+
+    const handleChangePassword = (
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        setPassword(event.currentTarget.value);
+        if (!isPasswordValid(event.currentTarget.value)) {
+            setPasswordIsIncorrect(true);
+        } else {
+            setPasswordIsIncorrect(false);
+        }
+        setHasChanges(true);
+    };
 
     return (
         <ThemeProvider theme={theme}>
@@ -89,6 +104,8 @@ export default function Resetpass() {
                             margin="normal"
                             required
                             fullWidth
+                            error={passwordIsIncorrect ? true : false}
+                            onChange={handleChangePassword}
                             name="password"
                             label="password"
                             type={showPassword ? "text" : "password"}
@@ -109,10 +126,57 @@ export default function Resetpass() {
                                 ),
                             }}
                         ></TextField>
+                        {passwordIsIncorrect ? (
+                            <>
+                                <Typography
+                                    variant="caption"
+                                    display="block"
+                                    gutterBottom
+                                    color="#ff0000"
+                                >
+                                    • Password must contains at least: 6 characters !
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    display="block"
+                                    gutterBottom
+                                    color="#ff0000"
+                                >
+                                    • Password must contains 1 lowercase letter !
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    display="block"
+                                    gutterBottom
+                                    color="#ff0000"
+                                >
+                                    • Password must contains 1 uppercase letter !
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    display="block"
+                                    gutterBottom
+                                    color="#ff0000"
+                                >
+                                    • Password must contains 1 symbol as !@#$%^&* !
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    display="block"
+                                    gutterBottom
+                                    color="#ff0000"
+                                >
+                                    • Password must contains 1 number !
+                                </Typography>
+                            </>
+                        ) : null}
+
                         <TextField
                             margin="normal"
                             required
                             fullWidth
+                            error={passwordIsIncorrect ? true : false}
+                            onChange={handleChangePassword}
                             name="confirmPassword"
                             label="Confirm password"
                             type={showPassword ? "text" : "password"}
@@ -133,6 +197,51 @@ export default function Resetpass() {
                                 ),
                             }}
                         ></TextField>
+                        {passwordIsIncorrect ? (
+                            <>
+                                <Typography
+                                    variant="caption"
+                                    display="block"
+                                    gutterBottom
+                                    color="#ff0000"
+                                >
+                                    • Password must contains at least: 6 characters !
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    display="block"
+                                    gutterBottom
+                                    color="#ff0000"
+                                >
+                                    • Password must contains 1 lowercase letter !
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    display="block"
+                                    gutterBottom
+                                    color="#ff0000"
+                                >
+                                    • Password must contains 1 uppercase letter !
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    display="block"
+                                    gutterBottom
+                                    color="#ff0000"
+                                >
+                                    • Password must contains 1 symbol as !@#$%^&* !
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    display="block"
+                                    gutterBottom
+                                    color="#ff0000"
+                                >
+                                    • Password must contains 1 number !
+                                </Typography>
+                            </>
+                        ) : null}
+
                         <Button
                             type="submit"
                             fullWidth
