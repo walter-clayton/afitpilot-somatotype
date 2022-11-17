@@ -8,9 +8,12 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import { myform } from './Calculation'
+import ResultsTable from './ResultsTable';
 const theme = createTheme();
 
 export default function Landing() {
+
+    const [showResults, setShowResults] = useState(false);
 
     const [height, setHeight] = useState(180);
     const [bodyweight, setBodyweight] = useState(80);
@@ -73,6 +76,7 @@ export default function Landing() {
             bicep : bicep,
         }
         myform(somatotype);
+        setShowResults(true);
     }
 
 
@@ -97,7 +101,6 @@ export default function Landing() {
                                     endAdornment={<InputAdornment position="end">cm</InputAdornment>} 
                                     onChange={handleHeightChange}/>
                             </FormControl>
-
                         </Grid>
                         <Grid item xs={12} md={8}>
                             <FormControl fullWidth sx={{ m: 1 }} variant="filled">
@@ -206,6 +209,23 @@ export default function Landing() {
                         </Grid>
                     </Grid>
                 </Box>
+                {
+                    showResults ? 
+                    <Grid
+                        container
+                        maxWidth="sm"
+                        sx={{
+                        margin: "0 auto",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center"
+                        }}
+                    >
+                    <ResultsTable endomorphy={5} mesomorphy={4} ectomorphy={4}/>
+                    </Grid>
+                    :
+                    null
+                }
                 <Grid>
                     <Box sx={{ display: 'flex', justifyContent: 'center', marginLeft: "30px" }}>
                         <canvas id="somatotypeCanvas" height="577.5" width="494"></canvas>

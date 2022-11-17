@@ -50,7 +50,7 @@ const Dashboard = () => {
                   justifyContent: "center"
                 }}
             >
-                <ResultsTable/>
+                <ResultsTable endomorphy={5} mesomorphy={4} ectomorphy={4}/>
                 <Grid>
                     <Box sx={{ display: 'flex', justifyContent: 'center', marginLeft: "30px" }}>
                         <canvas id="somatotypeCanvas" height="577.5" width="494" onLoad={myform}></canvas>
