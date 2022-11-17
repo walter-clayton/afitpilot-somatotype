@@ -38,3 +38,8 @@ export interface IAnthropometric {
   users: IRelationShip[];
   somatotype: IRelationShip;
 }
+
+export interface IData{
+  somatotype: number[];
+  anthropometric: IAnthropometric;
+}

@@ -1,5 +1,8 @@
 import express, { Express, Request, Response } from "express";
+import { IAnthropometric, IData, ISomatotype } from "../interfaces/interfaces";
 const User = require("../models/User");
+const Somatotype = require("../models/Somatotype");
+const Anthropometric = require("../models/Anthropometric");
 const sendEmail = require("../mail/mailer");
 
 interface IUsersCtrl {
@@ -19,6 +22,7 @@ usersCtrl.getUser = async (req: Request, res: Response) => {
 
   try {
     const user = await User.findByUsername(username);
+    await user[0].populate(['somatotypes', 'anthropometrics'])
     if (user.length > 0) res.status(200).send(user);
     else res.status(404).send("user not found");
   } catch (error) {
@@ -31,11 +35,63 @@ usersCtrl.getUser = async (req: Request, res: Response) => {
 };
 
 usersCtrl.register = async (req: Request, res: Response) => {
-  const { email, username, password } = req.body;
+  const { email, username, password, data } = req.body;
 
   try {
-    const newUser: any = await User({ email, username, password });
+    const newUser = await User({ email, username, password });
     newUser.password = await newUser.encryptPassword(password);
+
+    if (data) {
+      const { somatotype, anthropometric }: IData = data;
+
+
+      // create the somatotype
+      const endomorph = somatotype[0];
+      const mesomorph = somatotype[1];
+      const ectomorph = somatotype[2];
+
+      const newSomatotype = await Somatotype({
+        endomorph,
+        mesomorph,
+        ectomorph,
+      });
+
+      // create the anthropometric
+      const height = anthropometric.height;
+      const weight = anthropometric.weight;
+      const supraspinal_skinfold = anthropometric.supraspinal_skinfold;
+      const subscapular_skinfold = anthropometric.subscapular_skinfold;
+      const tricep_skinfold = anthropometric.tricep_skinfold;
+      const femur_breadth = anthropometric.femur_breadth;
+      const humerus_breadth = anthropometric.humerus_breadth;
+      const calf_girth = anthropometric.calf_girth;
+      const bicep_girth = anthropometric.bicep_girth;
+
+      const newAnthropometric = await Anthropometric({
+        height,
+        weight,
+        supraspinal_skinfold,
+        subscapular_skinfold,
+        tricep_skinfold,
+        femur_breadth,
+        humerus_breadth,
+        calf_girth,
+        bicep_girth,
+      });
+
+      // RelationShip
+      newUser.somatotypes.push(newSomatotype);
+      newUser.anthropometrics.push(newAnthropometric);
+
+      newSomatotype.users.push(newUser);
+      newSomatotype.anthropometric = newAnthropometric;
+
+      newAnthropometric.users.push(newUser);
+      newAnthropometric.somatotype = newSomatotype;
+
+      await newSomatotype.save();
+      await newAnthropometric.save();
+    }
 
     await newUser.save();
 
@@ -45,8 +101,7 @@ usersCtrl.register = async (req: Request, res: Response) => {
   } catch (error: unknown) {
     console.log(error);
     res.status(500).send({
-      message:
-        "Error with the database: please try again or contact the administrator.",
+      message: (error as ErrorEvent).message,
     });
   }
 };
@@ -154,7 +209,7 @@ usersCtrl.resetPassword = async (req: Request, res: Response) => {
       user.save();
 
       res.status(200).send({ message: "Password updated successfully" });
-    }else{
+    } else {
       res.status(404).send({ message: "User not found" });
     }
   } catch (error: unknown) {
