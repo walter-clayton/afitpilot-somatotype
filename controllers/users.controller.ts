@@ -9,6 +9,7 @@ interface IUsersCtrl {
   updateEmailAndUsername?: (req: Request, res: Response) => void;
   updatePassword?: (req: Request, res: Response) => void;
   sendResetEmail?: (req: Request, res: Response) => void;
+  resetPassword?: (req: Request, res: Response) => void;
 }
 
 const usersCtrl: IUsersCtrl = {};
@@ -131,11 +132,31 @@ usersCtrl.sendResetEmail = async (req: Request, res: Response) => {
     if (result)
       res.status(200).send({ message: "Email sent to reset your password" });
     else
-      res
-        .status(403)
-        .send({
-          message: "Error to send email to reset password, please try again",
-        });
+      res.status(403).send({
+        message: "Error to send email to reset password, please try again",
+      });
+  } catch (error: unknown) {
+    console.log(error);
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
+  }
+};
+
+usersCtrl.resetPassword = async (req: Request, res: Response) => {
+  try {
+    const user = await User.findById(req.user_id);
+
+    if (user) {
+      user.password = await user.encryptPassword(req.body.newPassword);
+
+      user.save();
+
+      res.status(200).send({ message: "Password updated successfully" });
+    }else{
+      res.status(404).send({ message: "User not found" });
+    }
   } catch (error: unknown) {
     console.log(error);
     res.status(500).send({

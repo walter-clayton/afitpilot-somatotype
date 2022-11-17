@@ -8,6 +8,7 @@ const verifyFields = require("../middlewares/verifyFieldsRegister.middleware");
 const verifyFieldsUpdateEmailAndUsername = require("../middlewares/verifyFieldsUpdateEmailUsername.middleware");
 const verifyFieldsPassword = require("../middlewares/verifyFieldsPassword.middleware");
 const verifyEmailResetPass = require("../middlewares/verifyEmailResetPass.middleware");
+const verifyFieldsResetPass = require('../middlewares/verifyFieldsResetPass.middleware')
 const {
   register,
   getUser,
@@ -15,6 +16,7 @@ const {
   updateEmailAndUsername,
   updatePassword,
   sendResetEmail,
+  resetPassword
 } = require("../controllers/users.controller");
 
 router.get("/getUser", verifyToken, getUser);
@@ -32,6 +34,7 @@ router.post(
   verifyFieldsPassword,
   updatePassword
 );
-router.post("/resetPassword", verifyKey, verifyEmailResetPass, sendResetEmail);
+router.post("/forgotPassword", verifyKey, verifyEmailResetPass, sendResetEmail);
+router.post("/resetPassword", verifyKey, verifyFieldsResetPass, resetPassword);
 
 module.exports = router;
