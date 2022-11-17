@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FC } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -42,18 +42,24 @@ function getDate(){
     return date.toDateString().split(' ').slice(1).join(' ');
 }
 
-const rows = [
-  createRow(4, 4, 4, getDate())
-];
-
 function handleEditResultsClick(){
     console.log("go to edit results page");
 }
 
-export default function ResultsTable() {
+interface resultProps{
+  endomorphy?:number
+  mesomorphy?:number
+  ectomorphy?:number
+}
+
+const ResultsTable:FC<resultProps> = (props: any) => {
     const { height, width } = useWindowDimensions();
 
     const rowKey = 'key';
+
+    const rows = [
+      createRow(props.endomorphy, props.mesomorphy, props.ectomorphy, getDate())
+    ];
 
   return (
     <TableContainer component={Paper} sx={{margin:'20px 0px'}}>
@@ -121,3 +127,5 @@ export default function ResultsTable() {
     </TableContainer>
   );
 }
+
+export default ResultsTable
