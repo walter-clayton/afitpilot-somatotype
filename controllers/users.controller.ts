@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from "express";
 const User = require("../models/User");
+const sendEmail = require("../mail/mailer");
 
 interface IUsersCtrl {
   getUser?: (req: Request, res: Response) => void;
@@ -7,6 +8,8 @@ interface IUsersCtrl {
   deleteUser?: (req: Request, res: Response) => void;
   updateEmailAndUsername?: (req: Request, res: Response) => void;
   updatePassword?: (req: Request, res: Response) => void;
+  sendResetEmail?: (req: Request, res: Response) => void;
+  resetPassword?: (req: Request, res: Response) => void;
 }
 
 const usersCtrl: IUsersCtrl = {};
@@ -107,6 +110,53 @@ usersCtrl.updatePassword = async (req: Request, res: Response) => {
     res.status(200).send({
       message: "Password edited successfully",
     });
+  } catch (error: unknown) {
+    console.log(error);
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
+  }
+};
+
+usersCtrl.sendResetEmail = async (req: Request, res: Response) => {
+  const email: string = req.body.email;
+
+  try {
+    const user: any = await User.findByEmail(email);
+
+    const token: string = await user[0].generateAuthToken();
+
+    const result = await sendEmail(email, user[0].username, token);
+
+    if (result)
+      res.status(200).send({ message: "Email sent to reset your password" });
+    else
+      res.status(403).send({
+        message: "Error to send email to reset password, please try again",
+      });
+  } catch (error: unknown) {
+    console.log(error);
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
+  }
+};
+
+usersCtrl.resetPassword = async (req: Request, res: Response) => {
+  try {
+    const user = await User.findById(req.user_id);
+
+    if (user) {
+      user.password = await user.encryptPassword(req.body.newPassword);
+
+      user.save();
+
+      res.status(200).send({ message: "Password updated successfully" });
+    }else{
+      res.status(404).send({ message: "User not found" });
+    }
   } catch (error: unknown) {
     console.log(error);
     res.status(500).send({
