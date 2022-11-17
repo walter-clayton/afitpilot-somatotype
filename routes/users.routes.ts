@@ -19,7 +19,7 @@ const {
   resetPassword
 } = require("../controllers/users.controller");
 
-router.get("/getUser", getUser);
+router.get("/getUser", verifyToken, getUser);
 router.post("/register", verifyKey, verifyFields, verifyUserRegister, register);
 router.delete("/deleteUser", verifyToken, deleteUser);
 router.post(
