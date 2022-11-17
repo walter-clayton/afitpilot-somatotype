@@ -9,12 +9,15 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import { myform } from './Calculation'
 import ResultsTable from './ResultsTable';
+import { useNavigate } from "react-router-dom";
+import IconButton from '@mui/material/IconButton';
+import Snackbar from '@mui/material/Snackbar';
 const theme = createTheme();
 
 export default function Landing() {
 
     const [showResults, setShowResults] = useState(false);
-
+    const navigate = useNavigate();
     const [height, setHeight] = useState(180);
     const [bodyweight, setBodyweight] = useState(80);
     const [tricep, setTricep] = useState(12);
@@ -244,7 +247,10 @@ export default function Landing() {
                         <Button
                             sx={{ margin: "10px auto", maxWidth:"sm"}}
                             variant="contained"
-                            onClick={handleSaveDatasClick}
+                            onClick={() => {
+                                handleSaveDatasClick();
+                                navigate("/Signup");
+                              }}
                         >
                             Save Datas
                         </Button>
