@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect, FC } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Box, Button,Grid } from '@mui/material/';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -12,75 +12,94 @@ import ResultsTable from './ResultsTable';
 import { useNavigate } from "react-router-dom";
 import IconButton from '@mui/material/IconButton';
 import Snackbar from '@mui/material/Snackbar';
+import { LargeNumberLike } from 'crypto';
+import { IAnthropometric, IData, ISomatotype } from '../App';
 const theme = createTheme();
 
-export default function Landing() {
+interface ILanding{
+    setData:(data:IData) => void
+}
+
+const Landing:FC<ILanding> = (props) => {
 
     const [showResults, setShowResults] = useState(false);
     const navigate = useNavigate();
-    const [height, setHeight] = useState(180);
-    const [bodyweight, setBodyweight] = useState(80);
-    const [tricep, setTricep] = useState(12);
-    const [subscapular, setSubscapular] = useState(12);
-    const [supraspinal, setSupraspinal] = useState(12);
-    const [humerus, setHumerus] = useState(7);
-    const [femur, setFemur] = useState(8);
-    const [calf, setCalf] = useState(38);
-    const [bicep, setBicep] = useState(38);
+
+    const [somatotype, setSomatotype]= useState<ISomatotype | undefined>(undefined);
+
+    const [anthropometric, setAnthropometric] = useState<IAnthropometric | undefined>(undefined);
+
+    useEffect(() => {
+        setAnthropometric(anthropometric => ({
+            height: 180,
+            weight: 80,
+            supraspinal_skinfold: 12,
+            subscapular_skinfold: 12,
+            tricep_skinfold: 12,
+            femur_breadth: 8,
+            humerus_breadth: 7,
+            calf_girth: 38,
+            bicep_girth: 38
+        }))
+    },[]);
 
     const handleHeightChange = (event: React.FormEvent<any>) => {
-        setHeight(event.currentTarget.value);
+        setAnthropometric({...anthropometric, height:event.currentTarget.value});
     }
 
     const handleBodyWeightChange = (event: React.FormEvent<any>) => {
-        setBodyweight(event.currentTarget.value);
+        setAnthropometric({...anthropometric, weight:event.currentTarget.value});
     }
 
     const handleTricepChange = (event: React.FormEvent<any>) => {
-        setTricep(event.currentTarget.value);
+        setAnthropometric({...anthropometric, tricep_skinfold:event.currentTarget.value});
     }
 
     const handleSubscapularChange = (event: React.FormEvent<any>) => {
-        setSubscapular(event.currentTarget.value);
+        setAnthropometric({...anthropometric, subscapular_skinfold:event.currentTarget.value});
     }
 
     const handleSupraspinalChange = (event: React.FormEvent<any>) => {
-        setSupraspinal(event.currentTarget.value);
+        setAnthropometric({...anthropometric, supraspinal_skinfold:event.currentTarget.value});
     }
 
     const handleHumerusChange = (event: React.FormEvent<any>) => {
-        setHumerus(event.currentTarget.value);
+        setAnthropometric({...anthropometric, humerus_breadth:event.currentTarget.value});
     }
 
     const handleFemurChange = (event: React.FormEvent<any>) => {
-        setFemur(event.currentTarget.value);
+        setAnthropometric({...anthropometric, femur_breadth:event.currentTarget.value});
     }
 
     const handleCalfChange = (event: React.FormEvent<any>) => {
-        setCalf(event.currentTarget.value);
+        setAnthropometric({...anthropometric, calf_girth:event.currentTarget.value});
     }
 
     const handleBicepChange = (event: React.FormEvent<any>) => {
-        setBicep(event.currentTarget.value);
+        setAnthropometric({...anthropometric, bicep_girth:event.currentTarget.value});
     }
 
     const handleResultClick = () => {
-        const somatotype = {
-            bodyweight : bodyweight, 
-            height : height, 
-            tricep : tricep, 
-            subscapular : subscapular, 
-            supraspinal : supraspinal, 
-            humerus : humerus, 
-            femur : femur, 
-            calf : calf, 
-            bicep : bicep,
+        const somatotypeInputs = {
+            bodyweight : anthropometric?.weight, 
+            height : anthropometric?.height, 
+            tricep : anthropometric?.tricep_skinfold, 
+            subscapular : anthropometric?.subscapular_skinfold, 
+            supraspinal : anthropometric?.supraspinal_skinfold, 
+            humerus : anthropometric?.humerus_breadth, 
+            femur : anthropometric?.femur_breadth, 
+            calf : anthropometric?.calf_girth, 
+            bicep : anthropometric?.bicep_girth
         }
-        myform(somatotype);
+        
+        const somatotypeResults = myform(somatotypeInputs);
+        console.log(somatotypeResults);
+        
         setShowResults(true);
     }
 
     const handleSaveDatasClick = () => {
+        props.setData({somatotype:{...somatotype}, anthropometric:{...anthropometric}})
         console.log("go to the sign up page to save your datas");
     }
 
@@ -262,3 +281,4 @@ export default function Landing() {
         </ThemeProvider>
     );
 }
+export default Landing;
