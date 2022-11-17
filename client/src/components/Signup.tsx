@@ -7,19 +7,12 @@ import {
   Box,
   Typography,
   Container,
-  FormControlLabel,
-  Checkbox,
   CircularProgress,
-  InputAdornment
 } from "@mui/material/";
 import CssBaseline from "@mui/material/CssBaseline";
 import Snackbar from "@mui/material/Snackbar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import IconButton from "@mui/material/IconButton";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Stack from '@mui/material/Stack';
 
 export default function Signup() {
   const naviguate = useNavigate();
@@ -27,8 +20,6 @@ export default function Signup() {
   const [emailIsIncorrect, setEmailIsIncorrect] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [fetching, setFetching] = React.useState<boolean>(false);
-  const [showPassword, setShowPassword] = React.useState(false);
-
   /**
    *
    * @param username String
@@ -100,14 +91,6 @@ export default function Signup() {
       setFetching(false);
     }
   };
-
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-  const handleMouseDownPassword = (event: any) => {
-    event.preventDefault();
-  };
-
   const handleChangeEmail = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -170,7 +153,7 @@ export default function Signup() {
       <Box
         sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Typography component="h1" variant="h5">Forget password </Typography>
-        <Typography variant="subtitle2">Enter your email  to save your data</Typography>
+        <Typography variant="subtitle2">Before you move on to your profile,would you like</Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
@@ -194,13 +177,16 @@ export default function Signup() {
               • Please enter a valid email !
             </Typography>
           ) : null}
-          
-          <Button 
+
+          <Button
             type="submit"
-            onClick={handleClick}
             variant="outlined"
             size="large"
-            sx={{ mt: 3, mb: 2, marginRight: 5,marginLeft:8}}
+            onClick={() => {
+              handleClick();
+              naviguate("/landing");
+          }}
+            sx={{ mt: 3, mb: 2, marginRight: 5, marginLeft: 8 }}
             disabled={fetching}
           >
             {fetching ? <CircularProgress size={25} /> : "GO BACK"}
@@ -210,7 +196,7 @@ export default function Signup() {
             onClick={handleClick}
             variant="contained"
             size="large"
-            sx={{ mt: 3, mb: 2,}}
+            sx={{ mt: 3, mb: 2, }}
             disabled={fetching}
           >
             {fetching ? <CircularProgress size={25} /> : "SIGN UP"}
@@ -221,6 +207,18 @@ export default function Signup() {
             onClose={handleClose}
             message={snackbarMessage}
           />
+          <Grid container justifyContent="center">
+            <Grid item>
+              <Link
+                onClick={() => {
+                  naviguate("/Login");
+                }}
+                sx={{ cursor: "pointer" }}
+              >
+                Already have an account? Sign in
+              </Link>
+            </Grid>
+          </Grid>
         </Box>
       </Box>
     </Container>

@@ -32,6 +32,7 @@ function App() {
       />
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/Landing" element={<Landing />} />
         <Route path="/Signup" element={!cookies.user && <Signup />} />
         <Route
           path="/Login"
