@@ -47,16 +47,17 @@ usersCtrl.register = async (req: Request, res: Response) => {
 
     if (data) {
       const { somatotype, anthropometric }: IData = data;
+console.log(data);
 
       // create the somatotype
-      const endomorph = somatotype[0];
-      const mesomorph = somatotype[1];
-      const ectomorph = somatotype[2];
+      const endomorphy = somatotype.endomorphy;
+      const mesomorphy = somatotype.mesomorphy;
+      const ectomorphy = somatotype.ectomorphy;
 
       const newSomatotype = await Somatotype({
-        endomorph,
-        mesomorph,
-        ectomorph,
+        endomorphy,
+        mesomorphy,
+        ectomorphy,
       });
 
       // create the anthropometric

@@ -25,6 +25,12 @@ userSchema.methods.generatePassword = (): string => {
   var pass = "";
   var str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$";
 
+  // according to validation of password: at least 1 Uppercase, 1 symbol and 1 number
+  pass =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(Math.floor(Math.random() * 26)) +
+    "@#$".charAt(Math.floor(Math.random() * 3)) +
+    "0123456789".charAt(Math.floor(Math.random() * 10));
+
   for (let i = 1; i <= 8; i++) {
     var randomIndex = Math.floor(Math.random() * str.length);
 

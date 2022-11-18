@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import {
   Button,
   TextField,
   Link,
   Grid,
   Box,
+  Alert,
   Typography,
   Container,
   CircularProgress,
@@ -13,8 +14,14 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Snackbar from "@mui/material/Snackbar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { IData } from "../App";
 
-export default function Signup() {
+interface ISugnUp {
+  data?: IData;
+  setData?:((data: IData | undefined) => void) | undefined
+}
+
+const Signup: FC<ISugnUp> = (props) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [emailIsIncorrect, setEmailIsIncorrect] = useState(false);
@@ -69,14 +76,13 @@ export default function Signup() {
         process.env.REACT_APP_REGISTER_URL!,
         {
           email: data.get("email"),
-          username: data.get("username"),
-          password: data.get("password"),
-          confirmPassword: data.get("confirmPassword"),
+          data: props.data,
         },
         { headers: headers }
       );
       setOpen(true);
       setSnackbarMessage(response.data.message);
+      props.setData?.(undefined)
       setFetching(false);
     } catch (error: any) {
       setOpen(true);
@@ -151,10 +157,29 @@ export default function Signup() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
-        sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Typography component="h1" variant="h5">Sign up</Typography>
-        <Typography variant="subtitle2">Before you move on to your profile,would you like an email copy of your results?</Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 0.2 }}>
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Typography component="h1" variant="h5">
+          Sign up
+        </Typography>
+        <Typography variant="subtitle2">
+          Before you move on to your profile,would you like an email copy of
+          your results?
+        </Typography>
+        {props.data && <Alert severity="error" sx={{ margin: "20px 0" }}>
+          You have to sign up to save the results
+        </Alert>}
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          noValidate
+          sx={{ mt: 0.2 }}
+        >
           <TextField
             margin="normal"
             required
@@ -195,7 +220,7 @@ export default function Signup() {
             onClick={handleClick}
             variant="contained"
             size="large"
-            sx={{ mt: 3, mb: 2, }}
+            sx={{ mt: 3, mb: 2 }}
             disabled={fetching}
           >
             {fetching ? <CircularProgress size={25} /> : "SIGN UP"}
@@ -221,5 +246,7 @@ export default function Signup() {
         </Box>
       </Box>
     </Container>
-  )
-}
+  );
+};
+
+export default Signup;
