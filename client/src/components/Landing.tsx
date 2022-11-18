@@ -222,11 +222,12 @@ const Landing:FC<ILanding> = (props) => {
                         </Grid>
                         {/* button */}
                         <Grid item xs={12} md={8}>
-                            <Box sx={{ textalign: 'center' }}>
+                            <Box >
                                 <Button variant="contained"
                                     type="submit"
+                                    sx={{ margin: "10px 92px", maxWidth:"sm"}}
                                     onClick={handleResultClick} >
-                                    Result
+                                    Submit
                                 </Button>
                             </Box>
                         </Grid>
@@ -271,7 +272,7 @@ const Landing:FC<ILanding> = (props) => {
                                 navigate("/Signup");
                               }}
                         >
-                            Save Datas
+                            Save Your Results
                         </Button>
                     </Box>
                     :
