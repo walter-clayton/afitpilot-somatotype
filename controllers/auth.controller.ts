@@ -15,6 +15,7 @@ usersCtrl.login = async (req: Request, res: Response) => {
 
     if (user.length > 0) {
       const matchPassword = await user[0].matchPassword(password);
+      
       if (matchPassword) {
         const accessToken: string = await user[0].generateAuthToken();
         res

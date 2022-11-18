@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-const HTML_TEMPLATE = require("./mail-template");
+const { htmlTempResetPass, htmlTempPassword } = require("./mail-template");
 
 // create reusable transporter object using the default SMTP transport
 const transporter = nodemailer.createTransport({
@@ -21,24 +21,52 @@ interface IOptionsNodemailer {
   html: string;
 }
 
+// /**
+//  *
+//  * @param email String
+//  * @param token String
+//  */
+// const sendEmailResetPass = async (
+//   email: string,
+//   pass: string
+// ): Promise<void> => {
+//   const message: string = "To reset your password, click on the button below:";
+
+//   const options: IOptionsNodemailer = {
+//     from: `noreply <${process.env.MAIL_USER}>`, // sender address
+//     to: email, // receiver email
+//     subject: "Reset your account", // Subject line
+//     text: message,
+//     html: htmlTempPassword(message, pass),
+//   };
+
+//   try {
+//     const info = await transporter.sendMail(options);
+
+//     return info;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
 /**
  *
  * @param email String
- * @param username String
+ * @param token String
  */
-const sendEmail = async (
+const sendEmailPassword = async (
   email: string,
-  username: string,
-  token: string
+  pass: string
 ): Promise<void> => {
-  const message: string = "To reset your password, click on the button below:";
+  const message: string =
+    "You can use this randomly generated password to access your profile:";
 
   const options: IOptionsNodemailer = {
     from: `noreply <${process.env.MAIL_USER}>`, // sender address
     to: email, // receiver email
-    subject: "Reset your account", // Subject line
+    subject: "Your password to access your account", // Subject line
     text: message,
-    html: HTML_TEMPLATE(username, message, token),
+    html: htmlTempPassword(message, pass),
   };
 
   try {
@@ -50,4 +78,4 @@ const sendEmail = async (
   }
 };
 
-module.exports = sendEmail;
+module.exports = { sendEmailPassword };

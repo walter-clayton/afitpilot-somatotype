@@ -32,7 +32,6 @@ const isFieldsValid = async (
   res: Response,
   next: NextFunction
 ): Promise<Response<any, Record<string, any>> | undefined> => {
-
   if (isRequired(req.body.email))
     return res.status(403).send({
       message: "Email is required.",
@@ -44,14 +43,18 @@ const isFieldsValid = async (
     });
 
   try {
-    const user = await User.findByEmail(req.body.email);
+    const user = await User.findById(req.user_id);
 
-    if (user.length === 0) {
+    if (!user) {
       return res.status(403).send({
         message: "Account doesn't exist",
       });
-    }else{
-        next();
+    } else {
+      if (user.email === req.body.email)
+        return res.status(403).send({
+          message: "Nothing to update",
+        });
+      next();
     }
   } catch (error: unknown) {
     console.log(error);
