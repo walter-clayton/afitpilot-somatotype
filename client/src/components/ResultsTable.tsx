@@ -68,7 +68,7 @@ const ResultsTable:FC<resultProps> = (props: any) => {
     ];
 
   return (
-    <TableContainer component={Paper} sx={{margin:'20px 0px'}}>
+    <TableContainer component={Paper}>
       <Table aria-label="results table" size='small'>
         <TableHead>
           <TableRow>
