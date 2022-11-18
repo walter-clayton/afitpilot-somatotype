@@ -33,7 +33,7 @@ function useWindowDimensions() {
     return windowDimensions;
 }
 
-function createRow(Endomorphy: number, Mesomorphy: number, Ectomorphy: number, Date: string) {
+function createRow(Endomorphy: string, Mesomorphy: string, Ectomorphy: string, Date: string) {
   return { Endomorphy, Mesomorphy, Ectomorphy, Date };
 }
 
@@ -52,13 +52,19 @@ interface resultProps{
   ectomorphy?:number
 }
 
+const RoundResult = (result:number|undefined):number => {
+  let roundedResult = 0;
+  result !== undefined ? (roundedResult = Math.round(result * 10)/10) : (roundedResult = 0);
+  return roundedResult;
+}
+
 const ResultsTable:FC<resultProps> = (props: any) => {
     const { height, width } = useWindowDimensions();
 
     const rowKey = 'key';
 
     const rows = [
-      createRow(props.endomorphy, props.mesomorphy, props.ectomorphy, getDate())
+      createRow(RoundResult(props.endomorphy).toFixed(1), RoundResult(props.mesomorphy).toFixed(1), RoundResult(props.ectomorphy).toFixed(1), getDate())
     ];
 
   return (

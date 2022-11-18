@@ -93,7 +93,12 @@ const Landing:FC<ILanding> = (props) => {
         }
         
         const somatotypeResults = myform(somatotypeInputs);
-        console.log(somatotypeResults);
+
+        setSomatotype(somatotype => ({
+            endomorphy: somatotypeResults[0],
+            mesomorphy: somatotypeResults[1],
+            ectomorphy: somatotypeResults[2],
+        }))
         
         setShowResults(true);
     }
@@ -244,7 +249,7 @@ const Landing:FC<ILanding> = (props) => {
                         justifyContent: "center"
                         }}
                     >
-                    <ResultsTable endomorphy={5} mesomorphy={4} ectomorphy={4}/>
+                    <ResultsTable endomorphy={somatotype?.endomorphy} mesomorphy={somatotype?.mesomorphy} ectomorphy={somatotype?.ectomorphy}/>
                     </Grid>
                     :
                     null
