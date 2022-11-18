@@ -27,14 +27,9 @@ router.post("/updateEmail", verifyToken, verifyEmail, updateEmail);
 router.post(
   "/updatePassword",
   verifyToken,
-  sendResetEmail
+  verifyFieldsPassword,
+  updatePassword
 );
-// router.post(
-//   "/updatePassword",
-//   verifyToken,
-//   verifyFieldsPassword,
-//   updatePassword
-// );
 router.post("/forgotPassword", verifyKey, verifyEmailResetPass, sendResetEmail);
 // router.post("/resetPassword", verifyKey, verifyFieldsResetPass, verifyToken, resetPassword);
 

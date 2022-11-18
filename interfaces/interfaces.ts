@@ -18,9 +18,9 @@ export interface IUser {
 }
 
 export interface ISomatotype {
-  endomorph: number;
-  mesomorph: number;
-  ectomorph: number;
+  endomorphy: number;
+  mesomorphy: number;
+  ectomorphy: number;
   users: IRelationShip[];
   anthropometric: IAnthropometric
 }
@@ -40,6 +40,6 @@ export interface IAnthropometric {
 }
 
 export interface IData{
-  somatotype: number[];
+  somatotype: ISomatotype;
   anthropometric: IAnthropometric;
 }
