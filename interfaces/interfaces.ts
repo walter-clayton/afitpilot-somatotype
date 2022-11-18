@@ -1,5 +1,10 @@
 import { Schema } from "mongoose";
 
+export interface IReqUser {
+  email: string;
+  username: string;
+}
+
 export interface IRelationShip {
   type: Schema.Types.ObjectId;
   ref: string;
@@ -8,15 +13,15 @@ export interface IUser {
   email: string;
   username: string;
   password: string;
-  somatotypes: IRelationShip;
-  anthropometric: IAnthropometric
+  somatotypes: IRelationShip[];
+  anthropometrics: IAnthropometric[]
 }
 
 export interface ISomatotype {
   endomorph: number;
   mesomorph: number;
   ectomorph: number;
-  users: IRelationShip;
+  users: IRelationShip[];
   anthropometric: IAnthropometric
 }
 
@@ -30,6 +35,11 @@ export interface IAnthropometric {
   humerus_breadth: number;
   calf_girth: number;
   bicep_girth: number;
-  users: IRelationShip;
+  users: IRelationShip[];
   somatotype: IRelationShip;
+}
+
+export interface IData{
+  somatotype: number[];
+  anthropometric: IAnthropometric;
 }

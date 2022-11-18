@@ -1,34 +1,40 @@
 // const verify = require("../middlewares/verify.middleware");
-import { Request, Response, Router } from "express";
+import { Router } from "express";
 const router = Router();
 const verifyToken = require("../middlewares/verifyToken.middleware");
 const verifyKey = require("../middlewares/verifyKey.middleware");
-const verifyUser = require("../middlewares/verifyUser.middleware");
+const verifyUserRegister = require("../middlewares/verifyUserRegister.middleware");
 const verifyFields = require("../middlewares/verifyFieldsRegister.middleware");
+const verifyFieldsUpdateEmailAndUsername = require("../middlewares/verifyFieldsUpdateEmailUsername.middleware");
+const verifyFieldsPassword = require("../middlewares/verifyFieldsPassword.middleware");
+const verifyEmailResetPass = require("../middlewares/verifyEmailResetPass.middleware");
+const verifyFieldsResetPass = require('../middlewares/verifyFieldsResetPass.middleware')
 const {
   register,
   getUser,
   deleteUser,
+  updateEmailAndUsername,
+  updatePassword,
+  sendResetEmail,
+  resetPassword
 } = require("../controllers/users.controller");
-const Somatotype = require("../models/Somatotype");
-const User = require("../models/User");
 
 router.get("/getUser", verifyToken, getUser);
-router.post("/register", verifyKey, verifyFields, verifyUser, register);
+router.post("/register", verifyKey, verifyFields, verifyUserRegister, register);
 router.delete("/deleteUser", verifyToken, deleteUser);
-
-// router.post("/s", async (req: any, res: any) => {
-//   const { endomorph, mesomorph, ectomorph } = req.body;
-
-//   const soma = await Somatotype({ endomorph, mesomorph, ectomorph });
-//   const user = await User.findById("637253d94a69196f2a024254");
-//   soma.users.push(user);
-//   user.somatotypes.push(soma);
-//   await soma.save();
-//   await user.save();
-
-
-//   res.send('ok');
-// });
+router.post(
+  "/updateEmailAndUsername",
+  verifyToken,
+  verifyFieldsUpdateEmailAndUsername,
+  updateEmailAndUsername
+);
+router.post(
+  "/updatePassword",
+  verifyToken,
+  verifyFieldsPassword,
+  updatePassword
+);
+router.post("/forgotPassword", verifyKey, verifyEmailResetPass, sendResetEmail);
+router.post("/resetPassword", verifyKey, verifyFieldsResetPass, verifyToken, resetPassword);
 
 module.exports = router;

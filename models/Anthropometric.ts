@@ -1,5 +1,5 @@
-import { Schema, Model, model, ObjectId } from "mongoose";
-import { IAnthropometric, ISomatotype } from "../interfaces/interfaces";
+import { Schema, model } from "mongoose";
+import { IAnthropometric } from "../interfaces/interfaces";
 
 const anthropometricSchema: Schema = new Schema<IAnthropometric>(
   {
@@ -13,9 +13,9 @@ const anthropometricSchema: Schema = new Schema<IAnthropometric>(
     calf_girth: { type: Number, required: true },
     bicep_girth: { type: Number, required: true },
     users: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    somatotype: [{ type: Schema.Types.ObjectId, ref: "Somatotype" }],
+    somatotype: { type: Schema.Types.ObjectId, ref: "Somatotype" },
   },
   { timestamps: true }
 );
 
-module.exports = model<ISomatotype>("Anthropometric", anthropometricSchema);
+module.exports = model<IAnthropometric>("Anthropometric", anthropometricSchema);

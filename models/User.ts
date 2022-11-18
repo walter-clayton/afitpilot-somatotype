@@ -1,4 +1,3 @@
-import { IncomingHttpStatusHeader } from "http2";
 import { Schema, Model, model, ObjectId } from "mongoose";
 import { IUser } from "../interfaces/interfaces";
 const bcrypt = require("bcrypt");
@@ -10,14 +9,14 @@ const userSchema: Schema = new Schema<IUser>(
     username: { type: String, required: true },
     password: { type: String, required: true },
     somatotypes: [{ type: Schema.Types.ObjectId, ref: "Somatotype" }],
-    anthropometric: [{ type: Schema.Types.ObjectId, ref: "Anthropometric" }],
+    anthropometrics: [{ type: Schema.Types.ObjectId, ref: "Anthropometric" }],
   },
   { timestamps: true }
 );
 
 userSchema.methods.generateAuthToken = function (): string {
   const token = jwt.sign(
-    { email: this.email, username: this.username },
+    { id: this._id },
     process.env.ACCESS_TOKEN_SECRET,
     {
       expiresIn: "3600s",
