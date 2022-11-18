@@ -225,7 +225,7 @@ const Landing:FC<ILanding> = (props) => {
                         <Button variant="contained"
                             type="submit"
                             onClick={handleResultClick} >
-                            Result
+                            Submit
                         </Button>
                     </Box>
                 </Grid>
@@ -274,7 +274,7 @@ const Landing:FC<ILanding> = (props) => {
                                 navigate("/Signup");
                               }}
                         >
-                            Save Datas
+                            Save Your Results
                         </Button>
                     </Box>
                     :

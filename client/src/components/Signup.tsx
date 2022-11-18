@@ -15,7 +15,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
-  const naviguate = useNavigate();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [emailIsIncorrect, setEmailIsIncorrect] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
@@ -183,7 +183,7 @@ export default function Signup() {
             size="large"
             onClick={() => {
               handleClick();
-              naviguate("/landing");
+              navigate("/");
             }}
             sx={{ mt: 3, mb: 2, marginRight: 5, marginLeft: 8 }}
             disabled={fetching}
@@ -210,7 +210,7 @@ export default function Signup() {
             <Grid item>
               <Link
                 onClick={() => {
-                  naviguate("/Login");
+                  navigate("/Login");
                 }}
                 sx={{ cursor: "pointer" }}
               >
