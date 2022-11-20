@@ -12,13 +12,13 @@ import Resetpass from "./components/Resetpass";
 import Forget from "./components/Forget";
 import Dashboard from "./components/Dashboard";
 
-export interface ISomatotype{
+export interface ISomatotype {
   endomorphy?: number | undefined;
   mesomorphy?: number | undefined;
   ectomorphy?: number | undefined;
 }
 
-export interface IAnthropometric{
+export interface IAnthropometric {
   height?: number | undefined;
   weight?: number | undefined;
   supraspinal_skinfold?: number | undefined;
@@ -30,9 +30,9 @@ export interface IAnthropometric{
   bicep_girth?: number | undefined;
 }
 
-export interface IData{
-  somatotype?:ISomatotype | undefined;
-  anthropometric?: IAnthropometric |undefined;
+export interface IData {
+  somatotype?: ISomatotype | undefined;
+  anthropometric?: IAnthropometric | undefined;
 }
 
 function App() {
@@ -54,11 +54,19 @@ function App() {
       <ResponsiveAppBar
         setOpen={setOpen}
         setSnackbarMessage={setSnackbarMessage}
+        setData={setData}
       />
       <Routes>
-        <Route path="/" element={<Landing setData={setData}/>} />
+        <Route path="/" element={<Landing setData={setData} />} />
         {/* <Route path="/Landing" element={<Landing />} /> */}
-        <Route path="/Signup" element={!cookies.user && <Signup />} />
+        <Route
+          path="/Signup"
+          element={
+            (cookies.user && data) || !cookies.user ? (
+              <Signup data={data} setData={setData} />
+            ) : null
+          }
+        />
         <Route
           path="/Login"
           element={
@@ -83,14 +91,7 @@ function App() {
             )
           }
         />
-        <Route
-          path="/Dashboard"
-          element={
-            cookies.user && (
-              <Dashboard />
-            )
-          }
-        />
+        <Route path="/Dashboard" element={cookies.user && <Dashboard />} />
       </Routes>
       <Snackbar
         open={open}

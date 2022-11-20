@@ -33,6 +33,7 @@ const ResponsiveAppBar = (props: any) => {
     removeCookie("user", { path: "/", sameSite: "none", secure: true });
     props.setOpen(true);
     props.setSnackbarMessage("Logout successfully");
+    props.setData(undefined)
     navigate("/Login");
   };
 

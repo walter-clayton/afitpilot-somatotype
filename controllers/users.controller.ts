@@ -3,13 +3,13 @@ import { IAnthropometric, IData, ISomatotype } from "../interfaces/interfaces";
 const User = require("../models/User");
 const Somatotype = require("../models/Somatotype");
 const Anthropometric = require("../models/Anthropometric");
-const sendEmail = require("../mail/mailer");
+const { sendEmailResetPass, sendEmailPassword } = require("../mail/mailer");
 
 interface IUsersCtrl {
   getUser?: (req: Request, res: Response) => void;
   register?: (req: Request, res: Response) => void;
   deleteUser?: (req: Request, res: Response) => void;
-  updateEmailAndUsername?: (req: Request, res: Response) => void;
+  updateEmail?: (req: Request, res: Response) => void;
   updatePassword?: (req: Request, res: Response) => void;
   sendResetEmail?: (req: Request, res: Response) => void;
   resetPassword?: (req: Request, res: Response) => void;
@@ -18,11 +18,11 @@ interface IUsersCtrl {
 const usersCtrl: IUsersCtrl = {};
 
 usersCtrl.getUser = async (req: Request, res: Response) => {
-  const { username } = req.body;
+  const { email } = req.body;
 
   try {
-    const user = await User.findByUsername(username);
-    await user[0].populate(['somatotypes', 'anthropometrics'])
+    const user = await User.findByEmail(email);
+    await user[0].populate(["somatotypes", "anthropometrics"]);
     if (user.length > 0) res.status(200).send(user);
     else res.status(404).send("user not found");
   } catch (error) {
@@ -35,25 +35,29 @@ usersCtrl.getUser = async (req: Request, res: Response) => {
 };
 
 usersCtrl.register = async (req: Request, res: Response) => {
-  const { email, username, password, data } = req.body;
+  const { email, data } = req.body;
 
   try {
-    const newUser = await User({ email, username, password });
-    newUser.password = await newUser.encryptPassword(password);
+    const newUser = await User({ email });
+
+    // random password
+    const generatedPass: string = await newUser.generatePassword();
+
+    newUser.password = await newUser.encryptPassword(generatedPass);
 
     if (data) {
       const { somatotype, anthropometric }: IData = data;
-
+console.log(data);
 
       // create the somatotype
-      const endomorph = somatotype[0];
-      const mesomorph = somatotype[1];
-      const ectomorph = somatotype[2];
+      const endomorphy = somatotype.endomorphy;
+      const mesomorphy = somatotype.mesomorphy;
+      const ectomorphy = somatotype.ectomorphy;
 
       const newSomatotype = await Somatotype({
-        endomorph,
-        mesomorph,
-        ectomorph,
+        endomorphy,
+        mesomorphy,
+        ectomorphy,
       });
 
       // create the anthropometric
@@ -95,6 +99,8 @@ usersCtrl.register = async (req: Request, res: Response) => {
 
     await newUser.save();
 
+    await sendEmailPassword(email, generatedPass);
+
     res.status(201).send({
       message: "User registered successfully",
     });
@@ -125,22 +131,20 @@ usersCtrl.deleteUser = async (req: Request, res: Response) => {
   }
 };
 
-usersCtrl.updateEmailAndUsername = async (req: Request, res: Response) => {
-  const { email, username } = req.query;
+usersCtrl.updateEmail = async (req: Request, res: Response) => {
+  const { email } = req.body;
 
   try {
-    const user = await User.findByEmail(req.user.email);
+    const user = await User.findById(req.user_id);
 
-    if (user[0].email !== email) user[0].email = email;
-    if (user[0].username !== username) user[0].username = username;
+    user.email = email;
 
-    await user[0].save();
+    await user.save();
 
     res.status(200).send({
       message: "Account edited successfully",
       user: {
-        email: user[0].email,
-        username: user[0].username,
+        email: user.email,
       },
     });
   } catch (error: unknown) {
@@ -178,40 +182,29 @@ usersCtrl.sendResetEmail = async (req: Request, res: Response) => {
   const email: string = req.body.email;
 
   try {
-    const user: any = await User.findByEmail(email);
+    const user = await User.findByEmail(email);
 
-    const token: string = await user[0].generateAuthToken();
+    if (user.length > 0) {
+      const generatedPass: string = await user[0].generatePassword();
 
-    const result = await sendEmail(email, user[0].username, token);
+      user[0].password = await user[0].encryptPassword(generatedPass);
 
-    if (result)
-      res.status(200).send({ message: "Email sent to reset your password" });
-    else
-      res.status(403).send({
-        message: "Error to send email to reset password, please try again",
-      });
-  } catch (error: unknown) {
-    console.log(error);
-    res.status(500).send({
-      message:
-        "Error with the database: please try again or contact the administrator.",
-    });
-  }
-};
+      user[0].save();
 
-usersCtrl.resetPassword = async (req: Request, res: Response) => {
-  try {
-    const user = await User.findById(req.user_id);
+      const result = await sendEmailPassword(email, generatedPass);
 
-    if (user) {
-      user.password = await user.encryptPassword(req.body.newPassword);
-
-      user.save();
-
-      res.status(200).send({ message: "Password updated successfully" });
+      if (result)
+        res.status(200).send({ message: "Email sent to reset your password" });
+      else
+        res.status(403).send({
+          message: "Error to send email to reset password, please try again",
+        });
     } else {
       res.status(404).send({ message: "User not found" });
     }
+    // const user: any = await User.findByEmail(email);
+
+    // const token: string = await user[0].generateAuthToken();
   } catch (error: unknown) {
     console.log(error);
     res.status(500).send({
@@ -220,5 +213,27 @@ usersCtrl.resetPassword = async (req: Request, res: Response) => {
     });
   }
 };
+
+// usersCtrl.resetPassword = async (req: Request, res: Response) => {
+//   try {
+//     const user = await User.findById(req.user_id);
+
+//     if (user) {
+//       user.password = await user.encryptPassword(req.body.newPassword);
+
+//       user.save();
+
+//       res.status(200).send({ message: "Password updated successfully" });
+//     } else {
+//       res.status(404).send({ message: "User not found" });
+//     }
+//   } catch (error: unknown) {
+//     console.log(error);
+//     res.status(500).send({
+//       message:
+//         "Error with the database: please try again or contact the administrator.",
+//     });
+//   }
+// };
 
 module.exports = usersCtrl;

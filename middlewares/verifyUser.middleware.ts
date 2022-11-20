@@ -3,7 +3,6 @@ const User = require("../models/User");
 
 const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
   const email: string = req.body.email;
-  const username: string = req.body.username;
 
   try {
     let user = await User.findByEmail(email);
@@ -11,15 +10,11 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
     if (user.length > 0)
       return res.status(403).send({ message: "Email already exists" });
 
-    user = await User.findByUsername(username);
-    if (user.length > 0)
-      return res.status(403).send({ message: "Username already exists" });
     next();
   } catch (error: unknown) {
     console.log(error);
     res.status(500).send({
-      message:
-        "Error with the database: please try again or contact the administrator.",
+      message: (error as ErrorEvent).message,
     });
   }
 };

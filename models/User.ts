@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken");
 const userSchema: Schema = new Schema<IUser>(
   {
     email: { type: String, required: true },
-    username: { type: String, required: true },
     password: { type: String, required: true },
     somatotypes: [{ type: Schema.Types.ObjectId, ref: "Somatotype" }],
     anthropometrics: [{ type: Schema.Types.ObjectId, ref: "Anthropometric" }],
@@ -15,15 +14,30 @@ const userSchema: Schema = new Schema<IUser>(
 );
 
 userSchema.methods.generateAuthToken = function (): string {
-  const token = jwt.sign(
-    { id: this._id },
-    process.env.ACCESS_TOKEN_SECRET,
-    {
-      expiresIn: "3600s",
-    }
-  );
+  const token = jwt.sign({ id: this._id }, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "3600s",
+  });
 
   return token;
+};
+
+userSchema.methods.generatePassword = (): string => {
+  var pass = "";
+  var str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$";
+
+  // according to validation of password: at least 1 Uppercase, 1 symbol and 1 number
+  pass =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(Math.floor(Math.random() * 26)) +
+    "@#$".charAt(Math.floor(Math.random() * 3)) +
+    "0123456789".charAt(Math.floor(Math.random() * 10));
+
+  for (let i = 1; i <= 8; i++) {
+    var randomIndex = Math.floor(Math.random() * str.length);
+
+    pass += str.charAt(randomIndex);
+  }
+
+  return pass;
 };
 
 userSchema.methods.encryptPassword = async (
@@ -42,10 +56,5 @@ userSchema.methods.matchPassword = async function (
 userSchema.statics.findByEmail = function (email: string) {
   return this.find({ email: email });
 };
-
-userSchema.statics.findByUsername = function (username: string) {
-  return this.find({ username: username });
-};
-
 
 module.exports = model<IUser>("User", userSchema);

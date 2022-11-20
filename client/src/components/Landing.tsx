@@ -93,9 +93,14 @@ const Landing:FC<ILanding> = (props) => {
         }
         
         const somatotypeResults = myform(somatotypeInputs);
-        console.log(somatotypeResults);
-        
         setShowResults(true);
+
+        setSomatotype(somatotype => ({
+            endomorphy: somatotypeResults[0],
+            mesomorphy: somatotypeResults[1],
+            ectomorphy: somatotypeResults[2],
+        }))
+        
     }
 
     const handleSaveDatasClick = () => {
@@ -106,154 +111,152 @@ const Landing:FC<ILanding> = (props) => {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Box >
-                <Box sx={{
+            <Grid container sx={{
+                display: "flex",
+                flexDirection: 'column',
+                justifyContent: "center",
+                alignItems: "center",
+                padding:'0px 15px'}}
+            >
+                {/* Form Inputs */}
+                <Grid item sx={{
                     flexGrow: 1,
-                    display: "flex",
-                    flexDirection: 'column',
-                    justifyContent: "center",
                     alignItems: "center",
-                    marginTop: "40px"}} >
-                    <Grid>
-                        <Grid item xs={12} >
-                            <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText >Height</FormHelperText>
-                                <FilledInput
-                                    id="height"
-                                    placeholder='180'
-                                    endAdornment={<InputAdornment position="end">cm</InputAdornment>} 
-                                    onChange={handleHeightChange}/>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                            <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText >Bodyweight</FormHelperText>
-                                <FilledInput
-                                    id="bodyweight"
-                                    endAdornment={<InputAdornment position="end">kg</InputAdornment>}
-                                    aria-describedby="filled-weight-helper-text"
-                                    placeholder='80'
-                                    onChange={handleBodyWeightChange} />
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={12} md={8} >
-                            <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText >Tricep skin fold </FormHelperText>
-                                <FilledInput
-                                    id="tricep"
-                                    endAdornment={<InputAdornment position="end">mm</InputAdornment>}
-                                    aria-describedby="filled-weight-helper-text"
-                                    placeholder='12' 
-                                    onChange={handleTricepChange}/>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                            <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText>Subscapular skin fold</FormHelperText>
+                    margin: "20px auto"}}
+                    xs={12} md={8} lg={6}>
+                    <FormControl fullWidth variant="filled">
+                        <FormHelperText >Height</FormHelperText>
+                        <FilledInput
+                            id="height"
+                            placeholder='180'
+                            endAdornment={<InputAdornment position="end">cm</InputAdornment>} 
+                            onChange={handleHeightChange}/>
+                    </FormControl>
 
-                                <FilledInput
-                                    id="subscapular"
-                                    placeholder='12'
-                                    endAdornment={<InputAdornment position="end">mm</InputAdornment>}
-                                    aria-describedby="filled-weight-helper-text" 
-                                    onChange={handleSubscapularChange}/>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                            <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText >Supraspinal skin fold
-                                </FormHelperText>
-                                <FilledInput
-                                    id="supraspinal"
-                                    placeholder='12'
-                                    endAdornment={<InputAdornment position="end">mm</InputAdornment>}
-                                    aria-describedby="filled-weight-helper-text" 
-                                    onChange={handleSupraspinalChange}/>
-                            </FormControl>
+                    <FormControl fullWidth variant="filled">
+                        <FormHelperText >Bodyweight</FormHelperText>
+                        <FilledInput
+                            id="bodyweight"
+                            endAdornment={<InputAdornment position="end">kg</InputAdornment>}
+                            aria-describedby="filled-weight-helper-text"
+                            placeholder='80'
+                            onChange={handleBodyWeightChange} />
+                    </FormControl>
 
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                            <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText >Humerus breadth </FormHelperText>
-                                <FilledInput
-                                    id="humerus"
-                                    placeholder='7'
-                                    endAdornment={<InputAdornment position="end">cm</InputAdornment>}
-                                    aria-describedby="filled-weight-helper-text" 
-                                    onChange={handleHumerusChange}/>
-                            </FormControl>
+                    <FormControl fullWidth variant="filled">
+                        <FormHelperText >Tricep skin fold </FormHelperText>
+                        <FilledInput
+                            id="tricep"
+                            endAdornment={<InputAdornment position="end">mm</InputAdornment>}
+                            aria-describedby="filled-weight-helper-text"
+                            placeholder='12' 
+                            onChange={handleTricepChange}/>
+                    </FormControl>
 
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                            <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText >Femur breadth</FormHelperText>
-                                <FilledInput
-                                    id="femur"
-                                    placeholder='8'
-                                    endAdornment={<InputAdornment position="end">cm</InputAdornment>}
-                                    aria-describedby="filled-weight-helper-text" 
-                                    onChange={handleFemurChange}/>
-                            </FormControl>
+                    <FormControl fullWidth variant="filled">
+                        <FormHelperText>Subscapular skin fold</FormHelperText>
 
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                            <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText>Calf circumference</FormHelperText>
-                                <FilledInput
-                                    id="calf"
-                                    placeholder='38'
-                                    endAdornment={<InputAdornment position="end">cm</InputAdornment>}
-                                    aria-describedby="filled-weight-helper-text" 
-                                    onChange={handleCalfChange}/>
-                            </FormControl>
+                        <FilledInput
+                            id="subscapular"
+                            placeholder='12'
+                            endAdornment={<InputAdornment position="end">mm</InputAdornment>}
+                            aria-describedby="filled-weight-helper-text" 
+                            onChange={handleSubscapularChange}/>
+                    </FormControl>
 
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                            <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                <FormHelperText>Bicep circumference</FormHelperText>
-                                <FilledInput
-                                    id="bicep"
-                                    placeholder='38'
-                                    endAdornment={<InputAdornment position="end">cm</InputAdornment>}
-                                    aria-describedby="filled-weight-helper-text" 
-                                    onChange={handleBicepChange}/>
-                            </FormControl>
+                    <FormControl fullWidth variant="filled">
+                        <FormHelperText >Supraspinal skin fold
+                        </FormHelperText>
+                        <FilledInput
+                            id="supraspinal"
+                            placeholder='12'
+                            endAdornment={<InputAdornment position="end">mm</InputAdornment>}
+                            aria-describedby="filled-weight-helper-text" 
+                            onChange={handleSupraspinalChange}/>
+                    </FormControl>
 
-                        </Grid>
-                        {/* button */}
-                        <Grid item xs={12} md={8}>
-                            <Box sx={{ textalign: 'center' }}>
-                                <Button variant="contained"
-                                    type="submit"
-                                    onClick={handleResultClick} >
-                                    Result
-                                </Button>
-                            </Box>
-                        </Grid>
-                    </Grid>
-                </Box>
+                    <FormControl fullWidth variant="filled">
+                        <FormHelperText >Humerus breadth </FormHelperText>
+                        <FilledInput
+                            id="humerus"
+                            placeholder='7'
+                            endAdornment={<InputAdornment position="end">cm</InputAdornment>}
+                            aria-describedby="filled-weight-helper-text" 
+                            onChange={handleHumerusChange}/>
+                    </FormControl>
+
+                    <FormControl fullWidth variant="filled">
+                        <FormHelperText >Femur breadth</FormHelperText>
+                        <FilledInput
+                            id="femur"
+                            placeholder='8'
+                            endAdornment={<InputAdornment position="end">cm</InputAdornment>}
+                            aria-describedby="filled-weight-helper-text" 
+                            onChange={handleFemurChange}/>
+                    </FormControl>
+
+                    <FormControl fullWidth variant="filled">
+                        <FormHelperText>Calf circumference</FormHelperText>
+                        <FilledInput
+                            id="calf"
+                            placeholder='38'
+                            endAdornment={<InputAdornment position="end">cm</InputAdornment>}
+                            aria-describedby="filled-weight-helper-text" 
+                            onChange={handleCalfChange}/>
+                    </FormControl>
+
+                    <FormControl fullWidth variant="filled">
+                        <FormHelperText>Bicep circumference</FormHelperText>
+                        <FilledInput
+                            id="bicep"
+                            placeholder='38'
+                            endAdornment={<InputAdornment position="end">cm</InputAdornment>}
+                            aria-describedby="filled-weight-helper-text" 
+                            onChange={handleBicepChange}/>
+                    </FormControl>
+                </Grid>
+                {/* button */}
+                <Grid item sx={{
+                    flexGrow: 1,
+                    alignItems: "center",
+                    margin: "20px auto"}}
+                    xs={12} md={8} lg={6}>
+                    <Box sx={{ textalign: 'center' }}>
+                        <Button variant="contained"
+                            type="submit"
+                            onClick={handleResultClick} >
+                            Submit
+                        </Button>
+                    </Box>
+                </Grid>
+                {/* Results Table */}
                 {
                     showResults ? 
                     <Grid
-                        container
-                        maxWidth="sm"
+                        item
                         sx={{
-                        margin: "0 auto",
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center"
-                        }}
-                    >
-                    <ResultsTable endomorphy={5} mesomorphy={4} ectomorphy={4}/>
+                            flexGrow: 1,
+                            alignItems: "center",
+                            margin: "20px 0"}}
+                            xs={12} md={8} lg={6}
+                            width={"100%"}>
+                        <ResultsTable endomorphy={somatotype?.endomorphy} mesomorphy={somatotype?.mesomorphy} ectomorphy={somatotype?.ectomorphy} showHistory={false}/>
                     </Grid>
                     :
                     null
                 }
 
-                <Grid>
-                    <Box sx={{ display: 'flex', justifyContent: 'center', marginLeft: "30px" }}>
+                <Grid
+                item
+                sx={{
+                    flexGrow: 1,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    margin: "20px 0"}}
+                    xs={12} md={8} lg={6}
+                    width={"100%"}>
                         <canvas id="somatotypeCanvas" height="577.5" width="494"></canvas>
-                    </Box>
                 </Grid>
 
                 {
@@ -271,13 +274,13 @@ const Landing:FC<ILanding> = (props) => {
                                 navigate("/Signup");
                               }}
                         >
-                            Save Datas
+                            Save Your Results
                         </Button>
                     </Box>
                     :
                     null
                 }
-            </Box>
+            </Grid>
         </ThemeProvider>
     );
 }
