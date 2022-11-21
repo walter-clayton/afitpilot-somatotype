@@ -11,7 +11,7 @@ import { Snackbar } from "@mui/material";
 import Resetpass from "./components/Resetpass";
 import Forget from "./components/Forget";
 import Dashboard from "./components/Dashboard";
-import Addnewpage from "./components/Addnewpage";
+import Add from "./components/Add";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -81,7 +81,7 @@ function App() {
         />
         <Route path="/Forget" element={<Forget />} />
         <Route path="/Resetpass" element={<Resetpass />} />
-        <Route path="/Addnewpage" element={<Addnewpage  setData={setData} />} />
+        <Route path="/Add" element={<Add setData={setData} />} />
         <Route
           path="/Profile"
           element={

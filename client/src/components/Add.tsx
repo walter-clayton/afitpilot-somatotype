@@ -17,7 +17,7 @@ const theme = createTheme();
 interface ILanding {
     setData: (data: IData) => void
 }
-const Addnewpage: FC<ILanding> = (props) => {
+const Add: FC<ILanding> = (props) => {
     const [showResults, setShowResults] = useState(false);
     const navigate = useNavigate();
 
@@ -298,4 +298,4 @@ const Addnewpage: FC<ILanding> = (props) => {
     )
 }
 
-export default Addnewpage
+export default Add

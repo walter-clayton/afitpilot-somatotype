@@ -63,7 +63,7 @@ const Dashboard = () => {
                     variant="contained"
                     onClick={() => {
                         handleAddNewClick();
-                        navigate("/Addnewpage");
+                        navigate("/Add");
                       }}
                 >
                     Add new
