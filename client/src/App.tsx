@@ -39,6 +39,7 @@ export interface IData {
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [open, setOpen] = useState<boolean>(false);
+  const [resultsSaved, setResultsSaved] = useState<boolean>(false);
   const [snackbarMessage, setSnackbarMessage] = useState<string>("");
 
   const [data, setData] = useState<IData | undefined>(undefined);
@@ -58,13 +59,19 @@ function App() {
         setData={setData}
       />
       <Routes>
-        <Route path="/" element={<Landing setData={setData} />} />
+        <Route path="/" element={<Landing setData={setData} resultsSaved={resultsSaved} setResultsSaved={setResultsSaved} />} />
         {/* <Route path="/Landing" element={<Landing />} /> */}
         <Route
           path="/Signup"
           element={
             (cookies.user && data) || !cookies.user ? (
-              <Signup data={data} setData={setData} />
+              <Signup
+                data={data}
+                setData={setData}
+                setOpen={setOpen}
+                setSnackbarMessage={setSnackbarMessage}
+                setResultsSaved={setResultsSaved}
+              />
             ) : null
           }
         />
@@ -74,7 +81,10 @@ function App() {
             !cookies.user && (
               <Login
                 setOpen={setOpen}
+                data={data}
+                setData={setData}
                 setSnackbarMessage={setSnackbarMessage}
+                setResultsSaved={setResultsSaved}
               />
             )
           }
