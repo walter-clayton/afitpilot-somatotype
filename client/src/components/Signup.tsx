@@ -14,11 +14,12 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Snackbar from "@mui/material/Snackbar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import { IData } from "../App";
 
 interface ISugnUp {
   data?: IData;
-  setData?:((data: IData | undefined) => void) | undefined
+  setData?: ((data: IData | undefined) => void) | undefined;
 }
 
 const Signup: FC<ISugnUp> = (props) => {
@@ -27,6 +28,9 @@ const Signup: FC<ISugnUp> = (props) => {
   const [emailIsIncorrect, setEmailIsIncorrect] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [fetching, setFetching] = React.useState<boolean>(false);
+  const [cookies, setCookie] = useCookies(["user"]);
+
+
   /**
    *
    * @param username String
@@ -81,8 +85,14 @@ const Signup: FC<ISugnUp> = (props) => {
         { headers: headers }
       );
       setOpen(true);
+      setCookie("user", response.data.user, {
+        path: "/",
+        sameSite: "none",
+        secure: true,
+        maxAge: 3600,
+      });
       setSnackbarMessage(response.data.message);
-      props.setData?.(undefined)
+      props.setData?.(undefined);
       setFetching(false);
     } catch (error: any) {
       setOpen(true);
@@ -171,9 +181,11 @@ const Signup: FC<ISugnUp> = (props) => {
           Before you move on to your profile,would you like an email copy of
           your results?
         </Typography>
-        {props.data && <Alert severity="error" sx={{ margin: "20px 0" }}>
-          You have to sign up to save the results
-        </Alert>}
+        {props.data && (
+          <Alert severity="error" sx={{ margin: "20px 0" }}>
+            You have to sign up to save the results
+          </Alert>
+        )}
         <Box
           component="form"
           onSubmit={handleSubmit}
