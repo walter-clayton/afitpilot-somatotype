@@ -20,6 +20,9 @@ import { IData } from "../App";
 interface ISugnUp {
   data?: IData;
   setData?: ((data: IData | undefined) => void) | undefined;
+  setOpen?: (bool: boolean) => void;
+  setSnackbarMessage?: (msg: string) => void;
+  setResultsSaved?: (bool: boolean) => void;
 }
 
 const Signup: FC<ISugnUp> = (props) => {
@@ -29,7 +32,6 @@ const Signup: FC<ISugnUp> = (props) => {
   const [hasChanges, setHasChanges] = useState(false);
   const [fetching, setFetching] = React.useState<boolean>(false);
   const [cookies, setCookie] = useCookies(["user"]);
-
 
   /**
    *
@@ -91,9 +93,12 @@ const Signup: FC<ISugnUp> = (props) => {
         secure: true,
         maxAge: 3600,
       });
-      setSnackbarMessage(response.data.message);
+      props.setOpen?.(true);
+      props.setSnackbarMessage?.(response.data.message);
+      props.setResultsSaved?.(response.data.dataSaved);
       props.setData?.(undefined);
       setFetching(false);
+      navigate("/");
     } catch (error: any) {
       setOpen(true);
       if (error.response) {

@@ -9,6 +9,7 @@ const {
   register,
   getUser,
   deleteUser,
+  saveResults,
   updateEmail,
   updatePassword,
   sendResetEmail,
@@ -24,6 +25,7 @@ router.post(
   verifyUser,
   sendResetEmail
 );
+router.post("/saveResults", verifyToken, saveResults);
 
 // router.post("/updateEmail", verifyToken, verifyEmail, updateEmail);
 // router.post(
