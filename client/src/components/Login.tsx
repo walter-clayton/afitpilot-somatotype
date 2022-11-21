@@ -9,6 +9,7 @@ import {
   FormControlLabel,
   Avatar,
   CircularProgress,
+  Alert,
 } from "@mui/material/";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Typography, Container } from "@mui/material/";
@@ -77,6 +78,7 @@ export default function Login(props: any) {
         {
           email: data.get("email"),
           password: data.get("password"),
+          data: props.data,
         },
         {
           headers: headers,
@@ -91,6 +93,8 @@ export default function Login(props: any) {
       });
       props.setOpen(true);
       props.setSnackbarMessage(response.data.message);
+      props.setResultsSaved?.(response.data.dataSaved);
+      props.setData?.(undefined);
       navigate("/");
     } catch (error: any) {
       setOpen(true);
@@ -187,6 +191,11 @@ export default function Login(props: any) {
           <Typography component="h1" variant="h5">
             Login
           </Typography>
+          {props.data && (
+            <Alert severity="error" sx={{ margin: "20px 0" }}>
+              You have to log in to save the results
+            </Alert>
+          )}
           <Box
             component="form"
             onSubmit={handleSubmit}

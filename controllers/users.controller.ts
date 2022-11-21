@@ -1,4 +1,5 @@
 import express, { Express, Request, Response } from "express";
+const os = require("os");
 import { IAnthropometric, IData, ISomatotype } from "../interfaces/interfaces";
 const User = require("../models/User");
 const Somatotype = require("../models/Somatotype");
@@ -12,6 +13,7 @@ interface IUsersCtrl {
   updatePassword?: (req: Request, res: Response) => void;
   sendResetEmail?: (req: Request, res: Response) => void;
   resetPassword?: (req: Request, res: Response) => void;
+  saveResults?: (req: Request, res: Response) => void;
 }
 
 const usersCtrl: IUsersCtrl = {};
@@ -88,10 +90,16 @@ usersCtrl.register = async (req: Request, res: Response) => {
 
     await sendEmailPassword(email, generatedPass);
 
-    res.status(201).send({
-      message: `User ${
-        data && "results"
-      } registered successfully, check your email to get your generated password`,
+    const accessToken: string = await newUser.generateAuthToken();
+    data && console.log("ok");
+
+    res.status(202).send({
+      message: `User registered successfully, check your email to get your generated password`,
+      dataSaved: data ? true : false,
+      user: {
+        token: accessToken,
+        email: newUser.email,
+      },
     });
   } catch (error: unknown) {
     console.log((error as ErrorEvent).message);
@@ -159,6 +167,83 @@ usersCtrl.sendResetEmail = async (req: Request, res: Response) => {
 
     // const token: string = await user[0].generateAuthToken();
   } catch (error: unknown) {
+    console.log((error as ErrorEvent).message);
+    res.status(500).send({
+      message: "Error server",
+    });
+  }
+};
+
+usersCtrl.saveResults = async (req: Request, res: Response) => {
+  const { data } = req.body;
+
+  try {
+    const user = await User.findById(req.user_id);
+
+    if (user) {
+      if (data) {
+        if (data.somatotype && data.anthropometric) {
+          const { somatotype, anthropometric }: IData = data;
+
+          // create the somatotype
+          const endomorphy = somatotype.endomorphy;
+          const mesomorphy = somatotype.mesomorphy;
+          const ectomorphy = somatotype.ectomorphy;
+
+          const newSomatotype = await Somatotype({
+            endomorphy,
+            mesomorphy,
+            ectomorphy,
+          });
+
+          // create the anthropometric
+          const height = anthropometric.height;
+          const weight = anthropometric.weight;
+          const supraspinal_skinfold = anthropometric.supraspinal_skinfold;
+          const subscapular_skinfold = anthropometric.subscapular_skinfold;
+          const tricep_skinfold = anthropometric.tricep_skinfold;
+          const femur_breadth = anthropometric.femur_breadth;
+          const humerus_breadth = anthropometric.humerus_breadth;
+          const calf_girth = anthropometric.calf_girth;
+          const bicep_girth = anthropometric.bicep_girth;
+
+          const newAnthropometric = await Anthropometric({
+            height,
+            weight,
+            supraspinal_skinfold,
+            subscapular_skinfold,
+            tricep_skinfold,
+            femur_breadth,
+            humerus_breadth,
+            calf_girth,
+            bicep_girth,
+          });
+
+          // RelationShip
+          user.somatotypes.push(newSomatotype);
+          user.anthropometrics.push(newAnthropometric);
+
+          newSomatotype.users.push(user);
+          newSomatotype.anthropometric = newAnthropometric;
+
+          newAnthropometric.users.push(user);
+          newAnthropometric.somatotype = newSomatotype;
+
+          await newSomatotype.save();
+          await newAnthropometric.save();
+          await user.save();
+
+          res.status(201).send({ dataSaved: true });
+        } else {
+          return res.status(403).send({
+            message: "data.somatotype and data.anthropometric are required",
+          });
+        }
+      }
+    } else {
+      res.status(403).send({ message: "User not found" });
+    }
+  } catch (error) {
     console.log((error as ErrorEvent).message);
     res.status(500).send({
       message: "Error server",
