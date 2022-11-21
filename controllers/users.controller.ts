@@ -89,8 +89,9 @@ usersCtrl.register = async (req: Request, res: Response) => {
     await sendEmailPassword(email, generatedPass);
 
     res.status(201).send({
-      message:
-        "User registered successfully, check your email to get your generated password",
+      message: `User ${
+        data && "results"
+      } registered successfully, check your email to get your generated password`,
     });
   } catch (error: unknown) {
     console.log((error as ErrorEvent).message);
