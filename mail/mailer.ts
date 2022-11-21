@@ -52,7 +52,7 @@ interface IOptionsNodemailer {
 /**
  *
  * @param email String
- * @param token String
+ * @param pass String
  */
 const sendEmailPassword = async (
   email: string,
