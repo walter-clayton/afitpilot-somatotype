@@ -7,38 +7,38 @@
 export function myform(somatotype) {
 
     var skinfolds = somatotype.tricep + somatotype.subscapular + somatotype.supraspinal;
-    //console.log( "skinfolds : " + skinfolds);
+    console.log( "skinfolds : " + skinfolds);
 
     var xSomatotype = skinfolds * (170.18/somatotype.height)
-    //console.log( "x : " + xSomatotype);
+    console.log( "x : " + xSomatotype);
 
     var hwr = somatotype.height / Math.cbrt(somatotype.bodyweight)
-    //console.log( "hwr : " + hwr);
+    console.log( "hwr : " + hwr);
 
     var endomorphy = -0.7182 + (0.1451*xSomatotype) - (0.00068*Math.pow(xSomatotype, 2)) + (0.0000014 *Math.pow(xSomatotype, 3));
-    //console.log( "endomorphy : " + endomorphy);
+    console.log( "endomorphy : " + endomorphy);
 
     var mesomorphy = (0.858 * somatotype.humerus + 0.601 * somatotype.femur + 0.188 * somatotype.bicep + 0.161 * somatotype.calf) - (0.131 * somatotype.height) + 4.5
-    //console.log( "mesomorphy : " + mesomorphy);
+    console.log( "mesomorphy : " + mesomorphy);
 
 
     if (hwr >= 40.75 ) {
         var ectomorphy = (0.732 * hwr) - 28.58;
-        //console.log( "ectomorphy : " + ectomorphy);
+        console.log( "ectomorphy : " + ectomorphy);
     }
 
     else if (hwr < 40.75 && hwr > 38.25) {
         var ectomorphy = (0.463 * hwr) - 17.63;
-        //console.log( "ectomorphy : " + ectomorphy);
+        console.log( "ectomorphy : " + ectomorphy);
     }
 
         else {
             var ectomorphy = 0.1
-            //console.log( "ectomorphy : " + ectomorphy);
+            console.log( "ectomorphy : " + ectomorphy);
         }
     // document.getElementById("results").innerHTML = " " + endomorphy.toFixed(0) + "-" + mesomorphy.toFixed(0) + "-" + ectomorphy.toFixed(0)
-    //console.log(somatotype);
-    //console.log(Object.values(somatotype));
+    console.log(somatotype);
+    console.log(Object.values(somatotype));
 
     var canvas = document.getElementById("somatotypeCanvas");
     var ctx = canvas.getContext("2d");
@@ -122,7 +122,7 @@ export function myform(somatotype) {
 
     var equiTriangle = 45;
     var cos = Math.cos(equiTriangle);
-    //console.log("cos :" + cos)
+    console.log("cos :" + cos)
     // the adjacent is the radius (which is the hypothenus, 357.67) from the top area of the triangle (100) + the bottom (n.a. must be relative to the radius) - the rest of the height canvas (500)
     var adjacent = 346;
     // the opposite is the margin (384.2) - the middle (234.85) of the canvas
@@ -132,34 +132,34 @@ export function myform(somatotype) {
     // half of the length of the triangle
 
     var hypothenus = adjacent/cos;
-        //console.log("hypothenus :" + hypothenus)
+        console.log("hypothenus :" + hypothenus)
 
     var height = (Math.sqrt(3) * 0.5 * 400);
-    //console.log("height :" + height)
+    console.log("height :" + height)
 
     var squareroot = Math.sqrt(3);
-    //console.log("squareroot :" + squareroot)
+    console.log("squareroot :" + squareroot)
 
 
     var equiTriangleAngleHalf = 30;
 
     var cosSection = Math.cos(equiTriangleAngleHalf);
-    //console.log("cosSection :" + cosSection);
+    console.log("cosSection :" + cosSection);
     var adjacentSection = 200;
 
     var hypothenusSection = adjacentSection/cosSection;
-    //console.log("hypothenusSection :" + hypothenusSection)
+    console.log("hypothenusSection :" + hypothenusSection)
 
     var oppositeSection = Math.sqrt(Math.pow(adjacentSection, 2) + Math.pow(hypothenusSection, 2));
-    //console.log("oppositeSection :" + oppositeSection)
+    console.log("oppositeSection :" + oppositeSection)
 
 
 var adjacentbottom = Math.sqrt(Math.pow(400, 2) + Math.pow(200, 2));
-    //console.log("adjacentbottom" + adjacentbottom)
+    console.log("adjacentbottom" + adjacentbottom)
 
 
 var oppositeCal = (1/Math.sqrt(3)) * 400;
-    //console.log("oppositeCal" + oppositeCal)
+    console.log("oppositeCal" + oppositeCal)
 
 
     // middle of the triangle , 115.33
@@ -170,8 +170,8 @@ var oppositeCal = (1/Math.sqrt(3)) * 400;
     // formula for plotting somatotype on graph
     var x = ectomorphy - endomorphy;
     var y = (2 * mesomorphy) - (endomorphy + ectomorphy);   
-    //console.log("x :" + x)
-    //console.log("y :" + y)
+    console.log("x :" + x)
+    console.log("y :" + y)
 
 
     // x axes has 23 reference points going up by 1
@@ -179,14 +179,14 @@ var oppositeCal = (1/Math.sqrt(3)) * 400;
     // x = 23.5 based of the original 400
 
     var rel_x = 247 + (400/12 * x);
-    //console.log("rel_x : " + rel_x) 
+    console.log("rel_x : " + rel_x) 
 
     // y axes has 16 reference points going up by 2 
     // the middle of the triangle starts at 0 (242)
     // y = 26.25
 
     var rel_y = 342-(420/23 * y);
-    //console.log("rel_y : " + rel_y) 
+    console.log("rel_y : " + rel_y) 
 
 
         // reference for the somatotype

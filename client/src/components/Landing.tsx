@@ -59,11 +59,11 @@ const Landing: FC<ILanding> = (props) => {
   }, []);
 
   const handleHeightChange = (event: React.FormEvent<any>) => {
-    setAnthropometric({ ...anthropometric, height: event.currentTarget.value });
+    setAnthropometric({...anthropometric, height:parseFloat(event.currentTarget.value)});
   };
 
   const handleBodyWeightChange = (event: React.FormEvent<any>) => {
-    setAnthropometric({ ...anthropometric, weight: event.currentTarget.value });
+    setAnthropometric({...anthropometric, weight:parseFloat(event.currentTarget.value)});
   };
 
   const handleTricepChange = (event: React.FormEvent<any>) => {
