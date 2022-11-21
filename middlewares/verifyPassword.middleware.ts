@@ -3,26 +3,11 @@ const User = require("../models/User");
 
 /**
  *
- * @param reqBody IReqBody
+ * @param password String
  * @returns Boolean
  */
-const isRequired = (reqBody: any): boolean => {
-  return (
-    !reqBody.newPassword ||
-    !reqBody.confirmNewPassword ||
-    reqBody.newPassword === "" ||
-    reqBody.confirmNewPassword === ""
-  );
-};
-
-/**
- *
- * @param pwd String
- * @param confirmPwd String
- * @returns boolean
- */
-const matchPassword = (pwd: string, confirmPwd: string): boolean => {
-  return pwd === confirmPwd;
+const isRequired = (password: string): boolean => {
+  return !password || password === "";
 };
 
 /**
@@ -45,25 +30,20 @@ const isFieldsValid = async (
   res: Response,
   next: NextFunction
 ): Promise<Response<any, Record<string, any>> | undefined> => {
-  const { newPassword, confirmNewPassword }: any = req.body;
+  const { password }: any = req.body;
 
-  if (isRequired(req.body))
+  if (isRequired(password))
     return res.status(403).send({
-      message: "newPassword and confirmNewPassword are required.",
+      message: "Password is required.",
     });
 
-  if (!matchPassword(newPassword, confirmNewPassword))
-    return res.status(403).send({
-      message: "mismatch password.",
-    });
-
-  if (!isPasswordValid(newPassword))
+  if (!isPasswordValid(password))
     return res.status(403).send({
       message:
         "Invalid password: password must contains at least: 6 characters, 1 lowercase letter, 1 uppercase letter, 1 symbol as !@#$%^&* and 1 number.",
     });
 
-    next()
+  next();
 };
 
 module.exports = isFieldsValid;

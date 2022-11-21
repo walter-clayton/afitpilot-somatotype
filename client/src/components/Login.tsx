@@ -29,8 +29,8 @@ export default function Login(props: any) {
   const [cookies, setCookie] = useCookies(["user"]);
 
   //validation
-  const [showPassword, setShowPassword] = React.useState(false)
-  const [email, setEmail] = useState('');
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [emailIsIncorrect, setEmailIsIncorrect] = useState(false);
@@ -66,19 +66,22 @@ export default function Login(props: any) {
 
   const login = async (data: FormData) => {
     try {
-      setOpen(false)
+      setOpen(false);
       setFetching(true);
       const headers = {
         "Content-Type": "application/json",
         access_key: process.env.REACT_APP_ACCESS_KEY,
       };
-      const response = await axios.get(process.env.REACT_APP_LOGIN_URL!, {
-        headers: headers,
-        params: {
+      const response = await axios.post(
+        process.env.REACT_APP_LOGIN_URL!,
+        {
           email: data.get("email"),
           password: data.get("password"),
         },
-      });
+        {
+          headers: headers,
+        }
+      );
       setFetching(false);
       setCookie("user", response.data.user, {
         path: "/",
@@ -86,9 +89,9 @@ export default function Login(props: any) {
         secure: true,
         maxAge: 3600,
       });
-      props.setOpen(true)
-      props.setSnackbarMessage(response.data.message)
-      navigate('/')
+      props.setOpen(true);
+      props.setSnackbarMessage(response.data.message);
+      navigate("/");
     } catch (error: any) {
       setOpen(true);
       if (error.response) {

@@ -44,39 +44,39 @@ const Landing:FC<ILanding> = (props) => {
     },[]);
 
     const handleHeightChange = (event: React.FormEvent<any>) => {
-        setAnthropometric({...anthropometric, height:event.currentTarget.value});
+        setAnthropometric({...anthropometric, height:parseFloat(event.currentTarget.value)});
     }
 
     const handleBodyWeightChange = (event: React.FormEvent<any>) => {
-        setAnthropometric({...anthropometric, weight:event.currentTarget.value});
+        setAnthropometric({...anthropometric, weight:parseFloat(event.currentTarget.value)});
     }
 
     const handleTricepChange = (event: React.FormEvent<any>) => {
-        setAnthropometric({...anthropometric, tricep_skinfold:event.currentTarget.value});
+        setAnthropometric({...anthropometric, tricep_skinfold:parseFloat(event.currentTarget.value)});
     }
 
     const handleSubscapularChange = (event: React.FormEvent<any>) => {
-        setAnthropometric({...anthropometric, subscapular_skinfold:event.currentTarget.value});
+        setAnthropometric({...anthropometric, subscapular_skinfold:parseFloat(event.currentTarget.value)});
     }
 
     const handleSupraspinalChange = (event: React.FormEvent<any>) => {
-        setAnthropometric({...anthropometric, supraspinal_skinfold:event.currentTarget.value});
+        setAnthropometric({...anthropometric, supraspinal_skinfold:parseFloat(event.currentTarget.value)});
     }
 
     const handleHumerusChange = (event: React.FormEvent<any>) => {
-        setAnthropometric({...anthropometric, humerus_breadth:event.currentTarget.value});
+        setAnthropometric({...anthropometric, humerus_breadth:parseFloat(event.currentTarget.value)});
     }
 
     const handleFemurChange = (event: React.FormEvent<any>) => {
-        setAnthropometric({...anthropometric, femur_breadth:event.currentTarget.value});
+        setAnthropometric({...anthropometric, femur_breadth:parseFloat(event.currentTarget.value)});
     }
 
     const handleCalfChange = (event: React.FormEvent<any>) => {
-        setAnthropometric({...anthropometric, calf_girth:event.currentTarget.value});
+        setAnthropometric({...anthropometric, calf_girth:parseFloat(event.currentTarget.value)});
     }
 
     const handleBicepChange = (event: React.FormEvent<any>) => {
-        setAnthropometric({...anthropometric, bicep_girth:event.currentTarget.value});
+        setAnthropometric({...anthropometric, bicep_girth:parseFloat(event.currentTarget.value)});
     }
 
     const handleResultClick = () => {
