@@ -12,6 +12,7 @@ import Resetpass from "./components/Resetpass";
 import Forget from "./components/Forget";
 import Dashboard from "./components/Dashboard";
 import Add from "./components/Add";
+import CallToAction from "./components/CallToAction";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -59,7 +60,7 @@ function App() {
       />
       <Routes>
         <Route path="/" element={<Landing setData={setData} />} />
-        {/* <Route path="/Landing" element={<Landing />} /> */}
+        {/* <Route path="/" element={<CallToAction />} /> */}
         <Route
           path="/Signup"
           element={
