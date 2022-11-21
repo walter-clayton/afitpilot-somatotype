@@ -2,10 +2,12 @@ import { Box, Button, Grid, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { myform } from './Calculation';
 import ResultsTable from './ResultsTable'
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
 
     //Somatotype values should come from backend (data saved from the landing page)
+    const navigate = useNavigate();
     const [height, setHeight] = useState(150);
     const [bodyweight, setBodyweight] = useState(80);
     const [tricep, setTricep] = useState(12);
@@ -59,7 +61,10 @@ const Dashboard = () => {
                 <Button
                     sx={{ margin: "10px 0" }}
                     variant="contained"
-                    onClick={handleAddNewClick}
+                    onClick={() => {
+                        handleAddNewClick();
+                        navigate("/Add");
+                      }}
                 >
                     Add new
                 </Button>
