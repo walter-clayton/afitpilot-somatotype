@@ -4,7 +4,7 @@ import { IAnthropometric, IData, ISomatotype } from "../interfaces/interfaces";
 const User = require("../models/User");
 const Somatotype = require("../models/Somatotype");
 const Anthropometric = require("../models/Anthropometric");
-const { sendEmailResetPass, sendEmailPassword } = require("../mail/mailer");
+const { sendEmailPassword, sendEmailResetPassword } = require("../mail/mailer");
 
 interface IUsersCtrl {
   register?: (req: Request, res: Response) => void;
@@ -19,10 +19,10 @@ interface IUsersCtrl {
 const usersCtrl: IUsersCtrl = {};
 
 usersCtrl.register = async (req: Request, res: Response) => {
-  const { email, data } = req.body;
+  const { email, name, data } = req.body;
 
   try {
-    const newUser = await User({ email });
+    const newUser = await User({ email, name });
 
     // random password
     const generatedPass: string = await newUser.generatePassword();
@@ -84,23 +84,24 @@ usersCtrl.register = async (req: Request, res: Response) => {
           message: "data.somatotype and data.anthropometric are required",
         });
       }
+
+      await newUser.save();
+
+      await sendEmailPassword(email, name, generatedPass, data);
+
+      const accessToken: string = await newUser.generateAuthToken();
+
+      res.status(202).send({
+        message: `User registered successfully, check your email to get your generated password`,
+        dataSaved: data ? true : false,
+        user: {
+          token: accessToken,
+          email: newUser.email,
+        },
+      });
+    } else {
+      res.status(403).send({ message: "Data is required" });
     }
-
-    await newUser.save();
-
-    await sendEmailPassword(email, generatedPass);
-
-    const accessToken: string = await newUser.generateAuthToken();
-    data && console.log("ok");
-
-    res.status(202).send({
-      message: `User registered successfully, check your email to get your generated password`,
-      dataSaved: data ? true : false,
-      user: {
-        token: accessToken,
-        email: newUser.email,
-      },
-    });
   } catch (error: unknown) {
     console.log((error as ErrorEvent).message);
     res.status(500).send({
@@ -158,7 +159,7 @@ usersCtrl.sendResetEmail = async (req: Request, res: Response) => {
 
     await user[0].save();
 
-    const result = await sendEmailPassword(email, generatedPass);
+    const result = await sendEmailResetPassword(email, user[0].name, generatedPass);
 
     res.status(201).send({
       message: "Check your email to get your new generated password",

@@ -4,7 +4,8 @@ const router = Router();
 const verifyToken = require("../middlewares/verifyToken.middleware");
 const verifyKey = require("../middlewares/verifyKey.middleware");
 const verifyUser = require("../middlewares/verifyUser.middleware");
-const verifyEmail = require("../middlewares/verifyEmail");
+const verifyEmail = require("../middlewares/verifyEmail.middleware");
+const verifyName = require("../middlewares/verifyName.middleware");
 const {
   register,
   getUser,
@@ -16,7 +17,14 @@ const {
   resetPassword,
 } = require("../controllers/users.controller");
 
-router.post("/register", verifyKey, verifyEmail, verifyUser, register);
+router.post(
+  "/register",
+  verifyKey,
+  verifyEmail,
+  verifyName,
+  verifyUser,
+  register
+);
 router.delete("/deleteUser", verifyToken, verifyEmail, deleteUser);
 router.post(
   "/forgotPassword",
