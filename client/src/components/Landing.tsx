@@ -16,6 +16,7 @@ import Snackbar from "@mui/material/Snackbar";
 import { LargeNumberLike } from "crypto";
 import axios from "axios";
 import { IAnthropometric, IData, ISomatotype } from "../App";
+
 const theme = createTheme();
 
 interface ILanding {
