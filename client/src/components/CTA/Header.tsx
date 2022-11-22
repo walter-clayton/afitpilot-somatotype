@@ -1,6 +1,6 @@
 import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import {Grid,Box,Button} from "@mui/material/";
+import { Grid, Box, Button } from "@mui/material/";
 import { Typography, Container } from "@mui/material/";
 import Stack from '@mui/material/Stack';
 import ArrowForwardSharpIcon from '@mui/icons-material/ArrowForwardSharp';
@@ -8,7 +8,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import rectangle from './image/Rectangle 261 (2).svg'
 
 const theme = createTheme();
-
 theme.typography.h1 = {
     '@media (min-width:600px)': {
         fontSize: '3rem',
@@ -18,7 +17,6 @@ theme.typography.h1 = {
     },
 };
 const Header = () => {
-
     return (
         <div>
             <Container maxWidth="xl">
@@ -38,26 +36,25 @@ const Header = () => {
                         <Box
                             sx={{
                                 marginTop: 8,
-                                display:"flex",
-                                flexDirection:"column",
-                                alignItems:"center",
-                                justifyContent:'center',
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: 'center',
                             }}
                         >
-                            <Typography component="h1" variant="h1" sx={{ color: 'white', textAlign: 'center', fontSize: '44px',mb:2 }}>
+                            <Typography component="h1" variant="h1" sx={{ color: 'white', textAlign: 'center', fontSize: '44px', mb: 2 }}>
                                 It’s so incredible to finally be understood.”                        </Typography>
-                            <Typography mb={2} variant="subtitle1" sx={{ color: 'white', textAlign: 'center', fontSize: '20px',mb:4  }}>
+                            <Typography mb={2} variant="subtitle1" sx={{ color: 'white', textAlign: 'center', fontSize: '20px', mb: 4 }}>
                                 Only 10 minutes to get a “freakishly accurate” description of who you are and why you do things the way you do                        </Typography>
                             <Stack>
-                                <Button  sx={{ borderRadius: '20px', backgroundColor: 'purple', padding:1}}  variant="contained" >Take the test <ArrowForwardSharpIcon /></Button>
+                                <Button sx={{ borderRadius: '20px', backgroundColor: 'purple', padding: 1 }} variant="contained" >Take the test <ArrowForwardSharpIcon /></Button>
                             </Stack>
                         </Box>
                     </Grid>
                 </Grid>
                 <ThemeProvider theme={theme}>
-                    <Box sx={{ flexGrow: 1, display: 'flex', alignItems:'center' }}>
+                    <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
                         <Grid container spacing={2}>
-
                             <Grid item xs={6} sm={6} md={3} lg={3}>
                                 <Typography variant="h1" sx={{ color: '#4298b4' }}>
                                     157+
