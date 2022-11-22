@@ -33,6 +33,11 @@ usersCtrl.register = async (req: Request, res: Response) => {
       if (data.somatotype && data.anthropometric) {
         const { somatotype, anthropometric }: IData = data;
 
+        // 1 decimal
+        somatotype.endomorphy = parseInt(somatotype.endomorphy.toFixed(1));
+        somatotype.mesomorphy = parseInt(somatotype.mesomorphy.toFixed(1));
+        somatotype.ectomorphy = parseInt(somatotype.ectomorphy.toFixed(1));
+
         // create the somatotype
         const endomorphy = somatotype.endomorphy;
         const mesomorphy = somatotype.mesomorphy;
