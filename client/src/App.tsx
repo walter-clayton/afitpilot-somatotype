@@ -12,8 +12,6 @@ import Resetpass from "./components/Resetpass";
 import Forget from "./components/Forget";
 import Dashboard from "./components/Dashboard";
 import Add from "./components/Add";
-import CallToAction from "./components/CallToAction";
-
 export interface ISomatotype {
   endomorphy?: number | undefined;
   mesomorphy?: number | undefined;

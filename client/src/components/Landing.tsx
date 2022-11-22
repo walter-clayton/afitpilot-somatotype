@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect, useRef, FC } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Alert, Box, Button, Grid } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -16,6 +16,7 @@ import Snackbar from "@mui/material/Snackbar";
 import { LargeNumberLike } from "crypto";
 import axios from "axios";
 import { IAnthropometric, IData, ISomatotype } from "../App";
+
 const theme = createTheme();
 
 interface ILanding {
@@ -44,6 +45,8 @@ const Landing: FC<ILanding> = (props) => {
     IAnthropometric | undefined
   >(undefined);
 
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
   useEffect(() => {
     setAnthropometric((anthropometric) => ({
       height: 180,
@@ -69,73 +72,103 @@ const Landing: FC<ILanding> = (props) => {
   const handleTricepChange = (event: React.FormEvent<any>) => {
     setAnthropometric({
       ...anthropometric,
-      tricep_skinfold: event.currentTarget.value,
+      tricep_skinfold: parseFloat(event.currentTarget.value),
     });
   };
 
   const handleSubscapularChange = (event: React.FormEvent<any>) => {
     setAnthropometric({
       ...anthropometric,
-      subscapular_skinfold: event.currentTarget.value,
+      subscapular_skinfold: parseFloat(event.currentTarget.value),
     });
   };
 
   const handleSupraspinalChange = (event: React.FormEvent<any>) => {
     setAnthropometric({
       ...anthropometric,
-      supraspinal_skinfold: event.currentTarget.value,
+      supraspinal_skinfold: parseFloat(event.currentTarget.value),
     });
   };
 
   const handleHumerusChange = (event: React.FormEvent<any>) => {
     setAnthropometric({
       ...anthropometric,
-      humerus_breadth: event.currentTarget.value,
+      humerus_breadth: parseFloat(event.currentTarget.value),
     });
   };
 
   const handleFemurChange = (event: React.FormEvent<any>) => {
     setAnthropometric({
       ...anthropometric,
-      femur_breadth: event.currentTarget.value,
+      femur_breadth: parseFloat(event.currentTarget.value),
     });
   };
 
   const handleCalfChange = (event: React.FormEvent<any>) => {
     setAnthropometric({
       ...anthropometric,
-      calf_girth: event.currentTarget.value,
+      calf_girth: parseFloat(event.currentTarget.value),
     });
   };
 
   const handleBicepChange = (event: React.FormEvent<any>) => {
     setAnthropometric({
       ...anthropometric,
-      bicep_girth: event.currentTarget.value,
+      bicep_girth: parseFloat(event.currentTarget.value),
     });
   };
 
   const handleResultClick = () => {
-    const somatotypeInputs = {
-      bodyweight: anthropometric?.weight,
-      height: anthropometric?.height,
-      tricep: anthropometric?.tricep_skinfold,
-      subscapular: anthropometric?.subscapular_skinfold,
-      supraspinal: anthropometric?.supraspinal_skinfold,
-      humerus: anthropometric?.humerus_breadth,
-      femur: anthropometric?.femur_breadth,
-      calf: anthropometric?.calf_girth,
-      bicep: anthropometric?.bicep_girth,
+    if(canvasRef.current?.style.width != null && 
+        canvasRef.current?.style.height != null){
+            canvasRef.current!.style.width = "100%";
+            canvasRef.current!.style.height = `${canvasRef.current?.offsetWidth! * 1.17}px`;
+    }
+
+
+    const somatotypeInputs:IAnthropometric = {
+        weight : anthropometric?.weight, 
+        height : anthropometric?.height, 
+        tricep_skinfold : anthropometric?.tricep_skinfold, 
+        subscapular_skinfold : anthropometric?.subscapular_skinfold, 
+        supraspinal_skinfold : anthropometric?.supraspinal_skinfold, 
+        humerus_breadth : anthropometric?.humerus_breadth, 
+        femur_breadth : anthropometric?.femur_breadth, 
+        calf_girth : anthropometric?.calf_girth, 
+        bicep_girth : anthropometric?.bicep_girth
     };
 
-    const somatotypeResults = myform(somatotypeInputs);
-    setShowResults(true);
+    const somatotypeResults = myform(somatotypeInputs, canvasRef.current?.offsetWidth, canvasRef.current?.offsetHeight, canvasRef.current);
 
     setSomatotype((somatotype) => ({
       endomorphy: somatotypeResults[0],
       mesomorphy: somatotypeResults[1],
       ectomorphy: somatotypeResults[2],
     }));
+
+    function handleResize() {
+        if(canvasRef.current?.style.width !== undefined){
+            canvasRef.current!.style.width = "100%";
+            canvasRef.current!.style.height = `${canvasRef.current?.offsetWidth * 1.17}px`;
+
+            const somatotypeInputs:IAnthropometric = {
+                weight : anthropometric?.weight, 
+                height : anthropometric?.height, 
+                tricep_skinfold : anthropometric?.tricep_skinfold, 
+                subscapular_skinfold : anthropometric?.subscapular_skinfold, 
+                supraspinal_skinfold : anthropometric?.supraspinal_skinfold, 
+                humerus_breadth : anthropometric?.humerus_breadth, 
+                femur_breadth : anthropometric?.femur_breadth, 
+                calf_girth : anthropometric?.calf_girth, 
+                bicep_girth : anthropometric?.bicep_girth
+            }
+            
+            myform(somatotypeInputs, canvasRef.current?.offsetWidth, canvasRef.current?.offsetHeight, canvasRef.current);
+        }
+    }
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
   };
 
   const saveDatas = async () => {
@@ -188,28 +221,21 @@ const Landing: FC<ILanding> = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Grid
-        container
-        sx={{
+      <Grid container sx={{
           display: "flex",
-          flexDirection: "column",
+          flexDirection: 'column',
           justifyContent: "center",
           alignItems: "center",
-          padding: "0px 15px",
-        }}
+          padding:'0px 15px'}}
+          width={"100%"}
       >
         {/* Form Inputs */}
-        <Grid
-          item
-          sx={{
+        <Grid item sx={{
             flexGrow: 1,
             alignItems: "center",
-            margin: "20px auto",
-          }}
-          xs={12}
-          md={8}
-          lg={6}
-        >
+            margin: "20px 0"}}
+            width={"100%"}
+            xs={12} md={8} lg={6}>
           {props.resultsSaved && (
             <Alert
               onClose={() => {
@@ -221,7 +247,7 @@ const Landing: FC<ILanding> = (props) => {
               Results saved successfully
             </Alert>
           )}
-          <FormControl fullWidth variant="filled">
+          <FormControl sx={{width:"100%"}} variant="filled">
             <FormHelperText>Height</FormHelperText>
             <FilledInput
               id="height"
@@ -231,7 +257,7 @@ const Landing: FC<ILanding> = (props) => {
             />
           </FormControl>
 
-          <FormControl fullWidth variant="filled">
+          <FormControl sx={{width:"100%"}} variant="filled">
             <FormHelperText>Bodyweight</FormHelperText>
             <FilledInput
               id="bodyweight"
@@ -242,7 +268,7 @@ const Landing: FC<ILanding> = (props) => {
             />
           </FormControl>
 
-          <FormControl fullWidth variant="filled">
+          <FormControl sx={{width:"100%"}} variant="filled">
             <FormHelperText>Tricep skin fold </FormHelperText>
             <FilledInput
               id="tricep"
@@ -253,7 +279,7 @@ const Landing: FC<ILanding> = (props) => {
             />
           </FormControl>
 
-          <FormControl fullWidth variant="filled">
+          <FormControl sx={{width:"100%"}} variant="filled">
             <FormHelperText>Subscapular skin fold</FormHelperText>
 
             <FilledInput
@@ -265,7 +291,7 @@ const Landing: FC<ILanding> = (props) => {
             />
           </FormControl>
 
-          <FormControl fullWidth variant="filled">
+          <FormControl sx={{width:"100%"}} variant="filled">
             <FormHelperText>Supraspinal skin fold</FormHelperText>
             <FilledInput
               id="supraspinal"
@@ -276,7 +302,7 @@ const Landing: FC<ILanding> = (props) => {
             />
           </FormControl>
 
-          <FormControl fullWidth variant="filled">
+          <FormControl sx={{width:"100%"}} variant="filled">
             <FormHelperText>Humerus breadth </FormHelperText>
             <FilledInput
               id="humerus"
@@ -287,7 +313,7 @@ const Landing: FC<ILanding> = (props) => {
             />
           </FormControl>
 
-          <FormControl fullWidth variant="filled">
+          <FormControl sx={{width:"100%"}} variant="filled">
             <FormHelperText>Femur breadth</FormHelperText>
             <FilledInput
               id="femur"
@@ -298,7 +324,7 @@ const Landing: FC<ILanding> = (props) => {
             />
           </FormControl>
 
-          <FormControl fullWidth variant="filled">
+          <FormControl sx={{width:"100%"}} variant="filled">
             <FormHelperText>Calf circumference</FormHelperText>
             <FilledInput
               id="calf"
@@ -309,7 +335,7 @@ const Landing: FC<ILanding> = (props) => {
             />
           </FormControl>
 
-          <FormControl fullWidth variant="filled">
+          <FormControl sx={{width:"100%"}} variant="filled">
             <FormHelperText>Bicep circumference</FormHelperText>
             <FilledInput
               id="bicep"
@@ -321,22 +347,18 @@ const Landing: FC<ILanding> = (props) => {
           </FormControl>
         </Grid>
         {/* button */}
-        <Grid
-          item
-          sx={{
+        <Grid item sx={{
             flexGrow: 1,
             alignItems: "center",
-            margin: "20px auto",
-          }}
-          xs={12}
-          md={8}
-          lg={6}
-        >
+            margin: "20px auto"}}
+            xs={12} md={8} lg={6}>
           <Box sx={{ textalign: "center" }}>
             <Button
               variant="contained"
               type="submit"
-              onClick={handleResultClick}
+              onClick={() => {
+                setShowResults(true);
+                handleResultClick()}}
             >
               Submit
             </Button>
@@ -379,7 +401,7 @@ const Landing: FC<ILanding> = (props) => {
           lg={6}
           width={"100%"}
         >
-          <canvas id="somatotypeCanvas" height="577.5" width="494"></canvas>
+          <canvas id="somatotypeCanvas" style={{border: showResults ? `1px solid black` : ""}} width="0" height="0" ref={canvasRef}></canvas>
         </Grid>
 
         {showResults ? (
