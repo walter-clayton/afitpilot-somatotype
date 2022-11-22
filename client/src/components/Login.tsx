@@ -123,8 +123,7 @@ export default function Login(props: any) {
     } else {
       if (!isEmailValid(data.get("email"))) {
         setSnackbarMessage("Email is incorrect");
-      }
-      if (!isPasswordValid(data.get("password"))) {
+      } else if (!isPasswordValid(data.get("password"))) {
         setSnackbarMessage("Password is incorrect");
       }
     }
@@ -175,7 +174,7 @@ export default function Login(props: any) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+      <Container maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{

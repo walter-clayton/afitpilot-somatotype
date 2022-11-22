@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const userSchema: Schema = new Schema<IUser>(
   {
     email: { type: String, required: true },
+    name: { type: String, required: true },
     password: { type: String, required: true },
     somatotypes: [{ type: Schema.Types.ObjectId, ref: "Somatotype" }],
     anthropometrics: [{ type: Schema.Types.ObjectId, ref: "Anthropometric" }],
