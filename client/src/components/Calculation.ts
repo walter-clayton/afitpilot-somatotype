@@ -4,16 +4,10 @@ import { IAnthropometric } from "../App";
  * Calculate Endo/Meso/Ecto-morphes based on the given somatotype.
  * The given somatotype Object need theses properties :
  * weight - height - tricep_skinfold - subscapular_skinfold - supraspinal_skinfold - humerus_breadth - femur_breadth - calf_girth - bicep_girth
- * @param {Object} somatotype
- * @param {number} canvasWidth
- * @param {number} canvasHeight
- * @param {any} canvasRef
+ * @param {Object} anthropometric
 */
-export function myform(
-  somatotype: IAnthropometric,
-  canvasWidth: number | undefined,
-  canvasHeight: number | undefined,
-  canvasRef: any
+export function calculateSomatotype(
+  anthropometric: IAnthropometric
 ) {
   
   var endomorphy = 0;
@@ -21,24 +15,24 @@ export function myform(
   var ectomorphy = 0;
 
   if (
-    somatotype.weight !== undefined &&
-    somatotype.height !== undefined &&
-    somatotype.tricep_skinfold !== undefined &&
-    somatotype.subscapular_skinfold !== undefined &&
-    somatotype.supraspinal_skinfold !== undefined &&
-    somatotype.humerus_breadth !== undefined &&
-    somatotype.femur_breadth !== undefined &&
-    somatotype.calf_girth !== undefined &&
-    somatotype.bicep_girth !== undefined
+    anthropometric.weight !== undefined &&
+    anthropometric.height !== undefined &&
+    anthropometric.tricep_skinfold !== undefined &&
+    anthropometric.subscapular_skinfold !== undefined &&
+    anthropometric.supraspinal_skinfold !== undefined &&
+    anthropometric.humerus_breadth !== undefined &&
+    anthropometric.femur_breadth !== undefined &&
+    anthropometric.calf_girth !== undefined &&
+    anthropometric.bicep_girth !== undefined
   ) {
     var skinfolds =
-      somatotype.tricep_skinfold +
-      somatotype.subscapular_skinfold +
-      somatotype.supraspinal_skinfold;
+      anthropometric.tricep_skinfold +
+      anthropometric.subscapular_skinfold +
+      anthropometric.supraspinal_skinfold;
 
-    var xSomatotype = skinfolds * (170.18 / somatotype.height);
+    var xSomatotype = skinfolds * (170.18 / anthropometric.height);
 
-    var hwr = somatotype.height / Math.cbrt(somatotype.weight);
+    var hwr = anthropometric.height / Math.cbrt(anthropometric.weight);
 
     endomorphy =
       -0.7182 +
@@ -47,11 +41,11 @@ export function myform(
       0.0000014 * Math.pow(xSomatotype, 3);
 
     mesomorphy =
-      0.858 * somatotype.humerus_breadth +
-      0.601 * somatotype.femur_breadth +
-      0.188 * somatotype.bicep_girth +
-      0.161 * somatotype.calf_girth -
-      0.131 * somatotype.height +
+      0.858 * anthropometric.humerus_breadth +
+      0.601 * anthropometric.femur_breadth +
+      0.188 * anthropometric.bicep_girth +
+      0.161 * anthropometric.calf_girth -
+      0.131 * anthropometric.height +
       4.5;
 
     if (hwr >= 40.75) {
@@ -63,36 +57,49 @@ export function myform(
     }
   }
 
-  // formula for plotting somatotype on graph
-  var x = ectomorphy - endomorphy;
-  var y = (2 * mesomorphy) - (endomorphy + ectomorphy);
-
-  // x axes has 23 reference points going up by 1
-  // the middle of the canvas starts at 0
-  // x = 23.5 based of the original 400
-  var rel_x = (canvasWidth! * getWidthRatio(247)) + ((canvasWidth! * getWidthRatio(400))/12 * x);
-
-  // y axes has 16 reference points going up by 2
-  // the middle of the triangle starts at 0 (242)
-  // y = 26.25
-  var rel_y = (canvasHeight! * getHeightRatio(342))-((canvasWidth! * getWidthRatio(420))/23 * y);
-
-
-  var canvas: HTMLCanvasElement = canvasRef as HTMLCanvasElement;
-  var ctx: any = canvas?.getContext("2d");
-
-  if(canvas !== undefined && canvas !== null && ctx !== undefined){
-    // ctx.reset();
-    
-    (canvas.width as number | undefined) = canvasWidth;
-    (canvas.height as number | undefined) = canvasHeight;
-    
-    drawGraph(ctx, canvasWidth, canvasHeight);
-    
-    drawNewPoint(ctx, rel_x, rel_y, endomorphy, mesomorphy, ectomorphy);
-  }
-
   return [endomorphy, mesomorphy, ectomorphy];
+}
+
+export interface IPoints{
+    x: number,
+    y: number,
+    endomorphy : number,
+    mesomorphy : number,
+    ectomorphy : number
+}
+
+export function AddPoint(endomorphy:number, mesomorphy:number, ectomorphy:number){
+    var xPos = ectomorphy - endomorphy;
+    var yPos = (2 * mesomorphy) - (endomorphy + ectomorphy);
+    var pos:IPoints = {x:xPos, y:yPos, endomorphy:endomorphy, mesomorphy: mesomorphy, ectomorphy:ectomorphy};
+    return pos;
+}
+
+export function UpdateCanvas(context:any, canvas: any, canvasWidthValue:number | undefined, canvasHeightValue:number | undefined, addedPointsList:Array<IPoints>){
+
+    if(canvas !== undefined && canvas !== null && context !== undefined){
+        // ctx.reset();
+        
+        (canvas.width as number | undefined) = canvasWidthValue;
+        (canvas.height as number | undefined) = canvasHeightValue;
+        
+        drawGraph(context, canvasWidthValue, canvasHeightValue);
+        
+        for(let i = 0; i < addedPointsList.length; i++){
+            // x axes has 23 reference points going up by 1
+            // the middle of the canvas starts at 0
+            // x = 23.5 based of the original 400
+            var rel_x = (canvasWidthValue! * getWidthRatio(247)) + ((canvasWidthValue! * getWidthRatio(400))/12 * addedPointsList[i].x);
+
+            // y axes has 16 reference points going up by 2
+            // the middle of the triangle starts at 0 (242)
+            // y = 26.25
+            var rel_y = (canvasHeightValue! * getHeightRatio(342))-((canvasWidthValue! * getWidthRatio(420))/23 * addedPointsList[i].y);
+
+            drawNewPoint(context, rel_x, rel_y, addedPointsList[i].endomorphy, addedPointsList[i].mesomorphy, addedPointsList[i].ectomorphy);
+        }
+      }
+
 }
 
 function drawGraph(context:any, canvasWidthValue:number | undefined, canvasHeightValue:number | undefined){

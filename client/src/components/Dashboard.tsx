@@ -1,11 +1,12 @@
 import { Box, Button, Grid, Typography } from '@mui/material'
 import React, { useEffect, useState, useRef } from 'react'
-import { myform } from './Calculation';
+import { calculateSomatotype } from './Calculation';
 import ResultsTable from './ResultsTable'
 import { useNavigate } from "react-router-dom";
 import { IAnthropometric, IData, ISomatotype } from '../App';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import SomatotypeGraph from './SomatotypeGraph';
 
 const theme = createTheme();
 
@@ -17,61 +18,6 @@ const Dashboard = () => {
     const [somatotype, setSomatotype]= useState<ISomatotype | undefined>(undefined);
     
     const [anthropometric, setAnthropometric] = useState<IAnthropometric | undefined>(undefined);
-
-
-    const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-    useEffect(() => {
-        if(canvasRef.current?.style.width != null && 
-            canvasRef.current?.style.height != null){
-                canvasRef.current!.style.width = "100%";
-                canvasRef.current!.style.height = `${canvasRef.current?.offsetWidth! * 1.17}px`;
-        }
-        
-        const somatotypeInputs:IAnthropometric = {
-            weight : anthropometric?.weight, 
-            height : anthropometric?.height, 
-            tricep_skinfold : anthropometric?.tricep_skinfold, 
-            subscapular_skinfold : anthropometric?.subscapular_skinfold, 
-            supraspinal_skinfold : anthropometric?.supraspinal_skinfold, 
-            humerus_breadth : anthropometric?.humerus_breadth, 
-            femur_breadth : anthropometric?.femur_breadth, 
-            calf_girth : anthropometric?.calf_girth, 
-            bicep_girth : anthropometric?.bicep_girth
-        }
-        
-        const somatotypeResults = myform(somatotypeInputs, canvasRef.current?.offsetWidth, canvasRef.current?.offsetHeight, canvasRef.current);
-
-        setSomatotype(somatotype => ({
-            endomorphy: somatotypeResults[0],
-            mesomorphy: somatotypeResults[1],
-            ectomorphy: somatotypeResults[2],
-        }));
-        
-        function handleResize() {
-            if(canvasRef.current?.style.width !== undefined){
-                canvasRef.current!.style.width = "100%";
-                canvasRef.current!.style.height = `${canvasRef.current?.offsetWidth * 1.17}px`;
-
-                const somatotypeInputs:IAnthropometric = {
-                    weight : anthropometric?.weight, 
-                    height : anthropometric?.height, 
-                    tricep_skinfold : anthropometric?.tricep_skinfold, 
-                    subscapular_skinfold : anthropometric?.subscapular_skinfold, 
-                    supraspinal_skinfold : anthropometric?.supraspinal_skinfold, 
-                    humerus_breadth : anthropometric?.humerus_breadth, 
-                    femur_breadth : anthropometric?.femur_breadth, 
-                    calf_girth : anthropometric?.calf_girth, 
-                    bicep_girth : anthropometric?.bicep_girth
-                }
-                
-                myform(somatotypeInputs, canvasRef.current?.offsetWidth, canvasRef.current?.offsetHeight, canvasRef.current);
-            }
-        }
-        window.addEventListener("resize", handleResize);
-        handleResize();
-        return () => window.removeEventListener("resize", handleResize);
-    },[]);
 
     return (
         <ThemeProvider theme={theme}>
@@ -109,7 +55,7 @@ const Dashboard = () => {
                     margin: "20px 0"}}
                     xs={12} md={8} lg={6}
                     width={"100%"}>
-                        <canvas id="somatotypeCanvas" style={{border: '1px solid black'}} width="0" height="0" ref={canvasRef}></canvas>
+                        <SomatotypeGraph somatotype={somatotype} anthropometric={anthropometric} setSomatotype={setSomatotype}/>
                 </Grid>
                 <Button
                     sx={{ margin: "10px 0" }}

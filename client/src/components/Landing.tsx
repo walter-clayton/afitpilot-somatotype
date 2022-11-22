@@ -7,7 +7,7 @@ import FilledInput from "@mui/material/FilledInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
-import { myform } from "./Calculation";
+import { AddPoint, calculateSomatotype, UpdateCanvas, IPoints } from "./Calculation";
 import ResultsTable from "./ResultsTable";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -16,6 +16,7 @@ import Snackbar from "@mui/material/Snackbar";
 import { LargeNumberLike } from "crypto";
 import axios from "axios";
 import { IAnthropometric, IData, ISomatotype } from "../App";
+import SomatotypeGraph from "./SomatotypeGraph";
 
 const theme = createTheme();
 
@@ -27,6 +28,7 @@ interface ILanding {
 
 const Landing: FC<ILanding> = (props) => {
   const [showResults, setShowResults] = useState(false);
+  const [toggleGraph, setToggleGraph] = useState(false);
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
@@ -116,59 +118,6 @@ const Landing: FC<ILanding> = (props) => {
       ...anthropometric,
       bicep_girth: parseFloat(event.currentTarget.value),
     });
-  };
-
-  const handleResultClick = () => {
-    if(canvasRef.current?.style.width != null && 
-        canvasRef.current?.style.height != null){
-            canvasRef.current!.style.width = "100%";
-            canvasRef.current!.style.height = `${canvasRef.current?.offsetWidth! * 1.17}px`;
-    }
-
-
-    const somatotypeInputs:IAnthropometric = {
-        weight : anthropometric?.weight, 
-        height : anthropometric?.height, 
-        tricep_skinfold : anthropometric?.tricep_skinfold, 
-        subscapular_skinfold : anthropometric?.subscapular_skinfold, 
-        supraspinal_skinfold : anthropometric?.supraspinal_skinfold, 
-        humerus_breadth : anthropometric?.humerus_breadth, 
-        femur_breadth : anthropometric?.femur_breadth, 
-        calf_girth : anthropometric?.calf_girth, 
-        bicep_girth : anthropometric?.bicep_girth
-    };
-
-    const somatotypeResults = myform(somatotypeInputs, canvasRef.current?.offsetWidth, canvasRef.current?.offsetHeight, canvasRef.current);
-
-    setSomatotype((somatotype) => ({
-      endomorphy: somatotypeResults[0],
-      mesomorphy: somatotypeResults[1],
-      ectomorphy: somatotypeResults[2],
-    }));
-
-    function handleResize() {
-        if(canvasRef.current?.style.width !== undefined){
-            canvasRef.current!.style.width = "100%";
-            canvasRef.current!.style.height = `${canvasRef.current?.offsetWidth * 1.17}px`;
-
-            const somatotypeInputs:IAnthropometric = {
-                weight : anthropometric?.weight, 
-                height : anthropometric?.height, 
-                tricep_skinfold : anthropometric?.tricep_skinfold, 
-                subscapular_skinfold : anthropometric?.subscapular_skinfold, 
-                supraspinal_skinfold : anthropometric?.supraspinal_skinfold, 
-                humerus_breadth : anthropometric?.humerus_breadth, 
-                femur_breadth : anthropometric?.femur_breadth, 
-                calf_girth : anthropometric?.calf_girth, 
-                bicep_girth : anthropometric?.bicep_girth
-            }
-            
-            myform(somatotypeInputs, canvasRef.current?.offsetWidth, canvasRef.current?.offsetHeight, canvasRef.current);
-        }
-    }
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => window.removeEventListener("resize", handleResize);
   };
 
   const saveDatas = async () => {
@@ -358,7 +307,8 @@ const Landing: FC<ILanding> = (props) => {
               type="submit"
               onClick={() => {
                 setShowResults(true);
-                handleResultClick()}}
+                setToggleGraph(!toggleGraph);  
+            }}
             >
               Submit
             </Button>
@@ -401,7 +351,7 @@ const Landing: FC<ILanding> = (props) => {
           lg={6}
           width={"100%"}
         >
-          <canvas id="somatotypeCanvas" style={{border: showResults ? `1px solid black` : ""}} width="0" height="0" ref={canvasRef}></canvas>
+          {showResults && <SomatotypeGraph updateGraph={toggleGraph} somatotype={somatotype} anthropometric={anthropometric} setSomatotype={setSomatotype}/>}
         </Grid>
 
         {showResults ? (
