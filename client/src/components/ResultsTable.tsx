@@ -73,10 +73,6 @@ const ResultsTable:FC<resultProps> = (props: any) => {
 
   const rows = [
     createRow(RoundResult(props.endomorphy).toFixed(1), RoundResult(props.mesomorphy).toFixed(1), RoundResult(props.ectomorphy).toFixed(1), getDate()),
-    createRow(RoundResult(props.endomorphy).toFixed(1), RoundResult(props.mesomorphy).toFixed(1), RoundResult(props.ectomorphy).toFixed(1), getDate()),
-    createRow(RoundResult(props.endomorphy).toFixed(1), RoundResult(props.mesomorphy).toFixed(1), RoundResult(props.ectomorphy).toFixed(1), getDate()),
-    createRow(RoundResult(props.endomorphy).toFixed(1), RoundResult(props.mesomorphy).toFixed(1), RoundResult(props.ectomorphy).toFixed(1), getDate()),
-    createRow(RoundResult(props.endomorphy).toFixed(1), RoundResult(props.mesomorphy).toFixed(1), RoundResult(props.ectomorphy).toFixed(1), getDate()),
   ];
 
   const handleEditResultsClick = () => {
