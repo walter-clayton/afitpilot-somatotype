@@ -27,9 +27,9 @@ usersCtrl.login = async (req: Request, res: Response) => {
             const { somatotype, anthropometric }: IData = data;
 
             // create the somatotype
-            const endomorphy = somatotype.endomorphy;
-            const mesomorphy = somatotype.mesomorphy;
-            const ectomorphy = somatotype.ectomorphy;
+            const endomorphy = Number(somatotype.endomorphy.toFixed(1));
+            const mesomorphy = Number(somatotype.mesomorphy.toFixed(1));
+            const ectomorphy = Number(somatotype.ectomorphy.toFixed(1));
 
             const newSomatotype = await Somatotype({
               endomorphy,
@@ -86,7 +86,7 @@ usersCtrl.login = async (req: Request, res: Response) => {
           user: {
             token: accessToken,
             email: user[0].email,
-            name: user[0].name
+            name: user[0].name,
           },
         });
       } else {
