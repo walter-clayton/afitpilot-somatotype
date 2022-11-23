@@ -12,6 +12,11 @@ import Resetpass from "./components/Resetpass";
 import Forget from "./components/Forget";
 import Dashboard from "./components/Dashboard";
 import Add from "./components/Add";
+import Footer from "./components/CTA/Footer";
+import Contact from "./components/CTA/Contact";
+import TermsCondition from "./components/CTA/TermsCondition";
+import Privacy from "./components/CTA/Privacy";
+
 export interface ISomatotype {
   endomorphy?: number | undefined;
   mesomorphy?: number | undefined;
@@ -91,6 +96,9 @@ function App() {
         <Route path="/Forget" element={<Forget />} />
         <Route path="/Resetpass" element={<Resetpass />} />
         <Route path="/Add" element={<Add setData={setData} />} />
+        <Route path="/Contact" element={<Contact />} />
+        <Route path="/TermsConditions" element={<TermsCondition />} />
+        <Route path="/Privacy" element={<Privacy />} />
         <Route
           path="/Profile"
           element={
@@ -110,6 +118,7 @@ function App() {
         message={snackbarMessage}
         onClose={handleClose}
       />
+      <Footer />
     </Router>
   );
 }

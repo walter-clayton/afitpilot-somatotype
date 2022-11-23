@@ -86,6 +86,7 @@ usersCtrl.login = async (req: Request, res: Response) => {
           user: {
             token: accessToken,
             email: user[0].email,
+            name: user[0].name
           },
         });
       } else {

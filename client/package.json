@@ -1,6 +1,6 @@
 {
   "name": "client",
-  "proxy": "http://localhost:8000/",
+  "proxy": "https://afitpilot-server-rb1n-jw0t-main-fctdvdszvq-ez.a.run.app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

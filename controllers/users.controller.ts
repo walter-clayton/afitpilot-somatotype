@@ -4,7 +4,7 @@ import { IAnthropometric, IData, ISomatotype } from "../interfaces/interfaces";
 const User = require("../models/User");
 const Somatotype = require("../models/Somatotype");
 const Anthropometric = require("../models/Anthropometric");
-const { sendEmailResetPass, sendEmailPassword } = require("../mail/mailer");
+const { sendEmailPassword, sendEmailResetPassword } = require("../mail/mailer");
 
 interface IUsersCtrl {
   register?: (req: Request, res: Response) => void;
@@ -12,17 +12,20 @@ interface IUsersCtrl {
   updateEmail?: (req: Request, res: Response) => void;
   updatePassword?: (req: Request, res: Response) => void;
   sendResetEmail?: (req: Request, res: Response) => void;
-  resetPassword?: (req: Request, res: Response) => void;
+  updateName?: (req: Request, res: Response) => void;
   saveResults?: (req: Request, res: Response) => void;
+  getUserDatas?: (req: Request, res: Response) => void;
 }
 
 const usersCtrl: IUsersCtrl = {};
 
 usersCtrl.register = async (req: Request, res: Response) => {
-  const { email, data } = req.body;
+  let { email, name, data } = req.body;
+
+  email = (email as string).toLowerCase();
 
   try {
-    const newUser = await User({ email });
+    const newUser = await User({ email: email, name });
 
     // random password
     const generatedPass: string = await newUser.generatePassword();
@@ -32,6 +35,11 @@ usersCtrl.register = async (req: Request, res: Response) => {
     if (data) {
       if (data.somatotype && data.anthropometric) {
         const { somatotype, anthropometric }: IData = data;
+
+        // 1 decimal
+        somatotype.endomorphy = parseInt(somatotype.endomorphy.toFixed(1));
+        somatotype.mesomorphy = parseInt(somatotype.mesomorphy.toFixed(1));
+        somatotype.ectomorphy = parseInt(somatotype.ectomorphy.toFixed(1));
 
         // create the somatotype
         const endomorphy = somatotype.endomorphy;
@@ -84,23 +92,24 @@ usersCtrl.register = async (req: Request, res: Response) => {
           message: "data.somatotype and data.anthropometric are required",
         });
       }
+
+      await newUser.save();
+
+      await sendEmailPassword(email, name, generatedPass, data);
+
+      const accessToken: string = await newUser.generateAuthToken();
+
+      res.status(202).send({
+        message: `User registered successfully, check your email to get your generated password`,
+        dataSaved: data ? true : false,
+        user: {
+          token: accessToken,
+          email: newUser.email,
+        },
+      });
+    } else {
+      res.status(403).send({ message: "Data is required" });
     }
-
-    await newUser.save();
-
-    await sendEmailPassword(email, generatedPass);
-
-    const accessToken: string = await newUser.generateAuthToken();
-    data && console.log("ok");
-
-    res.status(202).send({
-      message: `User registered successfully, check your email to get your generated password`,
-      dataSaved: data ? true : false,
-      user: {
-        token: accessToken,
-        email: newUser.email,
-      },
-    });
   } catch (error: unknown) {
     console.log((error as ErrorEvent).message);
     res.status(500).send({
@@ -110,13 +119,13 @@ usersCtrl.register = async (req: Request, res: Response) => {
 };
 
 usersCtrl.deleteUser = async (req: Request, res: Response) => {
-  const { email } = req.query;
+  const email: string | qs.ParsedQs | string[] | qs.ParsedQs[] | undefined =
+    req.query.email;
 
   try {
-    const user = await User.findByEmail(email).populate([
-      "somatotypes",
-      "anthropometrics",
-    ]);
+    const user = await User.findByEmail(
+      (email as string)?.toLowerCase()
+    ).populate(["somatotypes", "anthropometrics"]);
 
     if (user.length > 0) {
       // delete all his somatotypes
@@ -147,7 +156,7 @@ usersCtrl.deleteUser = async (req: Request, res: Response) => {
 };
 
 usersCtrl.sendResetEmail = async (req: Request, res: Response) => {
-  const email: string = req.body.email;
+  const email: string = req.body.email.toLowerCase();
 
   try {
     const user = await User.findByEmail(email);
@@ -158,7 +167,11 @@ usersCtrl.sendResetEmail = async (req: Request, res: Response) => {
 
     await user[0].save();
 
-    const result = await sendEmailPassword(email, generatedPass);
+    const result = await sendEmailResetPassword(
+      email,
+      user[0].name,
+      generatedPass
+    );
 
     res.status(201).send({
       message: "Check your email to get your new generated password",
@@ -251,73 +264,110 @@ usersCtrl.saveResults = async (req: Request, res: Response) => {
   }
 };
 
-// usersCtrl.updateEmail = async (req: Request, res: Response) => {
-//   const { email } = req.body;
+usersCtrl.updateEmail = async (req: Request, res: Response) => {
+  const { email } = req.body;
 
-//   try {
-//     const user = await User.findById(req.user_id);
+  try {
+    const user = await User.findById(req.user_id);
 
-//     user.email = email;
+    if (email === user.email) {
+      res.status(403).send({ message: "nothing to update" });
+    } else {
+      user.email = email.toLowerCase();
 
-//     await user.save();
+      await user.save();
 
-//     res.status(200).send({
-//       message: "Account edited successfully",
-//       user: {
-//         email: user.email,
-//       },
-//     });
-//   } catch (error: unknown) {
-//     console.log(error);
-//     res.status(500).send({
-//       message:
-//         "Error with the database: please try again or contact the administrator.",
-//     });
-//   }
-// };
+      res.status(200).send({
+        message: "Email edited successfully",
+        user: {
+          email: user.email,
+        },
+      });
+    }
+  } catch (error: unknown) {
+    console.log(error);
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
+  }
+};
 
-// usersCtrl.updatePassword = async (req: Request, res: Response) => {
-//   const newPassword = req.query.newPassword;
+usersCtrl.updateName = async (req: Request, res: Response) => {
+  const { name } = req.body;
 
-//   try {
-//     const user = await User.findById(req.user_id);
+  try {
+    const user = await User.findById(req.user_id);
 
-//     user.password = await user.encryptPassword(newPassword);
+    if (name === user.name) {
+      res.status(403).send({ message: "nothing to update" });
+    } else {
+      user.name = name;
 
-//     await user.save();
+      await user.save();
 
-//     res.status(200).send({
-//       message: "Password edited successfully",
-//     });
-//   } catch (error: unknown) {
-//     console.log(error);
-//     res.status(500).send({
-//       message:
-//         "Error with the database: please try again or contact the administrator.",
-//     });
-//   }
-// };
+      res.status(200).send({
+        message: "Name edited successfully",
+        user: {
+          name: user.name,
+        },
+      });
+    }
+  } catch (error: unknown) {
+    console.log(error);
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
+  }
+};
 
-// usersCtrl.resetPassword = async (req: Request, res: Response) => {
-//   try {
-//     const user = await User.findById(req.user_id);
+usersCtrl.updatePassword = async (req: Request, res: Response) => {
+  const newPassword = req.body.newPassword;
 
-//     if (user) {
-//       user.password = await user.encryptPassword(req.body.newPassword);
+  try {
+    const user = await User.findById(req.user_id);
 
-//       user.save();
+    user.password = await user.encryptPassword(newPassword);
 
-//       res.status(200).send({ message: "Password updated successfully" });
-//     } else {
-//       res.status(404).send({ message: "User not found" });
-//     }
-//   } catch (error: unknown) {
-//     console.log(error);
-//     res.status(500).send({
-//       message:
-//         "Error with the database: please try again or contact the administrator.",
-//     });
-//   }
-// };
+    await user.save();
+
+    res.status(200).send({
+      message: "Password edited successfully",
+    });
+  } catch (error: unknown) {
+    console.log(error);
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
+  }
+};
+
+usersCtrl.getUserDatas = async (req: Request, res: Response) => {
+  try {
+    const user = await User.findById(req.user_id).populate([
+      "somatotypes",
+      "anthropometrics",
+    ]);
+
+    if (user.somatotypes && user.anthropometrics) {
+      res.status(202).send({
+        data: {
+          somatotypes: user.somatotypes,
+          anthropometrics: user.anthropometrics,
+        },
+      });
+    } else {
+      res.status(403).send({ message: "No results" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
+  }
+};
 
 module.exports = usersCtrl;

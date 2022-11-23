@@ -2,7 +2,7 @@ import { Schema } from "mongoose";
 
 export interface IReqUser {
   email: string;
-  username: string;
+  name: string;
 }
 
 export interface IRelationShip {
@@ -11,7 +11,7 @@ export interface IRelationShip {
 }
 export interface IUser {
   email: string;
-  username: string;
+  name: string;
   password: string;
   somatotypes: IRelationShip[];
   anthropometrics: IAnthropometric[]

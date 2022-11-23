@@ -7,11 +7,13 @@ import FilledInput from '@mui/material/FilledInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
-import { myform } from './Calculation'
+import { calculateSomatotype } from './Calculation'
 import ResultsTable from './ResultsTable';
 import { useNavigate } from "react-router-dom";
 // import { LargeNumberLike } from 'crypto';
 import { IAnthropometric, IData, ISomatotype } from '../App';
+import SomatotypeGraph from './SomatotypeGraph';
+import AnthropometricForm from './AnthropometricForm';
 const theme = createTheme();
 
 interface ILanding {
@@ -19,12 +21,11 @@ interface ILanding {
 }
 const Add: FC<ILanding> = (props) => {
     const [showResults, setShowResults] = useState(false);
+    const [toggleGraph, setToggleGraph] = useState(false);
     const navigate = useNavigate();
 
     const [somatotype, setSomatotype] = useState<ISomatotype | undefined>(undefined);
     const [anthropometric, setAnthropometric] = useState<IAnthropometric | undefined>(undefined);
-
-    const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
     useEffect(() => {
         setAnthropometric(anthropometric => ({
@@ -39,94 +40,6 @@ const Add: FC<ILanding> = (props) => {
             bicep_girth: 38
         }))
     }, []);
-
-    const handleHeightChange = (event: React.FormEvent<any>) => {
-        setAnthropometric({ ...anthropometric, height: parseFloat(event.currentTarget.value) });
-    }
-
-    const handleBodyWeightChange = (event: React.FormEvent<any>) => {
-        setAnthropometric({ ...anthropometric, weight: parseFloat(event.currentTarget.value) });
-    }
-
-    const handleTricepChange = (event: React.FormEvent<any>) => {
-        setAnthropometric({ ...anthropometric, tricep_skinfold: parseFloat(event.currentTarget.value) });
-    }
-
-    const handleSubscapularChange = (event: React.FormEvent<any>) => {
-        setAnthropometric({ ...anthropometric, subscapular_skinfold: parseFloat(event.currentTarget.value) });
-    }
-
-    const handleSupraspinalChange = (event: React.FormEvent<any>) => {
-        setAnthropometric({ ...anthropometric, supraspinal_skinfold: parseFloat(event.currentTarget.value) });
-    }
-
-    const handleHumerusChange = (event: React.FormEvent<any>) => {
-        setAnthropometric({ ...anthropometric, humerus_breadth: parseFloat(event.currentTarget.value) });
-    }
-
-    const handleFemurChange = (event: React.FormEvent<any>) => {
-        setAnthropometric({ ...anthropometric, femur_breadth: parseFloat(event.currentTarget.value) });
-    }
-
-    const handleCalfChange = (event: React.FormEvent<any>) => {
-        setAnthropometric({ ...anthropometric, calf_girth: parseFloat(event.currentTarget.value) });
-    }
-
-    const handleBicepChange = (event: React.FormEvent<any>) => {
-        setAnthropometric({ ...anthropometric, bicep_girth: parseFloat(event.currentTarget.value) });
-    }
-
-    const handleResultClick = () => {
-        if(canvasRef.current?.style.width != null && 
-            canvasRef.current?.style.height != null){
-                canvasRef.current!.style.width = "100%";
-                canvasRef.current!.style.height = `${canvasRef.current?.offsetWidth! * 1.17}px`;
-        }
-
-        const somatotypeInputs:IAnthropometric = {
-            weight : anthropometric?.weight, 
-            height : anthropometric?.height, 
-            tricep_skinfold : anthropometric?.tricep_skinfold, 
-            subscapular_skinfold : anthropometric?.subscapular_skinfold, 
-            supraspinal_skinfold : anthropometric?.supraspinal_skinfold, 
-            humerus_breadth : anthropometric?.humerus_breadth, 
-            femur_breadth : anthropometric?.femur_breadth, 
-            calf_girth : anthropometric?.calf_girth, 
-            bicep_girth : anthropometric?.bicep_girth
-        }
-
-        const somatotypeResults = myform(somatotypeInputs, canvasRef.current?.offsetWidth, canvasRef.current?.offsetHeight, canvasRef.current);
-
-        setSomatotype(somatotype => ({
-            endomorphy: somatotypeResults[0],
-            mesomorphy: somatotypeResults[1],
-            ectomorphy: somatotypeResults[2],
-        }))
-
-        function handleResize() {
-            if(canvasRef.current?.style.width !== undefined){
-                canvasRef.current!.style.width = "100%";
-                canvasRef.current!.style.height = `${canvasRef.current?.offsetWidth * 1.17}px`;
-
-                const somatotypeInputs:IAnthropometric = {
-                    weight : anthropometric?.weight, 
-                    height : anthropometric?.height, 
-                    tricep_skinfold : anthropometric?.tricep_skinfold, 
-                    subscapular_skinfold : anthropometric?.subscapular_skinfold, 
-                    supraspinal_skinfold : anthropometric?.supraspinal_skinfold, 
-                    humerus_breadth : anthropometric?.humerus_breadth, 
-                    femur_breadth : anthropometric?.femur_breadth, 
-                    calf_girth : anthropometric?.calf_girth, 
-                    bicep_girth : anthropometric?.bicep_girth
-                }
-                
-                myform(somatotypeInputs, canvasRef.current?.offsetWidth, canvasRef.current?.offsetHeight, canvasRef.current);
-            }
-        }
-        window.addEventListener("resize", handleResize);
-        handleResize();
-        return () => window.removeEventListener("resize", handleResize);
-    }
 
     const handleSaveDatasClick = () => {
         props.setData({ somatotype: { ...somatotype }, anthropometric: { ...anthropometric } })
@@ -151,97 +64,10 @@ const Add: FC<ILanding> = (props) => {
                     flexGrow: 1,
                     alignItems: "center",
                     margin: "20px auto"
-                }}
-                    xs={12} md={8} lg={6}>
-                    <FormControl sx={{width:"100%"}} variant="filled">
-                        <FormHelperText >Height</FormHelperText>
-                        <FilledInput
-                            id="height"
-                            placeholder='180'
-                            endAdornment={<InputAdornment position="end">cm</InputAdornment>}
-                            onChange={handleHeightChange} />
-                    </FormControl>
-
-                    <FormControl sx={{width:"100%"}} variant="filled">
-                        <FormHelperText >Bodyweight</FormHelperText>
-                        <FilledInput
-                            id="bodyweight"
-                            endAdornment={<InputAdornment position="end">kg</InputAdornment>}
-                            aria-describedby="filled-weight-helper-text"
-                            placeholder='80'
-                            onChange={handleBodyWeightChange} />
-                    </FormControl>
-
-                    <FormControl sx={{width:"100%"}} variant="filled">
-                        <FormHelperText >Tricep skin fold </FormHelperText>
-                        <FilledInput
-                            id="tricep"
-                            endAdornment={<InputAdornment position="end">mm</InputAdornment>}
-                            aria-describedby="filled-weight-helper-text"
-                            placeholder='12'
-                            onChange={handleTricepChange} />
-                    </FormControl>
-
-                    <FormControl sx={{width:"100%"}} variant="filled">
-                        <FormHelperText>Subscapular skin fold</FormHelperText>
-                        <FilledInput
-                            id="subscapular"
-                            placeholder='12'
-                            endAdornment={<InputAdornment position="end">mm</InputAdornment>}
-                            aria-describedby="filled-weight-helper-text"
-                            onChange={handleSubscapularChange} />
-                    </FormControl>
-
-                    <FormControl sx={{width:"100%"}} variant="filled">
-                        <FormHelperText >Supraspinal skin fold
-                        </FormHelperText>
-                        <FilledInput
-                            id="supraspinal"
-                            placeholder='12'
-                            endAdornment={<InputAdornment position="end">mm</InputAdornment>}
-                            aria-describedby="filled-weight-helper-text"
-                            onChange={handleSupraspinalChange} />
-                    </FormControl>
-
-                    <FormControl sx={{width:"100%"}} variant="filled">
-                        <FormHelperText >Humerus breadth </FormHelperText>
-                        <FilledInput
-                            id="humerus"
-                            placeholder='7'
-                            endAdornment={<InputAdornment position="end">cm</InputAdornment>}
-                            aria-describedby="filled-weight-helper-text"
-                            onChange={handleHumerusChange} />
-                    </FormControl>
-
-                    <FormControl sx={{width:"100%"}} variant="filled">
-                        <FormHelperText >Femur breadth</FormHelperText>
-                        <FilledInput
-                            id="femur"
-                            placeholder='8'
-                            endAdornment={<InputAdornment position="end">cm</InputAdornment>}
-                            aria-describedby="filled-weight-helper-text"
-                            onChange={handleFemurChange} />
-                    </FormControl>
-
-                    <FormControl sx={{width:"100%"}} variant="filled">
-                        <FormHelperText>Calf circumference</FormHelperText>
-                        <FilledInput
-                            id="calf"
-                            placeholder='38'
-                            endAdornment={<InputAdornment position="end">cm</InputAdornment>}
-                            aria-describedby="filled-weight-helper-text"
-                            onChange={handleCalfChange} />
-                    </FormControl>
-
-                    <FormControl sx={{width:"100%"}} variant="filled">
-                        <FormHelperText>Bicep circumference</FormHelperText>
-                        <FilledInput
-                            id="bicep"
-                            placeholder='38'
-                            endAdornment={<InputAdornment position="end">cm</InputAdornment>}
-                            aria-describedby="filled-weight-helper-text"
-                            onChange={handleBicepChange} />
-                    </FormControl>
+                    }}
+                    xs={12} md={8} lg={6} 
+                >
+                    <AnthropometricForm anthropometric={anthropometric} setAnthropometric={setAnthropometric}/>
                 </Grid>
                 {/* button */}
                 <Grid item sx={{
@@ -255,7 +81,7 @@ const Add: FC<ILanding> = (props) => {
                             type="submit"
                             onClick={() => {
                                 setShowResults(true);
-                                handleResultClick()}} >
+                                setToggleGraph(!toggleGraph);}} >
                             Submit
                         </Button>
                     </Box>
@@ -289,7 +115,7 @@ const Add: FC<ILanding> = (props) => {
                     margin: "20px 0"}}
                     xs={12} md={8} lg={6}
                     width={"100%"}>
-                        <canvas id="somatotypeCanvas" style={{border: showResults ? `1px solid black` : ""}} width="0" height="0" ref={canvasRef}></canvas>
+                        {showResults && <SomatotypeGraph updateGraph={toggleGraph} somatotype={somatotype} anthropometric={anthropometric} setSomatotype={setSomatotype}/>}
                 </Grid>
 
                 {

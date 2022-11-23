@@ -4,20 +4,31 @@ const router = Router();
 const verifyToken = require("../middlewares/verifyToken.middleware");
 const verifyKey = require("../middlewares/verifyKey.middleware");
 const verifyUser = require("../middlewares/verifyUser.middleware");
-const verifyEmail = require("../middlewares/verifyEmail");
+const verifyEmail = require("../middlewares/verifyEmail.middleware");
+const verifyName = require("../middlewares/verifyName.middleware");
+const verifyNewPassword = require("../middlewares/verifyNewPassword.middleware");
 const {
   register,
-  getUser,
+  updateName,
   deleteUser,
   saveResults,
   updateEmail,
   updatePassword,
   sendResetEmail,
-  resetPassword,
+  getUserDatas
 } = require("../controllers/users.controller");
 
-router.post("/register", verifyKey, verifyEmail, verifyUser, register);
-router.delete("/deleteUser", verifyToken, verifyEmail, deleteUser);
+router.post(
+  "/register",
+  verifyKey,
+  verifyEmail,
+  verifyName,
+  verifyUser,
+  register
+);
+
+router.delete("/deleteUser", verifyKey, verifyToken, verifyEmail, deleteUser);
+
 router.post(
   "/forgotPassword",
   verifyKey,
@@ -25,16 +36,21 @@ router.post(
   verifyUser,
   sendResetEmail
 );
-router.post("/saveResults", verifyToken, saveResults);
 
-// router.post("/updateEmail", verifyToken, verifyEmail, updateEmail);
-// router.post(
-//   "/updatePassword",
-//   verifyToken,
-//   verifyFieldsPassword,
-//   updatePassword
-// );
+router.post("/saveResults", verifyKey, verifyToken, saveResults);
 
-// router.post("/resetPassword", verifyKey, verifyFieldsResetPass, verifyToken, resetPassword);
+router.post("/updateEmail", verifyKey, verifyToken, verifyEmail, updateEmail);
+
+router.post("/updateName", verifyKey, verifyToken, verifyName, updateName);
+
+router.post(
+  "/updatePassword",
+  verifyKey,
+  verifyToken,
+  verifyNewPassword,
+  updatePassword
+);
+
+router.get("/getUserDatas", verifyKey, verifyToken, getUserDatas);
 
 module.exports = router;
