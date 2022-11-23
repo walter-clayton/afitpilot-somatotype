@@ -22,7 +22,7 @@ usersCtrl.register = async (req: Request, res: Response) => {
   const { email, name, data } = req.body;
 
   try {
-    const newUser = await User({ email, name });
+    const newUser = await User({ email: email.toLowercase(), name });
 
     // random password
     const generatedPass: string = await newUser.generatePassword();
@@ -116,13 +116,13 @@ usersCtrl.register = async (req: Request, res: Response) => {
 };
 
 usersCtrl.deleteUser = async (req: Request, res: Response) => {
-  const { email } = req.query;
+  const email: string | qs.ParsedQs | string[] | qs.ParsedQs[] | undefined =
+    req.query.email;
 
   try {
-    const user = await User.findByEmail(email).populate([
-      "somatotypes",
-      "anthropometrics",
-    ]);
+    const user = await User.findByEmail(
+      (email as string)?.toLowerCase()
+    ).populate(["somatotypes", "anthropometrics"]);
 
     if (user.length > 0) {
       // delete all his somatotypes
@@ -153,7 +153,7 @@ usersCtrl.deleteUser = async (req: Request, res: Response) => {
 };
 
 usersCtrl.sendResetEmail = async (req: Request, res: Response) => {
-  const email: string = req.body.email;
+  const email: string = req.body.email.toLowerCase();
 
   try {
     const user = await User.findByEmail(email);
@@ -164,7 +164,11 @@ usersCtrl.sendResetEmail = async (req: Request, res: Response) => {
 
     await user[0].save();
 
-    const result = await sendEmailResetPassword(email, user[0].name, generatedPass);
+    const result = await sendEmailResetPassword(
+      email,
+      user[0].name,
+      generatedPass
+    );
 
     res.status(201).send({
       message: "Check your email to get your new generated password",
@@ -257,73 +261,55 @@ usersCtrl.saveResults = async (req: Request, res: Response) => {
   }
 };
 
-// usersCtrl.updateEmail = async (req: Request, res: Response) => {
-//   const { email } = req.body;
+usersCtrl.updateEmail = async (req: Request, res: Response) => {
+  const { email } = req.body;
 
-//   try {
-//     const user = await User.findById(req.user_id);
+  try {
+    const user = await User.findById(req.user_id);
 
-//     user.email = email;
+    if (email === user.email) {
+      res.status(403).send({ message: "nothing to update" });
+    } else {
+      user.email = email.toLowerCase();
 
-//     await user.save();
+      await user.save();
 
-//     res.status(200).send({
-//       message: "Account edited successfully",
-//       user: {
-//         email: user.email,
-//       },
-//     });
-//   } catch (error: unknown) {
-//     console.log(error);
-//     res.status(500).send({
-//       message:
-//         "Error with the database: please try again or contact the administrator.",
-//     });
-//   }
-// };
+      res.status(200).send({
+        message: "Email edited successfully",
+        user: {
+          email: user.email,
+        },
+      });
+    }
+  } catch (error: unknown) {
+    console.log(error);
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
+  }
+};
 
-// usersCtrl.updatePassword = async (req: Request, res: Response) => {
-//   const newPassword = req.query.newPassword;
+usersCtrl.updatePassword = async (req: Request, res: Response) => {
+  const newPassword = req.body.newPassword;
 
-//   try {
-//     const user = await User.findById(req.user_id);
+  try {
+    const user = await User.findById(req.user_id);
 
-//     user.password = await user.encryptPassword(newPassword);
+    user.password = await user.encryptPassword(newPassword);
 
-//     await user.save();
+    await user.save();
 
-//     res.status(200).send({
-//       message: "Password edited successfully",
-//     });
-//   } catch (error: unknown) {
-//     console.log(error);
-//     res.status(500).send({
-//       message:
-//         "Error with the database: please try again or contact the administrator.",
-//     });
-//   }
-// };
-
-// usersCtrl.resetPassword = async (req: Request, res: Response) => {
-//   try {
-//     const user = await User.findById(req.user_id);
-
-//     if (user) {
-//       user.password = await user.encryptPassword(req.body.newPassword);
-
-//       user.save();
-
-//       res.status(200).send({ message: "Password updated successfully" });
-//     } else {
-//       res.status(404).send({ message: "User not found" });
-//     }
-//   } catch (error: unknown) {
-//     console.log(error);
-//     res.status(500).send({
-//       message:
-//         "Error with the database: please try again or contact the administrator.",
-//     });
-//   }
-// };
+    res.status(200).send({
+      message: "Password edited successfully",
+    });
+  } catch (error: unknown) {
+    console.log(error);
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
+  }
+};
 
 module.exports = usersCtrl;
