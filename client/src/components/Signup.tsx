@@ -135,7 +135,7 @@ const Signup: FC<ISugnUp> = (props) => {
     const data = new FormData(event.currentTarget);
 
     //validation message using snackbar
-    if (isEmailValid(data.get("email")) && isNameValid(name)) {
+    if (props.data && isEmailValid(data.get("email")) && isNameValid(name)) {
       setOpen(false);
       addUser(data);
       // setSnackbarMessage("You have succesfully Register ");

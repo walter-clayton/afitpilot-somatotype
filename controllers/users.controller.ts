@@ -12,17 +12,19 @@ interface IUsersCtrl {
   updateEmail?: (req: Request, res: Response) => void;
   updatePassword?: (req: Request, res: Response) => void;
   sendResetEmail?: (req: Request, res: Response) => void;
-  resetPassword?: (req: Request, res: Response) => void;
+  updateName?: (req: Request, res: Response) => void;
   saveResults?: (req: Request, res: Response) => void;
 }
 
 const usersCtrl: IUsersCtrl = {};
 
 usersCtrl.register = async (req: Request, res: Response) => {
-  const { email, name, data } = req.body;
+  let { email, name, data } = req.body;
+
+  email = (email as string).toLowerCase();
 
   try {
-    const newUser = await User({ email: email.toLowercase(), name });
+    const newUser = await User({ email: email, name });
 
     // random password
     const generatedPass: string = await newUser.generatePassword();
@@ -278,6 +280,35 @@ usersCtrl.updateEmail = async (req: Request, res: Response) => {
         message: "Email edited successfully",
         user: {
           email: user.email,
+        },
+      });
+    }
+  } catch (error: unknown) {
+    console.log(error);
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
+  }
+};
+
+usersCtrl.updateName = async (req: Request, res: Response) => {
+  const { name } = req.body;
+
+  try {
+    const user = await User.findById(req.user_id);
+
+    if (name === user.name) {
+      res.status(403).send({ message: "nothing to update" });
+    } else {
+      user.name = name;
+
+      await user.save();
+
+      res.status(200).send({
+        message: "Name edited successfully",
+        user: {
+          name: user.name,
         },
       });
     }
