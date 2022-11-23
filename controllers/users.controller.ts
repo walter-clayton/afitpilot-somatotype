@@ -21,7 +21,7 @@ const usersCtrl: IUsersCtrl = {};
 
 usersCtrl.register = async (req: Request, res: Response) => {
   let { email, name, data } = req.body;
-
+  
   email = (email as string).toLowerCase();
 
   try {
@@ -37,9 +37,9 @@ usersCtrl.register = async (req: Request, res: Response) => {
         const { somatotype, anthropometric }: IData = data;
 
         // 1 decimal
-        somatotype.endomorphy = parseInt(somatotype.endomorphy.toFixed(1));
-        somatotype.mesomorphy = parseInt(somatotype.mesomorphy.toFixed(1));
-        somatotype.ectomorphy = parseInt(somatotype.ectomorphy.toFixed(1));
+        somatotype.endomorphy = Number(somatotype.endomorphy.toFixed(1));
+        somatotype.mesomorphy = Number(somatotype.mesomorphy.toFixed(1));
+        somatotype.ectomorphy = Number(somatotype.ectomorphy.toFixed(1));
 
         // create the somatotype
         const endomorphy = somatotype.endomorphy;

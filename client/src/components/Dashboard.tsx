@@ -7,17 +7,56 @@ import { IAnthropometric, IData, ISomatotype } from '../App';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import SomatotypeGraph from './SomatotypeGraph';
+import axios from 'axios';
+import { useCookies } from 'react-cookie';
 
 const theme = createTheme();
 
 const Dashboard = () => {
-
     //Somatotype values should come from backend (data saved from the landing page)
     const navigate = useNavigate();
     
     const [somatotype, setSomatotype]= useState<ISomatotype | undefined>(undefined);
     
     const [anthropometric, setAnthropometric] = useState<IAnthropometric | undefined>(undefined);
+
+    const [cookies, setCookie] = useCookies(["user"]);
+
+    const [somatotypes, setSomatotypes] = useState<ISomatotype[]>([]);
+    const [anthropometrics, setAnthropometrics] = useState<IAnthropometric[]>([]);
+
+    const getUserDatas = async() => {
+        const headers={
+            "Content-Type": "application/json",
+            access_key: process.env.REACT_APP_ACCESS_KEY,
+            Authorization: `Bearer ${cookies.user.token}`
+        }
+
+        try {
+            const response = await axios.get(process.env.REACT_APP_GETUSERDATAS_URL!, {headers:headers})
+            console.log(response.data.data.somatotypes[0]);
+            setSomatotypes((somatotypes:ISomatotype[]) => [...somatotypes, {...response.data.data.somatotypes}]);
+            setAnthropometrics((anthropometrics:IAnthropometric[]) => [...anthropometrics, {...response.data.data.anthropometrics}]);
+        } catch (error) {
+            // if (error.response) {
+            //     error.response.data.message
+            //       ? setSnackbarMessage(error.response.data.message)
+            //       : setSnackbarMessage(error.response.statusText);
+            //   } else {
+            //     setSnackbarMessage("Error with the server");
+            //   }
+              console.log("error ", error);
+        }
+
+    }
+
+    useEffect(() => {
+        getUserDatas();
+    },[]);
+
+    useEffect(() => {
+        console.log(somatotypes);
+    },[somatotypes]);
 
     return (
         <ThemeProvider theme={theme}>
@@ -42,7 +81,7 @@ const Dashboard = () => {
                         margin: "20px 0"}}
                         xs={12} md={8} lg={6}
                         width={"100%"}>
-                    <ResultsTable endomorphy={somatotype?.endomorphy} mesomorphy={somatotype?.mesomorphy} ectomorphy={somatotype?.ectomorphy} showHistory={false}/>
+                    <ResultsTable somatotypes={somatotypes} showHistory={true}/>
                 </Grid>
                 {/* Graph */}
                 <Grid
