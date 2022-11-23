@@ -14,7 +14,8 @@ const {
   saveResults,
   updateEmail,
   updatePassword,
-  sendResetEmail
+  sendResetEmail,
+  getUserDatas
 } = require("../controllers/users.controller");
 
 router.post(
@@ -49,5 +50,7 @@ router.post(
   verifyNewPassword,
   updatePassword
 );
+
+router.get("/getUserDatas", verifyKey, verifyToken, getUserDatas);
 
 module.exports = router;
