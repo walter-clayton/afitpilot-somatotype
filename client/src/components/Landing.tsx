@@ -332,7 +332,7 @@ const Landing: FC<ILanding> = (props) => {
               endomorphy={somatotype?.endomorphy}
               mesomorphy={somatotype?.mesomorphy}
               ectomorphy={somatotype?.ectomorphy}
-              showHistory={false}
+              showHistory={true}
             />
           </Grid>
         ) : null}
