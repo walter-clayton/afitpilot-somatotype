@@ -25,7 +25,9 @@ router.post(
   verifyUser,
   register
 );
-router.delete("/deleteUser", verifyToken, verifyEmail, deleteUser);
+
+router.delete("/deleteUser", verifyKey, verifyToken, verifyEmail, deleteUser);
+
 router.post(
   "/forgotPassword",
   verifyKey,
@@ -33,7 +35,10 @@ router.post(
   verifyUser,
   sendResetEmail
 );
-router.post("/saveResults", verifyToken, saveResults);
+
+router.post("/saveResults", verifyKey, verifyToken, saveResults);
+
+router.post("/updateEmail", verifyKey, verifyToken, updateEmail);
 
 // router.post("/updateEmail", verifyToken, verifyEmail, updateEmail);
 // router.post(

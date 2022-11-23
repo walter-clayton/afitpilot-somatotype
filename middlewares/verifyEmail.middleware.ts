@@ -33,7 +33,7 @@ const isFieldsValid = async (
   next: NextFunction
 ): Promise<Response<any, Record<string, any>> | undefined> => {
   const { email } = req.url.split('?')[0] === "/deleteUser" ? req.query : req.body;
-  console.log(req.hostname);
+
   if (isRequired(email))
     return res.status(403).send({
       message: "Email is required.",
