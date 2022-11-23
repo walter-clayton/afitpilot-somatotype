@@ -9,13 +9,12 @@ const verifyName = require("../middlewares/verifyName.middleware");
 const verifyNewPassword = require("../middlewares/verifyNewPassword.middleware");
 const {
   register,
-  getUser,
+  updateName,
   deleteUser,
   saveResults,
   updateEmail,
   updatePassword,
-  sendResetEmail,
-  resetPassword,
+  sendResetEmail
 } = require("../controllers/users.controller");
 
 router.post(
@@ -40,6 +39,8 @@ router.post(
 router.post("/saveResults", verifyKey, verifyToken, saveResults);
 
 router.post("/updateEmail", verifyKey, verifyToken, verifyEmail, updateEmail);
+
+router.post("/updateName", verifyKey, verifyToken, verifyName, updateName);
 
 router.post(
   "/updatePassword",
