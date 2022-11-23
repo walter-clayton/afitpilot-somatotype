@@ -8,7 +8,7 @@ import {
 import { Typography, Container } from "@mui/material/";
 import Stack from '@mui/material/Stack';
 import ArrowForwardSharpIcon from '@mui/icons-material/ArrowForwardSharp';
-import sitting from './image/sitting-2.svg'
+import sitting from '../image/sitting-2.svg'
 
 const CallToAction = () => {
     return (

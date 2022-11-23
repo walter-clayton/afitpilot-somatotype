@@ -5,7 +5,7 @@ import { Typography, Container } from "@mui/material/";
 import Stack from '@mui/material/Stack';
 import ArrowForwardSharpIcon from '@mui/icons-material/ArrowForwardSharp';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import rectangle from './image/Rectangle 261 (2).svg'
+import rectangle from "../image/Rectangle 261 (2).svg"
 
 const theme = createTheme();
 theme.typography.h1 = {
