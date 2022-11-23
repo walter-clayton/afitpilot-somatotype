@@ -14,6 +14,7 @@ interface IUsersCtrl {
   sendResetEmail?: (req: Request, res: Response) => void;
   updateName?: (req: Request, res: Response) => void;
   saveResults?: (req: Request, res: Response) => void;
+  getUserDatas?: (req: Request, res: Response) => void;
 }
 
 const usersCtrl: IUsersCtrl = {};
@@ -335,6 +336,32 @@ usersCtrl.updatePassword = async (req: Request, res: Response) => {
       message: "Password edited successfully",
     });
   } catch (error: unknown) {
+    console.log(error);
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
+  }
+};
+
+usersCtrl.getUserDatas = async (req: Request, res: Response) => {
+  try {
+    const user = await User.findById(req.user_id).populate([
+      "somatotypes",
+      "anthropometrics",
+    ]);
+
+    if (user.somatotypes && user.anthropometrics) {
+      res.status(202).send({
+        data: {
+          somatotypes: user.somatotypes,
+          anthropometrics: user.anthropometrics,
+        },
+      });
+    } else {
+      res.status(403).send({ message: "No results" });
+    }
+  } catch (error) {
     console.log(error);
     res.status(500).send({
       message:
