@@ -56,7 +56,7 @@ export function calculateSomatotype(
       ectomorphy = 0.1;
     }
   }
-
+  
   return [endomorphy, mesomorphy, ectomorphy];
 }
 

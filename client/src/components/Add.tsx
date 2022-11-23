@@ -98,7 +98,7 @@ const Add: FC<ILanding> = (props) => {
                             }}
                             xs={12} md={8} lg={6}
                             width={"100%"}>
-                            <ResultsTable endomorphy={somatotype?.endomorphy} mesomorphy={somatotype?.mesomorphy} ectomorphy={somatotype?.ectomorphy} showHistory={false} />
+                            {/* <ResultsTable endomorphy={somatotype?.endomorphy} mesomorphy={somatotype?.mesomorphy} ectomorphy={somatotype?.ectomorphy} showHistory={false} /> */}
                         </Grid>
                         :
                         null

@@ -21,6 +21,7 @@ export interface ISomatotype {
   endomorphy?: number | undefined;
   mesomorphy?: number | undefined;
   ectomorphy?: number | undefined;
+  createdAt?: string | undefined;
 }
 
 export interface IAnthropometric {
@@ -63,7 +64,16 @@ function App() {
         setData={setData}
       />
       <Routes>
-        <Route path="/" element={<Landing setData={setData} resultsSaved={resultsSaved} setResultsSaved={setResultsSaved} />} />
+        <Route
+          path="/"
+          element={
+            <Landing
+              setData={setData}
+              resultsSaved={resultsSaved}
+              setResultsSaved={setResultsSaved}
+            />
+          }
+        />
         {/* <Route path="/Landing" element={<Landing />} /> */}
         <Route
           path="/Signup"
