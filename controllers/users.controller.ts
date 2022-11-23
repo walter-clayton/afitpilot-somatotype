@@ -21,7 +21,7 @@ const usersCtrl: IUsersCtrl = {};
 
 usersCtrl.register = async (req: Request, res: Response) => {
   let { email, name, data } = req.body;
-  
+
   email = (email as string).toLowerCase();
 
   try {
@@ -36,15 +36,10 @@ usersCtrl.register = async (req: Request, res: Response) => {
       if (data.somatotype && data.anthropometric) {
         const { somatotype, anthropometric }: IData = data;
 
-        // 1 decimal
-        somatotype.endomorphy = Number(somatotype.endomorphy.toFixed(1));
-        somatotype.mesomorphy = Number(somatotype.mesomorphy.toFixed(1));
-        somatotype.ectomorphy = Number(somatotype.ectomorphy.toFixed(1));
-
         // create the somatotype
-        const endomorphy = somatotype.endomorphy;
-        const mesomorphy = somatotype.mesomorphy;
-        const ectomorphy = somatotype.ectomorphy;
+        const endomorphy = Number(somatotype.endomorphy.toFixed(1));
+        const mesomorphy = Number(somatotype.mesomorphy.toFixed(1));
+        const ectomorphy = Number(somatotype.ectomorphy.toFixed(1));
 
         const newSomatotype = await Somatotype({
           endomorphy,
@@ -199,9 +194,9 @@ usersCtrl.saveResults = async (req: Request, res: Response) => {
           const { somatotype, anthropometric }: IData = data;
 
           // create the somatotype
-          const endomorphy = somatotype.endomorphy;
-          const mesomorphy = somatotype.mesomorphy;
-          const ectomorphy = somatotype.ectomorphy;
+          const endomorphy = Number(somatotype.endomorphy.toFixed(1));
+          const mesomorphy = Number(somatotype.mesomorphy.toFixed(1));
+          const ectomorphy = Number(somatotype.ectomorphy.toFixed(1));
 
           const newSomatotype = await Somatotype({
             endomorphy,
