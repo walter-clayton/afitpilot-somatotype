@@ -26,6 +26,8 @@ import { display, flexbox, fontWeight } from "@mui/system";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { ISomatotype } from "../App";
+import axios from "axios";
+import { useCookies } from "react-cookie";
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
@@ -56,33 +58,17 @@ function createRow(
   Endomorphy: string,
   Mesomorphy: string,
   Ectomorphy: string,
-  Date: string
+  Date: string,
+  Id: string
 ) {
-  return { Endomorphy, Mesomorphy, Ectomorphy, Date };
-}
-
-function getDate() {
-  const date = new Date();
-  // return date.toDateString().split(' ').slice(1).join(' ');
-  return date.toLocaleDateString([], {
-    year: "2-digit",
-    month: "2-digit",
-    day: "2-digit",
-  });
+  return { Endomorphy, Mesomorphy, Ectomorphy, Date, Id };
 }
 
 interface resultProps {
   somatotypes?: ISomatotype[];
   showHistory?: boolean;
+  getUserDatas?: () => void;
 }
-
-const RoundResult = (result: number | undefined): number => {
-  let roundedResult = 0;
-  result !== undefined
-    ? (roundedResult = Math.round(result * 10) / 10)
-    : (roundedResult = 0);
-  return roundedResult;
-};
 
 const ResultsTable: FC<resultProps> = (props: any) => {
   const { height, width } = useWindowDimensions();
@@ -91,17 +77,48 @@ const ResultsTable: FC<resultProps> = (props: any) => {
 
   const [rows, setRows] = useState<any[]>([]);
 
+  const [cookies, setCookie] = useCookies(["user"]);
+
+  const deleteSomatotype = async (id: string) => {
+    const headers = {
+      "Content-Type": "application/json",
+      access_key: process.env.REACT_APP_ACCESS_KEY,
+      Authorization: `Bearer ${cookies.user.token}`,
+    };
+
+    try {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_DELETESOMATOTYPE_URL}/${id}`!,
+        { headers: headers }
+      );
+      //Set snackbar message to say deleted sucessfully
+      props.getUserDatas();
+    } catch (error) {
+      // if (error.response) {
+      //     error.response.data.message
+      //       ? setSnackbarMessage(error.response.data.message)
+      //       : setSnackbarMessage(error.response.statusText);
+      //   } else {
+      //     setSnackbarMessage("Error with the server");
+      //   }
+      console.log("error ", error);
+    }
+  };
+
   useEffect(() => {
-    props.somatotypes.forEach((somatotype:ISomatotype[]) => {
-      console.log(somatotype[0]);
-      
+    props.somatotypes.forEach((somatotype: ISomatotype) => {
+      console.log(somatotype);
+
+      setRows([]);
+
       setRows((rows) => [
         ...rows,
         createRow(
-          String(somatotype[0].endomorphy),
-          String(somatotype[0].mesomorphy),
-          String(somatotype[0].ectomorphy),
-          String(somatotype[0].createdAt)
+          String(somatotype.endomorphy),
+          String(somatotype.mesomorphy),
+          String(somatotype.ectomorphy),
+          String(somatotype.createdAt),
+          String(somatotype._id)
         ),
       ]);
     });
@@ -116,8 +133,9 @@ const ResultsTable: FC<resultProps> = (props: any) => {
     console.log("edit");
   };
 
-  const handleDeleteResultsClick = () => {
+  const handleDeleteResultsClick = (id: string) => {
     handleDeleteModalOpen();
+    deleteSomatotype(id);
     console.log("delete");
   };
 
@@ -186,7 +204,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
     );
 
     tableBodyContent = rows.map((row) => (
-      <TableRow hover={true} key={rowKey}>
+      <TableRow hover={true} key={row.Id}>
         <TableCell align="center" sx={cellStyle}>
           <Checkbox
             onChange={handleCheckBoxChange}
@@ -230,7 +248,9 @@ const ResultsTable: FC<resultProps> = (props: any) => {
             </div>
             <div
               id="DeleteIconButtonWrapper"
-              onClick={handleDeleteResultsClick}
+              onClick={() => {
+                handleDeleteResultsClick(row.Id);
+              }}
             >
               <IconButton
                 aria-label="delete"

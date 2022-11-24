@@ -34,9 +34,8 @@ const Dashboard = () => {
 
         try {
             const response = await axios.get(process.env.REACT_APP_GETUSERDATAS_URL!, {headers:headers})
-            console.log(response.data.data.somatotypes[0]);
-            setSomatotypes((somatotypes:ISomatotype[]) => [...somatotypes, {...response.data.data.somatotypes}]);
-            setAnthropometrics((anthropometrics:IAnthropometric[]) => [...anthropometrics, {...response.data.data.anthropometrics}]);
+            setSomatotypes(response.data.data.somatotypes);
+            setAnthropometrics(response.data.data.anthropometrics);
         } catch (error) {
             // if (error.response) {
             //     error.response.data.message
@@ -81,7 +80,7 @@ const Dashboard = () => {
                         margin: "20px 0"}}
                         xs={12} md={8} lg={6}
                         width={"100%"}>
-                    <ResultsTable somatotypes={somatotypes} showHistory={true}/>
+                    <ResultsTable somatotypes={somatotypes} showHistory={true} getUserDatas={getUserDatas}/>
                 </Grid>
                 {/* Graph */}
                 <Grid
