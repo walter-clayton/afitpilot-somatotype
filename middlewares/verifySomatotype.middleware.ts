@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { ISomatotype } from "../interfaces/interfaces";
+import { IAnthropometric, ISomatotype } from "../interfaces/interfaces";
 const User = require("../models/User");
 
 /**
@@ -7,8 +7,11 @@ const User = require("../models/User");
  * @param somatotype ISomatotype
  * @returns Boolean
  */
-const isRequired = (somatotype: ISomatotype): boolean => {
-  return !somatotype;
+const isRequired = (
+  somatotype: ISomatotype,
+  anthropometric: IAnthropometric
+): boolean => {
+  return !somatotype || !anthropometric;
 };
 
 /**
@@ -19,11 +22,11 @@ const isFieldsValid = async (
   res: Response,
   next: NextFunction
 ): Promise<Response<any, Record<string, any>> | undefined> => {
-  const { somatotype } = req.body;
+  const { newSomatotype, newAnthropometric } = req.body;
 
-  if (isRequired(somatotype))
+  if (isRequired(newSomatotype, newAnthropometric))
     return res.status(403).send({
-      message: "somatotype is required.",
+      message: "somatotype and anthropometric are required.",
     });
 
   next();

@@ -16,6 +16,7 @@ interface IUsersCtrl {
   saveResults?: (req: Request, res: Response) => void;
   getUserDatas?: (req: Request, res: Response) => void;
   deleteSomatotype?: (req: Request, res: Response) => void;
+  editSomatotype?: (req: Request, res: Response) => void;
 }
 
 const usersCtrl: IUsersCtrl = {};
@@ -382,6 +383,44 @@ usersCtrl.deleteSomatotype = async (req: Request, res: Response) => {
       await somatotype.delete();
 
       res.status(202).send({ message: "The result deleted successfully" });
+    }
+  } catch (error: unknown) {
+    console.log(error);
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
+  }
+};
+
+usersCtrl.editSomatotype = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { newSomatotype, newAnthropometric } = req.body;
+
+  try {
+    const endomorphy = Number(newSomatotype.endomorphy.toFixed(1));
+    const mesomorphy = Number(newSomatotype.mesomorphy.toFixed(1));
+    const ectomorphy = Number(newSomatotype.ectomorphy.toFixed(1));
+
+    const somatotype = await Somatotype.findByIdAndUpdate(id, {
+      endomorphy,
+      mesomorphy,
+      ectomorphy,
+    });
+    const anthropometric = await Anthropometric.findByIdAndUpdate(
+      somatotype.anthropometric,
+      newAnthropometric
+    );
+
+    if (!somatotype) {
+      res
+        .status(403)
+        .send({ message: "Unable to update: results doesn't exist" });
+    } else {
+      await anthropometric.Save();
+      await somatotype.save();
+
+      res.status(202).send({ message: "The results edited successfully" });
     }
   } catch (error: unknown) {
     console.log(error);

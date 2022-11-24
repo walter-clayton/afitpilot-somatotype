@@ -18,6 +18,7 @@ const {
   sendResetEmail,
   getUserDatas,
   deleteSomatotype,
+  editSomatotype,
 } = require("../controllers/users.controller");
 
 router.post(
@@ -58,7 +59,16 @@ router.get("/getUserDatas", verifyKey, verifyToken, getUserDatas);
 router.delete(
   "/deleteSomatotype/:id",
   verifyKey,
+  verifyToken,
   deleteSomatotype
+);
+
+router.post(
+  "/editSomatotype/:id",
+  verifyKey,
+  verifyToken,
+  verifySomatotype,
+  editSomatotype
 );
 
 module.exports = router;
