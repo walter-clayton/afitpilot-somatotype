@@ -7,6 +7,7 @@ const verifyUser = require("../middlewares/verifyUser.middleware");
 const verifyEmail = require("../middlewares/verifyEmail.middleware");
 const verifyName = require("../middlewares/verifyName.middleware");
 const verifyNewPassword = require("../middlewares/verifyNewPassword.middleware");
+const verifySomatotype = require("../middlewares/verifySomatotype.middleware");
 const {
   register,
   updateName,
@@ -15,7 +16,8 @@ const {
   updateEmail,
   updatePassword,
   sendResetEmail,
-  getUserDatas
+  getUserDatas,
+  deleteSomatotype,
 } = require("../controllers/users.controller");
 
 router.post(
@@ -52,5 +54,11 @@ router.post(
 );
 
 router.get("/getUserDatas", verifyKey, verifyToken, getUserDatas);
+
+router.delete(
+  "/deleteSomatotype/:id",
+  verifyKey,
+  deleteSomatotype
+);
 
 module.exports = router;
