@@ -14,7 +14,7 @@ import { MenuItem } from "@mui/material/";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
-const pages = ["Products", "Pricing", "Blog"];
+const pages = ["Test", "Somatotypes", "Blog"];
 
 const ResponsiveAppBar = (props: any) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -59,7 +59,7 @@ const ResponsiveAppBar = (props: any) => {
               cursor: "pointer",
             }}
           >
-            LOGO
+           AFITPILOT
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -112,7 +112,7 @@ const ResponsiveAppBar = (props: any) => {
               textDecoration: "none",
             }}
           >
-            LOGO
+            AFITPILOT
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
