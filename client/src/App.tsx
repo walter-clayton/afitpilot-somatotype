@@ -22,6 +22,7 @@ export interface ISomatotype {
   mesomorphy?: number | undefined;
   ectomorphy?: number | undefined;
   createdAt?: string | undefined;
+  _id?: string | undefined;
 }
 
 export interface IAnthropometric {
