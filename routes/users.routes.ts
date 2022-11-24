@@ -66,7 +66,6 @@ router.delete(
 router.post(
   "/editSomatotype/:id",
   verifyKey,
-  verifyToken,
   verifySomatotype,
   editSomatotype
 );

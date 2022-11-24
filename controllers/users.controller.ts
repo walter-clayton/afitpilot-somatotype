@@ -395,21 +395,21 @@ usersCtrl.deleteSomatotype = async (req: Request, res: Response) => {
 
 usersCtrl.editSomatotype = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { newSomatotype, newAnthropometric } = req.body;
+  const { somatotype, anthropometric }: IData = req.body;
 
   try {
-    const endomorphy = Number(newSomatotype.endomorphy.toFixed(1));
-    const mesomorphy = Number(newSomatotype.mesomorphy.toFixed(1));
-    const ectomorphy = Number(newSomatotype.ectomorphy.toFixed(1));
+    const endomorphy = Number(somatotype.endomorphy.toFixed(1));
+    const mesomorphy = Number(somatotype.mesomorphy.toFixed(1));
+    const ectomorphy = Number(somatotype.ectomorphy.toFixed(1));
 
-    const somatotype = await Somatotype.findByIdAndUpdate(id, {
+    const newSomatotype = await Somatotype.findByIdAndUpdate(id, {
       endomorphy,
       mesomorphy,
       ectomorphy,
     });
-    const anthropometric = await Anthropometric.findByIdAndUpdate(
-      somatotype.anthropometric,
-      newAnthropometric
+    const newAnthropometric = await Anthropometric.findByIdAndUpdate(
+      newSomatotype.anthropometric,
+      anthropometric
     );
 
     if (!somatotype) {
@@ -417,8 +417,8 @@ usersCtrl.editSomatotype = async (req: Request, res: Response) => {
         .status(403)
         .send({ message: "Unable to update: results doesn't exist" });
     } else {
-      await anthropometric.Save();
-      await somatotype.save();
+      await newAnthropometric.save();
+      await newSomatotype.save();
 
       res.status(202).send({ message: "The results edited successfully" });
     }

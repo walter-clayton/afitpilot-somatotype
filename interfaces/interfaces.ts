@@ -14,7 +14,9 @@ export interface IUser {
   name: string;
   password: string;
   somatotypes: IRelationShip[];
-  anthropometrics: IAnthropometric[]
+  anthropometrics: IAnthropometric[];
+  createdAtt: String;
+  updatedAt: String;
 }
 
 export interface ISomatotype {
@@ -22,7 +24,9 @@ export interface ISomatotype {
   mesomorphy: number;
   ectomorphy: number;
   users: IRelationShip[];
-  anthropometric: IAnthropometric
+  anthropometric: IAnthropometric;
+  createdAtt: String;
+  updatedAt: String;
 }
 
 export interface IAnthropometric {
@@ -37,9 +41,11 @@ export interface IAnthropometric {
   bicep_girth: number;
   users: IRelationShip[];
   somatotype: IRelationShip;
+  createdAtt: String;
+  updatedAt: String;
 }
 
-export interface IData{
+export interface IData {
   somatotype: ISomatotype;
   anthropometric: IAnthropometric;
 }
