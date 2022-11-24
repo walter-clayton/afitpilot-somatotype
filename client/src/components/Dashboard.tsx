@@ -36,6 +36,8 @@ const Dashboard = () => {
 
   const [idRow, setIdRow] = useState<string>("");
 
+  const [idSomatotype, setIdSomatotype] = useState<string>("");
+
   const getUserDatas = async () => {
     const headers = {
       "Content-Type": "application/json",
@@ -73,7 +75,14 @@ const Dashboard = () => {
   return (
     <>
       {openAddModal ? (
-        <Add setOpenAddModal={setOpenAddModal} isAdding={isAdding} getUserDatas={getUserDatas} idRow={idRow} anthropometrics={anthropometrics}/>
+        <Add
+          setOpenAddModal={setOpenAddModal}
+          isAdding={isAdding}
+          getUserDatas={getUserDatas}
+          idRow={idRow}
+          anthropometrics={anthropometrics}
+          idSomatotype={idSomatotype}
+        />
       ) : (
         <ThemeProvider theme={theme}>
           <CssBaseline />
@@ -112,6 +121,8 @@ const Dashboard = () => {
                 setIsAdding={setIsAdding}
                 setIdRow={setIdRow}
                 idRow={idRow}
+                setIdSomatotype={setIdSomatotype}
+                idSomatotype={idSomatotype}
               />
             </Grid>
             {/* Graph */}
@@ -141,7 +152,7 @@ const Dashboard = () => {
               onClick={() => {
                 setIsAdding(true);
                 setOpenAddModal(true);
-                window.scrollTo(0,0);
+                window.scrollTo(0, 0);
               }}
             >
               Add new

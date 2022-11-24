@@ -69,12 +69,15 @@ function App() {
         <Route
           path="/"
           element={
-            cookies.user ? <Dashboard /> :
-            <Landing
-              setData={setData}
-              resultsSaved={resultsSaved}
-              setResultsSaved={setResultsSaved}
-            />
+            cookies.user ? (
+              <Dashboard />
+            ) : (
+              <Landing
+                setData={setData}
+                resultsSaved={resultsSaved}
+                setResultsSaved={setResultsSaved}
+              />
+            )
           }
         />
         {/* <Route path="/Landing" element={<Landing />} /> */}
