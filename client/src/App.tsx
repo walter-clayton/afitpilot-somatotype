@@ -16,6 +16,7 @@ import Footer from "./components/CTA/Footer";
 import Contact from "./components/CTA/Contact";
 import TermsCondition from "./components/CTA/TermsCondition";
 import Privacy from "./components/CTA/Privacy";
+import Types from "./components/CTA/TypesPage";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -111,6 +112,7 @@ function App() {
         <Route path="/Contact" element={<Contact />} />
         <Route path="/TermsConditions" element={<TermsCondition />} />
         <Route path="/Privacy" element={<Privacy />} />
+        <Route path="/Types" element={<Types />} />
         <Route
           path="/Profile"
           element={
