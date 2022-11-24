@@ -15,6 +15,8 @@ interface IUsersCtrl {
   updateName?: (req: Request, res: Response) => void;
   saveResults?: (req: Request, res: Response) => void;
   getUserDatas?: (req: Request, res: Response) => void;
+  deleteSomatotype?: (req: Request, res: Response) => void;
+  editSomatotype?: (req: Request, res: Response) => void;
 }
 
 const usersCtrl: IUsersCtrl = {};
@@ -36,15 +38,10 @@ usersCtrl.register = async (req: Request, res: Response) => {
       if (data.somatotype && data.anthropometric) {
         const { somatotype, anthropometric }: IData = data;
 
-        // 1 decimal
-        somatotype.endomorphy = parseInt(somatotype.endomorphy.toFixed(1));
-        somatotype.mesomorphy = parseInt(somatotype.mesomorphy.toFixed(1));
-        somatotype.ectomorphy = parseInt(somatotype.ectomorphy.toFixed(1));
-
         // create the somatotype
-        const endomorphy = somatotype.endomorphy;
-        const mesomorphy = somatotype.mesomorphy;
-        const ectomorphy = somatotype.ectomorphy;
+        const endomorphy = Number(somatotype.endomorphy.toFixed(1));
+        const mesomorphy = Number(somatotype.mesomorphy.toFixed(1));
+        const ectomorphy = Number(somatotype.ectomorphy.toFixed(1));
 
         const newSomatotype = await Somatotype({
           endomorphy,
@@ -199,9 +196,9 @@ usersCtrl.saveResults = async (req: Request, res: Response) => {
           const { somatotype, anthropometric }: IData = data;
 
           // create the somatotype
-          const endomorphy = somatotype.endomorphy;
-          const mesomorphy = somatotype.mesomorphy;
-          const ectomorphy = somatotype.ectomorphy;
+          const endomorphy = Number(somatotype.endomorphy.toFixed(1));
+          const mesomorphy = Number(somatotype.mesomorphy.toFixed(1));
+          const ectomorphy = Number(somatotype.ectomorphy.toFixed(1));
 
           const newSomatotype = await Somatotype({
             endomorphy,
@@ -362,6 +359,70 @@ usersCtrl.getUserDatas = async (req: Request, res: Response) => {
       res.status(403).send({ message: "No results" });
     }
   } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
+  }
+};
+
+usersCtrl.deleteSomatotype = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const somatotype = await Somatotype.findById(id);
+    const anthropometric = await Anthropometric.findById(
+      somatotype.anthropometric
+    );
+
+    if (!somatotype && !anthropometric) {
+      res.status(403).send({ message: "The result is already deleted" });
+    } else {
+      await anthropometric.delete();
+      await somatotype.delete();
+
+      res.status(202).send({ message: "The result deleted successfully" });
+    }
+  } catch (error: unknown) {
+    console.log(error);
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
+  }
+};
+
+usersCtrl.editSomatotype = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { newSomatotype, newAnthropometric } = req.body;
+
+  try {
+    const endomorphy = Number(newSomatotype.endomorphy.toFixed(1));
+    const mesomorphy = Number(newSomatotype.mesomorphy.toFixed(1));
+    const ectomorphy = Number(newSomatotype.ectomorphy.toFixed(1));
+
+    const somatotype = await Somatotype.findByIdAndUpdate(id, {
+      endomorphy,
+      mesomorphy,
+      ectomorphy,
+    });
+    const anthropometric = await Anthropometric.findByIdAndUpdate(
+      somatotype.anthropometric,
+      newAnthropometric
+    );
+
+    if (!somatotype) {
+      res
+        .status(403)
+        .send({ message: "Unable to update: results doesn't exist" });
+    } else {
+      await anthropometric.Save();
+      await somatotype.save();
+
+      res.status(202).send({ message: "The results edited successfully" });
+    }
+  } catch (error: unknown) {
     console.log(error);
     res.status(500).send({
       message:

@@ -17,7 +17,9 @@ import AnthropometricForm from './AnthropometricForm';
 const theme = createTheme();
 
 interface ILanding {
-    setData: (data: IData) => void
+    setData?: (data: IData) => void;
+    setOpenAddModal?: (openModal:boolean) => void;
+    isAdding?: boolean;
 }
 const Add: FC<ILanding> = (props) => {
     const [showResults, setShowResults] = useState(false);
@@ -42,14 +44,14 @@ const Add: FC<ILanding> = (props) => {
     }, []);
 
     const handleSaveDatasClick = () => {
-        props.setData({ somatotype: { ...somatotype }, anthropometric: { ...anthropometric } })
+        props.setData!({ somatotype: { ...somatotype }, anthropometric: { ...anthropometric } })
     }
 
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <Typography variant="h3" gutterBottom m={3} textAlign='center'>
-                Add New
+                {props.isAdding ? 'Add new somatotype' : 'Edit somatotype'}
             </Typography>
             <Grid container sx={{
                 display: "flex",
@@ -77,6 +79,16 @@ const Add: FC<ILanding> = (props) => {
                 }}
                     xs={12} md={8} lg={6}>
                     <Box sx={{ textalign: 'center' }}>
+                        <Button
+                                sx={{ margin: "10px auto", marginRight: "20px", padding: "5px 15px", maxWidth: "sm" }}
+                                variant="outlined"
+                                onClick={() => {
+                                    props.setOpenAddModal!(false);
+                                    window.scrollTo(0,0);
+                                }}
+                            >
+                                GO BACK
+                        </Button>
                         <Button variant="contained"
                             type="submit"
                             onClick={() => {
@@ -98,7 +110,7 @@ const Add: FC<ILanding> = (props) => {
                             }}
                             xs={12} md={8} lg={6}
                             width={"100%"}>
-                            <ResultsTable endomorphy={somatotype?.endomorphy} mesomorphy={somatotype?.mesomorphy} ectomorphy={somatotype?.ectomorphy} showHistory={false} />
+                            {/* <ResultsTable endomorphy={somatotype?.endomorphy} mesomorphy={somatotype?.mesomorphy} ectomorphy={somatotype?.ectomorphy} showHistory={false} /> */}
                         </Grid>
                         :
                         null
@@ -126,16 +138,6 @@ const Add: FC<ILanding> = (props) => {
                             justifyContent: "center"
                         }}
                         >
-                            <Button
-                                sx={{ margin: "10px auto", marginRight: "20px", padding: "5px 15px", maxWidth: "sm" }}
-                                variant="outlined"
-                                onClick={() => {
-                                    handleSaveDatasClick();
-                                    navigate("/Dashboard");
-                                }}
-                            >
-                                GO BACK
-                            </Button>
                             <Button
                                 sx={{ margin: "10px auto", padding: "5px 25px", maxWidth: "sm" }}
                                 variant="contained"

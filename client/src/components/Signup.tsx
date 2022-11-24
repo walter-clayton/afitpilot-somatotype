@@ -173,20 +173,16 @@ const Signup: FC<ISugnUp> = (props) => {
           alignItems: "center",
         }}
       >
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h2">
           Sign up
-        </Typography>
-        <Typography variant="subtitle2">
-          Before you move on to your profile,would you like an email copy of
-          your results?
         </Typography>
         {props.data ? (
           <Alert severity="error" sx={{ margin: "20px 0" }}>
-            You have to sign up to save the results
+            You must sign up to save your results.
           </Alert>
         ) : (
           <Alert severity="error" sx={{ margin: "20px 0" }}>
-            You have to submit results before signup
+            You must submit results before signing up.
           </Alert>
         )}
         <Box
