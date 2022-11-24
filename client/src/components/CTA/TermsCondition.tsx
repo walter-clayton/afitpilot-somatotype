@@ -1,6 +1,5 @@
 import {
   Typography,
-  Link,
   Box,
   Grid,
   ListItem,
@@ -9,6 +8,7 @@ import {
   ListItemIcon,
 } from "@mui/material/";
 import HexagonIcon from "@mui/icons-material/Hexagon";
+import { Link } from "react-router-dom";
 
 const TermsCondition = () => {
   return (
@@ -342,11 +342,7 @@ const TermsCondition = () => {
                   If you object to any change you have the right to cancel your
                   use of the Website and the ongoing provision of Products from
                   us within 30 days of the change by contacting us at{" "}
-                  <Link
-                    href="mailto:info.afitpilot@gmail.com"
-                    target="_blank"
-                    rel="noopener"
-                  >
+                  <Link to="" onClick={()=>{window.location.href='mailto:info.afitpilot@gmail.com'}}>
                     info.afitpilot@gmail.com
                   </Link>
                   .
@@ -374,11 +370,7 @@ const TermsCondition = () => {
             notify Us immediately upon becoming aware of any breach of security
             or unauthorized use of Your account. If you know or suspect that
             someone else knows your password you should notify us by contacting{" "}
-            <Link
-              href="mailto:info.afitpilot@gmail.com"
-              target="_blank"
-              rel="noopener"
-            >
+            <Link to="" onClick={()=>{window.location.href='mailto:info.afitpilot@gmail.com'}}>
               info.afitpilot@gmail.com
             </Link>{" "}
             immediately.
@@ -776,12 +768,8 @@ const TermsCondition = () => {
           </Typography>
           <Typography variant="body1" paragraph>
             You can contact us via email (
-            <Link
-              href="mailto:info.afitpilot@gmail.com"
-              target="_blank"
-              rel="noopener"
-            >
-            info.afitpilot@gmail.com
+            <Link to="" onClick={()=>{window.location.href='mailto:info.afitpilot@gmail.com'}}>
+              info.afitpilot@gmail.com
             </Link>
             ). Upon receipt of a notification, the Company will take whatever
             action, in its sole discretion, it deems appropriate, including
@@ -1096,13 +1084,7 @@ const TermsCondition = () => {
                 </ListItemIcon>
                 <ListItemText>
                   By visiting this page on our website: <br />
-                  <Link
-                    href="https://www.afitpilot.com/contact/"
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    https://www.afitpilot.com/contact/
-                  </Link>
+                  <Link to="/contact/">https://www.afitpilot.com/contact/</Link>
                 </ListItemText>
               </ListItem>
               <ListItem>
@@ -1111,11 +1093,7 @@ const TermsCondition = () => {
                 </ListItemIcon>
                 <ListItemText>
                   By sending us an email: <br />
-                  <Link
-                    href="mailto:info.afitpilot@gmail.com"
-                    target="_blank"
-                    rel="noopener"
-                  >
+                  <Link to="" onClick={()=>{window.location.href='mailto:info.afitpilot@gmail.com'}}>
                     info.afitpilot@gmail.com
                   </Link>
                 </ListItemText>
