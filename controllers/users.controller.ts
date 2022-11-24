@@ -15,6 +15,7 @@ interface IUsersCtrl {
   updateName?: (req: Request, res: Response) => void;
   saveResults?: (req: Request, res: Response) => void;
   getUserDatas?: (req: Request, res: Response) => void;
+  deleteSomatotype?: (req: Request, res: Response) => void;
 }
 
 const usersCtrl: IUsersCtrl = {};
@@ -357,6 +358,32 @@ usersCtrl.getUserDatas = async (req: Request, res: Response) => {
       res.status(403).send({ message: "No results" });
     }
   } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
+  }
+};
+
+usersCtrl.deleteSomatotype = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const somatotype = await Somatotype.findById(id);
+    const anthropometric = await Anthropometric.findById(
+      somatotype.anthropometric
+    );
+
+    if (!somatotype && !anthropometric) {
+      res.status(403).send({ message: "The result is already deleted" });
+    } else {
+      await anthropometric.delete();
+      await somatotype.delete();
+
+      res.status(202).send({ message: "The result deleted successfully" });
+    }
+  } catch (error: unknown) {
     console.log(error);
     res.status(500).send({
       message:
