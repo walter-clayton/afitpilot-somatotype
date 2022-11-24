@@ -68,6 +68,7 @@ interface resultProps {
   somatotypes?: ISomatotype[];
   showHistory?: boolean;
   getUserDatas?: () => void;
+  setOpenAddModal?: (openModal: boolean) => void;
 }
 
 const ResultsTable: FC<resultProps> = (props: any) => {
@@ -76,6 +77,8 @@ const ResultsTable: FC<resultProps> = (props: any) => {
   const rowKey = "key";
 
   const [rows, setRows] = useState<any[]>([]);
+
+  const [idRow, setIdRow] = useState<string>("");
 
   const [cookies, setCookie] = useCookies(["user"]);
 
@@ -107,8 +110,6 @@ const ResultsTable: FC<resultProps> = (props: any) => {
 
   useEffect(() => {
     props.somatotypes.forEach((somatotype: ISomatotype) => {
-      console.log(somatotype);
-
       setRows([]);
 
       setRows((rows) => [
@@ -124,19 +125,12 @@ const ResultsTable: FC<resultProps> = (props: any) => {
     });
   }, [props.somatotypes]);
 
-  // const rows = [
-  //   createRow(RoundResult(props.endomorphy).toFixed(1), RoundResult(props.mesomorphy).toFixed(1), RoundResult(props.ectomorphy).toFixed(1), getDate()),
-  // ];
-
   const handleEditResultsClick = () => {
     handleEditModalOpen();
-    console.log("edit");
   };
 
-  const handleDeleteResultsClick = (id: string) => {
+  const handleDeleteResultsClick = () => {
     handleDeleteModalOpen();
-    deleteSomatotype(id);
-    console.log("delete");
   };
 
   const handleCheckBoxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -234,7 +228,12 @@ const ResultsTable: FC<resultProps> = (props: any) => {
               alignContent: "center",
             }}
           >
-            <div id="EditIconButtonWrapper" onClick={handleEditResultsClick}>
+            <div
+              id="EditIconButtonWrapper"
+              onClick={() => {
+                handleEditResultsClick();
+              }}
+            >
               <IconButton
                 aria-label="edit"
                 sx={{
@@ -249,7 +248,8 @@ const ResultsTable: FC<resultProps> = (props: any) => {
             <div
               id="DeleteIconButtonWrapper"
               onClick={() => {
-                handleDeleteResultsClick(row.Id);
+                setIdRow(row.Id);
+                handleDeleteResultsClick();
               }}
             >
               <IconButton
@@ -338,12 +338,24 @@ const ResultsTable: FC<resultProps> = (props: any) => {
             sx={{ mt: 2 }}
           >
             <Grid item>
-              <Button variant="outlined" color="error">
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={handleEditModalClose}
+              >
                 Cancel
               </Button>
             </Grid>
             <Grid item>
-              <Button variant="contained" color="success">
+              <Button
+                variant="contained"
+                color="success"
+                onClick={() => {
+                  props.setOpenAddModal(true);
+                  window.scrollTo(0, 0);
+                  handleEditModalClose();
+                }}
+              >
                 Confirm
               </Button>
             </Grid>
@@ -374,12 +386,23 @@ const ResultsTable: FC<resultProps> = (props: any) => {
             sx={{ mt: 2 }}
           >
             <Grid item>
-              <Button variant="outlined" color="error">
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={handleDeleteModalClose}
+              >
                 Cancel
               </Button>
             </Grid>
             <Grid item>
-              <Button variant="contained" color="success">
+              <Button
+                variant="contained"
+                color="success"
+                onClick={() => {
+                  deleteSomatotype(idRow);
+                  handleDeleteModalClose();
+                }}
+              >
                 Confirm
               </Button>
             </Grid>

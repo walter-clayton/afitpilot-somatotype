@@ -68,6 +68,7 @@ function App() {
         <Route
           path="/"
           element={
+            cookies.user ? <Dashboard /> :
             <Landing
               setData={setData}
               resultsSaved={resultsSaved}
@@ -106,7 +107,7 @@ function App() {
         />
         <Route path="/Forget" element={<Forget />} />
         <Route path="/Resetpass" element={<Resetpass />} />
-        <Route path="/Add" element={<Add setData={setData} />} />
+        {/* <Route path="/Add" element={<Add setData={setData} />} /> */}
         <Route path="/Contact" element={<Contact />} />
         <Route path="/TermsConditions" element={<TermsCondition />} />
         <Route path="/Privacy" element={<Privacy />} />
@@ -121,7 +122,7 @@ function App() {
             )
           }
         />
-        <Route path="/Dashboard" element={cookies.user && <Dashboard />} />
+        {/* <Route path="/Dashboard" element={cookies.user && <Dashboard />} /> */}
       </Routes>
       <Snackbar
         open={open}
