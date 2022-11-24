@@ -69,16 +69,15 @@ interface resultProps {
   showHistory?: boolean;
   getUserDatas?: () => void;
   setOpenAddModal?: (openModal: boolean) => void;
+  setIsAdding?: (openModal: boolean) => void;
+  setIdRow?: (id: string) => void;
+  idRow?: string;
 }
 
 const ResultsTable: FC<resultProps> = (props: any) => {
   const { height, width } = useWindowDimensions();
 
-  const rowKey = "key";
-
   const [rows, setRows] = useState<any[]>([]);
-
-  const [idRow, setIdRow] = useState<string>("");
 
   const [cookies, setCookie] = useCookies(["user"]);
 
@@ -94,7 +93,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
         `${process.env.REACT_APP_DELETESOMATOTYPE_URL}/${id}`!,
         { headers: headers }
       );
-      //Set snackbar message to say deleted sucessfully
+      //TO DO Set snackbar message to say deleted sucessfully
       props.getUserDatas();
     } catch (error) {
       // if (error.response) {
@@ -109,9 +108,8 @@ const ResultsTable: FC<resultProps> = (props: any) => {
   };
 
   useEffect(() => {
+    setRows([]);
     props.somatotypes.forEach((somatotype: ISomatotype) => {
-      setRows([]);
-
       setRows((rows) => [
         ...rows,
         createRow(
@@ -197,8 +195,8 @@ const ResultsTable: FC<resultProps> = (props: any) => {
       </TableRow>
     );
 
-    tableBodyContent = rows.map((row) => (
-      <TableRow hover={true} key={row.Id}>
+    tableBodyContent = rows.map((row,index) => (
+      <TableRow hover={true} key={index}>
         <TableCell align="center" sx={cellStyle}>
           <Checkbox
             onChange={handleCheckBoxChange}
@@ -231,6 +229,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
             <div
               id="EditIconButtonWrapper"
               onClick={() => {
+                props.setIdRow(index);
                 handleEditResultsClick();
               }}
             >
@@ -248,7 +247,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
             <div
               id="DeleteIconButtonWrapper"
               onClick={() => {
-                setIdRow(row.Id);
+                props.setIdRow(index);
                 handleDeleteResultsClick();
               }}
             >
@@ -282,8 +281,8 @@ const ResultsTable: FC<resultProps> = (props: any) => {
       </TableRow>
     );
 
-    tableBodyContent = rows.map((row) => (
-      <TableRow hover={true} key={rowKey}>
+    tableBodyContent = rows.map((row, index) => (
+      <TableRow hover={true} key={index}>
         <TableCell align="center" sx={cellStyle}>
           {row.Endomorphy}
         </TableCell>
@@ -351,6 +350,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                 variant="contained"
                 color="success"
                 onClick={() => {
+                  props.setIsAdding(false);
                   props.setOpenAddModal(true);
                   window.scrollTo(0, 0);
                   handleEditModalClose();
@@ -399,7 +399,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                 variant="contained"
                 color="success"
                 onClick={() => {
-                  deleteSomatotype(idRow);
+                  deleteSomatotype(props.idRow);
                   handleDeleteModalClose();
                 }}
               >

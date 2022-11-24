@@ -34,6 +34,8 @@ const Dashboard = () => {
 
   const [isAdding, setIsAdding] = useState<boolean>(false);
 
+  const [idRow, setIdRow] = useState<string>("");
+
   const getUserDatas = async () => {
     const headers = {
       "Content-Type": "application/json",
@@ -62,7 +64,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     getUserDatas();
-    setIsAdding(false);
   }, []);
 
   useEffect(() => {
@@ -72,7 +73,7 @@ const Dashboard = () => {
   return (
     <>
       {openAddModal ? (
-        <Add setOpenAddModal={setOpenAddModal} isAdding={isAdding}/>
+        <Add setOpenAddModal={setOpenAddModal} isAdding={isAdding} getUserDatas={getUserDatas} idRow={idRow} anthropometrics={anthropometrics}/>
       ) : (
         <ThemeProvider theme={theme}>
           <CssBaseline />
@@ -108,6 +109,9 @@ const Dashboard = () => {
                 showHistory={true}
                 getUserDatas={getUserDatas}
                 setOpenAddModal={setOpenAddModal}
+                setIsAdding={setIsAdding}
+                setIdRow={setIdRow}
+                idRow={idRow}
               />
             </Grid>
             {/* Graph */}
