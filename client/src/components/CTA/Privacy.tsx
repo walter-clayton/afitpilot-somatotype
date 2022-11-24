@@ -944,7 +944,7 @@ const Privacy = () => {
               .
             </Typography>
             <Typography component="h2" variant="h4" gutterBottom>
-              (12) How can you review, update, or delet the data we collect from
+              (12) How can you review, update, or delete the data we collect from
               you?
             </Typography>
             <Typography variant="body1" paragraph>
