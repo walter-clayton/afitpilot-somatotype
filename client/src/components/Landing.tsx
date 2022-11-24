@@ -177,12 +177,12 @@ const Landing: FC<ILanding> = (props) => {
             lg={6}
             width={"100%"}
           >
-            <ResultsTable
+            {/* <ResultsTable
               endomorphy={somatotype?.endomorphy}
               mesomorphy={somatotype?.mesomorphy}
               ectomorphy={somatotype?.ectomorphy}
               showHistory={false}
-            />
+            /> */}
           </Grid>
         ) : null}
 

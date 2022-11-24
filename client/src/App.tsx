@@ -16,11 +16,14 @@ import Footer from "./components/CTA/Footer";
 import Contact from "./components/CTA/Contact";
 import TermsCondition from "./components/CTA/TermsCondition";
 import Privacy from "./components/CTA/Privacy";
+import Types from "./components/CTA/TypesPage";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
   mesomorphy?: number | undefined;
   ectomorphy?: number | undefined;
+  createdAt?: string | undefined;
+  _id?: string | undefined;
 }
 
 export interface IAnthropometric {
@@ -63,7 +66,17 @@ function App() {
         setData={setData}
       />
       <Routes>
-        <Route path="/" element={<Landing setData={setData} resultsSaved={resultsSaved} setResultsSaved={setResultsSaved} />} />
+        <Route
+          path="/"
+          element={
+            cookies.user ? <Dashboard /> :
+            <Landing
+              setData={setData}
+              resultsSaved={resultsSaved}
+              setResultsSaved={setResultsSaved}
+            />
+          }
+        />
         {/* <Route path="/Landing" element={<Landing />} /> */}
         <Route
           path="/Signup"
@@ -95,10 +108,11 @@ function App() {
         />
         <Route path="/Forget" element={<Forget />} />
         <Route path="/Resetpass" element={<Resetpass />} />
-        <Route path="/Add" element={<Add setData={setData} />} />
+        {/* <Route path="/Add" element={<Add setData={setData} />} /> */}
         <Route path="/Contact" element={<Contact />} />
         <Route path="/TermsConditions" element={<TermsCondition />} />
         <Route path="/Privacy" element={<Privacy />} />
+        <Route path="/Types" element={<Types />} />
         <Route
           path="/Profile"
           element={
@@ -110,7 +124,7 @@ function App() {
             )
           }
         />
-        <Route path="/Dashboard" element={cookies.user && <Dashboard />} />
+        {/* <Route path="/Dashboard" element={cookies.user && <Dashboard />} /> */}
       </Routes>
       <Snackbar
         open={open}
