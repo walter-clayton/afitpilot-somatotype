@@ -9,7 +9,7 @@ const userSchema: Schema = new Schema<IUser>({
   password: { type: String, required: true },
   somatotypes: [{ type: Schema.Types.ObjectId, ref: "Somatotype" }],
   anthropometrics: [{ type: Schema.Types.ObjectId, ref: "Anthropometric" }],
-  createdAtt: { type: String, default: new Date().toLocaleString() },
+  createdAt: { type: String, default: new Date().toLocaleString() },
   updatedAt: { type: String, default: new Date().toLocaleString() },
 });
 

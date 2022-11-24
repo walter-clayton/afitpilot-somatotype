@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 import { IAnthropometric, IData, ISomatotype } from "../App";
 import SomatotypeGraph from "./SomatotypeGraph";
 import AnthropometricForm from "./AnthropometricForm";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 const theme = createTheme();
 
 interface IAdding {
@@ -23,6 +25,7 @@ interface IAdding {
   getUserDatas?: () => void;
   idRow?: string;
   anthropometrics?: IAnthropometric[];
+  idSomatotype?: string;
 }
 const Add: FC<IAdding> = (props: any) => {
   const [showResults, setShowResults] = useState(false);
@@ -34,6 +37,8 @@ const Add: FC<IAdding> = (props: any) => {
   const [anthropometric, setAnthropometric] = useState<
     IAnthropometric | undefined
   >(undefined);
+
+  const [cookies, setCookie] = useCookies(["user"]);
 
   useEffect(() => {
     props.isAdding
@@ -51,11 +56,42 @@ const Add: FC<IAdding> = (props: any) => {
       : setAnthropometric(props.anthropometrics[props.idRow]);
   }, []);
 
-  const handleSaveDatasClick = () => {
-    props.setData!({
-      somatotype: { ...somatotype },
-      anthropometric: { ...anthropometric },
-    });
+  const handleSaveDatasClick = async () => {
+    let url: string;
+    props.isAdding
+      ? (url = process.env.REACT_APP_SAVEDATA_URL!)
+      : (url =
+          `${process.env.REACT_APP_EDITSOMATOTYPE_URL}/${props.idSomatotype}`!);
+
+    const headers = {
+      "Content-Type": "application/json",
+      access_key: process.env.REACT_APP_ACCESS_KEY,
+      Authorization: `Bearer ${cookies.user.token}`,
+    };
+
+    console.log(props.idSomatotype, url);
+    console.log("hello");
+
+    try {
+      const response = await axios.post(
+        url,
+        { somatotype, anthropometric },
+        { headers: headers }
+      );
+      console.log(response.data);
+
+      //TO DO Set snackbar message to say deleted sucessfully
+      props.getUserDatas();
+    } catch (error) {
+      // if (error.response) {
+      //     error.response.data.message
+      //       ? setSnackbarMessage(error.response.data.message)
+      //       : setSnackbarMessage(error.response.statusText);
+      //   } else {
+      //     setSnackbarMessage("Error with the server");
+      //   }
+      console.log("error ", error);
+    }
   };
 
   return (

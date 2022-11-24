@@ -72,6 +72,8 @@ interface resultProps {
   setIsAdding?: (openModal: boolean) => void;
   setIdRow?: (id: string) => void;
   idRow?: string;
+  setIdSomatotype?: (id: string) => void;
+  idSomatotype?: string;
 }
 
 const ResultsTable: FC<resultProps> = (props: any) => {
@@ -88,9 +90,11 @@ const ResultsTable: FC<resultProps> = (props: any) => {
       Authorization: `Bearer ${cookies.user.token}`,
     };
 
+    console.log(props.idSomatotype);
+
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_DELETESOMATOTYPE_URL}/${id}`!,
+        `${process.env.REACT_APP_DELETESOMATOTYPE_URL}/${props.idSomatotype}`!,
         { headers: headers }
       );
       //TO DO Set snackbar message to say deleted sucessfully
@@ -195,7 +199,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
       </TableRow>
     );
 
-    tableBodyContent = rows.map((row,index) => (
+    tableBodyContent = rows.map((row, index) => (
       <TableRow hover={true} key={index}>
         <TableCell align="center" sx={cellStyle}>
           <Checkbox
@@ -229,6 +233,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
             <div
               id="EditIconButtonWrapper"
               onClick={() => {
+                props.setIdSomatotype(row.Id);
                 props.setIdRow(index);
                 handleEditResultsClick();
               }}
@@ -247,6 +252,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
             <div
               id="DeleteIconButtonWrapper"
               onClick={() => {
+                props.setIdSomatotype(row.Id);
                 props.setIdRow(index);
                 handleDeleteResultsClick();
               }}
@@ -399,7 +405,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                 variant="contained"
                 color="success"
                 onClick={() => {
-                  deleteSomatotype(props.idRow);
+                  deleteSomatotype(props.idSomatotype);
                   handleDeleteModalClose();
                 }}
               >
