@@ -1,6 +1,6 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState, useRef } from "react";
-import { calculateSomatotype } from "./Calculation";
+import { calculateSomatotype, IPoints } from "./Calculation";
 import ResultsTable from "./ResultsTable";
 import { useNavigate } from "react-router-dom";
 import { IAnthropometric, IData, ISomatotype } from "../App";
@@ -38,6 +38,9 @@ const Dashboard = () => {
 
   const [idSomatotype, setIdSomatotype] = useState<string>("");
 
+  const [toggleGraph, setToggleGraph] = useState(false);
+  const [pointsArray, setPointsArray] = useState<IPoints[]>([]);
+
   const getUserDatas = async () => {
     const headers = {
       "Content-Type": "application/json",
@@ -52,14 +55,16 @@ const Dashboard = () => {
       );
       setSomatotypes(response.data.data.somatotypes);
       setAnthropometrics(response.data.data.anthropometrics);
+      setToggleGraph(!toggleGraph);
+      
     } catch (error) {
       // if (error.response) {
-      //     error.response.data.message
-      //       ? setSnackbarMessage(error.response.data.message)
-      //       : setSnackbarMessage(error.response.statusText);
-      //   } else {
-      //     setSnackbarMessage("Error with the server");
-      //   }
+        //     error.response.data.message
+        //       ? setSnackbarMessage(error.response.data.message)
+        //       : setSnackbarMessage(error.response.statusText);
+        //   } else {
+        //     setSnackbarMessage("Error with the server");
+        //   }
       console.log("error ", error);
     }
   };
@@ -67,10 +72,6 @@ const Dashboard = () => {
   useEffect(() => {
     getUserDatas();
   }, []);
-
-  useEffect(() => {
-    console.log(somatotypes);
-  }, [somatotypes]);
 
   return (
     <>
@@ -123,6 +124,9 @@ const Dashboard = () => {
                 idRow={idRow}
                 setIdSomatotype={setIdSomatotype}
                 idSomatotype={idSomatotype}
+                setPointsArray={setPointsArray}
+                toggleGraph={toggleGraph}
+                setToggleGraph={setToggleGraph}
               />
             </Grid>
             {/* Graph */}
@@ -141,9 +145,8 @@ const Dashboard = () => {
               width={"100%"}
             >
               <SomatotypeGraph
-                somatotype={somatotype}
-                anthropometric={anthropometric}
-                setSomatotype={setSomatotype}
+                updateGraph={toggleGraph}
+                pointsArray={pointsArray}
               />
             </Grid>
             <Button

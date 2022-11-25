@@ -7,7 +7,7 @@ import FilledInput from "@mui/material/FilledInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
-import { calculateSomatotype } from "./Calculation";
+import { AddPoint, calculateSomatotype, IPoints } from "./Calculation";
 import ResultsTable from "./ResultsTable";
 import { useNavigate } from "react-router-dom";
 // import { LargeNumberLike } from 'crypto';
@@ -40,6 +40,8 @@ const Add: FC<IAdding> = (props: any) => {
 
   const [cookies, setCookie] = useCookies(["user"]);
 
+  const [pointsArray, setPointsArray] = useState<IPoints[]>([]);
+
   useEffect(() => {
     props.isAdding
       ? setAnthropometric((anthropometric) => ({
@@ -69,15 +71,14 @@ const Add: FC<IAdding> = (props: any) => {
       Authorization: `Bearer ${cookies.user.token}`,
     };
 
-    console.log(props.idSomatotype, url);
-    console.log("hello");
-
     try {
       const response = await axios.post(
         url,
         { somatotype, anthropometric },
         { headers: headers }
       );
+      props.setOpenAddModal!(false);
+      window.scrollTo(0, 0);
       console.log(response.data);
 
       //TO DO Set snackbar message to say deleted sucessfully
@@ -162,6 +163,19 @@ const Add: FC<IAdding> = (props: any) => {
               onClick={() => {
                 setShowResults(true);
                 setToggleGraph(!toggleGraph);
+
+                const somatotypeResults = calculateSomatotype(anthropometric!);
+
+                let pointsResultsArray: IPoints[] = [];
+                const point = AddPoint(somatotypeResults[0],somatotypeResults[1],somatotypeResults[2]);
+                pointsResultsArray.push(point);
+                setPointsArray(pointsResultsArray);
+                
+                setSomatotype?.({
+                endomorphy: somatotypeResults[0],
+                mesomorphy: somatotypeResults[1],
+                ectomorphy: somatotypeResults[2],
+                });
               }}
             >
               Submit
@@ -186,6 +200,9 @@ const Add: FC<IAdding> = (props: any) => {
                 showHistory={false}
                 multipleResults={false}
                 singleSomatotype={somatotype}
+                setPointsArray={setPointsArray}
+                toggleGraph={toggleGraph}
+                setToggleGraph={setToggleGraph}
             />
           </Grid>
         ) : null}
@@ -208,9 +225,7 @@ const Add: FC<IAdding> = (props: any) => {
           {showResults && (
             <SomatotypeGraph
               updateGraph={toggleGraph}
-              somatotype={somatotype}
-              anthropometric={anthropometric}
-              setSomatotype={setSomatotype}
+              pointsArray={pointsArray}
             />
           )}
         </Grid>

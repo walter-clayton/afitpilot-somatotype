@@ -53,6 +53,8 @@ const Landing: FC<ILanding> = (props) => {
     IAnthropometric | undefined
   >(undefined);
 
+  const [pointsArray, setPointsArray] = useState<IPoints[]>([]);
+
   useEffect(() => {
     setAnthropometric((anthropometric) => ({
       height: 180,
@@ -176,6 +178,19 @@ const Landing: FC<ILanding> = (props) => {
               onClick={() => {
                 setShowResults(true);
                 setToggleGraph(!toggleGraph);
+
+                const somatotypeResults = calculateSomatotype(anthropometric!);
+
+                let pointsResultsArray: IPoints[] = [];
+                const point = AddPoint(somatotypeResults[0],somatotypeResults[1],somatotypeResults[2]);
+                pointsResultsArray.push(point);
+                setPointsArray(pointsResultsArray);
+                
+                setSomatotype?.({
+                endomorphy: somatotypeResults[0],
+                mesomorphy: somatotypeResults[1],
+                ectomorphy: somatotypeResults[2],
+                });
               }}
             >
               Submit
@@ -197,9 +212,12 @@ const Landing: FC<ILanding> = (props) => {
             width={"100%"}
           >
             <ResultsTable
-                showHistory={false}
-                multipleResults={false}
-                singleSomatotype={somatotype}
+              showHistory={false}
+              multipleResults={false}
+              singleSomatotype={somatotype}
+              setPointsArray={setPointsArray}
+              toggleGraph={toggleGraph}
+              setToggleGraph={setToggleGraph}
             />
           </Grid>
         ) : null}
@@ -221,9 +239,7 @@ const Landing: FC<ILanding> = (props) => {
           {showResults && (
             <SomatotypeGraph
               updateGraph={toggleGraph}
-              somatotype={somatotype}
-              anthropometric={anthropometric}
-              setSomatotype={setSomatotype}
+              pointsArray={pointsArray}
             />
           )}
         </Grid>

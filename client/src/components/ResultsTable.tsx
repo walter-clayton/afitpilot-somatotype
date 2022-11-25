@@ -28,6 +28,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { ISomatotype } from "../App";
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import { AddPoint, IPoints } from "./Calculation";
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
@@ -59,19 +60,20 @@ function createRow(
   Mesomorphy: string,
   Ectomorphy: string,
   Date: string,
-  Id: string
+  Id: string,
+  IsDisplayed: boolean
 ) {
-  return { Endomorphy, Mesomorphy, Ectomorphy, Date, Id };
+  return { Endomorphy, Mesomorphy, Ectomorphy, Date, Id, IsDisplayed };
 }
 
-function formatDate(date:string){
-  let newDate = '';
-  let formatedDate = '';
-  if(date !== null && date !== undefined){
-    newDate = date.split(' ')[0];
+function formatDate(date: string) {
+  let newDate = "";
+  let formatedDate = "";
+  if (date !== null && date !== undefined) {
+    newDate = date.split(" ")[0];
   }
-  if(date !== ''){
-    formatedDate = newDate.substring(0, newDate.length - 1)
+  if (date !== "") {
+    formatedDate = newDate.substring(0, newDate.length - 1);
   }
 
   return formatedDate;
@@ -89,6 +91,9 @@ interface resultProps {
   idSomatotype?: string;
   multipleResults?: boolean;
   singleSomatotype?: ISomatotype;
+  setPointsArray?: (pointsArray: IPoints[]) => void;
+  toggleGraph?: boolean;
+  setToggleGraph?: (toggleGraph: boolean) => void;
 }
 
 const ResultsTable: FC<resultProps> = (props: any) => {
@@ -98,14 +103,16 @@ const ResultsTable: FC<resultProps> = (props: any) => {
 
   const [cookies, setCookie] = useCookies(["user"]);
 
+  const [shownSomatotypeArray, setShownSomatotypeArray] = useState<
+    ISomatotype[]
+  >([]);
+
   const deleteSomatotype = async (id: string) => {
     const headers = {
       "Content-Type": "application/json",
       access_key: process.env.REACT_APP_ACCESS_KEY,
       Authorization: `Bearer ${cookies.user.token}`,
     };
-
-    console.log(props.idSomatotype);
 
     try {
       const response = await axios.delete(
@@ -128,12 +135,19 @@ const ResultsTable: FC<resultProps> = (props: any) => {
 
   useEffect(() => {
     setRows([]);
-    if(props.somatotypes !== undefined){
-      props.somatotypes.forEach((somatotype: ISomatotype) => {
-
-        let formatedDate = '';
-        if(somatotype.createdAt !== null && somatotype.createdAt !== undefined){
+    if (props.somatotypes !== undefined) {
+      props.somatotypes.forEach((somatotype: ISomatotype, index:number) => {
+        let formatedDate = "";
+        if (
+          somatotype.createdAt !== null &&
+          somatotype.createdAt !== undefined
+        ) {
           formatedDate = formatDate(somatotype.createdAt);
+        }
+        
+        let isDisplayed = false;
+        if(index === 0){
+          isDisplayed = true;
         }
 
         setRows((rows) => [
@@ -143,7 +157,8 @@ const ResultsTable: FC<resultProps> = (props: any) => {
             String(somatotype.mesomorphy?.toFixed(1)),
             String(somatotype.ectomorphy?.toFixed(1)),
             String(formatedDate),
-            String(somatotype._id)
+            String(somatotype._id),
+            isDisplayed
           ),
         ]);
       });
@@ -152,7 +167,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
 
   useEffect(() => {
     setRows([]);
-    if(props.singleSomatotype !== undefined){
+    if (props.singleSomatotype !== undefined) {
       setRows((rows) => [
         ...rows,
         createRow(
@@ -160,11 +175,35 @@ const ResultsTable: FC<resultProps> = (props: any) => {
           String(props.singleSomatotype.mesomorphy.toFixed(1)),
           String(props.singleSomatotype.ectomorphy.toFixed(1)),
           String(props.singleSomatotype.createdAt),
-          String(props.singleSomatotype._id)
+          String(props.singleSomatotype._id),
+          true
         ),
       ]);
     }
   }, [props.singleSomatotype]);
+
+  useEffect(() => {
+    CheckForDisplayedRows(rows);
+  },[rows])
+
+  const showSomatotypeInGraph = (somatotypesToShow: ISomatotype[]) => {
+    let pointsResultsArray: IPoints[] = [];
+    somatotypesToShow.forEach((somatotypeToShow) => {
+      const point = AddPoint(
+        somatotypeToShow.endomorphy!,
+        somatotypeToShow.mesomorphy!,
+        somatotypeToShow.ectomorphy!
+      );
+      pointsResultsArray.push(point);
+    });
+    
+    props.setPointsArray(pointsResultsArray);
+    props.setToggleGraph(!props.toggleGraph);
+  };
+
+  useEffect(() => {
+    showSomatotypeInGraph(shownSomatotypeArray);
+  }, [shownSomatotypeArray]);
 
   const handleEditResultsClick = () => {
     handleEditModalOpen();
@@ -174,13 +213,28 @@ const ResultsTable: FC<resultProps> = (props: any) => {
     handleDeleteModalOpen();
   };
 
-  const handleCheckBoxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const row = event.target.parentElement?.parentElement?.parentElement;
+  const CheckForDisplayedRows = (rows:any) => {
+    setShownSomatotypeArray([]);
+    let tempSomatotypesToShow:ISomatotype[] = [];
+    rows.forEach((row:any) => {
+      let displayedSomatotype:(ISomatotype | undefined);
+      if(row.IsDisplayed){                
+        displayedSomatotype = {endomorphy:row.Endomorphy, mesomorphy:row.Mesomorphy, ectomorphy:row.Ectomorphy}
+        tempSomatotypesToShow.push(displayedSomatotype!)
+      }
+    });
+    setShownSomatotypeArray(tempSomatotypesToShow);
+  }
 
-    if (event.target.checked) {
-      row!.style.backgroundColor = "lightgrey";
+  const handleCheckBoxChange = (event: React.ChangeEvent<HTMLInputElement>, row:any) => {
+    row.IsDisplayed = !row.IsDisplayed;
+    CheckForDisplayedRows(rows);
+
+    const rowParent = event.target.parentElement?.parentElement?.parentElement;
+    if (row.IsDisplayed) {
+      rowParent!.style.backgroundColor = "lightgrey";
     } else {
-      row!.style.backgroundColor = "white";
+      rowParent!.style.backgroundColor = "white";
     }
   };
 
@@ -239,11 +293,14 @@ const ResultsTable: FC<resultProps> = (props: any) => {
     );
 
     tableBodyContent = rows.map((row, index) => (
-      <TableRow hover={true} key={index}>
+      <TableRow hover={true} key={index} sx={{backgroundColor: row.IsDisplayed ? 'lightgrey' : 'white'}}>
         <TableCell align="center" sx={cellStyle}>
           <Checkbox
-            onChange={handleCheckBoxChange}
+            onChange={(e) => {
+              handleCheckBoxChange(e, row);
+            }}
             aria-label="Somatotype selection checkbox"
+            checked={row.IsDisplayed}
             icon={<VisibilityOffIcon sx={{ color: "#aaaaaa" }} />}
             checkedIcon={<VisibilityIcon sx={{ color: "#aaaaaa" }} />}
           />
