@@ -69,8 +69,8 @@ export interface IPoints{
 }
 
 export function AddPoint(endomorphy:number, mesomorphy:number, ectomorphy:number){
-    var xPos = ectomorphy - endomorphy;
-    var yPos = (2 * mesomorphy) - (endomorphy + ectomorphy);
+    var xPos = Number(ectomorphy) - Number(endomorphy);
+    var yPos = (2 * Number(mesomorphy)) - (Number(endomorphy) + Number(ectomorphy));
     var pos:IPoints = {x:xPos, y:yPos, endomorphy:endomorphy, mesomorphy: mesomorphy, ectomorphy:ectomorphy};
     return pos;
 }
@@ -85,18 +85,20 @@ export function UpdateCanvas(context:any, canvas: any, canvasWidthValue:number |
         
         drawGraph(context, canvasWidthValue, canvasHeightValue);
         
-        for(let i = 0; i < addedPointsList.length; i++){
-            // x axes has 23 reference points going up by 1
-            // the middle of the canvas starts at 0
-            // x = 23.5 based of the original 400
-            var rel_x = (canvasWidthValue! * getWidthRatio(247)) + ((canvasWidthValue! * getWidthRatio(400))/12 * addedPointsList[i].x);
-
-            // y axes has 16 reference points going up by 2
-            // the middle of the triangle starts at 0 (242)
-            // y = 26.25
-            var rel_y = (canvasHeightValue! * getHeightRatio(342))-((canvasWidthValue! * getWidthRatio(420))/23 * addedPointsList[i].y);
-
-            drawNewPoint(context, rel_x, rel_y, addedPointsList[i].endomorphy, addedPointsList[i].mesomorphy, addedPointsList[i].ectomorphy);
+        if (addedPointsList !== undefined){
+          for(let i = 0; i < addedPointsList.length; i++){            
+              // x axes has 23 reference points going up by 1
+              // the middle of the canvas starts at 0
+              // x = 23.5 based of the original 400
+              var rel_x = (canvasWidthValue! * getWidthRatio(247)) + ((canvasWidthValue! * getWidthRatio(400))/12 * addedPointsList[i].x);
+  
+              // y axes has 16 reference points going up by 2
+              // the middle of the triangle starts at 0 (242)
+              // y = 26.25
+              var rel_y = (canvasHeightValue! * getHeightRatio(342))-((canvasWidthValue! * getWidthRatio(420))/23 * addedPointsList[i].y);
+  
+              drawNewPoint(context, rel_x, rel_y, Number(addedPointsList[i].endomorphy), Number(addedPointsList[i].mesomorphy), Number(addedPointsList[i].ectomorphy));
+          }
         }
       }
 
