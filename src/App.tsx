@@ -17,6 +17,7 @@ import Contact from "./components/CTA/Contact";
 import TermsCondition from "./components/CTA/TermsCondition";
 import Privacy from "./components/CTA/Privacy";
 import Types from "./components/CTA/TypesPage";
+import ReactGA from "react-ga";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -50,6 +51,14 @@ function App() {
   const [snackbarMessage, setSnackbarMessage] = useState<string>("");
 
   const [data, setData] = useState<IData | undefined>(undefined);
+
+  const TRACKING_ID = "UA-175797285-3";
+  ReactGA.initialize(TRACKING_ID);
+
+  useEffect(() => {
+    // non interaction
+    ReactGA.pageview(window.location.pathname);
+  }, []);
 
   const handleClose = (event: any, reason: any) => {
     if (reason === "clickaway") {
