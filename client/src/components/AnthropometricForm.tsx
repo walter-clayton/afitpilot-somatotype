@@ -78,7 +78,7 @@ const AnthropometricForm:FC<IAnthropometricForm> = (props):any => {
                 <FormHelperText>Height</FormHelperText>
                 <FilledInput
                     id="height"
-                    placeholder="180"
+                    placeholder={String(props.anthropometric?.height)}
                     endAdornment={<InputAdornment position="end">cm</InputAdornment>}
                     onChange={handleHeightChange}
                 />
@@ -90,7 +90,7 @@ const AnthropometricForm:FC<IAnthropometricForm> = (props):any => {
                     id="bodyweight"
                     endAdornment={<InputAdornment position="end">kg</InputAdornment>}
                     aria-describedby="filled-weight-helper-text"
-                    placeholder="80"
+                    placeholder={String(props.anthropometric?.weight)}
                     onChange={handleBodyWeightChange}
                 />
             </FormControl>
@@ -101,7 +101,7 @@ const AnthropometricForm:FC<IAnthropometricForm> = (props):any => {
                     id="tricep"
                     endAdornment={<InputAdornment position="end">mm</InputAdornment>}
                     aria-describedby="filled-weight-helper-text"
-                    placeholder="12"
+                    placeholder={String(props.anthropometric?.tricep_skinfold)}
                     onChange={handleTricepChange}
                 />
             </FormControl>
@@ -110,7 +110,7 @@ const AnthropometricForm:FC<IAnthropometricForm> = (props):any => {
                 <FormHelperText>Subscapular skin fold</FormHelperText>
                 <FilledInput
                     id="subscapular"
-                    placeholder="12"
+                    placeholder={String(props.anthropometric?.subscapular_skinfold)}
                     endAdornment={<InputAdornment position="end">mm</InputAdornment>}
                     aria-describedby="filled-weight-helper-text"
                     onChange={handleSubscapularChange}
@@ -121,7 +121,7 @@ const AnthropometricForm:FC<IAnthropometricForm> = (props):any => {
                 <FormHelperText>Supraspinal skin fold</FormHelperText>
                 <FilledInput
                     id="supraspinal"
-                    placeholder="12"
+                    placeholder={String(props.anthropometric?.supraspinal_skinfold)}
                     endAdornment={<InputAdornment position="end">mm</InputAdornment>}
                     aria-describedby="filled-weight-helper-text"
                     onChange={handleSupraspinalChange}
@@ -132,7 +132,7 @@ const AnthropometricForm:FC<IAnthropometricForm> = (props):any => {
                 <FormHelperText>Humerus breadth </FormHelperText>
                 <FilledInput
                     id="humerus"
-                    placeholder="7"
+                    placeholder={String(props.anthropometric?.humerus_breadth)}
                     endAdornment={<InputAdornment position="end">cm</InputAdornment>}
                     aria-describedby="filled-weight-helper-text"
                     onChange={handleHumerusChange}
@@ -143,7 +143,7 @@ const AnthropometricForm:FC<IAnthropometricForm> = (props):any => {
                 <FormHelperText>Femur breadth</FormHelperText>
                 <FilledInput
                     id="femur"
-                    placeholder="8"
+                    placeholder={String(props.anthropometric?.femur_breadth)}
                     endAdornment={<InputAdornment position="end">cm</InputAdornment>}
                     aria-describedby="filled-weight-helper-text"
                     onChange={handleFemurChange}
@@ -154,7 +154,7 @@ const AnthropometricForm:FC<IAnthropometricForm> = (props):any => {
                 <FormHelperText>Calf circumference</FormHelperText>
                 <FilledInput
                     id="calf"
-                    placeholder="38"
+                    placeholder={String(props.anthropometric?.calf_girth)}
                     endAdornment={<InputAdornment position="end">cm</InputAdornment>}
                     aria-describedby="filled-weight-helper-text"
                     onChange={handleCalfChange}
@@ -165,7 +165,7 @@ const AnthropometricForm:FC<IAnthropometricForm> = (props):any => {
                 <FormHelperText>Bicep circumference</FormHelperText>
                 <FilledInput
                     id="bicep"
-                    placeholder="38"
+                    placeholder={String(props.anthropometric?.bicep_girth)}
                     endAdornment={<InputAdornment position="end">cm</InputAdornment>}
                     aria-describedby="filled-weight-helper-text"
                     onChange={handleBicepChange}

@@ -64,21 +64,37 @@ function createRow(
   return { Endomorphy, Mesomorphy, Ectomorphy, Date, Id };
 }
 
+function formatDate(date:string){
+  let newDate = '';
+  let formatedDate = '';
+  if(date !== null && date !== undefined){
+    newDate = date.split(' ')[0];
+  }
+  if(date !== ''){
+    formatedDate = newDate.substring(0, newDate.length - 1)
+  }
+
+  return formatedDate;
+}
+
 interface resultProps {
   somatotypes?: ISomatotype[];
   showHistory?: boolean;
   getUserDatas?: () => void;
   setOpenAddModal?: (openModal: boolean) => void;
+  setIsAdding?: (openModal: boolean) => void;
+  setIdRow?: (id: string) => void;
+  idRow?: string;
+  setIdSomatotype?: (id: string) => void;
+  idSomatotype?: string;
+  multipleResults?: boolean;
+  singleSomatotype?: ISomatotype;
 }
 
 const ResultsTable: FC<resultProps> = (props: any) => {
   const { height, width } = useWindowDimensions();
 
-  const rowKey = "key";
-
   const [rows, setRows] = useState<any[]>([]);
-
-  const [idRow, setIdRow] = useState<string>("");
 
   const [cookies, setCookie] = useCookies(["user"]);
 
@@ -89,12 +105,14 @@ const ResultsTable: FC<resultProps> = (props: any) => {
       Authorization: `Bearer ${cookies.user.token}`,
     };
 
+    console.log(props.idSomatotype);
+
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_DELETESOMATOTYPE_URL}/${id}`!,
+        `${process.env.REACT_APP_DELETESOMATOTYPE_URL}/${props.idSomatotype}`!,
         { headers: headers }
       );
-      //Set snackbar message to say deleted sucessfully
+      //TO DO Set snackbar message to say deleted sucessfully
       props.getUserDatas();
     } catch (error) {
       // if (error.response) {
@@ -109,21 +127,44 @@ const ResultsTable: FC<resultProps> = (props: any) => {
   };
 
   useEffect(() => {
-    props.somatotypes.forEach((somatotype: ISomatotype) => {
-      setRows([]);
+    setRows([]);
+    if(props.somatotypes !== undefined){
+      props.somatotypes.forEach((somatotype: ISomatotype) => {
 
+        let formatedDate = '';
+        if(somatotype.createdAt !== null && somatotype.createdAt !== undefined){
+          formatedDate = formatDate(somatotype.createdAt);
+        }
+
+        setRows((rows) => [
+          ...rows,
+          createRow(
+            String(somatotype.endomorphy?.toFixed(1)),
+            String(somatotype.mesomorphy?.toFixed(1)),
+            String(somatotype.ectomorphy?.toFixed(1)),
+            String(formatedDate),
+            String(somatotype._id)
+          ),
+        ]);
+      });
+    }
+  }, [props.somatotypes]);
+
+  useEffect(() => {
+    setRows([]);
+    if(props.singleSomatotype !== undefined){
       setRows((rows) => [
         ...rows,
         createRow(
-          String(somatotype.endomorphy),
-          String(somatotype.mesomorphy),
-          String(somatotype.ectomorphy),
-          String(somatotype.createdAt),
-          String(somatotype._id)
+          String(props.singleSomatotype.endomorphy.toFixed(1)),
+          String(props.singleSomatotype.mesomorphy.toFixed(1)),
+          String(props.singleSomatotype.ectomorphy.toFixed(1)),
+          String(props.singleSomatotype.createdAt),
+          String(props.singleSomatotype._id)
         ),
       ]);
-    });
-  }, [props.somatotypes]);
+    }
+  }, [props.singleSomatotype]);
 
   const handleEditResultsClick = () => {
     handleEditModalOpen();
@@ -197,8 +238,8 @@ const ResultsTable: FC<resultProps> = (props: any) => {
       </TableRow>
     );
 
-    tableBodyContent = rows.map((row) => (
-      <TableRow hover={true} key={row.Id}>
+    tableBodyContent = rows.map((row, index) => (
+      <TableRow hover={true} key={index}>
         <TableCell align="center" sx={cellStyle}>
           <Checkbox
             onChange={handleCheckBoxChange}
@@ -231,6 +272,8 @@ const ResultsTable: FC<resultProps> = (props: any) => {
             <div
               id="EditIconButtonWrapper"
               onClick={() => {
+                props.setIdSomatotype(row.Id);
+                props.setIdRow(index);
                 handleEditResultsClick();
               }}
             >
@@ -248,7 +291,8 @@ const ResultsTable: FC<resultProps> = (props: any) => {
             <div
               id="DeleteIconButtonWrapper"
               onClick={() => {
-                setIdRow(row.Id);
+                props.setIdSomatotype(row.Id);
+                props.setIdRow(index);
                 handleDeleteResultsClick();
               }}
             >
@@ -282,8 +326,8 @@ const ResultsTable: FC<resultProps> = (props: any) => {
       </TableRow>
     );
 
-    tableBodyContent = rows.map((row) => (
-      <TableRow hover={true} key={rowKey}>
+    tableBodyContent = rows.map((row, index) => (
+      <TableRow hover={true} key={index}>
         <TableCell align="center" sx={cellStyle}>
           {row.Endomorphy}
         </TableCell>
@@ -351,6 +395,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                 variant="contained"
                 color="success"
                 onClick={() => {
+                  props.setIsAdding(false);
                   props.setOpenAddModal(true);
                   window.scrollTo(0, 0);
                   handleEditModalClose();
@@ -399,7 +444,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                 variant="contained"
                 color="success"
                 onClick={() => {
-                  deleteSomatotype(idRow);
+                  deleteSomatotype(props.idSomatotype);
                   handleDeleteModalClose();
                 }}
               >

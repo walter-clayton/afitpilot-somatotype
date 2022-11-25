@@ -14,7 +14,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { Navigate, useNavigate } from "react-router-dom";
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from "@mui/icons-material/Edit";
 
 const Profile = (props: any) => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -50,6 +50,7 @@ const Profile = (props: any) => {
       setFetching(true);
       const headers = {
         "Content-Type": "application/json",
+        access_key: process.env.REACT_APP_ACCESS_KEY,
         Authorization: `Bearer ${cookies.user.token}`,
       };
       const response = await axios.delete(process.env.REACT_APP_DELETE_URL!, {
@@ -79,10 +80,7 @@ const Profile = (props: any) => {
   };
 
   const handleSaveChanges = () => {
-    if (
-      isEmailValid(email) &&
-      isPasswordValid(password)
-    ) {
+    if (isEmailValid(email) && isPasswordValid(password)) {
       setSnackBarMessage("Changes saved!");
       setHasChanges(false);
       setIsEditing(false);
@@ -167,7 +165,7 @@ const Profile = (props: any) => {
         </Typography>
 
         <Grid container>
-          <Grid container justifyContent={'center'} alignContent={'center'}>
+          <Grid container justifyContent={"center"} alignContent={"center"}>
             <Grid item>
               <TextField
                 error={emailIsIncorrect ? true : false}
@@ -192,13 +190,12 @@ const Profile = (props: any) => {
             </Grid>
             <Grid item>
               <Button variant="contained">
-                <EditIcon/>
+                <EditIcon />
               </Button>
             </Grid>
-
           </Grid>
 
-          <Grid container justifyContent={'center'} alignContent={'center'}>
+          <Grid container justifyContent={"center"} alignContent={"center"}>
             <Grid item>
               <TextField
                 error={passwordIsIncorrect ? true : false}
@@ -272,12 +269,11 @@ const Profile = (props: any) => {
             </Grid>
             <Grid item>
               <Button variant="contained">
-                <EditIcon/>
+                <EditIcon />
               </Button>
             </Grid>
           </Grid>
         </Grid>
-
 
         {hasChanges ? (
           <Button
