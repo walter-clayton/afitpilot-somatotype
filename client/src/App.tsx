@@ -139,7 +139,7 @@ function App() {
         message={snackbarMessage}
         onClose={handleClose}
       />
-      <BalancedEndomorph />
+      {/* <BalancedEndomorph /> */}
       <Footer />
     </Router>
   );
