@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const router = (0, express_1.Router)();
+const { login } = require("../controllers/auth.controller");
+const verifyKey = require("../middlewares/verifyKey.middleware");
+const verifyEmail = require("../middlewares/verifyEmail.middleware");
+const verifyPassword = require("../middlewares/verifyPassword.middleware");
+router.post("/login", verifyKey, verifyEmail, verifyPassword, login);
+module.exports = router;
