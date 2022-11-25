@@ -64,6 +64,19 @@ function createRow(
   return { Endomorphy, Mesomorphy, Ectomorphy, Date, Id };
 }
 
+function formatDate(date:string){
+  let newDate = '';
+  let formatedDate = '';
+  if(date !== null && date !== undefined){
+    newDate = date.split(' ')[0];
+  }
+  if(date !== ''){
+    formatedDate = newDate.substring(0, newDate.length - 1)
+  }
+
+  return formatedDate;
+}
+
 interface resultProps {
   somatotypes?: ISomatotype[];
   showHistory?: boolean;
@@ -74,6 +87,8 @@ interface resultProps {
   idRow?: string;
   setIdSomatotype?: (id: string) => void;
   idSomatotype?: string;
+  multipleResults?: boolean;
+  singleSomatotype?: ISomatotype;
 }
 
 const ResultsTable: FC<resultProps> = (props: any) => {
@@ -113,19 +128,43 @@ const ResultsTable: FC<resultProps> = (props: any) => {
 
   useEffect(() => {
     setRows([]);
-    props.somatotypes.forEach((somatotype: ISomatotype) => {
+    if(props.somatotypes !== undefined){
+      props.somatotypes.forEach((somatotype: ISomatotype) => {
+
+        let formatedDate = '';
+        if(somatotype.createdAt !== null && somatotype.createdAt !== undefined){
+          formatedDate = formatDate(somatotype.createdAt);
+        }
+
+        setRows((rows) => [
+          ...rows,
+          createRow(
+            String(somatotype.endomorphy?.toFixed(1)),
+            String(somatotype.mesomorphy?.toFixed(1)),
+            String(somatotype.ectomorphy?.toFixed(1)),
+            String(formatedDate),
+            String(somatotype._id)
+          ),
+        ]);
+      });
+    }
+  }, [props.somatotypes]);
+
+  useEffect(() => {
+    setRows([]);
+    if(props.singleSomatotype !== undefined){
       setRows((rows) => [
         ...rows,
         createRow(
-          String(somatotype.endomorphy),
-          String(somatotype.mesomorphy),
-          String(somatotype.ectomorphy),
-          String(somatotype.createdAt),
-          String(somatotype._id)
+          String(props.singleSomatotype.endomorphy.toFixed(1)),
+          String(props.singleSomatotype.mesomorphy.toFixed(1)),
+          String(props.singleSomatotype.ectomorphy.toFixed(1)),
+          String(props.singleSomatotype.createdAt),
+          String(props.singleSomatotype._id)
         ),
       ]);
-    });
-  }, [props.somatotypes]);
+    }
+  }, [props.singleSomatotype]);
 
   const handleEditResultsClick = () => {
     handleEditModalOpen();

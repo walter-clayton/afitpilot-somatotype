@@ -114,10 +114,6 @@ const Landing: FC<ILanding> = (props) => {
     setSnackBarState({ ...snackBarState, open: false });
   };
 
-  useEffect(() => {
-    console.log(anthropometric);
-  }, [anthropometric]);
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -200,12 +196,11 @@ const Landing: FC<ILanding> = (props) => {
             lg={6}
             width={"100%"}
           >
-            {/* <ResultsTable
-              endomorphy={somatotype?.endomorphy}
-              mesomorphy={somatotype?.mesomorphy}
-              ectomorphy={somatotype?.ectomorphy}
-              showHistory={false}
-            /> */}
+            <ResultsTable
+                showHistory={false}
+                multipleResults={false}
+                singleSomatotype={somatotype}
+            />
           </Grid>
         ) : null}
 
