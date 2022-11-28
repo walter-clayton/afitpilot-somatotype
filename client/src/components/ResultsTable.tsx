@@ -196,7 +196,9 @@ const ResultsTable: FC<resultProps> = (props: any) => {
   }, [rows]);
 
   useEffect(() => {
-    props.getUserDatas();
+    if(props.showHistory){
+      props.getUserDatas();
+    }
   }, []);
 
   const showSomatotypeInGraph = (somatotypesToShow: ISomatotype[]) => {

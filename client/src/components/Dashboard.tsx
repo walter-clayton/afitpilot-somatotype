@@ -59,8 +59,6 @@ const Dashboard: FC<IDashboard> = (props) => {
   const [fetching, setFetching] = React.useState<boolean>(false);
 
   const getUserDatas = async () => {
-    console.log(fetching);
-
     const headers = {
       "Content-Type": "application/json",
       access_key: process.env.REACT_APP_ACCESS_KEY,
