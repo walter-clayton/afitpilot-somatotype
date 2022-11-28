@@ -13,6 +13,7 @@ import {
   Box,
   Button,
   Checkbox,
+  CircularProgress,
   ClickAwayListener,
   Grid,
   IconButton,
@@ -94,6 +95,9 @@ interface resultProps {
   setPointsArray?: (pointsArray: IPoints[]) => void;
   toggleGraph?: boolean;
   setToggleGraph?: (toggleGraph: boolean) => void;
+  setDashboardSnackBarOpen?: (open: boolean) => void;
+  setDashboardSnackBarMessage?: (msg: string) => void;
+  isFetching?: boolean;
 }
 
 const ResultsTable: FC<resultProps> = (props: any) => {
@@ -107,6 +111,8 @@ const ResultsTable: FC<resultProps> = (props: any) => {
     ISomatotype[]
   >([]);
 
+  const [updating, setUpdating] = React.useState<boolean>(false);
+
   const deleteSomatotype = async (id: string) => {
     const headers = {
       "Content-Type": "application/json",
@@ -115,12 +121,14 @@ const ResultsTable: FC<resultProps> = (props: any) => {
     };
 
     try {
+      setUpdating(true);
       const response = await axios.delete(
         `${process.env.REACT_APP_DELETESOMATOTYPE_URL}/${props.idSomatotype}`!,
         { headers: headers }
       );
       //TO DO Set snackbar message to say deleted sucessfully
       props.getUserDatas();
+      setUpdating(false);
     } catch (error) {
       // if (error.response) {
       //     error.response.data.message
@@ -130,13 +138,14 @@ const ResultsTable: FC<resultProps> = (props: any) => {
       //     setSnackbarMessage("Error with the server");
       //   }
       console.log("error ", error);
+      setUpdating(false);
     }
   };
 
   useEffect(() => {
     setRows([]);
     if (props.somatotypes !== undefined) {
-      props.somatotypes.forEach((somatotype: ISomatotype, index:number) => {
+      props.somatotypes.forEach((somatotype: ISomatotype, index: number) => {
         let formatedDate = "";
         if (
           somatotype.createdAt !== null &&
@@ -144,9 +153,9 @@ const ResultsTable: FC<resultProps> = (props: any) => {
         ) {
           formatedDate = formatDate(somatotype.createdAt);
         }
-        
+
         let isDisplayed = false;
-        if(index === 0){
+        if (index === 0) {
           isDisplayed = true;
         }
 
@@ -184,7 +193,11 @@ const ResultsTable: FC<resultProps> = (props: any) => {
 
   useEffect(() => {
     CheckForDisplayedRows(rows);
-  },[rows])
+  }, [rows]);
+
+  useEffect(() => {
+    props.getUserDatas();
+  }, []);
 
   const showSomatotypeInGraph = (somatotypesToShow: ISomatotype[]) => {
     let pointsResultsArray: IPoints[] = [];
@@ -196,7 +209,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
       );
       pointsResultsArray.push(point);
     });
-    
+
     props.setPointsArray(pointsResultsArray);
     props.setToggleGraph(!props.toggleGraph);
   };
@@ -213,20 +226,27 @@ const ResultsTable: FC<resultProps> = (props: any) => {
     handleDeleteModalOpen();
   };
 
-  const CheckForDisplayedRows = (rows:any) => {
+  const CheckForDisplayedRows = (rows: any) => {
     setShownSomatotypeArray([]);
-    let tempSomatotypesToShow:ISomatotype[] = [];
-    rows.forEach((row:any) => {
-      let displayedSomatotype:(ISomatotype | undefined);
-      if(row.IsDisplayed){                
-        displayedSomatotype = {endomorphy:row.Endomorphy, mesomorphy:row.Mesomorphy, ectomorphy:row.Ectomorphy}
-        tempSomatotypesToShow.push(displayedSomatotype!)
+    let tempSomatotypesToShow: ISomatotype[] = [];
+    rows.forEach((row: any) => {
+      let displayedSomatotype: ISomatotype | undefined;
+      if (row.IsDisplayed) {
+        displayedSomatotype = {
+          endomorphy: row.Endomorphy,
+          mesomorphy: row.Mesomorphy,
+          ectomorphy: row.Ectomorphy,
+        };
+        tempSomatotypesToShow.push(displayedSomatotype!);
       }
     });
     setShownSomatotypeArray(tempSomatotypesToShow);
-  }
+  };
 
-  const handleCheckBoxChange = (event: React.ChangeEvent<HTMLInputElement>, row:any) => {
+  const handleCheckBoxChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    row: any
+  ) => {
     row.IsDisplayed = !row.IsDisplayed;
     CheckForDisplayedRows(rows);
 
@@ -244,7 +264,9 @@ const ResultsTable: FC<resultProps> = (props: any) => {
 
   const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
   const handleDeleteModalOpen = () => setOpenDeleteModal(true);
-  const handleDeleteModalClose = () => setOpenDeleteModal(false);
+  const handleDeleteModalClose = () => {
+    setOpenDeleteModal(false);
+  };
 
   const modalStyle = {
     position: "absolute" as "absolute",
@@ -259,11 +281,11 @@ const ResultsTable: FC<resultProps> = (props: any) => {
     p: 4,
   };
 
-  let endoColumnTitle = width >= 600 ? "Endomorphy" : "Endo";
-  let mesoColumnTitle = width >= 600 ? "Mesomorphy" : "Meso";
-  let ectoColumnTitle = width >= 600 ? "Ectomorphy" : "Ecto";
+  let endoColumnTitle = width >= 650 ? "Endomorphy" : "Endo";
+  let mesoColumnTitle = width >= 650 ? "Mesomorphy" : "Meso";
+  let ectoColumnTitle = width >= 650 ? "Ectomorphy" : "Ecto";
 
-  let cellStyle = width >= 600 ? null : { padding: "6px 6px" };
+  let cellStyle = width >= 650 ? null : { padding: "6px 6px" };
 
   let tableHeadContent = null;
   let tableBodyContent = null;
@@ -292,82 +314,96 @@ const ResultsTable: FC<resultProps> = (props: any) => {
       </TableRow>
     );
 
-    tableBodyContent = rows.map((row, index) => (
-      <TableRow hover={true} key={index} sx={{backgroundColor: row.IsDisplayed ? 'lightgrey' : 'white'}}>
-        <TableCell align="center" sx={cellStyle}>
-          <Checkbox
-            onChange={(e) => {
-              handleCheckBoxChange(e, row);
-            }}
-            aria-label="Somatotype selection checkbox"
-            checked={row.IsDisplayed}
-            icon={<VisibilityOffIcon sx={{ color: "#aaaaaa" }} />}
-            checkedIcon={<VisibilityIcon sx={{ color: "#aaaaaa" }} />}
-          />
-        </TableCell>
-        <TableCell align="center" sx={cellStyle}>
-          {row.Date}
-        </TableCell>
-        <TableCell align="center" sx={cellStyle}>
-          {row.Endomorphy}
-        </TableCell>
-        <TableCell align="center" sx={cellStyle}>
-          {row.Mesomorphy}
-        </TableCell>
-        <TableCell align="center" sx={cellStyle}>
-          {row.Ectomorphy}
-        </TableCell>
-        <TableCell align="center" sx={cellStyle}>
-          <Grid
-            container
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignContent: "center",
-            }}
-          >
-            <div
-              id="EditIconButtonWrapper"
-              onClick={() => {
-                props.setIdSomatotype(row.Id);
-                props.setIdRow(index);
-                handleEditResultsClick();
+    if (updating || props.isFetching) {
+      tableBodyContent = (
+        <TableRow hover={true} key={"fetching"}>
+          <TableCell align="center" sx={cellStyle} colSpan={6}>
+            <CircularProgress size={25} />
+          </TableCell>
+        </TableRow>
+      );
+    } else {
+      tableBodyContent = rows.map((row, index) => (
+        <TableRow
+          hover={true}
+          key={index}
+          sx={{ backgroundColor: row.IsDisplayed ? "lightgrey" : "white" }}
+        >
+          <TableCell align="center" sx={cellStyle}>
+            <Checkbox
+              onChange={(e) => {
+                handleCheckBoxChange(e, row);
+              }}
+              aria-label="Somatotype selection checkbox"
+              checked={row.IsDisplayed}
+              icon={<VisibilityOffIcon sx={{ color: "#aaaaaa" }} />}
+              checkedIcon={<VisibilityIcon sx={{ color: "#aaaaaa" }} />}
+            />
+          </TableCell>
+          <TableCell align="center" sx={cellStyle}>
+            {row.Date}
+          </TableCell>
+          <TableCell align="center" sx={cellStyle}>
+            {row.Endomorphy}
+          </TableCell>
+          <TableCell align="center" sx={cellStyle}>
+            {row.Mesomorphy}
+          </TableCell>
+          <TableCell align="center" sx={cellStyle}>
+            {row.Ectomorphy}
+          </TableCell>
+          <TableCell align="center" sx={cellStyle}>
+            <Grid
+              container
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignContent: "center",
               }}
             >
-              <IconButton
-                aria-label="edit"
-                sx={{
-                  color: "#aaaaaa",
-                  padding: "0",
-                  "&:hover": { color: "black" },
+              <div
+                id="EditIconButtonWrapper"
+                onClick={() => {
+                  props.setIdSomatotype(row.Id);
+                  props.setIdRow(index);
+                  handleEditResultsClick();
                 }}
               >
-                <EditIcon sx={{ fontSize: 28 }} />
-              </IconButton>
-            </div>
-            <div
-              id="DeleteIconButtonWrapper"
-              onClick={() => {
-                props.setIdSomatotype(row.Id);
-                props.setIdRow(index);
-                handleDeleteResultsClick();
-              }}
-            >
-              <IconButton
-                aria-label="delete"
-                sx={{
-                  color: "#aaaaaa",
-                  padding: "0",
-                  "&:hover": { color: "black" },
+                <IconButton
+                  aria-label="edit"
+                  sx={{
+                    color: "#aaaaaa",
+                    padding: "0",
+                    "&:hover": { color: "black" },
+                  }}
+                >
+                  <EditIcon sx={{ fontSize: 28 }} />
+                </IconButton>
+              </div>
+              <div
+                id="DeleteIconButtonWrapper"
+                onClick={() => {
+                  props.setIdSomatotype(row.Id);
+                  props.setIdRow(index);
+                  handleDeleteResultsClick();
                 }}
               >
-                <DeleteIcon sx={{ fontSize: 28 }} />
-              </IconButton>
-            </div>
-          </Grid>
-        </TableCell>
-      </TableRow>
-    ));
+                <IconButton
+                  aria-label="delete"
+                  sx={{
+                    color: "#aaaaaa",
+                    padding: "0",
+                    "&:hover": { color: "black" },
+                  }}
+                >
+                  <DeleteIcon sx={{ fontSize: 28 }} />
+                </IconButton>
+              </div>
+            </Grid>
+          </TableCell>
+        </TableRow>
+      ));
+    }
   } else {
     tableHeadContent = (
       <TableRow hover={true}>
@@ -503,6 +539,10 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                 onClick={() => {
                   deleteSomatotype(props.idSomatotype);
                   handleDeleteModalClose();
+                  props.setDashboardSnackBarOpen(true);
+                  props.setDashboardSnackBarMessage(
+                    "Somatotype deleted successfully !"
+                  );
                 }}
               >
                 Confirm

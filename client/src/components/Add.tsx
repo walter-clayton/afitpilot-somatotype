@@ -1,7 +1,13 @@
 import * as React from "react";
 import { useState, useEffect, useRef, FC } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Box, Button, Grid, Typography } from "@mui/material/";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  Typography,
+} from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import FilledInput from "@mui/material/FilledInput";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -26,6 +32,8 @@ interface IAdding {
   idRow?: string;
   anthropometrics?: IAnthropometric[];
   idSomatotype?: string;
+  setDashboardSnackBarOpen?: (open: boolean) => void;
+  setDashboardSnackBarMessage?: (msg: string) => void;
 }
 const Add: FC<IAdding> = (props: any) => {
   const [showResults, setShowResults] = useState(false);
@@ -41,6 +49,8 @@ const Add: FC<IAdding> = (props: any) => {
   const [cookies, setCookie] = useCookies(["user"]);
 
   const [pointsArray, setPointsArray] = useState<IPoints[]>([]);
+
+  const [fetching, setFetching] = React.useState<boolean>(false);
 
   useEffect(() => {
     props.isAdding
@@ -72,6 +82,7 @@ const Add: FC<IAdding> = (props: any) => {
     };
 
     try {
+      setFetching(true);
       const response = await axios.post(
         url,
         { somatotype, anthropometric },
@@ -79,9 +90,12 @@ const Add: FC<IAdding> = (props: any) => {
       );
       props.setOpenAddModal!(false);
       window.scrollTo(0, 0);
-      console.log(response.data);
+      props.setDashboardSnackBarOpen(true);
+      props.isAdding
+        ? props.setDashboardSnackBarMessage("New Somatotype saved !")
+        : props.setDashboardSnackBarMessage("Somatotype changes saved !");
 
-      //TO DO Set snackbar message to say deleted sucessfully
+      setFetching(false);
       props.getUserDatas();
     } catch (error) {
       // if (error.response) {
@@ -92,6 +106,7 @@ const Add: FC<IAdding> = (props: any) => {
       //     setSnackbarMessage("Error with the server");
       //   }
       console.log("error ", error);
+      setFetching(false);
     }
   };
 
@@ -167,14 +182,18 @@ const Add: FC<IAdding> = (props: any) => {
                 const somatotypeResults = calculateSomatotype(anthropometric!);
 
                 let pointsResultsArray: IPoints[] = [];
-                const point = AddPoint(somatotypeResults[0],somatotypeResults[1],somatotypeResults[2]);
+                const point = AddPoint(
+                  somatotypeResults[0],
+                  somatotypeResults[1],
+                  somatotypeResults[2]
+                );
                 pointsResultsArray.push(point);
                 setPointsArray(pointsResultsArray);
-                
+
                 setSomatotype?.({
-                endomorphy: somatotypeResults[0],
-                mesomorphy: somatotypeResults[1],
-                ectomorphy: somatotypeResults[2],
+                  endomorphy: somatotypeResults[0],
+                  mesomorphy: somatotypeResults[1],
+                  ectomorphy: somatotypeResults[2],
                 });
               }}
             >
@@ -197,12 +216,12 @@ const Add: FC<IAdding> = (props: any) => {
             width={"100%"}
           >
             <ResultsTable
-                showHistory={false}
-                multipleResults={false}
-                singleSomatotype={somatotype}
-                setPointsArray={setPointsArray}
-                toggleGraph={toggleGraph}
-                setToggleGraph={setToggleGraph}
+              showHistory={false}
+              multipleResults={false}
+              singleSomatotype={somatotype}
+              setPointsArray={setPointsArray}
+              toggleGraph={toggleGraph}
+              setToggleGraph={setToggleGraph}
             />
           </Grid>
         ) : null}
@@ -244,8 +263,9 @@ const Add: FC<IAdding> = (props: any) => {
               onClick={() => {
                 handleSaveDatasClick();
               }}
+              disabled={fetching}
             >
-              SAVE
+              {fetching ? <CircularProgress size={25} /> : "SAVE"}
             </Button>
           </Box>
         ) : null}

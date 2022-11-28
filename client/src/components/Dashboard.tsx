@@ -1,5 +1,5 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
-import React, { useEffect, useState, useRef } from "react";
+import { Alert, Box, Button, Grid, Snackbar, Typography } from "@mui/material";
+import React, { useEffect, useState, useRef, FC } from "react";
 import { calculateSomatotype, IPoints } from "./Calculation";
 import ResultsTable from "./ResultsTable";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,12 @@ import Add from "./Add";
 
 const theme = createTheme();
 
-const Dashboard = () => {
+interface IDashboard {
+  resultsSaved?: boolean;
+  setResultsSaved?: (bool: boolean) => void;
+}
+
+const Dashboard: FC<IDashboard> = (props) => {
   //Somatotype values should come from backend (data saved from the landing page)
   const navigate = useNavigate();
 
@@ -41,7 +46,21 @@ const Dashboard = () => {
   const [toggleGraph, setToggleGraph] = useState(false);
   const [pointsArray, setPointsArray] = useState<IPoints[]>([]);
 
+  const [snackBarOpen, setSnackBarOpen] = useState<boolean>(false);
+  const [snackBarMessage, setSnackBarMessage] = useState<string>("");
+  const [snackBarState, setSnackBarState] = React.useState({
+    vertical: "bottom",
+    horizontal: "center",
+  });
+
+  const [showNoResultsMessage, setShowNoResultsMessage] =
+    useState<boolean>(false);
+
+  const [fetching, setFetching] = React.useState<boolean>(false);
+
   const getUserDatas = async () => {
+    console.log(fetching);
+
     const headers = {
       "Content-Type": "application/json",
       access_key: process.env.REACT_APP_ACCESS_KEY,
@@ -49,6 +68,7 @@ const Dashboard = () => {
     };
 
     try {
+      setFetching(true);
       const response = await axios.get(
         process.env.REACT_APP_GETUSERDATAS_URL!,
         { headers: headers }
@@ -56,22 +76,50 @@ const Dashboard = () => {
       setSomatotypes(response.data.data.somatotypes);
       setAnthropometrics(response.data.data.anthropometrics);
       setToggleGraph(!toggleGraph);
-      
+      setFetching(false);
     } catch (error) {
       // if (error.response) {
-        //     error.response.data.message
-        //       ? setSnackbarMessage(error.response.data.message)
-        //       : setSnackbarMessage(error.response.statusText);
-        //   } else {
-        //     setSnackbarMessage("Error with the server");
-        //   }
+      //     error.response.data.message
+      //       ? setSnackbarMessage(error.response.data.message)
+      //       : setSnackbarMessage(error.response.statusText);
+      //   } else {
+      //     setSnackbarMessage("Error with the server");
+      //   }
       console.log("error ", error);
+      setFetching(false);
     }
   };
 
   useEffect(() => {
-    getUserDatas();
+    const timeId = setTimeout(() => {
+      props.setResultsSaved!(false);
+    }, 6000);
+
+    return () => {
+      clearTimeout(timeId);
+      props.setResultsSaved!(false);
+    };
   }, []);
+
+  useEffect(() => {
+    if (openAddModal) {
+      props.setResultsSaved!(false);
+    } else {
+      getUserDatas();
+    }
+  }, [openAddModal]);
+
+  useEffect(() => {
+    if (somatotypes.length === 0) {
+      setShowNoResultsMessage(true);
+    } else {
+      setShowNoResultsMessage(false);
+    }
+  }, [somatotypes]);
+
+  const handleSnackBarClose = () => {
+    setSnackBarOpen(false);
+  };
 
   return (
     <>
@@ -83,6 +131,8 @@ const Dashboard = () => {
           idRow={idRow}
           anthropometrics={anthropometrics}
           idSomatotype={idSomatotype}
+          setDashboardSnackBarOpen={setSnackBarOpen}
+          setDashboardSnackBarMessage={setSnackBarMessage}
         />
       ) : (
         <ThemeProvider theme={theme}>
@@ -101,54 +151,106 @@ const Dashboard = () => {
             }}
             width={"100%"}
           >
+            {props.resultsSaved ? (
+              <Grid
+                item
+                sx={{
+                  flexGrow: 1,
+                  alignItems: "center",
+                  margin: "20px 0",
+                }}
+                xs={12}
+                md={9}
+                lg={7}
+                width={"100%"}
+              >
+                <Alert
+                  onClose={() => {
+                    props.setResultsSaved!(false);
+                  }}
+                >
+                  Results saved successfully!
+                </Alert>
+              </Grid>
+            ) : null}
+
+            {/* No Results Message */}
+            {showNoResultsMessage ? (
+              <Grid
+                item
+                sx={{
+                  flexGrow: 1,
+                  alignItems: "center",
+                  margin: "20px 0",
+                }}
+                xs={12}
+                md={9}
+                lg={7}
+                width={"100%"}
+              >
+                <Typography variant="h5" gutterBottom m={3} textAlign="center">
+                  There are no somatotypes saved on your profile. Please add one
+                  to see your results.
+                </Typography>
+              </Grid>
+            ) : null}
+
             {/* Results Table */}
-            <Grid
-              item
-              sx={{
-                flexGrow: 1,
-                alignItems: "center",
-                margin: "20px 0",
-              }}
-              xs={12}
-              md={8}
-              lg={6}
-              width={"100%"}
-            >
-              <ResultsTable
-                somatotypes={somatotypes}
-                showHistory={true}
-                getUserDatas={getUserDatas}
-                setOpenAddModal={setOpenAddModal}
-                setIsAdding={setIsAdding}
-                setIdRow={setIdRow}
-                idRow={idRow}
-                setIdSomatotype={setIdSomatotype}
-                idSomatotype={idSomatotype}
-                setPointsArray={setPointsArray}
-                toggleGraph={toggleGraph}
-                setToggleGraph={setToggleGraph}
-              />
-            </Grid>
+            {!showNoResultsMessage ? (
+              <Grid
+                item
+                sx={{
+                  flexGrow: 1,
+                  alignItems: "center",
+                  margin: "20px 0",
+                }}
+                xs={12}
+                md={9}
+                lg={7}
+                width={"100%"}
+              >
+                <ResultsTable
+                  somatotypes={somatotypes}
+                  showHistory={true}
+                  getUserDatas={getUserDatas}
+                  setOpenAddModal={setOpenAddModal}
+                  setIsAdding={setIsAdding}
+                  setIdRow={setIdRow}
+                  idRow={idRow}
+                  setIdSomatotype={setIdSomatotype}
+                  idSomatotype={idSomatotype}
+                  setPointsArray={setPointsArray}
+                  toggleGraph={toggleGraph}
+                  setToggleGraph={setToggleGraph}
+                  setDashboardSnackBarOpen={setSnackBarOpen}
+                  setDashboardSnackBarMessage={setSnackBarMessage}
+                  isFetching={fetching}
+                />
+              </Grid>
+            ) : null}
             {/* Graph */}
-            <Grid
-              item
-              sx={{
-                flexGrow: 1,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                margin: "20px 0",
-              }}
-              xs={12}
-              md={8}
-              lg={6}
-              width={"100%"}
-            >
-              <SomatotypeGraph
-                updateGraph={toggleGraph}
-                pointsArray={pointsArray}
-              />
-            </Grid>
+            {!showNoResultsMessage ? (
+              <Grid
+                item
+                sx={{
+                  flexGrow: 1,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  margin: "20px 0",
+                }}
+                xs={12}
+                md={9}
+                lg={7}
+                width={"100%"}
+              >
+                <SomatotypeGraph
+                  updateGraph={toggleGraph}
+                  pointsArray={pointsArray}
+                />
+              </Grid>
+            ) : null}
+
             <Button
               sx={{ margin: "10px 0" }}
               variant="contained"
@@ -163,6 +265,13 @@ const Dashboard = () => {
           </Grid>
         </ThemeProvider>
       )}
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={snackBarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackBarClose}
+        message={snackBarMessage}
+      />
     </>
   );
 };
