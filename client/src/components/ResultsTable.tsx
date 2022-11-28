@@ -94,6 +94,8 @@ interface resultProps {
   setPointsArray?: (pointsArray: IPoints[]) => void;
   toggleGraph?: boolean;
   setToggleGraph?: (toggleGraph: boolean) => void;
+  setDashboardSnackBarOpen?: (open: boolean) => void;
+  setDashboardSnackBarMessage?: (msg: string) => void;
 }
 
 const ResultsTable: FC<resultProps> = (props: any) => {
@@ -136,7 +138,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
   useEffect(() => {
     setRows([]);
     if (props.somatotypes !== undefined) {
-      props.somatotypes.forEach((somatotype: ISomatotype, index:number) => {
+      props.somatotypes.forEach((somatotype: ISomatotype, index: number) => {
         let formatedDate = "";
         if (
           somatotype.createdAt !== null &&
@@ -144,9 +146,9 @@ const ResultsTable: FC<resultProps> = (props: any) => {
         ) {
           formatedDate = formatDate(somatotype.createdAt);
         }
-        
+
         let isDisplayed = false;
-        if(index === 0){
+        if (index === 0) {
           isDisplayed = true;
         }
 
@@ -184,7 +186,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
 
   useEffect(() => {
     CheckForDisplayedRows(rows);
-  },[rows])
+  }, [rows]);
 
   const showSomatotypeInGraph = (somatotypesToShow: ISomatotype[]) => {
     let pointsResultsArray: IPoints[] = [];
@@ -196,7 +198,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
       );
       pointsResultsArray.push(point);
     });
-    
+
     props.setPointsArray(pointsResultsArray);
     props.setToggleGraph(!props.toggleGraph);
   };
@@ -213,20 +215,27 @@ const ResultsTable: FC<resultProps> = (props: any) => {
     handleDeleteModalOpen();
   };
 
-  const CheckForDisplayedRows = (rows:any) => {
+  const CheckForDisplayedRows = (rows: any) => {
     setShownSomatotypeArray([]);
-    let tempSomatotypesToShow:ISomatotype[] = [];
-    rows.forEach((row:any) => {
-      let displayedSomatotype:(ISomatotype | undefined);
-      if(row.IsDisplayed){                
-        displayedSomatotype = {endomorphy:row.Endomorphy, mesomorphy:row.Mesomorphy, ectomorphy:row.Ectomorphy}
-        tempSomatotypesToShow.push(displayedSomatotype!)
+    let tempSomatotypesToShow: ISomatotype[] = [];
+    rows.forEach((row: any) => {
+      let displayedSomatotype: ISomatotype | undefined;
+      if (row.IsDisplayed) {
+        displayedSomatotype = {
+          endomorphy: row.Endomorphy,
+          mesomorphy: row.Mesomorphy,
+          ectomorphy: row.Ectomorphy,
+        };
+        tempSomatotypesToShow.push(displayedSomatotype!);
       }
     });
     setShownSomatotypeArray(tempSomatotypesToShow);
-  }
+  };
 
-  const handleCheckBoxChange = (event: React.ChangeEvent<HTMLInputElement>, row:any) => {
+  const handleCheckBoxChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    row: any
+  ) => {
     row.IsDisplayed = !row.IsDisplayed;
     CheckForDisplayedRows(rows);
 
@@ -244,7 +253,11 @@ const ResultsTable: FC<resultProps> = (props: any) => {
 
   const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
   const handleDeleteModalOpen = () => setOpenDeleteModal(true);
-  const handleDeleteModalClose = () => setOpenDeleteModal(false);
+  const handleDeleteModalClose = () => {
+    setOpenDeleteModal(false);
+    props.setDashboardSnackBarOpen(true);
+    props.setDashboardSnackBarMessage("Somatotype deleted successfully !");
+  };
 
   const modalStyle = {
     position: "absolute" as "absolute",
@@ -259,11 +272,11 @@ const ResultsTable: FC<resultProps> = (props: any) => {
     p: 4,
   };
 
-  let endoColumnTitle = width >= 600 ? "Endomorphy" : "Endo";
-  let mesoColumnTitle = width >= 600 ? "Mesomorphy" : "Meso";
-  let ectoColumnTitle = width >= 600 ? "Ectomorphy" : "Ecto";
+  let endoColumnTitle = width >= 650 ? "Endomorphy" : "Endo";
+  let mesoColumnTitle = width >= 650 ? "Mesomorphy" : "Meso";
+  let ectoColumnTitle = width >= 650 ? "Ectomorphy" : "Ecto";
 
-  let cellStyle = width >= 600 ? null : { padding: "6px 6px" };
+  let cellStyle = width >= 650 ? null : { padding: "6px 6px" };
 
   let tableHeadContent = null;
   let tableBodyContent = null;
@@ -293,7 +306,11 @@ const ResultsTable: FC<resultProps> = (props: any) => {
     );
 
     tableBodyContent = rows.map((row, index) => (
-      <TableRow hover={true} key={index} sx={{backgroundColor: row.IsDisplayed ? 'lightgrey' : 'white'}}>
+      <TableRow
+        hover={true}
+        key={index}
+        sx={{ backgroundColor: row.IsDisplayed ? "lightgrey" : "white" }}
+      >
         <TableCell align="center" sx={cellStyle}>
           <Checkbox
             onChange={(e) => {
