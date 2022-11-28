@@ -255,8 +255,6 @@ const ResultsTable: FC<resultProps> = (props: any) => {
   const handleDeleteModalOpen = () => setOpenDeleteModal(true);
   const handleDeleteModalClose = () => {
     setOpenDeleteModal(false);
-    props.setDashboardSnackBarOpen(true);
-    props.setDashboardSnackBarMessage("Somatotype deleted successfully !");
   };
 
   const modalStyle = {
@@ -520,6 +518,10 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                 onClick={() => {
                   deleteSomatotype(props.idSomatotype);
                   handleDeleteModalClose();
+                  props.setDashboardSnackBarOpen(true);
+                  props.setDashboardSnackBarMessage(
+                    "Somatotype deleted successfully !"
+                  );
                 }}
               >
                 Confirm
