@@ -59,7 +59,6 @@ const Profile = (props: any) => {
           email: cookies.user.email,
         },
       });
-      console.log(response.data.message);
       setFetching(false);
       removeCookie("user", { path: "/", sameSite: "none", secure: true });
       props.setOpen(true);
