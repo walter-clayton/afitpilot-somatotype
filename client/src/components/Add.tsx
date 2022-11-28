@@ -1,7 +1,13 @@
 import * as React from "react";
 import { useState, useEffect, useRef, FC } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Box, Button, Grid, Typography } from "@mui/material/";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  Typography,
+} from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import FilledInput from "@mui/material/FilledInput";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -44,6 +50,8 @@ const Add: FC<IAdding> = (props: any) => {
 
   const [pointsArray, setPointsArray] = useState<IPoints[]>([]);
 
+  const [fetching, setFetching] = React.useState<boolean>(false);
+
   useEffect(() => {
     props.isAdding
       ? setAnthropometric((anthropometric) => ({
@@ -74,6 +82,7 @@ const Add: FC<IAdding> = (props: any) => {
     };
 
     try {
+      setFetching(true);
       const response = await axios.post(
         url,
         { somatotype, anthropometric },
@@ -86,7 +95,7 @@ const Add: FC<IAdding> = (props: any) => {
         ? props.setDashboardSnackBarMessage("New Somatotype saved !")
         : props.setDashboardSnackBarMessage("Somatotype changes saved !");
 
-      //TO DO Set snackbar message to say deleted sucessfully
+      setFetching(false);
       props.getUserDatas();
     } catch (error) {
       // if (error.response) {
@@ -97,6 +106,7 @@ const Add: FC<IAdding> = (props: any) => {
       //     setSnackbarMessage("Error with the server");
       //   }
       console.log("error ", error);
+      setFetching(false);
     }
   };
 
@@ -253,8 +263,9 @@ const Add: FC<IAdding> = (props: any) => {
               onClick={() => {
                 handleSaveDatasClick();
               }}
+              disabled={fetching}
             >
-              SAVE
+              {fetching ? <CircularProgress size={25} /> : "SAVE"}
             </Button>
           </Box>
         ) : null}
