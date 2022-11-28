@@ -53,6 +53,9 @@ const Dashboard: FC<IDashboard> = (props) => {
     horizontal: "center",
   });
 
+  const [showNoResultsMessage, setShowNoResultsMessage] =
+    useState<boolean>(false);
+
   const getUserDatas = async () => {
     const headers = {
       "Content-Type": "application/json",
@@ -101,6 +104,14 @@ const Dashboard: FC<IDashboard> = (props) => {
       getUserDatas();
     }
   }, [openAddModal]);
+
+  useEffect(() => {
+    if (somatotypes.length === 0) {
+      setShowNoResultsMessage(true);
+    } else {
+      setShowNoResultsMessage(false);
+    }
+  }, [somatotypes]);
 
   const handleSnackBarClose = () => {
     setSnackBarOpen(false);
@@ -158,56 +169,83 @@ const Dashboard: FC<IDashboard> = (props) => {
                 </Alert>
               </Grid>
             ) : null}
+
+            {/* No Results Message */}
+            {showNoResultsMessage ? (
+              <Grid
+                item
+                sx={{
+                  flexGrow: 1,
+                  alignItems: "center",
+                  margin: "20px 0",
+                }}
+                xs={12}
+                md={9}
+                lg={7}
+                width={"100%"}
+              >
+                <Typography variant="h5" gutterBottom m={3} textAlign="center">
+                  There are no somatotypes saved on your profile. Please add one
+                  to see your results.
+                </Typography>
+              </Grid>
+            ) : null}
+
             {/* Results Table */}
-            <Grid
-              item
-              sx={{
-                flexGrow: 1,
-                alignItems: "center",
-                margin: "20px 0",
-              }}
-              xs={12}
-              md={9}
-              lg={7}
-              width={"100%"}
-            >
-              <ResultsTable
-                somatotypes={somatotypes}
-                showHistory={true}
-                getUserDatas={getUserDatas}
-                setOpenAddModal={setOpenAddModal}
-                setIsAdding={setIsAdding}
-                setIdRow={setIdRow}
-                idRow={idRow}
-                setIdSomatotype={setIdSomatotype}
-                idSomatotype={idSomatotype}
-                setPointsArray={setPointsArray}
-                toggleGraph={toggleGraph}
-                setToggleGraph={setToggleGraph}
-                setDashboardSnackBarOpen={setSnackBarOpen}
-                setDashboardSnackBarMessage={setSnackBarMessage}
-              />
-            </Grid>
+            {!showNoResultsMessage ? (
+              <Grid
+                item
+                sx={{
+                  flexGrow: 1,
+                  alignItems: "center",
+                  margin: "20px 0",
+                }}
+                xs={12}
+                md={9}
+                lg={7}
+                width={"100%"}
+              >
+                <ResultsTable
+                  somatotypes={somatotypes}
+                  showHistory={true}
+                  getUserDatas={getUserDatas}
+                  setOpenAddModal={setOpenAddModal}
+                  setIsAdding={setIsAdding}
+                  setIdRow={setIdRow}
+                  idRow={idRow}
+                  setIdSomatotype={setIdSomatotype}
+                  idSomatotype={idSomatotype}
+                  setPointsArray={setPointsArray}
+                  toggleGraph={toggleGraph}
+                  setToggleGraph={setToggleGraph}
+                  setDashboardSnackBarOpen={setSnackBarOpen}
+                  setDashboardSnackBarMessage={setSnackBarMessage}
+                />
+              </Grid>
+            ) : null}
             {/* Graph */}
-            <Grid
-              item
-              sx={{
-                flexGrow: 1,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                margin: "20px 0",
-              }}
-              xs={12}
-              md={9}
-              lg={7}
-              width={"100%"}
-            >
-              <SomatotypeGraph
-                updateGraph={toggleGraph}
-                pointsArray={pointsArray}
-              />
-            </Grid>
+            {!showNoResultsMessage ? (
+              <Grid
+                item
+                sx={{
+                  flexGrow: 1,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  margin: "20px 0",
+                }}
+                xs={12}
+                md={9}
+                lg={7}
+                width={"100%"}
+              >
+                <SomatotypeGraph
+                  updateGraph={toggleGraph}
+                  pointsArray={pointsArray}
+                />
+              </Grid>
+            ) : null}
+
             <Button
               sx={{ margin: "10px 0" }}
               variant="contained"
