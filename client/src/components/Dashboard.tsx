@@ -56,7 +56,11 @@ const Dashboard: FC<IDashboard> = (props) => {
   const [showNoResultsMessage, setShowNoResultsMessage] =
     useState<boolean>(false);
 
+  const [fetching, setFetching] = React.useState<boolean>(false);
+
   const getUserDatas = async () => {
+    console.log(fetching);
+
     const headers = {
       "Content-Type": "application/json",
       access_key: process.env.REACT_APP_ACCESS_KEY,
@@ -64,14 +68,15 @@ const Dashboard: FC<IDashboard> = (props) => {
     };
 
     try {
+      setFetching(true);
       const response = await axios.get(
         process.env.REACT_APP_GETUSERDATAS_URL!,
         { headers: headers }
       );
-
       setSomatotypes(response.data.data.somatotypes);
       setAnthropometrics(response.data.data.anthropometrics);
       setToggleGraph(!toggleGraph);
+      setFetching(false);
     } catch (error) {
       // if (error.response) {
       //     error.response.data.message
@@ -81,12 +86,11 @@ const Dashboard: FC<IDashboard> = (props) => {
       //     setSnackbarMessage("Error with the server");
       //   }
       console.log("error ", error);
+      setFetching(false);
     }
   };
 
   useEffect(() => {
-    getUserDatas();
-
     const timeId = setTimeout(() => {
       props.setResultsSaved!(false);
     }, 6000);
@@ -220,6 +224,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                   setToggleGraph={setToggleGraph}
                   setDashboardSnackBarOpen={setSnackBarOpen}
                   setDashboardSnackBarMessage={setSnackBarMessage}
+                  isFetching={fetching}
                 />
               </Grid>
             ) : null}

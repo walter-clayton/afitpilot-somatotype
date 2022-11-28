@@ -13,6 +13,7 @@ import {
   Box,
   Button,
   Checkbox,
+  CircularProgress,
   ClickAwayListener,
   Grid,
   IconButton,
@@ -96,6 +97,7 @@ interface resultProps {
   setToggleGraph?: (toggleGraph: boolean) => void;
   setDashboardSnackBarOpen?: (open: boolean) => void;
   setDashboardSnackBarMessage?: (msg: string) => void;
+  isFetching?: boolean;
 }
 
 const ResultsTable: FC<resultProps> = (props: any) => {
@@ -109,6 +111,8 @@ const ResultsTable: FC<resultProps> = (props: any) => {
     ISomatotype[]
   >([]);
 
+  const [updating, setUpdating] = React.useState<boolean>(false);
+
   const deleteSomatotype = async (id: string) => {
     const headers = {
       "Content-Type": "application/json",
@@ -117,12 +121,14 @@ const ResultsTable: FC<resultProps> = (props: any) => {
     };
 
     try {
+      setUpdating(true);
       const response = await axios.delete(
         `${process.env.REACT_APP_DELETESOMATOTYPE_URL}/${props.idSomatotype}`!,
         { headers: headers }
       );
       //TO DO Set snackbar message to say deleted sucessfully
       props.getUserDatas();
+      setUpdating(false);
     } catch (error) {
       // if (error.response) {
       //     error.response.data.message
@@ -132,6 +138,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
       //     setSnackbarMessage("Error with the server");
       //   }
       console.log("error ", error);
+      setUpdating(false);
     }
   };
 
@@ -187,6 +194,10 @@ const ResultsTable: FC<resultProps> = (props: any) => {
   useEffect(() => {
     CheckForDisplayedRows(rows);
   }, [rows]);
+
+  useEffect(() => {
+    props.getUserDatas();
+  }, []);
 
   const showSomatotypeInGraph = (somatotypesToShow: ISomatotype[]) => {
     let pointsResultsArray: IPoints[] = [];
@@ -303,86 +314,96 @@ const ResultsTable: FC<resultProps> = (props: any) => {
       </TableRow>
     );
 
-    tableBodyContent = rows.map((row, index) => (
-      <TableRow
-        hover={true}
-        key={index}
-        sx={{ backgroundColor: row.IsDisplayed ? "lightgrey" : "white" }}
-      >
-        <TableCell align="center" sx={cellStyle}>
-          <Checkbox
-            onChange={(e) => {
-              handleCheckBoxChange(e, row);
-            }}
-            aria-label="Somatotype selection checkbox"
-            checked={row.IsDisplayed}
-            icon={<VisibilityOffIcon sx={{ color: "#aaaaaa" }} />}
-            checkedIcon={<VisibilityIcon sx={{ color: "#aaaaaa" }} />}
-          />
-        </TableCell>
-        <TableCell align="center" sx={cellStyle}>
-          {row.Date}
-        </TableCell>
-        <TableCell align="center" sx={cellStyle}>
-          {row.Endomorphy}
-        </TableCell>
-        <TableCell align="center" sx={cellStyle}>
-          {row.Mesomorphy}
-        </TableCell>
-        <TableCell align="center" sx={cellStyle}>
-          {row.Ectomorphy}
-        </TableCell>
-        <TableCell align="center" sx={cellStyle}>
-          <Grid
-            container
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignContent: "center",
-            }}
-          >
-            <div
-              id="EditIconButtonWrapper"
-              onClick={() => {
-                props.setIdSomatotype(row.Id);
-                props.setIdRow(index);
-                handleEditResultsClick();
+    if (updating || props.isFetching) {
+      tableBodyContent = (
+        <TableRow hover={true} key={"fetching"}>
+          <TableCell align="center" sx={cellStyle} colSpan={6}>
+            <CircularProgress size={25} />
+          </TableCell>
+        </TableRow>
+      );
+    } else {
+      tableBodyContent = rows.map((row, index) => (
+        <TableRow
+          hover={true}
+          key={index}
+          sx={{ backgroundColor: row.IsDisplayed ? "lightgrey" : "white" }}
+        >
+          <TableCell align="center" sx={cellStyle}>
+            <Checkbox
+              onChange={(e) => {
+                handleCheckBoxChange(e, row);
+              }}
+              aria-label="Somatotype selection checkbox"
+              checked={row.IsDisplayed}
+              icon={<VisibilityOffIcon sx={{ color: "#aaaaaa" }} />}
+              checkedIcon={<VisibilityIcon sx={{ color: "#aaaaaa" }} />}
+            />
+          </TableCell>
+          <TableCell align="center" sx={cellStyle}>
+            {row.Date}
+          </TableCell>
+          <TableCell align="center" sx={cellStyle}>
+            {row.Endomorphy}
+          </TableCell>
+          <TableCell align="center" sx={cellStyle}>
+            {row.Mesomorphy}
+          </TableCell>
+          <TableCell align="center" sx={cellStyle}>
+            {row.Ectomorphy}
+          </TableCell>
+          <TableCell align="center" sx={cellStyle}>
+            <Grid
+              container
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignContent: "center",
               }}
             >
-              <IconButton
-                aria-label="edit"
-                sx={{
-                  color: "#aaaaaa",
-                  padding: "0",
-                  "&:hover": { color: "black" },
+              <div
+                id="EditIconButtonWrapper"
+                onClick={() => {
+                  props.setIdSomatotype(row.Id);
+                  props.setIdRow(index);
+                  handleEditResultsClick();
                 }}
               >
-                <EditIcon sx={{ fontSize: 28 }} />
-              </IconButton>
-            </div>
-            <div
-              id="DeleteIconButtonWrapper"
-              onClick={() => {
-                props.setIdSomatotype(row.Id);
-                props.setIdRow(index);
-                handleDeleteResultsClick();
-              }}
-            >
-              <IconButton
-                aria-label="delete"
-                sx={{
-                  color: "#aaaaaa",
-                  padding: "0",
-                  "&:hover": { color: "black" },
+                <IconButton
+                  aria-label="edit"
+                  sx={{
+                    color: "#aaaaaa",
+                    padding: "0",
+                    "&:hover": { color: "black" },
+                  }}
+                >
+                  <EditIcon sx={{ fontSize: 28 }} />
+                </IconButton>
+              </div>
+              <div
+                id="DeleteIconButtonWrapper"
+                onClick={() => {
+                  props.setIdSomatotype(row.Id);
+                  props.setIdRow(index);
+                  handleDeleteResultsClick();
                 }}
               >
-                <DeleteIcon sx={{ fontSize: 28 }} />
-              </IconButton>
-            </div>
-          </Grid>
-        </TableCell>
-      </TableRow>
-    ));
+                <IconButton
+                  aria-label="delete"
+                  sx={{
+                    color: "#aaaaaa",
+                    padding: "0",
+                    "&:hover": { color: "black" },
+                  }}
+                >
+                  <DeleteIcon sx={{ fontSize: 28 }} />
+                </IconButton>
+              </div>
+            </Grid>
+          </TableCell>
+        </TableRow>
+      ));
+    }
   } else {
     tableHeadContent = (
       <TableRow hover={true}>
