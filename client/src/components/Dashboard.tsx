@@ -1,5 +1,5 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
-import React, { useEffect, useState, useRef } from "react";
+import { Alert, Box, Button, Grid, Snackbar, Typography } from "@mui/material";
+import React, { useEffect, useState, useRef, FC } from "react";
 import { calculateSomatotype, IPoints } from "./Calculation";
 import ResultsTable from "./ResultsTable";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,12 @@ import Add from "./Add";
 
 const theme = createTheme();
 
-const Dashboard = () => {
+interface IDashboard {
+  resultsSaved?: boolean;
+  setResultsSaved?: (bool: boolean) => void;
+}
+
+const Dashboard: FC<IDashboard> = (props) => {
   //Somatotype values should come from backend (data saved from the landing page)
   const navigate = useNavigate();
 
@@ -41,6 +46,13 @@ const Dashboard = () => {
   const [toggleGraph, setToggleGraph] = useState(false);
   const [pointsArray, setPointsArray] = useState<IPoints[]>([]);
 
+  const [snackBarOpen, setSnackBarOpen] = useState<boolean>(false);
+  const [snackBarMessage, setSnackBarMessage] = useState<string>("");
+  const [snackBarState, setSnackBarState] = React.useState({
+    vertical: "bottom",
+    horizontal: "center",
+  });
+
   const getUserDatas = async () => {
     const headers = {
       "Content-Type": "application/json",
@@ -53,25 +65,46 @@ const Dashboard = () => {
         process.env.REACT_APP_GETUSERDATAS_URL!,
         { headers: headers }
       );
+
       setSomatotypes(response.data.data.somatotypes);
       setAnthropometrics(response.data.data.anthropometrics);
       setToggleGraph(!toggleGraph);
-      
     } catch (error) {
       // if (error.response) {
-        //     error.response.data.message
-        //       ? setSnackbarMessage(error.response.data.message)
-        //       : setSnackbarMessage(error.response.statusText);
-        //   } else {
-        //     setSnackbarMessage("Error with the server");
-        //   }
+      //     error.response.data.message
+      //       ? setSnackbarMessage(error.response.data.message)
+      //       : setSnackbarMessage(error.response.statusText);
+      //   } else {
+      //     setSnackbarMessage("Error with the server");
+      //   }
       console.log("error ", error);
     }
   };
 
   useEffect(() => {
     getUserDatas();
+
+    const timeId = setTimeout(() => {
+      props.setResultsSaved!(false);
+    }, 6000);
+
+    return () => {
+      clearTimeout(timeId);
+      props.setResultsSaved!(false);
+    };
   }, []);
+
+  useEffect(() => {
+    if (openAddModal) {
+      props.setResultsSaved!(false);
+    } else {
+      getUserDatas();
+    }
+  }, [openAddModal]);
+
+  const handleSnackBarClose = () => {
+    setSnackBarOpen(false);
+  };
 
   return (
     <>
@@ -83,6 +116,8 @@ const Dashboard = () => {
           idRow={idRow}
           anthropometrics={anthropometrics}
           idSomatotype={idSomatotype}
+          setDashboardSnackBarOpen={setSnackBarOpen}
+          setDashboardSnackBarMessage={setSnackBarMessage}
         />
       ) : (
         <ThemeProvider theme={theme}>
@@ -101,6 +136,28 @@ const Dashboard = () => {
             }}
             width={"100%"}
           >
+            {props.resultsSaved ? (
+              <Grid
+                item
+                sx={{
+                  flexGrow: 1,
+                  alignItems: "center",
+                  margin: "20px 0",
+                }}
+                xs={12}
+                md={9}
+                lg={7}
+                width={"100%"}
+              >
+                <Alert
+                  onClose={() => {
+                    props.setResultsSaved!(false);
+                  }}
+                >
+                  Results saved successfully!
+                </Alert>
+              </Grid>
+            ) : null}
             {/* Results Table */}
             <Grid
               item
@@ -110,8 +167,8 @@ const Dashboard = () => {
                 margin: "20px 0",
               }}
               xs={12}
-              md={8}
-              lg={6}
+              md={9}
+              lg={7}
               width={"100%"}
             >
               <ResultsTable
@@ -127,6 +184,8 @@ const Dashboard = () => {
                 setPointsArray={setPointsArray}
                 toggleGraph={toggleGraph}
                 setToggleGraph={setToggleGraph}
+                setDashboardSnackBarOpen={setSnackBarOpen}
+                setDashboardSnackBarMessage={setSnackBarMessage}
               />
             </Grid>
             {/* Graph */}
@@ -140,8 +199,8 @@ const Dashboard = () => {
                 margin: "20px 0",
               }}
               xs={12}
-              md={8}
-              lg={6}
+              md={9}
+              lg={7}
               width={"100%"}
             >
               <SomatotypeGraph
@@ -163,6 +222,13 @@ const Dashboard = () => {
           </Grid>
         </ThemeProvider>
       )}
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={snackBarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackBarClose}
+        message={snackBarMessage}
+      />
     </>
   );
 };

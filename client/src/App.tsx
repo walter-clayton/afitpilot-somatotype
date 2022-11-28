@@ -71,9 +71,10 @@ function App() {
           path="/"
           element={
             cookies.user ? (
-              <Dashboard />
-            ) : cookies.user ? (
-              <Dashboard />
+              <Dashboard
+                resultsSaved={resultsSaved}
+                setResultsSaved={setResultsSaved}
+              />
             ) : (
               <Landing
                 setData={setData}
