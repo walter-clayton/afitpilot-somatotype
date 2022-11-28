@@ -81,7 +81,6 @@ const Add: FC<IAdding> = (props: any) => {
       );
       props.setOpenAddModal!(false);
       window.scrollTo(0, 0);
-      console.log(response.data);
       props.setDashboardSnackBarOpen(true);
       props.isAdding
         ? props.setDashboardSnackBarMessage("New Somatotype saved !")
