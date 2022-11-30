@@ -98,21 +98,22 @@ const Landing: FC<ILanding> = (props) => {
     } else if (
       mesomorphy! > endomorphy! &&
       ectomorphy &&
-      endomorphy! <= ectomorphy
+      endomorphy! === ectomorphy
     ) {
       return "You are a Balanced Mesomorph Type";
     } else if (
       mesomorphy! > endomorphy! &&
-      ectomorphy &&
-      ectomorphy! > endomorphy!
+      mesomorphy! > ectomorphy! &&
+      endomorphy! < ectomorphy!
     ) {
       return "You are an Ectomorphic Mesomorph Type";
-    } else if (mesomorphy! === ectomorphy && ectomorphy! > endomorphy!) {
+    } else if (
+      (mesomorphy! === ectomorphy) && (ectomorphy! > endomorphy!) && (mesomorphy! > endomorphy!)) {
       return "You are a Mesomorph-Ectomorph Type";
     } else if (
       ectomorphy! > mesomorphy! &&
       endomorphy &&
-      mesomorphy! >= endomorphy!
+      mesomorphy! > endomorphy!
     ) {
       return "You are a Mesomorphic-Ectomorph Type";
     } else if (
@@ -122,16 +123,17 @@ const Landing: FC<ILanding> = (props) => {
     ) {
       return "You are a Balanced Ectomorph Type";
     } else if (
-      ectomorphy! > mesomorphy! &&
-      endomorphy &&
-      endomorphy! > mesomorphy!
+      (ectomorphy! > mesomorphy!) &&
+      (endomorphy! > mesomorphy!) &&
+      (ectomorphy! > endomorphy!)
     ) {
       return "You are an Endomorphic Ectomorph Type";
-    } else if (endomorphy! === ectomorphy! && endomorphy! >= mesomorphy!) {
+    } else if (endomorphy! === ectomorphy! && endomorphy! && ectomorphy > mesomorphy!) {
       return "You are an Endomorph-Ectomorph Type";
     } else if (endomorphy! >= ectomorphy! && ectomorphy! >= mesomorphy!) {
       return "You are an Ectomorphic Endomorph Type";
-    } else {
+    }
+    else {
       return "You are a Central Type";
     }
   };
@@ -140,6 +142,7 @@ const Landing: FC<ILanding> = (props) => {
     somatotype?.mesomorphy,
     somatotype?.ectomorphy
   );
+
   console.log(typeResult);
 
   const saveDatas = async () => {
