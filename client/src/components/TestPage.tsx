@@ -122,11 +122,14 @@ const TestPage: FC<ITesting> = (props) => {
     } else if (endomorphy! >= ectomorphy! && ectomorphy! >= mesomorphy!) {
       return "You are an Ectomorphic Endomorph Type";
     }
+    else if (endomorphy! === ectomorphy || endomorphy === mesomorphy || ectomorphy === mesomorphy) {
+      return "You are a Central Type";
+    }
     else {
       return "Try again";
     }
   };
-  const typeResult = getSomatotypeType(7, 3, 4);
+  const typeResult = getSomatotypeType(somatotype?.endomorphy, somatotype?.mesomorphy, somatotype?.ectomorphy);
   console.log(typeResult);
   const saveDatas = async () => {
     try {
