@@ -16,9 +16,39 @@ import { useCookies } from "react-cookie";
 import Avatar from "@mui/material/Avatar";
 import logoIcon from "./image/logo-white.png";
 
-const pages = ["Test", "Somatotypes", "Blog"];
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height,
+  };
+}
+
+function useWindowDimensions() {
+  const [windowDimensions, setWindowDimensions] = React.useState(
+    getWindowDimensions()
+  );
+
+  React.useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return windowDimensions;
+}
+
+const pages = [
+  { title: "Test", path: "/Test" },
+  { title: "Somatotypes", path: "/Types" },
+  { title: "Blog", path: "/Blog" },
+];
 
 const ResponsiveAppBar = (props: any) => {
+  const { height, width } = useWindowDimensions();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -37,6 +67,7 @@ const ResponsiveAppBar = (props: any) => {
     props.setSnackbarMessage("Logout successfully");
     props.setData(undefined);
     navigate("/Login");
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -48,6 +79,7 @@ const ResponsiveAppBar = (props: any) => {
             flexDirection={"row"}
             onClick={() => {
               navigate("/");
+              window.scrollTo(0, 0);
             }}
           >
             <IconButton sx={{ p: 0 }}>
@@ -101,8 +133,15 @@ const ResponsiveAppBar = (props: any) => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem
+                  key={page.title}
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    navigate(page.path);
+                    window.scrollTo(0, 0);
+                  }}
+                >
+                  <Typography textAlign="center">{page.title}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -116,15 +155,18 @@ const ResponsiveAppBar = (props: any) => {
             flexDirection={"row"}
             onClick={() => {
               navigate("/");
+              window.scrollTo(0, 0);
             }}
           >
-            <IconButton sx={{ p: 0 }}>
-              <Avatar
-                alt="logo"
-                src={logoIcon}
-                sx={{ width: { xs: 32, sm: 48 }, height: { xs: 32, sm: 48 } }}
-              />
-            </IconButton>
+            {width < 320 ? null : (
+              <IconButton sx={{ p: 0 }}>
+                <Avatar
+                  alt="logo"
+                  src={logoIcon}
+                  sx={{ width: { xs: 32, sm: 48 }, height: { xs: 32, sm: 48 } }}
+                />
+              </IconButton>
+            )}
             <Typography
               variant="h5"
               noWrap
@@ -146,30 +188,55 @@ const ResponsiveAppBar = (props: any) => {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={page.title}
+                onClick={() => {
+                  handleCloseNavMenu();
+                  navigate(page.path);
+                  window.scrollTo(0, 0);
+                }}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                {page}
+                {page.title}
               </Button>
             ))}
           </Box>
           <Box sx={{ flexGrow: 0, marginRight: "10px" }}>
-            <Button
-              onClick={() => {
-                cookies.user ? handleLogout() : navigate("/Login");
-              }}
-              sx={{
-                backgroundColor: "grey",
-                cursor: "pointer",
-                fontSize: { xs: "80%", sm: "100%" },
-                paddingY: { xs: 0.5, sm: 1 },
-                paddingX: { xs: 1.5, sm: 3 },
-              }}
-              variant="contained"
-            >
-              {cookies.user ? "Logout" : "Sign In"}
-            </Button>
+            {width < 320 ? (
+              <Button
+                onClick={() => {
+                  cookies.user ? handleLogout() : navigate("/Login");
+                  window.scrollTo(0, 0);
+                }}
+                sx={{
+                  backgroundColor: "grey",
+                  cursor: "pointer",
+                  fontSize: "60%",
+                  paddingY: 0.25,
+                  paddingX: 0.5,
+                  minWidth: "50px",
+                }}
+                variant="contained"
+              >
+                {cookies.user ? "Logout" : "Sign In"}
+              </Button>
+            ) : (
+              <Button
+                onClick={() => {
+                  cookies.user ? handleLogout() : navigate("/Login");
+                  window.scrollTo(0, 0);
+                }}
+                sx={{
+                  backgroundColor: "grey",
+                  cursor: "pointer",
+                  fontSize: { xs: "80%", sm: "100%" },
+                  paddingY: { xs: 0.5, sm: 1 },
+                  paddingX: { xs: 1.5, sm: 3 },
+                }}
+                variant="contained"
+              >
+                {cookies.user ? "Logout" : "Sign In"}
+              </Button>
+            )}
           </Box>
 
           {cookies.user && (
@@ -178,6 +245,7 @@ const ResponsiveAppBar = (props: any) => {
                 title="Open profile page"
                 onClick={() => {
                   navigate("/Profile");
+                  window.scrollTo(0, 0);
                 }}
               >
                 <IconButton sx={{ p: 0 }}>
