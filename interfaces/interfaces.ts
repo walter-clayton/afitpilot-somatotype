@@ -2,7 +2,7 @@ import { Schema } from "mongoose";
 
 export interface IReqUser {
   email: string;
-  username: string;
+  name: string;
 }
 
 export interface IRelationShip {
@@ -11,10 +11,12 @@ export interface IRelationShip {
 }
 export interface IUser {
   email: string;
-  username: string;
+  name: string;
   password: string;
   somatotypes: IRelationShip[];
-  anthropometrics: IAnthropometric[]
+  anthropometrics: IAnthropometric[];
+  createdAt: String;
+  updatedAt: String;
 }
 
 export interface ISomatotype {
@@ -22,7 +24,9 @@ export interface ISomatotype {
   mesomorphy: number;
   ectomorphy: number;
   users: IRelationShip[];
-  anthropometric: IAnthropometric
+  anthropometric: IAnthropometric;
+  createdAt: String;
+  updatedAt: String;
 }
 
 export interface IAnthropometric {
@@ -37,9 +41,11 @@ export interface IAnthropometric {
   bicep_girth: number;
   users: IRelationShip[];
   somatotype: IRelationShip;
+  createdAt: String;
+  updatedAt: String;
 }
 
-export interface IData{
+export interface IData {
   somatotype: ISomatotype;
   anthropometric: IAnthropometric;
 }

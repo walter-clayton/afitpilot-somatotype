@@ -9,6 +9,7 @@ import {
   FormControlLabel,
   Avatar,
   CircularProgress,
+  Alert,
 } from "@mui/material/";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Typography, Container } from "@mui/material/";
@@ -29,8 +30,8 @@ export default function Login(props: any) {
   const [cookies, setCookie] = useCookies(["user"]);
 
   //validation
-  const [showPassword, setShowPassword] = React.useState(false)
-  const [email, setEmail] = useState('');
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [emailIsIncorrect, setEmailIsIncorrect] = useState(false);
@@ -66,19 +67,23 @@ export default function Login(props: any) {
 
   const login = async (data: FormData) => {
     try {
-      setOpen(false)
+      setOpen(false);
       setFetching(true);
       const headers = {
         "Content-Type": "application/json",
         access_key: process.env.REACT_APP_ACCESS_KEY,
       };
-      const response = await axios.get(process.env.REACT_APP_LOGIN_URL!, {
-        headers: headers,
-        params: {
+      const response = await axios.post(
+        process.env.REACT_APP_LOGIN_URL!,
+        {
           email: data.get("email"),
           password: data.get("password"),
+          data: props.data,
         },
-      });
+        {
+          headers: headers,
+        }
+      );
       setFetching(false);
       setCookie("user", response.data.user, {
         path: "/",
@@ -86,9 +91,11 @@ export default function Login(props: any) {
         secure: true,
         maxAge: 3600,
       });
-      props.setOpen(true)
-      props.setSnackbarMessage(response.data.message)
-      navigate('/')
+      props.setOpen(true);
+      props.setSnackbarMessage(response.data.message);
+      props.setResultsSaved?.(response.data.dataSaved);
+      props.setData?.(undefined);
+      navigate("/");
     } catch (error: any) {
       setOpen(true);
       if (error.response) {
@@ -116,8 +123,7 @@ export default function Login(props: any) {
     } else {
       if (!isEmailValid(data.get("email"))) {
         setSnackbarMessage("Email is incorrect");
-      }
-      if (!isPasswordValid(data.get("password"))) {
+      } else if (!isPasswordValid(data.get("password"))) {
         setSnackbarMessage("Password is incorrect");
       }
     }
@@ -168,7 +174,7 @@ export default function Login(props: any) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+      <Container maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
@@ -184,6 +190,11 @@ export default function Login(props: any) {
           <Typography component="h1" variant="h5">
             Login
           </Typography>
+          {props.data && (
+            <Alert severity="error" sx={{ margin: "20px 0" }}>
+              You have to log in to save the results
+            </Alert>
+          )}
           <Box
             component="form"
             onSubmit={handleSubmit}

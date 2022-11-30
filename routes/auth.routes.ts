@@ -3,8 +3,9 @@ const router = Router();
 
 const { login } = require("../controllers/auth.controller");
 const verifyKey = require("../middlewares/verifyKey.middleware");
-const verifyFields = require("../middlewares/verifyFieldsLogin.middleware");
+const verifyEmail = require("../middlewares/verifyEmail.middleware");
+const verifyPassword = require("../middlewares/verifyPassword.middleware");
 
-router.get("/login", verifyKey, verifyFields, login);
+router.post("/login", verifyKey, verifyEmail, verifyPassword, login);
 
 module.exports = router;

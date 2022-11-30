@@ -4,33 +4,70 @@ const router = Router();
 const verifyToken = require("../middlewares/verifyToken.middleware");
 const verifyKey = require("../middlewares/verifyKey.middleware");
 const verifyUser = require("../middlewares/verifyUser.middleware");
-const verifyEmail = require('../middlewares/verifyEmail')
-const verifyFields = require("../middlewares/verifyFieldsRegister.middleware");
-const verifyFieldsUpdateEmailAndUsername = require("../middlewares/verifyFieldsUpdateEmailUsername.middleware");
-const verifyFieldsPassword = require("../middlewares/verifyFieldsPassword.middleware");
-const verifyEmailResetPass = require("../middlewares/verifyEmailResetPass.middleware");
-const verifyFieldsResetPass = require("../middlewares/verifyFieldsResetPass.middleware");
+const verifyEmail = require("../middlewares/verifyEmail.middleware");
+const verifyName = require("../middlewares/verifyName.middleware");
+const verifyNewPassword = require("../middlewares/verifyNewPassword.middleware");
+const verifySomatotype = require("../middlewares/verifySomatotype.middleware");
 const {
   register,
-  getUser,
+  updateName,
   deleteUser,
+  saveResults,
   updateEmail,
   updatePassword,
   sendResetEmail,
-  resetPassword,
+  getUserDatas,
+  deleteSomatotype,
+  editSomatotype,
 } = require("../controllers/users.controller");
 
-router.get("/getUser", verifyToken, getUser);
-router.post("/register", verifyKey, verifyFields, verifyUser, register);
-router.delete("/deleteUser", verifyToken, deleteUser);
-router.post("/updateEmail", verifyToken, verifyEmail, updateEmail);
+router.post(
+  "/register",
+  verifyKey,
+  verifyEmail,
+  verifyName,
+  verifyUser,
+  register
+);
+
+router.delete("/deleteUser", verifyKey, verifyToken, verifyEmail, deleteUser);
+
+router.post(
+  "/forgotPassword",
+  verifyKey,
+  verifyEmail,
+  verifyUser,
+  sendResetEmail
+);
+
+router.post("/saveResults", verifyKey, verifyToken, saveResults);
+
+router.post("/updateEmail", verifyKey, verifyToken, verifyEmail, updateEmail);
+
+router.post("/updateName", verifyKey, verifyToken, verifyName, updateName);
+
 router.post(
   "/updatePassword",
+  verifyKey,
   verifyToken,
-  verifyFieldsPassword,
+  verifyNewPassword,
   updatePassword
 );
-router.post("/forgotPassword", verifyKey, verifyEmailResetPass, sendResetEmail);
-// router.post("/resetPassword", verifyKey, verifyFieldsResetPass, verifyToken, resetPassword);
+
+router.get("/getUserDatas", verifyKey, verifyToken, getUserDatas);
+
+router.delete(
+  "/deleteSomatotype/:id",
+  verifyKey,
+  verifyToken,
+  deleteSomatotype
+);
+
+router.post(
+  "/editSomatotype/:id",
+  verifyKey,
+  verifySomatotype,
+  editSomatotype
+);
 
 module.exports = router;

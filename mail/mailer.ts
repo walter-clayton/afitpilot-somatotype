@@ -1,3 +1,6 @@
+import { IData } from "../interfaces/interfaces";
+import { htmlTempResetPassword } from "./mail-template";
+
 const nodemailer = require("nodemailer");
 const { htmlTempResetPass, htmlTempPassword } = require("./mail-template");
 
@@ -49,24 +52,23 @@ interface IOptionsNodemailer {
 //   }
 // };
 
-/**
- *
- * @param email String
- * @param token String
- */
+
 const sendEmailPassword = async (
   email: string,
-  pass: string
+  name: string,
+  pass: string,
+  data: IData
 ): Promise<void> => {
+  
   const message: string =
-    "You can use this randomly generated password to access your profile:";
+    "You can use this randomly generated password to access your profile";
 
   const options: IOptionsNodemailer = {
     from: `noreply <${process.env.MAIL_USER}>`, // sender address
     to: email, // receiver email
     subject: "Your password to access your account", // Subject line
     text: message,
-    html: htmlTempPassword(message, pass),
+    html: htmlTempPassword(message, name, pass, data),
   };
 
   try {
@@ -78,4 +80,30 @@ const sendEmailPassword = async (
   }
 };
 
-module.exports = { sendEmailPassword };
+const sendEmailResetPassword = async (
+  email: string,
+  name: string,
+  pass: string
+): Promise<void> => {
+  
+  const message: string =
+    "You can use this randomly generated password to access your profile";
+
+  const options: IOptionsNodemailer = {
+    from: `noreply <${process.env.MAIL_USER}>`, // sender address
+    to: email, // receiver email
+    subject: "Your password to access your account", // Subject line
+    text: message,
+    html: htmlTempResetPassword(message, name, pass),
+  };
+
+  try {
+    const info = await transporter.sendMail(options);
+
+    return info;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { sendEmailPassword, sendEmailResetPassword };

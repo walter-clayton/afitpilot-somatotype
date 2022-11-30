@@ -11,11 +11,20 @@ import { Snackbar } from "@mui/material";
 import Resetpass from "./components/Resetpass";
 import Forget from "./components/Forget";
 import Dashboard from "./components/Dashboard";
+import Add from "./components/Add";
+import Footer from "./components/CTA/Footer";
+import Contact from "./components/CTA/Contact";
+import TermsCondition from "./components/CTA/TermsCondition";
+import Privacy from "./components/CTA/Privacy";
+import Types from "./components/CTA/TypesPage";
+import BalancedEndomorph from "./components/CTA/BalancedEndomorph";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
   mesomorphy?: number | undefined;
   ectomorphy?: number | undefined;
+  createdAt?: string | undefined;
+  _id?: string | undefined;
 }
 
 export interface IAnthropometric {
@@ -38,6 +47,7 @@ export interface IData {
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const [open, setOpen] = useState<boolean>(false);
+  const [resultsSaved, setResultsSaved] = useState<boolean>(false);
   const [snackbarMessage, setSnackbarMessage] = useState<string>("");
 
   const [data, setData] = useState<IData | undefined>(undefined);
@@ -57,13 +67,35 @@ function App() {
         setData={setData}
       />
       <Routes>
-        <Route path="/" element={<Landing setData={setData} />} />
+        <Route
+          path="/"
+          element={
+            cookies.user ? (
+              <Dashboard
+                resultsSaved={resultsSaved}
+                setResultsSaved={setResultsSaved}
+              />
+            ) : (
+              <Landing
+                setData={setData}
+                resultsSaved={resultsSaved}
+                setResultsSaved={setResultsSaved}
+              />
+            )
+          }
+        />
         {/* <Route path="/Landing" element={<Landing />} /> */}
         <Route
           path="/Signup"
           element={
             (cookies.user && data) || !cookies.user ? (
-              <Signup data={data} setData={setData} />
+              <Signup
+                data={data}
+                setData={setData}
+                setOpen={setOpen}
+                setSnackbarMessage={setSnackbarMessage}
+                setResultsSaved={setResultsSaved}
+              />
             ) : null
           }
         />
@@ -73,13 +105,22 @@ function App() {
             !cookies.user && (
               <Login
                 setOpen={setOpen}
+                data={data}
+                setData={setData}
                 setSnackbarMessage={setSnackbarMessage}
+                setResultsSaved={setResultsSaved}
               />
             )
           }
         />
         <Route path="/Forget" element={<Forget />} />
         <Route path="/Resetpass" element={<Resetpass />} />
+        {/* <Route path="/Add" element={<Add setData={setData} />} /> */}
+        <Route path="/Contact" element={<Contact />} />
+        <Route path="/TermsConditions" element={<TermsCondition />} />
+        <Route path="/Privacy" element={<Privacy />} />
+        <Route path="/Types" element={<Types />} />
+        <Route path="/Balanced-endomorph" element={<BalancedEndomorph />} />
         <Route
           path="/Profile"
           element={
@@ -91,7 +132,7 @@ function App() {
             )
           }
         />
-        <Route path="/Dashboard" element={cookies.user && <Dashboard />} />
+        {/* <Route path="/Dashboard" element={cookies.user && <Dashboard />} /> */}
       </Routes>
       <Snackbar
         open={open}
@@ -99,6 +140,8 @@ function App() {
         message={snackbarMessage}
         onClose={handleClose}
       />
+      {/* <BalancedEndomorph /> */}
+      <Footer />
     </Router>
   );
 }

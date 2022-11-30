@@ -9,24 +9,33 @@ import {
   Typography,
   Container,
   CircularProgress,
+  InputLabel,
 } from "@mui/material/";
 import CssBaseline from "@mui/material/CssBaseline";
 import Snackbar from "@mui/material/Snackbar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import { IData } from "../App";
 
 interface ISugnUp {
   data?: IData;
-  setData?:((data: IData | undefined) => void) | undefined
+  setData?: ((data: IData | undefined) => void) | undefined;
+  setOpen?: (bool: boolean) => void;
+  setSnackbarMessage?: (msg: string) => void;
+  setResultsSaved?: (bool: boolean) => void;
 }
 
 const Signup: FC<ISugnUp> = (props) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [emailIsIncorrect, setEmailIsIncorrect] = useState(false);
+  const [nameIsIncorrect, setNameIsIncorrect] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [fetching, setFetching] = React.useState<boolean>(false);
+  const [cookies, setCookie] = useCookies(["user"]);
+
   /**
    *
    * @param username String
@@ -48,20 +57,9 @@ const Signup: FC<ISugnUp> = (props) => {
     return isValid;
   };
 
-  const isPasswordValid = (pwd: FormDataEntryValue | null): boolean => {
-    const isValid: boolean =
-      pwd
-        ?.toString()
-        .match(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{6,20}$/) !==
-      null;
-    return isValid;
-  };
+  const isNameValid = (name: string): boolean => {
+    const isValid: boolean = name !== "" && /^[a-z\s]*$/.test(name);
 
-  const isPasswordMatch = (
-    pwd: FormDataEntryValue | null,
-    confirmPwd: FormDataEntryValue | null
-  ): boolean => {
-    const isValid: boolean = pwd === confirmPwd;
     return isValid;
   };
 
@@ -76,14 +74,24 @@ const Signup: FC<ISugnUp> = (props) => {
         process.env.REACT_APP_REGISTER_URL!,
         {
           email: data.get("email"),
+          name: name,
           data: props.data,
         },
         { headers: headers }
       );
       setOpen(true);
-      setSnackbarMessage(response.data.message);
-      props.setData?.(undefined)
+      setCookie("user", response.data.user, {
+        path: "/",
+        sameSite: "none",
+        secure: true,
+        maxAge: 3600,
+      });
+      props.setOpen?.(true);
+      props.setSnackbarMessage?.(response.data.message);
+      props.setResultsSaved?.(response.data.dataSaved);
+      props.setData?.(undefined);
       setFetching(false);
+      navigate("/");
     } catch (error: any) {
       setOpen(true);
       if (error.response) {
@@ -97,6 +105,7 @@ const Signup: FC<ISugnUp> = (props) => {
       setFetching(false);
     }
   };
+
   const handleChangeEmail = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -108,33 +117,33 @@ const Signup: FC<ISugnUp> = (props) => {
     }
     setHasChanges(true);
   };
+
+  const handleChangeName = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setName(String(event.currentTarget.value).toLowerCase());
+    if (!isNameValid(event.currentTarget.value.toLowerCase())) {
+      setNameIsIncorrect(true);
+    } else {
+      setNameIsIncorrect(false);
+    }
+    setHasChanges(true);
+  };
+
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
     //validation message using snackbar
-    if (
-      isEmailValid(data.get("email")) &&
-      isUsernameValid(data.get("username")) &&
-      isPasswordValid(data.get("password")) &&
-      isPasswordValid(data.get("confirmPassword")) &&
-      isPasswordMatch(data.get("password"), data.get("confirmPassword"))
-    ) {
+    if (props.data && isEmailValid(data.get("email")) && isNameValid(name)) {
       setOpen(false);
       addUser(data);
       // setSnackbarMessage("You have succesfully Register ");
     } else {
-      if (!isPasswordValid(data.get("username"))) {
-        setSnackbarMessage("Username is incorrect");
-      }
       if (!isEmailValid(data.get("email"))) {
         setSnackbarMessage("Email is incorrect");
-      }
-      if (!isPasswordValid(data.get("password"))) {
-        setSnackbarMessage("Password is incorrect");
-      }
-      if (!isPasswordMatch(data.get("password"), data.get("confirmPassword"))) {
-        setSnackbarMessage("Passwords missmatch");
+      } else if (!isNameValid(name)) {
+        setSnackbarMessage("Name is incorrect");
       }
     }
   };
@@ -164,16 +173,18 @@ const Signup: FC<ISugnUp> = (props) => {
           alignItems: "center",
         }}
       >
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h2">
           Sign up
         </Typography>
-        <Typography variant="subtitle2">
-          Before you move on to your profile,would you like an email copy of
-          your results?
-        </Typography>
-        {props.data && <Alert severity="error" sx={{ margin: "20px 0" }}>
-          You have to sign up to save the results
-        </Alert>}
+        {props.data ? (
+          <Alert severity="error" sx={{ margin: "20px 0" }}>
+            You must sign up to save your results.
+          </Alert>
+        ) : (
+          <Alert severity="error" sx={{ margin: "20px 0" }}>
+            You must submit results before signing up.
+          </Alert>
+        )}
         <Box
           component="form"
           onSubmit={handleSubmit}
@@ -202,6 +213,39 @@ const Signup: FC<ISugnUp> = (props) => {
               • Please enter a valid email !
             </Typography>
           ) : null}
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
+              sx={{
+                minWidth: "max-content",
+                marginRight: "15px",
+                color: "grey",
+              }}
+            >
+              Your name is
+            </Box>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              error={nameIsIncorrect ? true : false}
+              onChange={handleChangeName}
+              id="name"
+              label="Your name"
+              name="name"
+              autoComplete="name"
+              autoFocus
+            />
+          </Box>
+          {nameIsIncorrect ? (
+            <Typography
+              variant="caption"
+              display="block"
+              gutterBottom
+              color="#ff0000"
+            >
+              • Please enter a valid name (just letters) !
+            </Typography>
+          ) : null}
           <Button
             type="submit"
             variant="outlined"
@@ -217,7 +261,9 @@ const Signup: FC<ISugnUp> = (props) => {
           </Button>
           <Button
             type="submit"
-            onClick={handleClick}
+            onClick={() => {
+              props.data && handleClick();
+            }}
             variant="contained"
             size="large"
             sx={{ mt: 3, mb: 2 }}

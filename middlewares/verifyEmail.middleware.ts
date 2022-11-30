@@ -3,7 +3,7 @@ const User = require("../models/User");
 
 /**
  *
- * @param reqBody IReqBody
+ * @param email String
  * @returns Boolean
  */
 const isRequired = (email: string): boolean => {
@@ -32,34 +32,19 @@ const isFieldsValid = async (
   res: Response,
   next: NextFunction
 ): Promise<Response<any, Record<string, any>> | undefined> => {
+  const { email } = req.url.split('?')[0] === "/deleteUser" ? req.query : req.body;
 
-  if (isRequired(req.body.email))
+  if (isRequired(email))
     return res.status(403).send({
       message: "Email is required.",
     });
 
-  if (!isEmailValid(req.body.email))
+  if (!isEmailValid(email))
     return res.status(403).send({
       message: "Invalid email.",
     });
 
-  try {
-    const user = await User.findByEmail(req.body.email);
-
-    if (user.length === 0) {
-      return res.status(403).send({
-        message: "Account doesn't exist",
-      });
-    }else{
-        next();
-    }
-  } catch (error: unknown) {
-    console.log(error);
-    res.status(500).send({
-      message:
-        "Error with the database: please try again or contact the administrator.",
-    });
-  }
+  next();
 };
 
 module.exports = isFieldsValid;
