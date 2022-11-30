@@ -92,6 +92,7 @@ const Signup: FC<ISugnUp> = (props) => {
       props.setData?.(undefined);
       setFetching(false);
       navigate("/");
+      window.scrollTo(0, 0);
     } catch (error: any) {
       setOpen(true);
       if (error.response) {
@@ -253,6 +254,7 @@ const Signup: FC<ISugnUp> = (props) => {
             onClick={() => {
               handleClick();
               navigate("/");
+              window.scrollTo(0, 0);
             }}
             sx={{ mt: 3, mb: 2, marginRight: 5, marginLeft: 8 }}
             disabled={fetching}
@@ -282,6 +284,7 @@ const Signup: FC<ISugnUp> = (props) => {
               <Link
                 onClick={() => {
                   navigate("/Login");
+                  window.scrollTo(0, 0);
                 }}
                 sx={{ cursor: "pointer" }}
               >

@@ -5,7 +5,6 @@ import { Typography, Container } from "@mui/material/";
 import { TextField } from "@mui/material/";
 import Snackbar from "@mui/material/Snackbar";
 import KeyIcon from "@mui/icons-material/Key";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Forget() {
@@ -22,7 +21,6 @@ export default function Forget() {
         ) !== null;
     return isValid;
   };
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [emailIsIncorrect, setEmailIsIncorrect] = useState(false);
   const [fetching, setFetching] = React.useState<boolean>(false);

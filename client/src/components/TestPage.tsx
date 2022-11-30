@@ -1,39 +1,24 @@
-import * as React from "react";
-import { useState, useEffect, useRef, FC } from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import { Alert, Box, Button, Grid } from "@mui/material/";
+import React, { FC, useEffect, useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import FilledInput from "@mui/material/FilledInput";
-import InputAdornment from "@mui/material/InputAdornment";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormControl from "@mui/material/FormControl";
-import Typography from "@mui/material/Typography";
-import {
-  AddPoint,
-  calculateSomatotype,
-  UpdateCanvas,
-  IPoints,
-} from "./Calculation";
+import { IAnthropometric, IData, ISomatotype } from "../App";
+import { Alert, Box, Button, CssBaseline, Grid, Snackbar } from "@mui/material";
+import AnthropometricForm from "./AnthropometricForm";
+import { AddPoint, calculateSomatotype, IPoints } from "./Calculation";
 import ResultsTable from "./ResultsTable";
+import SomatotypeGraph from "./SomatotypeGraph";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import IconButton from "@mui/material/IconButton";
-import Snackbar from "@mui/material/Snackbar";
-import { LargeNumberLike } from "crypto";
-import axios from "axios";
-import { IAnthropometric, IData, ISomatotype } from "../App";
-import SomatotypeGraph from "./SomatotypeGraph";
-import AnthropometricForm from "./AnthropometricForm";
 
 const theme = createTheme();
 
-interface ILanding {
+interface ITesting {
   setData: (data: IData) => void;
   resultsSaved: boolean;
   setResultsSaved: (bool: boolean) => void;
 }
 
-const Landing: FC<ILanding> = (props) => {
+const TestPage: FC<ITesting> = (props) => {
   const [showResults, setShowResults] = useState(false);
   const [toggleGraph, setToggleGraph] = useState(false);
   const navigate = useNavigate();
@@ -69,87 +54,6 @@ const Landing: FC<ILanding> = (props) => {
       bicep_girth: 38,
     }));
   }, []);
-  //Categorise the user from their submitted results
-  const getSomatotypeType = (
-    endomorphy: number | undefined,
-    mesomorphy: number | undefined,
-    ectomorphy: number | undefined
-  ) => {
-    if (endomorphy! === ectomorphy || endomorphy === mesomorphy || ectomorphy === mesomorphy) {
-      return "You are a Central Type";
-    }
-    else if (endomorphy! > mesomorphy! && ectomorphy && mesomorphy! === ectomorphy) {
-      return "You are a Balanced Endomorph Type";
-    } else if (
-      endomorphy! > mesomorphy! &&
-      ectomorphy &&
-      mesomorphy! > ectomorphy
-    ) {
-      return "You are a Mesomorphic Endomorph Type";
-    } else if (
-      endomorphy! === mesomorphy! &&
-      mesomorphy! &&
-      endomorphy > ectomorphy!
-    ) {
-      return "You are a Mesomorph-Endomorph Type";
-    } else if (
-      mesomorphy! > endomorphy! &&
-      ectomorphy &&
-      endomorphy! > ectomorphy
-    ) {
-      return "You are an Endomorphic Mesomorph Type";
-    } else if (
-      mesomorphy! > endomorphy! &&
-      ectomorphy &&
-      endomorphy! === ectomorphy
-    ) {
-      return "You are a Balanced Mesomorph Type";
-    } else if (
-      mesomorphy! > endomorphy! &&
-      mesomorphy! > ectomorphy! &&
-      endomorphy! < ectomorphy!
-    ) {
-      return "You are an Ectomorphic Mesomorph Type";
-    } else if (
-      (mesomorphy! === ectomorphy) && (ectomorphy! > endomorphy!) && (mesomorphy! > endomorphy!)) {
-      return "You are a Mesomorph-Ectomorph Type";
-    } else if (
-      ectomorphy! > mesomorphy! &&
-      endomorphy &&
-      mesomorphy! > endomorphy!
-    ) {
-      return "You are a Mesomorphic-Ectomorph Type";
-    } else if (
-      ectomorphy! > mesomorphy! &&
-      endomorphy &&
-      mesomorphy! === endomorphy!
-    ) {
-      return "You are a Balanced Ectomorph Type";
-    } else if (
-      (ectomorphy! > mesomorphy!) &&
-      (endomorphy! > mesomorphy!) &&
-      (ectomorphy! > endomorphy!)
-    ) {
-      return "You are an Endomorphic Ectomorph Type";
-    } else if (endomorphy! === ectomorphy! && endomorphy! && ectomorphy > mesomorphy!) {
-      return "You are an Endomorph-Ectomorph Type";
-    } else if (endomorphy! >= ectomorphy! && ectomorphy! >= mesomorphy!) {
-      return "You are an Ectomorphic Endomorph Type";
-    }
-    else if (endomorphy! === ectomorphy || endomorphy === mesomorphy || ectomorphy === mesomorphy) {
-      return "You are a Central Type";
-    }
-    else {
-      return "You are a Central Type";
-    }
-  };
-  const typeResult = getSomatotypeType(
-    somatotype?.endomorphy,
-    somatotype?.mesomorphy,
-    somatotype?.ectomorphy
-  );
-
-  console.log(typeResult);
 
   const saveDatas = async () => {
     try {
@@ -189,6 +93,7 @@ const Landing: FC<ILanding> = (props) => {
         anthropometric: { ...anthropometric },
       });
       navigate("/Signup");
+      window.scrollTo(0, 0);
     } else {
       saveDatas();
     }
@@ -260,6 +165,7 @@ const Landing: FC<ILanding> = (props) => {
               onClick={() => {
                 setShowResults(true);
                 setToggleGraph(!toggleGraph);
+
                 const somatotypeResults = calculateSomatotype(anthropometric!);
 
                 let pointsResultsArray: IPoints[] = [];
@@ -304,9 +210,6 @@ const Landing: FC<ILanding> = (props) => {
               toggleGraph={toggleGraph}
               setToggleGraph={setToggleGraph}
             />
-            <Typography textAlign={"center"} variant="h6">
-              {typeResult}
-            </Typography>
           </Grid>
         ) : null}
 
@@ -361,4 +264,5 @@ const Landing: FC<ILanding> = (props) => {
     </ThemeProvider>
   );
 };
-export default Landing;
+
+export default TestPage;
