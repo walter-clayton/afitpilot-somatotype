@@ -1,38 +1,24 @@
-import * as React from "react";
-import { useState, useEffect, useRef, FC } from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import { Alert, Box, Button, Grid } from "@mui/material/";
+import React, { FC, useEffect, useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import FilledInput from "@mui/material/FilledInput";
-import InputAdornment from "@mui/material/InputAdornment";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormControl from "@mui/material/FormControl";
-import {
-  AddPoint,
-  calculateSomatotype,
-  UpdateCanvas,
-  IPoints,
-} from "./Calculation";
+import { IAnthropometric, IData, ISomatotype } from "../App";
+import { Alert, Box, Button, CssBaseline, Grid, Snackbar } from "@mui/material";
+import AnthropometricForm from "./AnthropometricForm";
+import { AddPoint, calculateSomatotype, IPoints } from "./Calculation";
 import ResultsTable from "./ResultsTable";
+import SomatotypeGraph from "./SomatotypeGraph";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import IconButton from "@mui/material/IconButton";
-import Snackbar from "@mui/material/Snackbar";
-import { LargeNumberLike } from "crypto";
-import axios from "axios";
-import { IAnthropometric, IData, ISomatotype } from "../App";
-import SomatotypeGraph from "./SomatotypeGraph";
-import AnthropometricForm from "./AnthropometricForm";
 
 const theme = createTheme();
 
-interface ILanding {
+interface ITesting {
   setData: (data: IData) => void;
   resultsSaved: boolean;
   setResultsSaved: (bool: boolean) => void;
 }
 
-const Landing: FC<ILanding> = (props) => {
+const TestPage: FC<ITesting> = (props) => {
   const [showResults, setShowResults] = useState(false);
   const [toggleGraph, setToggleGraph] = useState(false);
   const navigate = useNavigate();
@@ -107,6 +93,7 @@ const Landing: FC<ILanding> = (props) => {
         anthropometric: { ...anthropometric },
       });
       navigate("/Signup");
+      window.scrollTo(0, 0);
     } else {
       saveDatas();
     }
@@ -182,14 +169,18 @@ const Landing: FC<ILanding> = (props) => {
                 const somatotypeResults = calculateSomatotype(anthropometric!);
 
                 let pointsResultsArray: IPoints[] = [];
-                const point = AddPoint(somatotypeResults[0],somatotypeResults[1],somatotypeResults[2]);
+                const point = AddPoint(
+                  somatotypeResults[0],
+                  somatotypeResults[1],
+                  somatotypeResults[2]
+                );
                 pointsResultsArray.push(point);
                 setPointsArray(pointsResultsArray);
-                
+
                 setSomatotype?.({
-                endomorphy: somatotypeResults[0],
-                mesomorphy: somatotypeResults[1],
-                ectomorphy: somatotypeResults[2],
+                  endomorphy: somatotypeResults[0],
+                  mesomorphy: somatotypeResults[1],
+                  ectomorphy: somatotypeResults[2],
                 });
               }}
             >
@@ -273,4 +264,5 @@ const Landing: FC<ILanding> = (props) => {
     </ThemeProvider>
   );
 };
-export default Landing;
+
+export default TestPage;

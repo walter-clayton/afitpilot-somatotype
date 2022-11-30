@@ -2,7 +2,6 @@ import { Alert, Box, Button, Grid, Snackbar, Typography } from "@mui/material";
 import React, { useEffect, useState, useRef, FC } from "react";
 import { calculateSomatotype, IPoints } from "./Calculation";
 import ResultsTable from "./ResultsTable";
-import { useNavigate } from "react-router-dom";
 import { IAnthropometric, IData, ISomatotype } from "../App";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -19,8 +18,7 @@ interface IDashboard {
 }
 
 const Dashboard: FC<IDashboard> = (props) => {
-  //Somatotype values should come from backend (data saved from the landing page)
-  const navigate = useNavigate();
+  //Somatotype values should come from backend (data saved from the home page)
 
   const [somatotype, setSomatotype] = useState<ISomatotype | undefined>(
     undefined

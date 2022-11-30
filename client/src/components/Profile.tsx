@@ -64,6 +64,7 @@ const Profile = (props: any) => {
       props.setOpen(true);
       props.setSnackbarMessage("Account deleted successfully");
       navigate("/Login");
+      window.scrollTo(0, 0);
     } catch (error: any) {
       // if (error.response) {
       //   error.response.data.message
