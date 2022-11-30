@@ -75,7 +75,10 @@ const Landing: FC<ILanding> = (props) => {
     mesomorphy: number | undefined,
     ectomorphy: number | undefined
   ) => {
-    if (endomorphy! > mesomorphy! && ectomorphy && mesomorphy! === ectomorphy) {
+    if (endomorphy! === ectomorphy || endomorphy === mesomorphy || ectomorphy === mesomorphy) {
+      return "You are a Central Type";
+    }
+    else if (endomorphy! > mesomorphy! && ectomorphy && mesomorphy! === ectomorphy) {
       return "You are a Balanced Endomorph Type";
     } else if (
       endomorphy! > mesomorphy! &&
@@ -132,6 +135,9 @@ const Landing: FC<ILanding> = (props) => {
       return "You are an Endomorph-Ectomorph Type";
     } else if (endomorphy! >= ectomorphy! && ectomorphy! >= mesomorphy!) {
       return "You are an Ectomorphic Endomorph Type";
+    }
+    else if (endomorphy! === ectomorphy || endomorphy === mesomorphy || ectomorphy === mesomorphy) {
+      return "You are a Central Type";
     }
     else {
       return "You are a Central Type";
