@@ -9,6 +9,7 @@ import SomatotypeGraph from "./SomatotypeGraph";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import Typography from '@mui/material/Typography';
 
 const theme = createTheme();
 
@@ -55,6 +56,78 @@ const TestPage: FC<ITesting> = (props) => {
     }));
   }, []);
 
+  const getSomatotypeType = (
+    endomorphy: number | undefined,
+    mesomorphy: number | undefined,
+    ectomorphy: number | undefined
+  ) => {
+    if (endomorphy! === ectomorphy || endomorphy === mesomorphy || ectomorphy === mesomorphy) {
+      return "You are a Central Type";
+    }
+    else if (endomorphy! > mesomorphy! && ectomorphy && mesomorphy! === ectomorphy) {
+      return "You are a Balanced Endomorph Type";
+    } else if (
+      endomorphy! > mesomorphy! &&
+      ectomorphy &&
+      mesomorphy! > ectomorphy
+    ) {
+      return "You are a Mesomorphic Endomorph Type";
+    } else if (
+      endomorphy! === mesomorphy! &&
+      mesomorphy! &&
+      endomorphy > ectomorphy!
+    ) {
+      return "You are a Mesomorph-Endomorph Type";
+    } else if (
+      mesomorphy! > endomorphy! &&
+      ectomorphy &&
+      endomorphy! > ectomorphy
+    ) {
+      return "You are an Endomorphic Mesomorph Type";
+    } else if (
+      mesomorphy! > endomorphy! &&
+      ectomorphy &&
+      endomorphy! === ectomorphy
+    ) {
+      return "You are a Balanced Mesomorph Type";
+    } else if (
+      mesomorphy! > endomorphy! &&
+      mesomorphy! > ectomorphy! &&
+      endomorphy! < ectomorphy!
+    ) {
+      return "You are an Ectomorphic Mesomorph Type";
+    } else if (
+      (mesomorphy! === ectomorphy) && (ectomorphy! > endomorphy!) && (mesomorphy! > endomorphy!)) {
+      return "You are a Mesomorph-Ectomorph Type";
+    } else if (
+      ectomorphy! > mesomorphy! &&
+      endomorphy &&
+      mesomorphy! > endomorphy!
+    ) {
+      return "You are a Mesomorphic-Ectomorph Type";
+    } else if (
+      ectomorphy! > mesomorphy! &&
+      endomorphy &&
+      mesomorphy! === endomorphy!
+    ) {
+      return "You are a Balanced Ectomorph Type";
+    } else if (
+      (ectomorphy! > mesomorphy!) &&
+      (endomorphy! > mesomorphy!) &&
+      (ectomorphy! > endomorphy!)
+    ) {
+      return "You are an Endomorphic Ectomorph Type";
+    } else if (endomorphy! === ectomorphy! && endomorphy! && ectomorphy > mesomorphy!) {
+      return "You are an Endomorph-Ectomorph Type";
+    } else if (endomorphy! >= ectomorphy! && ectomorphy! >= mesomorphy!) {
+      return "You are an Ectomorphic Endomorph Type";
+    }
+    else {
+      return "Try again";
+    }
+  };
+  const typeResult = getSomatotypeType(7, 3, 4);
+  console.log(typeResult);
   const saveDatas = async () => {
     try {
       const headers = {
@@ -210,6 +283,10 @@ const TestPage: FC<ITesting> = (props) => {
               toggleGraph={toggleGraph}
               setToggleGraph={setToggleGraph}
             />
+            <Typography textAlign={"center"} variant="h6">
+              {typeResult}
+            </Typography>
+
           </Grid>
         ) : null}
 
