@@ -17,6 +17,7 @@ import Contact from "./components/CTA/Contact";
 import TermsCondition from "./components/CTA/TermsCondition";
 import Privacy from "./components/CTA/Privacy";
 import Types from "./components/CTA/TypesPage";
+import BalancedEndomorph from "./components/CTA/BalancedEndomorph";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -69,12 +70,18 @@ function App() {
         <Route
           path="/"
           element={
-            cookies.user ? <Dashboard /> :
-            <Landing
-              setData={setData}
-              resultsSaved={resultsSaved}
-              setResultsSaved={setResultsSaved}
-            />
+            cookies.user ? (
+              <Dashboard
+                resultsSaved={resultsSaved}
+                setResultsSaved={setResultsSaved}
+              />
+            ) : (
+              <Landing
+                setData={setData}
+                resultsSaved={resultsSaved}
+                setResultsSaved={setResultsSaved}
+              />
+            )
           }
         />
         {/* <Route path="/Landing" element={<Landing />} /> */}
@@ -113,6 +120,7 @@ function App() {
         <Route path="/TermsConditions" element={<TermsCondition />} />
         <Route path="/Privacy" element={<Privacy />} />
         <Route path="/Types" element={<Types />} />
+        <Route path="/Balanced-endomorph" element={<BalancedEndomorph />} />
         <Route
           path="/Profile"
           element={
@@ -132,6 +140,7 @@ function App() {
         message={snackbarMessage}
         onClose={handleClose}
       />
+      {/* <BalancedEndomorph /> */}
       <Footer />
     </Router>
   );

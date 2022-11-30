@@ -7,7 +7,12 @@ import FilledInput from "@mui/material/FilledInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
-import { AddPoint, calculateSomatotype, UpdateCanvas, IPoints } from "./Calculation";
+import {
+  AddPoint,
+  calculateSomatotype,
+  UpdateCanvas,
+  IPoints,
+} from "./Calculation";
 import ResultsTable from "./ResultsTable";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -47,6 +52,8 @@ const Landing: FC<ILanding> = (props) => {
   const [anthropometric, setAnthropometric] = useState<
     IAnthropometric | undefined
   >(undefined);
+
+  const [pointsArray, setPointsArray] = useState<IPoints[]>([]);
 
   useEffect(() => {
     setAnthropometric((anthropometric) => ({
@@ -109,28 +116,33 @@ const Landing: FC<ILanding> = (props) => {
     setSnackBarState({ ...snackBarState, open: false });
   };
 
-  useEffect(() => {
-    console.log(anthropometric);
-  }, [anthropometric])
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Grid container sx={{
+      <Grid
+        container
+        sx={{
           display: "flex",
-          flexDirection: 'column',
+          flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          padding:'0px 15px'}}
-          width={"100%"}
+          padding: "0px 15px",
+        }}
+        width={"100%"}
       >
         {/* Form Inputs */}
-        <Grid item sx={{
+        <Grid
+          item
+          sx={{
             flexGrow: 1,
             alignItems: "center",
-            margin: "20px 0"}}
-            width={"100%"}
-            xs={12} md={8} lg={6}>
+            margin: "20px 0",
+          }}
+          width={"100%"}
+          xs={12}
+          md={8}
+          lg={6}
+        >
           {props.resultsSaved && (
             <Alert
               onClose={() => {
@@ -142,22 +154,44 @@ const Landing: FC<ILanding> = (props) => {
               Results saved successfully
             </Alert>
           )}
-          <AnthropometricForm anthropometric={anthropometric} setAnthropometric={setAnthropometric}/>
+          <AnthropometricForm
+            anthropometric={anthropometric}
+            setAnthropometric={setAnthropometric}
+          />
         </Grid>
         {/* button */}
-        <Grid item sx={{
+        <Grid
+          item
+          sx={{
             flexGrow: 1,
             alignItems: "center",
-            margin: "20px auto"}}
-            xs={12} md={8} lg={6}>
+            margin: "20px auto",
+          }}
+          xs={12}
+          md={8}
+          lg={6}
+        >
           <Box sx={{ textalign: "center" }}>
             <Button
               variant="contained"
               type="submit"
               onClick={() => {
                 setShowResults(true);
-                setToggleGraph(!toggleGraph);  
-            }}
+                setToggleGraph(!toggleGraph);
+
+                const somatotypeResults = calculateSomatotype(anthropometric!);
+
+                let pointsResultsArray: IPoints[] = [];
+                const point = AddPoint(somatotypeResults[0],somatotypeResults[1],somatotypeResults[2]);
+                pointsResultsArray.push(point);
+                setPointsArray(pointsResultsArray);
+                
+                setSomatotype?.({
+                endomorphy: somatotypeResults[0],
+                mesomorphy: somatotypeResults[1],
+                ectomorphy: somatotypeResults[2],
+                });
+              }}
             >
               Submit
             </Button>
@@ -177,12 +211,14 @@ const Landing: FC<ILanding> = (props) => {
             lg={6}
             width={"100%"}
           >
-            {/* <ResultsTable
-              endomorphy={somatotype?.endomorphy}
-              mesomorphy={somatotype?.mesomorphy}
-              ectomorphy={somatotype?.ectomorphy}
+            <ResultsTable
               showHistory={false}
-            /> */}
+              multipleResults={false}
+              singleSomatotype={somatotype}
+              setPointsArray={setPointsArray}
+              toggleGraph={toggleGraph}
+              setToggleGraph={setToggleGraph}
+            />
           </Grid>
         ) : null}
 
@@ -200,7 +236,12 @@ const Landing: FC<ILanding> = (props) => {
           lg={6}
           width={"100%"}
         >
-          {showResults && <SomatotypeGraph updateGraph={toggleGraph} somatotype={somatotype} anthropometric={anthropometric} setSomatotype={setSomatotype}/>}
+          {showResults && (
+            <SomatotypeGraph
+              updateGraph={toggleGraph}
+              pointsArray={pointsArray}
+            />
+          )}
         </Grid>
 
         {showResults ? (

@@ -4,9 +4,7 @@ import { IAnthropometric, ISomatotype } from "../App";
 
 interface ISomatotypeGraph{
     updateGraph?: boolean,
-    somatotype?: ISomatotype | undefined,
-    anthropometric?: IAnthropometric | undefined,
-    setSomatotype?:((somatotype:ISomatotype | undefined) => void | undefined)
+    pointsArray?: IPoints[]
 }
 
 const SomatotypeGraph:FC<ISomatotypeGraph> = (props):any => {
@@ -22,39 +20,15 @@ const SomatotypeGraph:FC<ISomatotypeGraph> = (props):any => {
                 canvasRef.current!.style.width = "100%";
                 canvasRef.current!.style.height = `${canvasRef.current?.offsetWidth! * 1.17}px`;
         }
-    
-        const anthropometricInputs:IAnthropometric = {
-            weight : props.anthropometric?.weight, 
-            height : props.anthropometric?.height, 
-            tricep_skinfold : props.anthropometric?.tricep_skinfold, 
-            subscapular_skinfold : props.anthropometric?.subscapular_skinfold, 
-            supraspinal_skinfold : props.anthropometric?.supraspinal_skinfold, 
-            humerus_breadth : props.anthropometric?.humerus_breadth, 
-            femur_breadth : props.anthropometric?.femur_breadth, 
-            calf_girth : props.anthropometric?.calf_girth, 
-            bicep_girth : props.anthropometric?.bicep_girth
-        };
-    
-        const somatotypeResults = calculateSomatotype(anthropometricInputs);
-        
-        let pointsArray: IPoints[] = [];
-        const point = AddPoint(somatotypeResults[0],somatotypeResults[1],somatotypeResults[2]);
-        pointsArray.push(point);
-        
-        UpdateCanvas(ctx, canvas,canvasRef.current?.offsetWidth, canvasRef.current?.offsetHeight, pointsArray);
-    
-        props.setSomatotype?.({
-          endomorphy: somatotypeResults[0],
-          mesomorphy: somatotypeResults[1],
-          ectomorphy: somatotypeResults[2],
-        });
+
+        UpdateCanvas(ctx, canvas,canvasRef.current?.offsetWidth, canvasRef.current?.offsetHeight, props.pointsArray!);
     
         function handleResize() {
             if(canvasRef.current?.style.width !== undefined){
                 canvasRef.current!.style.width = "100%";
                 canvasRef.current!.style.height = `${canvasRef.current?.offsetWidth * 1.17}px`;
     
-                UpdateCanvas(ctx, canvas,canvasRef.current?.offsetWidth, canvasRef.current?.offsetHeight, pointsArray);
+                UpdateCanvas(ctx, canvas,canvasRef.current?.offsetWidth, canvasRef.current?.offsetHeight, props.pointsArray!);
             }
         }
         window.addEventListener("resize", handleResize);

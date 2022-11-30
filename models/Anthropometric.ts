@@ -13,7 +13,7 @@ const anthropometricSchema: Schema = new Schema<IAnthropometric>({
   bicep_girth: { type: Number, required: true },
   users: [{ type: Schema.Types.ObjectId, ref: "User" }],
   somatotype: { type: Schema.Types.ObjectId, ref: "Somatotype" },
-  createdAtt: { type: String, default: new Date().toLocaleString() },
+  createdAt: { type: String, default: new Date().toLocaleString() },
   updatedAt: { type: String, default: new Date().toLocaleString() },
 });
 

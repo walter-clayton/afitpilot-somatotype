@@ -7,12 +7,14 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import { MenuItem } from "@mui/material/";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import Avatar from "@mui/material/Avatar";
+import logoIcon from "./image/logo-white.png";
 
 const pages = ["Test", "Somatotypes", "Blog"];
 
@@ -33,36 +35,43 @@ const ResponsiveAppBar = (props: any) => {
     removeCookie("user", { path: "/", sameSite: "none", secure: true });
     props.setOpen(true);
     props.setSnackbarMessage("Logout successfully");
-    props.setData(undefined)
+    props.setData(undefined);
     navigate("/Login");
   };
 
   return (
-    <AppBar position="static" sx={{width:'100%'}}>
+    <AppBar position="static" sx={{ width: "100%", background: "black" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
+          <Box
+            sx={{ display: { xs: "none", md: "flex" }, cursor: "pointer" }}
+            flexDirection={"row"}
             onClick={() => {
               navigate("/");
             }}
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-              cursor: "pointer",
-            }}
           >
-           AFITPILOT
-          </Typography>
+            <IconButton sx={{ p: 0 }}>
+              <Avatar alt="logo" src={logoIcon} />
+            </IconButton>
+            <Typography
+              variant="h5"
+              noWrap
+              sx={{
+                mx: 1,
+                flexGrow: 1,
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+                alignSelf: "center",
+              }}
+            >
+              AFITPILOT
+            </Typography>
+          </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ flexGrow: 0.5, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -98,22 +107,42 @@ const ResponsiveAppBar = (props: any) => {
               ))}
             </Menu>
           </Box>
-          <Typography
-            variant="h5"
-            noWrap
+          <Box
             sx={{
-              mr: 2,
               display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
+              flexGrow: 0.5,
+              cursor: "pointer",
+            }}
+            flexDirection={"row"}
+            onClick={() => {
+              navigate("/");
             }}
           >
-            AFITPILOT
-          </Typography>
+            <IconButton sx={{ p: 0 }}>
+              <Avatar
+                alt="logo"
+                src={logoIcon}
+                sx={{ width: { xs: 32, sm: 48 }, height: { xs: 32, sm: 48 } }}
+              />
+            </IconButton>
+            <Typography
+              variant="h5"
+              noWrap
+              sx={{
+                mx: 1,
+                flexGrow: 1,
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: { xs: ".22rem", sm: ".3rem" },
+                color: "inherit",
+                textDecoration: "none",
+                alignSelf: "center",
+                fontSize: { xs: "100%", sm: "150%" },
+              }}
+            >
+              AFITPILOT
+            </Typography>
+          </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
@@ -130,10 +159,16 @@ const ResponsiveAppBar = (props: any) => {
               onClick={() => {
                 cookies.user ? handleLogout() : navigate("/Login");
               }}
-              sx={{ backgroundColor: "grey", cursor: "pointer" }}
+              sx={{
+                backgroundColor: "grey",
+                cursor: "pointer",
+                fontSize: { xs: "80%", sm: "100%" },
+                paddingY: { xs: 0.5, sm: 1 },
+                paddingX: { xs: 1.5, sm: 3 },
+              }}
               variant="contained"
             >
-              {cookies.user ? "Lougout" : "Sign IN"}
+              {cookies.user ? "Logout" : "Sign In"}
             </Button>
           </Box>
 
@@ -146,7 +181,12 @@ const ResponsiveAppBar = (props: any) => {
                 }}
               >
                 <IconButton sx={{ p: 0 }}>
-                  <AccountCircleIcon sx={[{color: 'white', fontSize: "3rem"}, {"&:hover": {color: 'lightgrey'}}]}/>
+                  <AccountCircleIcon
+                    sx={[
+                      { color: "white", fontSize: "3rem" },
+                      { "&:hover": { color: "lightgrey" } },
+                    ]}
+                  />
                 </IconButton>
               </Tooltip>
             </Box>

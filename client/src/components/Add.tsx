@@ -1,19 +1,27 @@
 import * as React from "react";
 import { useState, useEffect, useRef, FC } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Box, Button, Grid, Typography } from "@mui/material/";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  Typography,
+} from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import FilledInput from "@mui/material/FilledInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
-import { calculateSomatotype } from "./Calculation";
+import { AddPoint, calculateSomatotype, IPoints } from "./Calculation";
 import ResultsTable from "./ResultsTable";
 import { useNavigate } from "react-router-dom";
 // import { LargeNumberLike } from 'crypto';
 import { IAnthropometric, IData, ISomatotype } from "../App";
 import SomatotypeGraph from "./SomatotypeGraph";
 import AnthropometricForm from "./AnthropometricForm";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 const theme = createTheme();
 
 interface IAdding {
@@ -23,6 +31,9 @@ interface IAdding {
   getUserDatas?: () => void;
   idRow?: string;
   anthropometrics?: IAnthropometric[];
+  idSomatotype?: string;
+  setDashboardSnackBarOpen?: (open: boolean) => void;
+  setDashboardSnackBarMessage?: (msg: string) => void;
 }
 const Add: FC<IAdding> = (props: any) => {
   const [showResults, setShowResults] = useState(false);
@@ -34,6 +45,12 @@ const Add: FC<IAdding> = (props: any) => {
   const [anthropometric, setAnthropometric] = useState<
     IAnthropometric | undefined
   >(undefined);
+
+  const [cookies, setCookie] = useCookies(["user"]);
+
+  const [pointsArray, setPointsArray] = useState<IPoints[]>([]);
+
+  const [fetching, setFetching] = React.useState<boolean>(false);
 
   useEffect(() => {
     props.isAdding
@@ -51,11 +68,46 @@ const Add: FC<IAdding> = (props: any) => {
       : setAnthropometric(props.anthropometrics[props.idRow]);
   }, []);
 
-  const handleSaveDatasClick = () => {
-    props.setData!({
-      somatotype: { ...somatotype },
-      anthropometric: { ...anthropometric },
-    });
+  const handleSaveDatasClick = async () => {
+    let url: string;
+    props.isAdding
+      ? (url = process.env.REACT_APP_SAVEDATA_URL!)
+      : (url =
+          `${process.env.REACT_APP_EDITSOMATOTYPE_URL}/${props.idSomatotype}`!);
+
+    const headers = {
+      "Content-Type": "application/json",
+      access_key: process.env.REACT_APP_ACCESS_KEY,
+      Authorization: `Bearer ${cookies.user.token}`,
+    };
+
+    try {
+      setFetching(true);
+      const response = await axios.post(
+        url,
+        { somatotype, anthropometric },
+        { headers: headers }
+      );
+      props.setOpenAddModal!(false);
+      window.scrollTo(0, 0);
+      props.setDashboardSnackBarOpen(true);
+      props.isAdding
+        ? props.setDashboardSnackBarMessage("New Somatotype saved !")
+        : props.setDashboardSnackBarMessage("Somatotype changes saved !");
+
+      setFetching(false);
+      props.getUserDatas();
+    } catch (error) {
+      // if (error.response) {
+      //     error.response.data.message
+      //       ? setSnackbarMessage(error.response.data.message)
+      //       : setSnackbarMessage(error.response.statusText);
+      //   } else {
+      //     setSnackbarMessage("Error with the server");
+      //   }
+      console.log("error ", error);
+      setFetching(false);
+    }
   };
 
   return (
@@ -126,6 +178,23 @@ const Add: FC<IAdding> = (props: any) => {
               onClick={() => {
                 setShowResults(true);
                 setToggleGraph(!toggleGraph);
+
+                const somatotypeResults = calculateSomatotype(anthropometric!);
+
+                let pointsResultsArray: IPoints[] = [];
+                const point = AddPoint(
+                  somatotypeResults[0],
+                  somatotypeResults[1],
+                  somatotypeResults[2]
+                );
+                pointsResultsArray.push(point);
+                setPointsArray(pointsResultsArray);
+
+                setSomatotype?.({
+                  endomorphy: somatotypeResults[0],
+                  mesomorphy: somatotypeResults[1],
+                  ectomorphy: somatotypeResults[2],
+                });
               }}
             >
               Submit
@@ -146,7 +215,14 @@ const Add: FC<IAdding> = (props: any) => {
             lg={6}
             width={"100%"}
           >
-            {/* <ResultsTable endomorphy={somatotype?.endomorphy} mesomorphy={somatotype?.mesomorphy} ectomorphy={somatotype?.ectomorphy} showHistory={false} /> */}
+            <ResultsTable
+              showHistory={false}
+              multipleResults={false}
+              singleSomatotype={somatotype}
+              setPointsArray={setPointsArray}
+              toggleGraph={toggleGraph}
+              setToggleGraph={setToggleGraph}
+            />
           </Grid>
         ) : null}
 
@@ -168,9 +244,7 @@ const Add: FC<IAdding> = (props: any) => {
           {showResults && (
             <SomatotypeGraph
               updateGraph={toggleGraph}
-              somatotype={somatotype}
-              anthropometric={anthropometric}
-              setSomatotype={setSomatotype}
+              pointsArray={pointsArray}
             />
           )}
         </Grid>
@@ -189,8 +263,9 @@ const Add: FC<IAdding> = (props: any) => {
               onClick={() => {
                 handleSaveDatasClick();
               }}
+              disabled={fetching}
             >
-              SAVE
+              {fetching ? <CircularProgress size={25} /> : "SAVE"}
             </Button>
           </Box>
         ) : null}
