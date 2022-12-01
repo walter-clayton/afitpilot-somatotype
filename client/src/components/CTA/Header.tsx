@@ -5,13 +5,21 @@ import { Typography, Container } from "@mui/material/";
 import Stack from "@mui/material/Stack";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import rectangle from "../image/Rectangle 261 (2).svg";
 import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 theme.typography.h1 = {
   "@media (min-width:600px)": {
     fontSize: "3rem",
+  },
+  [theme.breakpoints.up("md")]: {
+    fontSize: "2.9rem",
+  },
+};
+theme.typography.h2 = {
+  "@media (min-width:600px)": {
+    fontSize: "2.5rem",
+
   },
   [theme.breakpoints.up("md")]: {
     fontSize: "2.9rem",
@@ -24,76 +32,72 @@ const Header = () => {
     <div>
       <Container maxWidth="xl">
         <CssBaseline />
-        {/* <Grid sx={{margin:0,marginBottom:0,padding:0}}>
-                <img src={rectangle} alt="" />
-                </Grid> */}
-        <Grid
-          container
-          sx={{
-            backgroundColor: "#4298b4",
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100%",
-            height: "450px",
-          }}
-        >
-          <Grid xs={12} md={12} lg={12} sm={12}>
-            <Box
-              sx={{
-                marginTop: 8,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Typography
-                component="h1"
-                variant="h1"
+        <ThemeProvider theme={theme}>
+          <Grid
+            container
+            sx={{
+              backgroundColor: "#4298b4",
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              height: "450px",
+            }}
+          >
+            <Grid xs={12} md={12} lg={12} sm={12}>
+              <Box
                 sx={{
-                  color: "white",
-                  textAlign: "center",
-                  fontSize: "44px",
-                  mb: 2,
+                  marginTop: 8,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                It’s so incredible to finally be understood.”{" "}
-              </Typography>
-              <Typography
-                mb={2}
-                variant="subtitle1"
-                sx={{
-                  color: "white",
-                  textAlign: "center",
-                  fontSize: "20px",
-                  mb: 4,
-                }}
-              >
-                Only 10 minutes to get a “freakishly accurate” description of
-                who you are and why you do things the way you do{" "}
-              </Typography>
-              <Stack>
-                <Button
+                <Typography
+                  variant="h2"
                   sx={{
-                    borderRadius: "20px",
-                    backgroundColor: "purple",
-                    padding: 1,
-                  }}
-                  variant="contained"
-                  onClick={() => {
-                    navigate("/Test");
-                    window.scrollTo(0, 0);
+                    color: "white",
+                    textAlign: "center",
+                    mb: 2,
                   }}
                 >
-                  Take the test <ArrowForwardSharpIcon />
-                </Button>
-              </Stack>
-            </Box>
+                  "No knowledge can be more satisfactory to a person than that of their own frame, its parts, their functions and actions"{" "}
+                </Typography>
+                <Typography
+                  mb={2}
+                  variant="subtitle1"
+                  sx={{
+                    color: "white",
+                    textAlign: "center",
+                    fontSize: "20px",
+                    mb: 4,
+                  }}
+                >
+                  - Thomas Jefferson{" "}
+                </Typography>
+                <Stack>
+                  <Button
+                    sx={{
+                      borderRadius: "20px",
+                      backgroundColor: "purple",
+                      padding: 1,
+                    }}
+                    variant="contained"
+                    onClick={() => {
+                      navigate("/Test");
+                      window.scrollTo(0, 0);
+                    }}
+                  >
+                    Take the test <ArrowForwardSharpIcon />
+                  </Button>
+                </Stack>
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>
+        </ThemeProvider>
         <ThemeProvider theme={theme}>
           <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}>
             <Grid container spacing={2}>
