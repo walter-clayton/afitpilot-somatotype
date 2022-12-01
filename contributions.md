@@ -4,7 +4,7 @@
 1. Add your MONGO_URI to the .ENV file.
 2. Test the POST/GET/DELETE requests on [Postman](https://app.getpostman.com/join-team?invite_code=901de6d626d9a713844b515e71a3395c&target_code=11ab854ea36d73b71c518f64290ceade)
 3. Check if the requests work on [MongoDB](https://cloud.mongodb.com/). 
-> DATABASE > Browse Collections > test > fields
+> DATABASE > Browse Collections > afitpilot > fields
 
 
 ## Git and Github
