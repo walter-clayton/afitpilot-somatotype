@@ -1,14 +1,16 @@
 import {
+  Box,
   Button,
   CircularProgress,
   Grid,
   IconButton,
   InputAdornment,
+  Modal,
   Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
@@ -16,23 +18,54 @@ import { useCookies } from "react-cookie";
 import { Navigate, useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height,
+  };
+}
+
+function useWindowDimensions() {
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
+  );
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return windowDimensions;
+}
+
 const Profile = (props: any) => {
+  const { height, width } = useWindowDimensions();
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const defaultEmail = cookies.user.email;
-  const defaultPassword = "*********";
+  const defaultName = cookies.user.name;
   const navigate = useNavigate();
 
   const [isEditing, setIsEditing] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showPwdConfirmation, setShowPwdConfirmation] = useState(false);
 
   const [fetching, setFetching] = React.useState<boolean>(false);
 
   const [email, setEmail] = useState(defaultEmail);
-  const [password, setPassword] = useState(defaultPassword);
+  const [name, setName] = useState(defaultName);
+  const [newPassword, setNewPassword] = useState("");
+  const [pwdConfirmation, setPwdConfirmation] = useState("");
 
   const [emailIsIncorrect, setEmailIsIncorrect] = useState(false);
-  const [passwordIsIncorrect, setPasswordIsIncorrect] = useState(false);
+  const [nameIsIncorrect, setNameIsIncorrect] = useState(false);
+  const [newPasswordIsIncorrect, setNewPasswordIsIncorrect] = useState(false);
+  const [pwdAreNotEquals, setPwdAreNotEquals] = useState(false);
 
   const [snackBarMessage, setSnackBarMessage] = useState("");
   const [snackBarState, setSnackBarState] = React.useState({
@@ -41,8 +74,29 @@ const Profile = (props: any) => {
     horizontal: "center",
   });
 
+  const [openEditPwdModal, setEditPwdModal] = React.useState(false);
+  const handleEditPwdModalOpen = () => setEditPwdModal(true);
+  const handleEditPwdModalClose = () => setEditPwdModal(false);
+
+  const modalStyle = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width:
+      width < 400 ? "90%" : width < 550 ? "80%" : width < 1000 ? "50%" : "35%",
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: "15px",
+  };
+
   const handleEditProfile = () => {
     setIsEditing(true);
+  };
+
+  const handleEditPassword = () => {
+    handleEditPwdModalOpen();
   };
 
   const handleDeleteAccount = async () => {
@@ -59,6 +113,7 @@ const Profile = (props: any) => {
           email: cookies.user.email,
         },
       });
+
       setFetching(false);
       removeCookie("user", { path: "/", sameSite: "none", secure: true });
       props.setOpen(true);
@@ -80,24 +135,37 @@ const Profile = (props: any) => {
   };
 
   const handleSaveChanges = () => {
-    if (isEmailValid(email) && isPasswordValid(password)) {
+    if (isEmailValid(email) && isNameValid(name)) {
       setSnackBarMessage("Changes saved!");
       setHasChanges(false);
       setIsEditing(false);
       setEmailIsIncorrect(false);
-      setPasswordIsIncorrect(false);
+      setNameIsIncorrect(false);
     }
     if (!isEmailValid(email)) {
       setSnackBarMessage("Invalid Email!");
     }
-    if (!isPasswordValid(password)) {
-      setSnackBarMessage("Invalid Password!");
+    if (!isNameValid(name)) {
+      setSnackBarMessage("Invalid Name!");
     }
     setSnackBarState({ open: true, vertical: "bottom", horizontal: "center" });
   };
 
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
+  const handleDiscardChanges = () => {
+    setEmail(defaultEmail);
+    setName(defaultName);
+    setHasChanges(false);
+    setIsEditing(false);
+    setEmailIsIncorrect(false);
+    setNameIsIncorrect(false);
+  };
+
+  const handleClickShowNewPassword = () => {
+    setShowNewPassword(!showNewPassword);
+  };
+
+  const handleClickShowPwdConfirmation = () => {
+    setShowPwdConfirmation(!showPwdConfirmation);
   };
 
   const handleMouseDownPassword = (event: React.FormEvent<any>) => {
@@ -116,16 +184,54 @@ const Profile = (props: any) => {
     setHasChanges(true);
   };
 
-  const handleChangePassword = (
+  const handleChangeName = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setPassword(event.currentTarget.value);
-    if (!isPasswordValid(event.currentTarget.value)) {
-      setPasswordIsIncorrect(true);
+    setName(event.currentTarget.value);
+    if (!isNameValid(event.currentTarget.value)) {
+      setNameIsIncorrect(true);
     } else {
-      setPasswordIsIncorrect(false);
+      setNameIsIncorrect(false);
     }
     setHasChanges(true);
+  };
+
+  const handleChangeNewPassword = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setNewPassword(event.currentTarget.value);
+    if (!isPasswordValid(event.currentTarget.value)) {
+      setNewPasswordIsIncorrect(true);
+    } else {
+      setNewPasswordIsIncorrect(false);
+    }
+    if (event.currentTarget.value === pwdConfirmation) {
+      setPwdAreNotEquals(false);
+    } else {
+      setPwdAreNotEquals(true);
+    }
+  };
+
+  const handleChangePwdConfirmation = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setPwdConfirmation(event.currentTarget.value);
+    if (event.currentTarget.value === newPassword) {
+      setPwdAreNotEquals(false);
+    } else {
+      setPwdAreNotEquals(true);
+    }
+  };
+
+  const handleCancelNewPwd = () => {
+    handleEditPwdModalClose();
+  };
+
+  const handleSaveNewPwd = () => {
+    //TO DO Send new password to backend
+    handleEditPwdModalClose();
+    setSnackBarMessage("New Password saved!");
+    setSnackBarState({ open: true, vertical: "bottom", horizontal: "center" });
   };
 
   const handleSnackBarClose = () => {
@@ -147,82 +253,247 @@ const Profile = (props: any) => {
     return isValid;
   };
 
+  const isNameValid = (username: string): boolean => {
+    const isValid: boolean = username.match(/^[a-zA-Z0-9]+$/) !== null;
+    return isValid;
+  };
+
   return (
     <>
       <Grid
         container
-        maxWidth="sm"
         sx={{
-          textAlign: "center",
-          margin: "0 auto",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
+          padding: "0px 15px",
         }}
+        width={"100%"}
       >
-        <Typography variant="h3" gutterBottom m={3}>
-          Profile
-        </Typography>
+        <Grid item m={3} sx={{}} xs={12} md={8} lg={6} alignSelf={"center"}>
+          <Typography variant="h3">Profile</Typography>
+        </Grid>
 
-        <Grid container>
-          <Grid container justifyContent={"center"} alignContent={"center"}>
-            <Grid item>
-              <TextField
-                error={emailIsIncorrect ? true : false}
-                onChange={handleChangeEmail}
-                id="email"
-                label="Email"
-                variant="outlined"
-                disabled={isEditing ? false : true}
-                defaultValue={defaultEmail}
-                margin="normal"
-              />
-              {emailIsIncorrect ? (
-                <Typography
-                  variant="caption"
-                  display="block"
-                  gutterBottom
-                  color="#ff0000"
+        <Grid
+          item
+          sx={{
+            flexGrow: 1,
+          }}
+          width={"100%"}
+          xs={12}
+          md={8}
+          lg={6}
+          alignSelf={"center"}
+        >
+          <TextField
+            error={emailIsIncorrect ? true : false}
+            onChange={handleChangeEmail}
+            id="email"
+            label="Email"
+            variant="outlined"
+            disabled={isEditing ? false : true}
+            value={email}
+            margin="normal"
+            sx={{ width: "100%" }}
+          />
+          {emailIsIncorrect ? (
+            <Typography
+              variant="caption"
+              display="block"
+              gutterBottom
+              color="#ff0000"
+            >
+              • Please enter a valid email !
+            </Typography>
+          ) : null}
+
+          <TextField
+            error={nameIsIncorrect ? true : false}
+            onChange={handleChangeName}
+            id="name"
+            label="Name"
+            variant="outlined"
+            disabled={isEditing ? false : true}
+            value={name}
+            margin="normal"
+            sx={{ width: "100%" }}
+          />
+          {nameIsIncorrect ? (
+            <Typography
+              variant="caption"
+              display="block"
+              gutterBottom
+              color="#ff0000"
+            >
+              • Name can only contains letters and digits !
+            </Typography>
+          ) : null}
+        </Grid>
+
+        {isEditing ? (
+          <Grid
+            item
+            sx={{
+              flexGrow: 1,
+            }}
+            width={"100%"}
+            xs={12}
+            md={8}
+            lg={6}
+            alignSelf={"center"}
+          >
+            <Grid
+              container
+              display={"flex"}
+              flexDirection={"row"}
+              width={"100%"}
+              spacing={0}
+              justifyContent={"center"}
+            >
+              <Grid item xs={6} textAlign={"center"}>
+                <Button
+                  sx={{ margin: "10px 0" }}
+                  variant="outlined"
+                  onClick={handleDiscardChanges}
+                  color={"error"}
                 >
-                  • Please enter a valid email !
-                </Typography>
-              ) : null}
-            </Grid>
-            <Grid item>
-              <Button variant="contained">
-                <EditIcon />
-              </Button>
+                  Discard changes
+                </Button>
+              </Grid>
+              <Grid item xs={6} textAlign={"center"}>
+                <Button
+                  sx={{ margin: "10px 0" }}
+                  variant="contained"
+                  onClick={handleSaveChanges}
+                  disabled={!hasChanges || emailIsIncorrect || nameIsIncorrect}
+                  color={"success"}
+                >
+                  Save changes
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
+        ) : null}
 
-          <Grid container justifyContent={"center"} alignContent={"center"}>
-            <Grid item>
+        <Grid
+          item
+          sx={{
+            flexGrow: 1,
+          }}
+          width={"100%"}
+          xs={12}
+          md={8}
+          lg={6}
+          alignSelf={"center"}
+          textAlign={"center"}
+        >
+          <Button
+            sx={{ margin: "10px 0", width: "50%" }}
+            variant="contained"
+            onClick={handleEditProfile}
+            disabled={isEditing ? true : false}
+          >
+            Edit Profile
+          </Button>
+        </Grid>
+
+        <Grid
+          item
+          sx={{
+            flexGrow: 1,
+          }}
+          width={"100%"}
+          xs={12}
+          md={8}
+          lg={6}
+          alignSelf={"center"}
+          textAlign={"center"}
+        >
+          <Button
+            sx={{ margin: "10px 0", width: "50%" }}
+            variant="contained"
+            onClick={handleEditPassword}
+            disabled={isEditing ? true : false}
+          >
+            Edit Password
+          </Button>
+        </Grid>
+
+        <Grid
+          item
+          sx={{
+            flexGrow: 1,
+          }}
+          width={"100%"}
+          xs={12}
+          md={8}
+          lg={6}
+          alignSelf={"center"}
+          textAlign={"center"}
+        >
+          <Button
+            sx={{ margin: "10px 0", width: "50%" }}
+            variant="contained"
+            onClick={handleDeleteAccount}
+            color="error"
+            disabled={fetching || isEditing}
+          >
+            {fetching ? <CircularProgress size={25} /> : "Delete account"}
+          </Button>
+        </Grid>
+      </Grid>
+
+      <Modal
+        open={openEditPwdModal}
+        onClose={handleEditPwdModalClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={modalStyle}>
+          <Grid
+            container
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+            width={"100%"}
+          >
+            <Grid
+              item
+              sx={{
+                flexGrow: 1,
+              }}
+              width={"100%"}
+              xs={12}
+              alignSelf={"center"}
+            >
               <TextField
-                error={passwordIsIncorrect ? true : false}
-                onChange={handleChangePassword}
-                id="password"
-                label="Password"
+                error={newPasswordIsIncorrect}
+                onChange={handleChangeNewPassword}
+                id="newPassword"
+                label="New Password"
                 variant="outlined"
-                type={showPassword ? "text" : "password"}
-                disabled={isEditing ? false : true}
-                defaultValue={defaultPassword}
+                type={showNewPassword ? "text" : "password"}
                 margin="normal"
+                sx={{ width: "100%" }}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
+                        onClick={handleClickShowNewPassword}
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                        {showNewPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
                   ),
                 }}
               />
-              {passwordIsIncorrect ? (
+
+              {newPasswordIsIncorrect ? (
                 <>
                   <Typography
                     variant="caption"
@@ -266,43 +537,86 @@ const Profile = (props: any) => {
                   </Typography>
                 </>
               ) : null}
+
+              <TextField
+                error={newPasswordIsIncorrect || pwdAreNotEquals}
+                onChange={handleChangePwdConfirmation}
+                id="pwdConfirmation"
+                label="Confirm New Password"
+                variant="outlined"
+                type={showPwdConfirmation ? "text" : "password"}
+                margin="normal"
+                sx={{ width: "100%" }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPwdConfirmation}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPwdConfirmation ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              {pwdAreNotEquals ? (
+                <>
+                  <Typography
+                    variant="caption"
+                    display="block"
+                    gutterBottom
+                    color="#ff0000"
+                  >
+                    • Password and confirmation must be the same !
+                  </Typography>
+                </>
+              ) : null}
+            </Grid>
+          </Grid>
+
+          <Grid
+            container
+            display={"flex"}
+            justifyContent={"center"}
+            alignContent={"center"}
+            spacing={2}
+            sx={{ mt: 0 }}
+          >
+            <Grid item>
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={handleCancelNewPwd}
+              >
+                Cancel
+              </Button>
             </Grid>
             <Grid item>
-              <Button variant="contained">
-                <EditIcon />
+              <Button
+                variant="contained"
+                color="success"
+                onClick={handleSaveNewPwd}
+                disabled={
+                  pwdAreNotEquals ||
+                  newPasswordIsIncorrect ||
+                  newPassword === "" ||
+                  pwdConfirmation === ""
+                }
+              >
+                Confirm
               </Button>
             </Grid>
           </Grid>
-        </Grid>
+        </Box>
+      </Modal>
 
-        {hasChanges ? (
-          <Button
-            sx={{ margin: "10px 0" }}
-            variant="contained"
-            onClick={handleSaveChanges}
-          >
-            Save changes
-          </Button>
-        ) : null}
-
-        <Button
-          sx={{ margin: "10px 0" }}
-          variant="contained"
-          onClick={handleEditProfile}
-          disabled={isEditing ? true : false}
-        >
-          Edit Profile
-        </Button>
-        <Button
-          sx={{ margin: "10px 0" }}
-          variant="contained"
-          onClick={handleDeleteAccount}
-          color="error"
-          disabled={fetching}
-        >
-          {fetching ? <CircularProgress size={25} /> : "Delete account"}
-        </Button>
-      </Grid>
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={snackBarState.open}
