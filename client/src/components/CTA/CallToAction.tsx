@@ -51,7 +51,7 @@ const CallToAction = () => {
               >
                 Somatotypes
               </Button>
-              <Button sx={{ color: "blue" }} variant="text" onClick={() => {}}>
+              <Button sx={{ color: "blue" }} variant="text" onClick={() => { }}>
                 Explore Theory <ArrowForwardSharpIcon />
               </Button>
             </Stack>
@@ -70,6 +70,61 @@ const CallToAction = () => {
           </Box>
         </Grid>
       </Grid>
+      <Grid container sx={{ backgroundColor: "#f6f6f7", marginTop: 8 }}>
+        <Grid xs={12} md={7} lg={6} sm={12}>
+          <Box
+            sx={{
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <img src={sitting} alt="sitting girl" />
+          </Box>
+        </Grid>
+        <Grid xs={12} md={5} lg={6} sm={12}>
+          <Box
+            sx={{
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              justifyContent: "flex-end",
+              marginRight: "20px",
+              marginLeft: "7px",
+            }}
+          >
+            <Typography component="h1" variant="h4" sx={{ color: "blue" }}>
+              Teams
+            </Typography>
+            <Typography mt={1.5} component="h4" variant="h4">
+              Understand your team better
+            </Typography>
+            <Typography
+              mt={1.5}
+              sx={{ display: "flex", justifyContent: "flex-end" }}
+              variant="body1"
+            >
+              Understand your team better with our Somatotype Assessment. Improve communication, create harmony, and help team members develop their individual strengths. Works for teams of all sizes.
+            </Typography>
+            <Stack mt={1.5} spacing={2} direction="row">
+              <Button
+                sx={{ borderRadius: "20px", backgroundColor: "green" }}
+                variant="contained"
+                onClick={() => {
+                  navigate("/Types");
+                  window.scrollTo(0, 0);
+                }}
+              >
+                Take the Test <ArrowForwardSharpIcon />
+              </Button>
+            </Stack>
+          </Box>
+        </Grid>
+
+      </Grid>
+
     </Container>
   );
 };
