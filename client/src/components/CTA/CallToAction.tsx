@@ -36,9 +36,7 @@ const CallToAction = () => {
               sx={{ display: "flex", justifyContent: "flex-end" }}
               variant="body1"
             >
-              In our free somatotype description you will learn what your body
-              types is capable of and the types of sport you have the most
-              potential in.
+              In our free type descriptions you’ll learn what body shape you have
             </Typography>
             <Stack mt={1.5} spacing={2} direction="row">
               <Button
@@ -113,7 +111,7 @@ const CallToAction = () => {
                 sx={{ borderRadius: "20px", backgroundColor: "green" }}
                 variant="contained"
                 onClick={() => {
-                  navigate("/Types");
+                  navigate("/Test");
                   window.scrollTo(0, 0);
                 }}
               >
