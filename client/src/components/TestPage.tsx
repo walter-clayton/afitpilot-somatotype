@@ -7,9 +7,9 @@ import { AddPoint, calculateSomatotype, IPoints } from "./Calculation";
 import ResultsTable from "./ResultsTable";
 import SomatotypeGraph from "./SomatotypeGraph";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { matchRoutes, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import Typography from '@mui/material/Typography';
+import Typography from "@mui/material/Typography";
 
 const theme = createTheme();
 
@@ -56,80 +56,196 @@ const TestPage: FC<ITesting> = (props) => {
     }));
   }, []);
 
+  const isMinTwoDigit = (soma: ISomatotype): boolean => {
+    let matchCondition: boolean;
+
+    matchCondition =
+      Math.abs(soma.endomorphy! - soma.mesomorphy!) <= 2 ||
+      Math.abs(soma.endomorphy! - soma.ectomorphy!) <= 2 ||
+      Math.abs(soma.mesomorphy! - soma.ectomorphy!) <= 2;
+
+    return matchCondition;
+  };
+
+  const isCentral = (soma: ISomatotype): boolean => {
+    // digit has to be 2, 3 or 4
+    const condition = [2, 3, 4];
+    let i: number = 0;
+    let matchCondition: boolean = true;
+
+    while (matchCondition && i < Object.values(soma).length) {
+      matchCondition = condition.includes(Object.values(soma)[i]);
+      i++;
+    }
+
+    // not more than 1 between digits
+    if (matchCondition) {
+      matchCondition =
+        Math.abs(soma.endomorphy! - soma.mesomorphy!) <= 1 &&
+        Math.abs(soma.endomorphy! - soma.ectomorphy!) <= 1 &&
+        Math.abs(soma.mesomorphy! - soma.ectomorphy!) <= 1;
+    }
+
+    return matchCondition;
+  };
+
+  const isBalancedMeso = (soma: ISomatotype): boolean => {
+    return (
+      isMinTwoDigit(soma) &&
+      soma.endomorphy! === soma.ectomorphy! &&
+      soma.mesomorphy! > soma.endomorphy! &&
+      soma.mesomorphy! > soma.ectomorphy!
+    );
+  };
+
+  const isEctomorphicMeso = (soma: ISomatotype): boolean => {
+    return (
+      isMinTwoDigit(soma) &&
+      soma.ectomorphy! > soma.endomorphy! &&
+      soma.mesomorphy! > soma.endomorphy! &&
+      soma.mesomorphy! > soma.ectomorphy!
+    );
+  };
+
+  const isMesoEcto = (soma: ISomatotype): boolean => {
+    return (
+      isMinTwoDigit(soma) &&
+      soma.ectomorphy! > soma.endomorphy! &&
+      soma.mesomorphy! === soma.ectomorphy!
+    );
+  };
+
+  const isMesomorphicEcto = (soma: ISomatotype): boolean => {
+    return (
+      isMinTwoDigit(soma) &&
+      soma.ectomorphy! > soma.endomorphy! &&
+      soma.ectomorphy! > soma.mesomorphy! &&
+      soma.mesomorphy! > soma.endomorphy!
+    );
+  };
+
+  const isBalancedEcto = (soma: ISomatotype): boolean => {
+    return (
+      isMinTwoDigit(soma) &&
+      soma.endomorphy! === soma.mesomorphy! &&
+      soma.ectomorphy! > soma.endomorphy!
+    );
+  };
+
+  const isEndomorphicEcto = (soma: ISomatotype): boolean => {
+    return (
+      isMinTwoDigit(soma) &&
+      soma.endomorphy! > soma.mesomorphy! &&
+      soma.ectomorphy! > soma.endomorphy! &&
+      soma.ectomorphy! > soma.mesomorphy!
+    );
+  };
+
+  const isEndoEcto = (soma: ISomatotype): boolean => {
+    return (
+      isMinTwoDigit(soma) &&
+      soma.endomorphy! === soma.ectomorphy! &&
+      soma.endomorphy! > soma.mesomorphy! &&
+      soma.ectomorphy! > soma.mesomorphy!
+    );
+  };
+
+  const isEctomorphicEndo = (soma: ISomatotype): boolean => {
+    return (
+      isMinTwoDigit(soma) &&
+      soma.ectomorphy! > soma.mesomorphy! &&
+      soma.endomorphy! > soma.ectomorphy! &&
+      soma.endomorphy! > soma.mesomorphy!
+    );
+  };
+
+  const isBalancedEndo = (soma: ISomatotype): boolean => {
+    return (
+      isMinTwoDigit(soma) &&
+      soma.endomorphy! > soma.ectomorphy! &&
+      soma.endomorphy! > soma.mesomorphy! &&
+      soma.mesomorphy! === soma.ectomorphy!
+    );
+  };
+
+  const isMesomorphicEndo = (soma: ISomatotype): boolean => {
+    return (
+      isMinTwoDigit(soma) &&
+      soma.endomorphy! > soma.ectomorphy! &&
+      soma.endomorphy! > soma.mesomorphy! &&
+      soma.mesomorphy! > soma.ectomorphy!
+    );
+  };
+
+  const isMesoEndo = (soma: ISomatotype): boolean => {
+    return (
+      isMinTwoDigit(soma) &&
+      soma.endomorphy! === soma.mesomorphy! &&
+      soma.endomorphy! > soma.ectomorphy!
+    );
+  };
+
+  const isEndomorphicMeso = (soma: ISomatotype): boolean => {
+    return (
+      isMinTwoDigit(soma) &&
+      soma.endomorphy! > soma.ectomorphy! &&
+      soma.mesomorphy! > soma.endomorphy! &&
+      soma.mesomorphy! > soma.ectomorphy!
+    );
+  };
+
   const getSomatotypeType = (
     endomorphy: number | undefined,
     mesomorphy: number | undefined,
     ectomorphy: number | undefined
   ) => {
-    if (endomorphy! === ectomorphy || endomorphy === mesomorphy || ectomorphy === mesomorphy) {
-      return "You are a Central Type";
+    let result: string = "";
+
+    const soma: ISomatotype = {
+      endomorphy:
+        Number(endomorphy?.toFixed()) === 0 ? 1 : Number(endomorphy?.toFixed()),
+      mesomorphy:
+        Number(mesomorphy?.toFixed()) === 0 ? 1 : Number(mesomorphy?.toFixed()),
+      ectomorphy:
+        Number(ectomorphy?.toFixed()) === 0 ? 1 : Number(ectomorphy?.toFixed()),
+    };
+
+    if (isCentral(soma)) {
+      result = "You are a Central (C).";
+    } else if (isBalancedMeso(soma)) {
+      result = "You are a Balanced Mesomorph (BM).";
+    } else if (isEctomorphicMeso(soma)) {
+      result = "You are a Ectomorphic Mesomorph (EcM).";
+    } else if (isMesoEcto(soma)) {
+      result = "You are a Mesomorph Ectomorph (M-Ec).";
+    } else if (isMesomorphicEcto(soma)) {
+      result = "You are a Mesomorphic Ectomorph (MEc).";
+    } else if (isBalancedEcto(soma)) {
+      result = "You are a Balanced Ectomorph (BEc).";
+    } else if (isEndomorphicEcto(soma)) {
+      result = "You are a Endomorphic Ectomorph (EnEc).";
+    } else if (isEndoEcto(soma)) {
+      result = "You are a Endomorph Ectomorph (En-Ec).";
+    } else if (isEctomorphicEndo(soma)) {
+      result = "You are a Ectomorphic Endomorph (EcEn).";
+    } else if (isBalancedEndo(soma)) {
+      result = "You are a Balanced Endomorph (BEn).";
+    } else if (isMesomorphicEndo(soma)) {
+      result = "You are a Mesomorphic Endomorph (MEn).";
+    } else if (isMesoEndo(soma)) {
+      result = "You are a Mesomorph Endomorph (M-En).";
+    } else if (isEndomorphicMeso(soma)) {
+      result = "You are a Endomorphic Mesomorph (EnM).";
     }
-    else if (endomorphy! > mesomorphy! && ectomorphy && mesomorphy! === ectomorphy) {
-      return "You are a Balanced Endomorph Type";
-    } else if (
-      endomorphy! > mesomorphy! &&
-      ectomorphy &&
-      mesomorphy! > ectomorphy
-    ) {
-      return "You are a Mesomorphic Endomorph Type";
-    } else if (
-      endomorphy! === mesomorphy! &&
-      mesomorphy! &&
-      endomorphy > ectomorphy!
-    ) {
-      return "You are a Mesomorph-Endomorph Type";
-    } else if (
-      mesomorphy! > endomorphy! &&
-      ectomorphy &&
-      endomorphy! > ectomorphy
-    ) {
-      return "You are an Endomorphic Mesomorph Type";
-    } else if (
-      mesomorphy! > endomorphy! &&
-      ectomorphy &&
-      endomorphy! === ectomorphy
-    ) {
-      return "You are a Balanced Mesomorph Type";
-    } else if (
-      mesomorphy! > endomorphy! &&
-      mesomorphy! > ectomorphy! &&
-      endomorphy! < ectomorphy!
-    ) {
-      return "You are an Ectomorphic Mesomorph Type";
-    } else if (
-      (mesomorphy! === ectomorphy) && (ectomorphy! > endomorphy!) && (mesomorphy! > endomorphy!)) {
-      return "You are a Mesomorph-Ectomorph Type";
-    } else if (
-      ectomorphy! > mesomorphy! &&
-      endomorphy &&
-      mesomorphy! > endomorphy!
-    ) {
-      return "You are a Mesomorphic-Ectomorph Type";
-    } else if (
-      ectomorphy! > mesomorphy! &&
-      endomorphy &&
-      mesomorphy! === endomorphy!
-    ) {
-      return "You are a Balanced Ectomorph Type";
-    } else if (
-      (ectomorphy! > mesomorphy!) &&
-      (endomorphy! > mesomorphy!) &&
-      (ectomorphy! > endomorphy!)
-    ) {
-      return "You are an Endomorphic Ectomorph Type";
-    } else if (endomorphy! === ectomorphy! && endomorphy! && ectomorphy > mesomorphy!) {
-      return "You are an Endomorph-Ectomorph Type";
-    } else if (endomorphy! >= ectomorphy! && ectomorphy! >= mesomorphy!) {
-      return "You are an Ectomorphic Endomorph Type";
-    }
-    else if (endomorphy! === ectomorphy || endomorphy === mesomorphy || ectomorphy === mesomorphy) {
-      return "You are a Central Type";
-    }
-    else {
-      return "Try again";
-    }
+
+    return result;
   };
-  const typeResult = getSomatotypeType(somatotype?.endomorphy, somatotype?.mesomorphy, somatotype?.ectomorphy);
+
+  const typeResult = getSomatotypeType(
+    somatotype?.endomorphy,
+    somatotype?.mesomorphy,
+    somatotype?.ectomorphy
+  );
   console.log(typeResult);
   const saveDatas = async () => {
     try {
@@ -289,7 +405,6 @@ const TestPage: FC<ITesting> = (props) => {
             <Typography textAlign={"center"} variant="h6">
               {typeResult}
             </Typography>
-
           </Grid>
         ) : null}
 
