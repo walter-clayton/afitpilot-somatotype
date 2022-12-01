@@ -202,12 +202,9 @@ const TestPage: FC<ITesting> = (props) => {
     let result: string = "";
 
     const soma: ISomatotype = {
-      endomorphy:
-        Number(endomorphy?.toFixed()) === 0 ? 1 : Number(endomorphy?.toFixed()),
-      mesomorphy:
-        Number(mesomorphy?.toFixed()) === 0 ? 1 : Number(mesomorphy?.toFixed()),
-      ectomorphy:
-        Number(ectomorphy?.toFixed()) === 0 ? 1 : Number(ectomorphy?.toFixed()),
+      endomorphy: Number(endomorphy) < 1 ? 1 : Number(endomorphy?.toFixed()),
+      mesomorphy: Number(mesomorphy) < 1 ? 1 : Number(mesomorphy?.toFixed()),
+      ectomorphy: Number(ectomorphy) < 1 ? 1 : Number(ectomorphy?.toFixed()),
     };
 
     if (isCentral(soma)) {
