@@ -196,7 +196,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
   }, [rows]);
 
   useEffect(() => {
-    if(props.showHistory){
+    if (props.showHistory) {
       props.getUserDatas();
     }
   }, []);
@@ -424,13 +424,13 @@ const ResultsTable: FC<resultProps> = (props: any) => {
     tableBodyContent = rows.map((row, index) => (
       <TableRow hover={true} key={index}>
         <TableCell align="center" sx={cellStyle}>
-          {row.Endomorphy}
+          {Math.abs(row.Endomorphy)}
         </TableCell>
         <TableCell align="center" sx={cellStyle}>
-          {row.Mesomorphy}
+          {Math.abs(row.Mesomorphy)}
         </TableCell>
         <TableCell align="center" sx={cellStyle}>
-          {row.Ectomorphy}
+          {Math.abs(row.Ectomorphy)}
         </TableCell>
       </TableRow>
     ));

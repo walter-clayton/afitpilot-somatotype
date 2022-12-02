@@ -1,4 +1,3 @@
-import Landing from "./components/Landing";
 import "./App.css";
 import ResponsiveAppBar from "./components/AppNavBar";
 import { useState, useEffect } from "react";
@@ -11,13 +10,15 @@ import { Snackbar } from "@mui/material";
 import Resetpass from "./components/Resetpass";
 import Forget from "./components/Forget";
 import Dashboard from "./components/Dashboard";
-import Add from "./components/Add";
 import Footer from "./components/CTA/Footer";
 import Contact from "./components/CTA/Contact";
 import TermsCondition from "./components/CTA/TermsCondition";
 import Privacy from "./components/CTA/Privacy";
 import Types from "./components/CTA/TypesPage";
 import BalancedEndomorph from "./components/CTA/BalancedEndomorph";
+import TestPage from "./components/TestPage";
+import BlogPage from "./components/BlogPage";
+import Home from "./components/HomePage";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -76,15 +77,10 @@ function App() {
                 setResultsSaved={setResultsSaved}
               />
             ) : (
-              <Landing
-                setData={setData}
-                resultsSaved={resultsSaved}
-                setResultsSaved={setResultsSaved}
-              />
+              <Home />
             )
           }
         />
-        {/* <Route path="/Landing" element={<Landing />} /> */}
         <Route
           path="/Signup"
           element={
@@ -115,11 +111,21 @@ function App() {
         />
         <Route path="/Forget" element={<Forget />} />
         <Route path="/Resetpass" element={<Resetpass />} />
-        {/* <Route path="/Add" element={<Add setData={setData} />} /> */}
         <Route path="/Contact" element={<Contact />} />
         <Route path="/TermsConditions" element={<TermsCondition />} />
         <Route path="/Privacy" element={<Privacy />} />
         <Route path="/Types" element={<Types />} />
+        <Route
+          path="/Test"
+          element={
+            <TestPage
+              setData={setData}
+              resultsSaved={resultsSaved}
+              setResultsSaved={setResultsSaved}
+            />
+          }
+        />
+        <Route path="/Blog" element={<BlogPage />} />
         <Route path="/Balanced-endomorph" element={<BalancedEndomorph />} />
         <Route
           path="/Profile"

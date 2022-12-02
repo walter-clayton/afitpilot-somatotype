@@ -96,6 +96,7 @@ export default function Login(props: any) {
       props.setResultsSaved?.(response.data.dataSaved);
       props.setData?.(undefined);
       navigate("/");
+      window.scrollTo(0, 0);
     } catch (error: any) {
       setOpen(true);
       if (error.response) {
@@ -324,6 +325,7 @@ export default function Login(props: any) {
                 <Link
                   onClick={() => {
                     navigate("/Signup");
+                    window.scrollTo(0, 0);
                   }}
                   sx={{ cursor: "pointer" }}
                   variant="body2"
