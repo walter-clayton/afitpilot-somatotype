@@ -298,6 +298,8 @@ usersCtrl.updateName = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.user_id);
 
+    if (!user) return res.status(403).send({ message: "User not found" });
+
     if (name === user.name) {
       res.status(403).send({ message: "nothing to update" });
     } else {
