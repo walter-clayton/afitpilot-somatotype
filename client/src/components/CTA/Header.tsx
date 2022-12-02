@@ -19,7 +19,6 @@ theme.typography.h1 = {
 theme.typography.h2 = {
   "@media (min-width:600px)": {
     fontSize: "2.5rem",
-
   },
   [theme.breakpoints.up("md")]: {
     fontSize: "2.9rem",
@@ -46,7 +45,7 @@ const Header = () => {
               height: "450px",
             }}
           >
-            <Grid xs={12} md={12} lg={12} sm={12}>
+            <Grid item xs={12} md={12} lg={12} sm={12}>
               <Box
                 sx={{
                   marginTop: 8,
@@ -64,7 +63,8 @@ const Header = () => {
                     mb: 2,
                   }}
                 >
-                  "No knowledge can be more satisfactory to a person than that of their own frame, its parts, their functions and actions"{" "}
+                  "No knowledge can be more satisfactory to a person than that
+                  of their own frame, its parts, their functions and actions"{" "}
                 </Typography>
                 <Typography
                   mb={2}
@@ -104,7 +104,7 @@ const Header = () => {
               <Grid item xs={6} sm={6} md={3} lg={3}>
                 <Typography variant="h1" sx={{ color: "#4298b4" }}>
                   157+
-                  <Typography variant="subtitle1" sx={{ color: "black" }}>
+                  <Typography sx={{ color: "black" }}>
                     Tests taken today
                   </Typography>
                 </Typography>
@@ -112,7 +112,7 @@ const Header = () => {
               <Grid item xs={6} sm={6} md={3} lg={3}>
                 <Typography variant="h1" sx={{ color: "#e4ae3a" }}>
                   59+
-                  <Typography variant="subtitle1" sx={{ color: "black" }}>
+                  <Typography sx={{ color: "black" }}>
                     Tests taken in Belgium
                   </Typography>
                 </Typography>{" "}
@@ -120,7 +120,7 @@ const Header = () => {
               <Grid item xs={6} sm={6} md={3} lg={3}>
                 <Typography variant="h1" sx={{ color: "#33a474" }}>
                   40M+
-                  <Typography variant="subtitle1" sx={{ color: "black" }}>
+                  <Typography sx={{ color: "black" }}>
                     Total tests taken
                   </Typography>
                 </Typography>
@@ -128,7 +128,7 @@ const Header = () => {
               <Grid item xs={6} sm={6} md={3} lg={3}>
                 <Typography variant="h1" sx={{ color: "#88619a" }}>
                   59%
-                  <Typography variant="subtitle1" sx={{ color: "black" }}>
+                  <Typography sx={{ color: "black" }}>
                     Results rated as accurate or very accurate
                   </Typography>
                 </Typography>

@@ -13,7 +13,7 @@ const CallToAction = () => {
     <Container component="main">
       <CssBaseline />
       <Grid container sx={{ backgroundColor: "#f6f6f7", marginTop: 8 }}>
-        <Grid xs={12} md={5} lg={6} sm={12}>
+        <Grid item xs={12} md={5} lg={6} sm={12}>
           <Box
             sx={{
               marginTop: 8,
@@ -36,7 +36,8 @@ const CallToAction = () => {
               sx={{ display: "flex", justifyContent: "flex-end" }}
               variant="body1"
             >
-              In our free type descriptions you’ll learn what body shape you have
+              In our free type descriptions you’ll learn what body shape you
+              have
             </Typography>
             <Stack mt={1.5} spacing={2} direction="row">
               <Button
@@ -49,13 +50,13 @@ const CallToAction = () => {
               >
                 Somatotypes
               </Button>
-              <Button sx={{ color: "blue" }} variant="text" onClick={() => { }}>
+              <Button sx={{ color: "blue" }} variant="text" onClick={() => {}}>
                 Explore Theory <ArrowForwardSharpIcon />
               </Button>
             </Stack>
           </Box>
         </Grid>
-        <Grid xs={12} md={7} lg={6} sm={12}>
+        <Grid item xs={12} md={7} lg={6} sm={12}>
           <Box
             sx={{
               marginTop: 8,
@@ -69,7 +70,7 @@ const CallToAction = () => {
         </Grid>
       </Grid>
       <Grid container sx={{ backgroundColor: "#f6f6f7", marginTop: 8 }}>
-        <Grid xs={12} md={7} lg={6} sm={12}>
+        <Grid item xs={12} md={7} lg={6} sm={12}>
           <Box
             sx={{
               marginTop: 8,
@@ -81,7 +82,7 @@ const CallToAction = () => {
             <img src={sitting} alt="sitting girl" />
           </Box>
         </Grid>
-        <Grid xs={12} md={5} lg={6} sm={12}>
+        <Grid item xs={12} md={5} lg={6} sm={12}>
           <Box
             sx={{
               marginTop: 8,
@@ -104,7 +105,9 @@ const CallToAction = () => {
               sx={{ display: "flex", justifyContent: "flex-end" }}
               variant="body1"
             >
-              Understand your team better with our Somatotype Assessment. Improve communication, create harmony, and help team members develop their individual strengths. Works for teams of all sizes.
+              Understand your team better with our Somatotype Assessment.
+              Improve communication, create harmony, and help team members
+              develop their individual strengths. Works for teams of all sizes.
             </Typography>
             <Stack mt={1.5} spacing={2} direction="row">
               <Button
@@ -120,9 +123,7 @@ const CallToAction = () => {
             </Stack>
           </Box>
         </Grid>
-
       </Grid>
-
     </Container>
   );
 };
