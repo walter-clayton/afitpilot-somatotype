@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 const CallToAction = () => {
   const navigate = useNavigate();
   return (
-    <Container component="main">
+    <Container component="main" maxWidth="xl">
       <CssBaseline />
       <Grid container sx={{ backgroundColor: "#f6f6f7", marginTop: 8 }}>
         <Grid xs={12} md={5} lg={6} sm={12}>

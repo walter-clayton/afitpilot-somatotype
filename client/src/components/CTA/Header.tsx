@@ -36,7 +36,7 @@ const Header = () => {
           <Grid
             container
             sx={{
-              backgroundColor: "#4298b4",
+              backgroundColor: "#f6f6f7",
               marginTop: 8,
               display: "flex",
               flexDirection: "column",
@@ -59,7 +59,7 @@ const Header = () => {
                 <Typography
                   variant="h2"
                   sx={{
-                    color: "white",
+                    color: "black",
                     textAlign: "center",
                     mb: 2,
                   }}
@@ -70,7 +70,7 @@ const Header = () => {
                   mb={2}
                   variant="subtitle1"
                   sx={{
-                    color: "white",
+                    color: "black",
                     textAlign: "center",
                     fontSize: "20px",
                     mb: 4,
