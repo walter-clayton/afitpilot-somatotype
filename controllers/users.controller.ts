@@ -272,7 +272,7 @@ usersCtrl.updateEmail = async (req: Request, res: Response) => {
     if (!user) return res.status(403).send({ message: "User not found" });
 
     if (email === user.email) {
-      res.status(403).send({ message: "nothing to update" });
+      return res.status(403).send({ message: "nothing to update" });
     } else {
       user.email = email.toLowerCase();
 
@@ -303,7 +303,7 @@ usersCtrl.updateName = async (req: Request, res: Response) => {
     if (!user) return res.status(403).send({ message: "User not found" });
 
     if (name === user.name) {
-      res.status(403).send({ message: "nothing to update" });
+      return res.status(403).send({ message: "nothing to update" });
     } else {
       user.name = name;
 

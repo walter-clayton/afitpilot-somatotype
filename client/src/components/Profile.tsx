@@ -14,7 +14,7 @@ import React, { useEffect, useState } from "react";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
-import { useCookies } from "react-cookie";
+import { CookiesProvider, useCookies } from "react-cookie";
 import { Navigate, useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -51,7 +51,8 @@ const Profile = (props: any) => {
   const navigate = useNavigate();
 
   const [isEditing, setIsEditing] = useState(false);
-  const [hasChanges, setHasChanges] = useState(false);
+  const [emailhasChanges, setEmailHasChanges] = useState(false);
+  const [nameHasChanges, setNameHasChanges] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showPwdConfirmation, setShowPwdConfirmation] = useState(false);
 
@@ -99,6 +100,106 @@ const Profile = (props: any) => {
     handleEditPwdModalOpen();
   };
 
+  // useEffect(() => {
+  //   console.log(isNameValid(name));
+  // }, [name]);
+
+  const handleSaveNewEmail = async () => {
+    try {
+      setFetching(true);
+      const headers = {
+        "Content-Type": "application/json",
+        access_key: process.env.REACT_APP_ACCESS_KEY,
+        Authorization: `Bearer ${cookies.user.token}`,
+      };
+      const response = await axios.post(
+        process.env.REACT_APP_EDITEMAIL_URL!,
+        {
+          email: email,
+        },
+        {
+          headers: headers,
+        }
+      );
+
+      setEmail(response.data.user.email);
+
+      setSnackBarMessage("Changes saved!");
+      setEmailHasChanges(false);
+      setNameHasChanges(false);
+      setIsEditing(false);
+      setEmailIsIncorrect(false);
+      setNameIsIncorrect(false);
+
+      setFetching(false);
+    } catch (error: any) {
+      // if (error.response) {
+      //   error.response.data.message
+      //     ? setSnackbarMessage(error.response.data.message)
+      //     : setSnackbarMessage(error.response.statusText);
+      // } else {
+      //   setSnackbarMessage("Error with the server");
+      // }
+
+      setSnackBarMessage("Changes failed to save!");
+      setEmailHasChanges(false);
+      setNameHasChanges(false);
+      setIsEditing(false);
+      setEmailIsIncorrect(false);
+      setNameIsIncorrect(false);
+      console.log("error ", error);
+      setFetching(false);
+    }
+  };
+
+  const handleSaveNewName = async () => {
+    try {
+      setFetching(true);
+      const headers = {
+        "Content-Type": "application/json",
+        access_key: process.env.REACT_APP_ACCESS_KEY,
+        Authorization: `Bearer ${cookies.user.token}`,
+      };
+      const response = await axios.post(
+        process.env.REACT_APP_EDITNAME_URL!,
+        {
+          name: name,
+        },
+        {
+          headers: headers,
+        }
+      );
+
+      setName(response.data.user.name);
+
+      setFetching(false);
+
+      setSnackBarMessage("Changes saved!");
+      setEmailHasChanges(false);
+      setNameHasChanges(false);
+      setIsEditing(false);
+      setEmailIsIncorrect(false);
+      setNameIsIncorrect(false);
+    } catch (error: any) {
+      // if (error.response) {
+      //   error.response.data.message
+      //     ? setSnackbarMessage(error.response.data.message)
+      //     : setSnackbarMessage(error.response.statusText);
+      // } else {
+      //   setSnackbarMessage("Error with the server");
+      // }
+
+      setSnackBarMessage("Changes failed to save!");
+      setEmailHasChanges(false);
+      setNameHasChanges(false);
+      setIsEditing(false);
+      setEmailIsIncorrect(false);
+      setNameIsIncorrect(false);
+      console.log("error ", error);
+      setFetching(false);
+    }
+  };
+
   const handleSaveNewPassword = async () => {
     try {
       setFetching(true);
@@ -111,6 +212,7 @@ const Profile = (props: any) => {
         process.env.REACT_APP_EDITPASSWORD_URL!,
         {
           newPassword: newPassword,
+          confirmNewPassword: pwdConfirmation,
         },
         {
           headers: headers,
@@ -170,11 +272,25 @@ const Profile = (props: any) => {
 
   const handleSaveChanges = () => {
     if (isEmailValid(email) && isNameValid(name)) {
-      setSnackBarMessage("Changes saved!");
-      setHasChanges(false);
-      setIsEditing(false);
-      setEmailIsIncorrect(false);
-      setNameIsIncorrect(false);
+      if (emailhasChanges) {
+        handleSaveNewEmail();
+      }
+      if (nameHasChanges) {
+        handleSaveNewName();
+      }
+      if (emailhasChanges || nameHasChanges) {
+        const user = {
+          email: email,
+          name: name,
+          token: cookies.user.token,
+        };
+        setCookie("user", user, {
+          path: "/",
+          sameSite: "none",
+          secure: true,
+          maxAge: 3600,
+        });
+      }
     }
     if (!isEmailValid(email)) {
       setSnackBarMessage("Invalid Email!");
@@ -188,7 +304,8 @@ const Profile = (props: any) => {
   const handleDiscardChanges = () => {
     setEmail(defaultEmail);
     setName(defaultName);
-    setHasChanges(false);
+    setEmailHasChanges(false);
+    setNameHasChanges(false);
     setIsEditing(false);
     setEmailIsIncorrect(false);
     setNameIsIncorrect(false);
@@ -215,7 +332,7 @@ const Profile = (props: any) => {
     } else {
       setEmailIsIncorrect(false);
     }
-    setHasChanges(true);
+    setEmailHasChanges(true);
   };
 
   const handleChangeName = (
@@ -227,7 +344,7 @@ const Profile = (props: any) => {
     } else {
       setNameIsIncorrect(false);
     }
-    setHasChanges(true);
+    setNameHasChanges(true);
   };
 
   const handleChangeNewPassword = (
@@ -285,8 +402,8 @@ const Profile = (props: any) => {
     return isValid;
   };
 
-  const isNameValid = (username: string): boolean => {
-    const isValid: boolean = username.match(/^[a-zA-Z0-9]+$/) !== null;
+  const isNameValid = (name: string): boolean => {
+    const isValid: boolean = name !== "" && /^[a-z\s]*$/.test(name);
     return isValid;
   };
 
@@ -357,7 +474,7 @@ const Profile = (props: any) => {
               gutterBottom
               color="#ff0000"
             >
-              • Name can only contains letters and digits !
+              • Name can only contains lowercase letters !
             </Typography>
           ) : null}
         </Grid>
@@ -397,7 +514,11 @@ const Profile = (props: any) => {
                   sx={{ margin: "10px 0" }}
                   variant="contained"
                   onClick={handleSaveChanges}
-                  disabled={!hasChanges || emailIsIncorrect || nameIsIncorrect}
+                  disabled={
+                    (!emailhasChanges && !nameHasChanges) ||
+                    emailIsIncorrect ||
+                    nameIsIncorrect
+                  }
                   color={"success"}
                 >
                   Save changes
