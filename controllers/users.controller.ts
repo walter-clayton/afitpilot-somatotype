@@ -187,7 +187,7 @@ usersCtrl.sendResetEmail = async (req: Request, res: Response) => {
 usersCtrl.saveResults = async (req: Request, res: Response) => {
   const { somatotype, anthropometric } = req.body;
 
-  const data = {somatotype, anthropometric}
+  const data = { somatotype, anthropometric };
 
   try {
     const user = await User.findById(req.user_id);
@@ -326,6 +326,8 @@ usersCtrl.updatePassword = async (req: Request, res: Response) => {
 
   try {
     const user = await User.findById(req.user_id);
+
+    if (!user) return res.status(403).send({ message: "User not found" });
 
     user.password = await user.encryptPassword(newPassword);
 
