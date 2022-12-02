@@ -201,7 +201,7 @@ const ResponsiveAppBar = (props: any) => {
             ))}
           </Box>
           <Box sx={{ flexGrow: 0, marginRight: "10px" }}>
-            {width < 320 ? (
+            {width < 380 ? (
               <Button
                 onClick={() => {
                   cookies.user ? handleLogout() : navigate("/Login");
@@ -249,12 +249,27 @@ const ResponsiveAppBar = (props: any) => {
                 }}
               >
                 <IconButton sx={{ p: 0 }}>
-                  <AccountCircleIcon
-                    sx={[
-                      { color: "white", fontSize: "3rem" },
-                      { "&:hover": { color: "lightgrey" } },
-                    ]}
-                  />
+                  {width < 380 ? (
+                    <AccountCircleIcon
+                      sx={[
+                        {
+                          color: "white",
+                          fontSize: "2rem",
+                        },
+                        { "&:hover": { color: "lightgrey" } },
+                      ]}
+                    />
+                  ) : (
+                    <AccountCircleIcon
+                      sx={[
+                        {
+                          color: "white",
+                          fontSize: "3rem",
+                        },
+                        { "&:hover": { color: "lightgrey" } },
+                      ]}
+                    />
+                  )}
                 </IconButton>
               </Tooltip>
             </Box>
