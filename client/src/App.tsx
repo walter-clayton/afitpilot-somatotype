@@ -19,6 +19,7 @@ import BalancedEndomorph from "./components/CTA/BalancedEndomorph";
 import TestPage from "./components/TestPage";
 import BlogPage from "./components/BlogPage";
 import Home from "./components/HomePage";
+import FooterCTA from "./components/CTA/FooterCTA";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -115,6 +116,7 @@ function App() {
         <Route path="/TermsConditions" element={<TermsCondition />} />
         <Route path="/Privacy" element={<Privacy />} />
         <Route path="/Types" element={<Types />} />
+        <Route path="/FooterCTA" element={<FooterCTA />} />
         <Route
           path="/Test"
           element={
