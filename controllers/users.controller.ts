@@ -102,6 +102,7 @@ usersCtrl.register = async (req: Request, res: Response) => {
         user: {
           token: accessToken,
           email: newUser.email,
+          name: newUser.name,
         },
       });
     } else {
