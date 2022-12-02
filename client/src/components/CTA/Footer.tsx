@@ -7,22 +7,30 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
+import Divider from '@mui/material/Divider';
 
 const Footer = () => {
+  const style = {
+    width: '100%',
+    bgcolor: 'background.paper',
+  };
+
   const navigate = useNavigate();
   return (
     <div>
-      <Container component="main" maxWidth="md">
+      <Container component="main" maxWidth="xl">
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 3,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-          }}
-        >
-          <Typography variant="body1">
+            position: 'sticky',
+            bottom: 0
+          }}>
+          <Divider sx={style} />
+          <Typography variant="body1" mt={3} color={"#abafb8"}>
             © 2022 Afitpilot, All Rights Reserved.
           </Typography>
           <Box sx={{ mt: 1 }}>
@@ -62,9 +70,9 @@ const Footer = () => {
                 href="https://www.facebook.com/profile.php?id=100087953628158"
                 target="_blank"
                 sx={{
-                  backgroundColor: "#3f5b96",
-                  color: "white",
-                  "&.MuiButtonBase-root:hover": { bgcolor: "#3f5b96" },
+                  backgroundColor: "#fff", borderRadius: '50%', borderColor: '#51596a', border: 1.3,
+                  color: "#51596a",
+                  "&.MuiButtonBase-root:hover": { bgcolor: "#fff" },
                 }}
               >
                 <FacebookIcon />
@@ -73,9 +81,9 @@ const Footer = () => {
                 href="https://www.instagram.com/afitpilot/?igshid=YmMyMTA2M2Y%3D"
                 target="_blank"
                 sx={{
-                  backgroundColor: "#C13584",
-                  color: "white",
-                  "&.MuiButtonBase-root:hover": { bgcolor: "#C13584" },
+                  backgroundColor: "#fff", borderRadius: '50%', borderColor: '#51596a', border: 1.3,
+                  color: "#51596a",
+                  "&.MuiButtonBase-root:hover": { bgcolor: "#fff" },
                 }}
               >
                 <InstagramIcon />
@@ -84,7 +92,7 @@ const Footer = () => {
           </Box>
         </Box>
       </Container>
-    </div>
+    </div >
   );
 };
 
