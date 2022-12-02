@@ -99,6 +99,40 @@ const Profile = (props: any) => {
     handleEditPwdModalOpen();
   };
 
+  const handleSaveNewPassword = async () => {
+    try {
+      setFetching(true);
+      const headers = {
+        "Content-Type": "application/json",
+        access_key: process.env.REACT_APP_ACCESS_KEY,
+        Authorization: `Bearer ${cookies.user.token}`,
+      };
+      const response = await axios.post(
+        process.env.REACT_APP_EDITPASSWORD_URL!,
+        {
+          newPassword: newPassword,
+        },
+        {
+          headers: headers,
+        }
+      );
+      props.setOpen(true);
+      props.setSnackbarMessage("Password edited successfully");
+      setFetching(false);
+    } catch (error: any) {
+      // if (error.response) {
+      //   error.response.data.message
+      //     ? setSnackbarMessage(error.response.data.message)
+      //     : setSnackbarMessage(error.response.statusText);
+      // } else {
+      //   setSnackbarMessage("Error with the server");
+      // }
+
+      console.log("error ", error);
+      setFetching(false);
+    }
+  };
+
   const handleDeleteAccount = async () => {
     try {
       setFetching(true);
@@ -228,10 +262,8 @@ const Profile = (props: any) => {
   };
 
   const handleSaveNewPwd = () => {
-    //TO DO Send new password to backend
     handleEditPwdModalClose();
-    setSnackBarMessage("New Password saved!");
-    setSnackBarState({ open: true, vertical: "bottom", horizontal: "center" });
+    handleSaveNewPassword();
   };
 
   const handleSnackBarClose = () => {
