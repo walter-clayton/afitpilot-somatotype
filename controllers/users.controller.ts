@@ -269,6 +269,8 @@ usersCtrl.updateEmail = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.user_id);
 
+    if (!user) return res.status(403).send({ message: "User not found" });
+
     if (email === user.email) {
       res.status(403).send({ message: "nothing to update" });
     } else {
