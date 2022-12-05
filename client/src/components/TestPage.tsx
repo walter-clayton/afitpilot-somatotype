@@ -10,6 +10,7 @@ import axios from "axios";
 import { matchRoutes, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import Typography from "@mui/material/Typography";
+import HeaderTestpage from "./CTA/HeaderTestpage";
 
 const theme = createTheme();
 
@@ -346,6 +347,7 @@ const TestPage: FC<ITesting> = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <HeaderTestpage />
       <Grid
         container
         sx={{

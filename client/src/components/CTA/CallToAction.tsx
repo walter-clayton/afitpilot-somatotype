@@ -12,7 +12,7 @@ const CallToAction = () => {
   return (
     <Container component="main" maxWidth="xl">
       <CssBaseline />
-      <Grid container sx={{ backgroundColor: "#f6f6f7", marginTop: 8 }}>
+      <Grid item container sx={{ backgroundColor: "#f6f6f7", marginTop: 8 }}>
         <Grid item xs={12} md={5} lg={6} sm={12}>
           <Box
             sx={{
@@ -50,7 +50,7 @@ const CallToAction = () => {
               >
                 Somatotypes
               </Button>
-              <Button sx={{ color: "blue" }} variant="text" onClick={() => {}}>
+              <Button sx={{ color: "blue" }} variant="text" onClick={() => { }}>
                 Explore Theory <ArrowForwardSharpIcon />
               </Button>
             </Stack>
@@ -69,7 +69,7 @@ const CallToAction = () => {
           </Box>
         </Grid>
       </Grid>
-      <Grid container sx={{ backgroundColor: "#f6f6f7", marginTop: 8 }}>
+      <Grid item container sx={{ backgroundColor: "#f6f6f7", marginTop: 8 }}>
         <Grid item xs={12} md={7} lg={6} sm={12}>
           <Box
             sx={{
