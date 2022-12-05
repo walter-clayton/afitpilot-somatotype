@@ -11,6 +11,7 @@ import { matchRoutes, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import Typography from "@mui/material/Typography";
 import HeaderTestpage from "./CTA/HeaderTestpage";
+import Counter from "./CTA/Counter";
 
 const theme = createTheme();
 
@@ -493,6 +494,7 @@ const TestPage: FC<ITesting> = (props) => {
         onClose={handleSnackBarClose}
         message={snackBarMessage}
       />
+      <Counter />
     </ThemeProvider>
   );
 };
