@@ -71,11 +71,15 @@ const TestPage: FC<ITesting> = (props) => {
   const isCentral = (soma: ISomatotype): boolean => {
     // digit has to be 2, 3 or 4
     const condition = [2, 3, 4];
+    soma.endomorphy = Number(soma.endomorphy?.toFixed());
+    soma.mesomorphy = Number(soma.mesomorphy?.toFixed());
+    soma.ectomorphy = Number(soma.ectomorphy?.toFixed());
     let i: number = 0;
     let matchCondition: boolean = true;
 
     while (matchCondition && i < Object.values(soma).length) {
       matchCondition = condition.includes(Object.values(soma)[i]);
+
       i++;
     }
 
@@ -203,9 +207,9 @@ const TestPage: FC<ITesting> = (props) => {
     let result: string = "";
 
     const soma: ISomatotype = {
-      endomorphy: Number(endomorphy) < 1 ? 1 : Number(endomorphy?.toFixed()),
-      mesomorphy: Number(mesomorphy) < 1 ? 1 : Number(mesomorphy?.toFixed()),
-      ectomorphy: Number(ectomorphy) < 1 ? 1 : Number(ectomorphy?.toFixed()),
+      endomorphy: Number(endomorphy) < 1 ? 1 : Number(endomorphy?.toFixed(1)),
+      mesomorphy: Number(mesomorphy) < 1 ? 1 : Number(mesomorphy?.toFixed(1)),
+      ectomorphy: Number(ectomorphy) < 1 ? 1 : Number(ectomorphy?.toFixed(1)),
     };
 
     if (isCentral(soma)) {
