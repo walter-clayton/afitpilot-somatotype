@@ -32,6 +32,7 @@ usersCtrl.register = async (req: Request, res: Response) => {
     // random password
     const generatedPass: string = await newUser.generatePassword();
 
+    // newUser.password = await newUser.encryptPassword(generatedPass);
     newUser.password = await newUser.encryptPassword(generatedPass);
 
     if (data) {
