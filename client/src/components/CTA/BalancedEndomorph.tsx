@@ -9,7 +9,7 @@ export default function Types() {
   return (
     <Container>
       <Grid container sx={{ backgroundColor: "#f6f6f7", marginTop: 8 }}>
-        <Grid xs={12} md={6} lg={6} sm={12}>
+        <Grid item xs={12} md={6} lg={6} sm={12}>
           <Box
             sx={{
               marginTop: 8,
@@ -21,7 +21,7 @@ export default function Types() {
             <img src={sitting} alt="sitting girl" />
           </Box>
         </Grid>
-        <Grid xs={12} md={6} lg={6} sm={12} sx={{ backgroundColor: "#BF40BF" }}>
+        <Grid item xs={12} md={6} lg={6} sm={12} sx={{ backgroundColor: "#BF40BF" }}>
           <Box
             sx={{
               marginTop: 8,

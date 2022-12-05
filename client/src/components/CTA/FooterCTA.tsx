@@ -49,7 +49,7 @@ const FooterCTA = () => {
                             <img src={Group} alt="" />
                         </Box>
                     </Grid>
-                    <Grid xs={12} md={12} lg={12} sm={12}>
+                    <Grid item xs={12} md={12} lg={12} sm={12}>
                         <Box
                             sx={{
                                 display: "flex",
