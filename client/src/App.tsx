@@ -54,6 +54,11 @@ function App() {
 
   const [data, setData] = useState<IData | undefined>(undefined);
 
+  const [openBlogArticleModal, setOpenBlogArticleModal] =
+    useState<boolean>(false);
+
+  const [openAddModal, setOpenAddModal] = useState<boolean>(false);
+
   const handleClose = (event: any, reason: any) => {
     if (reason === "clickaway") {
       return;
@@ -67,6 +72,8 @@ function App() {
         setOpen={setOpen}
         setSnackbarMessage={setSnackbarMessage}
         setData={setData}
+        setOpenBlogArticleModal={setOpenBlogArticleModal}
+        setOpenAddModal={setOpenAddModal}
       />
       <Routes>
         <Route
@@ -76,6 +83,8 @@ function App() {
               <Dashboard
                 resultsSaved={resultsSaved}
                 setResultsSaved={setResultsSaved}
+                openAddModal={openAddModal}
+                setOpenAddModal={setOpenAddModal}
               />
             ) : (
               <Home />
@@ -127,7 +136,15 @@ function App() {
             />
           }
         />
-        <Route path="/Blog" element={<BlogPage />} />
+        <Route
+          path="/Blog"
+          element={
+            <BlogPage
+              openBlogArticleModal={openBlogArticleModal}
+              setOpenBlogArticleModal={setOpenBlogArticleModal}
+            />
+          }
+        />
         <Route path="/Balanced-endomorph" element={<BalancedEndomorph />} />
         <Route
           path="/Profile"
@@ -140,7 +157,6 @@ function App() {
             )
           }
         />
-        {/* <Route path="/Dashboard" element={cookies.user && <Dashboard />} /> */}
       </Routes>
       <Snackbar
         open={open}
