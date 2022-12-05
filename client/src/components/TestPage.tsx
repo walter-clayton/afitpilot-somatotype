@@ -76,6 +76,7 @@ const TestPage: FC<ITesting> = (props) => {
 
     while (matchCondition && i < Object.values(soma).length) {
       matchCondition = condition.includes(Object.values(soma)[i]);
+
       i++;
     }
 
