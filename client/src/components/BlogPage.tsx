@@ -3,33 +3,44 @@ import { Box } from "@mui/system";
 import React, { FC, useEffect, useState } from "react";
 import BlogArticlePage from "./BlogArticlePage";
 import BlogCard from "./BlogCard";
-import { getAllBlogContents } from "./BlogContent";
+import {
+  getAllBlogContents,
+  IBlogCardImage,
+  IBlogImage,
+  IBlogTextWithImage,
+} from "./BlogContent";
 
 const createBlogCard = (
   BlogTitle: string,
+  BlogDate: string,
   BlogCardDescription: string,
-  BlogCardImgSrc: string,
-  BlogCardImgFitMethod: string,
-  BlogText: string,
-  BlogDate: string
+  BlogCardImg: IBlogCardImage,
+  BlogTexts: string[],
+  BlogImages: IBlogImage[],
+  BlogTextsWithImages: IBlogTextWithImage[],
+  BlogLayout: string[]
 ) => {
   return {
     BlogTitle,
-    BlogCardDescription,
-    BlogCardImgSrc,
-    BlogCardImgFitMethod,
-    BlogText,
     BlogDate,
+    BlogCardDescription,
+    BlogCardImg,
+    BlogTexts,
+    BlogImages,
+    BlogTextsWithImages,
+    BlogLayout,
   };
 };
 
 export interface IBlogCardInfos {
   BlogTitle?: string;
-  BlogCardDescription?: string;
-  BlogCardImgSrc?: string;
-  BlogCardImgFitMethod?: string;
-  BlogText?: string;
   BlogDate?: string;
+  BlogCardDescription?: string;
+  BlogCardImg?: IBlogCardImage;
+  BlogTexts?: string[];
+  BlogImages?: IBlogImage[];
+  BlogTextsWithImages?: IBlogTextWithImage[];
+  BlogLayout?: string[];
 }
 
 interface IBlogPage {
@@ -45,16 +56,18 @@ const BlogPage: FC<IBlogPage> = (props) => {
     props.setOpenBlogArticleModal!(false);
     setBlogCards([]);
 
-    getAllBlogContents().forEach((blogContent: any) => {
+    getAllBlogContents().forEach((blogContent) => {
       setBlogCards((blogCards) => [
         ...blogCards,
         createBlogCard(
-          blogContent.title,
-          blogContent.cardDescription,
-          blogContent.cardImgSrc,
-          blogContent.cardImgFitMethod,
-          blogContent.text,
-          blogContent.date
+          blogContent.title!,
+          blogContent.date!,
+          blogContent.cardDescription!,
+          blogContent.cardImage!,
+          blogContent.texts!,
+          blogContent.images!,
+          blogContent.textsWithImages!,
+          blogContent.layout!
         ),
       ]);
     });

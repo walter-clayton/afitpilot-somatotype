@@ -133,9 +133,9 @@ const ResponsiveAppBar = (props: any) => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
+              {pages.map((page, index) => (
                 <MenuItem
-                  key={page.title}
+                  key={index}
                   onClick={() => {
                     if (page.path === "/Blog") {
                       props.setOpenBlogArticleModal(false);
@@ -195,9 +195,9 @@ const ResponsiveAppBar = (props: any) => {
             </Typography>
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+            {pages.map((page, index) => (
               <Button
-                key={page.title}
+                key={index}
                 onClick={() => {
                   if (page.path === "/Blog") {
                     props.setOpenBlogArticleModal(false);

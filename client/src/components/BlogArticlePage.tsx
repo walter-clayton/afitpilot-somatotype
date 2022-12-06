@@ -9,7 +9,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { IBlogCardInfos } from "./BlogPage";
 
 interface IBlogArticlePage {
@@ -17,23 +17,175 @@ interface IBlogArticlePage {
   setOpenBlogArticleModal?: (openModal: boolean) => void;
 }
 
-const itemData = [
-  {
-    img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-    title: "Breakfast",
-    author: "@bkristastucchio",
-  },
-];
-
 const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
   let objectFitMethod: string = "";
-  if (props.blogCardInfos?.BlogCardImgFitMethod != null) {
-    objectFitMethod = props.blogCardInfos.BlogCardImgFitMethod;
+  if (props.blogCardInfos?.BlogCardImg?.imageFitMethod != null) {
+    objectFitMethod = props.blogCardInfos.BlogCardImg?.imageFitMethod;
   } else {
     objectFitMethod = "cover";
   }
 
-  const matches = useMediaQuery("(max-width:450px)");
+  const xxs = useMediaQuery("(max-width:450px)");
+
+  const [finalLayout, setFinalLayout] = useState<any[]>([]);
+
+  useEffect(() => {
+    let arrayTemp: any[] = [...finalLayout];
+    // console.log(arrayTemp);
+
+    let layoutElementCount = 0;
+    let textCount = 0;
+    let imageCount = 0;
+    let textWithImageCount = 0;
+
+    props.blogCardInfos?.BlogLayout?.forEach((layoutElement) => {
+      if (layoutElement === "text") {
+        arrayTemp.push(getBlogText(textCount, layoutElementCount));
+        textCount++;
+        layoutElementCount++;
+      }
+      if (layoutElement === "image") {
+        arrayTemp.push(getBlogImage(imageCount, layoutElementCount));
+        imageCount++;
+        layoutElementCount++;
+      }
+      if (layoutElement === "textWithImage") {
+        arrayTemp.push(
+          getBlogTextWithImage(textWithImageCount, layoutElementCount)
+        );
+        textWithImageCount++;
+        layoutElementCount++;
+      }
+    });
+
+    setFinalLayout(arrayTemp);
+  }, []);
+
+  const getBlogText = (index: number, layoutIndex: number) => {
+    const blogText = (
+      <Grid item my={3} xs={12} md={8} alignSelf={"center"} key={layoutIndex}>
+        <Grid
+          container
+          sx={{
+            width: "100%",
+            display: "flex",
+          }}
+        >
+          <Typography
+            variant="body1"
+            sx={{
+              fontSize: { xs: "100%", sm: "130%", md: "160%" },
+            }}
+          >
+            {props.blogCardInfos?.BlogTexts![index]}
+          </Typography>
+        </Grid>
+      </Grid>
+    );
+    return blogText;
+  };
+
+  const getBlogImage = (index: number, layoutIndex: number) => {
+    const image = (
+      <Grid
+        item
+        my={3}
+        m={0}
+        xs={12}
+        md={8}
+        alignSelf={"center"}
+        justifySelf={"center"}
+        textAlign={"center"}
+        sx={{
+          width: "100%",
+        }}
+        key={layoutIndex}
+      >
+        <Grid
+          container
+          sx={{
+            width: "100%",
+            display: "flex",
+          }}
+        >
+          <Grid
+            item
+            sx={{
+              width: "100%",
+            }}
+          >
+            {props.blogCardInfos?.BlogImages![index] &&
+              props.blogCardInfos?.BlogImages![index].imageSrc && (
+                <CardMedia
+                  component="img"
+                  image={props.blogCardInfos?.BlogImages![index].imageSrc}
+                  alt={""}
+                />
+              )}
+            {props.blogCardInfos?.BlogImages![index] &&
+              props.blogCardInfos?.BlogImages![index].imageHasCaption && (
+                <Typography variant="caption">
+                  {props.blogCardInfos?.BlogImages![index].imageCaption}
+                </Typography>
+              )}
+          </Grid>
+        </Grid>
+      </Grid>
+    );
+    return image;
+  };
+
+  const getBlogTextWithImage = (index: number, layoutIndex: number) => {
+    const blogTextWithImage = (
+      <Grid item my={3} xs={12} md={8} alignSelf={"center"} key={layoutIndex}>
+        <Grid
+          container
+          sx={{
+            width: "100%",
+            display: "flex",
+          }}
+        >
+          <Typography
+            variant="body1"
+            sx={{
+              fontSize: { xs: "100%", sm: "130%", md: "160%" },
+            }}
+          >
+            <CardMedia
+              component="img"
+              image={props.blogCardInfos?.BlogTextsWithImages![index].image}
+              alt={""}
+              sx={{
+                marginLeft:
+                  props.blogCardInfos?.BlogTextsWithImages![index]
+                    .imagePosition! === "right"
+                    ? xxs
+                      ? "0"
+                      : "20px"
+                    : "0",
+                marginRight:
+                  props.blogCardInfos?.BlogTextsWithImages![index]
+                    .imagePosition! === "left"
+                    ? xxs
+                      ? "0"
+                      : "20px"
+                    : "0",
+                marginTop: "0",
+                marginBottom: xxs ? "0" : "20px",
+                float: xxs
+                  ? "none"
+                  : props.blogCardInfos?.BlogTextsWithImages![index]
+                      .imagePosition!,
+                width: xxs ? "100%" : "50%",
+              }}
+            />
+            {props.blogCardInfos?.BlogTextsWithImages![index].text}
+          </Typography>
+        </Grid>
+      </Grid>
+    );
+    return blogTextWithImage;
+  };
 
   return (
     <Grid
@@ -75,35 +227,7 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
         </Typography>
       </Grid>
 
-      <Grid item m={3} xs={12} md={8} alignSelf={"center"}>
-        <Grid
-          container
-          sx={{
-            width: "100%",
-            display: "flex",
-          }}
-        >
-          <Typography
-            variant="body1"
-            sx={{
-              fontSize: { xs: "100%", sm: "130%", md: "160%" },
-            }}
-          >
-            <CardMedia
-              sx={{
-                mx: matches ? "auto" : "20px",
-                my: matches ? "auto" : "20px",
-                float: matches ? "none" : "right",
-                width: matches ? "100%" : "50%",
-              }}
-              component="img"
-              image={props.blogCardInfos?.BlogCardImgSrc}
-              alt={props.blogCardInfos?.BlogTitle}
-            />
-            {props.blogCardInfos?.BlogText}
-          </Typography>
-        </Grid>
-      </Grid>
+      {finalLayout.length > 0 ? finalLayout : null}
 
       <Grid item m={3} xs={12} md={8} lg={6} alignSelf={"center"}>
         <Button

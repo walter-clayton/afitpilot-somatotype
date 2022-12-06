@@ -16,28 +16,26 @@ interface IBlogCard {
 
 const BlogCard: FC<IBlogCard> = (props) => {
   let objectFitMethod: string = "";
-  if (props.blogCard?.BlogCardImgFitMethod != null) {
-    objectFitMethod = props.blogCard.BlogCardImgFitMethod;
+  if (props.blogCard?.BlogCardImg?.imageFitMethod != null) {
+    objectFitMethod = props.blogCard.BlogCardImg?.imageFitMethod;
   } else {
     objectFitMethod = "cover";
   }
 
   const handleClickLearnMore = () => {
-    if (props.blogCard != null) {
-      props.setSelectedBlogCard!(props.blogCard);
-      props.setOpenBlogArticleModal!(true);
-      window.scrollTo(0, 0);
-    }
+    props.setSelectedBlogCard!(props.blogCard!);
+    props.setOpenBlogArticleModal!(true);
+    window.scrollTo(0, 0);
   };
 
   return (
     <Card sx={{ maxWidth: 345 }}>
-      {props.blogCard?.BlogCardImgSrc != null ? (
+      {props.blogCard?.BlogCardImg?.imageSrc != null ? (
         <CardMedia
           component="img"
           height="200"
-          image={props.blogCard?.BlogCardImgSrc}
-          alt="blog image"
+          image={props.blogCard?.BlogCardImg?.imageSrc}
+          alt={props.blogCard?.BlogCardImg?.imageAlt}
           sx={{ objectFit: objectFitMethod, backgroundColor: "#eeeeee" }}
         />
       ) : null}
