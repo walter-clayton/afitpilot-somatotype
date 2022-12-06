@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { IAnthropometric, IData, ISomatotype } from "../App";
 import { Alert, Box, Button, CssBaseline, Grid, Snackbar } from "@mui/material";
@@ -27,6 +27,7 @@ const TestPage: FC<ITesting> = (props) => {
   const [toggleGraph, setToggleGraph] = useState(false);
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const [snackBarMessage, setSnackBarMessage] = useState("");
   const [snackBarState, setSnackBarState] = React.useState({
@@ -58,6 +59,13 @@ const TestPage: FC<ITesting> = (props) => {
       bicep_girth: 38,
     }));
   }, []);
+
+  useEffect(() => {
+    if (exceeded) {
+      window.scrollTo(0, Number(gridRef.current?.offsetTop));
+      setShowResults(false);
+    }
+  }, [exceeded]);
 
   const isMinTwoDigit = (soma: ISomatotype): boolean => {
     let matchCondition: boolean;
@@ -350,6 +358,7 @@ const TestPage: FC<ITesting> = (props) => {
       <CssBaseline />
       <HeaderTestpage />
       <Grid
+        ref={gridRef}
         container
         sx={{
           display: "flex",
