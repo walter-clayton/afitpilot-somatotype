@@ -40,7 +40,7 @@ const Add: FC<IAdding> = (props: any) => {
   const [showResults, setShowResults] = useState(false);
   const [toggleGraph, setToggleGraph] = useState(false);
   const [exceeded, setExceeded] = useState(false);
-
+  const gridRef = useRef<HTMLDivElement>(null);
   const [somatotype, setSomatotype] = useState<ISomatotype | undefined>(
     undefined
   );
@@ -69,6 +69,13 @@ const Add: FC<IAdding> = (props: any) => {
         }))
       : setAnthropometric(props.anthropometrics[props.idRow]);
   }, []);
+
+  useEffect(() => {
+    if (exceeded) {
+      window.scrollTo(0, Number(gridRef.current?.offsetTop));
+      setShowResults(false);
+    }
+  }, [exceeded]);
 
   const handleSaveDatasClick = async () => {
     let url: string;
@@ -166,6 +173,7 @@ const Add: FC<IAdding> = (props: any) => {
       </Typography>
 
       <Grid
+        ref={gridRef}
         container
         sx={{
           display: "flex",
