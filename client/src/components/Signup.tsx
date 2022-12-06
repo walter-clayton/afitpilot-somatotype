@@ -80,12 +80,16 @@ const Signup: FC<ISugnUp> = (props) => {
         { headers: headers }
       );
       setOpen(true);
-      setCookie("user", response.data.user, {
-        path: "/",
-        sameSite: "none",
-        secure: true,
-        maxAge: 3600,
-      });
+      setCookie(
+        "user",
+        { ...response.data.user },
+        {
+          path: "/",
+          sameSite: "none",
+          secure: true,
+          maxAge: 3600,
+        }
+      );
       props.setOpen?.(true);
       props.setSnackbarMessage?.(response.data.message);
       props.setResultsSaved?.(response.data.dataSaved);

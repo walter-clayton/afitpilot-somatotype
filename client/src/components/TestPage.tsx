@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { IAnthropometric, IData, ISomatotype } from "../App";
 import { Alert, Box, Button, CssBaseline, Grid, Snackbar } from "@mui/material";
@@ -10,6 +10,8 @@ import axios from "axios";
 import { matchRoutes, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import Typography from "@mui/material/Typography";
+import HeaderTestpage from "./CTA/HeaderTestpage";
+import CounterShare from "./CTA/CounterShare";
 
 const theme = createTheme();
 
@@ -21,9 +23,11 @@ interface ITesting {
 
 const TestPage: FC<ITesting> = (props) => {
   const [showResults, setShowResults] = useState(false);
+  const [exceeded, setExceeded] = useState(false);
   const [toggleGraph, setToggleGraph] = useState(false);
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const [snackBarMessage, setSnackBarMessage] = useState("");
   const [snackBarState, setSnackBarState] = React.useState({
@@ -56,6 +60,13 @@ const TestPage: FC<ITesting> = (props) => {
     }));
   }, []);
 
+  useEffect(() => {
+    if (exceeded) {
+      window.scrollTo(0, Number(gridRef.current?.offsetTop));
+      setShowResults(false);
+    }
+  }, [exceeded]);
+
   const isMinTwoDigit = (soma: ISomatotype): boolean => {
     let matchCondition: boolean;
 
@@ -70,11 +81,15 @@ const TestPage: FC<ITesting> = (props) => {
   const isCentral = (soma: ISomatotype): boolean => {
     // digit has to be 2, 3 or 4
     const condition = [2, 3, 4];
+    soma.endomorphy = Number(soma.endomorphy?.toFixed());
+    soma.mesomorphy = Number(soma.mesomorphy?.toFixed());
+    soma.ectomorphy = Number(soma.ectomorphy?.toFixed());
     let i: number = 0;
     let matchCondition: boolean = true;
 
     while (matchCondition && i < Object.values(soma).length) {
       matchCondition = condition.includes(Object.values(soma)[i]);
+
       i++;
     }
 
@@ -202,9 +217,9 @@ const TestPage: FC<ITesting> = (props) => {
     let result: string = "";
 
     const soma: ISomatotype = {
-      endomorphy: Number(endomorphy) < 1 ? 1 : Number(endomorphy?.toFixed()),
-      mesomorphy: Number(mesomorphy) < 1 ? 1 : Number(mesomorphy?.toFixed()),
-      ectomorphy: Number(ectomorphy) < 1 ? 1 : Number(ectomorphy?.toFixed()),
+      endomorphy: Number(endomorphy) < 1 ? 1 : Number(endomorphy?.toFixed(1)),
+      mesomorphy: Number(mesomorphy) < 1 ? 1 : Number(mesomorphy?.toFixed(1)),
+      ectomorphy: Number(ectomorphy) < 1 ? 1 : Number(ectomorphy?.toFixed(1)),
     };
 
     if (isCentral(soma)) {
@@ -238,12 +253,58 @@ const TestPage: FC<ITesting> = (props) => {
     return result;
   };
 
+  const isExceeded = (soma: number[]): boolean => {
+    const endo: number | undefined = soma[0];
+    const meso: number | undefined = soma[1];
+    const ecto: number | undefined = soma[2];
+    let isExceeded: boolean = false;
+
+    // endo limits: [0.5 - 16]
+    isExceeded = endo! < 0.5 || endo! > 16;
+
+    // meso limits: [0.5 - 12]
+    !isExceeded && (isExceeded = meso! < 0.5 || meso! > 12);
+
+    // ecto limits: [0.5 - 9]
+    !isExceeded && (isExceeded = ecto! < 0.5 || ecto! > 9);
+
+    return isExceeded;
+  };
+
+  const handleSubmit = () => {
+    exceeded && setExceeded(false);
+
+    const somatotypeResults = calculateSomatotype(anthropometric!);
+
+    if (isExceeded(somatotypeResults)) {
+      setExceeded(true);
+    } else {
+      setShowResults(true);
+      setToggleGraph(!toggleGraph);
+
+      let pointsResultsArray: IPoints[] = [];
+      const point = AddPoint(
+        somatotypeResults[0],
+        somatotypeResults[1],
+        somatotypeResults[2]
+      );
+      pointsResultsArray.push(point);
+      setPointsArray(pointsResultsArray);
+
+      setSomatotype?.({
+        endomorphy: somatotypeResults[0],
+        mesomorphy: somatotypeResults[1],
+        ectomorphy: somatotypeResults[2],
+      });
+    }
+  };
+
   const typeResult = getSomatotypeType(
     somatotype?.endomorphy,
     somatotype?.mesomorphy,
     somatotype?.ectomorphy
   );
-  console.log(typeResult);
+
   const saveDatas = async () => {
     try {
       const headers = {
@@ -295,7 +356,9 @@ const TestPage: FC<ITesting> = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <HeaderTestpage />
       <Grid
+        ref={gridRef}
         container
         sx={{
           display: "flex",
@@ -330,6 +393,17 @@ const TestPage: FC<ITesting> = (props) => {
               Results saved successfully
             </Alert>
           )}
+          {exceeded && (
+            <Alert
+              onClose={() => {
+                setExceeded(false);
+              }}
+              severity="error"
+              sx={{ margin: "50px auto" }}
+            >
+              Error values: somatotype exceeded
+            </Alert>
+          )}
           <AnthropometricForm
             anthropometric={anthropometric}
             setAnthropometric={setAnthropometric}
@@ -348,31 +422,7 @@ const TestPage: FC<ITesting> = (props) => {
           lg={6}
         >
           <Box sx={{ textalign: "center" }}>
-            <Button
-              variant="contained"
-              type="submit"
-              onClick={() => {
-                setShowResults(true);
-                setToggleGraph(!toggleGraph);
-
-                const somatotypeResults = calculateSomatotype(anthropometric!);
-
-                let pointsResultsArray: IPoints[] = [];
-                const point = AddPoint(
-                  somatotypeResults[0],
-                  somatotypeResults[1],
-                  somatotypeResults[2]
-                );
-                pointsResultsArray.push(point);
-                setPointsArray(pointsResultsArray);
-
-                setSomatotype?.({
-                  endomorphy: somatotypeResults[0],
-                  mesomorphy: somatotypeResults[1],
-                  ectomorphy: somatotypeResults[2],
-                });
-              }}
-            >
+            <Button variant="contained" type="submit" onClick={handleSubmit}>
               Submit
             </Button>
           </Box>
@@ -453,6 +503,7 @@ const TestPage: FC<ITesting> = (props) => {
         onClose={handleSnackBarClose}
         message={snackBarMessage}
       />
+      <CounterShare />
     </ThemeProvider>
   );
 };

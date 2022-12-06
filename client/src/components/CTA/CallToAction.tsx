@@ -5,14 +5,15 @@ import { Typography, Container } from "@mui/material/";
 import Stack from "@mui/material/Stack";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import sitting from "../image/sitting-2.svg";
+import manuTribesManBackground from "../image/manu-tribesman-with-background.png";
 import { useNavigate } from "react-router-dom";
 
 const CallToAction = () => {
   const navigate = useNavigate();
   return (
-    <Container component="main">
+    <Container component="main" maxWidth="xl">
       <CssBaseline />
-      <Grid container sx={{ backgroundColor: "#f6f6f7", marginTop: 8 }}>
+      <Grid item container sx={{ backgroundColor: "#f6f6f7", marginTop: 8 }}>
         <Grid item xs={12} md={5} lg={6} sm={12}>
           <Box
             sx={{
@@ -65,11 +66,15 @@ const CallToAction = () => {
               alignItems: "center",
             }}
           >
-            <img src={sitting} alt="sitting girl" />
+            <img
+              src={manuTribesManBackground}
+              alt="Manu Tribesman with background"
+              style={{ width: "50%" }}
+            />
           </Box>
         </Grid>
       </Grid>
-      <Grid container sx={{ backgroundColor: "#f6f6f7", marginTop: 8 }}>
+      <Grid item container sx={{ backgroundColor: "#f6f6f7", marginTop: 8 }}>
         <Grid item xs={12} md={7} lg={6} sm={12}>
           <Box
             sx={{

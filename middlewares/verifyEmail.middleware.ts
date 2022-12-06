@@ -32,7 +32,8 @@ const isFieldsValid = async (
   res: Response,
   next: NextFunction
 ): Promise<Response<any, Record<string, any>> | undefined> => {
-  const { email } = req.url.split('?')[0] === "/deleteUser" ? req.query : req.body;
+  const { email } =
+    req.url.split("?")[0] === "/deleteUser" ? req.query : req.body;
 
   if (isRequired(email))
     return res.status(403).send({
@@ -43,6 +44,8 @@ const isFieldsValid = async (
     return res.status(403).send({
       message: "Invalid email.",
     });
+
+  req.body.email && (req.body.email = req.body.email.toLowerCase());
 
   next();
 };

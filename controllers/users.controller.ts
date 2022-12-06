@@ -32,6 +32,7 @@ usersCtrl.register = async (req: Request, res: Response) => {
     // random password
     const generatedPass: string = await newUser.generatePassword();
 
+    // newUser.password = await newUser.encryptPassword(generatedPass);
     newUser.password = await newUser.encryptPassword(generatedPass);
 
     if (data) {
@@ -102,6 +103,7 @@ usersCtrl.register = async (req: Request, res: Response) => {
         user: {
           token: accessToken,
           email: newUser.email,
+          name: newUser.name,
         },
       });
     } else {
@@ -187,7 +189,7 @@ usersCtrl.sendResetEmail = async (req: Request, res: Response) => {
 usersCtrl.saveResults = async (req: Request, res: Response) => {
   const { somatotype, anthropometric } = req.body;
 
-  const data = {somatotype, anthropometric}
+  const data = { somatotype, anthropometric };
 
   try {
     const user = await User.findById(req.user_id);
@@ -269,8 +271,10 @@ usersCtrl.updateEmail = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.user_id);
 
+    if (!user) return res.status(403).send({ message: "User not found" });
+
     if (email === user.email) {
-      res.status(403).send({ message: "nothing to update" });
+      return res.status(403).send({ message: "nothing to update" });
     } else {
       user.email = email.toLowerCase();
 
@@ -298,8 +302,10 @@ usersCtrl.updateName = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.user_id);
 
+    if (!user) return res.status(403).send({ message: "User not found" });
+
     if (name === user.name) {
-      res.status(403).send({ message: "nothing to update" });
+      return res.status(403).send({ message: "nothing to update" });
     } else {
       user.name = name;
 
@@ -326,6 +332,8 @@ usersCtrl.updatePassword = async (req: Request, res: Response) => {
 
   try {
     const user = await User.findById(req.user_id);
+
+    if (!user) return res.status(403).send({ message: "User not found" });
 
     user.password = await user.encryptPassword(newPassword);
 

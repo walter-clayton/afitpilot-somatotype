@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState, useEffect, useRef, FC } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import {
+  Alert,
   Box,
   Button,
   CircularProgress,
@@ -38,7 +39,8 @@ interface IAdding {
 const Add: FC<IAdding> = (props: any) => {
   const [showResults, setShowResults] = useState(false);
   const [toggleGraph, setToggleGraph] = useState(false);
-
+  const [exceeded, setExceeded] = useState(false);
+  const gridRef = useRef<HTMLDivElement>(null);
   const [somatotype, setSomatotype] = useState<ISomatotype | undefined>(
     undefined
   );
@@ -67,6 +69,13 @@ const Add: FC<IAdding> = (props: any) => {
         }))
       : setAnthropometric(props.anthropometrics[props.idRow]);
   }, []);
+
+  useEffect(() => {
+    if (exceeded) {
+      window.scrollTo(0, Number(gridRef.current?.offsetTop));
+      setShowResults(false);
+    }
+  }, [exceeded]);
 
   const handleSaveDatasClick = async () => {
     let url: string;
@@ -110,13 +119,61 @@ const Add: FC<IAdding> = (props: any) => {
     }
   };
 
+  const isExceeded = (soma: number[]): boolean => {
+    const endo: number | undefined = soma[0];
+    const meso: number | undefined = soma[1];
+    const ecto: number | undefined = soma[2];
+    let isExceeded: boolean = false;
+
+    // endo limits: [0.5 - 16]
+    isExceeded = endo! < 0.5 || endo! > 16;
+
+    // meso limits: [0.5 - 12]
+    !isExceeded && (isExceeded = meso! < 0.5 || meso! > 12);
+
+    // ecto limits: [0.5 - 9]
+    !isExceeded && (isExceeded = ecto! < 0.5 || ecto! > 9);
+
+    return isExceeded;
+  };
+
+  const handleSubmit = () => {
+    exceeded && setExceeded(false);
+
+    const somatotypeResults = calculateSomatotype(anthropometric!);
+
+    if (isExceeded(somatotypeResults)) {
+      setExceeded(true);
+    } else {
+      setShowResults(true);
+      setToggleGraph(!toggleGraph);
+
+      let pointsResultsArray: IPoints[] = [];
+      const point = AddPoint(
+        somatotypeResults[0],
+        somatotypeResults[1],
+        somatotypeResults[2]
+      );
+      pointsResultsArray.push(point);
+      setPointsArray(pointsResultsArray);
+
+      setSomatotype?.({
+        endomorphy: somatotypeResults[0],
+        mesomorphy: somatotypeResults[1],
+        ectomorphy: somatotypeResults[2],
+      });
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Typography variant="h3" gutterBottom m={3} textAlign="center">
         {props.isAdding ? "Add new somatotype" : "Edit somatotype"}
       </Typography>
+
       <Grid
+        ref={gridRef}
         container
         sx={{
           display: "flex",
@@ -139,6 +196,17 @@ const Add: FC<IAdding> = (props: any) => {
           md={8}
           lg={6}
         >
+          {exceeded && (
+            <Alert
+              onClose={() => {
+                setExceeded(false);
+              }}
+              severity="error"
+              sx={{ margin: "50px auto" }}
+            >
+              Error values: somatotype exceeded
+            </Alert>
+          )}
           <AnthropometricForm
             anthropometric={anthropometric}
             setAnthropometric={setAnthropometric}
@@ -172,31 +240,7 @@ const Add: FC<IAdding> = (props: any) => {
             >
               GO BACK
             </Button>
-            <Button
-              variant="contained"
-              type="submit"
-              onClick={() => {
-                setShowResults(true);
-                setToggleGraph(!toggleGraph);
-
-                const somatotypeResults = calculateSomatotype(anthropometric!);
-
-                let pointsResultsArray: IPoints[] = [];
-                const point = AddPoint(
-                  somatotypeResults[0],
-                  somatotypeResults[1],
-                  somatotypeResults[2]
-                );
-                pointsResultsArray.push(point);
-                setPointsArray(pointsResultsArray);
-
-                setSomatotype?.({
-                  endomorphy: somatotypeResults[0],
-                  mesomorphy: somatotypeResults[1],
-                  ectomorphy: somatotypeResults[2],
-                });
-              }}
-            >
+            <Button variant="contained" type="submit" onClick={handleSubmit}>
               Submit
             </Button>
           </Box>

@@ -35,7 +35,7 @@ const Header = () => {
           <Grid
             container
             sx={{
-              backgroundColor: "#4298b4",
+              backgroundColor: "#f6f6f7",
               marginTop: 8,
               display: "flex",
               flexDirection: "column",
@@ -58,25 +58,24 @@ const Header = () => {
                 <Typography
                   variant="h2"
                   sx={{
-                    color: "white",
+                    color: "black",
                     textAlign: "center",
                     mb: 2,
                   }}
                 >
-                  "No knowledge can be more satisfactory to a person than that
-                  of their own frame, its parts, their functions and actions"{" "}
+                  We were built differently.{" "}
                 </Typography>
                 <Typography
                   mb={2}
                   variant="subtitle1"
                   sx={{
-                    color: "white",
+                    color: "black",
                     textAlign: "center",
                     fontSize: "20px",
                     mb: 4,
                   }}
                 >
-                  - Thomas Jefferson{" "}
+                  Locate your own uniqueness{" "}
                 </Typography>
                 <Stack>
                   <Button
