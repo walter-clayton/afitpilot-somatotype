@@ -63,8 +63,7 @@ const Header = () => {
                     mb: 2,
                   }}
                 >
-                  "No knowledge can be more satisfactory to a person than that
-                  of their own frame, its parts, their functions and actions"{" "}
+                  We were built differently.{" "}
                 </Typography>
                 <Typography
                   mb={2}
@@ -76,7 +75,7 @@ const Header = () => {
                     mb: 4,
                   }}
                 >
-                  - Thomas Jefferson{" "}
+                  Locate your own uniqueness{" "}
                 </Typography>
                 <Stack>
                   <Button
