@@ -1,8 +1,6 @@
 import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Grid, Box, Button } from "@mui/material/";
-import { Typography, Container } from "@mui/material/";
-import Stack from "@mui/material/Stack";
+import { Grid, Box, Button, Typography, Stack } from "@mui/material/";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
@@ -18,10 +16,14 @@ theme.typography.h1 = {
 };
 theme.typography.h2 = {
   "@media (min-width:600px)": {
-    fontSize: "2.5rem",
+    fontSize: "1.9rem",
   },
   [theme.breakpoints.up("md")]: {
     fontSize: "2.9rem",
+    padding: "50px"
+  },
+  [theme.breakpoints.down("lg")]: {
+    fontSize: "1.9rem",
   },
 };
 const Header = () => {
@@ -29,7 +31,7 @@ const Header = () => {
 
   return (
     <div>
-      <Container maxWidth="xl">
+      <ThemeProvider theme={theme}>
         <CssBaseline />
         <ThemeProvider theme={theme}>
           <Grid
@@ -75,7 +77,7 @@ const Header = () => {
                     mb: 4,
                   }}
                 >
-                  Locate your own uniqueness{" "}
+                  Locate your own uniqueness {" "}
                 </Typography>
                 <Stack>
                   <Button
@@ -97,46 +99,46 @@ const Header = () => {
             </Grid>
           </Grid>
         </ThemeProvider>
-        <ThemeProvider theme={theme}>
-          <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}>
-            <Grid container spacing={2}>
-              <Grid item xs={6} sm={6} md={3} lg={3}>
-                <Typography variant="h1" sx={{ color: "#4298b4" }}>
-                  157+
-                  <Typography sx={{ color: "black" }}>
-                    Tests taken today
-                  </Typography>
+      </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center", padding: "25px" }}>
+          <Grid container spacing={2}>
+            <Grid item xs={6} sm={6} md={3} lg={3} xl={3}>
+              <Typography variant="h1" sx={{ color: "#4298b4" }}>
+                157+
+                <Typography sx={{ color: "black" }}>
+                  Tests taken today
                 </Typography>
-              </Grid>
-              <Grid item xs={6} sm={6} md={3} lg={3}>
-                <Typography variant="h1" sx={{ color: "#e4ae3a" }}>
-                  59+
-                  <Typography sx={{ color: "black" }}>
-                    Tests taken in Belgium
-                  </Typography>
-                </Typography>{" "}
-              </Grid>
-              <Grid item xs={6} sm={6} md={3} lg={3}>
-                <Typography variant="h1" sx={{ color: "#33a474" }}>
-                  40M+
-                  <Typography sx={{ color: "black" }}>
-                    Total tests taken
-                  </Typography>
-                </Typography>
-              </Grid>
-              <Grid item xs={6} sm={6} md={3} lg={3}>
-                <Typography variant="h1" sx={{ color: "#88619a" }}>
-                  59%
-                  <Typography sx={{ color: "black" }}>
-                    Results rated as accurate or very accurate
-                  </Typography>
-                </Typography>
-              </Grid>
+              </Typography>
             </Grid>
-          </Box>
-        </ThemeProvider>
-      </Container>
-    </div>
+            <Grid item xs={6} sm={6} md={3} lg={3} xl={3}>
+              <Typography variant="h1" sx={{ color: "#e4ae3a" }}>
+                59+
+                <Typography sx={{ color: "black" }}>
+                  Tests taken in Belgium
+                </Typography>{" "}
+              </Typography>
+            </Grid>
+            <Grid item xs={6} sm={6} md={3} lg={3} xl={3}>
+              <Typography variant="h1" sx={{ color: "#33a474" }}>
+                40M+
+                <Typography sx={{ color: "black" }}>
+                  Total tests taken
+                </Typography>
+              </Typography>
+            </Grid>
+            <Grid item xs={6} sm={6} md={3} lg={3} xl={3}>
+              <Typography variant="h1" sx={{ color: "#88619a" }}>
+                59%
+                <Typography sx={{ color: "black" }}>
+                  Results rated as accurate or very accurate
+                </Typography>
+              </Typography>
+            </Grid>
+          </Grid>
+        </Box>
+      </ThemeProvider>
+    </div >
   );
 };
 
