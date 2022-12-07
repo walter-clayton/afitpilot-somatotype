@@ -1,7 +1,6 @@
 import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Grid, Box, Button } from "@mui/material/";
-import { Typography, Container } from "@mui/material/";
+import { Grid, Box, Button, Typography } from "@mui/material/";
 import Stack from "@mui/material/Stack";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -20,7 +19,7 @@ theme.typography.h1 = {
 };
 const TypesPage = () => {
   return (
-    <Container maxWidth="xl">
+    <Box>
       <CssBaseline />
       <Grid
         container
@@ -284,7 +283,7 @@ const TypesPage = () => {
         </Box>
         <CounterShare />
       </ThemeProvider>
-    </Container>
+    </Box>
   );
 };
 
