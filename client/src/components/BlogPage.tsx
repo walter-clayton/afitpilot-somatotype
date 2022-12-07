@@ -10,6 +10,7 @@ import {
   IBlogImage,
   IBlogTextWithImage,
 } from "./BlogContent";
+import CounterShare from './CTA/CounterShare'
 
 const createBlogCard = (
   BlogTitle: string,
@@ -82,8 +83,10 @@ const BlogPage = () => {
           </Grid>
         ))}
       </Grid>
+      <CounterShare />
     </>
   );
+
 };
 
 export default BlogPage;

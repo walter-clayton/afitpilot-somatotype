@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { IAnthropometric, IData, ISomatotype } from "../App";
 import { Alert, Box, Button, CssBaseline, Grid, Snackbar } from "@mui/material";
@@ -10,6 +10,8 @@ import axios from "axios";
 import { matchRoutes, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import Typography from "@mui/material/Typography";
+import HeaderTestpage from "./CTA/HeaderTestpage";
+import CounterShare from "./CTA/CounterShare";
 
 const theme = createTheme();
 
@@ -25,6 +27,7 @@ const TestPage: FC<ITesting> = (props) => {
   const [toggleGraph, setToggleGraph] = useState(false);
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const [snackBarMessage, setSnackBarMessage] = useState("");
   const [snackBarState, setSnackBarState] = React.useState({
@@ -57,6 +60,13 @@ const TestPage: FC<ITesting> = (props) => {
     }));
   }, []);
 
+  useEffect(() => {
+    if (exceeded) {
+      window.scrollTo(0, Number(gridRef.current?.offsetTop));
+      setShowResults(false);
+    }
+  }, [exceeded]);
+
   const isMinTwoDigit = (soma: ISomatotype): boolean => {
     let matchCondition: boolean;
 
@@ -71,11 +81,15 @@ const TestPage: FC<ITesting> = (props) => {
   const isCentral = (soma: ISomatotype): boolean => {
     // digit has to be 2, 3 or 4
     const condition = [2, 3, 4];
+    soma.endomorphy = Number(soma.endomorphy?.toFixed());
+    soma.mesomorphy = Number(soma.mesomorphy?.toFixed());
+    soma.ectomorphy = Number(soma.ectomorphy?.toFixed());
     let i: number = 0;
     let matchCondition: boolean = true;
 
     while (matchCondition && i < Object.values(soma).length) {
       matchCondition = condition.includes(Object.values(soma)[i]);
+
       i++;
     }
 
@@ -203,9 +217,9 @@ const TestPage: FC<ITesting> = (props) => {
     let result: string = "";
 
     const soma: ISomatotype = {
-      endomorphy: Number(endomorphy) < 1 ? 1 : Number(endomorphy?.toFixed()),
-      mesomorphy: Number(mesomorphy) < 1 ? 1 : Number(mesomorphy?.toFixed()),
-      ectomorphy: Number(ectomorphy) < 1 ? 1 : Number(ectomorphy?.toFixed()),
+      endomorphy: Number(endomorphy) < 1 ? 1 : Number(endomorphy?.toFixed(1)),
+      mesomorphy: Number(mesomorphy) < 1 ? 1 : Number(mesomorphy?.toFixed(1)),
+      ectomorphy: Number(ectomorphy) < 1 ? 1 : Number(ectomorphy?.toFixed(1)),
     };
 
     if (isCentral(soma)) {
@@ -342,7 +356,9 @@ const TestPage: FC<ITesting> = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <HeaderTestpage />
       <Grid
+        ref={gridRef}
         container
         sx={{
           display: "flex",
@@ -487,6 +503,7 @@ const TestPage: FC<ITesting> = (props) => {
         onClose={handleSnackBarClose}
         message={snackBarMessage}
       />
+      <CounterShare />
     </ThemeProvider>
   );
 };
