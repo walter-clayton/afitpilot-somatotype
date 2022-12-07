@@ -30,6 +30,7 @@ import { ISomatotype } from "../App";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { AddPoint, IPoints } from "./Calculation";
+import { getSomatotypeType } from "./TestPage";
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
@@ -145,7 +146,8 @@ const ResultsTable: FC<resultProps> = (props: any) => {
   useEffect(() => {
     setRows([]);
     if (props.somatotypes !== undefined) {
-      props.somatotypes.forEach((somatotype: ISomatotype, index: number) => {
+      let ordoredSomatotypes = props.somatotypes.reverse();
+      ordoredSomatotypes.forEach((somatotype: ISomatotype, index: number) => {
         let formatedDate = "";
         if (
           somatotype.createdAt !== null &&
@@ -170,6 +172,13 @@ const ResultsTable: FC<resultProps> = (props: any) => {
             isDisplayed
           ),
         ]);
+        setTypeResult(
+          getSomatotypeType(
+            ordoredSomatotypes[0].endomorphy,
+            ordoredSomatotypes[0].mesomorphy,
+            ordoredSomatotypes[0].ectomorphy
+          )
+        );
       });
     }
   }, [props.somatotypes]);
@@ -188,6 +197,13 @@ const ResultsTable: FC<resultProps> = (props: any) => {
           true
         ),
       ]);
+      setTypeResult(
+        getSomatotypeType(
+          props.singleSomatotype.endomorphy,
+          props.singleSomatotype.mesomorphy,
+          props.singleSomatotype.ectomorphy
+        )
+      );
     }
   }, [props.singleSomatotype]);
 
@@ -269,6 +285,8 @@ const ResultsTable: FC<resultProps> = (props: any) => {
   const handleDeleteModalClose = () => {
     setOpenDeleteModal(false);
   };
+
+  const [typeResult, setTypeResult] = useState<string>("");
 
   const modalStyle = {
     position: "absolute" as "absolute",
@@ -437,123 +455,128 @@ const ResultsTable: FC<resultProps> = (props: any) => {
   }
 
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label="results table" size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell
-              align="center"
-              colSpan={12}
-              sx={{ backgroundColor: "black", color: "white" }}
+    <>
+      <TableContainer component={Paper}>
+        <Table aria-label="results table" size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell
+                align="center"
+                colSpan={12}
+                sx={{ backgroundColor: "black", color: "white" }}
+              >
+                RESULTS
+              </TableCell>
+            </TableRow>
+            {tableHeadContent}
+          </TableHead>
+          <TableBody>{tableBodyContent}</TableBody>
+        </Table>
+        <Modal
+          open={openEditModal}
+          onClose={handleEditModalClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={modalStyle}>
+            <Typography id="modal-modal-description" textAlign={"center"}>
+              Do you want to
+              <Typography fontWeight={"bold"} component={"span"}>
+                {" "}
+                edit{" "}
+              </Typography>
+              this somatotype?
+            </Typography>
+            <Grid
+              container
+              display={"flex"}
+              justifyContent={"center"}
+              alignContent={"center"}
+              spacing={2}
+              sx={{ mt: 2 }}
             >
-              RESULTS
-            </TableCell>
-          </TableRow>
-          {tableHeadContent}
-        </TableHead>
-        <TableBody>{tableBodyContent}</TableBody>
-      </Table>
-      <Modal
-        open={openEditModal}
-        onClose={handleEditModalClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={modalStyle}>
-          <Typography id="modal-modal-description" textAlign={"center"}>
-            Do you want to
-            <Typography fontWeight={"bold"} component={"span"}>
-              {" "}
-              edit{" "}
+              <Grid item>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={handleEditModalClose}
+                >
+                  Cancel
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={() => {
+                    props.setIsAdding(false);
+                    props.setOpenAddModal(true);
+                    window.scrollTo(0, 0);
+                    handleEditModalClose();
+                  }}
+                >
+                  Confirm
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </Modal>
+        <Modal
+          open={openDeleteModal}
+          onClose={handleDeleteModalClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={modalStyle}>
+            <Typography id="modal-modal-description" textAlign={"center"}>
+              Do you want to
+              <Typography fontWeight={"bold"} component={"span"}>
+                {" "}
+                delete{" "}
+              </Typography>
+              this somatotype?
             </Typography>
-            this somatotype?
-          </Typography>
-          <Grid
-            container
-            display={"flex"}
-            justifyContent={"center"}
-            alignContent={"center"}
-            spacing={2}
-            sx={{ mt: 2 }}
-          >
-            <Grid item>
-              <Button
-                variant="outlined"
-                color="error"
-                onClick={handleEditModalClose}
-              >
-                Cancel
-              </Button>
+            <Grid
+              container
+              display={"flex"}
+              justifyContent={"center"}
+              alignContent={"center"}
+              spacing={2}
+              sx={{ mt: 2 }}
+            >
+              <Grid item>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={handleDeleteModalClose}
+                >
+                  Cancel
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={() => {
+                    deleteSomatotype(props.idSomatotype);
+                    handleDeleteModalClose();
+                    props.setDashboardSnackBarOpen(true);
+                    props.setDashboardSnackBarMessage(
+                      "Somatotype deleted successfully !"
+                    );
+                  }}
+                >
+                  Confirm
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Button
-                variant="contained"
-                color="success"
-                onClick={() => {
-                  props.setIsAdding(false);
-                  props.setOpenAddModal(true);
-                  window.scrollTo(0, 0);
-                  handleEditModalClose();
-                }}
-              >
-                Confirm
-              </Button>
-            </Grid>
-          </Grid>
-        </Box>
-      </Modal>
-      <Modal
-        open={openDeleteModal}
-        onClose={handleDeleteModalClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={modalStyle}>
-          <Typography id="modal-modal-description" textAlign={"center"}>
-            Do you want to
-            <Typography fontWeight={"bold"} component={"span"}>
-              {" "}
-              delete{" "}
-            </Typography>
-            this somatotype?
-          </Typography>
-          <Grid
-            container
-            display={"flex"}
-            justifyContent={"center"}
-            alignContent={"center"}
-            spacing={2}
-            sx={{ mt: 2 }}
-          >
-            <Grid item>
-              <Button
-                variant="outlined"
-                color="error"
-                onClick={handleDeleteModalClose}
-              >
-                Cancel
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                variant="contained"
-                color="success"
-                onClick={() => {
-                  deleteSomatotype(props.idSomatotype);
-                  handleDeleteModalClose();
-                  props.setDashboardSnackBarOpen(true);
-                  props.setDashboardSnackBarMessage(
-                    "Somatotype deleted successfully !"
-                  );
-                }}
-              >
-                Confirm
-              </Button>
-            </Grid>
-          </Grid>
-        </Box>
-      </Modal>
-    </TableContainer>
+          </Box>
+        </Modal>
+      </TableContainer>
+      <Typography textAlign={"center"} variant="h6" mt={2}>
+        {typeResult}
+      </Typography>
+    </>
   );
 };
 

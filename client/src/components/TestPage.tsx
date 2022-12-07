@@ -171,6 +171,192 @@ export const somatotypesStandard: ISomatotypesStandard = {
   ],
 };
 
+const isMinTwoDigit = (soma: ISomatotype): boolean => {
+  let matchCondition: boolean;
+
+  matchCondition =
+    Math.abs(soma.endomorphy! - soma.mesomorphy!) <= 2 ||
+    Math.abs(soma.endomorphy! - soma.ectomorphy!) <= 2 ||
+    Math.abs(soma.mesomorphy! - soma.ectomorphy!) <= 2;
+
+  return matchCondition;
+};
+
+const isCentral = (soma: ISomatotype): boolean => {
+  // digit has to be 2, 3 or 4
+  const condition = [2, 3, 4];
+  soma.endomorphy = Number(soma.endomorphy?.toFixed());
+  soma.mesomorphy = Number(soma.mesomorphy?.toFixed());
+  soma.ectomorphy = Number(soma.ectomorphy?.toFixed());
+  let i: number = 0;
+  let matchCondition: boolean = true;
+
+  while (matchCondition && i < Object.values(soma).length) {
+    matchCondition = condition.includes(Object.values(soma)[i]);
+
+    i++;
+  }
+
+  // not more than 1 between digits
+  if (matchCondition) {
+    matchCondition =
+      Math.abs(soma.endomorphy! - soma.mesomorphy!) <= 1 &&
+      Math.abs(soma.endomorphy! - soma.ectomorphy!) <= 1 &&
+      Math.abs(soma.mesomorphy! - soma.ectomorphy!) <= 1;
+  }
+
+  return matchCondition;
+};
+
+const isBalancedMeso = (soma: ISomatotype): boolean => {
+  return (
+    isMinTwoDigit(soma) &&
+    soma.endomorphy! === soma.ectomorphy! &&
+    soma.mesomorphy! > soma.endomorphy! &&
+    soma.mesomorphy! > soma.ectomorphy!
+  );
+};
+
+const isEctomorphicMeso = (soma: ISomatotype): boolean => {
+  return (
+    isMinTwoDigit(soma) &&
+    soma.ectomorphy! > soma.endomorphy! &&
+    soma.mesomorphy! > soma.endomorphy! &&
+    soma.mesomorphy! > soma.ectomorphy!
+  );
+};
+
+const isMesoEcto = (soma: ISomatotype): boolean => {
+  return (
+    isMinTwoDigit(soma) &&
+    soma.ectomorphy! > soma.endomorphy! &&
+    soma.mesomorphy! === soma.ectomorphy!
+  );
+};
+
+const isMesomorphicEcto = (soma: ISomatotype): boolean => {
+  return (
+    isMinTwoDigit(soma) &&
+    soma.ectomorphy! > soma.endomorphy! &&
+    soma.ectomorphy! > soma.mesomorphy! &&
+    soma.mesomorphy! > soma.endomorphy!
+  );
+};
+
+const isBalancedEcto = (soma: ISomatotype): boolean => {
+  return (
+    isMinTwoDigit(soma) &&
+    soma.endomorphy! === soma.mesomorphy! &&
+    soma.ectomorphy! > soma.endomorphy!
+  );
+};
+
+const isEndomorphicEcto = (soma: ISomatotype): boolean => {
+  return (
+    isMinTwoDigit(soma) &&
+    soma.endomorphy! > soma.mesomorphy! &&
+    soma.ectomorphy! > soma.endomorphy! &&
+    soma.ectomorphy! > soma.mesomorphy!
+  );
+};
+
+const isEndoEcto = (soma: ISomatotype): boolean => {
+  return (
+    isMinTwoDigit(soma) &&
+    soma.endomorphy! === soma.ectomorphy! &&
+    soma.endomorphy! > soma.mesomorphy! &&
+    soma.ectomorphy! > soma.mesomorphy!
+  );
+};
+
+const isEctomorphicEndo = (soma: ISomatotype): boolean => {
+  return (
+    isMinTwoDigit(soma) &&
+    soma.ectomorphy! > soma.mesomorphy! &&
+    soma.endomorphy! > soma.ectomorphy! &&
+    soma.endomorphy! > soma.mesomorphy!
+  );
+};
+
+const isBalancedEndo = (soma: ISomatotype): boolean => {
+  return (
+    isMinTwoDigit(soma) &&
+    soma.endomorphy! > soma.ectomorphy! &&
+    soma.endomorphy! > soma.mesomorphy! &&
+    soma.mesomorphy! === soma.ectomorphy!
+  );
+};
+
+const isMesomorphicEndo = (soma: ISomatotype): boolean => {
+  return (
+    isMinTwoDigit(soma) &&
+    soma.endomorphy! > soma.ectomorphy! &&
+    soma.endomorphy! > soma.mesomorphy! &&
+    soma.mesomorphy! > soma.ectomorphy!
+  );
+};
+
+const isMesoEndo = (soma: ISomatotype): boolean => {
+  return (
+    isMinTwoDigit(soma) &&
+    soma.endomorphy! === soma.mesomorphy! &&
+    soma.endomorphy! > soma.ectomorphy!
+  );
+};
+
+const isEndomorphicMeso = (soma: ISomatotype): boolean => {
+  return (
+    isMinTwoDigit(soma) &&
+    soma.endomorphy! > soma.ectomorphy! &&
+    soma.mesomorphy! > soma.endomorphy! &&
+    soma.mesomorphy! > soma.ectomorphy!
+  );
+};
+
+export const getSomatotypeType = (
+  endomorphy: number | undefined,
+  mesomorphy: number | undefined,
+  ectomorphy: number | undefined
+) => {
+  let result: string = "";
+
+  const soma: ISomatotype = {
+    endomorphy: Number(endomorphy) < 1 ? 1 : Number(endomorphy?.toFixed(1)),
+    mesomorphy: Number(mesomorphy) < 1 ? 1 : Number(mesomorphy?.toFixed(1)),
+    ectomorphy: Number(ectomorphy) < 1 ? 1 : Number(ectomorphy?.toFixed(1)),
+  };
+
+  if (isCentral(soma)) {
+    result = "You are a Central (C).";
+  } else if (isBalancedMeso(soma)) {
+    result = "You are a Balanced Mesomorph (BM).";
+  } else if (isEctomorphicMeso(soma)) {
+    result = "You are a Ectomorphic Mesomorph (EcM).";
+  } else if (isMesoEcto(soma)) {
+    result = "You are a Mesomorph Ectomorph (M-Ec).";
+  } else if (isMesomorphicEcto(soma)) {
+    result = "You are a Mesomorphic Ectomorph (MEc).";
+  } else if (isBalancedEcto(soma)) {
+    result = "You are a Balanced Ectomorph (BEc).";
+  } else if (isEndomorphicEcto(soma)) {
+    result = "You are a Endomorphic Ectomorph (EnEc).";
+  } else if (isEndoEcto(soma)) {
+    result = "You are a Endomorph Ectomorph (En-Ec).";
+  } else if (isEctomorphicEndo(soma)) {
+    result = "You are a Ectomorphic Endomorph (EcEn).";
+  } else if (isBalancedEndo(soma)) {
+    result = "You are a Balanced Endomorph (BEn).";
+  } else if (isMesomorphicEndo(soma)) {
+    result = "You are a Mesomorphic Endomorph (MEn).";
+  } else if (isMesoEndo(soma)) {
+    result = "You are a Mesomorph Endomorph (M-En).";
+  } else if (isEndomorphicMeso(soma)) {
+    result = "You are a Endomorphic Mesomorph (EnM).";
+  }
+
+  return result;
+};
+
 const TestPage: FC<ITesting> = (props) => {
   const naviguate = useNavigate();
 
@@ -221,192 +407,6 @@ const TestPage: FC<ITesting> = (props) => {
     }
   }, [exceeded, notStandard]);
 
-  const isMinTwoDigit = (soma: ISomatotype): boolean => {
-    let matchCondition: boolean;
-
-    matchCondition =
-      Math.abs(soma.endomorphy! - soma.mesomorphy!) <= 2 ||
-      Math.abs(soma.endomorphy! - soma.ectomorphy!) <= 2 ||
-      Math.abs(soma.mesomorphy! - soma.ectomorphy!) <= 2;
-
-    return matchCondition;
-  };
-
-  const isCentral = (soma: ISomatotype): boolean => {
-    // digit has to be 2, 3 or 4
-    const condition = [2, 3, 4];
-    soma.endomorphy = Number(soma.endomorphy?.toFixed());
-    soma.mesomorphy = Number(soma.mesomorphy?.toFixed());
-    soma.ectomorphy = Number(soma.ectomorphy?.toFixed());
-    let i: number = 0;
-    let matchCondition: boolean = true;
-
-    while (matchCondition && i < Object.values(soma).length) {
-      matchCondition = condition.includes(Object.values(soma)[i]);
-
-      i++;
-    }
-
-    // not more than 1 between digits
-    if (matchCondition) {
-      matchCondition =
-        Math.abs(soma.endomorphy! - soma.mesomorphy!) <= 1 &&
-        Math.abs(soma.endomorphy! - soma.ectomorphy!) <= 1 &&
-        Math.abs(soma.mesomorphy! - soma.ectomorphy!) <= 1;
-    }
-
-    return matchCondition;
-  };
-
-  const isBalancedMeso = (soma: ISomatotype): boolean => {
-    return (
-      isMinTwoDigit(soma) &&
-      soma.endomorphy! === soma.ectomorphy! &&
-      soma.mesomorphy! > soma.endomorphy! &&
-      soma.mesomorphy! > soma.ectomorphy!
-    );
-  };
-
-  const isEctomorphicMeso = (soma: ISomatotype): boolean => {
-    return (
-      isMinTwoDigit(soma) &&
-      soma.ectomorphy! > soma.endomorphy! &&
-      soma.mesomorphy! > soma.endomorphy! &&
-      soma.mesomorphy! > soma.ectomorphy!
-    );
-  };
-
-  const isMesoEcto = (soma: ISomatotype): boolean => {
-    return (
-      isMinTwoDigit(soma) &&
-      soma.ectomorphy! > soma.endomorphy! &&
-      soma.mesomorphy! === soma.ectomorphy!
-    );
-  };
-
-  const isMesomorphicEcto = (soma: ISomatotype): boolean => {
-    return (
-      isMinTwoDigit(soma) &&
-      soma.ectomorphy! > soma.endomorphy! &&
-      soma.ectomorphy! > soma.mesomorphy! &&
-      soma.mesomorphy! > soma.endomorphy!
-    );
-  };
-
-  const isBalancedEcto = (soma: ISomatotype): boolean => {
-    return (
-      isMinTwoDigit(soma) &&
-      soma.endomorphy! === soma.mesomorphy! &&
-      soma.ectomorphy! > soma.endomorphy!
-    );
-  };
-
-  const isEndomorphicEcto = (soma: ISomatotype): boolean => {
-    return (
-      isMinTwoDigit(soma) &&
-      soma.endomorphy! > soma.mesomorphy! &&
-      soma.ectomorphy! > soma.endomorphy! &&
-      soma.ectomorphy! > soma.mesomorphy!
-    );
-  };
-
-  const isEndoEcto = (soma: ISomatotype): boolean => {
-    return (
-      isMinTwoDigit(soma) &&
-      soma.endomorphy! === soma.ectomorphy! &&
-      soma.endomorphy! > soma.mesomorphy! &&
-      soma.ectomorphy! > soma.mesomorphy!
-    );
-  };
-
-  const isEctomorphicEndo = (soma: ISomatotype): boolean => {
-    return (
-      isMinTwoDigit(soma) &&
-      soma.ectomorphy! > soma.mesomorphy! &&
-      soma.endomorphy! > soma.ectomorphy! &&
-      soma.endomorphy! > soma.mesomorphy!
-    );
-  };
-
-  const isBalancedEndo = (soma: ISomatotype): boolean => {
-    return (
-      isMinTwoDigit(soma) &&
-      soma.endomorphy! > soma.ectomorphy! &&
-      soma.endomorphy! > soma.mesomorphy! &&
-      soma.mesomorphy! === soma.ectomorphy!
-    );
-  };
-
-  const isMesomorphicEndo = (soma: ISomatotype): boolean => {
-    return (
-      isMinTwoDigit(soma) &&
-      soma.endomorphy! > soma.ectomorphy! &&
-      soma.endomorphy! > soma.mesomorphy! &&
-      soma.mesomorphy! > soma.ectomorphy!
-    );
-  };
-
-  const isMesoEndo = (soma: ISomatotype): boolean => {
-    return (
-      isMinTwoDigit(soma) &&
-      soma.endomorphy! === soma.mesomorphy! &&
-      soma.endomorphy! > soma.ectomorphy!
-    );
-  };
-
-  const isEndomorphicMeso = (soma: ISomatotype): boolean => {
-    return (
-      isMinTwoDigit(soma) &&
-      soma.endomorphy! > soma.ectomorphy! &&
-      soma.mesomorphy! > soma.endomorphy! &&
-      soma.mesomorphy! > soma.ectomorphy!
-    );
-  };
-
-  const getSomatotypeType = (
-    endomorphy: number | undefined,
-    mesomorphy: number | undefined,
-    ectomorphy: number | undefined
-  ) => {
-    let result: string = "";
-
-    const soma: ISomatotype = {
-      endomorphy: Number(endomorphy) < 1 ? 1 : Number(endomorphy?.toFixed(1)),
-      mesomorphy: Number(mesomorphy) < 1 ? 1 : Number(mesomorphy?.toFixed(1)),
-      ectomorphy: Number(ectomorphy) < 1 ? 1 : Number(ectomorphy?.toFixed(1)),
-    };
-
-    if (isCentral(soma)) {
-      result = "You are a Central (C).";
-    } else if (isBalancedMeso(soma)) {
-      result = "You are a Balanced Mesomorph (BM).";
-    } else if (isEctomorphicMeso(soma)) {
-      result = "You are a Ectomorphic Mesomorph (EcM).";
-    } else if (isMesoEcto(soma)) {
-      result = "You are a Mesomorph Ectomorph (M-Ec).";
-    } else if (isMesomorphicEcto(soma)) {
-      result = "You are a Mesomorphic Ectomorph (MEc).";
-    } else if (isBalancedEcto(soma)) {
-      result = "You are a Balanced Ectomorph (BEc).";
-    } else if (isEndomorphicEcto(soma)) {
-      result = "You are a Endomorphic Ectomorph (EnEc).";
-    } else if (isEndoEcto(soma)) {
-      result = "You are a Endomorph Ectomorph (En-Ec).";
-    } else if (isEctomorphicEndo(soma)) {
-      result = "You are a Ectomorphic Endomorph (EcEn).";
-    } else if (isBalancedEndo(soma)) {
-      result = "You are a Balanced Endomorph (BEn).";
-    } else if (isMesomorphicEndo(soma)) {
-      result = "You are a Mesomorphic Endomorph (MEn).";
-    } else if (isMesoEndo(soma)) {
-      result = "You are a Mesomorph Endomorph (M-En).";
-    } else if (isEndomorphicMeso(soma)) {
-      result = "You are a Endomorphic Mesomorph (EnM).";
-    }
-
-    return result;
-  };
-
   const isExceeded = (soma: number[]): boolean => {
     const endo: number | undefined = soma[0];
     const meso: number | undefined = soma[1];
@@ -443,6 +443,10 @@ const TestPage: FC<ITesting> = (props) => {
   };
 
   const handleSubmit = () => {
+    if (!showResults) {
+      window.scrollTo(0, Number(gridRef.current?.offsetTop));
+    }
+    notStandard && setNotStandard(false);
     exceeded && setExceeded(false);
     msgErr !== "" && setMsgErr("");
 
@@ -474,12 +478,6 @@ const TestPage: FC<ITesting> = (props) => {
       });
     }
   };
-
-  const typeResult = getSomatotypeType(
-    somatotype?.endomorphy,
-    somatotype?.mesomorphy,
-    somatotype?.ectomorphy
-  );
 
   const saveDatas = async () => {
     try {
@@ -626,9 +624,6 @@ const TestPage: FC<ITesting> = (props) => {
               toggleGraph={toggleGraph}
               setToggleGraph={setToggleGraph}
             />
-            <Typography textAlign={"center"} variant="h6">
-              {typeResult}
-            </Typography>
           </Grid>
         ) : null}
 
