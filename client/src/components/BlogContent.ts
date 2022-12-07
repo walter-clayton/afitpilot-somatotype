@@ -24,7 +24,24 @@ export interface IBlogCardImage {
   imageFitMethod?: string;
 }
 
-interface IBlogContent {
+export interface IBlogCTABtn {
+  buttonText?: string;
+  isExternalLink?: boolean;
+  buttonLink?: string;
+  buttonPosition?: string;
+  buttonColor?:
+    | "inherit"
+    | "success"
+    | "error"
+    | "primary"
+    | "secondary"
+    | "info"
+    | "warning"
+    | undefined;
+  buttonStyle?: "text" | "contained" | "outlined" | undefined;
+}
+
+export interface IBlogContent {
   title?: string;
   date?: string;
   cardDescription?: string;
@@ -32,6 +49,7 @@ interface IBlogContent {
   texts?: string[];
   images?: IBlogImage[];
   textsWithImages?: IBlogTextWithImage[];
+  callToActionButtons?: IBlogCTABtn[];
   layout?: string[];
 }
 
@@ -84,14 +102,43 @@ const BlogArticle1 = {
       imagePosition: "right",
     },
   ],
+  callToActionButtons: [
+    {
+      buttonText: "Button text",
+      isExternalLink: false,
+      buttonLink: "/",
+      buttonPosition: "end",
+      buttonColor: "success",
+      buttonStyle: "contained",
+    },
+    {
+      buttonText: "Stripe",
+      isExternalLink: true,
+      buttonLink: "https://stripe.com/docs/testing",
+      buttonPosition: "center",
+      buttonColor: "secondary",
+      buttonStyle: "outlined",
+    },
+    {
+      buttonText: "Stripe",
+      isExternalLink: true,
+      buttonLink: "https://stripe.com/docs/testing",
+      buttonPosition: "start",
+      buttonColor: "error",
+      buttonStyle: "outlined",
+    },
+  ],
   layout: [
     "text",
+    "button",
     "image",
     "image",
+    "button",
     "textWithImage",
     "text",
     "textWithImage",
     "image",
+    "button",
     "text",
   ],
 };

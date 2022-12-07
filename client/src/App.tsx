@@ -20,6 +20,7 @@ import TestPage from "./components/TestPage";
 import BlogPage from "./components/BlogPage";
 import Home from "./components/HomePage";
 import FooterCTA from "./components/CTA/FooterCTA";
+import BlogArticlePage from "./components/BlogArticlePage";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -136,15 +137,8 @@ function App() {
             />
           }
         />
-        <Route
-          path="/Blog"
-          element={
-            <BlogPage
-              openBlogArticleModal={openBlogArticleModal}
-              setOpenBlogArticleModal={setOpenBlogArticleModal}
-            />
-          }
-        />
+        <Route path="/Blog" element={<BlogPage />} />
+        <Route path="/Blog/:idBlog" element={<BlogArticlePage />} />
         <Route path="/Balanced-endomorph" element={<BalancedEndomorph />} />
         <Route
           path="/Profile"

@@ -7,14 +7,16 @@ import {
   Typography,
 } from "@mui/material";
 import React, { FC } from "react";
+import { useNavigate } from "react-router-dom";
 import { IBlogCardInfos } from "./BlogPage";
 interface IBlogCard {
+  index?: number;
   blogCard?: IBlogCardInfos;
-  setOpenBlogArticleModal?: (openModal: boolean) => void;
-  setSelectedBlogCard?: (selectedBlogCard: IBlogCardInfos) => void;
 }
 
 const BlogCard: FC<IBlogCard> = (props) => {
+  let navigate = useNavigate();
+
   let objectFitMethod: string = "";
   if (props.blogCard?.BlogCardImg?.imageFitMethod != null) {
     objectFitMethod = props.blogCard.BlogCardImg?.imageFitMethod;
@@ -22,9 +24,8 @@ const BlogCard: FC<IBlogCard> = (props) => {
     objectFitMethod = "cover";
   }
 
-  const handleClickLearnMore = () => {
-    props.setSelectedBlogCard!(props.blogCard!);
-    props.setOpenBlogArticleModal!(true);
+  const handleClickLearnMore = (index: number) => {
+    navigate(`/Blog/${index}`);
     window.scrollTo(0, 0);
   };
 
@@ -57,7 +58,7 @@ const BlogCard: FC<IBlogCard> = (props) => {
         <Button
           size="small"
           onClick={() => {
-            handleClickLearnMore();
+            handleClickLearnMore(props.index!);
           }}
         >
           Learn More

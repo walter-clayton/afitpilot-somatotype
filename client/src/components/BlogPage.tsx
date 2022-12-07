@@ -6,6 +6,7 @@ import BlogCard from "./BlogCard";
 import {
   getAllBlogContents,
   IBlogCardImage,
+  IBlogCTABtn,
   IBlogImage,
   IBlogTextWithImage,
 } from "./BlogContent";
@@ -18,6 +19,7 @@ const createBlogCard = (
   BlogTexts: string[],
   BlogImages: IBlogImage[],
   BlogTextsWithImages: IBlogTextWithImage[],
+  BlogCallToActionButton: IBlogCTABtn[],
   BlogLayout: string[]
 ) => {
   return {
@@ -28,6 +30,7 @@ const createBlogCard = (
     BlogTexts,
     BlogImages,
     BlogTextsWithImages,
+    BlogCallToActionButton,
     BlogLayout,
   };
 };
@@ -40,20 +43,14 @@ export interface IBlogCardInfos {
   BlogTexts?: string[];
   BlogImages?: IBlogImage[];
   BlogTextsWithImages?: IBlogTextWithImage[];
+  BlogCallToActionButtons?: IBlogCTABtn[];
   BlogLayout?: string[];
 }
 
-interface IBlogPage {
-  openBlogArticleModal?: boolean;
-  setOpenBlogArticleModal?: (openModal: boolean) => void;
-}
-
-const BlogPage: FC<IBlogPage> = (props) => {
+const BlogPage = () => {
   const [blogCards, setBlogCards] = useState<IBlogCardInfos[]>([]);
-  const [selectedBlogCard, setSelectedBlogCard] = useState<IBlogCardInfos>();
 
   useEffect(() => {
-    props.setOpenBlogArticleModal!(false);
     setBlogCards([]);
 
     getAllBlogContents().forEach((blogContent) => {
@@ -67,6 +64,7 @@ const BlogPage: FC<IBlogPage> = (props) => {
           blogContent.texts!,
           blogContent.images!,
           blogContent.textsWithImages!,
+          blogContent.callToActionButtons!,
           blogContent.layout!
         ),
       ]);
@@ -75,26 +73,15 @@ const BlogPage: FC<IBlogPage> = (props) => {
 
   return (
     <>
-      {props.openBlogArticleModal ? (
-        <BlogArticlePage
-          blogCardInfos={selectedBlogCard}
-          setOpenBlogArticleModal={props.setOpenBlogArticleModal}
-        />
-      ) : (
-        <Grid container px={4}>
-          {blogCards.map((blogCard, index) => (
-            <Grid item xs={12} sm={12} md={6} lg={4} paddingTop={4} key={index}>
-              <Grid container alignContent={"center"} justifyContent={"center"}>
-                <BlogCard
-                  blogCard={blogCard}
-                  setOpenBlogArticleModal={props.setOpenBlogArticleModal}
-                  setSelectedBlogCard={setSelectedBlogCard}
-                />
-              </Grid>
+      <Grid container px={4}>
+        {blogCards.map((blogCard, index) => (
+          <Grid item xs={12} sm={12} md={6} lg={4} paddingTop={4} key={index}>
+            <Grid container alignContent={"center"} justifyContent={"center"}>
+              <BlogCard index={index} blogCard={blogCard} />
             </Grid>
-          ))}
-        </Grid>
-      )}
+          </Grid>
+        ))}
+      </Grid>
     </>
   );
 };
