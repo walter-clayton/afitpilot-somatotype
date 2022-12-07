@@ -16,6 +16,8 @@ const theme = createTheme();
 interface IDashboard {
   resultsSaved?: boolean;
   setResultsSaved?: (bool: boolean) => void;
+  openAddModal?: boolean;
+  setOpenAddModal?: (bool: boolean) => void;
 }
 
 const Dashboard: FC<IDashboard> = (props) => {
@@ -33,8 +35,6 @@ const Dashboard: FC<IDashboard> = (props) => {
 
   const [somatotypes, setSomatotypes] = useState<ISomatotype[]>([]);
   const [anthropometrics, setAnthropometrics] = useState<IAnthropometric[]>([]);
-
-  const [openAddModal, setOpenAddModal] = useState<boolean>(false);
 
   const [isAdding, setIsAdding] = useState<boolean>(false);
 
@@ -99,12 +99,12 @@ const Dashboard: FC<IDashboard> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (openAddModal) {
+    if (props.openAddModal) {
       props.setResultsSaved!(false);
     } else {
       getUserDatas();
     }
-  }, [openAddModal]);
+  }, [props.openAddModal]);
 
   useEffect(() => {
     if (somatotypes.length === 0) {
@@ -120,9 +120,9 @@ const Dashboard: FC<IDashboard> = (props) => {
 
   return (
     <>
-      {openAddModal ? (
+      {props.openAddModal ? (
         <Add
-          setOpenAddModal={setOpenAddModal}
+          setOpenAddModal={props.setOpenAddModal}
           isAdding={isAdding}
           getUserDatas={getUserDatas}
           idRow={idRow}
@@ -210,7 +210,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                   somatotypes={somatotypes}
                   showHistory={true}
                   getUserDatas={getUserDatas}
-                  setOpenAddModal={setOpenAddModal}
+                  setOpenAddModal={props.setOpenAddModal}
                   setIsAdding={setIsAdding}
                   setIdRow={setIdRow}
                   idRow={idRow}
@@ -253,7 +253,7 @@ const Dashboard: FC<IDashboard> = (props) => {
               variant="contained"
               onClick={() => {
                 setIsAdding(true);
-                setOpenAddModal(true);
+                props.setOpenAddModal!(true);
                 window.scrollTo(0, 0);
               }}
             >
