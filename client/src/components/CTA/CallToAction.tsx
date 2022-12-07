@@ -4,6 +4,7 @@ import { Grid, Box, Button, Typography } from "@mui/material/";
 import Stack from "@mui/material/Stack";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import sitting from "../image/sitting-2.svg";
+import manuTribesManBackground from "../image/manu-tribesman-with-background.png";
 import { useNavigate } from "react-router-dom";
 
 const CallToAction = () => {
@@ -49,7 +50,7 @@ const CallToAction = () => {
               >
                 Somatotypes
               </Button>
-              <Button sx={{ color: "blue" }} variant="text" onClick={() => { }}>
+              <Button sx={{ color: "blue" }} variant="text" onClick={() => {}}>
                 Explore Theory <ArrowForwardSharpIcon />
               </Button>
             </Stack>
@@ -64,7 +65,11 @@ const CallToAction = () => {
               alignItems: "center",
             }}
           >
-            <img src={sitting} alt="sitting girl" />
+            <img
+              src={manuTribesManBackground}
+              alt="Manu Tribesman with background"
+              style={{ width: "50%" }}
+            />
           </Box>
         </Grid>
       </Grid>

@@ -1,6 +1,6 @@
 import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Grid, Box, Button, Typography } from "@mui/material/";
+import { Grid, Box, Button, Typography, Stack } from "@mui/material/";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
@@ -33,67 +33,72 @@ const Header = () => {
     <div>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Grid
-          container
-          sx={{
-            backgroundColor: "#f6f6f7",
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100%",
-            height: "450px",
-          }}
-        >
-          <Grid item xs={12} md={12} lg={12} xl={12} sm={12}>
-            <Box
-              sx={{
-                marginTop: 4,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Typography
-                variant="h2"
+        <ThemeProvider theme={theme}>
+          <Grid
+            container
+            sx={{
+              backgroundColor: "#f6f6f7",
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              height: "450px",
+            }}
+          >
+            <Grid item xs={12} md={12} lg={12} sm={12}>
+              <Box
                 sx={{
-                  color: "black",
-                  textAlign: "center",
+                  marginTop: 8,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                "No knowledge can be more satisfactory to a person than that
-                of their own frame, its parts, their functions and actions"{" "}
-              </Typography>
-              <Typography
-                mb={2}
-                variant="subtitle1"
-                sx={{
-                  color: "black",
-                  textAlign: "center",
-                  fontSize: "20px",
-                }}
-              >
-                - Thomas Jefferson{" "}
-              </Typography>
-              <Button
-                sx={{
-                  borderRadius: "20px",
-                  backgroundColor: "purple",
-                  padding: 1,
-                }}
-                variant="contained"
-                onClick={() => {
-                  navigate("/Test");
-                  window.scrollTo(0, 0);
-                }}
-              >
-                Take the test <ArrowForwardSharpIcon />
-              </Button>
-            </Box>
+                <Typography
+                  variant="h2"
+                  sx={{
+                    color: "black",
+                    textAlign: "center",
+                    mb: 2,
+                  }}
+                >
+                  We were built differently.{" "}
+                </Typography>
+                <Typography
+                  mb={2}
+                  variant="subtitle1"
+                  sx={{
+                    color: "black",
+                    textAlign: "center",
+                    fontSize: "20px",
+                    mb: 4,
+                  }}
+                >
+                  Locate your own uniqueness {" "}
+                </Typography>
+                <Stack>
+                  <Button
+                    sx={{
+                      borderRadius: "20px",
+                      backgroundColor: "purple",
+                      padding: 1,
+                    }}
+                    variant="contained"
+                    onClick={() => {
+                      navigate("/Test");
+                      window.scrollTo(0, 0);
+                    }}
+                  >
+                    Take the test <ArrowForwardSharpIcon />
+                  </Button>
+                </Stack>
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>
+        </ThemeProvider>
       </ThemeProvider>
       <ThemeProvider theme={theme}>
         <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center", padding: "25px" }}>
@@ -111,8 +116,8 @@ const Header = () => {
                 59+
                 <Typography sx={{ color: "black" }}>
                   Tests taken in Belgium
-                </Typography>
-              </Typography>{" "}
+                </Typography>{" "}
+              </Typography>
             </Grid>
             <Grid item xs={6} sm={6} md={3} lg={3} xl={3}>
               <Typography variant="h1" sx={{ color: "#33a474" }}>
