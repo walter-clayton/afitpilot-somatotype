@@ -7,7 +7,7 @@ import { AddPoint, calculateSomatotype, IPoints } from "./Calculation";
 import ResultsTable from "./ResultsTable";
 import SomatotypeGraph from "./SomatotypeGraph";
 import axios from "axios";
-import { matchRoutes, useNavigate } from "react-router-dom";
+import { matchRoutes, useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import Typography from "@mui/material/Typography";
 import HeaderTestpage from "./CTA/HeaderTestpage";
@@ -21,9 +21,163 @@ interface ITesting {
   setResultsSaved: (bool: boolean) => void;
 }
 
+interface ISomatotypesStandard {
+  balancedMeso: String[];
+  central: String[];
+  endoEcto: String[];
+  mesoEcto: String[];
+  balancedEcto: String[];
+  balancedEndo: String[];
+  mesoEndo: String[];
+  ectomorphicMeso: String[];
+  mesomorphicEcto: String[];
+  endomorphicEcto: String[];
+  ectomorphicEndo: String[];
+  mesomorphicEndo: String[];
+  endomorphicMeso: String[];
+}
+
+export const somatotypesStandard: ISomatotypesStandard = {
+  balancedMeso: ["353", "252", "363", "262", "272", "171", "181", "191"],
+  central: ["343", "444", "333", "434", "344", "334", "433", "443"],
+  endoEcto: ["424", "414", "515"],
+  mesoEcto: ["244", "144", "155"],
+  balancedEcto: ["335", "225", "336", "226", "227", "117", "118", "119"],
+  balancedEndo: ["533", "522", "633", "622", "722", "711", "811", "911"],
+  mesoEndo: ["442", "552", "441", "551", "661", "771", "881", "991"],
+  ectomorphicMeso: [
+    "354",
+    "243",
+    "254",
+    "253",
+    "154",
+    "153",
+    "263",
+    "164",
+    "163",
+    "162",
+    "173",
+    "172",
+    "182",
+  ],
+  mesomorphicEcto: [
+    "234",
+    "345",
+    "235",
+    "245",
+    "236",
+    "135",
+    "145",
+    "126",
+    "136",
+    "146",
+    "127",
+    "137",
+    "128",
+    "129",
+  ],
+  endomorphicEcto: [
+    "324",
+    "435",
+    "425",
+    "415",
+    "325",
+    "315",
+    "416",
+    "316",
+    "326",
+    "216",
+    "317",
+    "217",
+    "218",
+    "219",
+  ],
+  ectomorphicEndo: [
+    "534",
+    "524",
+    "514",
+    "614",
+    "513",
+    "523",
+    "623",
+    "613",
+    "713",
+    "612",
+    "712",
+  ],
+  mesomorphicEndo: [
+    "432",
+    "543",
+    "542",
+    "532",
+    "632",
+    "642",
+    "541",
+    "651",
+    "641",
+    "631",
+    "621",
+    "721",
+    "731",
+    "741",
+    "751",
+    "761",
+    "871",
+    "861",
+    "851",
+    "841",
+    "831",
+    "821",
+    "921",
+    "931",
+    "941",
+    "951",
+    "961",
+    "971",
+    "981",
+  ],
+  endomorphicMeso: [
+    "342",
+    "453",
+    "352",
+    "362",
+    "261",
+    "372",
+    "271",
+    "281",
+    "291",
+    "452",
+    "351",
+    "462",
+    "361",
+    "371",
+    "381",
+    "391",
+    "451",
+    "461",
+    "471",
+    "481",
+    "491",
+    "561",
+    "571",
+    "581",
+    "591",
+    "671",
+    "681",
+    "691",
+    "781",
+    "791",
+    "891",
+  ],
+};
+
 const TestPage: FC<ITesting> = (props) => {
+  const naviguate = useNavigate();
+
   const [showResults, setShowResults] = useState(false);
   const [exceeded, setExceeded] = useState(false);
+  const [notStandard, setNotStandard] = useState(false);
+  const [msgErr, setMsgErr] = useState<String>("");
   const [toggleGraph, setToggleGraph] = useState(false);
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -45,7 +199,7 @@ const TestPage: FC<ITesting> = (props) => {
   >(undefined);
 
   const [pointsArray, setPointsArray] = useState<IPoints[]>([]);
-
+  // const [params, setParams] = useParams()
   useEffect(() => {
     setAnthropometric((anthropometric) => ({
       height: 180,
@@ -61,11 +215,11 @@ const TestPage: FC<ITesting> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (exceeded) {
+    if (exceeded || notStandard) {
       window.scrollTo(0, Number(gridRef.current?.offsetTop));
       setShowResults(false);
     }
-  }, [exceeded]);
+  }, [exceeded, notStandard]);
 
   const isMinTwoDigit = (soma: ISomatotype): boolean => {
     let matchCondition: boolean;
@@ -271,13 +425,35 @@ const TestPage: FC<ITesting> = (props) => {
     return isExceeded;
   };
 
+  const isStandard = (soma: number[]): boolean => {
+    const endo: number | undefined = Number(soma[0].toFixed());
+    const meso: number | undefined = Number(soma[1].toFixed());
+    const ecto: number | undefined = Number(soma[2].toFixed());
+    let isStandard: boolean = true;
+
+    let valuesStandard: String[][] = Object.values(somatotypesStandard);
+
+    valuesStandard.forEach((array: String[]) => {
+      isStandard = array.includes(`${endo}${meso}${ecto}`);
+    });
+
+    // console.log(isStandard);
+
+    return isStandard;
+  };
+
   const handleSubmit = () => {
     exceeded && setExceeded(false);
+    msgErr !== "" && setMsgErr("");
 
     const somatotypeResults = calculateSomatotype(anthropometric!);
 
     if (isExceeded(somatotypeResults)) {
       setExceeded(true);
+      setMsgErr("Error values: somatotype exceeded");
+    } else if (!isStandard(somatotypeResults)) {
+      setNotStandard(true);
+      setMsgErr("Error values: somatotype is not standard");
     } else {
       setShowResults(true);
       setToggleGraph(!toggleGraph);
@@ -393,15 +569,16 @@ const TestPage: FC<ITesting> = (props) => {
               Results saved successfully
             </Alert>
           )}
-          {exceeded && (
+          {(exceeded || notStandard) && (
             <Alert
               onClose={() => {
-                setExceeded(false);
+                exceeded && setExceeded(false);
+                notStandard && setNotStandard(false);
               }}
               severity="error"
               sx={{ margin: "50px auto" }}
             >
-              Error values: somatotype exceeded
+              {msgErr}
             </Alert>
           )}
           <AnthropometricForm
