@@ -10,6 +10,7 @@ import {
   Container,
   CircularProgress,
   InputLabel,
+  useMediaQuery,
 } from "@mui/material/";
 import CssBaseline from "@mui/material/CssBaseline";
 import Snackbar from "@mui/material/Snackbar";
@@ -18,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { IData } from "../App";
 
-interface ISugnUp {
+interface ISignUp {
   data?: IData;
   setData?: ((data: IData | undefined) => void) | undefined;
   setOpen?: (bool: boolean) => void;
@@ -26,7 +27,7 @@ interface ISugnUp {
   setResultsSaved?: (bool: boolean) => void;
 }
 
-const Signup: FC<ISugnUp> = (props) => {
+const Signup: FC<ISignUp> = (props) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -35,6 +36,8 @@ const Signup: FC<ISugnUp> = (props) => {
   const [hasChanges, setHasChanges] = useState(false);
   const [fetching, setFetching] = React.useState<boolean>(false);
   const [cookies, setCookie] = useCookies(["user"]);
+
+  const xxs = useMediaQuery("(max-width:450px)");
 
   /**
    *
@@ -187,7 +190,18 @@ const Signup: FC<ISugnUp> = (props) => {
           </Alert>
         ) : (
           <Alert severity="error" sx={{ margin: "20px 0" }}>
-            You must submit results before signing up.
+            You must submit results to sign up.
+            <br />
+            Take the test
+            <span> </span>
+            <Link
+              onClick={() => {
+                navigate("/Test");
+              }}
+            >
+              here
+            </Link>
+            <span> !</span>
           </Alert>
         )}
         <Box
@@ -251,32 +265,50 @@ const Signup: FC<ISugnUp> = (props) => {
               • Please enter a valid name (just letters) !
             </Typography>
           ) : null}
-          <Button
-            type="submit"
-            variant="outlined"
-            size="large"
-            onClick={() => {
-              handleClick();
-              navigate("/");
-              window.scrollTo(0, 0);
-            }}
-            sx={{ mt: 3, mb: 2, marginRight: 5, marginLeft: 8 }}
-            disabled={fetching}
+          <Grid
+            container
+            display={"flex"}
+            justifyContent={"center"}
+            alignContent={"center"}
+            spacing={2}
+            sx={{ my: 2 }}
           >
-            {fetching ? <CircularProgress size={25} /> : "GO BACK"}
-          </Button>
-          <Button
-            type="submit"
-            onClick={() => {
-              props.data && handleClick();
-            }}
-            variant="contained"
-            size="large"
-            sx={{ mt: 3, mb: 2 }}
-            disabled={fetching}
-          >
-            {fetching ? <CircularProgress size={25} /> : "SIGN UP"}
-          </Button>
+            <Grid item>
+              <Button
+                type="submit"
+                variant="outlined"
+                size="large"
+                onClick={() => {
+                  handleClick();
+                  navigate("/");
+                  window.scrollTo(0, 0);
+                }}
+                disabled={fetching}
+              >
+                GO BACK
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                type="submit"
+                onClick={() => {
+                  props.data && handleClick();
+                }}
+                variant="contained"
+                size="large"
+                disabled={
+                  fetching ||
+                  nameIsIncorrect ||
+                  emailIsIncorrect ||
+                  name === "" ||
+                  email === "" ||
+                  !props.data
+                }
+              >
+                {fetching ? <CircularProgress size={25} /> : "SIGN UP"}
+              </Button>
+            </Grid>
+          </Grid>
           <Snackbar
             open={open}
             autoHideDuration={6000}
