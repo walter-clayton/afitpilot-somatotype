@@ -1,10 +1,8 @@
 import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Grid, Box, Button, Typography } from "@mui/material/";
-import Stack from "@mui/material/Stack";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import bodytype2 from "../image/manu-tribesman.png";
 import CounterShare from "./CounterShare";
 import { useNavigate } from "react-router-dom";
 
@@ -29,6 +27,106 @@ theme.typography.h2 = {
 };
 const TypesPage = () => {
   const navigate = useNavigate();
+  const Endomorph = [
+    {
+      image: "manu-tribesman",
+      bodyType: 'Balanced endomorph',
+      TypeCode: "BEn",
+      linkToPage: "/Balanced-endomorph",
+      description: "Endomorphy is dominant and mesomorphy and ectomorphy are equal(or do not differ by more than one half unit)."
+    },
+    {
+      image: "manu-tribesman",
+      bodyType: 'Mesomorphic endomorph ',
+      TypeCode: "MEn",
+      linkToPage: "/Balanced-endomorph",
+      description: " Endomorphy is dominant and mesomorphy is greater than ectomorphy.",
+    },
+    {
+      image: "manu-tribesman",
+      bodyType: ' Mesomorph-endomorph',
+      TypeCode: "M-En",
+      linkToPage: "/Balanced-endomorph",
+      description: " Endomorphy and mesomorphy are equal(or do not differ by more than one half unit),and ectomorphy is smaller.",
+    },
+  ];
+  const Mesomorph = [
+    {
+      image: "manu-tribesman",
+      bodyType: 'Endomorphic mesomorph',
+      TypeCode: "EnM",
+      linkToPage: "/Balanced-endomorph",
+      description: "Mesomorphy is dominant and endomorphy is greater than ectomorphy "
+    },
+    {
+      image: "manu-tribesman",
+      bodyType: 'Balanced mesomorph',
+      TypeCode: "BM",
+      linkToPage: "/Balanced-endomorph",
+      description: " Mesomorphy is dominant, endomorph and ectomorphy are less and equal(or do not differ by more than one-half unit.)      ",
+    },
+    {
+      image: "manu-tribesman",
+      bodyType: 'Ectomorphic mesomorph ',
+      TypeCode: "EcM",
+      linkToPage: "/Balanced-endomorph",
+      description: "Mesomorphy is dominant,and ectomorphy is greater than endomorphy.",
+    },
+    {
+      image: "manu-tribesman",
+      bodyType: 'Mesomorph-ectomorph',
+      TypeCode: "M-Ec",
+      linkToPage: "/Balanced-endomorph",
+      description: "Mesomorphy and ectomorphy are equal(or do not differ by more than one-half unit); and endomorphy is lower.",
+    },
+  ];
+  const Ectomorphy = [
+    {
+      image: "manu-tribesman",
+      bodyType: 'Mesomorphic ectomorph ',
+      TypeCode: "MEc",
+      linkToPage: "/Balanced-endomorph",
+      description: "Ectomorphy is dominant;and mesomorphy is greater than endomorphy."
+    },
+    {
+      image: "manu-tribesman",
+      bodyType: 'Balanced ectomorph',
+      TypeCode: "BEc",
+      linkToPage: "/Balanced-endomorph",
+      description: "Ectomorphy is dominant;endomorphy and mesomorphy are equal and lower(or do not differ by more than one-half unit).",
+    },
+    {
+      image: "manu-tribesman",
+      bodyType: 'Endomorphic ectomorph ',
+      TypeCode: "EnEc",
+      linkToPage: "/Balanced-endomorph",
+      description: "Ectomorphy is dominant;and endomorphy is greater than mesomorphy.",
+    },
+  ];
+  const Neutral = [
+    {
+      image: "manu-tribesman",
+      bodyType: 'Endomorph-ectomorph',
+      TypeCode: "En-Ec",
+      linkToPage: "/Balanced-endomorph",
+      description: "Endomorphy and ectomorphy are equal (or do not differ by more than one-half unit);and mesomorphy is lower."
+    },
+    {
+      image: "manu-tribesman",
+      bodyType: 'Ectomorphic endomorph',
+      TypeCode: "EcEn ",
+      linkToPage: "/Balanced-endomorph",
+      description: "Endomorphy is dominant;and ectomorphy is greater than mesomorphy.",
+    },
+    {
+      image: "manu-tribesman",
+      bodyType: 'Central',
+      TypeCode: "Central",
+      linkToPage: "/Balanced-endomorph",
+      description: "No component differ by more than one unit from the other two,and consists of ratings of 2,3 or 4.      ",
+    },
+  ];
+
   return (
     <Box>
       <CssBaseline />
@@ -55,9 +153,7 @@ const TypesPage = () => {
               width: "100%",
             }}
           >
-            <Typography
-              component="h1"
-              variant="h1"
+            <Typography component="h1" variant="h1"
               sx={{
                 color: "black",
                 textAlign: "center",
@@ -67,313 +163,142 @@ const TypesPage = () => {
             >
               Somatotypes Categories
             </Typography>
-            <Stack>
-              <Button
-                sx={{
-                  borderRadius: "30px",
-                  backgroundColor: "purple",
-                  padding: 2,
-                }}
-                variant="contained"
-              >
-                Find your types <ArrowForwardSharpIcon />
-              </Button>
-            </Stack>
+            <Button variant="contained"
+              sx={{
+                borderRadius: "30px",
+                backgroundColor: "purple",
+                padding: 2,
+              }}
+            >
+              Find your types <ArrowForwardSharpIcon />
+            </Button>
           </Box>
         </Grid>
       </Grid>
       <ThemeProvider theme={theme}>
         <Box sx={{ width: "100%", backgroundColor: "#e7dfea", }}>
-          <Typography
-            component="h2"
-            variant="h2"
-            sx={{ color: "white", textAlign: "center", }}
-          >
+          <Typography variant="h2" sx={{ color: "white", textAlign: "center" }}>
             Endomorph
           </Typography>
-          <Grid
-            container
-            spacing={2}
+          <Grid container spacing={2}
             direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
-            onClick={() => {
-              navigate("/Balanced-endomorph");
-            }}
           >
-            <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}>
-              <img
-                src={bodytype2}
-                alt="manu tribesman"
-                style={{ width: "100px", }}
-              />
-              <Typography variant="h1" sx={{ color: "#88619a", textAlign: 'center' }}>
-                Balanced endomorph
-                <Typography variant="body1" sx={{ color: "black", }}>
-                  BEn
+            {Endomorph.map((step, index) =>
+              <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}
+                onClick={() => {
+                  navigate(step.linkToPage);
+                }}>
+                <img
+                  src={require('../image/' + step.image + '.png')}
+                  alt="manu tribesman"
+                  style={{ width: "100px" }}
+                />
+                <Typography variant="h1" sx={{ color: "#88619a", textAlign: 'center' }}>
+                  {step.bodyType}
+                  <Typography variant="body1" sx={{ color: "black" }}>
+                    {step.TypeCode}
+                  </Typography>
+                  <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
+                    {step.description}
+                  </Typography>
                 </Typography>
-                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
-                  Endomorphy is dominant and mesomorphy and ectomorphy are
-                  equal(or do not differ by more than one half unit).
-                </Typography>
-              </Typography>
-            </Grid>
-            <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}>
-              <img
-                src={bodytype2}
-                alt="manu tribesman"
-                style={{ width: "100px" }}
-              />
-              <Typography variant="h1" sx={{ color: "#88619a", textAlign: 'center' }}>
-                Mesomorphic endomorph
-                <Typography variant="body1" sx={{ color: "black", }}>
-                  MEn
-                </Typography>
-                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
-                  Endomorphy is dominant and mesomorphy is greater than
-                  ectomorphy.
-                </Typography>
-              </Typography>
-            </Grid>
-            <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}>
-              <img
-                src={bodytype2}
-                alt="manu tribesman"
-                style={{ width: "100px" }}
-              />
-              <Typography variant="h1" sx={{ color: "#88619a", textAlign: 'center' }}>
-                Mesomorph-endomorph
-                <Typography variant="body1" sx={{ color: "black", }}>
-                  M-En
-                </Typography>
-                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
-                  Endomorphy and mesomorphy are equal(or do not differ by more
-                  than one half unit),and ectomorphy is smaller.
-                </Typography>
-              </Typography>
-            </Grid>
+              </Grid>
+            )}
           </Grid>
         </Box>
         {/* second grid */}
         <Box sx={{ width: "100%", backgroundColor: "#d6ece3" }}>
-          <Typography
-            variant="h2"
-            sx={{ color: "white", textAlign: "center", mb: 2 }}
-          >
+          <Typography variant="h2" sx={{ color: "white", textAlign: "center", mb: 2 }} >
             Mesomorph
           </Typography>
-          <Grid
-            container
-            spacing={2}
+          <Grid item container spacing={2}
             direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
-            onClick={() => {
-              navigate("/Balanced-endomorph");
-            }}
           >
-            <Grid item md={3} lg={3} xl={3} textAlign={"center"} >
-              <img
-                src={bodytype2}
-                alt="manu tribesman"
-                style={{ width: "100px" }}
-              />
-              <Typography variant="h1" sx={{ color: "#33a474", textAlign: "center" }}>
-                Endomorphic mesomorph
-                <Typography variant="body1" sx={{ color: "black" }}>
-                  EnM
+            {Mesomorph.map((step, index) =>
+              <Grid item md={3} lg={3} xl={3} textAlign={"center"}
+                onClick={() => {
+                  navigate(step.linkToPage);
+                }}>
+                <img
+                  src={require('../image/' + step.image + '.png')}
+                  alt="manu tribesman"
+                  style={{ width: "100px" }}
+                />
+                <Typography variant="h1" sx={{ color: "#33a474", textAlign: "center" }}>
+                  {step.bodyType}
+                  <Typography variant="body1" sx={{ color: "black" }}>
+                    {step.TypeCode}
+                  </Typography>
+                  <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
+                    {step.description}
+                  </Typography>
                 </Typography>
-                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
-                  Mesomorphy is dominant and endomorphy is greater than
-                  ectomorphy
-                </Typography>
-              </Typography>
-            </Grid>
-            <Grid item md={3} lg={3} xl={3} textAlign={'center'} >
-              <img
-                src={bodytype2}
-                alt="manu tribesman"
-                style={{ width: "100px" }}
-              />
-              <Typography variant="h1" sx={{ color: "#33a474", textAlign: "center", }}>
-                Balanced mesomorph
-                <Typography variant="body1" sx={{ color: "black", textAlign: 'center' }}>
-                  BM
-                </Typography>
-                <Typography variant="subtitle1" sx={{ color: "black", px: 5, }}>
-                  Mesomorphy is dominant, endomorph and ectomorphy are less and
-                  equal(or do not differ by more than one-half unit.)
-                </Typography>
-              </Typography>
-            </Grid>
-            <Grid item md={3} lg={3} xl={3} textAlign={'center'}>
-              <img
-                src={bodytype2}
-                alt="manu tribesman"
-                style={{ width: "100px" }}
-              />
-              <Typography variant="h1" sx={{ color: "#33a474", textAlign: "center" }}>
-                Ectomorphic mesomorph
-                <Typography variant="body1" sx={{ color: "black" }}>
-                  EcM
-                </Typography>
-                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
-                  Mesomorphy is dominant,and ectomorphy is greater than
-                  endomorphy.
-                </Typography>
-              </Typography>
-            </Grid>
-            <Grid item md={3} lg={3} xl={3} textAlign={"center"}>
-              <img
-                src={bodytype2}
-                alt="manu tribesman"
-                style={{ width: "100px" }}
-              />
-              <Typography variant="h1" sx={{ color: "#33a474", textAlign: "center" }}>
-                Mesomorph-ectomorph
-                <Typography variant="body1" sx={{ color: "black" }}>
-                  M-Ec
-                </Typography>
-                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
-                  Mesomorphy and ectomorphy are equal(or do not differ by more
-                  than one-half unit); and endomorphy is lower.
-                </Typography>
-              </Typography>
-            </Grid>
+              </Grid>
+            )}
           </Grid>
         </Box>
         {/* third grid */}
         <Box sx={{ width: "100%", backgroundColor: "#f9eed7" }}>
-          <Typography
-            variant="h2"
-            sx={{ color: "white", textAlign: "center", mb: 2 }}
-          >
+          <Typography variant="h2" sx={{ color: "white", textAlign: "center", mb: 2 }}>
             Ectomorphy
           </Typography>
-          <Grid
+          <Grid item
             container
             spacing={2}
             direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
-            onClick={() => {
-              navigate("/Balanced-endomorph");
-            }}
           >
-            <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}>
-              <img
-                src={bodytype2}
-                alt="manu tribesman"
-                style={{ width: "100px" }}
-              />
-              <Typography variant="h1" sx={{ color: "#e4ae3a", textAlign: "center" }}>
-                Mesomorphic ectomorph
-                <Typography variant="body1" sx={{ color: "black" }}>
-                  MEc
+            {Ectomorphy.map((step, index) =>
+              <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}
+                onClick={() => {
+                  navigate(step.linkToPage);
+                }}>
+                <img
+                  src={require('../image/' + step.image + '.png')}
+                  alt="manu tribesman"
+                  style={{ width: "100px" }}
+                />
+                <Typography variant="h1" sx={{ color: "#e4ae3a", textAlign: "center" }}>
+                  {step.bodyType}
+                  <Typography variant="body1" sx={{ color: "black" }}>
+                    {step.TypeCode}
+                  </Typography>
+                  <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
+                    {step.description}
+                  </Typography>
                 </Typography>
-                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
-                  Ectomorphy is dominant;and mesomorphy is greater than
-                  endomorphy.
-                </Typography>
-              </Typography>
-            </Grid>
-            <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}>
-              <img
-                src={bodytype2}
-                alt="manu tribesman"
-                style={{ width: "100px" }}
-              />
-              <Typography variant="h1" sx={{ color: "#e4ae3a", textAlign: "center" }}>
-                Balanced ectomorph
-                <Typography variant="body1" sx={{ color: "black" }}>
-                  BEc
-                </Typography>
-                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
-                  Ectomorphy is dominant;endomorphy and mesomorphy are equal and
-                  lower(or do not differ by more than one-half unit).
-                </Typography>
-              </Typography>
-            </Grid>
-            <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}>
-              <img
-                src={bodytype2}
-                alt="manu tribesman"
-                style={{ width: "100px" }}
-              />
-              <Typography variant="h1" sx={{ color: "#e4ae3a", textAlign: "center" }}>
-                Endomorphic ectomorph
-                <Typography variant="body1" sx={{ color: "black" }}>
-                  EnEc
-                </Typography>
-                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
-                  Ectomorphy is dominant;and endomorphy is greater than
-                  mesomorphy.
-                </Typography>
-              </Typography>
-            </Grid>
+              </Grid>
+            )}
           </Grid>
         </Box>
         {/* fourth grid */}
         <Box sx={{ width: "100%", backgroundColor: "#d9eaf0" }}>
-          <Typography
-            variant="h2"
-            sx={{ color: "white", textAlign: "center", mb: 2 }}
-          >
+          <Typography variant="h2" sx={{ color: "white", textAlign: "center", mb: 2 }} >
             Neutral
           </Typography>
-          <Grid
-            container
-            spacing={2}
+          <Grid item container spacing={2}
             direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
-            onClick={() => {
-              navigate("/Balanced-endomorph");
-            }}
           >
-            <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}>
-              <img
-                src={bodytype2}
-                alt="manu tribesman"
-                style={{ width: "100px" }}
-              />
-              <Typography variant="h1" sx={{ color: "#4298b4", textAlign: "center" }}>
-                Endomorph-ectomorph
-                <Typography variant="body1" sx={{ color: "black" }}>
-                  En-Ec
+            {Neutral.map((step, index) =>
+              <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}
+                onClick={() => {
+                  navigate(step.linkToPage);
+                }}>
+                <img
+                  src={require('../image/' + step.image + '.png')}
+                  alt="manu tribesman"
+                  style={{ width: "100px" }}
+                />
+                <Typography variant="h1" sx={{ color: "#4298b4", textAlign: "center" }}>
+                  {step.bodyType}
+                  <Typography variant="body1" sx={{ color: "black" }}>
+                    {step.TypeCode}
+                  </Typography>
+                  <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
+                    {step.description}
+                  </Typography>
                 </Typography>
-                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
-                  Endomorphy and ectomorphy are equal (or do not differ by more
-                  than one-half unit);and mesomorphy is lower.
-                </Typography>
-              </Typography>
-            </Grid>
-            <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}>
-              <img
-                src={bodytype2}
-                alt="manu tribesman"
-                style={{ width: "100px" }}
-              />
-              <Typography variant="h1" sx={{ color: "#4298b4", textAlign: 'center' }}>
-                Ectomorphic endomorph
-                <Typography variant="body1" sx={{ color: "black" }}>
-                  EcEn
-                </Typography>
-                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
-                  Endomorphy is dominant;and ectomorphy is greater than
-                  mesomorphy.
-                </Typography>
-              </Typography>
-            </Grid>
-            <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}>
-              <img
-                src={bodytype2}
-                alt="manu tribesman"
-                style={{ width: "100px" }}
-              />
-              <Typography variant="h1" sx={{ color: "#4298b4", textAlign: 'center' }}>
-                Central
-                <Typography variant="body1" sx={{ color: "black" }}>
-                  Central
-                </Typography>
-                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
-                  No component differ by more than one unit from the other
-                  two,and consists of ratings of 2,3 or 4.
-                </Typography>
-              </Typography>
-            </Grid>
+              </Grid>
+            )}
           </Grid>
         </Box>
         <CounterShare />
