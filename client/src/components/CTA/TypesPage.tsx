@@ -4,9 +4,9 @@ import { Grid, Box, Button, Typography } from "@mui/material/";
 import Stack from "@mui/material/Stack";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import bodytype1 from "../image/bodytype1.svg";
 import bodytype2 from "../image/manu-tribesman.png";
 import CounterShare from "./CounterShare";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 theme.typography.h1 = {
@@ -16,8 +16,19 @@ theme.typography.h1 = {
   [theme.breakpoints.up("md")]: {
     fontSize: "1.5rem",
   },
+
+};
+theme.typography.h2 = {
+  "@media (max-width:600px)": {
+    fontSize: "3rem",
+  },
+  [theme.breakpoints.up("md")]: {
+    fontSize: "5rem",
+  },
+
 };
 const TypesPage = () => {
+  const navigate = useNavigate();
   return (
     <Box>
       <CssBaseline />
@@ -72,11 +83,11 @@ const TypesPage = () => {
         </Grid>
       </Grid>
       <ThemeProvider theme={theme}>
-        <Box sx={{ width: "100%", backgroundColor: "#e7dfea" }}>
+        <Box sx={{ width: "100%", backgroundColor: "#e7dfea", }}>
           <Typography
-            component="h1"
-            variant="h1"
-            sx={{ color: "white", textAlign: "center", mb: 0.5 }}
+            component="h2"
+            variant="h2"
+            sx={{ color: "white", textAlign: "center", }}
           >
             Endomorph
           </Typography>
@@ -84,34 +95,56 @@ const TypesPage = () => {
             container
             spacing={2}
             direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
+            onClick={() => {
+              navigate("/Balanced-endomorph");
+            }}
           >
-            <Grid item md={4} lg={4} xl={4}>
-              <Box sx={{ textalign: "center" }}>
-                <img src={bodytype1} alt="" />
-              </Box>
-              <Typography variant="h1" sx={{ color: "#88619a" }}>
+            <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}>
+              <img
+                src={bodytype2}
+                alt="manu tribesman"
+                style={{ width: "100px", }}
+              />
+              <Typography variant="h1" sx={{ color: "#88619a", textAlign: 'center' }}>
                 Balanced endomorph
-                <Typography variant="subtitle1" sx={{ color: "black" }}>
+                <Typography variant="body1" sx={{ color: "black", }}>
+                  BEn
+                </Typography>
+                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
                   Endomorphy is dominant and mesomorphy and ectomorphy are
                   equal(or do not differ by more than one half unit).
                 </Typography>
               </Typography>
             </Grid>
-            <Grid item md={4} lg={4} xl={4}>
-              <Typography variant="h1" sx={{ color: "#88619a" }}>
-                <img src={bodytype1} alt="" />
+            <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}>
+              <img
+                src={bodytype2}
+                alt="manu tribesman"
+                style={{ width: "100px" }}
+              />
+              <Typography variant="h1" sx={{ color: "#88619a", textAlign: 'center' }}>
                 Mesomorphic endomorph
-                <Typography variant="subtitle1" sx={{ color: "black" }}>
+                <Typography variant="body1" sx={{ color: "black", }}>
+                  MEn
+                </Typography>
+                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
                   Endomorphy is dominant and mesomorphy is greater than
                   ectomorphy.
                 </Typography>
               </Typography>
             </Grid>
-            <Grid item md={4} lg={4} xl={4}>
-              <Typography variant="h1" sx={{ color: "#88619a" }}>
-                <img src={bodytype1} alt="" />
+            <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}>
+              <img
+                src={bodytype2}
+                alt="manu tribesman"
+                style={{ width: "100px" }}
+              />
+              <Typography variant="h1" sx={{ color: "#88619a", textAlign: 'center' }}>
                 Mesomorph-endomorph
-                <Typography variant="subtitle1" sx={{ color: "black" }}>
+                <Typography variant="body1" sx={{ color: "black", }}>
+                  M-En
+                </Typography>
+                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
                   Endomorphy and mesomorphy are equal(or do not differ by more
                   than one half unit),and ectomorphy is smaller.
                 </Typography>
@@ -122,8 +155,7 @@ const TypesPage = () => {
         {/* second grid */}
         <Box sx={{ width: "100%", backgroundColor: "#d6ece3" }}>
           <Typography
-            component="h1"
-            variant="h1"
+            variant="h2"
             sx={{ color: "white", textAlign: "center", mb: 2 }}
           >
             Mesomorph
@@ -132,46 +164,73 @@ const TypesPage = () => {
             container
             spacing={2}
             direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
+            onClick={() => {
+              navigate("/Balanced-endomorph");
+            }}
           >
-            <Grid item md={3} lg={3} xl={3}>
-              <Typography variant="h1" sx={{ color: "#33a474" }}>
-                <img src={bodytype1} alt="" />
+            <Grid item md={3} lg={3} xl={3} textAlign={"center"} >
+              <img
+                src={bodytype2}
+                alt="manu tribesman"
+                style={{ width: "100px" }}
+              />
+              <Typography variant="h1" sx={{ color: "#33a474", textAlign: "center" }}>
                 Endomorphic mesomorph
-                <Typography variant="subtitle1" sx={{ color: "black" }}>
+                <Typography variant="body1" sx={{ color: "black" }}>
+                  EnM
+                </Typography>
+                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
                   Mesomorphy is dominant and endomorphy is greater than
                   ectomorphy
                 </Typography>
               </Typography>
             </Grid>
-            <Grid item md={3} lg={3} xl={3}>
-              <Typography variant="h1" sx={{ color: "#33a474" }}>
-                <img
-                  src={bodytype2}
-                  alt="manu tribesman"
-                  style={{ width: "100px" }}
-                />
+            <Grid item md={3} lg={3} xl={3} textAlign={'center'} >
+              <img
+                src={bodytype2}
+                alt="manu tribesman"
+                style={{ width: "100px" }}
+              />
+              <Typography variant="h1" sx={{ color: "#33a474", textAlign: "center", }}>
                 Balanced mesomorph
-                <Typography variant="subtitle1" sx={{ color: "black" }}>
+                <Typography variant="body1" sx={{ color: "black", textAlign: 'center' }}>
+                  BM
+                </Typography>
+                <Typography variant="subtitle1" sx={{ color: "black", px: 5, }}>
                   Mesomorphy is dominant, endomorph and ectomorphy are less and
                   equal(or do not differ by more than one-half unit.)
                 </Typography>
               </Typography>
             </Grid>
-            <Grid item md={3} lg={3} xl={3}>
-              <Typography variant="h1" sx={{ color: "#33a474" }}>
-                <img src={bodytype1} alt="" />
+            <Grid item md={3} lg={3} xl={3} textAlign={'center'}>
+              <img
+                src={bodytype2}
+                alt="manu tribesman"
+                style={{ width: "100px" }}
+              />
+              <Typography variant="h1" sx={{ color: "#33a474", textAlign: "center" }}>
                 Ectomorphic mesomorph
-                <Typography variant="subtitle1" sx={{ color: "black" }}>
+                <Typography variant="body1" sx={{ color: "black" }}>
+                  EcM
+                </Typography>
+                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
                   Mesomorphy is dominant,and ectomorphy is greater than
                   endomorphy.
                 </Typography>
               </Typography>
             </Grid>
-            <Grid item md={3} lg={3} xl={3}>
-              <Typography variant="h1" sx={{ color: "#33a474" }}>
-                <img src={bodytype1} alt="" />
+            <Grid item md={3} lg={3} xl={3} textAlign={"center"}>
+              <img
+                src={bodytype2}
+                alt="manu tribesman"
+                style={{ width: "100px" }}
+              />
+              <Typography variant="h1" sx={{ color: "#33a474", textAlign: "center" }}>
                 Mesomorph-ectomorph
-                <Typography variant="subtitle1" sx={{ color: "black" }}>
+                <Typography variant="body1" sx={{ color: "black" }}>
+                  M-Ec
+                </Typography>
+                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
                   Mesomorphy and ectomorphy are equal(or do not differ by more
                   than one-half unit); and endomorphy is lower.
                 </Typography>
@@ -182,8 +241,7 @@ const TypesPage = () => {
         {/* third grid */}
         <Box sx={{ width: "100%", backgroundColor: "#f9eed7" }}>
           <Typography
-            component="h1"
-            variant="h1"
+            variant="h2"
             sx={{ color: "white", textAlign: "center", mb: 2 }}
           >
             Ectomorphy
@@ -192,42 +250,56 @@ const TypesPage = () => {
             container
             spacing={2}
             direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
+            onClick={() => {
+              navigate("/Balanced-endomorph");
+            }}
           >
-            <Grid item md={3} lg={3} xl={3}>
-              <Typography variant="h1" sx={{ color: "#e4ae3a" }}>
-                <img src={bodytype1} alt="" />
+            <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}>
+              <img
+                src={bodytype2}
+                alt="manu tribesman"
+                style={{ width: "100px" }}
+              />
+              <Typography variant="h1" sx={{ color: "#e4ae3a", textAlign: "center" }}>
                 Mesomorphic ectomorph
-                <Typography variant="subtitle1" sx={{ color: "black" }}>
+                <Typography variant="body1" sx={{ color: "black" }}>
+                  MEc
+                </Typography>
+                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
                   Ectomorphy is dominant;and mesomorphy is greater than
                   endomorphy.
                 </Typography>
               </Typography>
             </Grid>
-            <Grid item md={3} lg={3} xl={3}>
-              <Typography variant="h1" sx={{ color: "#e4ae3a" }}>
-                <img src={bodytype1} alt="" />
+            <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}>
+              <img
+                src={bodytype2}
+                alt="manu tribesman"
+                style={{ width: "100px" }}
+              />
+              <Typography variant="h1" sx={{ color: "#e4ae3a", textAlign: "center" }}>
                 Balanced ectomorph
-                <Typography variant="subtitle1" sx={{ color: "black" }}>
+                <Typography variant="body1" sx={{ color: "black" }}>
+                  BEc
+                </Typography>
+                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
                   Ectomorphy is dominant;endomorphy and mesomorphy are equal and
                   lower(or do not differ by more than one-half unit).
                 </Typography>
               </Typography>
             </Grid>
-            <Grid item md={3} lg={3} xl={3}>
-              <Typography variant="h1" sx={{ color: "#e4ae3a" }}>
-                <img src={bodytype1} alt="" />
+            <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}>
+              <img
+                src={bodytype2}
+                alt="manu tribesman"
+                style={{ width: "100px" }}
+              />
+              <Typography variant="h1" sx={{ color: "#e4ae3a", textAlign: "center" }}>
                 Endomorphic ectomorph
-                <Typography variant="subtitle1" sx={{ color: "black" }}>
-                  Ectomorphy is dominant;and endomorphy is greater than
-                  mesomorphy.
+                <Typography variant="body1" sx={{ color: "black" }}>
+                  EnEc
                 </Typography>
-              </Typography>
-            </Grid>
-            <Grid item md={3} lg={3} xl={3}>
-              <Typography variant="h1" sx={{ color: "#e4ae3a" }}>
-                <img src={bodytype1} alt="" />
-                Endomorphic ectomorph
-                <Typography variant="subtitle1" sx={{ color: "black" }}>
+                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
                   Ectomorphy is dominant;and endomorphy is greater than
                   mesomorphy.
                 </Typography>
@@ -238,8 +310,7 @@ const TypesPage = () => {
         {/* fourth grid */}
         <Box sx={{ width: "100%", backgroundColor: "#d9eaf0" }}>
           <Typography
-            component="h1"
-            variant="h1"
+            variant="h2"
             sx={{ color: "white", textAlign: "center", mb: 2 }}
           >
             Neutral
@@ -248,32 +319,56 @@ const TypesPage = () => {
             container
             spacing={2}
             direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
+            onClick={() => {
+              navigate("/Balanced-endomorph");
+            }}
           >
-            <Grid item md={4} lg={4} xl={4}>
-              <Typography variant="h1" sx={{ color: "#4298b4" }}>
-                <img src={bodytype1} alt="" />
+            <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}>
+              <img
+                src={bodytype2}
+                alt="manu tribesman"
+                style={{ width: "100px" }}
+              />
+              <Typography variant="h1" sx={{ color: "#4298b4", textAlign: "center" }}>
                 Endomorph-ectomorph
-                <Typography variant="subtitle1" sx={{ color: "black" }}>
+                <Typography variant="body1" sx={{ color: "black" }}>
+                  En-Ec
+                </Typography>
+                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
                   Endomorphy and ectomorphy are equal (or do not differ by more
                   than one-half unit);and mesomorphy is lower.
                 </Typography>
               </Typography>
             </Grid>
-            <Grid item md={4} lg={4} xl={4}>
-              <Typography variant="h1" sx={{ color: "#4298b4" }}>
-                <img src={bodytype1} alt="" />
+            <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}>
+              <img
+                src={bodytype2}
+                alt="manu tribesman"
+                style={{ width: "100px" }}
+              />
+              <Typography variant="h1" sx={{ color: "#4298b4", textAlign: 'center' }}>
                 Ectomorphic endomorph
-                <Typography variant="subtitle1" sx={{ color: "black" }}>
+                <Typography variant="body1" sx={{ color: "black" }}>
+                  EcEn
+                </Typography>
+                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
                   Endomorphy is dominant;and ectomorphy is greater than
                   mesomorphy.
                 </Typography>
               </Typography>
             </Grid>
-            <Grid item md={4} lg={4} xl={4}>
-              <Typography variant="h1" sx={{ color: "#4298b4" }}>
-                <img src={bodytype1} alt="" />
+            <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}>
+              <img
+                src={bodytype2}
+                alt="manu tribesman"
+                style={{ width: "100px" }}
+              />
+              <Typography variant="h1" sx={{ color: "#4298b4", textAlign: 'center' }}>
                 Central
-                <Typography variant="subtitle1" sx={{ color: "black" }}>
+                <Typography variant="body1" sx={{ color: "black" }}>
+                  Central
+                </Typography>
+                <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
                   No component differ by more than one unit from the other
                   two,and consists of ratings of 2,3 or 4.
                 </Typography>
