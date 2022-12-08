@@ -62,6 +62,7 @@ const ResponsiveAppBar = (props: any) => {
   };
 
   const handleLogout = () => {
+    props.setOpenAddModal(false);
     removeCookie("user", { path: "/", sameSite: "none", secure: true });
     props.setOpen(true);
     props.setSnackbarMessage("Logout successfully");
@@ -137,9 +138,6 @@ const ResponsiveAppBar = (props: any) => {
                 <MenuItem
                   key={index}
                   onClick={() => {
-                    if (page.path === "/Blog") {
-                      props.setOpenBlogArticleModal(false);
-                    }
                     handleCloseNavMenu();
                     navigate(page.path);
                     window.scrollTo(0, 0);

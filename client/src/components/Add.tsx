@@ -67,7 +67,7 @@ const Add: FC<IAdding> = (props: any) => {
           calf_girth: 38,
           bicep_girth: 38,
         }))
-      : setAnthropometric(props.anthropometrics[props.idRow]);
+      : setAnthropometric(props.anthropometrics.reverse()[props.idRow]);
   }, []);
 
   useEffect(() => {

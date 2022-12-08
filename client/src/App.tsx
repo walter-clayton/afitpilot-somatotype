@@ -55,9 +55,6 @@ function App() {
 
   const [data, setData] = useState<IData | undefined>(undefined);
 
-  const [openBlogArticleModal, setOpenBlogArticleModal] =
-    useState<boolean>(false);
-
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
 
   const handleClose = (event: any, reason: any) => {
@@ -73,7 +70,6 @@ function App() {
         setOpen={setOpen}
         setSnackbarMessage={setSnackbarMessage}
         setData={setData}
-        setOpenBlogArticleModal={setOpenBlogArticleModal}
         setOpenAddModal={setOpenAddModal}
       />
       <Routes>
