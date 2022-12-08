@@ -5,13 +5,9 @@ import {
   Grid,
   Box,
   Button,
-  Checkbox,
-  FormControlLabel,
-  Avatar,
   CircularProgress,
   Alert,
 } from "@mui/material/";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Typography, Container } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { InputAdornment, TextField } from "@mui/material/";
@@ -190,11 +186,25 @@ export default function Login(props: any) {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Login
+          <Typography component="h1" variant="h4" mb={1.5}>
+            Log In
+          </Typography>
+          <Typography variant="subtitle1">
+            Not a member yet? Create a free profile by taking our
+            <Link onClick={() => {
+              navigate("/test");
+              window.scrollTo(0, 0);
+            }}
+              sx={{ textDecoration: 'none', cursor: 'pointer' }} variant="subtitle1"> personality test {" "}
+            </Link>
+            or {" "}
+            <Link onClick={() => {
+              navigate("/Signup");
+              window.scrollTo(0, 0);
+            }}
+              sx={{ textDecoration: 'none', cursor: 'pointer' }} variant="subtitle1">
+              entering your results yourself
+            </Link>.
           </Typography>
           {props.data && (
             <Alert severity="error" sx={{ margin: "20px 0" }}>
@@ -214,7 +224,7 @@ export default function Login(props: any) {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label=" Email Address"
               name="email"
               autoComplete="email"
               autoFocus
@@ -299,11 +309,6 @@ export default function Login(props: any) {
                 </Typography>
               </>
             ) : null}
-
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
@@ -321,21 +326,9 @@ export default function Login(props: any) {
               message={snackbarMessage}
             />
             <Grid container>
-              <Grid item xs>
-                <Link href="/Forget" variant="body2">
+              <Grid item xs textAlign={"center"}>
+                <Link href="/Forget" sx={{ textAlign: "Center", textDecoration: "none" }} variant="subtitle1">
                   Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link
-                  onClick={() => {
-                    navigate("/Signup");
-                    window.scrollTo(0, 0);
-                  }}
-                  sx={{ cursor: "pointer" }}
-                  variant="body2"
-                >
-                  {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>
