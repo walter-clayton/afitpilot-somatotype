@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Grid, Box, Button, Avatar } from "@mui/material/";
+import { Grid, Box, Button, Link } from "@mui/material/";
 import { Typography, Container } from "@mui/material/";
 import { TextField } from "@mui/material/";
 import Snackbar from "@mui/material/Snackbar";
-import KeyIcon from "@mui/icons-material/Key";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Forget() {
   /**
@@ -27,6 +27,7 @@ export default function Forget() {
   const [hasChanges, setHasChanges] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
+  const navigate = useNavigate();
 
   const handleClose = (event: any, reason: any) => {
     if (reason === "clickaway") {
@@ -101,13 +102,11 @@ export default function Forget() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <KeyIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Forget password{" "}
+          <Typography component="h1" variant="h4" mb={2}>
+            Forgot Password?{" "}
           </Typography>
-          <Typography variant="subtitle2">Enter your email address</Typography>
+          <Typography variant="subtitle1" mb={1}>Enter your e-mail address to receive a reset link.
+          </Typography>
           <Box
             component="form"
             onSubmit={validateSubmit}
@@ -153,7 +152,15 @@ export default function Forget() {
               message={snackbarMessage}
             />
             <Grid container>
-              <Grid item></Grid>
+              <Grid item xs textAlign={"center"}>
+                <Link onClick={() => {
+                  navigate("/Login");
+                  window.scrollTo(0, 0);
+                }}
+                  sx={{ textAlign: "Center", textDecoration: "none", cursor: 'pointer' }} variant="subtitle1">
+                  Back to Log In
+                </Link>
+              </Grid>
             </Grid>
           </Box>
         </Box>
