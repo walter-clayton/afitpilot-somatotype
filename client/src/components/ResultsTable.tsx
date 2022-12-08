@@ -19,6 +19,7 @@ import {
   IconButton,
   Modal,
   Popper,
+  TablePagination,
   Typography,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -112,7 +113,18 @@ const ResultsTable: FC<resultProps> = (props: any) => {
     ISomatotype[]
   >([]);
 
-  const [updating, setUpdating] = React.useState<boolean>(false);
+  const [updating, setUpdating] = useState<boolean>(false);
+
+  const [page, setPage] = useState(0);
+  const rowsPerPage: number = 5;
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    CheckForDisplayedRows(rows);
+    setPage(newPage);
+  };
 
   const deleteSomatotype = async (id: string) => {
     const headers = {
@@ -266,14 +278,9 @@ const ResultsTable: FC<resultProps> = (props: any) => {
     row: any
   ) => {
     row.IsDisplayed = !row.IsDisplayed;
-    CheckForDisplayedRows(rows);
 
-    const rowParent = event.target.parentElement?.parentElement?.parentElement;
-    if (row.IsDisplayed) {
-      rowParent!.style.backgroundColor = "lightgrey";
-    } else {
-      rowParent!.style.backgroundColor = "white";
-    }
+    UpdateTableContent();
+    CheckForDisplayedRows(rows);
   };
 
   const [openEditModal, setOpenEditModal] = React.useState(false);
@@ -310,149 +317,171 @@ const ResultsTable: FC<resultProps> = (props: any) => {
   let tableHeadContent = null;
   let tableBodyContent = null;
 
-  if (props.showHistory) {
-    tableHeadContent = (
-      <TableRow hover={true}>
-        <TableCell align="center" sx={cellStyle}>
-          Show
-        </TableCell>
-        <TableCell align="center" sx={cellStyle}>
-          Date
-        </TableCell>
-        <TableCell align="center" sx={cellStyle}>
-          {endoColumnTitle}
-        </TableCell>
-        <TableCell align="center" sx={cellStyle}>
-          {mesoColumnTitle}
-        </TableCell>
-        <TableCell align="center" sx={cellStyle}>
-          {ectoColumnTitle}
-        </TableCell>
-        <TableCell align="center" sx={cellStyle}>
-          Options
-        </TableCell>
-      </TableRow>
-    );
+  useEffect(() => {
+    UpdateTableContent();
+  }, []);
 
-    if (updating || props.isFetching) {
-      tableBodyContent = (
-        <TableRow hover={true} key={"fetching"}>
-          <TableCell align="center" sx={cellStyle} colSpan={6}>
-            <CircularProgress size={25} />
+  const UpdateTableContent = () => {
+    if (props.showHistory) {
+      tableHeadContent = (
+        <TableRow>
+          <TableCell align="center" sx={cellStyle}>
+            Show
+          </TableCell>
+          <TableCell align="center" sx={cellStyle}>
+            Date
+          </TableCell>
+          <TableCell align="center" sx={cellStyle}>
+            {endoColumnTitle}
+          </TableCell>
+          <TableCell align="center" sx={cellStyle}>
+            {mesoColumnTitle}
+          </TableCell>
+          <TableCell align="center" sx={cellStyle}>
+            {ectoColumnTitle}
+          </TableCell>
+          <TableCell align="center" sx={cellStyle}>
+            Options
           </TableCell>
         </TableRow>
       );
-    } else {
-      tableBodyContent = rows.map((row, index) => (
-        <TableRow
-          hover={true}
-          key={index}
-          sx={{ backgroundColor: row.IsDisplayed ? "lightgrey" : "white" }}
-        >
-          <TableCell align="center" sx={cellStyle}>
-            <Checkbox
-              onChange={(e) => {
-                handleCheckBoxChange(e, row);
-              }}
-              aria-label="Somatotype selection checkbox"
-              checked={row.IsDisplayed}
-              icon={<VisibilityOffIcon sx={{ color: "#aaaaaa" }} />}
-              checkedIcon={<VisibilityIcon sx={{ color: "#aaaaaa" }} />}
-            />
-          </TableCell>
-          <TableCell align="center" sx={cellStyle}>
-            {row.Date}
-          </TableCell>
-          <TableCell align="center" sx={cellStyle}>
-            {row.Endomorphy}
-          </TableCell>
-          <TableCell align="center" sx={cellStyle}>
-            {row.Mesomorphy}
-          </TableCell>
-          <TableCell align="center" sx={cellStyle}>
-            {row.Ectomorphy}
-          </TableCell>
-          <TableCell align="center" sx={cellStyle}>
-            <Grid
-              container
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignContent: "center",
-              }}
+
+      if (updating || props.isFetching) {
+        tableBodyContent = (
+          <TableRow key={"fetching"}>
+            <TableCell align="center" sx={cellStyle} colSpan={6}>
+              <CircularProgress size={25} />
+            </TableCell>
+          </TableRow>
+        );
+      } else {
+        tableBodyContent = rows
+          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+          .map((row, index) => (
+            <TableRow
+              key={index}
+              sx={{ backgroundColor: row.IsDisplayed ? "lightgrey" : "white" }}
             >
-              <div
-                id="EditIconButtonWrapper"
-                onClick={() => {
-                  props.setIdSomatotype(row.Id);
-                  props.setIdRow(index);
-                  handleEditResultsClick();
-                }}
-              >
-                <IconButton
-                  aria-label="edit"
+              <TableCell align="center" sx={cellStyle}>
+                <Checkbox
+                  onChange={(e) => {
+                    handleCheckBoxChange(e, row);
+                  }}
+                  aria-label="Somatotype selection checkbox"
+                  checked={row.IsDisplayed}
+                  icon={<VisibilityOffIcon sx={{ color: "#aaaaaa" }} />}
+                  checkedIcon={<VisibilityIcon sx={{ color: "#aaaaaa" }} />}
+                />
+              </TableCell>
+              <TableCell align="center" sx={cellStyle}>
+                {row.Date}
+              </TableCell>
+              <TableCell align="center" sx={cellStyle}>
+                {row.Endomorphy}
+              </TableCell>
+              <TableCell align="center" sx={cellStyle}>
+                {row.Mesomorphy}
+              </TableCell>
+              <TableCell align="center" sx={cellStyle}>
+                {row.Ectomorphy}
+              </TableCell>
+              <TableCell align="center" sx={cellStyle}>
+                <Grid
+                  container
                   sx={{
-                    color: "#aaaaaa",
-                    padding: "0",
-                    "&:hover": { color: "black" },
+                    display: "flex",
+                    justifyContent: "center",
+                    alignContent: "center",
                   }}
                 >
-                  <EditIcon sx={{ fontSize: 28 }} />
-                </IconButton>
-              </div>
-              <div
-                id="DeleteIconButtonWrapper"
-                onClick={() => {
-                  props.setIdSomatotype(row.Id);
-                  props.setIdRow(index);
-                  handleDeleteResultsClick();
-                }}
-              >
-                <IconButton
-                  aria-label="delete"
-                  sx={{
-                    color: "#aaaaaa",
-                    padding: "0",
-                    "&:hover": { color: "black" },
-                  }}
-                >
-                  <DeleteIcon sx={{ fontSize: 28 }} />
-                </IconButton>
-              </div>
-            </Grid>
+                  <div
+                    id="EditIconButtonWrapper"
+                    onClick={() => {
+                      props.setIdSomatotype(row.Id);
+                      props.setIdRow(index);
+                      handleEditResultsClick();
+                    }}
+                  >
+                    <IconButton
+                      aria-label="edit"
+                      sx={{
+                        color: "#aaaaaa",
+                        padding: "0",
+                        "&:hover": { color: "black" },
+                      }}
+                    >
+                      <EditIcon sx={{ fontSize: 28 }} />
+                    </IconButton>
+                  </div>
+                  <div
+                    id="DeleteIconButtonWrapper"
+                    onClick={() => {
+                      props.setIdSomatotype(row.Id);
+                      props.setIdRow(index);
+                      handleDeleteResultsClick();
+                    }}
+                  >
+                    <IconButton
+                      aria-label="delete"
+                      sx={{
+                        color: "#aaaaaa",
+                        padding: "0",
+                        "&:hover": { color: "black" },
+                      }}
+                    >
+                      <DeleteIcon sx={{ fontSize: 28 }} />
+                    </IconButton>
+                  </div>
+                </Grid>
+              </TableCell>
+            </TableRow>
+          ));
+        tableBodyContent.push(
+          <TableRow key={"pagination"}>
+            <TableCell align="center" colSpan={12}>
+              <TablePagination
+                component="div"
+                count={rows.length}
+                page={page}
+                onPageChange={handleChangePage}
+                rowsPerPage={5}
+                rowsPerPageOptions={[]}
+              />
+            </TableCell>
+          </TableRow>
+        );
+      }
+    } else {
+      tableHeadContent = (
+        <TableRow>
+          <TableCell align="center" sx={cellStyle}>
+            {endoColumnTitle}
+          </TableCell>
+          <TableCell align="center" sx={cellStyle}>
+            {mesoColumnTitle}
+          </TableCell>
+          <TableCell align="center" sx={cellStyle}>
+            {ectoColumnTitle}
+          </TableCell>
+        </TableRow>
+      );
+
+      tableBodyContent = rows.map((row, index) => (
+        <TableRow key={index}>
+          <TableCell align="center" sx={cellStyle}>
+            {Math.abs(row.Endomorphy)}
+          </TableCell>
+          <TableCell align="center" sx={cellStyle}>
+            {Math.abs(row.Mesomorphy)}
+          </TableCell>
+          <TableCell align="center" sx={cellStyle}>
+            {Math.abs(row.Ectomorphy)}
           </TableCell>
         </TableRow>
       ));
     }
-  } else {
-    tableHeadContent = (
-      <TableRow hover={true}>
-        <TableCell align="center" sx={cellStyle}>
-          {endoColumnTitle}
-        </TableCell>
-        <TableCell align="center" sx={cellStyle}>
-          {mesoColumnTitle}
-        </TableCell>
-        <TableCell align="center" sx={cellStyle}>
-          {ectoColumnTitle}
-        </TableCell>
-      </TableRow>
-    );
-
-    tableBodyContent = rows.map((row, index) => (
-      <TableRow hover={true} key={index}>
-        <TableCell align="center" sx={cellStyle}>
-          {Math.abs(row.Endomorphy)}
-        </TableCell>
-        <TableCell align="center" sx={cellStyle}>
-          {Math.abs(row.Mesomorphy)}
-        </TableCell>
-        <TableCell align="center" sx={cellStyle}>
-          {Math.abs(row.Ectomorphy)}
-        </TableCell>
-      </TableRow>
-    ));
-  }
+    return [tableHeadContent, tableBodyContent];
+  };
 
   return (
     <>
@@ -468,9 +497,9 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                 RESULTS
               </TableCell>
             </TableRow>
-            {tableHeadContent}
+            {UpdateTableContent()[0]}
           </TableHead>
-          <TableBody>{tableBodyContent}</TableBody>
+          <TableBody>{UpdateTableContent()[1]}</TableBody>
         </Table>
         <Modal
           open={openEditModal}

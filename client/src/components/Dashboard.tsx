@@ -9,7 +9,7 @@ import SomatotypeGraph from "./SomatotypeGraph";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import Add from "./Add";
-import CounterShare from './CTA/CounterShare'
+import CounterShare from "./CTA/CounterShare";
 
 const theme = createTheme();
 
