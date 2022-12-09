@@ -1,7 +1,17 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { IAnthropometric, IData, ISomatotype } from "../App";
-import { Alert, Box, Button, CssBaseline, Grid, Snackbar } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Collapse,
+  CssBaseline,
+  Fade,
+  Grid,
+  Snackbar,
+  Stack,
+} from "@mui/material";
 import AnthropometricForm from "./AnthropometricForm";
 import { AddPoint, calculateSomatotype, IPoints } from "./Calculation";
 import ResultsTable from "./ResultsTable";
@@ -365,6 +375,7 @@ const TestPage: FC<ITesting> = (props) => {
   const [exceeded, setExceeded] = useState(false);
   const [notStandard, setNotStandard] = useState(false);
   const [msgErr, setMsgErr] = useState<String>("");
+  const [manually, setManually] = useState<boolean>(false);
   const [toggleGraph, setToggleGraph] = useState(false);
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -538,87 +549,153 @@ const TestPage: FC<ITesting> = (props) => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <HeaderTestpage />
-      <Grid
-        ref={gridRef}
-        container
+      <Button
         sx={{
+          borderRadius: "40px",
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "0px 15px",
+          margin: "0 auto",
+          backgroundColor: "RGB(51, 164, 116)",
+          padding: "20px 50px",
+          fontWeight: 600,
+          fontSize: "16px",
+          lineHeight: "30px",
+          "&:hover": { bgcolor: "#28835c" },
         }}
-        width={"100%"}
+        variant="contained"
+        onClick={() => {
+          setManually((m) => !m);
+        }}
       >
-        {/* Form Inputs */}
-        <Grid
-          item
+        Enter details manually
+        <ArrowForwardSharpIcon
           sx={{
-            flexGrow: 1,
+            marginLeft: "10px",
+            fontSize: "25px",
+            transition: "all .3s ease-out",
+            transform: manually ? "rotate(90deg)" : "rotate(0)",
+          }}
+        />
+      </Button>
+      <Collapse in={manually} collapsedSize={0} easing={{ enter: "5" }}>
+        <Grid
+          ref={gridRef}
+          container
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
             alignItems: "center",
-            margin: "20px 0",
+            padding: "0px 15px",
+            overflow: "hidden",
           }}
           width={"100%"}
-          xs={12}
-          md={8}
-          lg={6}
         >
-          {props.resultsSaved && (
-            <Alert
-              onClose={() => {
-                props.setResultsSaved(false);
-              }}
-              severity="success"
-              sx={{ margin: "50px auto" }}
-            >
-              Results saved successfully
-            </Alert>
-          )}
-          {(exceeded || notStandard) && (
-            <Alert
-              onClose={() => {
-                exceeded && setExceeded(false);
-                notStandard && setNotStandard(false);
-              }}
-              severity="error"
-              sx={{ margin: "50px auto" }}
-            >
-              {msgErr}
-            </Alert>
-          )}
-          <AnthropometricForm
-            anthropometric={anthropometric}
-            setAnthropometric={setAnthropometric}
-          />
-        </Grid>
-        {/* button */}
-        <Grid
-          item
-          sx={{
-            flexGrow: 1,
-            alignItems: "center",
-            margin: "20px auto",
-          }}
-          xs={12}
-          md={8}
-          lg={6}
-        >
-          <Box>
-            <Button variant="contained" type="submit" onClick={handleSubmit}
-              sx={{
-                textalign: "center", fontSize: "20px", lineHeight: 1.67, padding: '14px 40px', fontWeight: 600, textAlign: 'center', backgroundColor: "purple", borderRadius: "40px", textTransform: 'initial', "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
-              }}
-            >
-              See Results <ArrowForwardSharpIcon />
-            </Button>
-          </Box>
-        </Grid>
-        {/* Results Table */}
-        {showResults ? (
+          {/* Form Inputs */}
           <Grid
             item
             sx={{
               flexGrow: 1,
+              alignItems: "center",
+              margin: "20px 0",
+            }}
+            width={"100%"}
+            xs={12}
+            md={8}
+            lg={6}
+          >
+            {props.resultsSaved && (
+              <Alert
+                onClose={() => {
+                  props.setResultsSaved(false);
+                }}
+                severity="success"
+                sx={{ margin: "50px auto" }}
+              >
+                Results saved successfully
+              </Alert>
+            )}
+            {(exceeded || notStandard) && (
+              <Alert
+                onClose={() => {
+                  exceeded && setExceeded(false);
+                  notStandard && setNotStandard(false);
+                }}
+                severity="error"
+                sx={{ margin: "50px auto" }}
+              >
+                {msgErr}
+              </Alert>
+            )}
+            <AnthropometricForm
+              anthropometric={anthropometric}
+              setAnthropometric={setAnthropometric}
+            />
+          </Grid>
+          {/* button */}
+          <Grid
+            item
+            sx={{
+              flexGrow: 1,
+              alignItems: "center",
+              margin: "20px auto",
+            }}
+            xs={12}
+            md={8}
+            lg={6}
+          >
+            <Box>
+              <Button
+                variant="contained"
+                type="submit"
+                onClick={handleSubmit}
+                sx={{
+                  textalign: "center",
+                  fontSize: "20px",
+                  lineHeight: 1.67,
+                  padding: "14px 40px",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  backgroundColor: "purple",
+                  borderRadius: "40px",
+                  textTransform: "initial",
+                  "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
+                }}
+              >
+                See Results <ArrowForwardSharpIcon />
+              </Button>
+            </Box>
+          </Grid>
+          {/* Results Table */}
+          {showResults ? (
+            <Grid
+              item
+              sx={{
+                flexGrow: 1,
+                alignItems: "center",
+                margin: "20px 0",
+              }}
+              xs={12}
+              md={8}
+              lg={6}
+              width={"100%"}
+            >
+              <ResultsTable
+                showHistory={false}
+                multipleResults={false}
+                singleSomatotype={somatotype}
+                setPointsArray={setPointsArray}
+                toggleGraph={toggleGraph}
+                setToggleGraph={setToggleGraph}
+              />
+            </Grid>
+          ) : null}
+
+          <Grid
+            item
+            sx={{
+              flexGrow: 1,
+              display: "flex",
+              justifyContent: "center",
               alignItems: "center",
               margin: "20px 0",
             }}
@@ -627,59 +704,36 @@ const TestPage: FC<ITesting> = (props) => {
             lg={6}
             width={"100%"}
           >
-            <ResultsTable
-              showHistory={false}
-              multipleResults={false}
-              singleSomatotype={somatotype}
-              setPointsArray={setPointsArray}
-              toggleGraph={toggleGraph}
-              setToggleGraph={setToggleGraph}
-            />
+            {showResults && (
+              <SomatotypeGraph
+                updateGraph={toggleGraph}
+                pointsArray={pointsArray}
+              />
+            )}
           </Grid>
-        ) : null}
 
-        <Grid
-          item
-          sx={{
-            flexGrow: 1,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            margin: "20px 0",
-          }}
-          xs={12}
-          md={8}
-          lg={6}
-          width={"100%"}
-        >
-          {showResults && (
-            <SomatotypeGraph
-              updateGraph={toggleGraph}
-              pointsArray={pointsArray}
-            />
-          )}
-        </Grid>
-
-        {showResults ? (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-            }}
-          >
-            <Button
-              sx={{ margin: "10px auto", maxWidth: "sm" }}
-              variant="contained"
-              onClick={() => {
-                handleSaveDatasClick();
+          {showResults ? (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
               }}
             >
-              Save Your Results
-            </Button>
-          </Box>
-        ) : null}
-      </Grid>
+              <Button
+                sx={{ margin: "10px auto", maxWidth: "sm" }}
+                variant="contained"
+                onClick={() => {
+                  handleSaveDatasClick();
+                }}
+              >
+                Save Your Results
+              </Button>
+            </Box>
+          ) : null}
+        </Grid>
+      </Collapse>
+
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={snackBarState.open}
