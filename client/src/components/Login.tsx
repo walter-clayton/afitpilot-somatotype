@@ -311,13 +311,15 @@ export default function Login(props: any) {
             ) : null}
             <Button
               type="submit"
-              fullWidth
               variant="contained"
               onClick={handleClick}
-              sx={{ mt: 3, mb: 2 }}
+              sx={{
+                backgroundColor: 'purple', borderRadius: "40px", minWidth: "240px", margin: "0px 80px", mt: 3,
+                fontSize: '18px', padding: "14px 40px", fontWeight: 600, textTransform: 'initial', lineHeight: "30px", textAlign: 'center', "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
+              }}
               disabled={fetching}
             >
-              {fetching ? <CircularProgress size={25} /> : "Sign In"}
+              {fetching ? <CircularProgress size={25} /> : "Log In"}
             </Button>
             <Snackbar
               open={open}
@@ -326,7 +328,7 @@ export default function Login(props: any) {
               message={snackbarMessage}
             />
             <Grid container>
-              <Grid item xs textAlign={"center"}>
+              <Grid item xs textAlign={"center"} mt={3}>
                 <Link href="/Forget" sx={{ textAlign: "Center", textDecoration: "none" }} variant="subtitle1">
                   Forgot password?
                 </Link>

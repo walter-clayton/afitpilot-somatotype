@@ -6,8 +6,10 @@ import {
   Box,
   Button,
   CircularProgress,
+  Collapse,
   Grid,
   Typography,
+  Stack,
 } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import FilledInput from "@mui/material/FilledInput";
@@ -24,6 +26,9 @@ import AnthropometricForm from "./AnthropometricForm";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { somatotypesStandard } from "./TestPage";
+import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+
 const theme = createTheme();
 
 interface IAdding {
@@ -40,6 +45,7 @@ const AddPage: FC<IAdding> = (props: any) => {
   const [exceeded, setExceeded] = useState(false);
   const [notStandard, setNotStandard] = useState(false);
   const [msgErr, setMsgErr] = useState<String>("");
+  const [manually, setManually] = useState<boolean>(false);
   const gridRef = useRef<HTMLDivElement>(null);
   const [somatotype, setSomatotype] = useState<ISomatotype | undefined>(
     undefined
@@ -247,6 +253,33 @@ const AddPage: FC<IAdding> = (props: any) => {
       <Typography variant="h3" gutterBottom m={3} textAlign="center">
         {props.isAdding ? "Add new somatotype" : "Edit somatotype"}
       </Typography>
+      <Button
+        sx={{
+          borderRadius: "40px",
+          display: "flex",
+          margin: "0 auto",
+          backgroundColor: "RGB(51, 164, 116)",
+          padding: "20px 50px",
+          fontWeight: 600,
+          fontSize: "16px",
+          lineHeight: "30px",
+          "&:hover": { bgcolor: "#28835c" },
+        }}
+        variant="contained"
+        onClick={() => {
+          setManually((m) => !m);
+        }}
+      >
+        Enter details manually
+        <ArrowForwardIosIcon
+          sx={{
+            marginLeft: "10px",
+            fontSize: "25px",
+            transition: "all .3s ease-out",
+            transform: manually ? "rotate(90deg)" : "rotate(0)",
+          }}
+        />
+      </Button>
 
       <Grid
         ref={gridRef}
@@ -257,39 +290,55 @@ const AddPage: FC<IAdding> = (props: any) => {
           justifyContent: "center",
           alignItems: "center",
           padding: "0px 15px",
+          overflow: "hidden",
         }}
         width={"100%"}
       >
         {/* Form Inputs */}
-        <Grid
-          item
-          sx={{
-            flexGrow: 1,
-            alignItems: "center",
-            margin: "20px auto",
-          }}
-          xs={12}
-          md={8}
-          lg={6}
-        >
-          {exceeded && (
-            <Alert
-              onClose={() => {
-                setExceeded(false);
-              }}
-              severity="error"
-              sx={{ margin: "50px auto" }}
-            >
-              Error values: somatotype exceeded
-            </Alert>
-          )}
-          <AnthropometricForm
-            anthropometric={anthropometric}
-            setAnthropometric={setAnthropometric}
-            setAnthropometricFormHasError={setAnthropometricHasError}
-            isFetching={fetching}
-          />
-        </Grid>
+        <Collapse in={manually} collapsedSize={0} easing={{ enter: "5" }}>
+          <Grid
+            item
+            sx={{
+              flexGrow: 1,
+              alignItems: "center",
+              margin: "20px auto",
+            }}
+            width={"100%"}
+            xs={12}
+            md={8}
+            lg={6}
+          >
+            {props.resultsSaved && (
+              <Alert
+                onClose={() => {
+                  props.setResultsSaved(false);
+                }}
+                severity="success"
+                sx={{ margin: "50px auto" }}
+              >
+                Results saved successfully
+              </Alert>
+            )}
+            {(exceeded || notStandard) && (
+              <Alert
+                onClose={() => {
+                  exceeded && setExceeded(false);
+                  notStandard && setNotStandard(false);
+                }}
+                severity="error"
+                sx={{ margin: "50px auto" }}
+              >
+                {msgErr}
+              </Alert>
+            )}
+            <AnthropometricForm
+              anthropometric={anthropometric}
+              setAnthropometric={setAnthropometric}
+              setAnthropometricFormHasError={setAnthropometricHasError}
+              isFetching={fetching}
+            />
+          </Grid>
+        </Collapse>
         {/* button */}
         <Grid
           item
@@ -322,9 +371,20 @@ const AddPage: FC<IAdding> = (props: any) => {
               variant="contained"
               type="submit"
               onClick={handleSubmit}
-              disabled={anthropometricHasError}
+              sx={{
+                textalign: "center",
+                fontSize: "20px",
+                lineHeight: 1.67,
+                padding: "14px 40px",
+                fontWeight: 600,
+                textAlign: "center",
+                backgroundColor: "purple",
+                borderRadius: "40px",
+                textTransform: "initial",
+                "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
+              }}
             >
-              Submit
+              See Results <ArrowForwardSharpIcon />
             </Button>
           </Box>
         </Grid>
@@ -353,7 +413,6 @@ const AddPage: FC<IAdding> = (props: any) => {
           </Grid>
         ) : null}
 
-        {/* Graph */}
         <Grid
           item
           sx={{
@@ -380,19 +439,18 @@ const AddPage: FC<IAdding> = (props: any) => {
           <Box
             sx={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: "column",
               justifyContent: "center",
             }}
           >
             <Button
-              sx={{ margin: "10px auto", padding: "5px 25px", maxWidth: "sm" }}
+              sx={{ margin: "10px auto", maxWidth: "sm" }}
               variant="contained"
               onClick={() => {
                 handleSaveDatasClick();
               }}
-              disabled={fetching}
             >
-              {fetching ? <CircularProgress size={25} /> : "SAVE"}
+              Save Your Results
             </Button>
           </Box>
         ) : null}
