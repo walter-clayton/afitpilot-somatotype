@@ -56,7 +56,10 @@ const Add: FC<IAdding> = (props: any) => {
 
   const [pointsArray, setPointsArray] = useState<IPoints[]>([]);
 
-  const [fetching, setFetching] = React.useState<boolean>(false);
+  const [fetching, setFetching] = useState<boolean>(false);
+
+  const [anthropometricHasError, setAnthropometricHasError] =
+    useState<boolean>(false);
 
   useEffect(() => {
     props.isAdding
@@ -176,9 +179,6 @@ const Add: FC<IAdding> = (props: any) => {
     if (isExceeded(somatotypeResults)) {
       setExceeded(true);
       setMsgErr("Error values: somatotype exceeded");
-    } else if (!isStandard(somatotypeResults)) {
-      setNotStandard(true);
-      setMsgErr("Error values: somatotype is not standard");
     } else {
       setShowResults(true);
       setToggleGraph(!toggleGraph);
@@ -245,6 +245,7 @@ const Add: FC<IAdding> = (props: any) => {
           <AnthropometricForm
             anthropometric={anthropometric}
             setAnthropometric={setAnthropometric}
+            setAnthropometricFormHasError={setAnthropometricHasError}
           />
         </Grid>
         {/* button */}
