@@ -673,13 +673,15 @@ const TestPage: FC<ITesting> = (props) => {
             }}
           >
             <Button
-              sx={{ margin: "10px auto", maxWidth: "sm" }}
+              sx={{
+                maxWidth: "sm", borderRadius: "40px", fontSize: "20px", backgroundColor: 'purple', fontWeight: 600, lineHeight: "40px", textAlign: "center", padding: '14px 40px', textTransform: 'initial', "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
+              }}
               variant="contained"
               onClick={() => {
                 handleSaveDatasClick();
               }}
             >
-              Save Your Results
+              Save your Results
             </Button>
           </Box>
         ) : null}

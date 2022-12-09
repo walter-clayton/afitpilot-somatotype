@@ -135,16 +135,18 @@ export default function Forget() {
                 • Please enter a valid email !
               </Typography>
             ) : null}
-
-            <Button
-              type="submit"
-              fullWidth
-              disabled={fetching}
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Send email
-            </Button>
+            <Box mt={"20px"}>
+              <Button
+                type="submit"
+                disabled={fetching}
+                variant="contained"
+                sx={{
+                  backgroundColor: 'purple', padding: "14px 30px", fontWeight: 600, textAlign: "center", lineHeight: '30px', fontSize: "18px", borderRadius: "40px", textTransform: 'initial', margin: "0px 80px", minWidth: '240px', "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
+                }}
+              >
+                Send email
+              </Button>
+            </Box>
             <Snackbar
               open={open}
               autoHideDuration={6000}
@@ -152,12 +154,12 @@ export default function Forget() {
               message={snackbarMessage}
             />
             <Grid container>
-              <Grid item xs textAlign={"center"}>
+              <Grid item xs textAlign={"center"} mt={"20px"}>
                 <Link onClick={() => {
                   navigate("/Login");
                   window.scrollTo(0, 0);
                 }}
-                  sx={{ textAlign: "Center", textDecoration: "none", cursor: 'pointer' }} variant="subtitle1">
+                  sx={{ textAlign: "Center", textDecoration: "none", cursor: 'pointer', }} variant="subtitle1">
                   Back to Log In
                 </Link>
               </Grid>
