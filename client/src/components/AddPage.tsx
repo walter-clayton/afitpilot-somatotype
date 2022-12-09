@@ -92,7 +92,7 @@ const AddPage: FC<IAdding> = (props: any) => {
     props.isAdding
       ? (url = process.env.REACT_APP_SAVEDATA_URL!)
       : (url =
-          `${process.env.REACT_APP_EDITSOMATOTYPE_URL}/${props.idSomatotype}`!);
+        `${process.env.REACT_APP_EDITSOMATOTYPE_URL}/${props.idSomatotype}`!);
 
     const headers = {
       "Content-Type": "application/json",
@@ -218,19 +218,19 @@ const AddPage: FC<IAdding> = (props: any) => {
       );
       props.isAdding
         ? setAnthropometric((anthropometric) => ({
-            height: 180,
-            weight: 80,
-            supraspinal_skinfold: 12,
-            subscapular_skinfold: 12,
-            tricep_skinfold: 12,
-            femur_breadth: 8,
-            humerus_breadth: 7,
-            calf_girth: 38,
-            bicep_girth: 38,
-          }))
+          height: 180,
+          weight: 80,
+          supraspinal_skinfold: 12,
+          subscapular_skinfold: 12,
+          tricep_skinfold: 12,
+          femur_breadth: 8,
+          humerus_breadth: 7,
+          calf_girth: 38,
+          bicep_girth: 38,
+        }))
         : setAnthropometric(
-            response.data.data.anthropometrics.reverse()[props.idRow]
-          );
+          response.data.data.anthropometrics.reverse()[props.idRow]
+        );
 
       setToggleGraph(!toggleGraph);
       setFetching(false);
@@ -444,8 +444,9 @@ const AddPage: FC<IAdding> = (props: any) => {
             }}
           >
             <Button
-              sx={{ margin: "10px auto", maxWidth: "sm" }}
-              variant="contained"
+              sx={{
+                backgroundColor: 'RGB(108, 77, 123)', padding: "14px 30px", fontWeight: 600, textAlign: "center", lineHeight: '30px', fontSize: "18px", borderRadius: "40px", textTransform: 'initial', margin: "0px 80px", minWidth: '240px', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
+              }} variant="contained"
               onClick={() => {
                 handleSaveDatasClick();
               }}

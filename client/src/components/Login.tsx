@@ -314,8 +314,8 @@ export default function Login(props: any) {
               variant="contained"
               onClick={handleClick}
               sx={{
-                backgroundColor: 'purple', borderRadius: "40px", minWidth: "240px", margin: "0px 80px", mt: 3,
-                fontSize: '18px', padding: "14px 40px", fontWeight: 600, textTransform: 'initial', lineHeight: "30px", textAlign: 'center', "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
+                backgroundColor: 'RGB(108, 77, 123)', borderRadius: "40px", minWidth: "240px", margin: "0px 80px", mt: 3,
+                fontSize: '18px', padding: "14px 40px", fontWeight: 600, textTransform: 'initial', lineHeight: "30px", textAlign: 'center', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
               }}
               disabled={fetching}
             >
