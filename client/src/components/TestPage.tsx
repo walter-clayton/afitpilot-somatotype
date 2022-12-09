@@ -424,9 +424,12 @@ const TestPage: FC<ITesting> = (props) => {
   }, [exceeded, notStandard]);
 
   const isExceeded = (soma: number[]): boolean => {
-    const endo: number | undefined = Number(soma[0]?.toFixed());
-    const meso: number | undefined = Number(soma[1]?.toFixed());
-    const ecto: number | undefined = Number(soma[2]?.toFixed());
+    const endo: number | undefined =
+      Number(soma[0]) < 1 ? 1 : Number(soma[0]?.toFixed());
+    const meso: number | undefined =
+      Number(soma[1]) < 1 ? 1 : Number(soma[1]?.toFixed());
+    const ecto: number | undefined =
+      Number(soma[2]) < 1 ? 1 : Number(soma[2]?.toFixed());
     let isExceeded: boolean = false;
     //console.log(`${endo} ${meso} ${ecto}`);
 
@@ -745,7 +748,16 @@ const TestPage: FC<ITesting> = (props) => {
           >
             <Button
               sx={{
-                maxWidth: "sm", borderRadius: "40px", fontSize: "20px", backgroundColor: 'RGB(108, 77, 123)', fontWeight: 600, lineHeight: "40px", textAlign: "center", padding: '14px 40px', textTransform: 'initial', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
+                maxWidth: "sm",
+                borderRadius: "40px",
+                fontSize: "20px",
+                backgroundColor: "RGB(108, 77, 123)",
+                fontWeight: 600,
+                lineHeight: "40px",
+                textAlign: "center",
+                padding: "14px 40px",
+                textTransform: "initial",
+                "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
               }}
               variant="contained"
               onClick={() => {
