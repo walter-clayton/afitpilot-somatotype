@@ -6,6 +6,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  Collapse,
   Grid,
   Typography,
   Stack,
@@ -25,6 +26,8 @@ import AnthropometricForm from "./AnthropometricForm";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { somatotypesStandard } from "./TestPage";
+import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
+
 const theme = createTheme();
 
 interface IAdding {
@@ -44,6 +47,7 @@ const Add: FC<IAdding> = (props: any) => {
   const [exceeded, setExceeded] = useState(false);
   const [notStandard, setNotStandard] = useState(false);
   const [msgErr, setMsgErr] = useState<String>("");
+  const [manually, setManually] = useState<boolean>(false);
   const gridRef = useRef<HTMLDivElement>(null);
   const [somatotype, setSomatotype] = useState<ISomatotype | undefined>(
     undefined
@@ -64,16 +68,16 @@ const Add: FC<IAdding> = (props: any) => {
   useEffect(() => {
     props.isAdding
       ? setAnthropometric((anthropometric) => ({
-        height: 180,
-        weight: 80,
-        supraspinal_skinfold: 12,
-        subscapular_skinfold: 12,
-        tricep_skinfold: 12,
-        femur_breadth: 8,
-        humerus_breadth: 7,
-        calf_girth: 38,
-        bicep_girth: 38,
-      }))
+          height: 180,
+          weight: 80,
+          supraspinal_skinfold: 12,
+          subscapular_skinfold: 12,
+          tricep_skinfold: 12,
+          femur_breadth: 8,
+          humerus_breadth: 7,
+          calf_girth: 38,
+          bicep_girth: 38,
+        }))
       : setAnthropometric(props.anthropometrics.reverse()[props.idRow]);
   }, []);
 
@@ -89,7 +93,7 @@ const Add: FC<IAdding> = (props: any) => {
     props.isAdding
       ? (url = process.env.REACT_APP_SAVEDATA_URL!)
       : (url =
-        `${process.env.REACT_APP_EDITSOMATOTYPE_URL}/${props.idSomatotype}`!);
+          `${process.env.REACT_APP_EDITSOMATOTYPE_URL}/${props.idSomatotype}`!);
 
     const headers = {
       "Content-Type": "application/json",
@@ -206,93 +210,153 @@ const Add: FC<IAdding> = (props: any) => {
       <Typography variant="h3" gutterBottom m={3} textAlign="center">
         {props.isAdding ? "Add new somatotype" : "Edit somatotype"}
       </Typography>
-
-      <Grid
-        ref={gridRef}
-        container
+      <Button
         sx={{
+          borderRadius: "40px",
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "0px 15px",
+          margin: "0 auto",
+          backgroundColor: "RGB(51, 164, 116)",
+          padding: "20px 50px",
+          fontWeight: 600,
+          fontSize: "16px",
+          lineHeight: "30px",
+          "&:hover": { bgcolor: "#28835c" },
         }}
-        width={"100%"}
+        variant="contained"
+        onClick={() => {
+          setManually((m) => !m);
+        }}
       >
-        {/* Form Inputs */}
-        <Grid
-          item
+        Enter details manually
+        <ArrowForwardSharpIcon
           sx={{
-            flexGrow: 1,
-            alignItems: "center",
-            margin: "20px auto",
+            marginLeft: "10px",
+            fontSize: "25px",
+            transition: "all .3s ease-out",
+            transform: manually ? "rotate(90deg)" : "rotate(0)",
           }}
-          xs={12}
-          md={8}
-          lg={6}
-        >
-          {exceeded && (
-            <Alert
-              onClose={() => {
-                setExceeded(false);
-              }}
-              severity="error"
-              sx={{ margin: "50px auto" }}
-            >
-              Error values: somatotype exceeded
-            </Alert>
-          )}
-          <AnthropometricForm
-            anthropometric={anthropometric}
-            setAnthropometric={setAnthropometric}
-            setAnthropometricFormHasError={setAnthropometricHasError}
-          />
-        </Grid>
-        {/* button */}
+        />
+      </Button>
+      <Collapse in={manually} collapsedSize={0} easing={{ enter: "5" }}>
         <Grid
-          item
+          ref={gridRef}
+          container
           sx={{
-            flexGrow: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
             alignItems: "center",
-            margin: "20px auto",
+            padding: "0px 15px",
+            overflow: "hidden",
           }}
-          xs={12}
-          md={8}
-          lg={6}
+          width={"100%"}
         >
-          <Box sx={{ textalign: "center" }}>
-            <Stack spacing={2} direction={"row"}>
-              <Button
-                sx={{
-                  maxWidth: "sm", color: "white",
-                  backgroundColor: 'purple', padding: "7px 15px", fontWeight: 600, textAlign: "center", lineHeight: '30px', fontSize: "18px", borderRadius: "40px", textTransform: 'initial', minWidth: '140px', "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
-                }}
-                // variant="outlined"
-                onClick={() => {
-                  props.setOpenAddModal!(false);
-                  window.scrollTo(0, 0);
-                }}
-              >
-                Go Back
-              </Button>
-              <Button variant="contained" type="submit" onClick={handleSubmit}
-                sx={{
-                  maxWidth: "sm", color: "white",
-                  backgroundColor: 'purple', padding: "7px 15px", fontWeight: 600, textAlign: "center", lineHeight: '30px', fontSize: "18px", borderRadius: "40px", textTransform: 'initial', minWidth: '140px', "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
-                }}
-              >
-                Submit
-              </Button>
-
-            </Stack>
-          </Box>
-        </Grid>
-        {/* Results Table */}
-        {showResults ? (
+          {/* Form Inputs */}
           <Grid
             item
             sx={{
               flexGrow: 1,
+              alignItems: "center",
+              margin: "20px 0",
+            }}
+            width={"100%"}
+            xs={12}
+            md={8}
+            lg={6}
+          >
+            {props.resultsSaved && (
+              <Alert
+                onClose={() => {
+                  props.setResultsSaved(false);
+                }}
+                severity="success"
+                sx={{ margin: "50px auto" }}
+              >
+                Results saved successfully
+              </Alert>
+            )}
+            {(exceeded || notStandard) && (
+              <Alert
+                onClose={() => {
+                  exceeded && setExceeded(false);
+                  notStandard && setNotStandard(false);
+                }}
+                severity="error"
+                sx={{ margin: "50px auto" }}
+              >
+                {msgErr}
+              </Alert>
+            )}
+            <AnthropometricForm
+              anthropometric={anthropometric}
+              setAnthropometric={setAnthropometric}
+            />
+          </Grid>
+          {/* button */}
+          <Grid
+            item
+            sx={{
+              flexGrow: 1,
+              alignItems: "center",
+              margin: "20px auto",
+            }}
+            xs={12}
+            md={8}
+            lg={6}
+          >
+            <Box>
+              <Button
+                variant="contained"
+                type="submit"
+                onClick={handleSubmit}
+                sx={{
+                  textalign: "center",
+                  fontSize: "20px",
+                  lineHeight: 1.67,
+                  padding: "14px 40px",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  backgroundColor: "purple",
+                  borderRadius: "40px",
+                  textTransform: "initial",
+                  "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
+                }}
+              >
+                See Results <ArrowForwardSharpIcon />
+              </Button>
+            </Box>
+          </Grid>
+          {/* Results Table */}
+          {showResults ? (
+            <Grid
+              item
+              sx={{
+                flexGrow: 1,
+                alignItems: "center",
+                margin: "20px 0",
+              }}
+              xs={12}
+              md={8}
+              lg={6}
+              width={"100%"}
+            >
+              <ResultsTable
+                showHistory={false}
+                multipleResults={false}
+                singleSomatotype={somatotype}
+                setPointsArray={setPointsArray}
+                toggleGraph={toggleGraph}
+                setToggleGraph={setToggleGraph}
+              />
+            </Grid>
+          ) : null}
+
+          <Grid
+            item
+            sx={{
+              flexGrow: 1,
+              display: "flex",
+              justifyContent: "center",
               alignItems: "center",
               margin: "20px 0",
             }}
@@ -301,62 +365,35 @@ const Add: FC<IAdding> = (props: any) => {
             lg={6}
             width={"100%"}
           >
-            <ResultsTable
-              showHistory={false}
-              multipleResults={false}
-              singleSomatotype={somatotype}
-              setPointsArray={setPointsArray}
-              toggleGraph={toggleGraph}
-              setToggleGraph={setToggleGraph}
-            />
+            {showResults && (
+              <SomatotypeGraph
+                updateGraph={toggleGraph}
+                pointsArray={pointsArray}
+              />
+            )}
           </Grid>
-        ) : null}
 
-        {/* Graph */}
-        <Grid
-          item
-          sx={{
-            flexGrow: 1,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            margin: "20px 0",
-          }}
-          xs={12}
-          md={8}
-          lg={6}
-          width={"100%"}
-        >
-          {showResults && (
-            <SomatotypeGraph
-              updateGraph={toggleGraph}
-              pointsArray={pointsArray}
-            />
-          )}
-        </Grid>
-
-        {showResults ? (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-            }}
-          >
-            <Button
+          {showResults ? (
+            <Box
               sx={{
-                backgroundColor: 'purple', padding: "14px 30px", fontWeight: 600, textAlign: "center", lineHeight: '30px', fontSize: "18px", borderRadius: "40px", textTransform: 'initial', margin: "0px 80px", minWidth: '240px', "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
-              }} variant="contained"
-              onClick={() => {
-                handleSaveDatasClick();
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
               }}
-              disabled={fetching}
             >
-              {fetching ? <CircularProgress size={25} /> : "SAVE"}
-            </Button>
-          </Box>
-        ) : null}
-      </Grid>
+              <Button
+                sx={{ margin: "10px auto", maxWidth: "sm" }}
+                variant="contained"
+                onClick={() => {
+                  handleSaveDatasClick();
+                }}
+              >
+                Save Your Results
+              </Button>
+            </Box>
+          ) : null}
+        </Grid>
+      </Collapse>
     </ThemeProvider>
   );
 };
