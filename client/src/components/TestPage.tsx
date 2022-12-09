@@ -396,6 +396,9 @@ const TestPage: FC<ITesting> = (props) => {
     IAnthropometric | undefined
   >(undefined);
 
+  const [anthropometricHasError, setAnthropometricHasError] =
+    useState<boolean>(false);
+
   const [pointsArray, setPointsArray] = useState<IPoints[]>([]);
   // const [params, setParams] = useParams()
   useEffect(() => {

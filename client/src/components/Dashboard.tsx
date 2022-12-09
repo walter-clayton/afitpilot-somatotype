@@ -249,15 +249,16 @@ const Dashboard: FC<IDashboard> = (props) => {
             ) : null}
 
             <Button
-              sx={{ margin: "10px 0" }}
-              variant="contained"
+              sx={{
+                backgroundColor: 'purple', padding: "14px 30px", fontWeight: 600, textAlign: "center", lineHeight: '30px', fontSize: "18px", borderRadius: "40px", textTransform: 'initial', margin: "0px 80px", minWidth: '240px', "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
+              }} variant="contained"
               onClick={() => {
                 setIsAdding(true);
                 props.setOpenAddModal!(true);
                 window.scrollTo(0, 0);
               }}
             >
-              Add new
+              Add New
             </Button>
           </Grid>
           <CounterShare />

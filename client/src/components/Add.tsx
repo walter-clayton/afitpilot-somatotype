@@ -9,6 +9,7 @@ import {
   Collapse,
   Grid,
   Typography,
+  Stack,
 } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import FilledInput from "@mui/material/FilledInput";
@@ -59,7 +60,10 @@ const Add: FC<IAdding> = (props: any) => {
 
   const [pointsArray, setPointsArray] = useState<IPoints[]>([]);
 
-  const [fetching, setFetching] = React.useState<boolean>(false);
+  const [fetching, setFetching] = useState<boolean>(false);
+
+  const [anthropometricHasError, setAnthropometricHasError] =
+    useState<boolean>(false);
 
   useEffect(() => {
     props.isAdding
