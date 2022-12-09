@@ -175,9 +175,6 @@ const Add: FC<IAdding> = (props: any) => {
     if (isExceeded(somatotypeResults)) {
       setExceeded(true);
       setMsgErr("Error values: somatotype exceeded");
-    } else if (!isStandard(somatotypeResults)) {
-      setNotStandard(true);
-      setMsgErr("Error values: somatotype is not standard");
     } else {
       setShowResults(true);
       setToggleGraph(!toggleGraph);
