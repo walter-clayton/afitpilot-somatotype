@@ -197,9 +197,6 @@ const ResponsiveAppBar = (props: any) => {
               <Button
                 key={index}
                 onClick={() => {
-                  if (page.path === "/Blog") {
-                    props.setOpenBlogArticleModal(false);
-                  }
                   handleCloseNavMenu();
                   navigate(page.path);
                   window.scrollTo(0, 0);
