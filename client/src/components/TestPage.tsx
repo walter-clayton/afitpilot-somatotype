@@ -12,6 +12,7 @@ import { useCookies } from "react-cookie";
 import Typography from "@mui/material/Typography";
 import HeaderTestpage from "./CTA/HeaderTestpage";
 import CounterShare from "./CTA/CounterShare";
+import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 
 const theme = createTheme();
 
@@ -605,9 +606,13 @@ const TestPage: FC<ITesting> = (props) => {
           md={8}
           lg={6}
         >
-          <Box sx={{ textalign: "center" }}>
-            <Button variant="contained" type="submit" onClick={handleSubmit}>
-              Submit
+          <Box>
+            <Button variant="contained" type="submit" onClick={handleSubmit}
+              sx={{
+                textalign: "center", fontSize: "20px", lineHeight: 1.67, padding: '14px 40px', fontWeight: 600, textAlign: 'center', backgroundColor: "purple", borderRadius: "40px", textTransform: 'initial', "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
+              }}
+            >
+              See Results <ArrowForwardSharpIcon />
             </Button>
           </Box>
         </Grid>
