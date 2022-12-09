@@ -14,6 +14,7 @@ interface IAnthropometricForm {
     anthropometric: IAnthropometric | undefined
   ) => void | undefined;
   setAnthropometricFormHasError?: (hasError: boolean) => void;
+  isFetching?: boolean;
 }
 
 const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
@@ -43,10 +44,14 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
 
   const handleHeightChange = (event: React.FormEvent<any>) => {
     if (IsValidInput(event.currentTarget.value)) {
+      let value = event.currentTarget.value;
+      if (event.currentTarget.value === "") {
+        value = defaultAnthropometricValues?.height;
+      }
       setHeightIsIncorrect(false);
       props.setAnthropometric?.({
         ...props.anthropometric,
-        height: parseFloat(event.currentTarget.value),
+        height: parseFloat(value),
       });
       if (
         !bodyWeightIsIncorrect &&
@@ -68,10 +73,14 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
 
   const handleBodyWeightChange = (event: React.FormEvent<any>) => {
     if (IsValidInput(event.currentTarget.value)) {
+      let value = event.currentTarget.value;
+      if (event.currentTarget.value === "") {
+        value = defaultAnthropometricValues?.weight;
+      }
       setBodyWeightIsIncorrect(false);
       props.setAnthropometric?.({
         ...props.anthropometric,
-        weight: parseFloat(event.currentTarget.value),
+        weight: parseFloat(value),
       });
       if (
         !heightIsIncorrect &&
@@ -93,10 +102,14 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
 
   const handleTricepChange = (event: React.FormEvent<any>) => {
     if (IsValidInput(event.currentTarget.value)) {
+      let value = event.currentTarget.value;
+      if (event.currentTarget.value === "") {
+        value = defaultAnthropometricValues?.tricep_skinfold;
+      }
       setTricepIsIncorrect(false);
       props.setAnthropometric?.({
         ...props.anthropometric,
-        tricep_skinfold: parseFloat(event.currentTarget.value),
+        tricep_skinfold: parseFloat(value),
       });
       if (
         !heightIsIncorrect &&
@@ -118,10 +131,14 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
 
   const handleSubscapularChange = (event: React.FormEvent<any>) => {
     if (IsValidInput(event.currentTarget.value)) {
+      let value = event.currentTarget.value;
+      if (event.currentTarget.value === "") {
+        value = defaultAnthropometricValues?.subscapular_skinfold;
+      }
       setSubscapularIsIncorrect(false);
       props.setAnthropometric?.({
         ...props.anthropometric,
-        subscapular_skinfold: parseFloat(event.currentTarget.value),
+        subscapular_skinfold: parseFloat(value),
       });
       if (
         !heightIsIncorrect &&
@@ -143,10 +160,14 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
 
   const handleSupraspinalChange = (event: React.FormEvent<any>) => {
     if (IsValidInput(event.currentTarget.value)) {
+      let value = event.currentTarget.value;
+      if (event.currentTarget.value === "") {
+        value = defaultAnthropometricValues?.supraspinal_skinfold;
+      }
       setSupraspinalIsIncorrect(false);
       props.setAnthropometric?.({
         ...props.anthropometric,
-        supraspinal_skinfold: parseFloat(event.currentTarget.value),
+        supraspinal_skinfold: parseFloat(value),
       });
       if (
         !heightIsIncorrect &&
@@ -168,10 +189,14 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
 
   const handleHumerusChange = (event: React.FormEvent<any>) => {
     if (IsValidInput(event.currentTarget.value)) {
+      let value = event.currentTarget.value;
+      if (event.currentTarget.value === "") {
+        value = defaultAnthropometricValues?.humerus_breadth;
+      }
       setHumerusIsIncorrect(false);
       props.setAnthropometric?.({
         ...props.anthropometric,
-        humerus_breadth: parseFloat(event.currentTarget.value),
+        humerus_breadth: parseFloat(value),
       });
       if (
         !heightIsIncorrect &&
@@ -193,10 +218,14 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
 
   const handleFemurChange = (event: React.FormEvent<any>) => {
     if (IsValidInput(event.currentTarget.value)) {
+      let value = event.currentTarget.value;
+      if (event.currentTarget.value === "") {
+        value = defaultAnthropometricValues?.femur_breadth;
+      }
       setFemurIsIncorrect(false);
       props.setAnthropometric?.({
         ...props.anthropometric,
-        femur_breadth: parseFloat(event.currentTarget.value),
+        femur_breadth: parseFloat(value),
       });
       if (
         !heightIsIncorrect &&
@@ -218,10 +247,14 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
 
   const handleCalfChange = (event: React.FormEvent<any>) => {
     if (IsValidInput(event.currentTarget.value)) {
+      let value = event.currentTarget.value;
+      if (event.currentTarget.value === "") {
+        value = defaultAnthropometricValues?.calf_girth;
+      }
       setCalfIsIncorrect(false);
       props.setAnthropometric?.({
         ...props.anthropometric,
-        calf_girth: parseFloat(event.currentTarget.value),
+        calf_girth: parseFloat(value),
       });
       if (
         !heightIsIncorrect &&
@@ -243,10 +276,15 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
 
   const handleBicepChange = (event: React.FormEvent<any>) => {
     if (IsValidInput(event.currentTarget.value)) {
+      let value = event.currentTarget.value;
+      if (event.currentTarget.value === "") {
+        value = defaultAnthropometricValues?.bicep_girth;
+      }
+
       setBicepIsIncorrect(false);
       props.setAnthropometric?.({
         ...props.anthropometric,
-        bicep_girth: parseFloat(event.currentTarget.value),
+        bicep_girth: parseFloat(value),
       });
       if (
         !heightIsIncorrect &&
@@ -278,6 +316,7 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
       <FormControl
         sx={{ width: "100%", marginBottom: "10px" }}
         variant="filled"
+        disabled={props.isFetching ? true : false}
       >
         <FormHelperText
           sx={{ color: heightIsIncorrect ? "#ff0000" : "rgba(0,0,0,0.6)" }}
@@ -291,7 +330,9 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
             borderColor: "red",
           }}
           id="height"
-          placeholder={String(defaultAnthropometricValues?.height)}
+          placeholder={
+            props.isFetching ? "" : String(defaultAnthropometricValues?.height)
+          }
           endAdornment={<InputAdornment position="end">cm</InputAdornment>}
           onChange={handleHeightChange}
         />
@@ -311,6 +352,7 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
       <FormControl
         sx={{ width: "100%", marginBottom: "10px" }}
         variant="filled"
+        disabled={props.isFetching ? true : false}
       >
         <FormHelperText
           sx={{ color: bodyWeightIsIncorrect ? "#ff0000" : "rgba(0,0,0,0.6)" }}
@@ -326,7 +368,9 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
           id="bodyweight"
           endAdornment={<InputAdornment position="end">kg</InputAdornment>}
           aria-describedby="filled-weight-helper-text"
-          placeholder={String(defaultAnthropometricValues?.weight)}
+          placeholder={
+            props.isFetching ? "" : String(defaultAnthropometricValues?.weight)
+          }
           onChange={handleBodyWeightChange}
         />
       </FormControl>
@@ -345,6 +389,7 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
       <FormControl
         sx={{ width: "100%", marginBottom: "10px" }}
         variant="filled"
+        disabled={props.isFetching ? true : false}
       >
         <FormHelperText
           sx={{ color: tricepIsIncorrect ? "#ff0000" : "rgba(0,0,0,0.6)" }}
@@ -360,7 +405,11 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
           id="tricep"
           endAdornment={<InputAdornment position="end">mm</InputAdornment>}
           aria-describedby="filled-weight-helper-text"
-          placeholder={String(defaultAnthropometricValues?.tricep_skinfold)}
+          placeholder={
+            props.isFetching
+              ? ""
+              : String(defaultAnthropometricValues?.tricep_skinfold)
+          }
           onChange={handleTricepChange}
         />
       </FormControl>
@@ -379,6 +428,7 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
       <FormControl
         sx={{ width: "100%", marginBottom: "10px" }}
         variant="filled"
+        disabled={props.isFetching ? true : false}
       >
         <FormHelperText
           sx={{ color: subscapularIsIncorrect ? "#ff0000" : "rgba(0,0,0,0.6)" }}
@@ -392,9 +442,11 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
             borderColor: "red",
           }}
           id="subscapular"
-          placeholder={String(
-            defaultAnthropometricValues?.subscapular_skinfold
-          )}
+          placeholder={
+            props.isFetching
+              ? ""
+              : String(defaultAnthropometricValues?.subscapular_skinfold)
+          }
           endAdornment={<InputAdornment position="end">mm</InputAdornment>}
           aria-describedby="filled-weight-helper-text"
           onChange={handleSubscapularChange}
@@ -415,6 +467,7 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
       <FormControl
         sx={{ width: "100%", marginBottom: "10px" }}
         variant="filled"
+        disabled={props.isFetching ? true : false}
       >
         <FormHelperText
           sx={{ color: supraspinalIsIncorrect ? "#ff0000" : "rgba(0,0,0,0.6)" }}
@@ -428,9 +481,11 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
             borderColor: "red",
           }}
           id="supraspinal"
-          placeholder={String(
-            defaultAnthropometricValues?.supraspinal_skinfold
-          )}
+          placeholder={
+            props.isFetching
+              ? ""
+              : String(defaultAnthropometricValues?.supraspinal_skinfold)
+          }
           endAdornment={<InputAdornment position="end">mm</InputAdornment>}
           aria-describedby="filled-weight-helper-text"
           onChange={handleSupraspinalChange}
@@ -451,6 +506,7 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
       <FormControl
         sx={{ width: "100%", marginBottom: "10px" }}
         variant="filled"
+        disabled={props.isFetching ? true : false}
       >
         <FormHelperText
           sx={{ color: HumerusIsIncorrect ? "#ff0000" : "rgba(0,0,0,0.6)" }}
@@ -464,7 +520,11 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
             borderColor: "red",
           }}
           id="humerus"
-          placeholder={String(defaultAnthropometricValues?.humerus_breadth)}
+          placeholder={
+            props.isFetching
+              ? ""
+              : String(defaultAnthropometricValues?.humerus_breadth)
+          }
           endAdornment={<InputAdornment position="end">cm</InputAdornment>}
           aria-describedby="filled-weight-helper-text"
           onChange={handleHumerusChange}
@@ -485,6 +545,7 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
       <FormControl
         sx={{ width: "100%", marginBottom: "10px" }}
         variant="filled"
+        disabled={props.isFetching ? true : false}
       >
         <FormHelperText
           sx={{ color: femurIsIncorrect ? "#ff0000" : "rgba(0,0,0,0.6)" }}
@@ -498,7 +559,11 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
             borderColor: "red",
           }}
           id="femur"
-          placeholder={String(defaultAnthropometricValues?.femur_breadth)}
+          placeholder={
+            props.isFetching
+              ? ""
+              : String(defaultAnthropometricValues?.femur_breadth)
+          }
           endAdornment={<InputAdornment position="end">cm</InputAdornment>}
           aria-describedby="filled-weight-helper-text"
           onChange={handleFemurChange}
@@ -519,6 +584,7 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
       <FormControl
         sx={{ width: "100%", marginBottom: "10px" }}
         variant="filled"
+        disabled={props.isFetching ? true : false}
       >
         <FormHelperText
           sx={{ color: calfIsIncorrect ? "#ff0000" : "rgba(0,0,0,0.6)" }}
@@ -532,7 +598,11 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
             borderColor: "red",
           }}
           id="calf"
-          placeholder={String(defaultAnthropometricValues?.calf_girth)}
+          placeholder={
+            props.isFetching
+              ? ""
+              : String(defaultAnthropometricValues?.calf_girth)
+          }
           endAdornment={<InputAdornment position="end">cm</InputAdornment>}
           aria-describedby="filled-weight-helper-text"
           onChange={handleCalfChange}
@@ -550,7 +620,11 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
         </Typography>
       ) : null}
 
-      <FormControl sx={{ width: "100%" }} variant="filled">
+      <FormControl
+        sx={{ width: "100%" }}
+        variant="filled"
+        disabled={props.isFetching ? true : false}
+      >
         <FormHelperText
           sx={{ color: bicepIsIncorrect ? "#ff0000" : "rgba(0,0,0,0.6)" }}
         >
@@ -563,7 +637,11 @@ const AnthropometricForm: FC<IAnthropometricForm> = (props): any => {
             borderColor: "red",
           }}
           id="bicep"
-          placeholder={String(defaultAnthropometricValues?.bicep_girth)}
+          placeholder={
+            props.isFetching
+              ? ""
+              : String(defaultAnthropometricValues?.bicep_girth)
+          }
           endAdornment={<InputAdornment position="end">cm</InputAdornment>}
           aria-describedby="filled-weight-helper-text"
           onChange={handleBicepChange}

@@ -419,7 +419,7 @@ const TestPage: FC<ITesting> = (props) => {
     const ecto: number | undefined =
       Number(soma[2]) < 1 ? 1 : Number(soma[2]?.toFixed());
     let isExceeded: boolean = false;
-    console.log(`${endo} ${meso} ${ecto}`);
+    //console.log(`${endo} ${meso} ${ecto}`);
 
     // endo limits: [1 - 15]
     // meso limits: [1 - 12]
@@ -608,9 +608,22 @@ const TestPage: FC<ITesting> = (props) => {
           lg={6}
         >
           <Box>
-            <Button variant="contained" type="submit" onClick={handleSubmit} disabled={anthropometricHasError}
+            <Button
+              variant="contained"
+              type="submit"
+              onClick={handleSubmit}
+              disabled={anthropometricHasError}
               sx={{
-                textalign: "center", fontSize: "20px", lineHeight: 1.67, padding: '14px 40px', fontWeight: 600, textAlign: 'center', backgroundColor: "purple", borderRadius: "40px", textTransform: 'initial', "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
+                textalign: "center",
+                fontSize: "20px",
+                lineHeight: 1.67,
+                padding: "14px 40px",
+                fontWeight: 600,
+                textAlign: "center",
+                backgroundColor: "purple",
+                borderRadius: "40px",
+                textTransform: "initial",
+                "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
               }}
             >
               See Results <ArrowForwardSharpIcon />
