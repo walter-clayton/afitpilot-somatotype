@@ -423,12 +423,9 @@ const TestPage: FC<ITesting> = (props) => {
   }, [exceeded, notStandard]);
 
   const isExceeded = (soma: number[]): boolean => {
-    const endo: number | undefined =
-      Number(soma[0]) < 1 ? 1 : Number(soma[0]?.toFixed());
-    const meso: number | undefined =
-      Number(soma[1]) < 1 ? 1 : Number(soma[1]?.toFixed());
-    const ecto: number | undefined =
-      Number(soma[2]) < 1 ? 1 : Number(soma[2]?.toFixed());
+    const endo: number | undefined = Number(soma[0]?.toFixed());
+    const meso: number | undefined = Number(soma[1]?.toFixed());
+    const ecto: number | undefined = Number(soma[2]?.toFixed());
     let isExceeded: boolean = false;
     console.log(`${endo} ${meso} ${ecto}`);
 
