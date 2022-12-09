@@ -1,7 +1,17 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { IAnthropometric, IData, ISomatotype } from "../App";
-import { Alert, Box, Button, CssBaseline, Grid, Snackbar } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Collapse,
+  CssBaseline,
+  Fade,
+  Grid,
+  Snackbar,
+  Stack,
+} from "@mui/material";
 import AnthropometricForm from "./AnthropometricForm";
 import { AddPoint, calculateSomatotype, IPoints } from "./Calculation";
 import ResultsTable from "./ResultsTable";
@@ -13,6 +23,7 @@ import Typography from "@mui/material/Typography";
 import HeaderTestpage from "./CTA/HeaderTestpage";
 import CounterShare from "./CTA/CounterShare";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const theme = createTheme();
 
@@ -365,6 +376,7 @@ const TestPage: FC<ITesting> = (props) => {
   const [exceeded, setExceeded] = useState(false);
   const [notStandard, setNotStandard] = useState(false);
   const [msgErr, setMsgErr] = useState<String>("");
+  const [manually, setManually] = useState<boolean>(false);
   const [toggleGraph, setToggleGraph] = useState(false);
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -412,14 +424,11 @@ const TestPage: FC<ITesting> = (props) => {
   }, [exceeded, notStandard]);
 
   const isExceeded = (soma: number[]): boolean => {
-    const endo: number | undefined =
-      Number(soma[0]) < 1 ? 1 : Number(soma[0]?.toFixed());
-    const meso: number | undefined =
-      Number(soma[1]) < 1 ? 1 : Number(soma[1]?.toFixed());
-    const ecto: number | undefined =
-      Number(soma[2]) < 1 ? 1 : Number(soma[2]?.toFixed());
+    const endo: number | undefined = Number(soma[0]?.toFixed());
+    const meso: number | undefined = Number(soma[1]?.toFixed());
+    const ecto: number | undefined = Number(soma[2]?.toFixed());
     let isExceeded: boolean = false;
-    console.log(`${endo} ${meso} ${ecto}`);
+    //console.log(`${endo} ${meso} ${ecto}`);
 
     // endo limits: [1 - 15]
     // meso limits: [1 - 12]
@@ -541,6 +550,33 @@ const TestPage: FC<ITesting> = (props) => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <HeaderTestpage />
+      <Button
+        sx={{
+          borderRadius: "40px",
+          display: "flex",
+          margin: "0 auto",
+          backgroundColor: "RGB(51, 164, 116)",
+          padding: "20px 50px",
+          fontWeight: 600,
+          fontSize: "16px",
+          lineHeight: "30px",
+          "&:hover": { bgcolor: "#28835c" },
+        }}
+        variant="contained"
+        onClick={() => {
+          setManually((m) => !m);
+        }}
+      >
+        Enter details manually
+        <ArrowForwardIosIcon
+          sx={{
+            marginLeft: "10px",
+            fontSize: "25px",
+            transition: "all .3s ease-out",
+            transform: manually ? "rotate(90deg)" : "rotate(0)",
+          }}
+        />
+      </Button>
       <Grid
         ref={gridRef}
         container
@@ -550,51 +586,56 @@ const TestPage: FC<ITesting> = (props) => {
           justifyContent: "center",
           alignItems: "center",
           padding: "0px 15px",
+          overflow: "hidden",
         }}
         width={"100%"}
       >
         {/* Form Inputs */}
-        <Grid
-          item
-          sx={{
-            flexGrow: 1,
-            alignItems: "center",
-            margin: "20px 0",
-          }}
-          width={"100%"}
-          xs={12}
-          md={8}
-          lg={6}
-        >
-          {props.resultsSaved && (
-            <Alert
-              onClose={() => {
-                props.setResultsSaved(false);
-              }}
-              severity="success"
-              sx={{ margin: "50px auto" }}
-            >
-              Results saved successfully
-            </Alert>
-          )}
-          {(exceeded || notStandard) && (
-            <Alert
-              onClose={() => {
-                exceeded && setExceeded(false);
-                notStandard && setNotStandard(false);
-              }}
-              severity="error"
-              sx={{ margin: "50px auto" }}
-            >
-              {msgErr}
-            </Alert>
-          )}
-          <AnthropometricForm
-            anthropometric={anthropometric}
-            setAnthropometric={setAnthropometric}
-            setAnthropometricFormHasError={setAnthropometricHasError}
-          />
-        </Grid>
+        <Collapse in={manually} collapsedSize={0} easing={{ enter: "5" }}>
+          <Grid
+            item
+            sx={{
+              flexGrow: 1,
+              alignItems: "center",
+              margin: "20px auto",
+            }}
+            width={"100%"}
+            xs={12}
+            md={8}
+            lg={6}
+          >
+            {props.resultsSaved && (
+              <Alert
+                onClose={() => {
+                  props.setResultsSaved(false);
+                }}
+                severity="success"
+                sx={{ margin: "50px auto" }}
+              >
+                Results saved successfully
+              </Alert>
+            )}
+            {(exceeded || notStandard) && (
+              <Alert
+                onClose={() => {
+                  exceeded && setExceeded(false);
+                  notStandard && setNotStandard(false);
+                }}
+                severity="error"
+                sx={{ margin: "50px auto" }}
+              >
+                {msgErr}
+              </Alert>
+            )}
+            <AnthropometricForm
+              anthropometric={anthropometric}
+              setAnthropometric={setAnthropometric}
+              setAnthropometricFormHasError={setAnthropometricHasError}
+              isFetching={false}
+            />
+          </Grid>
+        </Collapse>
+
         {/* button */}
         <Grid
           item
@@ -608,9 +649,22 @@ const TestPage: FC<ITesting> = (props) => {
           lg={6}
         >
           <Box>
-            <Button variant="contained" type="submit" onClick={handleSubmit} disabled={anthropometricHasError}
+            <Button
+              variant="contained"
+              type="submit"
+              onClick={handleSubmit}
+              disabled={anthropometricHasError}
               sx={{
-                textalign: "center", fontSize: "20px", lineHeight: 1.67, padding: '14px 40px', fontWeight: 600, textAlign: 'center', backgroundColor: "RGB(108, 77, 123)", borderRadius: "40px", textTransform: 'initial', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
+                textalign: "center",
+                fontSize: "20px",
+                lineHeight: 1.67,
+                padding: "14px 40px",
+                fontWeight: 600,
+                textAlign: "center",
+                backgroundColor: "purple",
+                borderRadius: "40px",
+                textTransform: "initial",
+                "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
               }}
             >
               See Results <ArrowForwardSharpIcon />
@@ -681,11 +735,12 @@ const TestPage: FC<ITesting> = (props) => {
                 handleSaveDatasClick();
               }}
             >
-              Save your Results
+              Save Your Results
             </Button>
           </Box>
         ) : null}
       </Grid>
+
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={snackBarState.open}

@@ -6,6 +6,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  Collapse,
   Grid,
   Typography,
   Stack,
@@ -25,25 +26,26 @@ import AnthropometricForm from "./AnthropometricForm";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { somatotypesStandard } from "./TestPage";
+import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+
 const theme = createTheme();
 
 interface IAdding {
   setData?: (data: IData) => void;
-  setOpenAddModal?: (openModal: boolean) => void;
   isAdding?: boolean;
-  getUserDatas?: () => void;
   idRow?: string;
-  anthropometrics?: IAnthropometric[];
   idSomatotype?: string;
   setDashboardSnackBarOpen?: (open: boolean) => void;
   setDashboardSnackBarMessage?: (msg: string) => void;
 }
-const Add: FC<IAdding> = (props: any) => {
+const AddPage: FC<IAdding> = (props: any) => {
   const [showResults, setShowResults] = useState(false);
   const [toggleGraph, setToggleGraph] = useState(false);
   const [exceeded, setExceeded] = useState(false);
   const [notStandard, setNotStandard] = useState(false);
   const [msgErr, setMsgErr] = useState<String>("");
+  const [manually, setManually] = useState<boolean>(false);
   const gridRef = useRef<HTMLDivElement>(null);
   const [somatotype, setSomatotype] = useState<ISomatotype | undefined>(
     undefined
@@ -61,20 +63,21 @@ const Add: FC<IAdding> = (props: any) => {
   const [anthropometricHasError, setAnthropometricHasError] =
     useState<boolean>(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    props.isAdding
-      ? setAnthropometric((anthropometric) => ({
-        height: 180,
-        weight: 80,
-        supraspinal_skinfold: 12,
-        subscapular_skinfold: 12,
-        tricep_skinfold: 12,
-        femur_breadth: 8,
-        humerus_breadth: 7,
-        calf_girth: 38,
-        bicep_girth: 38,
-      }))
-      : setAnthropometric(props.anthropometrics.reverse()[props.idRow]);
+    // setAnthropometric((anthropometric) => ({
+    //   height: 180,
+    //   weight: 80,
+    //   supraspinal_skinfold: 12,
+    //   subscapular_skinfold: 12,
+    //   tricep_skinfold: 12,
+    //   femur_breadth: 8,
+    //   humerus_breadth: 7,
+    //   calf_girth: 38,
+    //   bicep_girth: 38,
+    // }));
+    getUserDatas();
   }, []);
 
   useEffect(() => {
@@ -104,7 +107,7 @@ const Add: FC<IAdding> = (props: any) => {
         { somatotype, anthropometric },
         { headers: headers }
       );
-      props.setOpenAddModal!(false);
+      navigate("/");
       window.scrollTo(0, 0);
       props.setDashboardSnackBarOpen(true);
       props.isAdding
@@ -112,7 +115,7 @@ const Add: FC<IAdding> = (props: any) => {
         : props.setDashboardSnackBarMessage("Somatotype changes saved !");
 
       setFetching(false);
-      props.getUserDatas();
+      getUserDatas();
     } catch (error) {
       // if (error.response) {
       //     error.response.data.message
@@ -134,7 +137,7 @@ const Add: FC<IAdding> = (props: any) => {
     const ecto: number | undefined =
       Number(soma[2]) < 1 ? 1 : Number(soma[2]?.toFixed());
     let isExceeded: boolean = false;
-    console.log(`${endo} ${meso} ${ecto}`);
+    //console.log(`${endo} ${meso} ${ecto}`);
 
     // endo limits: [1 - 15]
     // meso limits: [1 - 12]
@@ -200,12 +203,83 @@ const Add: FC<IAdding> = (props: any) => {
     }
   };
 
+  const getUserDatas = async () => {
+    const headers = {
+      "Content-Type": "application/json",
+      access_key: process.env.REACT_APP_ACCESS_KEY,
+      Authorization: `Bearer ${cookies.user.token}`,
+    };
+
+    try {
+      setFetching(true);
+      const response = await axios.get(
+        process.env.REACT_APP_GETUSERDATAS_URL!,
+        { headers: headers }
+      );
+      props.isAdding
+        ? setAnthropometric((anthropometric) => ({
+          height: 180,
+          weight: 80,
+          supraspinal_skinfold: 12,
+          subscapular_skinfold: 12,
+          tricep_skinfold: 12,
+          femur_breadth: 8,
+          humerus_breadth: 7,
+          calf_girth: 38,
+          bicep_girth: 38,
+        }))
+        : setAnthropometric(
+          response.data.data.anthropometrics.reverse()[props.idRow]
+        );
+
+      setToggleGraph(!toggleGraph);
+      setFetching(false);
+    } catch (error) {
+      // if (error.response) {
+      //     error.response.data.message
+      //       ? setSnackbarMessage(error.response.data.message)
+      //       : setSnackbarMessage(error.response.statusText);
+      //   } else {
+      //     setSnackbarMessage("Error with the server");
+      //   }
+      console.log("error ", error);
+      setFetching(false);
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Typography variant="h3" gutterBottom m={3} textAlign="center">
         {props.isAdding ? "Add new somatotype" : "Edit somatotype"}
       </Typography>
+      <Button
+        sx={{
+          borderRadius: "40px",
+          display: "flex",
+          margin: "0 auto",
+          backgroundColor: "RGB(51, 164, 116)",
+          padding: "20px 50px",
+          fontWeight: 600,
+          fontSize: "16px",
+          lineHeight: "30px",
+          "&:hover": { bgcolor: "#28835c" },
+        }}
+        variant="contained"
+        onClick={() => {
+          setManually((m) => !m);
+        }}
+      >
+        Enter details manually
+        <ArrowForwardIosIcon
+          sx={{
+            marginLeft: "10px",
+            fontSize: "25px",
+            transition: "all .3s ease-out",
+            transform: manually ? "rotate(90deg)" : "rotate(0)",
+          }}
+        />
+      </Button>
 
       <Grid
         ref={gridRef}
@@ -216,38 +290,55 @@ const Add: FC<IAdding> = (props: any) => {
           justifyContent: "center",
           alignItems: "center",
           padding: "0px 15px",
+          overflow: "hidden",
         }}
         width={"100%"}
       >
         {/* Form Inputs */}
-        <Grid
-          item
-          sx={{
-            flexGrow: 1,
-            alignItems: "center",
-            margin: "20px auto",
-          }}
-          xs={12}
-          md={8}
-          lg={6}
-        >
-          {exceeded && (
-            <Alert
-              onClose={() => {
-                setExceeded(false);
-              }}
-              severity="error"
-              sx={{ margin: "50px auto" }}
-            >
-              Error values: somatotype exceeded
-            </Alert>
-          )}
-          <AnthropometricForm
-            anthropometric={anthropometric}
-            setAnthropometric={setAnthropometric}
-            setAnthropometricFormHasError={setAnthropometricHasError}
-          />
-        </Grid>
+        <Collapse in={manually} collapsedSize={0} easing={{ enter: "5" }}>
+          <Grid
+            item
+            sx={{
+              flexGrow: 1,
+              alignItems: "center",
+              margin: "20px auto",
+            }}
+            width={"100%"}
+            xs={12}
+            md={8}
+            lg={6}
+          >
+            {props.resultsSaved && (
+              <Alert
+                onClose={() => {
+                  props.setResultsSaved(false);
+                }}
+                severity="success"
+                sx={{ margin: "50px auto" }}
+              >
+                Results saved successfully
+              </Alert>
+            )}
+            {(exceeded || notStandard) && (
+              <Alert
+                onClose={() => {
+                  exceeded && setExceeded(false);
+                  notStandard && setNotStandard(false);
+                }}
+                severity="error"
+                sx={{ margin: "50px auto" }}
+              >
+                {msgErr}
+              </Alert>
+            )}
+            <AnthropometricForm
+              anthropometric={anthropometric}
+              setAnthropometric={setAnthropometric}
+              setAnthropometricFormHasError={setAnthropometricHasError}
+              isFetching={fetching}
+            />
+          </Grid>
+        </Collapse>
         {/* button */}
         <Grid
           item
@@ -261,30 +352,40 @@ const Add: FC<IAdding> = (props: any) => {
           lg={6}
         >
           <Box sx={{ textalign: "center" }}>
-            <Stack spacing={2} direction={"row"}>
-              <Button
-                sx={{
-                  maxWidth: "sm", color: "white",
-                  backgroundColor: 'RGB(108, 77, 123)', padding: "7px 15px", fontWeight: 600, textAlign: "center", lineHeight: '30px', fontSize: "18px", borderRadius: "40px", textTransform: 'initial', minWidth: '140px', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
-                }}
-                // variant="outlined"
-                onClick={() => {
-                  props.setOpenAddModal!(false);
-                  window.scrollTo(0, 0);
-                }}
-              >
-                Go Back
-              </Button>
-              <Button variant="contained" type="submit" onClick={handleSubmit}
-                sx={{
-                  maxWidth: "sm", color: "white",
-                  backgroundColor: 'RGB(108, 77, 123)', padding: "7px 15px", fontWeight: 600, textAlign: "center", lineHeight: '30px', fontSize: "18px", borderRadius: "40px", textTransform: 'initial', minWidth: '140px', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
-                }}
-              >
-                Submit
-              </Button>
-
-            </Stack>
+            <Button
+              sx={{
+                margin: "10px auto",
+                marginRight: "20px",
+                padding: "5px 15px",
+                maxWidth: "sm",
+              }}
+              variant="outlined"
+              onClick={() => {
+                navigate("/");
+                window.scrollTo(0, 0);
+              }}
+            >
+              GO BACK
+            </Button>
+            <Button
+              variant="contained"
+              type="submit"
+              onClick={handleSubmit}
+              sx={{
+                textalign: "center",
+                fontSize: "20px",
+                lineHeight: 1.67,
+                padding: "14px 40px",
+                fontWeight: 600,
+                textAlign: "center",
+                backgroundColor: "purple",
+                borderRadius: "40px",
+                textTransform: "initial",
+                "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
+              }}
+            >
+              See Results <ArrowForwardSharpIcon />
+            </Button>
           </Box>
         </Grid>
         {/* Results Table */}
@@ -312,7 +413,6 @@ const Add: FC<IAdding> = (props: any) => {
           </Grid>
         ) : null}
 
-        {/* Graph */}
         <Grid
           item
           sx={{
@@ -339,7 +439,7 @@ const Add: FC<IAdding> = (props: any) => {
           <Box
             sx={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: "column",
               justifyContent: "center",
             }}
           >
@@ -350,9 +450,8 @@ const Add: FC<IAdding> = (props: any) => {
               onClick={() => {
                 handleSaveDatasClick();
               }}
-              disabled={fetching}
             >
-              {fetching ? <CircularProgress size={25} /> : "SAVE"}
+              Save Your Results
             </Button>
           </Box>
         ) : null}
@@ -361,4 +460,4 @@ const Add: FC<IAdding> = (props: any) => {
   );
 };
 
-export default Add;
+export default AddPage;

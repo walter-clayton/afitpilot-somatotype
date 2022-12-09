@@ -62,7 +62,6 @@ const ResponsiveAppBar = (props: any) => {
   };
 
   const handleLogout = () => {
-    props.setOpenAddModal(false);
     removeCookie("user", { path: "/", sameSite: "none", secure: true });
     props.setOpen(true);
     props.setSnackbarMessage("Logout successfully");
@@ -79,7 +78,6 @@ const ResponsiveAppBar = (props: any) => {
             sx={{ display: { xs: "none", md: "flex" }, cursor: "pointer" }}
             flexDirection={"row"}
             onClick={() => {
-              props.setOpenAddModal(false);
               navigate("/");
               window.scrollTo(0, 0);
             }}
@@ -156,7 +154,6 @@ const ResponsiveAppBar = (props: any) => {
             }}
             flexDirection={"row"}
             onClick={() => {
-              props.setOpenAddModal(false);
               navigate("/");
               window.scrollTo(0, 0);
             }}

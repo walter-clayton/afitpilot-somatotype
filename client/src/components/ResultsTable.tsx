@@ -32,6 +32,7 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import { AddPoint, IPoints } from "./Calculation";
 import { getSomatotypeType } from "./TestPage";
+import { useNavigate } from "react-router-dom";
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
@@ -86,7 +87,6 @@ interface resultProps {
   somatotypes?: ISomatotype[];
   showHistory?: boolean;
   getUserDatas?: () => void;
-  setOpenAddModal?: (openModal: boolean) => void;
   setIsAdding?: (openModal: boolean) => void;
   setIdRow?: (id: string) => void;
   idRow?: string;
@@ -117,6 +117,8 @@ const ResultsTable: FC<resultProps> = (props: any) => {
 
   const [page, setPage] = useState(0);
   const rowsPerPage: number = 5;
+
+  const navigate = useNavigate();
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -539,7 +541,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                   color="success"
                   onClick={() => {
                     props.setIsAdding(false);
-                    props.setOpenAddModal(true);
+                    navigate("/Add");
                     window.scrollTo(0, 0);
                     handleEditModalClose();
                   }}
