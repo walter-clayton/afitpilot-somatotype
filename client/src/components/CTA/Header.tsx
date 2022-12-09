@@ -83,14 +83,14 @@ const Header = () => {
                   <Button
                     sx={{
                       borderRadius: "40px",
-                      backgroundColor: "purple",
+                      backgroundColor: "RGB(108, 77, 123)",
                       fontSize: "20px",
                       textTransform: "initial",
                       padding: "19px 50px",
                       lineHeight: '40px',
                       textAlign: "center",
                       fontWeight: 600,
-                      "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
+                      "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
                     }}
                     variant="contained"
                     onClick={() => {

@@ -141,7 +141,7 @@ export default function Forget() {
                 disabled={fetching}
                 variant="contained"
                 sx={{
-                  backgroundColor: 'purple', padding: "14px 30px", fontWeight: 600, textAlign: "center", lineHeight: '30px', fontSize: "18px", borderRadius: "40px", textTransform: 'initial', margin: "0px 80px", minWidth: '240px', "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
+                  backgroundColor: 'RGB(108, 77, 123)', padding: "14px 30px", fontWeight: 600, textAlign: "center", lineHeight: '30px', fontSize: "18px", borderRadius: "40px", textTransform: 'initial', margin: "0px 80px", minWidth: '240px', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
                 }}
               >
                 Send email

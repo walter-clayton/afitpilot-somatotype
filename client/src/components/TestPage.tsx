@@ -727,7 +727,9 @@ const TestPage: FC<ITesting> = (props) => {
             }}
           >
             <Button
-              sx={{ margin: "10px auto", maxWidth: "sm" }}
+              sx={{
+                maxWidth: "sm", borderRadius: "40px", fontSize: "20px", backgroundColor: 'RGB(108, 77, 123)', fontWeight: 600, lineHeight: "40px", textAlign: "center", padding: '14px 40px', textTransform: 'initial', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
+              }}
               variant="contained"
               onClick={() => {
                 handleSaveDatasClick();
