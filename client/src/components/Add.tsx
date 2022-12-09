@@ -52,7 +52,10 @@ const Add: FC<IAdding> = (props: any) => {
 
   const [pointsArray, setPointsArray] = useState<IPoints[]>([]);
 
-  const [fetching, setFetching] = React.useState<boolean>(false);
+  const [fetching, setFetching] = useState<boolean>(false);
+
+  const [anthropometricHasError, setAnthropometricHasError] =
+    useState<boolean>(false);
 
   useEffect(() => {
     props.isAdding
@@ -210,6 +213,7 @@ const Add: FC<IAdding> = (props: any) => {
           <AnthropometricForm
             anthropometric={anthropometric}
             setAnthropometric={setAnthropometric}
+            setAnthropometricFormHasError={setAnthropometricHasError}
           />
         </Grid>
         {/* button */}
@@ -240,7 +244,12 @@ const Add: FC<IAdding> = (props: any) => {
             >
               GO BACK
             </Button>
-            <Button variant="contained" type="submit" onClick={handleSubmit}>
+            <Button
+              variant="contained"
+              type="submit"
+              onClick={handleSubmit}
+              disabled={anthropometricHasError}
+            >
               Submit
             </Button>
           </Box>

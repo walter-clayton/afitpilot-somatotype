@@ -384,6 +384,9 @@ const TestPage: FC<ITesting> = (props) => {
     IAnthropometric | undefined
   >(undefined);
 
+  const [anthropometricHasError, setAnthropometricHasError] =
+    useState<boolean>(false);
+
   const [pointsArray, setPointsArray] = useState<IPoints[]>([]);
   // const [params, setParams] = useParams()
   useEffect(() => {
@@ -582,6 +585,7 @@ const TestPage: FC<ITesting> = (props) => {
           <AnthropometricForm
             anthropometric={anthropometric}
             setAnthropometric={setAnthropometric}
+            setAnthropometricFormHasError={setAnthropometricHasError}
           />
         </Grid>
         {/* button */}
@@ -597,7 +601,12 @@ const TestPage: FC<ITesting> = (props) => {
           lg={6}
         >
           <Box sx={{ textalign: "center" }}>
-            <Button variant="contained" type="submit" onClick={handleSubmit}>
+            <Button
+              variant="contained"
+              type="submit"
+              onClick={handleSubmit}
+              disabled={anthropometricHasError}
+            >
               Submit
             </Button>
           </Box>
