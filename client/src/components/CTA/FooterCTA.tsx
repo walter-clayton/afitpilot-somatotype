@@ -67,7 +67,7 @@ const FooterCTA = () => {
                             <Button
                                 sx={{
                                     borderRadius: "40px",
-                                    backgroundColor: "purple",
+                                    backgroundColor: "RGB(108, 77, 123)",
                                     padding: "19px 50px",
                                     fontWeight: 600,
                                     textAlign: "start",
@@ -75,7 +75,7 @@ const FooterCTA = () => {
                                     lineHeight: "40px",
                                     margin: "0px 0px 40px",
                                     textTransform: "initial",
-                                    "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
+                                    "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
                                 }}
                                 variant="contained"
                                 onClick={() => {

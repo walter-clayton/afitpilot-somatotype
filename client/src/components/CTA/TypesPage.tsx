@@ -168,12 +168,12 @@ const TypesPage = () => {
                 borderRadius: "40px",
                 fontSize: "18px",
                 lineHeight: "30px",
-                backgroundColor: "purple",
+                backgroundColor: "RGB(108, 77, 123)",
                 padding: "14px 40px",
                 fontWeight: 600,
                 textAlign: 'center',
                 textTransform: 'initial',
-                "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
+                "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
               }}
             >
               Find your Types <ArrowForwardSharpIcon />

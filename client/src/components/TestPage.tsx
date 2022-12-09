@@ -610,7 +610,7 @@ const TestPage: FC<ITesting> = (props) => {
           <Box>
             <Button variant="contained" type="submit" onClick={handleSubmit} disabled={anthropometricHasError}
               sx={{
-                textalign: "center", fontSize: "20px", lineHeight: 1.67, padding: '14px 40px', fontWeight: 600, textAlign: 'center', backgroundColor: "purple", borderRadius: "40px", textTransform: 'initial', "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
+                textalign: "center", fontSize: "20px", lineHeight: 1.67, padding: '14px 40px', fontWeight: 600, textAlign: 'center', backgroundColor: "RGB(108, 77, 123)", borderRadius: "40px", textTransform: 'initial', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
               }}
             >
               See Results <ArrowForwardSharpIcon />
@@ -674,7 +674,7 @@ const TestPage: FC<ITesting> = (props) => {
           >
             <Button
               sx={{
-                maxWidth: "sm", borderRadius: "40px", fontSize: "20px", backgroundColor: 'purple', fontWeight: 600, lineHeight: "40px", textAlign: "center", padding: '14px 40px', textTransform: 'initial', "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
+                maxWidth: "sm", borderRadius: "40px", fontSize: "20px", backgroundColor: 'RGB(108, 77, 123)', fontWeight: 600, lineHeight: "40px", textAlign: "center", padding: '14px 40px', textTransform: 'initial', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
               }}
               variant="contained"
               onClick={() => {
