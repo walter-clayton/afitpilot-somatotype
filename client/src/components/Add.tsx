@@ -237,27 +237,28 @@ const Add: FC<IAdding> = (props: any) => {
           }}
         />
       </Button>
-      <Collapse in={manually} collapsedSize={0} easing={{ enter: "5" }}>
-        <Grid
-          ref={gridRef}
-          container
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: "0px 15px",
-            overflow: "hidden",
-          }}
-          width={"100%"}
-        >
-          {/* Form Inputs */}
+
+      <Grid
+        ref={gridRef}
+        container
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "0px 15px",
+          overflow: "hidden",
+        }}
+        width={"100%"}
+      >
+        {/* Form Inputs */}
+        <Collapse in={manually} collapsedSize={0} easing={{ enter: "5" }}>
           <Grid
             item
             sx={{
               flexGrow: 1,
               alignItems: "center",
-              margin: "20px 0",
+              margin: "20px auto",
             }}
             width={"100%"}
             xs={12}
@@ -292,71 +293,47 @@ const Add: FC<IAdding> = (props: any) => {
               setAnthropometric={setAnthropometric}
             />
           </Grid>
-          {/* button */}
-          <Grid
-            item
-            sx={{
-              flexGrow: 1,
-              alignItems: "center",
-              margin: "20px auto",
-            }}
-            xs={12}
-            md={8}
-            lg={6}
-          >
-            <Box>
-              <Button
-                variant="contained"
-                type="submit"
-                onClick={handleSubmit}
-                sx={{
-                  textalign: "center",
-                  fontSize: "20px",
-                  lineHeight: 1.67,
-                  padding: "14px 40px",
-                  fontWeight: 600,
-                  textAlign: "center",
-                  backgroundColor: "purple",
-                  borderRadius: "40px",
-                  textTransform: "initial",
-                  "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
-                }}
-              >
-                See Results <ArrowForwardSharpIcon />
-              </Button>
-            </Box>
-          </Grid>
-          {/* Results Table */}
-          {showResults ? (
-            <Grid
-              item
+        </Collapse>
+        {/* button */}
+        <Grid
+          item
+          sx={{
+            flexGrow: 1,
+            alignItems: "center",
+            margin: "20px auto",
+          }}
+          xs={12}
+          md={8}
+          lg={6}
+        >
+          <Box>
+            <Button
+              variant="contained"
+              type="submit"
+              onClick={handleSubmit}
               sx={{
-                flexGrow: 1,
-                alignItems: "center",
-                margin: "20px 0",
+                textalign: "center",
+                fontSize: "20px",
+                lineHeight: 1.67,
+                padding: "14px 40px",
+                fontWeight: 600,
+                textAlign: "center",
+                backgroundColor: "purple",
+                borderRadius: "40px",
+                textTransform: "initial",
+                "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
               }}
-              xs={12}
-              md={8}
-              lg={6}
-              width={"100%"}
             >
-              <ResultsTable
-                showHistory={false}
-                multipleResults={false}
-                singleSomatotype={somatotype}
-                setPointsArray={setPointsArray}
-                toggleGraph={toggleGraph}
-                setToggleGraph={setToggleGraph}
-              />
-            </Grid>
-          ) : null}
-
+              See Results <ArrowForwardSharpIcon />
+            </Button>
+          </Box>
+        </Grid>
+        {/* Results Table */}
+        {showResults ? (
           <Grid
             item
             sx={{
               flexGrow: 1,
-              display: "flex",
-              justifyContent: "center",
               alignItems: "center",
               margin: "20px 0",
             }}
@@ -365,35 +342,59 @@ const Add: FC<IAdding> = (props: any) => {
             lg={6}
             width={"100%"}
           >
-            {showResults && (
-              <SomatotypeGraph
-                updateGraph={toggleGraph}
-                pointsArray={pointsArray}
-              />
-            )}
+            <ResultsTable
+              showHistory={false}
+              multipleResults={false}
+              singleSomatotype={somatotype}
+              setPointsArray={setPointsArray}
+              toggleGraph={toggleGraph}
+              setToggleGraph={setToggleGraph}
+            />
           </Grid>
+        ) : null}
 
-          {showResults ? (
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
+        <Grid
+          item
+          sx={{
+            flexGrow: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            margin: "20px 0",
+          }}
+          xs={12}
+          md={8}
+          lg={6}
+          width={"100%"}
+        >
+          {showResults && (
+            <SomatotypeGraph
+              updateGraph={toggleGraph}
+              pointsArray={pointsArray}
+            />
+          )}
+        </Grid>
+
+        {showResults ? (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
+            <Button
+              sx={{ margin: "10px auto", maxWidth: "sm" }}
+              variant="contained"
+              onClick={() => {
+                handleSaveDatasClick();
               }}
             >
-              <Button
-                sx={{ margin: "10px auto", maxWidth: "sm" }}
-                variant="contained"
-                onClick={() => {
-                  handleSaveDatasClick();
-                }}
-              >
-                Save Your Results
-              </Button>
-            </Box>
-          ) : null}
-        </Grid>
-      </Collapse>
+              Save Your Results
+            </Button>
+          </Box>
+        ) : null}
+      </Grid>
     </ThemeProvider>
   );
 };
