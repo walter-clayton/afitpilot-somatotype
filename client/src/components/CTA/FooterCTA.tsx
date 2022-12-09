@@ -66,11 +66,16 @@ const FooterCTA = () => {
                         <Stack>
                             <Button
                                 sx={{
-                                    borderRadius: "20px",
+                                    borderRadius: "40px",
                                     backgroundColor: "purple",
-                                    padding: 1,
-                                    mb: 3,
-                                    mt: 1
+                                    padding: "19px 50px",
+                                    fontWeight: 600,
+                                    textAlign: "start",
+                                    fontSize: "20px",
+                                    lineHeight: "40px",
+                                    margin: "0px 0px 40px",
+                                    textTransform: "initial",
+                                    "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
                                 }}
                                 variant="contained"
                                 onClick={() => {

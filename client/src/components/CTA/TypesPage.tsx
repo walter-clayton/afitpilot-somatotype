@@ -165,12 +165,18 @@ const TypesPage = () => {
             </Typography>
             <Button variant="contained"
               sx={{
-                borderRadius: "30px",
+                borderRadius: "40px",
+                fontSize: "18px",
+                lineHeight: "30px",
                 backgroundColor: "purple",
-                padding: 2,
+                padding: "14px 40px",
+                fontWeight: 600,
+                textAlign: 'center',
+                textTransform: 'initial',
+                "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
               }}
             >
-              Find your types <ArrowForwardSharpIcon />
+              Find your Types <ArrowForwardSharpIcon />
             </Button>
           </Box>
         </Grid>
