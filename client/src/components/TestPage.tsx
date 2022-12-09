@@ -408,27 +408,37 @@ const TestPage: FC<ITesting> = (props) => {
   }, [exceeded, notStandard]);
 
   const isExceeded = (soma: number[]): boolean => {
-    const endo: number | undefined = soma[0];
-    const meso: number | undefined = soma[1];
-    const ecto: number | undefined = soma[2];
+    const endo: number | undefined =
+      Number(soma[0]) < 1 ? 1 : Number(soma[0]?.toFixed());
+    const meso: number | undefined =
+      Number(soma[1]) < 1 ? 1 : Number(soma[1]?.toFixed());
+    const ecto: number | undefined =
+      Number(soma[2]) < 1 ? 1 : Number(soma[2]?.toFixed());
     let isExceeded: boolean = false;
+    console.log(`${endo} ${meso} ${ecto}`);
 
-    // endo limits: [0.5 - 16]
-    isExceeded = endo! < 0.5 || endo! > 16;
-
-    // meso limits: [0.5 - 12]
-    !isExceeded && (isExceeded = meso! < 0.5 || meso! > 12);
-
-    // ecto limits: [0.5 - 9]
-    !isExceeded && (isExceeded = ecto! < 0.5 || ecto! > 9);
+    // endo limits: [1 - 15]
+    // meso limits: [1 - 12]
+    // ecto limits: [1 - 9]
+    isExceeded =
+      endo! < 1 ||
+      endo! > 15 ||
+      meso! < 1 ||
+      meso! > 12 ||
+      ecto! < 1 ||
+      ecto! > 9;
 
     return isExceeded;
   };
 
   const isStandard = (soma: number[]): boolean => {
-    const endo: number | undefined = Number(soma[0].toFixed());
-    const meso: number | undefined = Number(soma[1].toFixed());
-    const ecto: number | undefined = Number(soma[2].toFixed());
+    const endo: number | undefined =
+      Number(soma[0]) < 1 ? 1 : Number(soma[0]?.toFixed());
+    const meso: number | undefined =
+      Number(soma[1]) < 1 ? 1 : Number(soma[1]?.toFixed());
+    const ecto: number | undefined =
+      Number(soma[2]) < 1 ? 1 : Number(soma[2]?.toFixed());
+
     let isStandard: boolean = true;
 
     let valuesStandard: String[][] = Object.values(somatotypesStandard);
@@ -436,8 +446,6 @@ const TestPage: FC<ITesting> = (props) => {
     valuesStandard.forEach((array: String[]) => {
       isStandard = array.includes(`${endo}${meso}${ecto}`);
     });
-
-    // console.log(isStandard);
 
     return isStandard;
   };
@@ -448,6 +456,7 @@ const TestPage: FC<ITesting> = (props) => {
     }
     notStandard && setNotStandard(false);
     exceeded && setExceeded(false);
+    notStandard && setNotStandard(false);
     msgErr !== "" && setMsgErr("");
 
     const somatotypeResults = calculateSomatotype(anthropometric!);

@@ -54,7 +54,11 @@ export function calculateSomatotype(anthropometric: IAnthropometric) {
     }
   }
 
-  return [endomorphy, mesomorphy, ectomorphy];
+  return [
+    Number(endomorphy.toFixed(1)),
+    Number(mesomorphy.toFixed(1)),
+    Number(ectomorphy.toFixed(1)),
+  ];
 }
 
 export interface IPoints {
