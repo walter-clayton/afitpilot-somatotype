@@ -630,6 +630,8 @@ const TestPage: FC<ITesting> = (props) => {
             <AnthropometricForm
               anthropometric={anthropometric}
               setAnthropometric={setAnthropometric}
+              setAnthropometricFormHasError={setAnthropometricHasError}
+              isFetching={false}
             />
           </Grid>
         </Collapse>
