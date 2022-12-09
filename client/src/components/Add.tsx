@@ -27,6 +27,7 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 import { somatotypesStandard } from "./TestPage";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const theme = createTheme();
 
@@ -228,7 +229,7 @@ const Add: FC<IAdding> = (props: any) => {
         }}
       >
         Enter details manually
-        <ArrowForwardSharpIcon
+        <ArrowForwardIosIcon
           sx={{
             marginLeft: "10px",
             fontSize: "25px",

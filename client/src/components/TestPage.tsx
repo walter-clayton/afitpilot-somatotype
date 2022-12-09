@@ -23,6 +23,7 @@ import Typography from "@mui/material/Typography";
 import HeaderTestpage from "./CTA/HeaderTestpage";
 import CounterShare from "./CTA/CounterShare";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const theme = createTheme();
 
@@ -567,7 +568,7 @@ const TestPage: FC<ITesting> = (props) => {
         }}
       >
         Enter details manually
-        <ArrowForwardSharpIcon
+        <ArrowForwardIosIcon
           sx={{
             marginLeft: "10px",
             fontSize: "25px",
