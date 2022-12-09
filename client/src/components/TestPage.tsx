@@ -385,6 +385,9 @@ const TestPage: FC<ITesting> = (props) => {
     IAnthropometric | undefined
   >(undefined);
 
+  const [anthropometricHasError, setAnthropometricHasError] =
+    useState<boolean>(false);
+
   const [pointsArray, setPointsArray] = useState<IPoints[]>([]);
   // const [params, setParams] = useParams()
   useEffect(() => {
@@ -589,6 +592,7 @@ const TestPage: FC<ITesting> = (props) => {
           <AnthropometricForm
             anthropometric={anthropometric}
             setAnthropometric={setAnthropometric}
+            setAnthropometricFormHasError={setAnthropometricHasError}
           />
         </Grid>
         {/* button */}
@@ -604,7 +608,7 @@ const TestPage: FC<ITesting> = (props) => {
           lg={6}
         >
           <Box>
-            <Button variant="contained" type="submit" onClick={handleSubmit}
+            <Button variant="contained" type="submit" onClick={handleSubmit} disabled={anthropometricHasError}
               sx={{
                 textalign: "center", fontSize: "20px", lineHeight: 1.67, padding: '14px 40px', fontWeight: 600, textAlign: 'center', backgroundColor: "purple", borderRadius: "40px", textTransform: 'initial', "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
               }}
