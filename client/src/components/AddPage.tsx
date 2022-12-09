@@ -33,16 +33,13 @@ const theme = createTheme();
 
 interface IAdding {
   setData?: (data: IData) => void;
-  setOpenAddModal?: (openModal: boolean) => void;
   isAdding?: boolean;
-  getUserDatas?: () => void;
   idRow?: string;
-  anthropometrics?: IAnthropometric[];
   idSomatotype?: string;
   setDashboardSnackBarOpen?: (open: boolean) => void;
   setDashboardSnackBarMessage?: (msg: string) => void;
 }
-const Add: FC<IAdding> = (props: any) => {
+const AddPage: FC<IAdding> = (props: any) => {
   const [showResults, setShowResults] = useState(false);
   const [toggleGraph, setToggleGraph] = useState(false);
   const [exceeded, setExceeded] = useState(false);
@@ -66,20 +63,21 @@ const Add: FC<IAdding> = (props: any) => {
   const [anthropometricHasError, setAnthropometricHasError] =
     useState<boolean>(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    props.isAdding
-      ? setAnthropometric((anthropometric) => ({
-          height: 180,
-          weight: 80,
-          supraspinal_skinfold: 12,
-          subscapular_skinfold: 12,
-          tricep_skinfold: 12,
-          femur_breadth: 8,
-          humerus_breadth: 7,
-          calf_girth: 38,
-          bicep_girth: 38,
-        }))
-      : setAnthropometric(props.anthropometrics.reverse()[props.idRow]);
+    // setAnthropometric((anthropometric) => ({
+    //   height: 180,
+    //   weight: 80,
+    //   supraspinal_skinfold: 12,
+    //   subscapular_skinfold: 12,
+    //   tricep_skinfold: 12,
+    //   femur_breadth: 8,
+    //   humerus_breadth: 7,
+    //   calf_girth: 38,
+    //   bicep_girth: 38,
+    // }));
+    getUserDatas();
   }, []);
 
   useEffect(() => {
@@ -109,7 +107,7 @@ const Add: FC<IAdding> = (props: any) => {
         { somatotype, anthropometric },
         { headers: headers }
       );
-      props.setOpenAddModal!(false);
+      navigate("/");
       window.scrollTo(0, 0);
       props.setDashboardSnackBarOpen(true);
       props.isAdding
@@ -117,7 +115,7 @@ const Add: FC<IAdding> = (props: any) => {
         : props.setDashboardSnackBarMessage("Somatotype changes saved !");
 
       setFetching(false);
-      props.getUserDatas();
+      getUserDatas();
     } catch (error) {
       // if (error.response) {
       //     error.response.data.message
@@ -139,7 +137,7 @@ const Add: FC<IAdding> = (props: any) => {
     const ecto: number | undefined =
       Number(soma[2]) < 1 ? 1 : Number(soma[2]?.toFixed());
     let isExceeded: boolean = false;
-    console.log(`${endo} ${meso} ${ecto}`);
+    //console.log(`${endo} ${meso} ${ecto}`);
 
     // endo limits: [1 - 15]
     // meso limits: [1 - 12]
@@ -202,6 +200,50 @@ const Add: FC<IAdding> = (props: any) => {
         mesomorphy: somatotypeResults[1],
         ectomorphy: somatotypeResults[2],
       });
+    }
+  };
+
+  const getUserDatas = async () => {
+    const headers = {
+      "Content-Type": "application/json",
+      access_key: process.env.REACT_APP_ACCESS_KEY,
+      Authorization: `Bearer ${cookies.user.token}`,
+    };
+
+    try {
+      setFetching(true);
+      const response = await axios.get(
+        process.env.REACT_APP_GETUSERDATAS_URL!,
+        { headers: headers }
+      );
+      props.isAdding
+        ? setAnthropometric((anthropometric) => ({
+            height: 180,
+            weight: 80,
+            supraspinal_skinfold: 12,
+            subscapular_skinfold: 12,
+            tricep_skinfold: 12,
+            femur_breadth: 8,
+            humerus_breadth: 7,
+            calf_girth: 38,
+            bicep_girth: 38,
+          }))
+        : setAnthropometric(
+            response.data.data.anthropometrics.reverse()[props.idRow]
+          );
+
+      setToggleGraph(!toggleGraph);
+      setFetching(false);
+    } catch (error) {
+      // if (error.response) {
+      //     error.response.data.message
+      //       ? setSnackbarMessage(error.response.data.message)
+      //       : setSnackbarMessage(error.response.statusText);
+      //   } else {
+      //     setSnackbarMessage("Error with the server");
+      //   }
+      console.log("error ", error);
+      setFetching(false);
     }
   };
 
@@ -292,6 +334,8 @@ const Add: FC<IAdding> = (props: any) => {
             <AnthropometricForm
               anthropometric={anthropometric}
               setAnthropometric={setAnthropometric}
+              setAnthropometricFormHasError={setAnthropometricHasError}
+              isFetching={fetching}
             />
           </Grid>
         </Collapse>
@@ -307,7 +351,22 @@ const Add: FC<IAdding> = (props: any) => {
           md={8}
           lg={6}
         >
-          <Box>
+          <Box sx={{ textalign: "center" }}>
+            <Button
+              sx={{
+                margin: "10px auto",
+                marginRight: "20px",
+                padding: "5px 15px",
+                maxWidth: "sm",
+              }}
+              variant="outlined"
+              onClick={() => {
+                navigate("/");
+                window.scrollTo(0, 0);
+              }}
+            >
+              GO BACK
+            </Button>
             <Button
               variant="contained"
               type="submit"
@@ -400,4 +459,4 @@ const Add: FC<IAdding> = (props: any) => {
   );
 };
 
-export default Add;
+export default AddPage;
