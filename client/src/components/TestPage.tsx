@@ -554,7 +554,24 @@ const TestPage: FC<ITesting> = (props) => {
         sx={{
           borderRadius: "40px",
           display: "flex",
-          margin: "0 auto",
+          margin: "20px auto 0 auto",
+          backgroundColor: "RGB(51, 164, 116)",
+          padding: "20px 50px",
+          fontWeight: 600,
+          fontSize: "16px",
+          lineHeight: "30px",
+          "&:hover": { bgcolor: "#28835c" },
+        }}
+        variant="contained"
+        onClick={() => {}}
+      >
+        Take the scan
+      </Button>
+      <Button
+        sx={{
+          borderRadius: "40px",
+          display: "flex",
+          margin: "20px auto 0 auto",
           backgroundColor: "RGB(51, 164, 116)",
           padding: "20px 50px",
           fontWeight: 600,
