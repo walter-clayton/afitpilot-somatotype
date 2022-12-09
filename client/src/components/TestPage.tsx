@@ -428,7 +428,7 @@ const TestPage: FC<ITesting> = (props) => {
     const meso: number | undefined = Number(soma[1]?.toFixed());
     const ecto: number | undefined = Number(soma[2]?.toFixed());
     let isExceeded: boolean = false;
-    console.log(`${endo} ${meso} ${ecto}`);
+    //console.log(`${endo} ${meso} ${ecto}`);
 
     // endo limits: [1 - 15]
     // meso limits: [1 - 12]
@@ -668,6 +668,7 @@ const TestPage: FC<ITesting> = (props) => {
               variant="contained"
               type="submit"
               onClick={handleSubmit}
+              disabled={anthropometricHasError}
               sx={{
                 textalign: "center",
                 fontSize: "20px",

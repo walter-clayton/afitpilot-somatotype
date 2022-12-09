@@ -21,6 +21,7 @@ import BlogPage from "./components/BlogPage";
 import Home from "./components/HomePage";
 import FooterCTA from "./components/CTA/FooterCTA";
 import BlogArticlePage from "./components/BlogArticlePage";
+import AddPage from "./components/AddPage";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -55,7 +56,13 @@ function App() {
 
   const [data, setData] = useState<IData | undefined>(undefined);
 
-  const [openAddModal, setOpenAddModal] = useState<boolean>(false);
+  const [isAdding, setIsAdding] = useState<boolean>(false);
+  const [idRow, setIdRow] = useState<string>("");
+  const [idSomatotype, setIdSomatotype] = useState<string>("");
+  const [dashboardSnackBarOpen, setDashboardSnackBarOpen] =
+    useState<boolean>(false);
+  const [dashboardSnackBarMessage, setDashboardSnackBarMessage] =
+    useState<string>("");
 
   const handleClose = (event: any, reason: any) => {
     if (reason === "clickaway") {
@@ -70,7 +77,6 @@ function App() {
         setOpen={setOpen}
         setSnackbarMessage={setSnackbarMessage}
         setData={setData}
-        setOpenAddModal={setOpenAddModal}
       />
       <Routes>
         <Route
@@ -80,8 +86,15 @@ function App() {
               <Dashboard
                 resultsSaved={resultsSaved}
                 setResultsSaved={setResultsSaved}
-                openAddModal={openAddModal}
-                setOpenAddModal={setOpenAddModal}
+                setIsAdding={setIsAdding}
+                idRow={idRow}
+                setIdRow={setIdRow}
+                idSomatotype={idSomatotype}
+                setIdSomatotype={setIdSomatotype}
+                dashboardSnackBarOpen={dashboardSnackBarOpen}
+                setDashboardSnackBarOpen={setDashboardSnackBarOpen}
+                dashboardSnackBarMessage={dashboardSnackBarMessage}
+                setDashboardSnackBarMessage={setDashboardSnackBarMessage}
               />
             ) : (
               <Home />
@@ -145,6 +158,18 @@ function App() {
                 setSnackbarMessage={setSnackbarMessage}
               />
             )
+          }
+        />
+        <Route
+          path="/Add"
+          element={
+            <AddPage
+              isAdding={isAdding}
+              idRow={idRow}
+              idSomatotype={idSomatotype}
+              setDashboardSnackBarOpen={setDashboardSnackBarOpen}
+              setDashboardSnackBarMessage={setDashboardSnackBarMessage}
+            />
           }
         />
       </Routes>
