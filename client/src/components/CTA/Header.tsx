@@ -15,16 +15,14 @@ theme.typography.h1 = {
   },
 };
 theme.typography.h2 = {
-  "@media (min-width:600px)": {
-    fontSize: "1.9rem",
+  "@media (max-width:600px)": {
+    fontSize: "36px",
+    lineHeight: "46px",
+    margin: "0px 0px 10px"
   },
-  [theme.breakpoints.up("md")]: {
-    fontSize: "2.9rem",
-    padding: "50px"
-  },
-  [theme.breakpoints.down("lg")]: {
-    fontSize: "1.9rem",
-  },
+  // [theme.breakpoints.down("lg")]: {
+  //   fontSize: "54px",
+  // },
 };
 const Header = () => {
   const navigate = useNavigate();
@@ -38,13 +36,12 @@ const Header = () => {
             container
             sx={{
               backgroundColor: "#f6f6f7",
-              marginTop: 8,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
               width: "100%",
-              height: "450px",
+              height: "400px",
             }}
           >
             <Grid item xs={12} md={12} lg={12} sm={12}>
@@ -62,19 +59,24 @@ const Header = () => {
                   sx={{
                     color: "black",
                     textAlign: "center",
-                    mb: 2,
+                    fontSize: "54px",
+                    margin: '0px 0px 20px',
+                    lineHeight: "71px",
+                    fontWeight: 600
                   }}
                 >
                   We were built differently.{" "}
                 </Typography>
                 <Typography
                   mb={2}
-                  variant="subtitle1"
+                  variant="body1"
                   sx={{
                     color: "black",
                     textAlign: "center",
                     fontSize: "20px",
-                    mb: 4,
+                    lineHeight: "40px",
+                    margin: '0px 0px 30px',
+                    fontWeight: 400
                   }}
                 >
                   Locate your own uniqueness {" "}
