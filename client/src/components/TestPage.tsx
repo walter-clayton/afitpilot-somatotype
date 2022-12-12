@@ -18,6 +18,7 @@ import ResultsTable from "./ResultsTable";
 import SomatotypeGraph from "./SomatotypeGraph";
 import axios from "axios";
 import { matchRoutes, useNavigate, useParams } from "react-router-dom";
+import { matchRoutes, useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import Typography from "@mui/material/Typography";
 import HeaderTestpage from "./CTA/HeaderTestpage";
@@ -182,6 +183,56 @@ export const somatotypesStandard: ISomatotypesStandard = {
     "891",
   ],
 };
+
+const TestPage: FC<ITesting> = (props) => {
+  const naviguate = useNavigate();
+
+  const [showResults, setShowResults] = useState(false);
+  const [exceeded, setExceeded] = useState(false);
+  const [notStandard, setNotStandard] = useState(false);
+  const [msgErr, setMsgErr] = useState<String>("");
+  const [toggleGraph, setToggleGraph] = useState(false);
+  const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  const [snackBarMessage, setSnackBarMessage] = useState("");
+  const [snackBarState, setSnackBarState] = React.useState({
+    open: false,
+    vertical: "bottom",
+    horizontal: "center",
+  });
+
+  const [somatotype, setSomatotype] = useState<ISomatotype | undefined>(
+    undefined
+  );
+
+  const [anthropometric, setAnthropometric] = useState<
+    IAnthropometric | undefined
+  >(undefined);
+
+  const [pointsArray, setPointsArray] = useState<IPoints[]>([]);
+  // const [params, setParams] = useParams()
+  useEffect(() => {
+    setAnthropometric((anthropometric) => ({
+      height: 180,
+      weight: 80,
+      supraspinal_skinfold: 12,
+      subscapular_skinfold: 12,
+      tricep_skinfold: 12,
+      femur_breadth: 8,
+      humerus_breadth: 7,
+      calf_girth: 38,
+      bicep_girth: 38,
+    }));
+  }, []);
+
+  useEffect(() => {
+    if (exceeded || notStandard) {
+      window.scrollTo(0, Number(gridRef.current?.offsetTop));
+      setShowResults(false);
+    }
+  }, [exceeded, notStandard]);
 
 const isMinTwoDigit = (soma: ISomatotype): boolean => {
   let matchCondition: boolean;
@@ -448,13 +499,9 @@ const TestPage: FC<ITesting> = (props) => {
   };
 
   const isStandard = (soma: number[]): boolean => {
-    const endo: number | undefined =
-      Number(soma[0]) < 1 ? 1 : Number(soma[0]?.toFixed());
-    const meso: number | undefined =
-      Number(soma[1]) < 1 ? 1 : Number(soma[1]?.toFixed());
-    const ecto: number | undefined =
-      Number(soma[2]) < 1 ? 1 : Number(soma[2]?.toFixed());
-
+    const endo: number | undefined = Number(soma[0].toFixed());
+    const meso: number | undefined = Number(soma[1].toFixed());
+    const ecto: number | undefined = Number(soma[2].toFixed());
     let isStandard: boolean = true;
 
     let valuesStandard: String[][] = Object.values(somatotypesStandard);
@@ -462,6 +509,8 @@ const TestPage: FC<ITesting> = (props) => {
     valuesStandard.forEach((array: String[]) => {
       isStandard = array.includes(`${endo}${meso}${ecto}`);
     });
+
+    // console.log(isStandard);
 
     return isStandard;
   };
@@ -472,7 +521,6 @@ const TestPage: FC<ITesting> = (props) => {
     }
     notStandard && setNotStandard(false);
     exceeded && setExceeded(false);
-    notStandard && setNotStandard(false);
     msgErr !== "" && setMsgErr("");
 
     const somatotypeResults = calculateSomatotype(anthropometric!);
@@ -480,6 +528,9 @@ const TestPage: FC<ITesting> = (props) => {
     if (isExceeded(somatotypeResults)) {
       setExceeded(true);
       setMsgErr("Error values: somatotype exceeded");
+    } else if (!isStandard(somatotypeResults)) {
+      setNotStandard(true);
+      setMsgErr("Error values: somatotype is not standard");
     } else {
       setShowResults(true);
       setToggleGraph(!toggleGraph);
@@ -611,51 +662,46 @@ const TestPage: FC<ITesting> = (props) => {
         width={"100%"}
       >
         {/* Form Inputs */}
-        <Collapse in={manually} collapsedSize={0} easing={{ enter: "5" }}>
-          <Grid
-            item
-            sx={{
-              flexGrow: 1,
-              alignItems: "center",
-              margin: "20px auto",
-            }}
-            width={"100%"}
-            xs={12}
-            md={8}
-            lg={6}
-          >
-            {props.resultsSaved && (
-              <Alert
-                onClose={() => {
-                  props.setResultsSaved(false);
-                }}
-                severity="success"
-                sx={{ margin: "50px auto" }}
-              >
-                Results saved successfully
-              </Alert>
-            )}
-            {(exceeded || notStandard) && (
-              <Alert
-                onClose={() => {
-                  exceeded && setExceeded(false);
-                  notStandard && setNotStandard(false);
-                }}
-                severity="error"
-                sx={{ margin: "50px auto" }}
-              >
-                {msgErr}
-              </Alert>
-            )}
-            <AnthropometricForm
-              anthropometric={anthropometric}
-              setAnthropometric={setAnthropometric}
-              setAnthropometricFormHasError={setAnthropometricHasError}
-              isFetching={false}
-            />
-          </Grid>
-        </Collapse>
-
+        <Grid
+          item
+          sx={{
+            flexGrow: 1,
+            alignItems: "center",
+            margin: "20px 0",
+          }}
+          width={"100%"}
+          xs={12}
+          md={8}
+          lg={6}
+        >
+          {props.resultsSaved && (
+            <Alert
+              onClose={() => {
+                props.setResultsSaved(false);
+              }}
+              severity="success"
+              sx={{ margin: "50px auto" }}
+            >
+              Results saved successfully
+            </Alert>
+          )}
+          {(exceeded || notStandard) && (
+            <Alert
+              onClose={() => {
+                exceeded && setExceeded(false);
+                notStandard && setNotStandard(false);
+              }}
+              severity="error"
+              sx={{ margin: "50px auto" }}
+            >
+              {msgErr}
+            </Alert>
+          )}
+          <AnthropometricForm
+            anthropometric={anthropometric}
+            setAnthropometric={setAnthropometric}
+          />
+        </Grid>
         {/* button */}
         <Grid
           item
