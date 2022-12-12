@@ -56,7 +56,7 @@ function App() {
 
   const [data, setData] = useState<IData | undefined>(undefined);
 
-  const [isAdding, setIsAdding] = useState<boolean>(false);
+  const [isAdding, setIsAdding] = useState<boolean>(true);
   const [idRow, setIdRow] = useState<string>("");
   const [idSomatotype, setIdSomatotype] = useState<string>("");
   const [dashboardSnackBarOpen, setDashboardSnackBarOpen] =
@@ -77,6 +77,7 @@ function App() {
         setOpen={setOpen}
         setSnackbarMessage={setSnackbarMessage}
         setData={setData}
+        setIsAdding={setIsAdding}
       />
       <Routes>
         <Route
