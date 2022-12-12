@@ -78,7 +78,6 @@ const ResponsiveAppBar = (props: any) => {
             sx={{ display: { xs: "none", md: "flex" }, cursor: "pointer" }}
             flexDirection={"row"}
             onClick={() => {
-              props.setOpenAddModal(false);
               navigate("/");
               window.scrollTo(0, 0);
             }}
@@ -137,9 +136,6 @@ const ResponsiveAppBar = (props: any) => {
                 <MenuItem
                   key={index}
                   onClick={() => {
-                    if (page.path === "/Blog") {
-                      props.setOpenBlogArticleModal(false);
-                    }
                     handleCloseNavMenu();
                     navigate(page.path);
                     window.scrollTo(0, 0);
@@ -158,7 +154,6 @@ const ResponsiveAppBar = (props: any) => {
             }}
             flexDirection={"row"}
             onClick={() => {
-              props.setOpenAddModal(false);
               navigate("/");
               window.scrollTo(0, 0);
             }}
@@ -199,9 +194,6 @@ const ResponsiveAppBar = (props: any) => {
               <Button
                 key={index}
                 onClick={() => {
-                  if (page.path === "/Blog") {
-                    props.setOpenBlogArticleModal(false);
-                  }
                   handleCloseNavMenu();
                   navigate(page.path);
                   window.scrollTo(0, 0);

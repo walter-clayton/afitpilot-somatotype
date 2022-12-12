@@ -82,9 +82,15 @@ const Header = () => {
                 <Stack>
                   <Button
                     sx={{
-                      borderRadius: "20px",
-                      backgroundColor: "purple",
-                      padding: 1,
+                      borderRadius: "40px",
+                      backgroundColor: "RGB(108, 77, 123)",
+                      fontSize: "20px",
+                      textTransform: "initial",
+                      padding: "19px 50px",
+                      lineHeight: '40px',
+                      textAlign: "center",
+                      fontWeight: 600,
+                      "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
                     }}
                     variant="contained"
                     onClick={() => {
@@ -92,7 +98,7 @@ const Header = () => {
                       window.scrollTo(0, 0);
                     }}
                   >
-                    Take the test <ArrowForwardSharpIcon />
+                    Take the Test <ArrowForwardSharpIcon />
                   </Button>
                 </Stack>
               </Box>

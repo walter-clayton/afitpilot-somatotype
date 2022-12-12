@@ -41,7 +41,9 @@ const CallToAction = () => {
             </Typography>
             <Stack mt={1.5} spacing={2} direction="row">
               <Button
-                sx={{ borderRadius: "20px", backgroundColor: "green" }}
+                sx={{
+                  borderRadius: "40px", backgroundColor: "RGB(51, 164, 116)", padding: "14px 40px", fontSize: "18px", fontWeight: 600, lineHeight: "30px", textAlign: "center", textTransform: "initial", fontStyle: 'normal', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(51, 164, 116)" },
+                }}
                 variant="contained"
                 onClick={() => {
                   navigate("/Types");
@@ -50,7 +52,7 @@ const CallToAction = () => {
               >
                 Somatotypes
               </Button>
-              <Button sx={{ color: "blue" }} variant="text" onClick={() => {}}>
+              <Button sx={{ color: "RGB(66, 152, 180)", fontSize: "14px", lineHeight: "26px", fontWeight: 700, padding: "0px" }} variant="text" onClick={() => { }}>
                 Explore Theory <ArrowForwardSharpIcon />
               </Button>
             </Stack>
@@ -113,7 +115,9 @@ const CallToAction = () => {
             </Typography>
             <Stack mt={1.5} spacing={2} direction="row">
               <Button
-                sx={{ borderRadius: "20px", backgroundColor: "green" }}
+                sx={{
+                  borderRadius: "40px", backgroundColor: "RGB(52, 121, 144)", padding: "14px 40px", fontWeight: 600, fontSize: "18px", lineHeight: "30px", textAlign: "start", "&.MuiButtonBase-root:hover": { bgcolor: "RGB(52, 121, 144)" }
+                }}
                 variant="contained"
                 onClick={() => {
                   navigate("/Test");
