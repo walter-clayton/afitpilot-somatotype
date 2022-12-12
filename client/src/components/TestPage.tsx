@@ -24,6 +24,7 @@ import HeaderTestpage from "./CTA/HeaderTestpage";
 import CounterShare from "./CTA/CounterShare";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import TakeScan from "./scaning/TakeScan";
 
 const theme = createTheme();
 
@@ -377,6 +378,7 @@ const TestPage: FC<ITesting> = (props) => {
   const [notStandard, setNotStandard] = useState(false);
   const [msgErr, setMsgErr] = useState<String>("");
   const [manually, setManually] = useState<boolean>(false);
+  const [modalTakeScan, setModalTakeScan] = useState<boolean>(false);
   const [toggleGraph, setToggleGraph] = useState(false);
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -553,23 +555,7 @@ const TestPage: FC<ITesting> = (props) => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <HeaderTestpage />
-      <Button
-        sx={{
-          borderRadius: "40px",
-          display: "flex",
-          margin: "20px auto 0 auto",
-          backgroundColor: "RGB(51, 164, 116)",
-          padding: "20px 50px",
-          fontWeight: 600,
-          fontSize: "16px",
-          lineHeight: "30px",
-          "&:hover": { bgcolor: "#28835c" },
-        }}
-        variant="contained"
-        onClick={() => {}}
-      >
-        Take the scan
-      </Button>
+      <TakeScan setModalTakeScan={setModalTakeScan} />
       <Button
         sx={{
           borderRadius: "40px",
