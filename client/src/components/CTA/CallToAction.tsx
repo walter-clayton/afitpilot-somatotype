@@ -25,24 +25,25 @@ const CallToAction = () => {
               marginLeft: "7px",
             }}
           >
-            <Typography component="h1" variant="h4" sx={{ color: "blue" }}>
+            <Typography variant="body1" sx={{ color: "RGB(51, 164, 116)", fontSize: "14px", fontWeight: 700, textTransform: "uppercase", lineHeight: "26px", padding: 0 }}>
               Somatotypes
             </Typography>
-            <Typography mt={1.5} component="h4" variant="h4">
+            <Typography mt={1.5} component="h2" variant="h2"
+              sx={{ fontSize: '46px', margin: "0px 0px 10px", fontWeight: 600 }}>
               Understand yourself
             </Typography>
             <Typography
               mt={1.5}
-              sx={{ display: "flex", justifyContent: "flex-end" }}
+              sx={{ display: "flex", justifyContent: "flex-end", fontSize: "18px", lineHeight: "30px", margin: "0px 0px 30px", fontWeight: 400 }}
               variant="body1"
             >
               In our free type descriptions you’ll learn what body shape you
               have
             </Typography>
-            <Stack mt={1.5} spacing={2} direction="row">
+            <Stack mt={1} spacing={2} direction="row">
               <Button
                 sx={{
-                  borderRadius: "40px", backgroundColor: "RGB(51, 164, 116)", padding: "14px 40px", fontSize: "18px", fontWeight: 600, lineHeight: "30px", textAlign: "center", textTransform: "initial", fontStyle: 'normal', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(51, 164, 116)" },
+                  borderRadius: "40px", boxSizing: "border-box", backgroundColor: "RGB(51, 164, 116)", padding: "14px 40px", fontSize: "18px", fontWeight: 600, lineHeight: "30px", textAlign: "center", textTransform: "initial", fontStyle: 'normal', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(51, 164, 116)" },
                 }}
                 variant="contained"
                 onClick={() => {
@@ -52,7 +53,7 @@ const CallToAction = () => {
               >
                 Somatotypes
               </Button>
-              <Button sx={{ color: "RGB(66, 152, 180)", fontSize: "14px", lineHeight: "26px", fontWeight: 700, padding: "0px" }} variant="text" onClick={() => { }}>
+              <Button sx={{ color: "RGB(66, 152, 180)", boxSizing: "border-box", fontSize: "14px", lineHeight: "26px", fontWeight: 700, padding: "0px" }} variant="text" onClick={() => { }}>
                 Explore Theory <ArrowForwardSharpIcon />
               </Button>
             </Stack>
@@ -61,7 +62,7 @@ const CallToAction = () => {
         <Grid item xs={12} md={7} lg={6} sm={12}>
           <Box
             sx={{
-              marginTop: 8,
+              marginTop: 5,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -100,23 +101,26 @@ const CallToAction = () => {
               marginLeft: "7px",
             }}
           >
-            <Typography component="h1" variant="h4" sx={{ color: "blue" }}>
+            <Typography variant="body1" sx={{ color: "RGB(66, 152, 180)", fontSize: "14px", fontWeight: 700, textTransform: "uppercase", lineHeight: "26px", padding: 0 }}>
               Teams
             </Typography>
-            <Typography mt={1.5} component="h4" variant="h4">
+            <Typography mt={1.5} component="h2" variant="h2"
+              sx={{ fontSize: '46px', margin: "0px 0px 10px", fontWeight: 600 }}>
               Understand your team better
             </Typography>
             <Typography
-              mt={1.5} variant="body1"
-              sx={{ display: "flex", justifyContent: "flex-end" }}>
+              mt={1}
+              sx={{ display: "flex", justifyContent: "flex-end", fontSize: "18px", lineHeight: "30px", margin: "0px 0px 30px", fontWeight: 400 }}
+              variant="body1"
+            >
               Understand your team better with our Somatotype Assessment.
               Improve communication, create harmony, and help team members
               develop their individual strengths. Works for teams of all sizes.
             </Typography>
-            <Stack mt={1.5} spacing={2} direction="row">
+            <Stack mt={1} mb={3} spacing={2} direction="row">
               <Button
                 sx={{
-                  borderRadius: "40px", backgroundColor: "RGB(52, 121, 144)", padding: "14px 40px", fontWeight: 600, fontSize: "18px", lineHeight: "30px", textAlign: "start", "&.MuiButtonBase-root:hover": { bgcolor: "RGB(52, 121, 144)" }
+                  borderRadius: "40px", textTransform: 'initial', backgroundColor: "RGB(52, 121, 144)", padding: "14px 40px", fontWeight: 600, fontSize: "18px", lineHeight: "30px", textAlign: "start", "&.MuiButtonBase-root:hover": { bgcolor: "RGB(52, 121, 144)" }
                 }}
                 variant="contained"
                 onClick={() => {
