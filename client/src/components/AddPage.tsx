@@ -352,40 +352,29 @@ const AddPage: FC<IAdding> = (props: any) => {
           lg={6}
         >
           <Box sx={{ textalign: "center" }}>
-            <Button
-              sx={{
-                margin: "10px auto",
-                marginRight: "20px",
-                padding: "5px 15px",
-                maxWidth: "sm",
-              }}
-              variant="outlined"
-              onClick={() => {
-                navigate("/");
-                window.scrollTo(0, 0);
-              }}
-            >
-              GO BACK
-            </Button>
-            <Button
-              variant="contained"
-              type="submit"
-              onClick={handleSubmit}
-              sx={{
-                textalign: "center",
-                fontSize: "20px",
-                lineHeight: 1.67,
-                padding: "14px 40px",
-                fontWeight: 600,
-                textAlign: "center",
-                backgroundColor: "purple",
-                borderRadius: "40px",
-                textTransform: "initial",
-                "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
-              }}
-            >
-              See Results <ArrowForwardSharpIcon />
-            </Button>
+            <Stack spacing={2} direction={"row"}>
+              <Button
+                sx={{
+                  maxWidth: "sm", color: "white",
+                  backgroundColor: 'RGB(108, 77, 123)', padding: "7px 15px", fontWeight: 600, textAlign: "center", lineHeight: '30px', fontSize: "18px", borderRadius: "40px", textTransform: 'initial', minWidth: '140px', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
+                }}
+                // variant="outlined"
+                onClick={() => {
+                  props.setOpenAddModal!(false);
+                  window.scrollTo(0, 0);
+                }}
+              >
+                Go Back
+              </Button>
+              <Button variant="contained" type="submit" onClick={handleSubmit}
+                sx={{
+                  maxWidth: "sm", color: "white",
+                  backgroundColor: 'RGB(108, 77, 123)', padding: "7px 15px", fontWeight: 600, textAlign: "center", lineHeight: '30px', fontSize: "18px", borderRadius: "40px", textTransform: 'initial', minWidth: '140px', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
+                }}
+              >
+                Submit
+              </Button>
+            </Stack>
           </Box>
         </Grid>
         {/* Results Table */}
@@ -456,7 +445,7 @@ const AddPage: FC<IAdding> = (props: any) => {
           </Box>
         ) : null}
       </Grid>
-    </ThemeProvider>
+    </ThemeProvider >
   );
 };
 

@@ -9,12 +9,13 @@ import Group from "../image/Group.svg";
 
 const theme = createTheme();
 theme.typography.h2 = {
-    "@media (min-width:600px)": {
-        fontSize: "2.5rem",
+    "@media (max-width:600px)": {
+        fontSize: "30px",
+        lineHeight: '42px',
+        margin: '15px 0px',
+        padding: '0px 15px'
     },
-    [theme.breakpoints.up("md")]: {
-        fontSize: "2.9rem",
-    },
+
 };
 const FooterCTA = () => {
     const navigate = useNavigate();
@@ -59,7 +60,9 @@ const FooterCTA = () => {
                     >
                         <Typography
                             variant="h2"
-                            sx={{ color: "black", textAlign: "center" }}
+                            sx={{
+                                color: "black", textAlign: "center", fontWeight: 600, fontSize: "38px", margin: "20px 0px 30px", lineHeight: '56px'
+                            }}
                         >
                             Curious to know your body shape?
                         </Typography>
