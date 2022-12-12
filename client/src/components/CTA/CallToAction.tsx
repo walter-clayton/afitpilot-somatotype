@@ -1,7 +1,6 @@
 import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Grid, Box, Button } from "@mui/material/";
-import { Typography, Container } from "@mui/material/";
+import { Grid, Box, Button, Typography } from "@mui/material/";
 import Stack from "@mui/material/Stack";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import sitting from "../image/sitting-2.svg";
@@ -11,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 const CallToAction = () => {
   const navigate = useNavigate();
   return (
-    <Container component="main" maxWidth="xl">
+    <Box>
       <CssBaseline />
       <Grid item container sx={{ backgroundColor: "#f6f6f7", marginTop: 8 }}>
         <Grid item xs={12} md={5} lg={6} sm={12}>
@@ -42,7 +41,9 @@ const CallToAction = () => {
             </Typography>
             <Stack mt={1.5} spacing={2} direction="row">
               <Button
-                sx={{ borderRadius: "20px", backgroundColor: "green" }}
+                sx={{
+                  borderRadius: "40px", backgroundColor: "RGB(51, 164, 116)", padding: "14px 40px", fontSize: "18px", fontWeight: 600, lineHeight: "30px", textAlign: "center", textTransform: "initial", fontStyle: 'normal', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(51, 164, 116)" },
+                }}
                 variant="contained"
                 onClick={() => {
                   navigate("/Types");
@@ -51,7 +52,7 @@ const CallToAction = () => {
               >
                 Somatotypes
               </Button>
-              <Button sx={{ color: "blue" }} variant="text" onClick={() => {}}>
+              <Button sx={{ color: "RGB(66, 152, 180)", fontSize: "14px", lineHeight: "26px", fontWeight: 700, padding: "0px" }} variant="text" onClick={() => { }}>
                 Explore Theory <ArrowForwardSharpIcon />
               </Button>
             </Stack>
@@ -106,17 +107,17 @@ const CallToAction = () => {
               Understand your team better
             </Typography>
             <Typography
-              mt={1.5}
-              sx={{ display: "flex", justifyContent: "flex-end" }}
-              variant="body1"
-            >
+              mt={1.5} variant="body1"
+              sx={{ display: "flex", justifyContent: "flex-end" }}>
               Understand your team better with our Somatotype Assessment.
               Improve communication, create harmony, and help team members
               develop their individual strengths. Works for teams of all sizes.
             </Typography>
             <Stack mt={1.5} spacing={2} direction="row">
               <Button
-                sx={{ borderRadius: "20px", backgroundColor: "green" }}
+                sx={{
+                  borderRadius: "40px", backgroundColor: "RGB(52, 121, 144)", padding: "14px 40px", fontWeight: 600, fontSize: "18px", lineHeight: "30px", textAlign: "start", "&.MuiButtonBase-root:hover": { bgcolor: "RGB(52, 121, 144)" }
+                }}
                 variant="contained"
                 onClick={() => {
                   navigate("/Test");
@@ -129,7 +130,7 @@ const CallToAction = () => {
           </Box>
         </Grid>
       </Grid>
-    </Container>
+    </Box>
   );
 };
 export default CallToAction;

@@ -20,6 +20,8 @@ import TestPage from "./components/TestPage";
 import BlogPage from "./components/BlogPage";
 import Home from "./components/HomePage";
 import FooterCTA from "./components/CTA/FooterCTA";
+import BlogArticlePage from "./components/BlogArticlePage";
+import AddPage from "./components/AddPage";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -54,6 +56,14 @@ function App() {
 
   const [data, setData] = useState<IData | undefined>(undefined);
 
+  const [isAdding, setIsAdding] = useState<boolean>(false);
+  const [idRow, setIdRow] = useState<string>("");
+  const [idSomatotype, setIdSomatotype] = useState<string>("");
+  const [dashboardSnackBarOpen, setDashboardSnackBarOpen] =
+    useState<boolean>(false);
+  const [dashboardSnackBarMessage, setDashboardSnackBarMessage] =
+    useState<string>("");
+
   const handleClose = (event: any, reason: any) => {
     if (reason === "clickaway") {
       return;
@@ -76,6 +86,15 @@ function App() {
               <Dashboard
                 resultsSaved={resultsSaved}
                 setResultsSaved={setResultsSaved}
+                setIsAdding={setIsAdding}
+                idRow={idRow}
+                setIdRow={setIdRow}
+                idSomatotype={idSomatotype}
+                setIdSomatotype={setIdSomatotype}
+                dashboardSnackBarOpen={dashboardSnackBarOpen}
+                setDashboardSnackBarOpen={setDashboardSnackBarOpen}
+                dashboardSnackBarMessage={dashboardSnackBarMessage}
+                setDashboardSnackBarMessage={setDashboardSnackBarMessage}
               />
             ) : (
               <Home />
@@ -128,6 +147,7 @@ function App() {
           }
         />
         <Route path="/Blog" element={<BlogPage />} />
+        <Route path="/Blog/:idBlog" element={<BlogArticlePage />} />
         <Route path="/Balanced-endomorph" element={<BalancedEndomorph />} />
         <Route
           path="/Profile"
@@ -140,7 +160,18 @@ function App() {
             )
           }
         />
-        {/* <Route path="/Dashboard" element={cookies.user && <Dashboard />} /> */}
+        <Route
+          path="/Add"
+          element={
+            <AddPage
+              isAdding={isAdding}
+              idRow={idRow}
+              idSomatotype={idSomatotype}
+              setDashboardSnackBarOpen={setDashboardSnackBarOpen}
+              setDashboardSnackBarMessage={setDashboardSnackBarMessage}
+            />
+          }
+        />
       </Routes>
       <Snackbar
         open={open}

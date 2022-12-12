@@ -8,19 +8,27 @@ import CssBaseline from "@mui/material/CssBaseline";
 import SomatotypeGraph from "./SomatotypeGraph";
 import axios from "axios";
 import { useCookies } from "react-cookie";
-import Add from "./Add";
-import CounterShare from './CTA/CounterShare'
+import CounterShare from "./CTA/CounterShare";
+import AddPage from "./AddPage";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
 interface IDashboard {
   resultsSaved?: boolean;
   setResultsSaved?: (bool: boolean) => void;
+  setIsAdding?: (bool: boolean) => void;
+  idRow?: string;
+  setIdRow?: (idRow: string) => void;
+  idSomatotype?: string;
+  setIdSomatotype?: (idRow: string) => void;
+  dashboardSnackBarOpen?: boolean;
+  setDashboardSnackBarOpen?: (bool: boolean) => void;
+  dashboardSnackBarMessage?: string;
+  setDashboardSnackBarMessage?: (msg: string) => void;
 }
 
 const Dashboard: FC<IDashboard> = (props) => {
-  //Somatotype values should come from backend (data saved from the home page)
-
   const [somatotype, setSomatotype] = useState<ISomatotype | undefined>(
     undefined
   );
@@ -32,21 +40,10 @@ const Dashboard: FC<IDashboard> = (props) => {
   const [cookies, setCookie] = useCookies(["user"]);
 
   const [somatotypes, setSomatotypes] = useState<ISomatotype[]>([]);
-  const [anthropometrics, setAnthropometrics] = useState<IAnthropometric[]>([]);
-
-  const [openAddModal, setOpenAddModal] = useState<boolean>(false);
-
-  const [isAdding, setIsAdding] = useState<boolean>(false);
-
-  const [idRow, setIdRow] = useState<string>("");
-
-  const [idSomatotype, setIdSomatotype] = useState<string>("");
 
   const [toggleGraph, setToggleGraph] = useState(false);
   const [pointsArray, setPointsArray] = useState<IPoints[]>([]);
 
-  const [snackBarOpen, setSnackBarOpen] = useState<boolean>(false);
-  const [snackBarMessage, setSnackBarMessage] = useState<string>("");
   const [snackBarState, setSnackBarState] = React.useState({
     vertical: "bottom",
     horizontal: "center",
@@ -56,6 +53,8 @@ const Dashboard: FC<IDashboard> = (props) => {
     useState<boolean>(false);
 
   const [fetching, setFetching] = React.useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   const getUserDatas = async () => {
     const headers = {
@@ -71,7 +70,6 @@ const Dashboard: FC<IDashboard> = (props) => {
         { headers: headers }
       );
       setSomatotypes(response.data.data.somatotypes);
-      setAnthropometrics(response.data.data.anthropometrics);
       setToggleGraph(!toggleGraph);
       setFetching(false);
     } catch (error) {
@@ -99,12 +97,8 @@ const Dashboard: FC<IDashboard> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (openAddModal) {
-      props.setResultsSaved!(false);
-    } else {
-      getUserDatas();
-    }
-  }, [openAddModal]);
+    getUserDatas();
+  }, []);
 
   useEffect(() => {
     if (somatotypes.length === 0) {
@@ -115,160 +109,146 @@ const Dashboard: FC<IDashboard> = (props) => {
   }, [somatotypes]);
 
   const handleSnackBarClose = () => {
-    setSnackBarOpen(false);
+    props.setDashboardSnackBarOpen!(false);
   };
 
   return (
     <>
-      {openAddModal ? (
-        <Add
-          setOpenAddModal={setOpenAddModal}
-          isAdding={isAdding}
-          getUserDatas={getUserDatas}
-          idRow={idRow}
-          anthropometrics={anthropometrics}
-          idSomatotype={idSomatotype}
-          setDashboardSnackBarOpen={setSnackBarOpen}
-          setDashboardSnackBarMessage={setSnackBarMessage}
-        />
-      ) : (
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Typography variant="h3" gutterBottom m={3} textAlign="center">
-            Dashboard
-          </Typography>
-          <Grid
-            container
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              padding: "0px 15px",
-            }}
-            width={"100%"}
-          >
-            {props.resultsSaved ? (
-              <Grid
-                item
-                sx={{
-                  flexGrow: 1,
-                  alignItems: "center",
-                  margin: "20px 0",
-                }}
-                xs={12}
-                md={9}
-                lg={7}
-                width={"100%"}
-              >
-                <Alert
-                  onClose={() => {
-                    props.setResultsSaved!(false);
-                  }}
-                >
-                  Results saved successfully!
-                </Alert>
-              </Grid>
-            ) : null}
-
-            {/* No Results Message */}
-            {showNoResultsMessage ? (
-              <Grid
-                item
-                sx={{
-                  flexGrow: 1,
-                  alignItems: "center",
-                  margin: "20px 0",
-                }}
-                xs={12}
-                md={9}
-                lg={7}
-                width={"100%"}
-              >
-                <Typography variant="h5" gutterBottom m={3} textAlign="center">
-                  There are no somatotypes saved on your profile. Please add one
-                  to see your results.
-                </Typography>
-              </Grid>
-            ) : null}
-
-            {/* Results Table */}
-            {!showNoResultsMessage ? (
-              <Grid
-                item
-                sx={{
-                  flexGrow: 1,
-                  alignItems: "center",
-                  margin: "20px 0",
-                }}
-                xs={12}
-                md={9}
-                lg={7}
-                width={"100%"}
-              >
-                <ResultsTable
-                  somatotypes={somatotypes}
-                  showHistory={true}
-                  getUserDatas={getUserDatas}
-                  setOpenAddModal={setOpenAddModal}
-                  setIsAdding={setIsAdding}
-                  setIdRow={setIdRow}
-                  idRow={idRow}
-                  setIdSomatotype={setIdSomatotype}
-                  idSomatotype={idSomatotype}
-                  setPointsArray={setPointsArray}
-                  toggleGraph={toggleGraph}
-                  setToggleGraph={setToggleGraph}
-                  setDashboardSnackBarOpen={setSnackBarOpen}
-                  setDashboardSnackBarMessage={setSnackBarMessage}
-                  isFetching={fetching}
-                />
-              </Grid>
-            ) : null}
-            {/* Graph */}
-            {!showNoResultsMessage ? (
-              <Grid
-                item
-                sx={{
-                  flexGrow: 1,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  margin: "20px 0",
-                }}
-                xs={12}
-                md={9}
-                lg={7}
-                width={"100%"}
-              >
-                <SomatotypeGraph
-                  updateGraph={toggleGraph}
-                  pointsArray={pointsArray}
-                />
-              </Grid>
-            ) : null}
-
-            <Button
-              sx={{ margin: "10px 0" }}
-              variant="contained"
-              onClick={() => {
-                setIsAdding(true);
-                setOpenAddModal(true);
-                window.scrollTo(0, 0);
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Typography variant="h3" gutterBottom m={3} textAlign="center">
+          Dashboard
+        </Typography>
+        <Grid
+          container
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "0px 15px",
+          }}
+          width={"100%"}
+        >
+          {props.resultsSaved ? (
+            <Grid
+              item
+              sx={{
+                flexGrow: 1,
+                alignItems: "center",
+                margin: "20px 0",
               }}
+              xs={12}
+              md={9}
+              lg={7}
+              width={"100%"}
             >
-              Add new
-            </Button>
-          </Grid>
-          <CounterShare />
-        </ThemeProvider>
-      )}
+              <Alert
+                onClose={() => {
+                  props.setResultsSaved!(false);
+                }}
+              >
+                Results saved successfully!
+              </Alert>
+            </Grid>
+          ) : null}
+
+          {/* No Results Message */}
+          {showNoResultsMessage ? (
+            <Grid
+              item
+              sx={{
+                flexGrow: 1,
+                alignItems: "center",
+                margin: "20px 0",
+              }}
+              xs={12}
+              md={9}
+              lg={7}
+              width={"100%"}
+            >
+              <Typography variant="h5" gutterBottom m={3} textAlign="center">
+                There are no somatotypes saved on your profile. Please add one
+                to see your results.
+              </Typography>
+            </Grid>
+          ) : null}
+
+          {/* Results Table */}
+          {!showNoResultsMessage ? (
+            <Grid
+              item
+              sx={{
+                flexGrow: 1,
+                alignItems: "center",
+                margin: "20px 0",
+              }}
+              xs={12}
+              md={9}
+              lg={7}
+              width={"100%"}
+            >
+              <ResultsTable
+                somatotypes={somatotypes}
+                showHistory={true}
+                getUserDatas={getUserDatas}
+                setIsAdding={props.setIsAdding}
+                setIdRow={props.setIdRow}
+                idRow={props.idRow}
+                setIdSomatotype={props.setIdSomatotype}
+                idSomatotype={props.idSomatotype}
+                setPointsArray={setPointsArray}
+                toggleGraph={toggleGraph}
+                setToggleGraph={setToggleGraph}
+                setDashboardSnackBarOpen={props.setDashboardSnackBarOpen}
+                setDashboardSnackBarMessage={props.setDashboardSnackBarMessage}
+                isFetching={fetching}
+              />
+            </Grid>
+          ) : null}
+          {/* Graph */}
+          {!showNoResultsMessage ? (
+            <Grid
+              item
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "20px 0",
+              }}
+              xs={12}
+              md={9}
+              lg={7}
+              width={"100%"}
+            >
+              <SomatotypeGraph
+                updateGraph={toggleGraph}
+                pointsArray={pointsArray}
+              />
+            </Grid>
+          ) : null}
+
+          <Button
+            sx={{ margin: "10px 0" }}
+            variant="contained"
+            onClick={() => {
+              props.setIsAdding!(true);
+              navigate("/Add");
+              window.scrollTo(0, 0);
+            }}
+          >
+            Add new
+          </Button>
+        </Grid>
+        <CounterShare />
+      </ThemeProvider>
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        open={snackBarOpen}
+        open={props.dashboardSnackBarOpen}
         autoHideDuration={6000}
         onClose={handleSnackBarClose}
-        message={snackBarMessage}
+        message={props.dashboardSnackBarMessage}
       />
     </>
   );
