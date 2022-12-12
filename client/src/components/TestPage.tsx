@@ -664,10 +664,10 @@ const TestPage: FC<ITesting> = (props) => {
                 padding: "14px 40px",
                 fontWeight: 600,
                 textAlign: "center",
-                backgroundColor: "purple",
+                backgroundColor: "RGB(108, 77, 123)",
                 borderRadius: "40px",
                 textTransform: "initial",
-                "&.MuiButtonBase-root:hover": { bgcolor: "purple" },
+                "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
               }}
             >
               See Results <ArrowForwardSharpIcon />
