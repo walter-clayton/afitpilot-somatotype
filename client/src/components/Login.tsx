@@ -7,6 +7,7 @@ import {
   Button,
   CircularProgress,
   Alert,
+  autocompleteClasses,
 } from "@mui/material/";
 import { Typography, Container } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -191,20 +192,29 @@ export default function Login(props: any) {
           </Typography>
           <Typography variant="subtitle1">
             Not a member yet? Create a free profile by taking our
-            <Link onClick={() => {
-              navigate("/test");
-              window.scrollTo(0, 0);
-            }}
-              sx={{ textDecoration: 'none', cursor: 'pointer' }} variant="subtitle1"> personality test {" "}
+            <Link
+              onClick={() => {
+                navigate("/test");
+                window.scrollTo(0, 0);
+              }}
+              sx={{ textDecoration: "none", cursor: "pointer" }}
+              variant="subtitle1"
+            >
+              {" "}
+              personality test{" "}
             </Link>
-            or {" "}
-            <Link onClick={() => {
-              navigate("/Signup");
-              window.scrollTo(0, 0);
-            }}
-              sx={{ textDecoration: 'none', cursor: 'pointer' }} variant="subtitle1">
+            or{" "}
+            <Link
+              onClick={() => {
+                navigate("/Signup");
+                window.scrollTo(0, 0);
+              }}
+              sx={{ textDecoration: "none", cursor: "pointer" }}
+              variant="subtitle1"
+            >
               entering your results yourself
-            </Link>.
+            </Link>
+            .
           </Typography>
           {props.data && (
             <Alert severity="error" sx={{ margin: "20px 0" }}>
@@ -314,8 +324,18 @@ export default function Login(props: any) {
               variant="contained"
               onClick={handleClick}
               sx={{
-                backgroundColor: 'RGB(108, 77, 123)', borderRadius: "40px", minWidth: "240px", margin: "0px 80px", mt: 3,
-                fontSize: '18px', padding: "14px 40px", fontWeight: 600, textTransform: 'initial', lineHeight: "30px", textAlign: 'center', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
+                backgroundColor: "RGB(108, 77, 123)",
+                borderRadius: "40px",
+                width: "80%",
+                mx: "10%",
+                mt: 3,
+                fontSize: "18px",
+                padding: "14px 40px",
+                fontWeight: 600,
+                textTransform: "initial",
+                lineHeight: "30px",
+                textAlign: "center",
+                "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
               }}
               disabled={fetching}
             >
@@ -329,7 +349,11 @@ export default function Login(props: any) {
             />
             <Grid container>
               <Grid item xs textAlign={"center"} mt={3}>
-                <Link href="/Forget" sx={{ textAlign: "Center", textDecoration: "none" }} variant="subtitle1">
+                <Link
+                  href="/Forget"
+                  sx={{ textAlign: "Center", textDecoration: "none" }}
+                  variant="subtitle1"
+                >
                   Forgot password?
                 </Link>
               </Grid>

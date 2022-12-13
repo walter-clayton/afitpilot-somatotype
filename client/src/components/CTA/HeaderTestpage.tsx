@@ -33,7 +33,6 @@ const HeaderTestpage = () => {
                 container
                 sx={{
                     backgroundColor: "#f6f6f7",
-                    marginTop: 8,
                     marginBottom: 5,
                     display: "flex",
                     flexDirection: "column",

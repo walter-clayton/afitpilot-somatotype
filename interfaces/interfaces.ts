@@ -13,8 +13,10 @@ export interface IUser {
   email: string;
   name: string;
   password: string;
+  firstScan?: boolean;
   somatotypes: IRelationShip[];
   anthropometrics: IAnthropometric[];
+  scans: IScan[];
   createdAt: String;
   updatedAt: String;
 }
@@ -41,6 +43,17 @@ export interface IAnthropometric {
   bicep_girth: number;
   users: IRelationShip[];
   somatotype: IRelationShip;
+  createdAt: String;
+  updatedAt: String;
+}
+
+export interface IScan {
+  idScan: String;
+  user: IUser;
+  file: Buffer;
+  age: number;
+  weight: number;
+  gender: String;
   createdAt: String;
   updatedAt: String;
 }
