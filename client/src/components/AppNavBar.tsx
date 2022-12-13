@@ -215,9 +215,10 @@ const ResponsiveAppBar = (props: any) => {
                       borderRadius: "40px",
                       backgroundColor: "RGB(108, 77, 123)",
                       fontSize: "16px",
-                      textTransform: "initial",
-                      textAlign: "center",
                       fontWeight: 600,
+                      textTransform: "initial",
+                      width: "150px",
+                      textAlign: "center",
                       "&.MuiButtonBase-root:hover": {
                         bgcolor: "RGB(108, 77, 123)",
                       },
@@ -285,7 +286,10 @@ const ResponsiveAppBar = (props: any) => {
                       backgroundColor: "black",
                       cursor: "pointer",
                       "&:hover": { backgroundColor: "#262626" },
+                      fontSize: "16px",
+                      fontWeight: 600,
                       textTransform: "initial",
+                      width: "150px",
                       borderRadius: "40px",
                     }}
                     variant="contained"
@@ -319,12 +323,13 @@ const ResponsiveAppBar = (props: any) => {
                       borderRadius: "40px",
                       backgroundColor: "RGB(108, 77, 123)",
                       fontSize: "16px",
+                      fontWeight: 600,
                       textTransform: "initial",
                       textAlign: "center",
-                      fontWeight: 600,
                       "&.MuiButtonBase-root:hover": {
                         bgcolor: "RGB(108, 77, 123)",
                       },
+                      width: "150px",
                     }}
                     variant="contained"
                     onClick={() => {
@@ -368,7 +373,10 @@ const ResponsiveAppBar = (props: any) => {
                       backgroundColor: "black",
                       cursor: "pointer",
                       "&:hover": { backgroundColor: "#262626" },
+                      fontSize: "16px",
+                      fontWeight: 600,
                       textTransform: "initial",
+                      width: "150px",
                       borderRadius: "40px",
                     }}
                     variant="contained"
@@ -484,7 +492,10 @@ const ResponsiveAppBar = (props: any) => {
                               backgroundColor: "black",
                               cursor: "pointer",
                               "&:hover": { backgroundColor: "#262626" },
+                              fontSize: "16px",
+                              fontWeight: 600,
                               textTransform: "initial",
+                              width: "150px",
                               borderRadius: "40px",
                             }}
                             variant="contained"
@@ -526,9 +537,10 @@ const ResponsiveAppBar = (props: any) => {
                       borderRadius: "40px",
                       backgroundColor: "RGB(108, 77, 123)",
                       fontSize: "16px",
-                      textTransform: "initial",
-                      textAlign: "center",
                       fontWeight: 600,
+                      textTransform: "initial",
+                      width: "150px",
+                      textAlign: "center",
                       "&.MuiButtonBase-root:hover": {
                         bgcolor: "RGB(108, 77, 123)",
                       },
