@@ -5,6 +5,7 @@ import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CounterShare from "./CounterShare";
 import { useNavigate } from "react-router-dom";
+import Rectangle from '../image/Mountain.svg'
 
 const theme = createTheme();
 theme.typography.h1 = {
@@ -23,8 +24,17 @@ theme.typography.h2 = {
   [theme.breakpoints.up("md")]: {
     fontSize: "5rem",
   },
+};
+const heading = {
+  "@media (max-width:600px)": {
+    fontSize: "27px",
+    lineHeight: "35px",
+    margin: "30px 0px",
+    marginTop: 0
+  },
 
 };
+
 const TypesPage = () => {
   const navigate = useNavigate();
   const Endomorph = [
@@ -145,7 +155,7 @@ const TypesPage = () => {
         <Grid xs={12} md={12} lg={12} sm={12}>
           <Box
             sx={{
-              marginTop: 6,
+              marginTop: 5,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -157,11 +167,15 @@ const TypesPage = () => {
               sx={{
                 color: "black",
                 textAlign: "center",
-                fontSize: "44px",
-                mb: 2,
+                fontSize: "45px",
+                margin: '30px 0px',
+                fontWeight: 700,
+                lineHeight: "58.5px",
               }}
             >
-              Somatotypes Categories
+              <Box sx={heading}>
+                Somatotypes Categories
+              </Box>
             </Typography>
             <Button variant="contained"
               sx={{
@@ -173,7 +187,11 @@ const TypesPage = () => {
                 fontWeight: 600,
                 textAlign: 'center',
                 textTransform: 'initial',
+                marginTop: 0,
                 "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
+              }}
+              onClick={() => {
+                navigate('/test');
               }}
             >
               Find your Types <ArrowForwardSharpIcon />
@@ -182,6 +200,14 @@ const TypesPage = () => {
         </Grid>
       </Grid>
       <ThemeProvider theme={theme}>
+        <Box sx={{ mb: -1 }}>
+          <img
+            src={Rectangle}
+            alt="manu tribesman"
+            style={{ width: "100%", }}
+          />
+        </Box>
+
         <Box sx={{ width: "100%", backgroundColor: "#e7dfea", }}>
           <Typography variant="h2" sx={{ color: "white", textAlign: "center" }}>
             Endomorph
