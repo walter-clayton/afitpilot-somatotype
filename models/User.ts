@@ -7,8 +7,10 @@ const userSchema: Schema = new Schema<IUser>({
   email: { type: String, required: true },
   name: { type: String, required: true },
   password: { type: String, required: true },
+  firstScan: { type: Boolean, default: false },
   somatotypes: [{ type: Schema.Types.ObjectId, ref: "Somatotype" }],
   anthropometrics: [{ type: Schema.Types.ObjectId, ref: "Anthropometric" }],
+  scans: [{ type: Schema.Types.ObjectId, ref: "Scan" }],
   createdAt: { type: String, default: new Date().toLocaleString() },
   updatedAt: { type: String, default: new Date().toLocaleString() },
 });
