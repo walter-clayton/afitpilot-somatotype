@@ -33,6 +33,7 @@ import { useCookies } from "react-cookie";
 import { AddPoint, IPoints } from "./Calculation";
 import { getSomatotypeType } from "./TestPage";
 import { useNavigate } from "react-router-dom";
+import avatar from './image/manu-tribesman.png'
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
@@ -487,6 +488,9 @@ const ResultsTable: FC<resultProps> = (props: any) => {
 
   return (
     <>
+      <Typography textAlign={"center"} variant="h6" mt={2}>
+        You are a {typeResult}
+      </Typography>
       <TableContainer component={Paper}>
         <Table aria-label="results table" size="small">
           <TableHead>
@@ -604,9 +608,23 @@ const ResultsTable: FC<resultProps> = (props: any) => {
           </Box>
         </Modal>
       </TableContainer>
-      <Typography textAlign={"center"} variant="h6" mt={2}>
-        {typeResult}
-      </Typography>
+      <Grid item sx={{ textAlign: "center", marginTop: 2 }}
+      >
+        <Typography variant="body1" sx={{ color: "black" }}>
+          Your Somatotype is:
+        </Typography>
+        <Typography variant="h6" sx={{ color: "#e4ae3a", textAlign: "center" }}>
+          {typeResult}
+        </Typography>
+        <img
+          src={avatar}
+          alt="manu tribesman"
+          style={{ width: "100px" }}
+        />
+        <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
+          EnMs are muscular and heavy built,with a gift for strength and power sports.
+        </Typography>
+      </Grid>
     </>
   );
 };

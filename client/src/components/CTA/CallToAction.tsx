@@ -6,9 +6,17 @@ import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import sitting from "../image/sitting-2.svg";
 import manuTribesManBackground from "../image/manu-tribesman-with-background.png";
 import { useNavigate } from "react-router-dom";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
 
 const CallToAction = () => {
   const navigate = useNavigate();
+  const theme = createTheme();
+  theme.typography.h2 = {
+    "@media (max-width:600px)": {
+      fontSize: "34px",
+    },
+  };
   return (
     <Box>
       <CssBaseline />
@@ -20,26 +28,28 @@ const CallToAction = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "flex-start",
-              justifyContent: "flex-end",
+              justifyContent: "flex-start",
               marginRight: "20px",
-              marginLeft: "7px",
+              marginLeft: "23px",
             }}
           >
-            <Typography variant="body1" sx={{ color: "RGB(51, 164, 116)", fontSize: "14px", fontWeight: 700, textTransform: "uppercase", lineHeight: "26px", padding: 0 }}>
-              Somatotypes
-            </Typography>
-            <Typography mt={1.5} component="h2" variant="h2"
-              sx={{ fontSize: '46px', margin: "0px 0px 10px", fontWeight: 600 }}>
-              Understand yourself
-            </Typography>
-            <Typography
-              mt={1.5}
-              sx={{ display: "flex", justifyContent: "flex-end", fontSize: "18px", lineHeight: "30px", margin: "0px 0px 30px", fontWeight: 400 }}
-              variant="body1"
-            >
-              In our free type descriptions you’ll learn what body shape you
-              have
-            </Typography>
+            <ThemeProvider theme={theme}>
+              <Typography variant="body1" sx={{ color: "RGB(51, 164, 116)", fontSize: "14px", fontWeight: 700, textTransform: "uppercase", lineHeight: "26px", padding: 0 }}>
+                Somatotypes
+              </Typography>
+              <Typography mt={1.5} component="h2" variant="h2"
+                sx={{ fontSize: '46px', margin: "0px 0px 10px", fontWeight: 600 }}>
+                Understand yourself
+              </Typography>
+              <Typography
+                mt={1.5}
+                sx={{ display: "flex", justifyContent: "flex-end", fontSize: "18px", lineHeight: "30px", margin: "0px 0px 30px", fontWeight: 400 }}
+                variant="body1"
+              >
+                In our free type descriptions you’ll learn what body shape you
+                have
+              </Typography>
+            </ThemeProvider>
             <Stack mt={1} spacing={2} direction="row">
               <Button
                 sx={{
@@ -98,25 +108,27 @@ const CallToAction = () => {
               alignItems: "flex-start",
               justifyContent: "flex-end",
               marginRight: "20px",
-              marginLeft: "7px",
+              marginLeft: "23px",
             }}
           >
-            <Typography variant="body1" sx={{ color: "RGB(66, 152, 180)", fontSize: "14px", fontWeight: 700, textTransform: "uppercase", lineHeight: "26px", padding: 0 }}>
-              Teams
-            </Typography>
-            <Typography mt={1.5} component="h2" variant="h2"
-              sx={{ fontSize: '46px', margin: "0px 0px 10px", fontWeight: 600 }}>
-              Understand your team better
-            </Typography>
-            <Typography
-              mt={1}
-              sx={{ display: "flex", justifyContent: "flex-end", fontSize: "18px", lineHeight: "30px", margin: "0px 0px 30px", fontWeight: 400 }}
-              variant="body1"
-            >
-              Understand your team better with our Somatotype Assessment.
-              Improve communication, create harmony, and help team members
-              develop their individual strengths. Works for teams of all sizes.
-            </Typography>
+            <ThemeProvider theme={theme}>
+              <Typography variant="body1" sx={{ color: "RGB(66, 152, 180)", fontSize: "14px", fontWeight: 700, textTransform: "uppercase", lineHeight: "26px", padding: 0 }}>
+                Teams
+              </Typography>
+              <Typography mt={1.5} variant="h2"
+                sx={{ fontSize: '46px', margin: "0px 0px 10px", fontWeight: 600 }}>
+                Understand your team better
+              </Typography>
+              <Typography
+                mt={1}
+                sx={{ display: "flex", justifyContent: "flex-end", fontSize: "18px", lineHeight: "30px", margin: "0px 0px 30px", fontWeight: 400 }}
+                variant="body1"
+              >
+                Understand your team better with our Somatotype Assessment.
+                Improve communication, create harmony, and help team members
+                develop their individual strengths. Works for teams of all sizes.
+              </Typography>
+            </ThemeProvider>
             <Stack mt={1} mb={3} spacing={2} direction="row">
               <Button
                 sx={{
