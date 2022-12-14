@@ -340,31 +340,31 @@ export const getSomatotypeType = (
   };
 
   if (isCentral(soma)) {
-    result = "You are a Central (C).";
+    result = " Central (C).";
   } else if (isBalancedMeso(soma)) {
-    result = "You are a Balanced Mesomorph (BM).";
+    result = "Balanced Mesomorph (BM).";
   } else if (isEctomorphicMeso(soma)) {
-    result = "You are a Ectomorphic Mesomorph (EcM).";
+    result = "Ectomorphic Mesomorph (EcM).";
   } else if (isMesoEcto(soma)) {
-    result = "You are a Mesomorph Ectomorph (M-Ec).";
+    result = " Mesomorph Ectomorph (M-Ec).";
   } else if (isMesomorphicEcto(soma)) {
-    result = "You are a Mesomorphic Ectomorph (MEc).";
+    result = "Mesomorphic Ectomorph (MEc).";
   } else if (isBalancedEcto(soma)) {
-    result = "You are a Balanced Ectomorph (BEc).";
+    result = "Balanced Ectomorph (BEc).";
   } else if (isEndomorphicEcto(soma)) {
-    result = "You are a Endomorphic Ectomorph (EnEc).";
+    result = "Endomorphic Ectomorph (EnEc).";
   } else if (isEndoEcto(soma)) {
-    result = "You are a Endomorph Ectomorph (En-Ec).";
+    result = "Endomorph Ectomorph (En-Ec).";
   } else if (isEctomorphicEndo(soma)) {
-    result = "You are a Ectomorphic Endomorph (EcEn).";
+    result = "Ectomorphic Endomorph (EcEn).";
   } else if (isBalancedEndo(soma)) {
-    result = "You are a Balanced Endomorph (BEn).";
+    result = "Balanced Endomorph (BEn).";
   } else if (isMesomorphicEndo(soma)) {
-    result = "You are a Mesomorphic Endomorph (MEn).";
+    result = "Mesomorphic Endomorph (MEn).";
   } else if (isMesoEndo(soma)) {
-    result = "You are a Mesomorph Endomorph (M-En).";
+    result = "Mesomorph Endomorph (M-En).";
   } else if (isEndomorphicMeso(soma)) {
-    result = "You are a Endomorphic Mesomorph (EnM).";
+    result = "Endomorphic Mesomorph (EnM).";
   }
 
   return result;
