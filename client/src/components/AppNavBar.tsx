@@ -41,6 +41,7 @@ const ResponsiveAppBar = (props: any) => {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
+  const large = useMediaQuery("(min-width:1200px)");
   const xxs = useMediaQuery("(max-width:380px)");
   const xxxs = useMediaQuery("(max-width:320px)");
 
@@ -217,7 +218,7 @@ const ResponsiveAppBar = (props: any) => {
                       fontSize: "16px",
                       fontWeight: 600,
                       textTransform: "initial",
-                      width: "150px",
+                      width: "160px",
                       textAlign: "center",
                       "&.MuiButtonBase-root:hover": {
                         bgcolor: "RGB(108, 77, 123)",
@@ -289,7 +290,7 @@ const ResponsiveAppBar = (props: any) => {
                       fontSize: "16px",
                       fontWeight: 600,
                       textTransform: "initial",
-                      width: "150px",
+                      width: "160px",
                       borderRadius: "40px",
                     }}
                     variant="contained"
@@ -329,7 +330,7 @@ const ResponsiveAppBar = (props: any) => {
                       "&.MuiButtonBase-root:hover": {
                         bgcolor: "RGB(108, 77, 123)",
                       },
-                      width: "150px",
+                      width: "160px",
                     }}
                     variant="contained"
                     onClick={() => {
@@ -376,7 +377,7 @@ const ResponsiveAppBar = (props: any) => {
                       fontSize: "16px",
                       fontWeight: 600,
                       textTransform: "initial",
-                      width: "150px",
+                      width: "160px",
                       borderRadius: "40px",
                     }}
                     variant="contained"
@@ -420,7 +421,7 @@ const ResponsiveAppBar = (props: any) => {
                 container
                 justifyContent={"end"}
                 alignItems={"center"}
-                spacing={2}
+                spacing={large ? 2 : 0.5}
               >
                 {cookies.user ? (
                   <Grid item>
@@ -495,7 +496,7 @@ const ResponsiveAppBar = (props: any) => {
                               fontSize: "16px",
                               fontWeight: 600,
                               textTransform: "initial",
-                              width: "150px",
+                              width: "160px",
                               borderRadius: "40px",
                             }}
                             variant="contained"
@@ -539,7 +540,7 @@ const ResponsiveAppBar = (props: any) => {
                       fontSize: "16px",
                       fontWeight: 600,
                       textTransform: "initial",
-                      width: "150px",
+                      width: "160px",
                       textAlign: "center",
                       "&.MuiButtonBase-root:hover": {
                         bgcolor: "RGB(108, 77, 123)",
