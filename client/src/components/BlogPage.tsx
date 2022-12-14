@@ -13,6 +13,50 @@ import {
 import CounterShare from "./CTA/CounterShare";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import SearchIcon from "@mui/icons-material/Search";
+import { styled, alpha } from "@mui/material/styles";
+import InputBase from "@mui/material/InputBase";
+
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  borderRadius: theme.shape.borderRadius,
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    marginLeft: theme.spacing(3),
+    width: "auto",
+  },
+}));
+
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  borderRadius: "40px",
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
+    },
+  },
+  backgroundColor: "#c8c8c861",
+  "&:hover": {
+    backgroundColor: "#c8c8c861",
+  },
+}));
 
 const createBlogCard = (
   BlogTitle: string,
@@ -87,7 +131,19 @@ const BlogPage = () => {
 
   return (
     <>
-      <Grid container px={4}>
+      <Grid container px={4} justifyContent="center" alignItems={"center"}>
+        <Grid item xs={12} sm={8} paddingTop={4} key={"search"} marginX={1}>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ "aria-label": "search" }}
+              fullWidth
+            />
+          </Search>
+        </Grid>
         {blogCards
           .slice(
             page * blogArticlesPerPage,
