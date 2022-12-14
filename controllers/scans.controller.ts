@@ -5,6 +5,7 @@ const Scan = require("../models/Scan");
 
 interface IUsersCtrl {
   newScan?: (req: Request, res: Response) => void;
+  resultScan?: (req: Request, res: Response) => void;
 }
 
 const usersCtrl: IUsersCtrl = {};
@@ -13,7 +14,7 @@ usersCtrl.newScan = async (req: Request, res: Response) => {
   const { age, weight, gender } = req.body;
 
   try {
-    const user = await User.findById("6381dfefc582be09974696e3");
+    const user = await User.findById("6393468d17993e4985fd29c1");
 
     if (user.firstScan === false) {
       const responseNewScan = await axios.post(
@@ -48,6 +49,23 @@ usersCtrl.newScan = async (req: Request, res: Response) => {
         .send({ success: false, message: "free id scan exceeded" });
     }
   } catch (error: unknown) {
+    console.log(error as ErrorEvent);
+    res.status(500).send({
+      message: "Error server",
+    });
+  }
+};
+
+usersCtrl.resultScan = async (req: Request, res: Response) => {
+  const { idScan } = req.body;
+  try {
+    const responseResultScan = await axios.post(
+      `https://api.developer.in3d.io/scans/${idScan}`,
+      {},
+      { headers: { Authorization: `Bearer ${process.env.TOKEN_3DIN}` } }
+    );
+    res.send(responseResultScan.data);
+  } catch (error) {
     console.log(error as ErrorEvent);
     res.status(500).send({
       message: "Error server",
