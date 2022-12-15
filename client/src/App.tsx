@@ -22,6 +22,7 @@ import Home from "./components/HomePage";
 import FooterCTA from "./components/CTA/FooterCTA";
 import BlogArticlePage from "./components/BlogArticlePage";
 import AddPage from "./components/AddPage";
+import TestSteps from "./components/test_steps/TestSteps";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -173,6 +174,7 @@ function App() {
             />
           }
         />
+        <Route path="/TestSteps" element={<TestSteps />} />
       </Routes>
       <Snackbar
         open={open}

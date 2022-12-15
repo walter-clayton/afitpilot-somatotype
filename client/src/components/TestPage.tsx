@@ -24,7 +24,7 @@ import HeaderTestpage from "./CTA/HeaderTestpage";
 import CounterShare from "./CTA/CounterShare";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import TakeScan from "./scaning/TakeScan";
+import TestSteps from "./test_steps/TestSteps";
 
 const theme = createTheme();
 
@@ -555,8 +555,37 @@ const TestPage: FC<ITesting> = (props) => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <HeaderTestpage />
-      <TakeScan setModalTakeScan={setModalTakeScan} />
       <Button
+        sx={{
+          "&:hover > svg": {
+            transform: "translateX(5px)",
+          },
+          borderRadius: "40px",
+          display: "flex",
+          margin: "0 auto",
+          backgroundColor: "RGB(108, 77, 123)",
+          fontSize: "16px",
+          fontWeight: 600,
+          padding: "19px 50px",
+          textTransform: "initial",
+          textAlign: "center",
+          "&.MuiButtonBase-root:hover": {
+            bgcolor: "RGB(108, 77, 123)",
+          },
+        }}
+        variant="contained"
+        onClick={() => {
+          navigate("/TestSteps");
+          window.scrollTo(0, 0);
+        }}
+      >
+        Take the Test
+        <ArrowForwardSharpIcon
+          fontSize="small"
+          sx={{ marginLeft: "5px", transition: ".1s ease-out" }}
+        />
+      </Button>
+      {/* <Button
         sx={{
           borderRadius: "40px",
           display: "flex",
@@ -582,8 +611,8 @@ const TestPage: FC<ITesting> = (props) => {
             transform: manually ? "rotate(90deg)" : "rotate(0)",
           }}
         />
-      </Button>
-      <Grid
+      </Button> */}
+      {/* <Grid
         ref={gridRef}
         container
         sx={{
@@ -596,7 +625,7 @@ const TestPage: FC<ITesting> = (props) => {
         }}
         width={"100%"}
       >
-        {/* Form Inputs */}
+        
         <Collapse in={manually} collapsedSize={0} easing={{ enter: "5" }}>
           <Grid
             item
@@ -642,7 +671,7 @@ const TestPage: FC<ITesting> = (props) => {
           </Grid>
         </Collapse>
 
-        {/* button */}
+        
         <Grid
           item
           sx={{
@@ -677,7 +706,7 @@ const TestPage: FC<ITesting> = (props) => {
             </Button>
           </Box>
         </Grid>
-        {/* Results Table */}
+        
         {showResults ? (
           <Grid
             item
@@ -754,7 +783,7 @@ const TestPage: FC<ITesting> = (props) => {
             </Button>
           </Box>
         ) : null}
-      </Grid>
+      </Grid> */}
 
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
