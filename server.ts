@@ -4,7 +4,6 @@ const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const routesUsers = require("./routes/users.routes");
 const routesAuth = require("./routes/auth.routes");
-const routesScans = require("./routes/scans.routes");
 
 // Initialization
 const app: Express = express();
