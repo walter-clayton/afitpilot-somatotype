@@ -39,6 +39,7 @@ const Header = () => {
 
   const [totalUsers, setTotalUsers] = useState<string>("");
   const [totalSomatotypes, setTotalSomatotypes] = useState<string>("");
+  const [uniqueSomatotypes, setUniqueSomatotypes] = useState<string>("");
 
   const xxxs = useMediaQuery("(max-width:320px)");
 
@@ -89,6 +90,7 @@ const Header = () => {
         }
       );
       setTotalSomatotypes(String(response.data.count));
+      setUniqueSomatotypes(String(response.data.uniqueSomatotypes));
       setFetching(false);
     } catch (error) {
       // if (error.response) {
@@ -99,6 +101,7 @@ const Header = () => {
       //     setSnackbarMessage("Error with the server");
       //   }
       console.log("error ", error);
+      setUniqueSomatotypes("ERROR");
       setTotalSomatotypes("ERROR");
       setFetching(false);
     }
@@ -211,7 +214,7 @@ const Header = () => {
                 sx={{ color: "#e4ae3a" }}
                 textAlign={"center"}
               >
-                {fetching ? <CircularProgress size={25} /> : "WIP"}
+                {fetching ? <CircularProgress size={25} /> : uniqueSomatotypes}
                 <Typography sx={{ color: "black" }}>
                   {xxxs ? `Somato-types` : "Somatotypes"}
                 </Typography>{" "}
