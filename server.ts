@@ -32,6 +32,5 @@ app.use(
 // app.use(routesUsers);
 app.use("/users", routesUsers);
 app.use("/auth", routesAuth);
-app.use("/scans", routesScans);
 
 module.exports = app;
