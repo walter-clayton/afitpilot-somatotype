@@ -17,6 +17,8 @@ interface IUsersCtrl {
   getUserDatas?: (req: Request, res: Response) => void;
   deleteSomatotype?: (req: Request, res: Response) => void;
   editSomatotype?: (req: Request, res: Response) => void;
+  getAllUsers?: (req: Request, res: Response) => void;
+  getAllSomatotypes?: (req: Request, res: Response) => void;
 }
 
 const usersCtrl: IUsersCtrl = {};
@@ -433,6 +435,34 @@ usersCtrl.editSomatotype = async (req: Request, res: Response) => {
       res.status(202).send({ message: "The results edited successfully" });
     }
   } catch (error: unknown) {
+    console.log(error);
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
+  }
+};
+
+usersCtrl.getAllUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await User.find();
+
+    res.status(200).send({ count: users.length });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
+  }
+};
+
+usersCtrl.getAllSomatotypes = async (req: Request, res: Response) => {
+  try {
+    const somatotypes = await Somatotype.find();
+
+    res.status(200).send({ count: somatotypes.length });
+  } catch (error) {
     console.log(error);
     res.status(500).send({
       message:

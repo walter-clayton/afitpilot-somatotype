@@ -19,6 +19,8 @@ const {
   getUserDatas,
   deleteSomatotype,
   editSomatotype,
+  getAllUsers,
+  getAllSomatotypes,
 } = require("../controllers/users.controller");
 
 router.post(
@@ -63,11 +65,10 @@ router.delete(
   deleteSomatotype
 );
 
-router.post(
-  "/editSomatotype/:id",
-  verifyKey,
-  verifySomatotype,
-  editSomatotype
-);
+router.post("/editSomatotype/:id", verifyKey, verifySomatotype, editSomatotype);
+
+router.get("/getAllUsers", verifyKey, getAllUsers);
+
+router.get("/getAllSomatotypes", verifyKey, getAllSomatotypes);
 
 module.exports = router;
