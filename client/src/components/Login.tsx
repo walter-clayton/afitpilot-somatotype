@@ -188,7 +188,7 @@ export default function Login(props: any) {
           }}
         >
           <Typography component="h1" variant="h4" mb={1.5}>
-            Log In
+            Login
           </Typography>
           <Typography variant="subtitle1">
             Not a member yet? Create a free profile by taking our

@@ -278,8 +278,20 @@ const Signup: FC<ISignUp> = (props) => {
                 type="submit"
                 size="large"
                 sx={{
-                  maxWidth: "sm", color: "white",
-                  backgroundColor: 'RGB(108, 77, 123)', padding: "7px 15px", fontWeight: 600, textAlign: "center", lineHeight: '30px', fontSize: "18px", borderRadius: "40px", textTransform: 'initial', minWidth: '140px', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
+                  maxWidth: "sm",
+                  color: "white",
+                  backgroundColor: "RGB(108, 77, 123)",
+                  padding: "7px 15px",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  lineHeight: "30px",
+                  fontSize: "18px",
+                  borderRadius: "40px",
+                  textTransform: "initial",
+                  minWidth: "140px",
+                  "&.MuiButtonBase-root:hover": {
+                    bgcolor: "RGB(108, 77, 123)",
+                  },
                 }}
                 onClick={() => {
                   handleClick();
@@ -295,8 +307,20 @@ const Signup: FC<ISignUp> = (props) => {
               <Button
                 type="submit"
                 sx={{
-                  maxWidth: "sm", color: "white",
-                  backgroundColor: 'RGB(108, 77, 123)', padding: "7px 15px", fontWeight: 600, textAlign: "center", lineHeight: '30px', fontSize: "18px", borderRadius: "40px", textTransform: 'initial', minWidth: '140px', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
+                  maxWidth: "sm",
+                  color: "white",
+                  backgroundColor: "RGB(108, 77, 123)",
+                  padding: "7px 15px",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  lineHeight: "30px",
+                  fontSize: "18px",
+                  borderRadius: "40px",
+                  textTransform: "initial",
+                  minWidth: "140px",
+                  "&.MuiButtonBase-root:hover": {
+                    bgcolor: "RGB(108, 77, 123)",
+                  },
                 }}
                 onClick={() => {
                   props.data && handleClick();
@@ -331,7 +355,7 @@ const Signup: FC<ISignUp> = (props) => {
                 }}
                 sx={{ cursor: "pointer" }}
               >
-                Already have an account? Sign in
+                Already have an account? Log in
               </Link>
             </Grid>
           </Grid>
