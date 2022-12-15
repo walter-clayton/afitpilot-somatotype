@@ -105,7 +105,8 @@ export default function Forget() {
           <Typography component="h1" variant="h4" mb={2}>
             Forgot Password?{" "}
           </Typography>
-          <Typography variant="subtitle1" mb={1}>Enter your e-mail address to receive a reset link.
+          <Typography variant="subtitle1" mb={1}>
+            Enter your e-mail address to receive a reset link.
           </Typography>
           <Box
             component="form"
@@ -141,7 +142,19 @@ export default function Forget() {
                 disabled={fetching}
                 variant="contained"
                 sx={{
-                  backgroundColor: 'RGB(108, 77, 123)', padding: "14px 30px", fontWeight: 600, textAlign: "center", lineHeight: '30px', fontSize: "18px", borderRadius: "40px", textTransform: 'initial', margin: "0px 80px", minWidth: '240px', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
+                  backgroundColor: "RGB(108, 77, 123)",
+                  padding: "14px 30px",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  lineHeight: "30px",
+                  fontSize: "18px",
+                  borderRadius: "40px",
+                  textTransform: "initial",
+                  margin: "0px 80px",
+                  minWidth: "240px",
+                  "&.MuiButtonBase-root:hover": {
+                    bgcolor: "RGB(108, 77, 123)",
+                  },
                 }}
               >
                 Send email
@@ -155,12 +168,19 @@ export default function Forget() {
             />
             <Grid container>
               <Grid item xs textAlign={"center"} mt={"20px"}>
-                <Link onClick={() => {
-                  navigate("/Login");
-                  window.scrollTo(0, 0);
-                }}
-                  sx={{ textAlign: "Center", textDecoration: "none", cursor: 'pointer', }} variant="subtitle1">
-                  Back to Log In
+                <Link
+                  onClick={() => {
+                    navigate("/Login");
+                    window.scrollTo(0, 0);
+                  }}
+                  sx={{
+                    textAlign: "Center",
+                    textDecoration: "none",
+                    cursor: "pointer",
+                  }}
+                  variant="subtitle1"
+                >
+                  Back to Login
                 </Link>
               </Grid>
             </Grid>
