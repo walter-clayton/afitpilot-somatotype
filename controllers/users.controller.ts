@@ -461,7 +461,20 @@ usersCtrl.getAllSomatotypes = async (req: Request, res: Response) => {
   try {
     const somatotypes = await Somatotype.find();
 
-    res.status(200).send({ count: somatotypes.length });
+    let uniqueSomatotypes: string[] = [];
+
+    somatotypes.forEach((obj: ISomatotype) => {
+      let somatotype: string = `${obj.endomorphy}${obj.mesomorphy}${obj.ectomorphy}`;
+      !uniqueSomatotypes.includes(somatotype) &&
+        uniqueSomatotypes.push(
+          `${obj.endomorphy}${obj.mesomorphy}${obj.ectomorphy}`
+        );
+    });
+
+    res.status(200).send({
+      uniqueSomatotypes: uniqueSomatotypes.length,
+      count: somatotypes.length,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send({

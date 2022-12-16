@@ -75,7 +75,7 @@ const ResponsiveAppBar = (props: any) => {
     handleCloseNavProfileMenu();
     removeCookie("user", { path: "/", sameSite: "none", secure: true });
     props.setOpen(true);
-    props.setSnackbarMessage("Logout successfully");
+    props.setSnackbarMessage("Log out successfully");
     props.setData(undefined);
     navigate("/Login");
     window.scrollTo(0, 0);
@@ -295,7 +295,7 @@ const ResponsiveAppBar = (props: any) => {
                     }}
                     variant="contained"
                   >
-                    Logout
+                    Log out
                   </Button>
                 </MenuItem>
               </Menu>
@@ -382,7 +382,7 @@ const ResponsiveAppBar = (props: any) => {
                     }}
                     variant="contained"
                   >
-                    Login
+                    Log in
                   </Button>
                 </MenuItem>
               </Menu>
@@ -501,7 +501,7 @@ const ResponsiveAppBar = (props: any) => {
                             }}
                             variant="contained"
                           >
-                            Logout
+                            Log out
                           </Button>
                         </MenuItem>
                       </Menu>
@@ -527,7 +527,7 @@ const ResponsiveAppBar = (props: any) => {
                       }}
                       variant="text"
                     >
-                      Sign In
+                      Log in
                     </Button>
                   </Grid>
                 )}

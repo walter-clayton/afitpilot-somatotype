@@ -4,6 +4,9 @@ import { Typography, Container, Grid } from "@mui/material/";
 import man from "../image/Group.svg";
 import sitting from "../image/sitting-2.svg";
 import CallToActionWidget from "./CallToActionWidget";
+import CounterShare from "./CounterShare";
+import CommentPage from "./CommentPage";
+import TypeExample from "./TypeExample";
 
 export default function Types() {
   return (
@@ -141,6 +144,9 @@ export default function Types() {
           <CallToActionWidget />
         </Grid>
       </Grid>
+      <TypeExample />
+      <CounterShare />
+      <CommentPage />
     </Container>
   );
 }
