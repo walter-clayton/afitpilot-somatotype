@@ -51,75 +51,78 @@ export default function CommentPage() {
     const navigate = useNavigate();
 
     return (
-        <Container maxWidth="md">
+        <Container sx={{ backgroundColor: 'RGB(242, 243, 244)', paddingTop: "1px", marginTop: 8 }}>
             <CssBaseline />
-            <Typography variant="body1" color="text.secondary" sx={{ fontSize: "18px", margin: "30px 0px 30px", }}>
-                Please {" "}
-                <Link
-                    onClick={() => {
-                        navigate("/Login");
-                        window.scrollTo(0, 0);
-                    }}
-                    sx={{ textDecoration: "none", cursor: "pointer", fontSize: "18px", }}
-                    variant="body1"
-                >
-                    log in {" "}
-                </Link>
-                to join the discussion.
-            </Typography>
-            <Box sx={{
-                marginTop: 4,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "100%"
-            }}>
+            <Container maxWidth="md">
+                <Typography variant="body1" color="text.secondary" sx={{ fontSize: "18px", margin: "30px 0px 30px", }}>
+                    Please {" "}
+                    <Link
+                        onClick={() => {
+                            navigate("/Login");
+                            window.scrollTo(0, 0);
+                        }}
+                        sx={{ textDecoration: "none", cursor: "pointer", fontSize: "18px", }}
+                        variant="body1"
+                    >
+                        log in {" "}
+                    </Link>
+                    to join the discussion.
+                </Typography>
+                <Box sx={{
+                    marginTop: 4,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100%"
+                }}>
 
-                {steps.map((step, index) =>
-                    <Card sx={{ width: "100%", mb: 3, }}>
-                        <CardHeader
-                            avatar={
-                                <Avatar sx={{ bgcolor: red[500] }} aria-label="user image">
-                                    {/* {step.image} */}
-                                </Avatar>
-                            }
-                            title={
-                                <Typography variant="body2" sx={{ color: "RGB(56, 129, 153)", fontSize: "18px", fontWeight: 600, }}>
-                                    {step.name}
-                                    <Typography component={"span"} variant="body2" sx={{ marginLeft: "10px", color: "RGB(181, 181, 181)", fontSize: "18px", fontWeight: 400, textTransform: "uppercase" }} >
-                                        {step.bodyType}
+                    {steps.map((step, index) =>
+                        <Card sx={{ width: "100%", mb: 3, }}>
+                            <CardHeader
+                                avatar={
+                                    <Avatar sx={{ bgcolor: red[500] }} aria-label="user image">
+                                        {/* {step.image} */}
+                                    </Avatar>
+                                }
+                                title={
+                                    <Typography variant="body2" sx={{ color: "RGB(56, 129, 153)", fontSize: "18px", fontWeight: 600, }}>
+                                        {step.name}
+                                        <Typography component={"span"} variant="body2" sx={{ marginLeft: "10px", color: "RGB(181, 181, 181)", fontSize: "18px", fontWeight: 400, textTransform: "uppercase" }} >
+                                            {step.bodyType}
+                                        </Typography>
                                     </Typography>
+                                }
+                                subheader={
+                                    <Typography variant="body2" sx={{ color: "RGB(127, 127, 127)", fontSize: "16px", fontWeight: 400, }} >
+                                        {step.Time}
+                                    </Typography>
+                                }
+                            />
+                            <CardContent>
+                                <Typography variant="subtitle1" sx={{ color: "RGB(81, 89, 106)", fontSize: "18px", fontWeight: 400, lineHeight: "30px" }} >
+                                    {step.description}
                                 </Typography>
-                            }
-                            subheader={
-                                <Typography variant="body2" sx={{ color: "RGB(127, 127, 127)", fontSize: "16px", fontWeight: 400, }} >
-                                    {step.Time}
-                                </Typography>
-                            }
-                        />
-                        <CardContent>
-                            <Typography variant="subtitle1" sx={{ color: "RGB(81, 89, 106)", fontSize: "18px", fontWeight: 400, lineHeight: "30px" }} >
-                                {step.description}
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                )}
-                <TextField
-                    id="outlined-multiline-static"
-                    fullWidth
-                    placeholder='Write your Comment'
-                    multiline
-                    rows={4}
-                />
-                <Button type='submit' variant='contained'
-                    sx={{
-                        maxWidth: "sm", color: "white", marginTop: 1.5,
-                        backgroundColor: 'RGB(52, 121, 144)', padding: "7px 15px", fontWeight: 600, textAlign: "center", lineHeight: '30px', fontSize: "18px", borderRadius: "40px", textTransform: 'initial', minWidth: '140px', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(52, 121, 144)" },
-                    }}                >
-                    SUBMIT
-                </Button>
-            </Box>
+                            </CardContent>
+                        </Card>
+                    )}
+                    <TextField
+                        id="outlined-multiline-static"
+                        fullWidth
+                        placeholder='Write your Comment'
+                        multiline
+                        rows={4}
+                    />
+                    <Button type='submit' variant='contained'
+                        sx={{
+                            maxWidth: "sm", color: "white", marginTop: 1.5, marginBottom: 2,
+                            backgroundColor: 'RGB(52, 121, 144)', padding: "7px 15px", fontWeight: 600, textAlign: "center", lineHeight: '30px', fontSize: "18px", borderRadius: "40px", textTransform: 'initial', minWidth: '140px', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(52, 121, 144)" },
+                        }}                >
+                        SUBMIT
+                    </Button>
+                </Box>
+            </Container >
+
         </Container >
     );
 }
