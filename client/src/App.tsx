@@ -23,7 +23,7 @@ import FooterCTA from "./components/CTA/FooterCTA";
 import BlogArticlePage from "./components/BlogArticlePage";
 import AddPage from "./components/AddPage";
 import Error404 from "./components/CTA/Error404";
-import CommentPage from "./components/CTA/CommentPage"
+import CommentPage from "./components/CTA/CommentPage";
 import TypeExample from "./components/CTA/TypeExample";
 
 export interface ISomatotype {
