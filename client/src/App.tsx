@@ -23,6 +23,7 @@ import FooterCTA from "./components/CTA/FooterCTA";
 import BlogArticlePage from "./components/BlogArticlePage";
 import AddPage from "./components/AddPage";
 import Error404 from "./components/CTA/Error404";
+import CommentPage from "./components/CTA/CommentPage"
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -139,6 +140,7 @@ function App() {
         <Route path="/Types" element={<Types />} />
         <Route path="/FooterCTA" element={<FooterCTA />} />
         <Route path="/Error404" element={<Error404 />} />
+        <Route path="/CommentPage" element={<CommentPage />} />
         <Route
           path="/Test"
           element={
