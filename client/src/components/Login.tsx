@@ -201,18 +201,7 @@ export default function Login(props: any) {
               variant="subtitle1"
             >
               {" "}
-              personality test{" "}
-            </Link>
-            or{" "}
-            <Link
-              onClick={() => {
-                navigate("/Signup");
-                window.scrollTo(0, 0);
-              }}
-              sx={{ textDecoration: "none", cursor: "pointer" }}
-              variant="subtitle1"
-            >
-              entering your results yourself
+              free personality test
             </Link>
             .
           </Typography>
