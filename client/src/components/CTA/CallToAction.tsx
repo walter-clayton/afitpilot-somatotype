@@ -39,6 +39,7 @@ const CallToAction = () => {
           justifyContent={"center"}
           alignItems={"center"}
           flexDirection={"column"}
+          order={small ? 2 : 1}
         >
           <Grid item xs={12}>
             <ThemeProvider theme={theme}>
@@ -145,7 +146,7 @@ const CallToAction = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={small ? 12 : 5}>
+        <Grid item xs={small ? 12 : 5} order={small ? 1 : 2}>
           <Box
             sx={{
               display: "flex",
@@ -292,6 +293,7 @@ const CallToAction = () => {
                     paddingRight: xxSmall ? "20px" : "40px",
                     paddingLeft: xxSmall ? "23px" : "46px",
                     fontSize: "18px",
+                    maxHeight: "60px",
                     fontWeight: 600,
                     lineHeight: "30px",
                     textAlign: "center",
