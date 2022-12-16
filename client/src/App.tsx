@@ -174,7 +174,6 @@ function App() {
             />
           }
         />
-        <Route path="/TestSteps" element={<TestSteps />} />
       </Routes>
       <Snackbar
         open={open}

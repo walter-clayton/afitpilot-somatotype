@@ -555,7 +555,8 @@ const TestPage: FC<ITesting> = (props) => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <HeaderTestpage />
-      <Button
+      <TestSteps />
+      {/* <Button
         sx={{
           "&:hover > svg": {
             transform: "translateX(5px)",
@@ -584,7 +585,7 @@ const TestPage: FC<ITesting> = (props) => {
           fontSize="small"
           sx={{ marginLeft: "5px", transition: ".1s ease-out" }}
         />
-      </Button>
+      </Button> */}
       {/* <Button
         sx={{
           borderRadius: "40px",
