@@ -61,6 +61,7 @@ const Header = () => {
       });
       setTotalUsers(String(response.data.count));
       setFetching(false);
+      console.log("hey");
     } catch (error) {
       // if (error.response) {
       //     error.response.data.message
@@ -70,7 +71,7 @@ const Header = () => {
       //     setSnackbarMessage("Error with the server");
       //   }
       console.log("error ", error);
-      setTotalUsers("ERROR");
+      setTotalUsers("ERR");
       setFetching(false);
     }
   };
@@ -101,8 +102,8 @@ const Header = () => {
       //     setSnackbarMessage("Error with the server");
       //   }
       console.log("error ", error);
-      setUniqueSomatotypes("ERROR");
-      setTotalSomatotypes("ERROR");
+      setUniqueSomatotypes("ERR");
+      setTotalSomatotypes("ERR");
       setFetching(false);
     }
   };
