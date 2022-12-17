@@ -70,7 +70,7 @@ const Header = () => {
       //     setSnackbarMessage("Error with the server");
       //   }
       console.log("error ", error);
-      setTotalUsers("ERROR");
+      setTotalUsers("ERR");
       setFetching(false);
     }
   };
@@ -101,8 +101,8 @@ const Header = () => {
       //     setSnackbarMessage("Error with the server");
       //   }
       console.log("error ", error);
-      setUniqueSomatotypes("ERROR");
-      setTotalSomatotypes("ERROR");
+      setUniqueSomatotypes("ERR");
+      setTotalSomatotypes("ERR");
       setFetching(false);
     }
   };
