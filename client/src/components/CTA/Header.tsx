@@ -61,7 +61,6 @@ const Header = () => {
       });
       setTotalUsers(String(response.data.count));
       setFetching(false);
-      console.log("hey");
     } catch (error) {
       // if (error.response) {
       //     error.response.data.message
