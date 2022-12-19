@@ -9,18 +9,23 @@ import {
   ListItemText,
 } from "@mui/material/";
 import HexagonIcon from "@mui/icons-material/Hexagon";
-import { Link } from "react-router-dom";
+import Link from "@mui/material/Link";
 
 const Privacy = () => {
   return (
     <div>
-      <Grid container>
+      <Grid
+        container
+        display={"flex"}
+        justifyContent={"center"}
+        paddingX={3}
+        paddingTop={3}
+      >
         <Grid
           item
           sx={{
             flexGrow: 1,
             alignItems: "center",
-            margin: "20px auto",
           }}
           xs={12}
           md={8}
@@ -28,7 +33,6 @@ const Privacy = () => {
         >
           <Box
             sx={{
-              marginTop: 2,
               display: "flex",
               flexDirection: "column",
               alignItems: "left",
@@ -117,11 +121,9 @@ const Privacy = () => {
                   <ListItemText>
                     Questions or concerns? Please contact us{" "}
                     <Link
-                      to=""
-                      onClick={() => {
-                        window.location.href =
-                          "mailto:info.afitpilot@gmail.com";
-                      }}
+                      href="mailto:info.afitpilot@gmail.com"
+                      target={"_blank"}
+                      rel="noopener noreferrer"
                     >
                       info.afitpilot@gmail.com
                     </Link>
@@ -712,24 +714,17 @@ const Privacy = () => {
               your device’s screen size). For further details, please see You
               can also opt out of{" "}
               <Link
-                to=""
-                onClick={() => {
-                  window.open("https://policies.google.com/privacy", "_blank");
-                }}
-                rel="noopener"
+                href="https://policies.google.com/privacy"
+                target={"_blank"}
+                rel="noopener noreferrer"
               >
                 Google’s privacy policy
               </Link>
               . You can also opt out of{" "}
               <Link
-                to=""
-                onClick={() => {
-                  window.open(
-                    "https://support.google.com/analytics/answer/181881?hl=en",
-                    "_blank"
-                  );
-                }}
-                rel="noopener"
+                href="https://support.google.com/analytics/answer/181881?hl=en"
+                target={"_blank"}
+                rel="noopener noreferrer"
               >
                 Google Analytics tracking
               </Link>{" "}
@@ -842,10 +837,9 @@ const Privacy = () => {
               information. You can make such a request by contacting us by using
               the contact details{" "}
               <Link
-                to=""
-                onClick={() => {
-                  window.location.href = "mailto:info.afitpilot@gmail.com";
-                }}
+                href="mailto:info.afitpilot@gmail.com"
+                target={"_blank"}
+                rel="noopener noreferrer"
               >
                 info.afitpilot@gmail.com
               </Link>
@@ -858,34 +852,25 @@ const Privacy = () => {
               right to complain to your local data protection supervisory
               authority. You can find their contact details here: <br />{" "}
               <Link
-                to=""
-                onClick={() => {
-                  window.open(
-                    "https://ec.europa.eu/newsroom/article29/items/612080",
-                    "_blank"
-                  );
-                }}
-                rel="noopener"
+                href="https://ec.europa.eu/newsroom/article29/items/612080"
+                target={"_blank"}
+                rel="noopener noreferrer"
               >
-                https://ec.europa.eu/newsroom/article29/items/612080
+                European Commission's article about data protection
               </Link>
+              {"."}
             </Typography>
             <Typography variant="body1" paragraph>
               If you are located in Switzerland, the contact details for the
               data protection authorities are available here: <br />{" "}
               <Link
-                to=""
-                onClick={() => {
-                  window.open(
-                    "https://www.edoeb.admin.ch/edoeb/en/home.html",
-                    "_blank"
-                  );
-                }}
-                target="_blank"
-                rel="noopener"
+                href="https://www.edoeb.admin.ch/edoeb/en/home.html"
+                target={"_blank"}
+                rel="noopener noreferrer"
               >
-                https://www.edoeb.admin.ch/edoeb/en/home.html
+                Switzerland's article about data protection
               </Link>
+              {"."}
             </Typography>
             <Typography variant="body1" paragraph>
               Withdrawing your consent: If we are relying on your consent to
@@ -894,10 +879,9 @@ const Privacy = () => {
               right to withdraw your consent at any time. You can withdraw your
               consent at any time by contacting us by using the contact details{" "}
               <Link
-                to=""
-                onClick={() => {
-                  window.location.href = "mailto:info.afitpilot@gmail.com";
-                }}
+                href="mailto:info.afitpilot@gmail.com"
+                target={"_blank"}
+                rel="noopener noreferrer"
               >
                 info.afitpilot@gmail.com
               </Link>
@@ -934,10 +918,9 @@ const Privacy = () => {
               If you have questions or comments about this notice, you may email
               us at{" "}
               <Link
-                to=""
-                onClick={() => {
-                  window.location.href = "mailto:info.afitpilot@gmail.com";
-                }}
+                href="mailto:info.afitpilot@gmail.com"
+                target={"_blank"}
+                rel="noopener noreferrer"
               >
                 info.afitpilot@gmail.com
               </Link>

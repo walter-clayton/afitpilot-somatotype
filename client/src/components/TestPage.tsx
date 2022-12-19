@@ -24,6 +24,7 @@ import HeaderTestpage from "./CTA/HeaderTestpage";
 import CounterShare from "./CTA/CounterShare";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import TestSteps from "./test_steps/TestSteps";
 
 const theme = createTheme();
 
@@ -339,31 +340,31 @@ export const getSomatotypeType = (
   };
 
   if (isCentral(soma)) {
-    result = "You are a Central (C).";
+    result = " Central (C).";
   } else if (isBalancedMeso(soma)) {
-    result = "You are a Balanced Mesomorph (BM).";
+    result = "Balanced Mesomorph (BM).";
   } else if (isEctomorphicMeso(soma)) {
-    result = "You are a Ectomorphic Mesomorph (EcM).";
+    result = "Ectomorphic Mesomorph (EcM).";
   } else if (isMesoEcto(soma)) {
-    result = "You are a Mesomorph Ectomorph (M-Ec).";
+    result = " Mesomorph Ectomorph (M-Ec).";
   } else if (isMesomorphicEcto(soma)) {
-    result = "You are a Mesomorphic Ectomorph (MEc).";
+    result = "Mesomorphic Ectomorph (MEc).";
   } else if (isBalancedEcto(soma)) {
-    result = "You are a Balanced Ectomorph (BEc).";
+    result = "Balanced Ectomorph (BEc).";
   } else if (isEndomorphicEcto(soma)) {
-    result = "You are a Endomorphic Ectomorph (EnEc).";
+    result = "Endomorphic Ectomorph (EnEc).";
   } else if (isEndoEcto(soma)) {
-    result = "You are a Endomorph Ectomorph (En-Ec).";
+    result = "Endomorph Ectomorph (En-Ec).";
   } else if (isEctomorphicEndo(soma)) {
-    result = "You are a Ectomorphic Endomorph (EcEn).";
+    result = "Ectomorphic Endomorph (EcEn).";
   } else if (isBalancedEndo(soma)) {
-    result = "You are a Balanced Endomorph (BEn).";
+    result = "Balanced Endomorph (BEn).";
   } else if (isMesomorphicEndo(soma)) {
-    result = "You are a Mesomorphic Endomorph (MEn).";
+    result = "Mesomorphic Endomorph (MEn).";
   } else if (isMesoEndo(soma)) {
-    result = "You are a Mesomorph Endomorph (M-En).";
+    result = "Mesomorph Endomorph (M-En).";
   } else if (isEndomorphicMeso(soma)) {
-    result = "You are a Endomorphic Mesomorph (EnM).";
+    result = "Endomorphic Mesomorph (EnM).";
   }
 
   return result;
@@ -377,6 +378,7 @@ const TestPage: FC<ITesting> = (props) => {
   const [notStandard, setNotStandard] = useState(false);
   const [msgErr, setMsgErr] = useState<String>("");
   const [manually, setManually] = useState<boolean>(false);
+  const [modalTakeScan, setModalTakeScan] = useState<boolean>(false);
   const [toggleGraph, setToggleGraph] = useState(false);
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -551,11 +553,42 @@ const TestPage: FC<ITesting> = (props) => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <HeaderTestpage />
-      <Button
+      <TestSteps />
+      {/* <Button
         sx={{
+          "&:hover > svg": {
+            transform: "translateX(5px)",
+          },
           borderRadius: "40px",
           display: "flex",
           margin: "0 auto",
+          backgroundColor: "RGB(108, 77, 123)",
+          fontSize: "16px",
+          fontWeight: 600,
+          padding: "19px 50px",
+          textTransform: "initial",
+          textAlign: "center",
+          "&.MuiButtonBase-root:hover": {
+            bgcolor: "RGB(108, 77, 123)",
+          },
+        }}
+        variant="contained"
+        onClick={() => {
+          navigate("/TestSteps");
+          window.scrollTo(0, 0);
+        }}
+      >
+        Take the Test
+        <ArrowForwardSharpIcon
+          fontSize="small"
+          sx={{ marginLeft: "5px", transition: ".1s ease-out" }}
+        />
+      </Button> */}
+      {/* <Button
+        sx={{
+          borderRadius: "40px",
+          display: "flex",
+          margin: "20px auto 0 auto",
           backgroundColor: "RGB(51, 164, 116)",
           padding: "20px 50px",
           fontWeight: 600,
@@ -577,8 +610,8 @@ const TestPage: FC<ITesting> = (props) => {
             transform: manually ? "rotate(90deg)" : "rotate(0)",
           }}
         />
-      </Button>
-      <Grid
+      </Button> */}
+      {/* <Grid
         ref={gridRef}
         container
         sx={{
@@ -591,7 +624,7 @@ const TestPage: FC<ITesting> = (props) => {
         }}
         width={"100%"}
       >
-        {/* Form Inputs */}
+        
         <Collapse in={manually} collapsedSize={0} easing={{ enter: "5" }}>
           <Grid
             item
@@ -637,7 +670,7 @@ const TestPage: FC<ITesting> = (props) => {
           </Grid>
         </Collapse>
 
-        {/* button */}
+        
         <Grid
           item
           sx={{
@@ -672,7 +705,7 @@ const TestPage: FC<ITesting> = (props) => {
             </Button>
           </Box>
         </Grid>
-        {/* Results Table */}
+        
         {showResults ? (
           <Grid
             item
@@ -749,7 +782,7 @@ const TestPage: FC<ITesting> = (props) => {
             </Button>
           </Box>
         ) : null}
-      </Grid>
+      </Grid> */}
 
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}

@@ -81,7 +81,7 @@ usersCtrl.login = async (req: Request, res: Response) => {
         }
 
         res.status(202).send({
-          message: `Login ${data ? "and results saved " : ""}successfully`,
+          message: `Log in ${data ? "and results saved " : ""}successfully`,
           dataSaved: data ? true : false,
           user: {
             token: accessToken,

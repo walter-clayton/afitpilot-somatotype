@@ -12,13 +12,18 @@ import { Link } from "react-router-dom";
 
 const TermsCondition = () => {
   return (
-    <Grid container>
+    <Grid
+      container
+      display={"flex"}
+      justifyContent={"center"}
+      paddingX={3}
+      paddingTop={3}
+    >
       <Grid
         item
         sx={{
           flexGrow: 1,
           alignItems: "center",
-          margin: "20px auto",
         }}
         xs={12}
         md={8}
@@ -26,7 +31,6 @@ const TermsCondition = () => {
       >
         <Box
           sx={{
-            marginTop: 2,
             display: "flex",
             flexDirection: "column",
             alignItems: "left",
@@ -342,7 +346,12 @@ const TermsCondition = () => {
                   If you object to any change you have the right to cancel your
                   use of the Website and the ongoing provision of Products from
                   us within 30 days of the change by contacting us at{" "}
-                  <Link to="" onClick={()=>{window.location.href='mailto:info.afitpilot@gmail.com'}}>
+                  <Link
+                    to=""
+                    onClick={() => {
+                      window.location.href = "mailto:info.afitpilot@gmail.com";
+                    }}
+                  >
                     info.afitpilot@gmail.com
                   </Link>
                   .
@@ -370,7 +379,12 @@ const TermsCondition = () => {
             notify Us immediately upon becoming aware of any breach of security
             or unauthorized use of Your account. If you know or suspect that
             someone else knows your password you should notify us by contacting{" "}
-            <Link to="" onClick={()=>{window.location.href='mailto:info.afitpilot@gmail.com'}}>
+            <Link
+              to=""
+              onClick={() => {
+                window.location.href = "mailto:info.afitpilot@gmail.com";
+              }}
+            >
               info.afitpilot@gmail.com
             </Link>{" "}
             immediately.
@@ -768,7 +782,12 @@ const TermsCondition = () => {
           </Typography>
           <Typography variant="body1" paragraph>
             You can contact us via email (
-            <Link to="" onClick={()=>{window.location.href='mailto:info.afitpilot@gmail.com'}}>
+            <Link
+              to=""
+              onClick={() => {
+                window.location.href = "mailto:info.afitpilot@gmail.com";
+              }}
+            >
               info.afitpilot@gmail.com
             </Link>
             ). Upon receipt of a notification, the Company will take whatever
@@ -1093,7 +1112,12 @@ const TermsCondition = () => {
                 </ListItemIcon>
                 <ListItemText>
                   By sending us an email: <br />
-                  <Link to="" onClick={()=>{window.location.href='mailto:info.afitpilot@gmail.com'}}>
+                  <Link
+                    to=""
+                    onClick={() => {
+                      window.location.href = "mailto:info.afitpilot@gmail.com";
+                    }}
+                  >
                     info.afitpilot@gmail.com
                   </Link>
                 </ListItemText>

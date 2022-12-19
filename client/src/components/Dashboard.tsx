@@ -231,7 +231,17 @@ const Dashboard: FC<IDashboard> = (props) => {
 
           <Button
             sx={{
-              backgroundColor: 'RGB(108, 77, 123)', padding: "14px 30px", fontWeight: 600, textAlign: "center", lineHeight: '30px', fontSize: "18px", borderRadius: "40px", textTransform: 'initial', margin: "0px 80px", minWidth: '240px', "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
+              backgroundColor: "RGB(108, 77, 123)",
+              padding: "14px 30px",
+              fontWeight: 600,
+              textAlign: "center",
+              lineHeight: "30px",
+              fontSize: "18px",
+              borderRadius: "40px",
+              textTransform: "initial",
+              width: "80%",
+              mx: "10%",
+              "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
             }}
             variant="contained"
             onClick={() => {

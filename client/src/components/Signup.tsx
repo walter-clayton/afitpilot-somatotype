@@ -181,7 +181,7 @@ const Signup: FC<ISignUp> = (props) => {
           alignItems: "center",
         }}
       >
-        <Typography component="h1" variant="h2">
+        <Typography component="h1" variant="h4">
           Sign up
         </Typography>
         {props.data ? (
@@ -276,8 +276,23 @@ const Signup: FC<ISignUp> = (props) => {
             <Grid item>
               <Button
                 type="submit"
-                variant="outlined"
                 size="large"
+                sx={{
+                  maxWidth: "sm",
+                  color: "white",
+                  backgroundColor: "RGB(108, 77, 123)",
+                  padding: "7px 15px",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  lineHeight: "30px",
+                  fontSize: "18px",
+                  borderRadius: "40px",
+                  textTransform: "initial",
+                  minWidth: "140px",
+                  "&.MuiButtonBase-root:hover": {
+                    bgcolor: "RGB(108, 77, 123)",
+                  },
+                }}
                 onClick={() => {
                   handleClick();
                   navigate("/");
@@ -291,6 +306,22 @@ const Signup: FC<ISignUp> = (props) => {
             <Grid item>
               <Button
                 type="submit"
+                sx={{
+                  maxWidth: "sm",
+                  color: "white",
+                  backgroundColor: "RGB(108, 77, 123)",
+                  padding: "7px 15px",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  lineHeight: "30px",
+                  fontSize: "18px",
+                  borderRadius: "40px",
+                  textTransform: "initial",
+                  minWidth: "140px",
+                  "&.MuiButtonBase-root:hover": {
+                    bgcolor: "RGB(108, 77, 123)",
+                  },
+                }}
                 onClick={() => {
                   props.data && handleClick();
                 }}
@@ -324,7 +355,7 @@ const Signup: FC<ISignUp> = (props) => {
                 }}
                 sx={{ cursor: "pointer" }}
               >
-                Already have an account? Sign in
+                Already have an account? Log in
               </Link>
             </Grid>
           </Grid>
