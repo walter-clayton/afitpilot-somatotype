@@ -52,7 +52,7 @@ export interface IData {
 }
 
 function App() {
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["user", "data"]);
   const [open, setOpen] = useState<boolean>(false);
   const [resultsSaved, setResultsSaved] = useState<boolean>(false);
   const [snackbarMessage, setSnackbarMessage] = useState<string>("");
@@ -73,6 +73,12 @@ function App() {
     }
     setOpen(false);
   };
+
+  useEffect(() => {
+    console.log(data);
+
+    cookies.data && setData(cookies.data);
+  }, [data, cookies.data]);
 
   return (
     <Router>
@@ -148,6 +154,7 @@ function App() {
           element={
             <TestPage
               setData={setData}
+              data={data!}
               resultsSaved={resultsSaved}
               setResultsSaved={setResultsSaved}
             />
