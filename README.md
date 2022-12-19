@@ -31,6 +31,10 @@ Please go to this [page](contributions.md).
 
 Please go to this [page](deployment.md).
 
+## Common Errors
+
+Common errors [page](errors.md).
+
 ## App Info
 
 ### Author
