@@ -10,6 +10,7 @@ import {
   Button,
   Slider,
   MenuItem,
+  useMediaQuery,
 } from "@mui/material";
 import ForwardIcon from "@mui/icons-material/Forward";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
@@ -19,46 +20,6 @@ import CircularProgress, {
 } from "@mui/material/CircularProgress";
 import { IAnthropometric, IData, ISomatotype } from "../../App";
 import ResultsTable from "../ResultsTable";
-
-const CircularProgressWithLabel = (props: any) => {
-  return (
-    <Box
-      sx={{
-        position: "absolute",
-        display: "inline-flex",
-        bottom: "20px",
-        left: "20px",
-      }}
-    >
-      <CircularProgress
-        sx={{ color: "RGB(108, 77, 123)" }}
-        variant="determinate"
-        {...props}
-        size="4rem"
-      />
-      <Box
-        sx={{
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          position: "absolute",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Typography
-          variant="caption"
-          component="div"
-          color="text.secondary"
-          fontSize={16}
-          fontWeight={600}
-        >{`${Math.round(props.value)}%`}</Typography>
-      </Box>
-    </Box>
-  );
-};
 
 const PrettoSlider = styled(Slider)({
   color: "RGB(108, 77, 123)",
@@ -100,19 +61,6 @@ const PrettoSlider = styled(Slider)({
   },
 });
 
-const Next = styled(Button)({
-  color: "white",
-  borderRadius: "20px",
-  padding: "10px 50px",
-  backgroundColor: "RGB(108, 77, 123)",
-  alignSelf: "end",
-  marginRight: "20px",
-
-  "&:hover": {
-    backgroundColor: "RGB(108, 77, 123)",
-  },
-});
-
 const Input = styled(OutlinedInput)({
   marginTop: "50px",
   // input label when focused
@@ -141,19 +89,6 @@ const Unity = styled("div")({
   fontWeight: 600,
   fontSize: 20,
   color: "RGB(108, 77, 123)",
-});
-
-const Question = styled("div")({
-  backgroundColor: "RGB(108, 77, 123)",
-  color: "white",
-  fontWeight: "600",
-  textAlign: "center",
-  padding: "20px 0",
-  width: "100%",
-  position: "relative",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
 });
 
 interface ICircle {
@@ -188,6 +123,78 @@ interface ITestSteps {
 const TestSteps: FC<ITestSteps> = (props) => {
   const [cookies, setCookie, removeCookie] = useCookies(["data"]);
   const navigate = useNavigate();
+  const xs = useMediaQuery("(max-width:680px)");
+
+  const Question = styled("div")({
+    backgroundColor: "RGB(108, 77, 123)",
+    fontSize: xs ? "20px" : "24px",
+    color: "white",
+    fontWeight: "600",
+    textAlign: "center",
+    padding: "20px 0",
+    width: "100%",
+    position: "relative",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  });
+
+  const Next = styled(Button)({
+    color: "white",
+    borderRadius: "20px",
+    padding: "10px 50px",
+    backgroundColor: "RGB(108, 77, 123)",
+    alignSelf: xs ? "center" : "end",
+    marginRight: xs ? "0" : "20px",
+    marginTop: "20px",
+    width: xs ? "90%" : "auto",
+
+    "&:hover": {
+      backgroundColor: "RGB(108, 77, 123)",
+    },
+  });
+
+  const CircularProgressWithLabel = (props: any) => {
+    return (
+      <Box
+        sx={{
+          position: xs ? "relative" : "absolute",
+          display: "inline-flex",
+          bottom: xs ? "0" : "20px",
+          left: xs ? "0" : "20px",
+          mt: xs ? 4 : 0,
+        }}
+      >
+        <CircularProgress
+          sx={{ color: "RGB(108, 77, 123)" }}
+          variant="determinate"
+          {...props}
+          size="4rem"
+        />
+        <Box
+          sx={{
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            position: "absolute",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Typography
+            variant="caption"
+            component="div"
+            color="text.secondary"
+            fontSize={16}
+            fontWeight={600}
+          >{`${Math.round(props.value)}%`}</Typography>
+        </Box>
+      </Box>
+    );
+  };
+
   interface ISteps {
     label: string;
     question: string;
@@ -384,6 +391,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
         }}
         sx={{
           width: "110px",
+          marginTop: "30px",
           color: "RGB(108, 77, 123)",
           "&.MuiOutlinedInput-root": {
             "&.Mui-focused fieldset": {
@@ -410,7 +418,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
   };
 
   return (
-    <Box>
+    <Box sx={{ margin: "100px 0" }}>
       {props.data ? (
         <Button
           sx={{
@@ -452,13 +460,12 @@ const TestSteps: FC<ITestSteps> = (props) => {
             flexDirection: "column",
             alignItems: "center",
             position: "relative",
-            height: "325px",
           }}
-          maxWidth="600px"
+          maxWidth="700px"
         >
           <Question>
             {steps[currentStep].question}
-            <QuestionMarkIcon sx={{ position: "absolute", right: "20px" }} />
+            {/* <QuestionMarkIcon sx={{ position: "absolute", right: "20px" }} /> */}
           </Question>
 
           {steps.map(
@@ -469,6 +476,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
                   sx={{
                     width: "100%",
                     display: "flex",
+                    flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center",
                     marginTop: "50px",
