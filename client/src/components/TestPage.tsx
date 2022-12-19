@@ -30,6 +30,7 @@ const theme = createTheme();
 
 interface ITesting {
   setData: (data: IData) => void;
+  data: IData;
   resultsSaved: boolean;
   setResultsSaved: (bool: boolean) => void;
 }
@@ -404,19 +405,6 @@ const TestPage: FC<ITesting> = (props) => {
 
   const [pointsArray, setPointsArray] = useState<IPoints[]>([]);
   // const [params, setParams] = useParams()
-  useEffect(() => {
-    setAnthropometric((anthropometric) => ({
-      height: 180,
-      weight: 80,
-      supraspinal_skinfold: 12,
-      subscapular_skinfold: 12,
-      tricep_skinfold: 12,
-      femur_breadth: 8,
-      humerus_breadth: 7,
-      calf_girth: 38,
-      bicep_girth: 38,
-    }));
-  }, []);
 
   useEffect(() => {
     if (exceeded || notStandard) {
@@ -555,7 +543,7 @@ const TestPage: FC<ITesting> = (props) => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <HeaderTestpage />
-      <TestSteps />
+      <TestSteps setData={props.setData} data={props.data} />
       {/* <Button
         sx={{
           "&:hover > svg": {

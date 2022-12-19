@@ -1,4 +1,6 @@
 import React, { FC, useState, useEffect, useRef } from "react";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   OutlinedInput,
@@ -15,6 +17,8 @@ import { styled } from "@mui/system";
 import CircularProgress, {
   CircularProgressProps,
 } from "@mui/material/CircularProgress";
+import { IAnthropometric, IData, ISomatotype } from "../../App";
+import ResultsTable from "../ResultsTable";
 
 const CircularProgressWithLabel = (props: any) => {
   return (
@@ -107,11 +111,6 @@ const Next = styled(Button)({
   "&:hover": {
     backgroundColor: "RGB(108, 77, 123)",
   },
-
-  "&:hover > svg": {
-    transform: "translateX(35px)",
-    opacity: "1",
-  },
 });
 
 const Input = styled(OutlinedInput)({
@@ -181,7 +180,14 @@ const Circles = styled("div")({
   padding: "50px 0 20px 0",
 });
 
-const TestSteps: FC = () => {
+interface ITestSteps {
+  setData: (data: IData) => void;
+  data: IData;
+}
+
+const TestSteps: FC<ITestSteps> = (props) => {
+  const [cookies, setCookie, removeCookie] = useCookies(["data"]);
+  const navigate = useNavigate();
   interface ISteps {
     label: string;
     question: string;
@@ -228,14 +234,14 @@ const TestSteps: FC = () => {
       question: "Your arm circumference is:",
       unity: "cm",
       min: "20",
-      max: "55",
+      max: "70",
     },
     {
       label: "calf",
       question: "Your calf circumference is:",
       unity: "cm",
       min: "20",
-      max: "55",
+      max: "70",
     },
   ];
   const [currentStep, setCurrentStep] = useState<number>(0);
@@ -268,6 +274,94 @@ const TestSteps: FC = () => {
     console.log(event.target.value);
 
     setValues({ ...valuesTemp });
+  };
+
+  const handleFinish = () => {
+    const getFemur = (): number => {
+      const toFoot = Number(values.height) * 0.0328084; // convert height cm to Foot Unit
+      return (toFoot - 0.9) / 0.60375;
+    };
+
+    const getHumerus = (femur: number) => {
+      return femur - 2;
+    };
+
+    const BF = Number(values.bodyFat);
+    const BD = 1 / ((BF + 450) / 495);
+
+    const getTwoSumSkinfolds = () => {
+      if (values.gender === "male") {
+        return Math.abs((BD - 1.1043) / (0.001327 + 0.00131));
+      } else {
+        return Math.abs((BD - 1.0764) / (0.0008 + 0.00088));
+      }
+    };
+
+    const anthropometrics: IAnthropometric = {
+      height: Number(values.height),
+      weight: Number(values.weight),
+      femur_breadth: getFemur(),
+      humerus_breadth: getHumerus(getFemur()),
+      supraspinal_skinfold: getTwoSumSkinfolds() / 2,
+      subscapular_skinfold: getTwoSumSkinfolds() / 2,
+      tricep_skinfold: getTwoSumSkinfolds() / 2,
+      calf_girth: Number(values.calf),
+      bicep_girth: Number(values.arm),
+    };
+
+    // somatotype calcule
+
+    // endomorphy
+    const threeSumSkinfolds = (getTwoSumSkinfolds() / 2) * 3; // conversion for endomorphy
+    const x = threeSumSkinfolds * (170.18 / Number(anthropometrics.height)); // endomorph variable
+    const endo =
+      -0.7182 +
+      0.1451 * x -
+      0.00068 * Math.pow(x, 2) +
+      0.0000014 * Math.pow(x, 3);
+
+    // mesomorphy
+    const meso =
+      0.858 * anthropometrics.humerus_breadth! +
+      0.601 * anthropometrics.femur_breadth! +
+      0.188 * anthropometrics.bicep_girth! +
+      0.161 * anthropometrics.calf_girth! -
+      0.131 * anthropometrics.height! +
+      4.5;
+
+    // ectomorphy
+    const heightWeightRatio =
+      anthropometrics.height! / Math.cbrt(anthropometrics.weight!);
+    let ecto;
+    if (heightWeightRatio >= 40.75) {
+      ecto = 0.732 * heightWeightRatio - 28.58;
+    } else if (heightWeightRatio < 40.75 && heightWeightRatio > 38.25) {
+      ecto = 0.463 * heightWeightRatio - 17.63;
+    } else {
+      ecto = 0.1;
+    }
+
+    const somatotype: ISomatotype = {
+      endomorphy: endo,
+      mesomorphy: meso,
+      ectomorphy: ecto,
+    };
+
+    const data: IData = {
+      anthropometric: anthropometrics,
+      somatotype: somatotype,
+    };
+
+    setCookie(
+      "data",
+      { ...data },
+      {
+        path: "/",
+        sameSite: "none",
+        secure: true,
+        maxAge: 3600,
+      }
+    );
   };
 
   interface IInputSelect {
@@ -316,94 +410,124 @@ const TestSteps: FC = () => {
   };
 
   return (
-    <Box
-      ref={boxRef}
-      sx={{
-        padding: "0 0 20px 0",
-        margin: "100px auto",
-        borderRadius: "20px",
-        boxShadow: 3,
-        overflow: "hidden",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        position: "relative",
-      }}
-      maxWidth="600px"
-    >
-      <Question>
-        {steps[currentStep].question}
-        <QuestionMarkIcon sx={{ position: "absolute", right: "20px" }} />
-      </Question>
-
-      {steps.map(
-        (item, index) =>
-          index === currentStep && (
-            <Box
-              key={index}
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: "50px",
-              }}
-            >
-              {item.label !== "gender" ? (
-                <PrettoSlider
-                  sx={{ marginTop: "20px" }}
-                  valueLabelDisplay="on"
-                  aria-label="pretto slider"
-                  defaultValue={(values as any)[item.label]}
-                  min={Number(item.min)}
-                  max={Number(item.max)}
-                  step={1}
-                  onChange={(event: any) => {
-                    handleChange(event);
-                  }}
-                />
-              ) : (
-                <InputSelect label={item.label} />
-              )}
-              <Unity>{item.unity}</Unity>
-            </Box>
-          )
-      )}
-
-      <Circles>
-        {steps.map((item, index) => (
-          <Circle
-            key={index}
-            active={index === currentStep}
-            onClick={() => {
-              setCurrentStep(index);
-            }}
-          />
-        ))}
-      </Circles>
-      <Next
-        onClick={() => {
-          currentStep < steps.length - 1 && setCurrentStep((c) => c + 1);
-          window.scrollTo(0, boxRef.current?.offsetTop! - 20);
-        }}
-      >
-        {currentStep === steps.length - 1 ? "Finish" : "Next"}
-        {currentStep < steps.length - 1 && (
+    <Box>
+      {props.data ? (
+        <Button
+          sx={{
+            color: "white",
+            borderRadius: "40px",
+            fontSize: "16px",
+            fontWeight: "600",
+            padding: "20px 50px",
+            backgroundColor: "RGB(108, 77, 123)",
+            display: "flex",
+            margin: "0 auto",
+            "&.MuiButtonBase-root:hover": {
+              bgcolor: "RGB(108, 77, 123)",
+            },
+          }}
+          variant="contained"
+          onClick={() => {
+            navigate("/Signup");
+            window.scrollTo(0, 0);
+          }}
+        >
+          Save results
           <ForwardIcon
             sx={{
               marginLeft: "10px",
-              transition: ".2s ease-out",
-              position: "absolute",
-              transform: "translateX(-35px)",
-              opacity: "0",
             }}
           />
-        )}
-      </Next>
+        </Button>
+      ) : (
+        <Box
+          ref={boxRef}
+          sx={{
+            padding: "0 0 20px 0",
+            margin: "100px auto",
+            borderRadius: "20px",
+            boxShadow: 3,
+            overflow: "hidden",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            position: "relative",
+            height: "325px",
+          }}
+          maxWidth="600px"
+        >
+          <Question>
+            {steps[currentStep].question}
+            <QuestionMarkIcon sx={{ position: "absolute", right: "20px" }} />
+          </Question>
 
-      <CircularProgressWithLabel
-        value={(100 / steps.length) * (currentStep + 1)}
-      />
+          {steps.map(
+            (item, index) =>
+              index === currentStep && (
+                <Box
+                  key={index}
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "50px",
+                  }}
+                >
+                  {item.label !== "gender" ? (
+                    <PrettoSlider
+                      sx={{ marginTop: "20px" }}
+                      valueLabelDisplay="on"
+                      aria-label="pretto slider"
+                      defaultValue={(values as any)[item.label]}
+                      min={Number(item.min)}
+                      max={Number(item.max)}
+                      step={1}
+                      onChange={(event: any) => {
+                        handleChange(event);
+                      }}
+                    />
+                  ) : (
+                    <InputSelect label={item.label} />
+                  )}
+                  <Unity>{item.unity}</Unity>
+                </Box>
+              )
+          )}
+
+          <Circles>
+            {steps.map((item, index) => (
+              <Circle
+                key={index}
+                active={index === currentStep}
+                onClick={() => {
+                  setCurrentStep(index);
+                }}
+              />
+            ))}
+          </Circles>
+          <Next
+            onClick={() => {
+              currentStep < steps.length - 1 && setCurrentStep((c) => c + 1);
+              currentStep === steps.length - 1 && handleFinish();
+              window.scrollTo(0, boxRef.current?.offsetTop! - 20);
+            }}
+          >
+            {currentStep === steps.length - 1 ? "Finish" : "Next"}
+            {currentStep < steps.length - 1 && (
+              <ForwardIcon
+                sx={{
+                  marginLeft: "10px",
+                }}
+              />
+            )}
+          </Next>
+
+          <CircularProgressWithLabel
+            value={(100 / steps.length) * (currentStep + 1)}
+          />
+        </Box>
+      )}
     </Box>
   );
 };

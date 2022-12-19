@@ -24,7 +24,7 @@ const theme = createTheme();
 export default function Login(props: any) {
   const navigate = useNavigate();
   const [fetching, setFetching] = React.useState<boolean>(false);
-  const [cookies, setCookie] = useCookies(["user"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["user", "data"]);
 
   //validation
   const [showPassword, setShowPassword] = React.useState(false);
@@ -82,6 +82,7 @@ export default function Login(props: any) {
         }
       );
       setFetching(false);
+      removeCookie("data", { path: "/", sameSite: "none", secure: true });
       setCookie(
         "user",
         { ...response.data.user },
