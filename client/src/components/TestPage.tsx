@@ -460,9 +460,7 @@ const TestPage: FC<ITesting> = (props) => {
     if (!showResults) {
       window.scrollTo(0, Number(gridRef.current?.offsetTop));
     }
-    notStandard && setNotStandard(false);
     exceeded && setExceeded(false);
-    notStandard && setNotStandard(false);
     msgErr !== "" && setMsgErr("");
 
     const somatotypeResults = calculateSomatotype(anthropometric!);

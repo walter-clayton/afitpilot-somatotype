@@ -25,18 +25,24 @@ npm run client
 
 ## Contributions
 
-
 Please go to this [page](contributions.md).
 
+## Deployment
+
+Please go to this [page](deployment.md).
+
+## Common Errors
+
+Common errors [page](errors.md).
 
 ## App Info
-
 
 ### Author
 
 [Walter Clayton](http://www.traversymedia.com)
 
 ### Team
+
 [Bhama GurusWami](https://github.com/BhamaGuruswami)
 
 [Younes El Miri](https://github.com/ElmiriYounes)

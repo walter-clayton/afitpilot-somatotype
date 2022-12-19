@@ -8,6 +8,7 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import avatar from "../image/manu-tribesman.png"
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 const images = [
@@ -38,15 +39,24 @@ function TypeExample() {
     const handleStepChange = (step: number) => {
         setActiveStep(step);
     };
-
+    theme.typography.h2 = {
+        "@media (max-width:600px)": {
+            fontSize: "20px",
+            lineHeight: '28px',
+            Padding: "0px 35px",
+            margin: "0px 0px 30px"
+        },
+    };
     return (
         <Box sx={{
             marginTop: 15,
             flexGrow: 1,
         }}>
-            <Typography variant="h2" sx={{ fontSize: "34px", lineHeight: '44px', margin: "0px 0px 45px", padding: "0px 70px", fontWeight: 600, color: "RGB(81, 89, 106)", textAlign: "center" }}>
-                Balanced Endomorph You May Know
-            </Typography>
+            <ThemeProvider theme={theme}>
+                <Typography variant="h2" sx={{ fontSize: "34px", lineHeight: '44px', margin: "0px 0px 45px", padding: "0px 70px", fontWeight: 600, color: "RGB(81, 89, 106)", textAlign: "center" }}>
+                    Balanced Endomorph You May Know
+                </Typography>
+            </ThemeProvider>
             <AutoPlaySwipeableViews
                 axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                 index={activeStep}
