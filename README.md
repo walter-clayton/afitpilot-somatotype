@@ -31,7 +31,7 @@ Please go to this [page](contributions.md).
 
 Please go to this [page](deployment.md).
 
-## Deployment
+## Common Errors
 
 Common errors [page](errors.md).
 
