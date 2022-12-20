@@ -38,14 +38,14 @@ const icons: any[] = [
   },
   {
     icon: graphSoma,
-    title: "Unlock your potential",
-    desc: "Optimize your body shape",
+    title: "View detailed results",
+    desc: "Learn where you are",
     bgColor: "#EBE7DC",
   },
   {
     icon: biceps,
-    title: "View detailed results",
-    desc: "Learn where you are",
+    title: "Unlock your potential",
+    desc: "Optimize your body shape",
     bgColor: "#ECE3F2",
   },
 ];
