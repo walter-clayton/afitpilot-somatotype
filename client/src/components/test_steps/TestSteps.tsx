@@ -289,7 +289,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
     calf: string;
   }
 
-  const [values, setValues] = useState<IValues>({
+  const defaultValues: IValues = {
     age: "33",
     gender: "male",
     height: "180",
@@ -297,7 +297,9 @@ const TestSteps: FC<ITestSteps> = (props) => {
     bodyFat: "20",
     arm: "35",
     calf: "35",
-  });
+  };
+
+  const [values, setValues] = useState<IValues>({ ...defaultValues });
 
   const handleChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -531,7 +533,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
                       sx={{ marginTop: "20px" }}
                       valueLabelDisplay="on"
                       aria-label="pretto slider"
-                      defaultValue={(values as any)[item.label]}
+                      defaultValue={Number((defaultValues as any)[item.label])}
                       min={Number(item.min)}
                       max={Number(item.max)}
                       step={1}

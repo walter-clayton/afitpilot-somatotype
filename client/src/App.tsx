@@ -75,8 +75,6 @@ function App() {
   };
 
   useEffect(() => {
-    console.log(data);
-
     cookies.data && setData(cookies.data);
   }, [data, cookies.data]);
 
