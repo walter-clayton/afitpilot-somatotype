@@ -7,7 +7,7 @@ import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 import check from "../image/check.png";
 import biceps from "../image/biceps.png";
-import graphSoma from "../image/graphSoma.png";
+import graphSoma from "../image/graphSoma.svg";
 import { setFips } from "crypto";
 
 const theme = createTheme();

@@ -20,6 +20,10 @@ import CircularProgress, {
 } from "@mui/material/CircularProgress";
 import { IAnthropometric, IData, ISomatotype } from "../../App";
 import ResultsTable from "../ResultsTable";
+import ModalImg from "./Modal";
+import bicepsImg from "../image/bicepsImg.jpeg";
+import calfImg from "../image/calfImg.jpeg";
+import BFImg from "../image/BFImg.jpeg";
 
 const PrettoSlider = styled(Slider)({
   color: "RGB(108, 77, 123)",
@@ -125,6 +129,11 @@ const TestSteps: FC<ITestSteps> = (props) => {
   const navigate = useNavigate();
   const xs = useMediaQuery("(max-width:680px)");
 
+  // for ModalImg
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const Question = styled("div")({
     backgroundColor: "RGB(108, 77, 123)",
     fontSize: xs ? "20px" : "24px",
@@ -137,6 +146,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    borderRadius: "20px 20px 0 0",
   });
 
   const Next = styled(Button)({
@@ -201,6 +211,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
     unity?: string;
     min?: string;
     max?: string;
+    img?: string;
   }
 
   const steps: ISteps[] = [
@@ -235,6 +246,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
       unity: "%",
       min: "2",
       max: "50",
+      img: BFImg,
     },
     {
       label: "arm",
@@ -242,6 +254,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
       unity: "cm",
       min: "20",
       max: "70",
+      img: bicepsImg,
     },
     {
       label: "calf",
@@ -249,6 +262,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
       unity: "cm",
       min: "20",
       max: "70",
+      img: calfImg,
     },
   ];
   const [currentStep, setCurrentStep] = useState<number>(0);
@@ -455,7 +469,6 @@ const TestSteps: FC<ITestSteps> = (props) => {
             margin: "100px auto",
             borderRadius: "20px",
             boxShadow: 3,
-            overflow: "hidden",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -465,8 +478,26 @@ const TestSteps: FC<ITestSteps> = (props) => {
         >
           <Question>
             {steps[currentStep].question}
-            {/* <QuestionMarkIcon sx={{ position: "absolute", right: "20px" }} /> */}
+            {(steps[currentStep].label === "arm" ||
+              steps[currentStep].label === "calf" ||
+              steps[currentStep].label === "bodyFat") && (
+              <QuestionMarkIcon
+                onClick={handleOpen}
+                sx={{
+                  position: xs ? "relative" : "absolute",
+                  right: xs ? "0" : "20px",
+                  marginLeft: xs ? "10px" : "unset",
+                  fontSize: "30px",
+                }}
+              />
+            )}
           </Question>
+
+          <ModalImg
+            open={open}
+            handleClose={handleClose}
+            img={steps[currentStep].img!}
+          />
 
           {steps.map(
             (item, index) =>
