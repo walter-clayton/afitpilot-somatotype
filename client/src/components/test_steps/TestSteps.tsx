@@ -165,6 +165,15 @@ const TestSteps: FC<ITestSteps> = (props) => {
   });
 
   const CircularProgressWithLabel = (props: any) => {
+    const from: number = props.prevStepProgress;
+    const to: number = props.value;
+
+    const [progress, setProgress] = useState<number>(from);
+
+    useEffect(() => {
+      setProgress(props.value);
+    }, [props.value]);
+
     return (
       <Box
         sx={{
@@ -178,7 +187,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
         <CircularProgress
           sx={{ color: "RGB(108, 77, 123)" }}
           variant="determinate"
-          {...props}
+          value={progress}
           size="4rem"
         />
         <Box
@@ -266,6 +275,9 @@ const TestSteps: FC<ITestSteps> = (props) => {
     },
   ];
   const [currentStep, setCurrentStep] = useState<number>(0);
+  const stepProgress: number = (100 / steps.length) * (currentStep + 1);
+  const [prevStepProgress, setPrevStepProgress] =
+    useState<number>(stepProgress);
   const boxRef = useRef<HTMLDivElement>(null);
   interface IValues {
     age: string;
@@ -488,6 +500,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
                   right: xs ? "0" : "20px",
                   marginLeft: xs ? "10px" : "unset",
                   fontSize: "30px",
+                  cursor: "pointer",
                 }}
               />
             )}
@@ -541,12 +554,14 @@ const TestSteps: FC<ITestSteps> = (props) => {
                 active={index === currentStep}
                 onClick={() => {
                   setCurrentStep(index);
+                  setPrevStepProgress(stepProgress);
                 }}
               />
             ))}
           </Circles>
           <Next
             onClick={() => {
+              setPrevStepProgress(stepProgress);
               currentStep < steps.length - 1 && setCurrentStep((c) => c + 1);
               currentStep === steps.length - 1 && handleFinish();
               window.scrollTo(0, boxRef.current?.offsetTop! - 20);
@@ -563,7 +578,8 @@ const TestSteps: FC<ITestSteps> = (props) => {
           </Next>
 
           <CircularProgressWithLabel
-            value={(100 / steps.length) * (currentStep + 1)}
+            value={stepProgress}
+            prevStepProgress={prevStepProgress}
           />
         </Box>
       )}
