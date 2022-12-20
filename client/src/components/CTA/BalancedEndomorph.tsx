@@ -1,7 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { Typography, Grid } from "@mui/material/";
-import man from "../image/Group.svg";
+import { Typography, Grid, useMediaQuery } from "@mui/material/";
+import groupImage from "../image/Group.svg";
 import sitting from "../image/sitting-2.svg";
 import CallToActionWidget from "./CallToActionWidget";
 import CounterShare from "./CounterShare";
@@ -11,51 +11,80 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 export default function Types() {
   const theme = createTheme();
+  const medium = useMediaQuery("(max-width:899px)");
+  const small = useMediaQuery("(max-width:599px)");
+  const extraSmall = useMediaQuery("(max-width:449px)");
 
   theme.typography.h4 = {
     "@media (max-width:600px)": {
+      fontSize: "38px",
+      fontWeight: 600,
+    },
+    "@media (max-width:450px)": {
       fontSize: "30px",
-      lineHeight: '50px',
-      margin: "0px 0px 5px",
       fontWeight: 600,
     },
   };
   theme.typography.h2 = {
     "@media (max-width:600px)": {
       fontSize: "30px",
-    }
+    },
   };
   theme.typography.body1 = {
     "@media (max-width:600px)": {
       fontSize: "22px",
-      lineHeight: 'normal',
-      margin: "0px 0px 30px",
+      fontWeight: 600,
+    },
+    "@media (max-width:450px)": {
+      fontSize: "18px",
       fontWeight: 600,
     },
   };
   return (
     <Box>
-      <Grid container sx={{ backgroundColor: "#f6f6f7", marginTop: 8 }}>
-        <Grid item xs={12} md={6} lg={6} sm={12}
-          order={{ xs: 2, sm: 2, md: 1, lg: 1 }}
+      <Grid
+        container
+        display={"flex"}
+        flexDirection={"row"}
+        alignItems={"center"}
+        justifyContent={"center"}
+        sx={{ backgroundColor: "#6C4D7B" }}
+      >
+        <Grid
+          item
+          xs={12}
+          md={6}
+          order={{ xs: 2, md: 1 }}
+          padding={2}
+          justifySelf={"center"}
+          alignSelf={"center"}
+          sx={{ backgroundColor: "#f6f6f7" }}
         >
           <Box
-            sx={{
-              marginTop: 8,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
+            display={"flex"}
+            flexDirection={"row"}
+            alignItems={"center"}
+            justifyContent={"center"}
           >
-            <img src={sitting} alt="sitting girl" />
+            <img
+              src={sitting}
+              alt="sitting girl"
+              style={{
+                maxHeight: "320px",
+                width: medium
+                  ? small
+                    ? extraSmall
+                      ? "65%"
+                      : "60%"
+                    : "55%"
+                  : "60%",
+              }}
+            />
           </Box>
         </Grid>
-        <Grid item xs={12} md={6} lg={6} sm={12} sx={{ backgroundColor: "#6C4D7B" }}
-          order={{ xs: 1, sm: 1, md: 1, lg: 1 }}
-        >
+        <Grid item xs={12} md={6} order={1} padding={2}>
           <Box
             sx={{
-              marginTop: 8,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -66,11 +95,26 @@ export default function Types() {
               <Typography
                 component="span"
                 variant="h4"
-                sx={{ color: "white", textAlign: "center", fontSize: "60px", lineHeight: "94px", margin: "0px 0px 3px", fontWeight: 600 }}
+                sx={{
+                  color: "white",
+                  textAlign: "center",
+                  fontSize: "60px",
+                  fontWeight: 600,
+                }}
               >
                 Balanced Endomorph
               </Typography>
-              <Typography component="div" variant="body1" sx={{ color: "white", fontSize: '36px', fontWeight: 600, textAlign: "center", lineHeight: "normal" }}>
+              <Typography
+                component="div"
+                variant="body1"
+                sx={{
+                  color: "white",
+                  fontSize: "36px",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  lineHeight: "normal",
+                }}
+              >
                 (BEn)
               </Typography>
             </ThemeProvider>
@@ -89,92 +133,101 @@ export default function Types() {
           md={9}
           lg={8}
         >
-          <Box
+          <Grid
+            container
             sx={{
               marginTop: 2,
               display: "flex",
               flexDirection: "column",
               textAlign: "justify",
-              padding: 2
+              padding: 2,
             }}
           >
-            <ThemeProvider theme={theme}>
-              <Typography variant="h2" gutterBottom sx={{ fontSize: "45px" }}>
-                Introduction
+            <Grid item width={"100%"}>
+              <ThemeProvider theme={theme}>
+                <Typography
+                  variant="h2"
+                  gutterBottom
+                  sx={{ fontSize: "45px", fontWeight: 600 }}
+                >
+                  Introduction
+                </Typography>
+              </ThemeProvider>
+              <Typography variant="h6" gutterBottom>
+                What is a Balanced endomorphy?
               </Typography>
-            </ThemeProvider>
-            <Typography variant="h6" gutterBottom>
-              What is a Balanced endomorphy?
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt,
-              sapiente? Exercitationem provident itaque nemo iusto consequatur
-              laudantium deleniti? Impedit ad ab facere consequatur unde dolores
-              modi soluta cupiditate veritatis provident?
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt,
-              sapiente? Exercitationem provident itaque nemo iusto consequatur
-              laudantium deleniti? Impedit ad ab facere consequatur unde dolores
-              modi soluta cupiditate veritatis provident?
-            </Typography>
-            <Typography variant="h6" gutterBottom>
-              The Life of the Mind
-            </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                width: "100%",
-                height: "500px",
-              }}
-            >
-              <img src={man} alt="" height={"50%"} />
-            </Box>
-            <Typography
-              mt={3}
-              variant="body1"
-              gutterBottom
-              sx={{ marginTop: "-170px" }}
-            >
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt,
-              sapiente? Exercitationem provident itaque nemo iusto consequatur
-              laudantium deleniti? Impedit ad ab facere consequatur unde dolores
-              modi soluta cupiditate veritatis provident?
-            </Typography>
-            <Box
-              sx={{
-                backgroundColor: "#6C4D7B",
-                padding: 2,
-                color: "white",
-                margin: "0px 20px",
-              }}
-            >
-              <Typography variant="overline">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+              <Typography variant="body1" gutterBottom>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Deserunt, sapiente? Exercitationem provident itaque nemo iusto
+                consequatur laudantium deleniti? Impedit ad ab facere
+                consequatur unde dolores modi soluta cupiditate veritatis
+                provident?
               </Typography>
-            </Box>
-            <Typography mt={3} variant="body1" gutterBottom>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt,
-              sapiente? Exercitationem provident itaque nemo iusto consequatur
-              laudantium deleniti? Impedit ad ab facere consequatur unde dolores
-              modi soluta cupiditate veritatis provident?
-            </Typography>
-            <Typography variant="h6" gutterBottom>
-              A Thirst for Knowledge
-            </Typography>
-            <Typography mt={3} variant="body1" gutterBottom>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt,
-              sapiente? Exercitationem provident itaque nemo iusto consequatur
-              laudantium deleniti? Impedit ad ab facere consequatur unde dolores
-              modi soluta cupiditate veritatis provident?
-            </Typography>
-          </Box>
+              <Typography variant="body1" gutterBottom>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Deserunt, sapiente? Exercitationem provident itaque nemo iusto
+                consequatur laudantium deleniti? Impedit ad ab facere
+                consequatur unde dolores modi soluta cupiditate veritatis
+                provident?
+              </Typography>
+              <Typography variant="h6" gutterBottom>
+                The Life of the Mind
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              alignSelf={"center"}
+              width={{ xs: "100%", sm: "85%", md: "75%", xl: "65%" }}
+            >
+              <img src={groupImage} alt="" />
+            </Grid>
+            <Grid item width={"100%"}>
+              <Typography mt={3} variant="body1" gutterBottom>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Deserunt, sapiente? Exercitationem provident itaque nemo iusto
+                consequatur laudantium deleniti? Impedit ad ab facere
+                consequatur unde dolores modi soluta cupiditate veritatis
+                provident?
+              </Typography>
+              <Box
+                sx={{
+                  backgroundColor: "#6C4D7B",
+                  padding: 2,
+                  color: "white",
+                  margin: "0px 20px",
+                }}
+              >
+                <Typography variant="overline">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                </Typography>
+              </Box>
+              <Typography mt={3} variant="body1" gutterBottom>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Deserunt, sapiente? Exercitationem provident itaque nemo iusto
+                consequatur laudantium deleniti? Impedit ad ab facere
+                consequatur unde dolores modi soluta cupiditate veritatis
+                provident?
+              </Typography>
+              <Typography variant="h6" gutterBottom>
+                A Thirst for Knowledge
+              </Typography>
+              <Typography mt={3} variant="body1" gutterBottom>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Deserunt, sapiente? Exercitationem provident itaque nemo iusto
+                consequatur laudantium deleniti? Impedit ad ab facere
+                consequatur unde dolores modi soluta cupiditate veritatis
+                provident?
+              </Typography>
+            </Grid>
+          </Grid>
         </Grid>
         {/* widget component */}
-        <Grid md={3}>
-          <CallToActionWidget />
-        </Grid>
+
+        {medium ? null : (
+          <Grid item md={3}>
+            <CallToActionWidget />
+          </Grid>
+        )}
       </Grid>
       <TypeExample />
       <CounterShare />
