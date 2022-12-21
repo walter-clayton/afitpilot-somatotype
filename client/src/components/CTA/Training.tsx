@@ -65,7 +65,7 @@ const Training = () => {
                         </Typography>
                         <Typography
                             mb={2}
-                            variant="body1"
+                            variant="body2"
                             sx={{
                                 color: "white",
                                 textAlign: "center",

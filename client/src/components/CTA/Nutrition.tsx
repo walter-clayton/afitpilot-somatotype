@@ -7,12 +7,12 @@ import NutritionCard from './NutritionCard';
 import CloseIcon from '@mui/icons-material/Close';
 
 const theme = createTheme();
-theme.typography.h3 = {
+theme.typography.h1 = {
     "@media (max-width:600px)": {
-        fontSize: "30px"
+        fontSize: "34px",
     },
     [theme.breakpoints.up("md")]: {
-        fontSize: "40px",
+        fontSize: "54px",
     },
 };
 theme.typography.body1 = {
@@ -23,6 +23,14 @@ theme.typography.body1 = {
         fontSize: "22px",
     },
 };
+theme.typography.body2 = {
+    "@media (min-width:600px)": {
+        fontSize: "14px"
+    },
+    [theme.breakpoints.up("md")]: {
+        fontSize: "24px",
+    },
+}
 const Nutrition = () => {
     return (
         <ThemeProvider theme={theme}>
@@ -44,7 +52,7 @@ const Nutrition = () => {
                             flexDirection: "column",
                         }}>
                         <Typography
-                            variant="h3"
+                            variant="h1"
                             sx={{
                                 color: "white",
                                 textAlign: "center",
@@ -54,7 +62,7 @@ const Nutrition = () => {
                         </Typography>
                         <Typography
                             mb={2}
-                            variant="body1"
+                            variant="body2"
                             sx={{
                                 color: "white",
                                 textAlign: "center",
