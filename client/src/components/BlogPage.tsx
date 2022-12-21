@@ -3,19 +3,19 @@ import { Box } from "@mui/system";
 import React, { FC, useEffect, useState } from "react";
 import BlogArticlePage from "./BlogArticlePage";
 import BlogCard from "./BlogCard";
-import {
-  getAllBlogContents,
-  IBlogCardImage,
-  IBlogCTABtn,
-  IBlogImage,
-  IBlogTextWithImage,
-} from "./BlogContent";
+import { getAllBlogContents } from "./BlogContent/BlogContent";
 import CounterShare from "./CTA/CounterShare";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import SearchIcon from "@mui/icons-material/Search";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
+import {
+  IBlogCardImage,
+  IBlogContentElement,
+  IBlogImage,
+  IBlogTextWithImage,
+} from "./BlogContent/BlogInterfaces";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -63,22 +63,14 @@ const createBlogCard = (
   BlogDate: string,
   BlogCardDescription: string,
   BlogCardImg: IBlogCardImage,
-  BlogTexts: string[],
-  BlogImages: IBlogImage[],
-  BlogTextsWithImages: IBlogTextWithImage[],
-  BlogCallToActionButton: IBlogCTABtn[],
-  BlogLayout: string[]
+  BlogContent: IBlogContentElement[]
 ) => {
   return {
     BlogTitle,
     BlogDate,
     BlogCardDescription,
     BlogCardImg,
-    BlogTexts,
-    BlogImages,
-    BlogTextsWithImages,
-    BlogCallToActionButton,
-    BlogLayout,
+    BlogContent,
   };
 };
 
@@ -87,11 +79,7 @@ export interface IBlogCardInfos {
   BlogDate?: string;
   BlogCardDescription?: string;
   BlogCardImg?: IBlogCardImage;
-  BlogTexts?: string[];
-  BlogImages?: IBlogImage[];
-  BlogTextsWithImages?: IBlogTextWithImage[];
-  BlogCallToActionButtons?: IBlogCTABtn[];
-  BlogLayout?: string[];
+  BlogContent?: IBlogContentElement[];
 }
 
 const BlogPage = () => {
@@ -106,6 +94,81 @@ const BlogPage = () => {
 
   const blogArticlesPerPage: number = 6;
   const [page, setPage] = useState(0);
+
+  const isInAllBlogContent = (
+    contentArray: IBlogContentElement[],
+    searchInput: string
+  ) => {
+    let tempArray: string[] = [];
+    contentArray.forEach((content) => {
+      if (
+        content.text !== "" &&
+        content.text !== null &&
+        content.text !== undefined
+      ) {
+        tempArray.push(content.text);
+      }
+      if (content.image !== null && content.image !== undefined) {
+        if (
+          content.image.imageAlt !== "" &&
+          content.image.imageAlt !== null &&
+          content.image.imageAlt !== undefined
+        ) {
+          tempArray.push(content.image.imageAlt!);
+        }
+        if (
+          content.image.imageCaption !== "" &&
+          content.image.imageCaption !== null &&
+          content.image.imageCaption !== undefined
+        ) {
+          tempArray.push(content.image.imageCaption!);
+        }
+      }
+      if (
+        content.textWithImage !== null &&
+        content.textWithImage !== undefined
+      ) {
+        if (
+          content.textWithImage.text !== "" &&
+          content.textWithImage.text !== null &&
+          content.textWithImage.text !== undefined
+        ) {
+          tempArray.push(content.textWithImage.text);
+        }
+        if (
+          content.textWithImage.imageAlt !== "" &&
+          content.textWithImage.imageAlt !== null &&
+          content.textWithImage.imageAlt !== undefined
+        ) {
+          tempArray.push(content.textWithImage.imageAlt);
+        }
+      }
+      if (
+        content.callToActionButton !== null &&
+        content.callToActionButton !== undefined
+      ) {
+        if (
+          content.callToActionButton.buttonText !== "" &&
+          content.callToActionButton.buttonText !== null &&
+          content.callToActionButton.buttonText !== undefined
+        ) {
+          tempArray.push(content.callToActionButton.buttonText);
+        }
+      }
+    });
+
+    let hasBeenFound: boolean = false;
+
+    tempArray.forEach((blogContentElement) => {
+      if (
+        blogContentElement.toLowerCase().includes(searchInput.toLowerCase())
+      ) {
+        hasBeenFound = true;
+      }
+    });
+
+    return hasBeenFound;
+  };
 
   const checkForResults = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -132,27 +195,7 @@ const BlogPage = () => {
           blogcard.BlogCardImg?.imageAlt
             ?.toLowerCase()
             .includes(searchValue.toLowerCase()) ||
-          blogcard.BlogTextsWithImages?.forEach((blogTextWithImage) => {
-            blogTextWithImage.text
-              ?.toLowerCase()
-              .includes(searchValue.toLowerCase());
-          }) ||
-          blogcard.BlogCallToActionButtons?.forEach((blogCTAButton) => {
-            blogCTAButton.buttonText
-              ?.toLowerCase()
-              .includes(searchValue.toLowerCase());
-          }) ||
-          blogcard.BlogImages?.forEach((blogImage) => {
-            blogImage.imageAlt
-              ?.toLowerCase()
-              .includes(searchValue.toLowerCase()) ||
-              blogImage.imageCaption
-                ?.toLowerCase()
-                .includes(searchValue.toLowerCase());
-          }) ||
-          blogcard.BlogTexts?.forEach((blogText) => {
-            blogText?.toLowerCase().includes(searchValue.toLowerCase());
-          })
+          isInAllBlogContent(blogcard.BlogContent!, searchValue)
       );
       setPage(0);
       if (resultArray.length > 0) {
@@ -181,11 +224,7 @@ const BlogPage = () => {
           blogContent.date!,
           blogContent.cardDescription!,
           blogContent.cardImage!,
-          blogContent.texts!,
-          blogContent.images!,
-          blogContent.textsWithImages!,
-          blogContent.callToActionButtons!,
-          blogContent.layout!
+          blogContent.content!
         ),
       ]);
     });

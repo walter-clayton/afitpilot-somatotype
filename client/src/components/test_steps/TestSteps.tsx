@@ -1,4 +1,6 @@
 import React, { FC, useState, useEffect, useRef } from "react";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   OutlinedInput,
@@ -8,6 +10,7 @@ import {
   Button,
   Slider,
   MenuItem,
+  useMediaQuery,
 } from "@mui/material";
 import ForwardIcon from "@mui/icons-material/Forward";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
@@ -15,46 +18,12 @@ import { styled } from "@mui/system";
 import CircularProgress, {
   CircularProgressProps,
 } from "@mui/material/CircularProgress";
-
-const CircularProgressWithLabel = (props: any) => {
-  return (
-    <Box
-      sx={{
-        position: "absolute",
-        display: "inline-flex",
-        bottom: "20px",
-        left: "20px",
-      }}
-    >
-      <CircularProgress
-        sx={{ color: "RGB(108, 77, 123)" }}
-        variant="determinate"
-        {...props}
-        size="4rem"
-      />
-      <Box
-        sx={{
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          position: "absolute",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Typography
-          variant="caption"
-          component="div"
-          color="text.secondary"
-          fontSize={16}
-          fontWeight={600}
-        >{`${Math.round(props.value)}%`}</Typography>
-      </Box>
-    </Box>
-  );
-};
+import { IAnthropometric, IData, ISomatotype } from "../../App";
+import ResultsTable from "../ResultsTable";
+import ModalImg from "./Modal";
+import bicepsImg from "../image/bicepsImg.jpeg";
+import calfImg from "../image/calfImg.jpeg";
+import BFImg from "../image/BFImg.jpeg";
 
 const PrettoSlider = styled(Slider)({
   color: "RGB(108, 77, 123)",
@@ -96,24 +65,6 @@ const PrettoSlider = styled(Slider)({
   },
 });
 
-const Next = styled(Button)({
-  color: "white",
-  borderRadius: "20px",
-  padding: "10px 50px",
-  backgroundColor: "RGB(108, 77, 123)",
-  alignSelf: "end",
-  marginRight: "20px",
-
-  "&:hover": {
-    backgroundColor: "RGB(108, 77, 123)",
-  },
-
-  "&:hover > svg": {
-    transform: "translateX(35px)",
-    opacity: "1",
-  },
-});
-
 const Input = styled(OutlinedInput)({
   marginTop: "50px",
   // input label when focused
@@ -144,19 +95,6 @@ const Unity = styled("div")({
   color: "RGB(108, 77, 123)",
 });
 
-const Question = styled("div")({
-  backgroundColor: "RGB(108, 77, 123)",
-  color: "white",
-  fontWeight: "600",
-  textAlign: "center",
-  padding: "20px 0",
-  width: "100%",
-  position: "relative",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-});
-
 interface ICircle {
   active: boolean;
 }
@@ -181,13 +119,108 @@ const Circles = styled("div")({
   padding: "50px 0 20px 0",
 });
 
-const TestSteps: FC = () => {
+interface ITestSteps {
+  setData: (data: IData) => void;
+  data: IData;
+}
+
+const TestSteps: FC<ITestSteps> = (props) => {
+  const [cookies, setCookie, removeCookie] = useCookies(["data"]);
+  const navigate = useNavigate();
+  const xs = useMediaQuery("(max-width:680px)");
+
+  // for ModalImg
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const Question = styled("div")({
+    backgroundColor: "RGB(108, 77, 123)",
+    fontSize: xs ? "20px" : "24px",
+    color: "white",
+    fontWeight: "600",
+    textAlign: "center",
+    padding: "20px 0",
+    width: "100%",
+    position: "relative",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: "20px 20px 0 0",
+  });
+
+  const Next = styled(Button)({
+    color: "white",
+    borderRadius: "20px",
+    padding: "10px 50px",
+    backgroundColor: "RGB(108, 77, 123)",
+    alignSelf: xs ? "center" : "end",
+    marginRight: xs ? "0" : "20px",
+    marginTop: "20px",
+    width: xs ? "90%" : "auto",
+
+    "&:hover": {
+      backgroundColor: "RGB(108, 77, 123)",
+    },
+  });
+
+  const CircularProgressWithLabel = (props: any) => {
+    const from: number = props.prevStepProgress;
+    const to: number = props.value;
+
+    const [progress, setProgress] = useState<number>(from);
+
+    useEffect(() => {
+      setProgress(props.value);
+    }, [props.value]);
+
+    return (
+      <Box
+        sx={{
+          position: xs ? "relative" : "absolute",
+          display: "inline-flex",
+          bottom: xs ? "0" : "20px",
+          left: xs ? "0" : "20px",
+          mt: xs ? 4 : 0,
+        }}
+      >
+        <CircularProgress
+          sx={{ color: "RGB(108, 77, 123)" }}
+          variant="determinate"
+          value={progress}
+          size="4rem"
+        />
+        <Box
+          sx={{
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            position: "absolute",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Typography
+            variant="caption"
+            component="div"
+            color="text.secondary"
+            fontSize={16}
+            fontWeight={600}
+          >{`${Math.round(props.value)}%`}</Typography>
+        </Box>
+      </Box>
+    );
+  };
+
   interface ISteps {
     label: string;
     question: string;
     unity?: string;
     min?: string;
     max?: string;
+    img?: string;
   }
 
   const steps: ISteps[] = [
@@ -222,23 +255,29 @@ const TestSteps: FC = () => {
       unity: "%",
       min: "2",
       max: "50",
+      img: BFImg,
     },
     {
       label: "arm",
       question: "Your arm circumference is:",
       unity: "cm",
       min: "20",
-      max: "55",
+      max: "70",
+      img: bicepsImg,
     },
     {
       label: "calf",
       question: "Your calf circumference is:",
       unity: "cm",
       min: "20",
-      max: "55",
+      max: "70",
+      img: calfImg,
     },
   ];
   const [currentStep, setCurrentStep] = useState<number>(0);
+  const stepProgress: number = (100 / steps.length) * (currentStep + 1);
+  const [prevStepProgress, setPrevStepProgress] =
+    useState<number>(stepProgress);
   const boxRef = useRef<HTMLDivElement>(null);
   interface IValues {
     age: string;
@@ -250,7 +289,7 @@ const TestSteps: FC = () => {
     calf: string;
   }
 
-  const [values, setValues] = useState<IValues>({
+  const defaultValues: IValues = {
     age: "33",
     gender: "male",
     height: "180",
@@ -258,7 +297,9 @@ const TestSteps: FC = () => {
     bodyFat: "20",
     arm: "35",
     calf: "35",
-  });
+  };
+
+  const [values, setValues] = useState<IValues>({ ...defaultValues });
 
   const handleChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -268,6 +309,94 @@ const TestSteps: FC = () => {
     console.log(event.target.value);
 
     setValues({ ...valuesTemp });
+  };
+
+  const handleFinish = () => {
+    const getFemur = (): number => {
+      const toFoot = Number(values.height) * 0.0328084; // convert height cm to Foot Unit
+      return (toFoot - 0.9) / 0.60375;
+    };
+
+    const getHumerus = (femur: number) => {
+      return femur - 2;
+    };
+
+    const BF = Number(values.bodyFat);
+    const BD = 1 / ((BF + 450) / 495);
+
+    const getTwoSumSkinfolds = () => {
+      if (values.gender === "male") {
+        return Math.abs((BD - 1.1043) / (0.001327 + 0.00131));
+      } else {
+        return Math.abs((BD - 1.0764) / (0.0008 + 0.00088));
+      }
+    };
+
+    const anthropometrics: IAnthropometric = {
+      height: Number(values.height),
+      weight: Number(values.weight),
+      femur_breadth: getFemur(),
+      humerus_breadth: getHumerus(getFemur()),
+      supraspinal_skinfold: getTwoSumSkinfolds() / 2,
+      subscapular_skinfold: getTwoSumSkinfolds() / 2,
+      tricep_skinfold: getTwoSumSkinfolds() / 2,
+      calf_girth: Number(values.calf),
+      bicep_girth: Number(values.arm),
+    };
+
+    // somatotype calcule
+
+    // endomorphy
+    const threeSumSkinfolds = (getTwoSumSkinfolds() / 2) * 3; // conversion for endomorphy
+    const x = threeSumSkinfolds * (170.18 / Number(anthropometrics.height)); // endomorph variable
+    const endo =
+      -0.7182 +
+      0.1451 * x -
+      0.00068 * Math.pow(x, 2) +
+      0.0000014 * Math.pow(x, 3);
+
+    // mesomorphy
+    const meso =
+      0.858 * anthropometrics.humerus_breadth! +
+      0.601 * anthropometrics.femur_breadth! +
+      0.188 * anthropometrics.bicep_girth! +
+      0.161 * anthropometrics.calf_girth! -
+      0.131 * anthropometrics.height! +
+      4.5;
+
+    // ectomorphy
+    const heightWeightRatio =
+      anthropometrics.height! / Math.cbrt(anthropometrics.weight!);
+    let ecto;
+    if (heightWeightRatio >= 40.75) {
+      ecto = 0.732 * heightWeightRatio - 28.58;
+    } else if (heightWeightRatio < 40.75 && heightWeightRatio > 38.25) {
+      ecto = 0.463 * heightWeightRatio - 17.63;
+    } else {
+      ecto = 0.1;
+    }
+
+    const somatotype: ISomatotype = {
+      endomorphy: endo,
+      mesomorphy: meso,
+      ectomorphy: ecto,
+    };
+
+    const data: IData = {
+      anthropometric: anthropometrics,
+      somatotype: somatotype,
+    };
+
+    setCookie(
+      "data",
+      { ...data },
+      {
+        path: "/",
+        sameSite: "none",
+        secure: true,
+        maxAge: 3600,
+      }
+    );
   };
 
   interface IInputSelect {
@@ -290,6 +419,7 @@ const TestSteps: FC = () => {
         }}
         sx={{
           width: "110px",
+          marginTop: "30px",
           color: "RGB(108, 77, 123)",
           "&.MuiOutlinedInput-root": {
             "&.Mui-focused fieldset": {
@@ -316,94 +446,145 @@ const TestSteps: FC = () => {
   };
 
   return (
-    <Box
-      ref={boxRef}
-      sx={{
-        padding: "0 0 20px 0",
-        margin: "100px auto",
-        borderRadius: "20px",
-        boxShadow: 3,
-        overflow: "hidden",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        position: "relative",
-      }}
-      maxWidth="600px"
-    >
-      <Question>
-        {steps[currentStep].question}
-        <QuestionMarkIcon sx={{ position: "absolute", right: "20px" }} />
-      </Question>
-
-      {steps.map(
-        (item, index) =>
-          index === currentStep && (
-            <Box
-              key={index}
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: "50px",
-              }}
-            >
-              {item.label !== "gender" ? (
-                <PrettoSlider
-                  sx={{ marginTop: "20px" }}
-                  valueLabelDisplay="on"
-                  aria-label="pretto slider"
-                  defaultValue={(values as any)[item.label]}
-                  min={Number(item.min)}
-                  max={Number(item.max)}
-                  step={1}
-                  onChange={(event: any) => {
-                    handleChange(event);
-                  }}
-                />
-              ) : (
-                <InputSelect label={item.label} />
-              )}
-              <Unity>{item.unity}</Unity>
-            </Box>
-          )
-      )}
-
-      <Circles>
-        {steps.map((item, index) => (
-          <Circle
-            key={index}
-            active={index === currentStep}
-            onClick={() => {
-              setCurrentStep(index);
-            }}
-          />
-        ))}
-      </Circles>
-      <Next
-        onClick={() => {
-          currentStep < steps.length - 1 && setCurrentStep((c) => c + 1);
-          window.scrollTo(0, boxRef.current?.offsetTop! - 20);
-        }}
-      >
-        {currentStep === steps.length - 1 ? "Finish" : "Next"}
-        {currentStep < steps.length - 1 && (
+    <Box sx={{ margin: "100px 0" }}>
+      {props.data ? (
+        <Button
+          sx={{
+            color: "white",
+            borderRadius: "40px",
+            fontSize: "16px",
+            fontWeight: "600",
+            padding: "20px 50px",
+            backgroundColor: "RGB(108, 77, 123)",
+            display: "flex",
+            margin: "0 auto",
+            "&.MuiButtonBase-root:hover": {
+              bgcolor: "RGB(108, 77, 123)",
+            },
+          }}
+          variant="contained"
+          onClick={() => {
+            navigate("/Signup");
+            window.scrollTo(0, 0);
+          }}
+        >
+          Save results
           <ForwardIcon
             sx={{
               marginLeft: "10px",
-              transition: ".2s ease-out",
-              position: "absolute",
-              transform: "translateX(-35px)",
-              opacity: "0",
             }}
           />
-        )}
-      </Next>
+        </Button>
+      ) : (
+        <Box
+          ref={boxRef}
+          sx={{
+            padding: "0 0 20px 0",
+            margin: "100px auto",
+            borderRadius: "20px",
+            boxShadow: 3,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            position: "relative",
+          }}
+          maxWidth="700px"
+        >
+          <Question>
+            {steps[currentStep].question}
+            {(steps[currentStep].label === "arm" ||
+              steps[currentStep].label === "calf" ||
+              steps[currentStep].label === "bodyFat") && (
+              <QuestionMarkIcon
+                onClick={handleOpen}
+                sx={{
+                  position: xs ? "relative" : "absolute",
+                  right: xs ? "0" : "20px",
+                  marginLeft: xs ? "10px" : "unset",
+                  fontSize: "30px",
+                  cursor: "pointer",
+                }}
+              />
+            )}
+          </Question>
 
-      <CircularProgressWithLabel
-        value={(100 / steps.length) * (currentStep + 1)}
-      />
+          <ModalImg
+            open={open}
+            handleClose={handleClose}
+            img={steps[currentStep].img!}
+          />
+
+          {steps.map(
+            (item, index) =>
+              index === currentStep && (
+                <Box
+                  key={index}
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "50px",
+                  }}
+                >
+                  {item.label !== "gender" ? (
+                    <PrettoSlider
+                      sx={{ marginTop: "20px" }}
+                      valueLabelDisplay="on"
+                      aria-label="pretto slider"
+                      defaultValue={Number((defaultValues as any)[item.label])}
+                      min={Number(item.min)}
+                      max={Number(item.max)}
+                      step={1}
+                      onChange={(event: any) => {
+                        handleChange(event);
+                      }}
+                    />
+                  ) : (
+                    <InputSelect label={item.label} />
+                  )}
+                  <Unity>{item.unity}</Unity>
+                </Box>
+              )
+          )}
+
+          <Circles>
+            {steps.map((item, index) => (
+              <Circle
+                key={index}
+                active={index === currentStep}
+                onClick={() => {
+                  setCurrentStep(index);
+                  setPrevStepProgress(stepProgress);
+                }}
+              />
+            ))}
+          </Circles>
+          <Next
+            onClick={() => {
+              setPrevStepProgress(stepProgress);
+              currentStep < steps.length - 1 && setCurrentStep((c) => c + 1);
+              currentStep === steps.length - 1 && handleFinish();
+              window.scrollTo(0, boxRef.current?.offsetTop! - 20);
+            }}
+          >
+            {currentStep === steps.length - 1 ? "Finish" : "Next"}
+            {currentStep < steps.length - 1 && (
+              <ForwardIcon
+                sx={{
+                  marginLeft: "10px",
+                }}
+              />
+            )}
+          </Next>
+
+          <CircularProgressWithLabel
+            value={stepProgress}
+            prevStepProgress={prevStepProgress}
+          />
+        </Box>
+      )}
     </Box>
   );
 };

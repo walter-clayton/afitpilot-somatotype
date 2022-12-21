@@ -1,140 +1,150 @@
 import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Grid, Box, Typography } from "@mui/material/";
+import { Grid, Box, Typography, useMediaQuery } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import { styled } from '@mui/material/styles';
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import { styled } from "@mui/material/styles";
+import check from "../image/check.png";
+import biceps from "../image/biceps.png";
+import graphSoma from "../image/graphSoma.svg";
+import { setFips } from "crypto";
 
 const theme = createTheme();
 theme.typography.h3 = {
-    "@media (min-width:600px)": {
-        fontSize: "3.5rem"
-    },
-    [theme.breakpoints.up("md")]: {
-        fontSize: "2.9rem",
-    },
+  "@media (min-width:600px)": {
+    fontSize: "3.5rem",
+  },
+  [theme.breakpoints.up("md")]: {
+    fontSize: "2.9rem",
+  },
 };
-const Root = styled('div')(({ theme }) => ({
-    [theme.breakpoints.down('md')]: {
-        height: '50px',
-    },
-    [theme.breakpoints.up('md')]: {
-        height: '180px',
-        width: '220px'
-    },
+const Root = styled("div")(({ theme }) => ({
+  [theme.breakpoints.down("md")]: {
+    height: "50px",
+  },
+  [theme.breakpoints.up("md")]: {
+    height: "180px",
+    width: "220px",
+  },
 }));
 
+const icons: any[] = [
+  {
+    icon: check,
+    title: "Complete the test",
+    desc: "Take accurate measurements",
+    bgColor: "#DFEAEE",
+  },
+  {
+    icon: graphSoma,
+    title: "View detailed results",
+    desc: "Learn where you are",
+    bgColor: "#EBE7DC",
+  },
+  {
+    icon: biceps,
+    title: "Unlock your potential",
+    desc: "Optimize your body shape",
+    bgColor: "#ECE3F2",
+  },
+];
+
 const HeaderTestpage = () => {
-    return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Grid item
-                container
-                sx={{
-                    backgroundColor: "#f6f6f7",
-                    marginBottom: 5,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "100%",
-                    height: "350px",
-                }}
+  const md = useMediaQuery("(max-width:980px)");
+  const xs = useMediaQuery("(max-width:680px)");
+
+  return (
+    <Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          position: "relative",
+          justifyContent: "center",
+          backgroundColor: "RGB(51, 164, 116)",
+          padding: md ? "100px 0" : "100px 0 230px 0",
+        }}
+      >
+        <Typography
+          variant="h3"
+          sx={{
+            color: "white",
+            textAlign: "center",
+          }}
+        >
+          Free Somatotype Test
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          marginTop: md ? "80px" : "-129px",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: md ? "column" : "row",
+        }}
+      >
+        {icons.map((item, index) => (
+          <Box
+            key={index}
+            sx={{
+              width: xs ? "280px" : "300px",
+              height: "250px",
+              paddingBottom: "20px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "start",
+              borderRadius: "20px",
+              overflow: "hidden",
+              boxShadow: 4,
+              marginTop: md ? "20px" : "0",
+              marginRight: md ? "0" : index === icons.length - 1 ? "0" : "20px",
+            }}
+          >
+            <Box
+              sx={{
+                backgroundColor: `${item.bgColor}`,
+                padding: "20px 0",
+                width: "100%",
+                height: "150px",
+                color: "black",
+                position: "relative",
+                "& > img": {
+                  position: "absolute",
+                  width: "100%",
+                  height: "89.5px",
+                  objectFit: "contain",
+                },
+              }}
             >
-                <Grid item xs={12} md={12} lg={12} xl={12} sm={12}>
-                    <Box
-                        sx={{
-                            marginTop: 3,
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "center",
-                        }}>
-                        <Typography
-                            variant="h3"
-                            sx={{
-                                color: "black",
-                                textAlign: "center",
-                                mb: 2,
-                            }}>
-                            Free Somatotype Test
-                        </Typography>
-                        <Typography
-                            mb={2}
-                            variant="subtitle1"
-                            sx={{
-                                color: "black",
-                                textAlign: "center",
-                                mb: 4,
-                            }} >
-                            Find your body shape {" "}
-                        </Typography>
-                    </Box>
-                    <Stack
-                        direction={{ xs: 'column', sm: 'column', md: "row", lg: 'row', xl: 'row' }}
-                        justifyContent="space-evenly"
-                        alignItems="stretch"
-                        spacing={2}
-                    >
-                        <Paper
-                            square
-                            elevation={3}
-                            sx={{
-                                alignItems: 'center',
-                                paddingTop: "20px",
-                                borderRadius: '8px'
-                            }} >
-                            <Root>
-                                <Typography textAlign={'center'} sx={{ display: { xs: 'none', sm: 'none', md: 'block', lg: 'block' } }} variant="h6">
-                                    Complete the test
-                                </Typography>
-                                <Typography textAlign={'center'} sx={{
-                                    paddingTop: { sm: 1, md: 3, lg: 3, xl: 3 }
-                                }}>Take accurate measurements.
-                                </Typography>
-                            </Root>
-                        </Paper>
-                        <Paper
-                            elevation={3}
-                            sx={{
-                                alignItems: 'center',
-                                paddingTop: "20px",
-                                borderRadius: '8px'
-                            }} >
-                            <Root>
-                                <Typography textAlign={'center'} sx={{ display: { xs: 'none', sm: 'none', lg: 'block' } }} variant="h6"
-                                >View detailed results
-                                </Typography>
-                                <Typography textAlign={'center'} sx={{
-                                    paddingTop: { sm: 1, md: 3, lg: 3, xl: 3 }
-                                }}>Learn where you are.
-                                </Typography>
-                            </Root>
-                        </Paper>
-                        <Paper
-                            elevation={3}
-                            sx={{
-                                alignItems: 'center',
-                                paddingTop: "20px",
-                                borderRadius: '8px'
-                            }}>
-                            <Root>
-                                <Typography textAlign={'center'} sx={{ display: { xs: 'none', sm: 'none', lg: 'block' } }} variant="h6"
-                                >Unlock your potential
-                                </Typography>
-                                <Typography textAlign={'center'}
-                                    sx={{
-                                        paddingTop: { md: 3, lg: 3, xl: 3 },
-                                    }}>Find out how you can optimise your body shape
-                                </Typography>
-                            </Root>
-                        </Paper>
-                    </Stack>
-                </Grid>
-            </Grid>
-        </ThemeProvider>
-    );
+              <img src={item.icon} alt="icon" />
+            </Box>
+            <Typography
+              variant="h5"
+              sx={{
+                textAlign: "center",
+                mt: "20px",
+              }}
+            >
+              {item.title}
+            </Typography>
+            <Typography
+              sx={{
+                textAlign: "center",
+                fontSize: "19px",
+                mt: "20px",
+              }}
+            >
+              {item.desc}
+            </Typography>
+          </Box>
+        ))}
+      </Box>
+    </Box>
+  );
 };
 
 export default HeaderTestpage;

@@ -12,7 +12,8 @@ import {
 import { Box } from "@mui/system";
 import React, { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getAllBlogContents, IBlogContent } from "./BlogContent";
+import { getAllBlogContents } from "./BlogContent/BlogContent";
+import { IBlogContent } from "./BlogContent/BlogInterfaces";
 import { IBlogCardInfos } from "./BlogPage";
 
 interface IBlogArticlePage {
@@ -58,34 +59,23 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
 
   useEffect(() => {
     let arrayTemp: any[] = [];
-
     let layoutElementCount = 0;
-    let textCount = 0;
-    let imageCount = 0;
-    let textWithImageCount = 0;
-    let buttonCount = 0;
 
-    blogCardInfo?.layout?.forEach((layoutElement) => {
-      if (layoutElement === "text") {
-        arrayTemp.push(getBlogText(textCount, layoutElementCount));
-        textCount++;
+    blogCardInfo?.content?.forEach((blogContentElement) => {
+      if (blogContentElement.hasOwnProperty("text")) {
+        arrayTemp.push(getBlogText(layoutElementCount));
         layoutElementCount++;
       }
-      if (layoutElement === "image") {
-        arrayTemp.push(getBlogImage(imageCount, layoutElementCount));
-        imageCount++;
+      if (blogContentElement.hasOwnProperty("image")) {
+        arrayTemp.push(getBlogImage(layoutElementCount));
         layoutElementCount++;
       }
-      if (layoutElement === "textWithImage") {
-        arrayTemp.push(
-          getBlogTextWithImage(textWithImageCount, layoutElementCount)
-        );
-        textWithImageCount++;
+      if (blogContentElement.hasOwnProperty("textWithImage")) {
+        arrayTemp.push(getBlogTextWithImage(layoutElementCount));
         layoutElementCount++;
       }
-      if (layoutElement === "button") {
-        arrayTemp.push(getBlogCTAButton(buttonCount, layoutElementCount));
-        buttonCount++;
+      if (blogContentElement.hasOwnProperty("callToActionButton")) {
+        arrayTemp.push(getBlogCTAButton(layoutElementCount));
         layoutElementCount++;
       }
     });
@@ -93,7 +83,7 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
     setFinalLayout(arrayTemp);
   }, [blogCardInfo]);
 
-  const getBlogText = (index: number, layoutIndex: number) => {
+  const getBlogText = (layoutIndex: number) => {
     const blogText = (
       <Grid item my={3} xs={12} md={8} alignSelf={"center"} key={layoutIndex}>
         <Grid
@@ -109,7 +99,7 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
               fontSize: { xs: "100%", sm: "130%", md: "160%" },
             }}
           >
-            {blogCardInfo?.texts![index]}
+            {blogCardInfo?.content![layoutIndex].text!}
           </Typography>
         </Grid>
       </Grid>
@@ -117,7 +107,7 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
     return blogText;
   };
 
-  const getBlogImage = (index: number, layoutIndex: number) => {
+  const getBlogImage = (layoutIndex: number) => {
     const image = (
       <Grid
         item
@@ -146,18 +136,18 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
               width: "100%",
             }}
           >
-            {blogCardInfo?.images![index] &&
-              blogCardInfo?.images![index].imageSrc && (
+            {blogCardInfo?.content![layoutIndex].image &&
+              blogCardInfo?.content![layoutIndex].image?.imageSrc && (
                 <CardMedia
                   component="img"
-                  image={blogCardInfo?.images![index].imageSrc}
+                  image={blogCardInfo?.content![layoutIndex].image?.imageSrc}
                   alt={""}
                 />
               )}
-            {blogCardInfo?.images![index] &&
-              blogCardInfo?.images![index].imageHasCaption && (
+            {blogCardInfo?.content![layoutIndex].image &&
+              blogCardInfo?.content![layoutIndex].image?.imageHasCaption && (
                 <Typography variant="caption">
-                  {blogCardInfo?.images![index].imageCaption}
+                  {blogCardInfo?.content![layoutIndex].image?.imageCaption}
                 </Typography>
               )}
           </Grid>
@@ -167,7 +157,7 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
     return image;
   };
 
-  const getBlogTextWithImage = (index: number, layoutIndex: number) => {
+  const getBlogTextWithImage = (layoutIndex: number) => {
     const blogTextWithImage = (
       <Grid item my={3} xs={12} md={8} alignSelf={"center"} key={layoutIndex}>
         <Grid
@@ -185,19 +175,19 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
           >
             <CardMedia
               component="img"
-              image={blogCardInfo?.textsWithImages![index].image}
+              image={blogCardInfo?.content![layoutIndex].textWithImage?.image}
               alt={""}
               sx={{
                 marginLeft:
-                  blogCardInfo?.textsWithImages![index].imagePosition! ===
-                  "right"
+                  blogCardInfo?.content![layoutIndex].textWithImage
+                    ?.imagePosition! === "right"
                     ? xxs
                       ? "0"
                       : "20px"
                     : "0",
                 marginRight:
-                  blogCardInfo?.textsWithImages![index].imagePosition! ===
-                  "left"
+                  blogCardInfo?.content![layoutIndex].textWithImage
+                    ?.imagePosition! === "left"
                     ? xxs
                       ? "0"
                       : "20px"
@@ -206,11 +196,12 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
                 marginBottom: xxs ? "0" : "20px",
                 float: xxs
                   ? "none"
-                  : blogCardInfo?.textsWithImages![index].imagePosition!,
+                  : blogCardInfo?.content![layoutIndex].textWithImage
+                      ?.imagePosition!,
                 width: xxs ? "100%" : "50%",
               }}
             />
-            {blogCardInfo?.textsWithImages![index].text}
+            {blogCardInfo?.content![layoutIndex].textWithImage?.text}
           </Typography>
         </Grid>
       </Grid>
@@ -218,14 +209,16 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
     return blogTextWithImage;
   };
 
-  const getBlogCTAButton = (index: number, layoutIndex: number) => {
+  const getBlogCTAButton = (layoutIndex: number) => {
     const blogCTABtn = (
       <Grid
         item
         my={3}
         xs={12}
         md={8}
-        alignSelf={blogCardInfo?.callToActionButtons![index].buttonPosition}
+        alignSelf={
+          blogCardInfo?.content![layoutIndex].callToActionButton?.buttonPosition
+        }
         key={layoutIndex}
       >
         <Grid
@@ -235,25 +228,50 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
             display: "flex",
           }}
         >
-          {blogCardInfo?.callToActionButtons![index].isExternalLink ? (
+          {blogCardInfo?.content![layoutIndex].callToActionButton
+            ?.isExternalLink ? (
             <Button
-              variant={blogCardInfo?.callToActionButtons![index].buttonStyle}
-              color={blogCardInfo?.callToActionButtons![index].buttonColor}
-              href={blogCardInfo?.callToActionButtons![index].buttonLink!}
+              variant={
+                blogCardInfo?.content![layoutIndex].callToActionButton
+                  ?.buttonStyle
+              }
+              color={
+                blogCardInfo?.content![layoutIndex].callToActionButton
+                  ?.buttonColor
+              }
+              href={
+                blogCardInfo?.content![layoutIndex].callToActionButton
+                  ?.buttonLink!
+              }
               target="_blank"
             >
-              {blogCardInfo?.callToActionButtons![index].buttonText}
+              {
+                blogCardInfo?.content![layoutIndex].callToActionButton
+                  ?.buttonText
+              }
             </Button>
           ) : (
             <Button
-              variant={blogCardInfo?.callToActionButtons![index].buttonStyle}
-              color={blogCardInfo?.callToActionButtons![index].buttonColor}
+              variant={
+                blogCardInfo?.content![layoutIndex].callToActionButton
+                  ?.buttonStyle
+              }
+              color={
+                blogCardInfo?.content![layoutIndex].callToActionButton
+                  ?.buttonColor
+              }
               onClick={() => {
-                navigate(blogCardInfo?.callToActionButtons![index].buttonLink!);
+                navigate(
+                  blogCardInfo?.content![layoutIndex].callToActionButton
+                    ?.buttonLink!
+                );
                 window.scrollTo(0, 0);
               }}
             >
-              {blogCardInfo?.callToActionButtons![index].buttonText}
+              {
+                blogCardInfo?.content![layoutIndex].callToActionButton
+                  ?.buttonText
+              }
             </Button>
           )}
         </Grid>
