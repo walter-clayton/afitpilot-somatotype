@@ -5,6 +5,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import avatar from '../image/manu-tribesman.png';
 import NutritionCard from './NutritionCard';
 import CloseIcon from '@mui/icons-material/Close';
+import Arrow from '../image/Arrow.png';
+import ArrowDown from '../image/ArrowDown.png';
 
 const theme = createTheme();
 theme.typography.h1 = {
@@ -77,6 +79,7 @@ const Nutrition = () => {
                         display: "flex",
                         justifyContent: "center",
                         width: "100%",
+                        marginTop: { md: -10, lg: -10, xl: -10 }
                     }}>
                     <Grid item md={3}
                         sx={{
@@ -84,17 +87,17 @@ const Nutrition = () => {
                             justifyContent: "center",
                             width: "100%",
                         }}>
-                        <img src={avatar} alt="" width={"100px"} />
+                        <img src={avatar} alt="avatar" width={"150px"} />
                     </Grid>
                     <Typography
-                        sx={{ display: { xs: 'none', sm: 'none', md: 'block', lg: 'block' }, color: "#258B60", margin: 7, }}
+                        sx={{ display: { xs: 'none', sm: 'none', md: 'block', lg: 'block' }, color: "#4298B4", textAlign: "center", mt: 18 }}
                         variant="h1">
-                        <span>&#x2192;</span>
+                        <img src={Arrow} alt="Arrow" />
                     </Typography>
                     <Typography
-                        sx={{ display: { xs: 'block', sm: 'block', md: 'none', lg: 'none' }, color: "#258B60" }}
-                        variant="h1">
-                        <span>&#8595;</span>
+                        sx={{ display: { xs: 'block', sm: 'block', md: 'none', lg: 'none' }, color: "#4298B4" }}
+                        variant="h1" mt={1}>
+                        <img src={ArrowDown} alt="ArrowDown" />
                     </Typography>
                     <Grid item md={3}
                         sx={{
@@ -103,7 +106,7 @@ const Nutrition = () => {
                             width: "100%",
                         }}
                     >
-                        <img src={avatar} alt="" width={"100px"} />
+                        <img src={avatar} alt="avatar" width={"150px"} />
                     </Grid>
                 </Grid>
                 {/* Instruction */}
