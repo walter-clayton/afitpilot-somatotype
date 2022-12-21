@@ -25,6 +25,8 @@ import AddPage from "./components/AddPage";
 import Error404 from "./components/CTA/Error404";
 import CommentPage from "./components/CTA/CommentPage";
 import TypeExample from "./components/CTA/TypeExample";
+import Nutrition from "./components/CTA/Nutrition";
+import Training from "./components/CTA/Training";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -52,7 +54,7 @@ export interface IData {
 }
 
 function App() {
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["user", "data"]);
   const [open, setOpen] = useState<boolean>(false);
   const [resultsSaved, setResultsSaved] = useState<boolean>(false);
   const [snackbarMessage, setSnackbarMessage] = useState<string>("");
@@ -73,6 +75,10 @@ function App() {
     }
     setOpen(false);
   };
+
+  useEffect(() => {
+    cookies.data && setData(cookies.data);
+  }, [data, cookies.data]);
 
   return (
     <Router>
@@ -143,11 +149,14 @@ function App() {
         <Route path="/Error404" element={<Error404 />} />
         <Route path="/CommentPage" element={<CommentPage />} />
         <Route path="/TypeExample" element={<TypeExample />} />
+        <Route path="/Nutrition" element={<Nutrition />} />
+        <Route path="/Training" element={<Training />} />
         <Route
           path="/Test"
           element={
             <TestPage
               setData={setData}
+              data={data!}
               resultsSaved={resultsSaved}
               setResultsSaved={setResultsSaved}
             />

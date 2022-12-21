@@ -39,7 +39,7 @@ const ResponsiveAppBar = (props: any) => {
   const [anchorElNavLogged, setAnchorElNavLogged] = useState(null);
   const [anchorElNavProfile, setAnchorElNavProfile] = useState(null);
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["user", "data"]);
 
   const large = useMediaQuery("(min-width:1200px)");
   const xxs = useMediaQuery("(max-width:380px)");
@@ -339,7 +339,7 @@ const ResponsiveAppBar = (props: any) => {
                       window.scrollTo(0, 0);
                     }}
                   >
-                    Take the Test
+                    {cookies.data ? "Save results" : "Take the Test"}
                     <ArrowForwardSharpIcon fontSize="small" />
                   </Button>
                 </MenuItem>
@@ -552,7 +552,11 @@ const ResponsiveAppBar = (props: any) => {
                       window.scrollTo(0, 0);
                     }}
                   >
-                    {cookies.user ? "Add new" : "Take the Test"}
+                    {cookies.user
+                      ? "Add new"
+                      : cookies.data
+                      ? "Save results"
+                      : "Take the Test"}
                     <ArrowForwardSharpIcon fontSize="small" />
                   </Button>
                 </Grid>

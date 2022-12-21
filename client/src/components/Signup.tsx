@@ -35,7 +35,7 @@ const Signup: FC<ISignUp> = (props) => {
   const [nameIsIncorrect, setNameIsIncorrect] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [fetching, setFetching] = React.useState<boolean>(false);
-  const [cookies, setCookie] = useCookies(["user"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["user", "data"]);
 
   const xxs = useMediaQuery("(max-width:450px)");
 
@@ -83,6 +83,7 @@ const Signup: FC<ISignUp> = (props) => {
         { headers: headers }
       );
       setOpen(true);
+      removeCookie("data", { path: "/", sameSite: "none", secure: true });
       setCookie(
         "user",
         { ...response.data.user },
