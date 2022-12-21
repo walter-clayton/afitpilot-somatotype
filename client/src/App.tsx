@@ -26,6 +26,7 @@ import Error404 from "./components/CTA/Error404";
 import CommentPage from "./components/CTA/CommentPage";
 import TypeExample from "./components/CTA/TypeExample";
 import Nutrition from "./components/CTA/Nutrition";
+import Training from "./components/CTA/Training";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -149,6 +150,7 @@ function App() {
         <Route path="/CommentPage" element={<CommentPage />} />
         <Route path="/TypeExample" element={<TypeExample />} />
         <Route path="/Nutrition" element={<Nutrition />} />
+        <Route path="/Training" element={<Training />} />
         <Route
           path="/Test"
           element={
