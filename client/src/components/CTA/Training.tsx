@@ -4,7 +4,6 @@ import { Grid, Box, Typography, } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import avatar from '../image/manu-tribesman.png';
 import NutritionCard from './NutritionCard';
-import CloseIcon from '@mui/icons-material/Close';
 import Arrow1 from '../image/Arrow1.png';
 import Arrow1Down from '../image/Arrow1Down.png';
 import cross from '../image/cross.png';
@@ -104,9 +103,8 @@ const Training = () => {
                         sx={{
                             display: "flex",
                             justifyContent: "center",
-                            width: "100%",
-                        }}
-                    >
+                            width: "100%"
+                        }}>
                         <img src={avatar} alt="" width={"150px"} />
                     </Grid>
                 </Grid>
@@ -118,7 +116,7 @@ const Training = () => {
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
-                        justifyContent: "center",
+                        justifyContent: "center"
                     }}>
                     <Grid item sm={12} md={8} lg={8} xl={8}>
                         <Typography variant="h1"

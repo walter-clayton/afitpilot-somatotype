@@ -4,9 +4,9 @@ import { Grid, Box, Typography, } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import avatar from '../image/manu-tribesman.png';
 import NutritionCard from './NutritionCard';
-import CloseIcon from '@mui/icons-material/Close';
 import Arrow from '../image/Arrow.png';
 import ArrowDown from '../image/ArrowDown.png';
+import cross from '../image/cross.png';
 
 const theme = createTheme();
 theme.typography.h1 = {
@@ -19,10 +19,10 @@ theme.typography.h1 = {
 };
 theme.typography.body1 = {
     "@media (min-width:600px)": {
-        fontSize: "15px"
+        fontSize: "20px"
     },
     [theme.breakpoints.up("md")]: {
-        fontSize: "22px",
+        fontSize: "32px",
     },
 };
 theme.typography.body2 = {
@@ -32,7 +32,7 @@ theme.typography.body2 = {
     [theme.breakpoints.up("md")]: {
         fontSize: "24px",
     },
-}
+};
 const Nutrition = () => {
     return (
         <ThemeProvider theme={theme}>
@@ -119,10 +119,11 @@ const Nutrition = () => {
                         alignItems: "center",
                         justifyContent: "center",
                     }}>
-                    <Grid item md={8}>
-                        <Typography variant="h3"
+                    <Grid item sm={12} md={8} lg={8} xl={8}>
+                        <Typography variant="h1"
                             sx={{
                                 color: "#FFFFFF",
+                                fontSize: '54px',
                                 mb: 2,
                             }}>
                             3 MONTHS NUTRITION PROGRAM
@@ -137,17 +138,17 @@ const Nutrition = () => {
                             That's why we are offering 2 months free.
                         </Typography>
                     </Grid>
-                    <Grid item md={4}>
+                    <Grid item sm={12} md={4} lg={4} xl={4}>
                         <Typography variant="h4"
-                            sx={{ color: "white", textAlign: "center" }} >
+                            sx={{ color: "white", textAlign: "center", fontSize: "42px" }} >
                             300 <span>&#8364;</span>
                         </Typography>
-                        <Typography variant="h3" mt={-6}
+                        <Typography variant="h3" mt={-6} mr={2.6}
                             sx={{ color: "black", textAlign: "center" }}>
-                            <CloseIcon sx={{ fontSize: 50 }} />
+                            <img src={cross} alt="" width={45} />
                         </Typography>
-                        <Typography variant="h3"
-                            sx={{ color: "#ffff", textAlign: "center" }}>
+                        <Typography variant="h5"
+                            sx={{ color: "#ffff", textAlign: "center", fontSize: "100px" }}>
                             100 <span>&#8364;</span>
                         </Typography>
                     </Grid>
