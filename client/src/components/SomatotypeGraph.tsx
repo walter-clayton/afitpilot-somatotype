@@ -1,48 +1,71 @@
-import React, {FC,useRef, useState, useEffect, ReactElement} from 'react'
-import { AddPoint, calculateSomatotype, IPoints, UpdateCanvas } from './Calculation';
+import React, { FC, useRef, useState, useEffect, ReactElement } from "react";
+import {
+  AddPoint,
+  calculateSomatotype,
+  IPoints,
+  UpdateCanvas,
+} from "./Calculation";
 import { IAnthropometric, ISomatotype } from "../App";
 
-interface ISomatotypeGraph{
-    updateGraph?: boolean,
-    pointsArray?: IPoints[]
+interface ISomatotypeGraph {
+  updateGraph?: boolean;
+  pointsArray?: IPoints[];
 }
 
-const SomatotypeGraph:FC<ISomatotypeGraph> = (props):any => {
+const SomatotypeGraph: FC<ISomatotypeGraph> = (props): any => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-    const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const showSomatotypeGraph = () => {
+    var canvas: HTMLCanvasElement | null = canvasRef.current;
+    var ctx: any = canvas?.getContext("2d");
 
-    const showSomatotypeGraph = () => {
-        var canvas: HTMLCanvasElement | null = canvasRef.current;
-        var ctx: any = canvas?.getContext("2d");
-    
-        if(canvasRef.current?.style.width != null && 
-            canvasRef.current?.style.height != null){
-                canvasRef.current!.style.width = "100%";
-                canvasRef.current!.style.height = `${canvasRef.current?.offsetWidth! * 1.17}px`;
-        }
+    if (
+      canvasRef.current?.style.width != null &&
+      canvasRef.current?.style.height != null
+    ) {
+      canvasRef.current!.style.width = "100%";
+      canvasRef.current!.style.height = `${
+        canvasRef.current?.offsetWidth! * 1.17
+      }px`;
+    }
 
-        UpdateCanvas(ctx, canvas,canvasRef.current?.offsetWidth, canvasRef.current?.offsetHeight, props.pointsArray!);
-    
-        function handleResize() {
-            if(canvasRef.current?.style.width !== undefined){
-                canvasRef.current!.style.width = "100%";
-                canvasRef.current!.style.height = `${canvasRef.current?.offsetWidth * 1.17}px`;
-    
-                UpdateCanvas(ctx, canvas,canvasRef.current?.offsetWidth, canvasRef.current?.offsetHeight, props.pointsArray!);
-            }
-        }
-        window.addEventListener("resize", handleResize);
-        handleResize();
-        return () => window.removeEventListener("resize", handleResize);
-      };
+    UpdateCanvas(
+      ctx,
+      canvas,
+      canvasRef.current?.offsetWidth,
+      canvasRef.current?.offsetHeight,
+      props.pointsArray!
+    );
 
-    useEffect(() => {
-        showSomatotypeGraph();
-    }, [props.updateGraph]);
+    function handleResize() {
+      if (canvasRef.current?.style.width !== undefined) {
+        canvasRef.current!.style.width = "100%";
+        canvasRef.current!.style.height = `${
+          canvasRef.current?.offsetWidth * 1.17
+        }px`;
+
+        UpdateCanvas(
+          ctx,
+          canvas,
+          canvasRef.current?.offsetWidth,
+          canvasRef.current?.offsetHeight,
+          props.pointsArray!
+        );
+      }
+    }
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  };
+
+  useEffect(() => {
+    showSomatotypeGraph();
+  }, [props.updateGraph]);
 
   return (
-    <canvas style={{border:`1px solid black`}} width="0" height="0" ref={canvasRef} />
-  )
-}
+    // <canvas style={{border:`1px solid black`}} width="0" height="0" ref={canvasRef} />
+    <canvas width="0" height="0" ref={canvasRef} />
+  );
+};
 
-export default SomatotypeGraph
+export default SomatotypeGraph;

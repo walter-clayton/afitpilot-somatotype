@@ -476,7 +476,8 @@ const TestPage: FC<ITesting> = (props) => {
       const point = AddPoint(
         somatotypeResults[0],
         somatotypeResults[1],
-        somatotypeResults[2]
+        somatotypeResults[2],
+        "#B78260"
       );
       pointsResultsArray.push(point);
       setPointsArray(pointsResultsArray);
