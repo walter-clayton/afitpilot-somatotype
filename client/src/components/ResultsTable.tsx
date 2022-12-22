@@ -21,6 +21,7 @@ import {
   Popper,
   TablePagination,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { alignProperty } from "@mui/material/styles/cssUtils";
@@ -33,32 +34,6 @@ import { useCookies } from "react-cookie";
 import { AddPoint, IPoints } from "./Calculation";
 import { getSomatotypeType } from "./TestPage";
 import { useNavigate } from "react-router-dom";
-import avatar from './image/manu-tribesman.png'
-
-function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window;
-  return {
-    width,
-    height,
-  };
-}
-
-function useWindowDimensions() {
-  const [windowDimensions, setWindowDimensions] = useState(
-    getWindowDimensions()
-  );
-
-  useEffect(() => {
-    function handleResize() {
-      setWindowDimensions(getWindowDimensions());
-    }
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  return windowDimensions;
-}
 
 function createRow(
   Endomorphy: string,
@@ -101,11 +76,10 @@ interface resultProps {
   setDashboardSnackBarOpen?: (open: boolean) => void;
   setDashboardSnackBarMessage?: (msg: string) => void;
   isFetching?: boolean;
+  setTypeResult?: (result: string) => void;
 }
 
 const ResultsTable: FC<resultProps> = (props: any) => {
-  const { height, width } = useWindowDimensions();
-
   const [rows, setRows] = useState<any[]>([]);
 
   const [cookies, setCookie] = useCookies(["user"]);
@@ -120,6 +94,12 @@ const ResultsTable: FC<resultProps> = (props: any) => {
   const rowsPerPage: number = 5;
 
   const navigate = useNavigate();
+
+  const xxs = useMediaQuery("(max-width:400px)");
+  const xSmall = useMediaQuery("(max-width:550px)");
+  const small = useMediaQuery("(max-width:650px)");
+  const minSmall = useMediaQuery("(min-width:900px)");
+  const medium = useMediaQuery("(max-width:1000px)");
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -187,7 +167,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
             isDisplayed
           ),
         ]);
-        setTypeResult(
+        props.setTypeResult(
           getSomatotypeType(
             ordoredSomatotypes[0].endomorphy,
             ordoredSomatotypes[0].mesomorphy,
@@ -212,7 +192,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
           true
         ),
       ]);
-      setTypeResult(
+      props.setTypeResult(
         getSomatotypeType(
           props.singleSomatotype.endomorphy,
           props.singleSomatotype.mesomorphy,
@@ -238,7 +218,8 @@ const ResultsTable: FC<resultProps> = (props: any) => {
       const point = AddPoint(
         somatotypeToShow.endomorphy!,
         somatotypeToShow.mesomorphy!,
-        somatotypeToShow.ectomorphy!
+        somatotypeToShow.ectomorphy!,
+        "#B78260"
       );
       pointsResultsArray.push(point);
     });
@@ -296,26 +277,23 @@ const ResultsTable: FC<resultProps> = (props: any) => {
     setOpenDeleteModal(false);
   };
 
-  const [typeResult, setTypeResult] = useState<string>("");
-
   const modalStyle = {
     position: "absolute" as "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width:
-      width < 400 ? "90%" : width < 550 ? "80%" : width < 1000 ? "50%" : "35%",
+    width: xxs ? "90%" : xSmall ? "80%" : medium ? "50%" : "35%",
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 24,
     p: 4,
   };
 
-  let endoColumnTitle = width >= 650 ? "Endomorphy" : "Endo";
-  let mesoColumnTitle = width >= 650 ? "Mesomorphy" : "Meso";
-  let ectoColumnTitle = width >= 650 ? "Ectomorphy" : "Ecto";
+  let endoColumnTitle = small || minSmall ? "Endo" : "Endomorphy";
+  let mesoColumnTitle = small || minSmall ? "Meso" : "Mesomorphy";
+  let ectoColumnTitle = small || minSmall ? "Ecto" : "Ectomorphy";
 
-  let cellStyle = width >= 650 ? null : { padding: "6px 6px" };
+  let cellStyle = small || minSmall ? { padding: "6px 6px" } : null;
 
   let tableHeadContent = null;
   let tableBodyContent = null;
@@ -488,17 +466,21 @@ const ResultsTable: FC<resultProps> = (props: any) => {
 
   return (
     <>
-      <Typography textAlign={"center"} variant="h6" mt={2}>
-        You are a {typeResult}
-      </Typography>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ borderRadius: "25px" }}>
         <Table aria-label="results table" size="small">
           <TableHead>
             <TableRow>
               <TableCell
                 align="center"
                 colSpan={12}
-                sx={{ backgroundColor: "black", color: "white" }}
+                sx={{
+                  backgroundColor: "#B78260",
+                  color: "white",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  lineHeight: "30px",
+                  fontSize: "18px",
+                }}
               >
                 RESULTS
               </TableCell>
@@ -608,23 +590,6 @@ const ResultsTable: FC<resultProps> = (props: any) => {
           </Box>
         </Modal>
       </TableContainer>
-      <Grid item sx={{ textAlign: "center", marginTop: 2 }}
-      >
-        <Typography variant="body1" sx={{ color: "black" }}>
-          Your Somatotype is:
-        </Typography>
-        <Typography variant="h6" sx={{ color: "#e4ae3a", textAlign: "center" }}>
-          {typeResult}
-        </Typography>
-        <img
-          src={avatar}
-          alt="manu tribesman"
-          style={{ width: "100px" }}
-        />
-        <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
-          EnMs are muscular and heavy built,with a gift for strength and power sports.
-        </Typography>
-      </Grid>
     </>
   );
 };

@@ -67,12 +67,14 @@ export interface IPoints {
   endomorphy: number;
   mesomorphy: number;
   ectomorphy: number;
+  pointColor: string;
 }
 
 export function AddPoint(
   endomorphy: number,
   mesomorphy: number,
-  ectomorphy: number
+  ectomorphy: number,
+  pointColor: string
 ) {
   var xPos = Number(ectomorphy) - Number(endomorphy);
   var yPos = 2 * Number(mesomorphy) - (Number(endomorphy) + Number(ectomorphy));
@@ -82,6 +84,7 @@ export function AddPoint(
     endomorphy: endomorphy,
     mesomorphy: mesomorphy,
     ectomorphy: ectomorphy,
+    pointColor: pointColor
   };
   return pos;
 }
@@ -91,7 +94,7 @@ export function UpdateCanvas(
   canvas: any,
   canvasWidthValue: number | undefined,
   canvasHeightValue: number | undefined,
-  addedPointsList: Array<IPoints>
+  addedPointsList: Array<IPoints>,
 ) {
   if (canvas !== undefined && canvas !== null && context !== undefined) {
     // ctx.reset();
@@ -125,7 +128,8 @@ export function UpdateCanvas(
           rel_y,
           Number(addedPointsList[i].endomorphy),
           Number(addedPointsList[i].mesomorphy),
-          Number(addedPointsList[i].ectomorphy)
+          Number(addedPointsList[i].ectomorphy),
+          addedPointsList[i].pointColor
         );
       }
     }
@@ -237,16 +241,17 @@ function drawNewPoint(
   yPos: number,
   endomorphyValue: number,
   mesomorphyValue: number,
-  ectomorphyValue: number
+  ectomorphyValue: number,
+  pointColor: string
 ) {
   context.beginPath();
-  context.arc(xPos, yPos, 1, 0, 2 * Math.PI);
-  context.fillStyle = "blue";
+  context.arc(xPos, yPos, 1.5, 0, 2 * Math.PI);
+  context.fillStyle = pointColor;
   context.fill();
-  context.strokeStyle = "blue";
+  context.strokeStyle = pointColor;
   context.stroke();
 
-  context.font = "15px Georgia";
+  context.font = "18px Helvetica";
   // if value < 1 then value gets 1 to avoid value of 0
   endomorphyValue =
     Number(endomorphyValue) < 1 ? 1 : Number(endomorphyValue?.toFixed());
@@ -255,12 +260,7 @@ function drawNewPoint(
   ectomorphyValue =
     Number(ectomorphyValue) < 1 ? 1 : Number(ectomorphyValue?.toFixed());
   context.fillText(
-    " " +
-      Math.abs(endomorphyValue) +
-      "-" +
-      Math.abs(mesomorphyValue) +
-      "-" +
-      Math.abs(ectomorphyValue),
+    ` ${Math.abs(endomorphyValue)}-${Math.abs(mesomorphyValue)}-${Math.abs(ectomorphyValue)}`,
     xPos,
     yPos
   );

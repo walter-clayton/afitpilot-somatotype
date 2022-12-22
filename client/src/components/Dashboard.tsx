@@ -1,4 +1,12 @@
-import { Alert, Box, Button, Grid, Snackbar, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Grid,
+  Snackbar,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import React, { useEffect, useState, useRef, FC } from "react";
 import { calculateSomatotype, IPoints } from "./Calculation";
 import ResultsTable from "./ResultsTable";
@@ -11,6 +19,7 @@ import { useCookies } from "react-cookie";
 import CounterShare from "./CTA/CounterShare";
 import AddPage from "./AddPage";
 import { useNavigate } from "react-router-dom";
+import avatar from "./image/manu-tribesman.png";
 
 const theme = createTheme();
 
@@ -55,6 +64,13 @@ const Dashboard: FC<IDashboard> = (props) => {
   const [fetching, setFetching] = React.useState<boolean>(false);
 
   const navigate = useNavigate();
+
+  const [typeResult, setTypeResult] = useState<string>("");
+
+  const small = useMediaQuery("(max-width:600px)");
+  const xSmall = useMediaQuery("(max-width:450px)");
+  const xxs = useMediaQuery("(max-width:380px)");
+  const xxxs = useMediaQuery("(max-width:320px)");
 
   const getUserDatas = async () => {
     const headers = {
@@ -112,20 +128,32 @@ const Dashboard: FC<IDashboard> = (props) => {
     props.setDashboardSnackBarOpen!(false);
   };
 
+  const formatTypeResultText = (typeResultText: string) => {
+    let croppedTextResult = typeResultText.slice(0, typeResultText.length - 2);
+    let resultsTexts: string[] = croppedTextResult.split(" (");
+    return resultsTexts;
+  };
+
   return (
     <>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Typography variant="h3" gutterBottom m={3} textAlign="center">
+        <Typography
+          variant="h3"
+          p={3}
+          textAlign="center"
+          color={"white"}
+          sx={{ backgroundColor: "#B78260" }}
+        >
           Dashboard
         </Typography>
         <Grid
           container
           sx={{
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "row",
             justifyContent: "center",
-            alignItems: "center",
+            alignItems: "start",
             padding: "0px 15px",
           }}
           width={"100%"}
@@ -154,7 +182,7 @@ const Dashboard: FC<IDashboard> = (props) => {
           ) : null}
 
           {/* No Results Message */}
-          {showNoResultsMessage ? (
+          {showNoResultsMessage && (
             <Grid
               item
               sx={{
@@ -172,21 +200,213 @@ const Dashboard: FC<IDashboard> = (props) => {
                 to see your results.
               </Typography>
             </Grid>
-          ) : null}
+          )}
 
-          {/* Results Table */}
-          {!showNoResultsMessage ? (
+          {/* Result Card   */}
+          {!showNoResultsMessage && (
             <Grid
               item
               sx={{
-                flexGrow: 1,
                 alignItems: "center",
-                margin: "20px 0",
+                marginTop: "20px",
               }}
               xs={12}
-              md={9}
-              lg={7}
+              md={6}
               width={"100%"}
+              padding={2}
+            >
+              <Grid
+                container
+                padding={2}
+                sx={{
+                  textAlign: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  border: "10px solid #B78260",
+                  borderRadius: "25px",
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: "#B78260",
+                    textAlign: "start",
+                    alignSelf: "start",
+                  }}
+                >
+                  Name
+                </Typography>
+                <img
+                  src={avatar}
+                  alt="manu tribesman"
+                  style={{ width: "100px" }}
+                />
+                <Grid
+                  item
+                  width={"100%"}
+                  marginBottom={1}
+                  sx={{
+                    color: "black",
+                    backgroundColor: "#e4ae3a",
+                    textAlign: "center",
+                    borderRadius: "25px",
+                  }}
+                >
+                  <Grid
+                    container
+                    display={"flex"}
+                    flexDirection={"row"}
+                    alignItems={"center"}
+                    justifyContent={"center"}
+                    columnSpacing={3}
+                  >
+                    <Grid item>
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          fontWeight: 600,
+                        }}
+                      >
+                        {fetching || somatotypes.length <= 0
+                          ? ""
+                          : somatotypes[0].endomorphy?.toFixed()}
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          fontWeight: 600,
+                        }}
+                      >
+                        -
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          fontWeight: 600,
+                        }}
+                      >
+                        {fetching || somatotypes.length <= 0
+                          ? ""
+                          : somatotypes[0].mesomorphy?.toFixed()}
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          fontWeight: 600,
+                        }}
+                      >
+                        -
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          fontWeight: 600,
+                        }}
+                      >
+                        {fetching || somatotypes.length <= 0
+                          ? ""
+                          : somatotypes[0].ectomorphy?.toFixed()}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Typography
+                  marginBottom={0.3}
+                  variant="h5"
+                  sx={{ color: "#B78260", textAlign: "center" }}
+                >
+                  {formatTypeResultText(typeResult)[0]}
+                </Typography>
+                <Typography
+                  marginBottom={-8}
+                  variant="h5"
+                  sx={{ color: "#e4ae3a", textAlign: "center" }}
+                >
+                  {formatTypeResultText(typeResult)[1]}
+                </Typography>
+                <Grid
+                  item
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                  width={"100%"}
+                >
+                  <SomatotypeGraph
+                    updateGraph={toggleGraph}
+                    pointsArray={pointsArray}
+                  />
+                </Grid>
+              </Grid>
+              <Button
+                sx={{
+                  borderColor: "#B78260",
+                  color: "#B78260",
+                  padding: "14px 30px",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  lineHeight: "30px",
+                  fontSize: "18px",
+                  borderRadius: "40px",
+                  textTransform: "initial",
+                  marginTop: "20px",
+                  width: small
+                    ? xSmall
+                      ? xxs
+                        ? xxxs
+                          ? "90%"
+                          : "80%"
+                        : "75%"
+                      : "70%"
+                    : "60%",
+                  mx: small
+                    ? xSmall
+                      ? xxs
+                        ? xxxs
+                          ? "5%"
+                          : "10%"
+                        : "12.5%"
+                      : "15%"
+                    : "20%",
+                  "&.MuiButtonBase-root:hover": {
+                    bgcolor: "#B78260",
+                    color: "#ffffff",
+                    borderColor: "#B78260",
+                  },
+                }}
+                variant="outlined"
+                onClick={() => {
+                  console.log("share");
+                }}
+              >
+                Share
+              </Button>
+            </Grid>
+          )}
+
+          {/* Results Table */}
+          {!showNoResultsMessage && (
+            <Grid
+              item
+              sx={{
+                alignItems: "center",
+                marginTop: "20px",
+              }}
+              xs={12}
+              md={6}
+              width={"100%"}
+              padding={2}
             >
               <ResultsTable
                 somatotypes={somatotypes}
@@ -203,55 +423,123 @@ const Dashboard: FC<IDashboard> = (props) => {
                 setDashboardSnackBarOpen={props.setDashboardSnackBarOpen}
                 setDashboardSnackBarMessage={props.setDashboardSnackBarMessage}
                 isFetching={fetching}
+                setTypeResult={setTypeResult}
               />
+              <Button
+                sx={{
+                  backgroundColor: "#B78260",
+                  padding: "14px 30px",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  lineHeight: "30px",
+                  fontSize: "18px",
+                  borderRadius: "40px",
+                  textTransform: "initial",
+                  marginTop: "20px",
+                  width: small
+                    ? xSmall
+                      ? xxs
+                        ? xxxs
+                          ? "90%"
+                          : "80%"
+                        : "75%"
+                      : "70%"
+                    : "60%",
+                  mx: small
+                    ? xSmall
+                      ? xxs
+                        ? xxxs
+                          ? "5%"
+                          : "10%"
+                        : "12.5%"
+                      : "15%"
+                    : "20%",
+                  "&.MuiButtonBase-root:hover": {
+                    bgcolor: "#B78260",
+                  },
+                }}
+                variant="contained"
+                onClick={() => {
+                  props.setIsAdding!(true);
+                  navigate("/Add");
+                  window.scrollTo(0, 0);
+                }}
+              >
+                Add new
+              </Button>
+              <Button
+                sx={{
+                  backgroundColor: "#111111",
+                  color: "#ffffff",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  lineHeight: "30px",
+                  fontSize: "18px",
+                  textTransform: "initial",
+                  padding: "14px 30px",
+                  borderRadius: "40px",
+                  marginTop: "20px",
+                  width: small
+                    ? xSmall
+                      ? xxs
+                        ? xxxs
+                          ? "90%"
+                          : "80%"
+                        : "75%"
+                      : "70%"
+                    : "60%",
+                  mx: small
+                    ? xSmall
+                      ? xxs
+                        ? xxxs
+                          ? "5%"
+                          : "10%"
+                        : "12.5%"
+                      : "15%"
+                    : "20%",
+                  "&.MuiButtonBase-root:hover": {
+                    bgcolor: "#111111",
+                  },
+                }}
+                variant="contained"
+                onClick={() => {
+                  console.log("compare");
+                }}
+              >
+                Compare
+              </Button>
             </Grid>
-          ) : null}
-          {/* Graph */}
-          {!showNoResultsMessage ? (
-            <Grid
-              item
-              sx={{
-                flexGrow: 1,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                margin: "20px 0",
-              }}
-              xs={12}
-              md={9}
-              lg={7}
-              width={"100%"}
-            >
-              <SomatotypeGraph
-                updateGraph={toggleGraph}
-                pointsArray={pointsArray}
-              />
-            </Grid>
-          ) : null}
+          )}
 
-          <Button
-            sx={{
-              backgroundColor: "RGB(108, 77, 123)",
-              padding: "14px 30px",
-              fontWeight: 600,
-              textAlign: "center",
-              lineHeight: "30px",
-              fontSize: "18px",
-              borderRadius: "40px",
-              textTransform: "initial",
-              width: "80%",
-              mx: "10%",
-              "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
-            }}
-            variant="contained"
-            onClick={() => {
-              props.setIsAdding!(true);
-              navigate("/Add");
-              window.scrollTo(0, 0);
-            }}
-          >
-            Add new
-          </Button>
+          {showNoResultsMessage && (
+            <Grid item xs={12}>
+              <Button
+                sx={{
+                  backgroundColor: "#B78260",
+                  padding: "14px 30px",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  lineHeight: "30px",
+                  fontSize: "18px",
+                  borderRadius: "40px",
+                  textTransform: "initial",
+                  width: "80%",
+                  mx: "10%",
+                  "&.MuiButtonBase-root:hover": {
+                    bgcolor: "#B78260",
+                  },
+                }}
+                variant="contained"
+                onClick={() => {
+                  props.setIsAdding!(true);
+                  navigate("/Add");
+                  window.scrollTo(0, 0);
+                }}
+              >
+                Add new
+              </Button>
+            </Grid>
+          )}
         </Grid>
         <CounterShare />
       </ThemeProvider>
