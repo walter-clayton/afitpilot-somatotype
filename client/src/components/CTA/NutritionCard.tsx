@@ -144,16 +144,17 @@ const NutritionCard = () => {
                         alignItems: "center",
                         justifyContent: "center",
                         width: "100%",
-                        // marginTop: "20px"
+                        marginTop: "40px"
                     }}>
                     <Button
                         sx={{
                             borderRadius: "40px",
                             backgroundColor: "RGB(108, 77, 123)",
-                            padding: "14px 60px",
+                            padding: "14px 30px",
                             fontWeight: 600,
+                            width: '600px',
                             textAlign: "start",
-                            fontSize: "20px",
+                            fontSize: "35px",
                             lineHeight: "40px",
                             marginBottom: "20px",
                             textTransform: "initial",
