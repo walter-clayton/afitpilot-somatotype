@@ -50,3 +50,12 @@ export interface IData {
   somatotype: ISomatotype;
   anthropometric: IAnthropometric;
 }
+
+export interface IComparison {
+  group: string;
+  gender: string;
+  name: string;
+  endo: number;
+  meso: number;
+  ecto: number;
+}
