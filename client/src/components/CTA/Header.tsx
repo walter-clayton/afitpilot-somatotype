@@ -16,22 +16,14 @@ import axios from "axios";
 
 const theme = createTheme();
 theme.typography.h1 = {
-  "@media (min-width:600px)": {
-    fontSize: "3rem",
-  },
-  [theme.breakpoints.up("md")]: {
-    fontSize: "2.9rem",
-  },
-};
-theme.typography.h2 = {
   "@media (max-width:600px)": {
     fontSize: "36px",
     lineHeight: "46px",
     margin: "0px 0px 10px",
   },
-  // [theme.breakpoints.down("lg")]: {
-  //   fontSize: "54px",
-  // },
+  [theme.breakpoints.up("md")]: {
+    fontSize: "58px",
+  },
 };
 const Header = () => {
   const navigate = useNavigate();
@@ -125,6 +117,7 @@ const Header = () => {
         <Grid item xs={12} width={"100%"}>
           <Box
             sx={{
+              marginTop: 2,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -132,11 +125,11 @@ const Header = () => {
             }}
           >
             <Typography
-              variant="h2"
+              variant="h1"
               sx={{
                 color: "black",
                 textAlign: "center",
-                fontSize: "54px",
+                fontSize: "58px",
                 marginBottom: "20px",
                 lineHeight: "71px",
                 fontWeight: 600,
