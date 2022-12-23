@@ -20,37 +20,41 @@ theme.typography.h1 = {
 theme.typography.h3 = {
     "@media (max-width:600px)": {
         fontSize: "30px",
+        textAlign: "center"
     },
     [theme.breakpoints.up("md")]: {
         fontSize: "54px",
     },
 };
 theme.typography.h4 = {
-    "@media (max-width:600px)": {
+    "@media (max-width:700px)": {
         fontSize: "50px",
     },
 };
 theme.typography.h5 = {
-    "@media (max-width:600px)": {
+    "@media (max-width:700px)": {
         fontSize: "35px",
     },
 };
 theme.typography.body1 = {
-    "@media (min-width:600px)": {
-        fontSize: "20px"
+    "@media (max-width:600px)": {
+        fontSize: "20px",
+        textAlign: "center"
     },
     [theme.breakpoints.up("md")]: {
         fontSize: "32px",
     },
 };
+
 theme.typography.body2 = {
-    "@media (min-width:600px)": {
-        fontSize: "14px"
+    "@media (max-width:600px)": {
+        fontSize: "18px",
     },
     [theme.breakpoints.up("md")]: {
         fontSize: "24px",
     },
 };
+;
 const Training = () => {
     return (
         <ThemeProvider theme={theme}>
@@ -86,6 +90,7 @@ const Training = () => {
                             sx={{
                                 color: "white",
                                 textAlign: "center",
+                                fontSize: "24px",
                                 px: 2
                             }}>
                             Our Program focuses on increasing <br></br> mesomorphy and decreasing endomorphy.
@@ -99,7 +104,7 @@ const Training = () => {
                         width: "100%",
                         marginTop: { md: -10, lg: -10, xl: -10 }
                     }}>
-                    <Grid item md={4}
+                    <Grid item md={3}
                         sx={{
                             display: "flex",
                             justifyContent: "center",
@@ -110,47 +115,43 @@ const Training = () => {
                     <Typography
                         sx={{ display: { xs: 'none', sm: 'none', md: 'block', lg: 'block' }, color: "#4298B4", textAlign: "center", mt: 18 }}
                         variant="h1">
-                        <img src={Arrow1} alt="Arrow1" />
+                        <img src={Arrow1} alt="Arrow" />
                     </Typography>
                     <Typography
                         sx={{ display: { xs: 'block', sm: 'block', md: 'none', lg: 'none' }, color: "#4298B4" }}
                         variant="h1" mt={1}>
-                        <img src={Arrow1Down} alt="Arrow1Down" />
+                        <img src={Arrow1Down} alt="ArrowDown" />
                     </Typography>
-                    <Grid item md={4}
+                    <Grid item md={3}
                         sx={{
                             display: "flex",
                             justifyContent: "center",
-                            width: "100%"
-                        }}>
+                            width: "100%",
+                        }}
+                    >
                         <img src={avatar} alt="avatar" width={"150px"} />
                     </Grid>
                 </Grid>
                 {/* Instruction */}
                 <Grid container spacing={2}
                     sx={{
-                        backgroundColor: "#33A474",
+                        backgroundColor: "#4298B4",
                         marginTop: 9,
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "center",
                     }}>
-                    <Grid item md={8}>
+                    <Grid item md={8} >
                         <Typography variant="h3"
-                            sx={{
-                                color: "#FFFFFF",
-                                mb: 2,
-                                fontSize: '54px'
-                            }}>
+                            sx={{ color: "#FFFFFF", mb: 2, fontSize: '54px' }}>
                             3 MONTHS NUTRITION PROGRAM
                         </Typography>
                         <Typography variant="body1"
                             sx={{ color: "#FFFFFF", mb: 2 }}>
                             Changing your body takes time.
                         </Typography>
-                        <Typography
-                            variant="body2"
+                        <Typography variant="body2"
                             sx={{ color: "white" }}>
                             That's why we are offering 2 months free.
                         </Typography>
@@ -165,7 +166,7 @@ const Training = () => {
                                 color: "black", textAlign: "center",
                                 mt: { xs: -6, sm: -6.7, md: -8 }
                             }}>
-                            <img src={cross} alt="Cancel" width={45} />
+                            <img src={cross} alt="cancel" width={45} />
                         </Typography>
                         <Typography variant="h4"
                             sx={{ color: "#ffff", textAlign: "center", fontSize: '100px' }}>
