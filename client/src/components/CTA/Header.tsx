@@ -22,7 +22,7 @@ theme.typography.h1 = {
     margin: "0px 0px 10px",
   },
   [theme.breakpoints.up("md")]: {
-    fontSize: "58px",
+    fontSize: "54px",
   },
 };
 const Header = () => {
@@ -129,7 +129,7 @@ const Header = () => {
               sx={{
                 color: "black",
                 textAlign: "center",
-                fontSize: "58px",
+                fontSize: "54px",
                 marginBottom: "20px",
                 lineHeight: "71px",
                 fontWeight: 600,
