@@ -15,7 +15,6 @@ theme.typography.h1 = {
   [theme.breakpoints.up("md")]: {
     fontSize: "1.5rem",
   },
-
 };
 theme.typography.h2 = {
   "@media (max-width:600px)": {
@@ -27,12 +26,20 @@ theme.typography.h2 = {
 };
 const heading = {
   "@media (max-width:600px)": {
-    fontSize: "27px",
-    lineHeight: "35px",
-    margin: "30px 0px",
-    marginTop: 0
+    fontSize: "36px",
+    lineHeight: "46px",
+    margin: "0px 0px 10px",
+    fontWeight: 600,
+    textAlign: "center",
   },
-
+  "@media only screen and (min-width: 600px) and (max-width: 1400px)": {
+    color: "black",
+    textAlign: "center",
+    fontSize: "54px",
+    marginBottom: "20px",
+    lineHeight: "71px",
+    fontWeight: 600,
+  },
 };
 
 const TypesPage = () => {
@@ -163,19 +170,9 @@ const TypesPage = () => {
               width: "100%",
             }}
           >
-            <Typography component="h1" variant="h1"
-              sx={{
-                color: "black",
-                textAlign: "center",
-                fontSize: "45px",
-                margin: '30px 0px',
-                fontWeight: 700,
-                lineHeight: "58.5px",
-              }}
-            >
-              <Box sx={heading}>
-                Somatotypes Categories
-              </Box>
+            <Typography variant="h1"
+              sx={heading}>
+              Somatotypes Categories
             </Typography>
             <Button variant="contained"
               sx={{
@@ -204,10 +201,9 @@ const TypesPage = () => {
           <img
             src={Rectangle}
             alt="manu tribesman"
-            style={{ width: "100%", }}
+            style={{ width: "100%" }}
           />
         </Box>
-
         <Box sx={{ width: "100%", backgroundColor: "#e7dfea", }}>
           <Typography variant="h2" sx={{ color: "white", textAlign: "center" }}>
             Endomorph
@@ -335,7 +331,7 @@ const TypesPage = () => {
         </Box>
         <CounterShare />
       </ThemeProvider>
-    </Box>
+    </Box >
   );
 };
 
