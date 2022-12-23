@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const routesUsers = require("./routes/users.routes");
 const routesAuth = require("./routes/auth.routes");
+const routesCompare = require("./routes/compare.routes");
 
 // Initialization
 const app: Express = express();
@@ -31,5 +32,6 @@ app.use(
 // app.use(routesUsers);
 app.use("/users", routesUsers);
 app.use("/auth", routesAuth);
+app.use("/compare", routesCompare);
 
 module.exports = app;
