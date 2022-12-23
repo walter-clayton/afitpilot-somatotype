@@ -1,33 +1,22 @@
 import React from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import { Grid, Box, Typography, useMediaQuery } from "@mui/material/";
+import { Box, Typography, useMediaQuery } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
-import Stack from "@mui/material/Stack";
-import { styled } from "@mui/material/styles";
 import check from "../image/check.png";
 import biceps from "../image/biceps.png";
 import graphSoma from "../image/graphSoma.svg";
 import { setFips } from "crypto";
 
 const theme = createTheme();
-theme.typography.h3 = {
-  "@media (min-width:600px)": {
-    fontSize: "3.5rem",
+theme.typography.h1 = {
+  "@media (max-width:600px)": {
+    fontSize: "36px",
+    lineHeight: "46px",
+    margin: "0px 0px 10px",
   },
   [theme.breakpoints.up("md")]: {
-    fontSize: "2.9rem",
+    fontSize: "54px",
   },
 };
-const Root = styled("div")(({ theme }) => ({
-  [theme.breakpoints.down("md")]: {
-    height: "50px",
-  },
-  [theme.breakpoints.up("md")]: {
-    height: "180px",
-    width: "220px",
-  },
-}));
 
 const icons: any[] = [
   {
@@ -67,15 +56,21 @@ const HeaderTestpage = () => {
           padding: md ? "100px 0" : "100px 0 230px 0",
         }}
       >
-        <Typography
-          variant="h3"
-          sx={{
-            color: "white",
-            textAlign: "center",
-          }}
-        >
-          Free Somatotype Test
-        </Typography>
+        <ThemeProvider theme={theme}>
+          <Typography
+            variant="h1"
+            sx={{
+              color: "#FFFF",
+              textAlign: "center",
+              fontSize: "54px",
+              marginBottom: "20px",
+              lineHeight: "71px",
+              fontWeight: 600,
+            }}
+          >
+            Free Somatotype Test
+          </Typography>
+        </ThemeProvider>
       </Box>
       <Box
         sx={{

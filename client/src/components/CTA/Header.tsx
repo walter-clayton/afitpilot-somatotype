@@ -16,22 +16,14 @@ import axios from "axios";
 
 const theme = createTheme();
 theme.typography.h1 = {
-  "@media (min-width:600px)": {
-    fontSize: "3rem",
-  },
-  [theme.breakpoints.up("md")]: {
-    fontSize: "2.9rem",
-  },
-};
-theme.typography.h2 = {
   "@media (max-width:600px)": {
     fontSize: "36px",
     lineHeight: "46px",
     margin: "0px 0px 10px",
   },
-  // [theme.breakpoints.down("lg")]: {
-  //   fontSize: "54px",
-  // },
+  [theme.breakpoints.up("md")]: {
+    fontSize: "54px",
+  },
 };
 const Header = () => {
   const navigate = useNavigate();
@@ -125,6 +117,7 @@ const Header = () => {
         <Grid item xs={12} width={"100%"}>
           <Box
             sx={{
+              marginTop: 2,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -132,7 +125,7 @@ const Header = () => {
             }}
           >
             <Typography
-              variant="h2"
+              variant="h1"
               sx={{
                 color: "black",
                 textAlign: "center",
@@ -186,40 +179,40 @@ const Header = () => {
             </Stack>
           </Box>
         </Grid>
-        <Grid item xs={12} width={"100%"}>
-          <Grid container spacing={2}>
-            <Grid item xs={4}>
-              <Typography
-                variant="h1"
-                sx={{ color: "#33a474" }}
-                textAlign={"center"}
-              >
-                {fetching ? <CircularProgress size={25} /> : totalSomatotypes}
-                <Typography sx={{ color: "black" }}>Tests taken</Typography>
-              </Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography
-                variant="h1"
-                sx={{ color: "#4298b4" }}
-                textAlign={"center"}
-              >
-                {fetching ? <CircularProgress size={25} /> : totalUsers}
-                <Typography sx={{ color: "black" }}>Avatars</Typography>
-              </Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography
-                variant="h1"
-                sx={{ color: "#e4ae3a" }}
-                textAlign={"center"}
-              >
-                {fetching ? <CircularProgress size={25} /> : uniqueSomatotypes}
-                <Typography sx={{ color: "black" }}>
-                  {xxxs ? `Somato-types` : "Somatotypes"}
-                </Typography>{" "}
-              </Typography>
-            </Grid>
+      </Grid>
+      <Grid item xs={12} width={"100%"} mt={4}>
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <Typography
+              variant="h1"
+              sx={{ color: "#33a474" }}
+              textAlign={"center"}
+            >
+              {fetching ? <CircularProgress size={25} /> : totalSomatotypes}
+              <Typography sx={{ color: "black" }}>Tests taken</Typography>
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography
+              variant="h1"
+              sx={{ color: "#4298b4" }}
+              textAlign={"center"}
+            >
+              {fetching ? <CircularProgress size={25} /> : totalUsers}
+              <Typography sx={{ color: "black" }}>Avatars</Typography>
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography
+              variant="h1"
+              sx={{ color: "#e4ae3a" }}
+              textAlign={"center"}
+            >
+              {fetching ? <CircularProgress size={25} /> : uniqueSomatotypes}
+              <Typography sx={{ color: "black" }}>
+                {xxxs ? `Somato-types` : "Somatotypes"}
+              </Typography>{" "}
+            </Typography>
           </Grid>
         </Grid>
       </Grid>
