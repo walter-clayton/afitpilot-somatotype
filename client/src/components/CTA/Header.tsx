@@ -179,40 +179,40 @@ const Header = () => {
             </Stack>
           </Box>
         </Grid>
-        <Grid item xs={12} width={"100%"}>
-          <Grid container spacing={2}>
-            <Grid item xs={4}>
-              <Typography
-                variant="h1"
-                sx={{ color: "#33a474" }}
-                textAlign={"center"}
-              >
-                {fetching ? <CircularProgress size={25} /> : totalSomatotypes}
-                <Typography sx={{ color: "black" }}>Tests taken</Typography>
-              </Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography
-                variant="h1"
-                sx={{ color: "#4298b4" }}
-                textAlign={"center"}
-              >
-                {fetching ? <CircularProgress size={25} /> : totalUsers}
-                <Typography sx={{ color: "black" }}>Avatars</Typography>
-              </Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography
-                variant="h1"
-                sx={{ color: "#e4ae3a" }}
-                textAlign={"center"}
-              >
-                {fetching ? <CircularProgress size={25} /> : uniqueSomatotypes}
-                <Typography sx={{ color: "black" }}>
-                  {xxxs ? `Somato-types` : "Somatotypes"}
-                </Typography>{" "}
-              </Typography>
-            </Grid>
+      </Grid>
+      <Grid item xs={12} width={"100%"} mt={4}>
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <Typography
+              variant="h1"
+              sx={{ color: "#33a474" }}
+              textAlign={"center"}
+            >
+              {fetching ? <CircularProgress size={25} /> : totalSomatotypes}
+              <Typography sx={{ color: "black" }}>Tests taken</Typography>
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography
+              variant="h1"
+              sx={{ color: "#4298b4" }}
+              textAlign={"center"}
+            >
+              {fetching ? <CircularProgress size={25} /> : totalUsers}
+              <Typography sx={{ color: "black" }}>Avatars</Typography>
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography
+              variant="h1"
+              sx={{ color: "#e4ae3a" }}
+              textAlign={"center"}
+            >
+              {fetching ? <CircularProgress size={25} /> : uniqueSomatotypes}
+              <Typography sx={{ color: "black" }}>
+                {xxxs ? `Somato-types` : "Somatotypes"}
+              </Typography>{" "}
+            </Typography>
           </Grid>
         </Grid>
       </Grid>
