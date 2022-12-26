@@ -3,7 +3,7 @@ import { Box, Typography, useMediaQuery } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import check from "../image/check.png";
 import biceps from "../image/biceps.png";
-import graphSoma from "../image/graphSoma.svg";
+import graphSoma from "../image/graphSoma.png";
 import { setFips } from "crypto";
 
 const theme = createTheme();
