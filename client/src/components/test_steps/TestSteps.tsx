@@ -435,8 +435,10 @@ const TestSteps: FC<ITestSteps> = (props) => {
     );
   };
 
+  const md = useMediaQuery("(max-width:980px)");
+
   return (
-    <Box sx={{ margin: "100px 0" }}>
+    <Box sx={{ margin: md ? "" : "calc(100px + 140px) 0 120px 0" }}>
       {props.data ? (
         <Button
           sx={{
