@@ -105,17 +105,18 @@ const HeaderTestpage = () => {
             >
               <Box
                 sx={{
-                  backgroundColor: md ? "" : `${item.bgColor}`,
-                  padding: md ? "0 20px" : "20px 0",
+                  padding: "0",
                   width: md ? "100px" : "100%",
                   height: md ? "" : "150px",
                   color: "black",
                   position: "relative",
                   "& > img": {
                     position: md ? "relative" : "absolute",
-                    width: "100%",
-                    height: "89.5px",
+                    width: md ? (xs ? "80px" : "100px") : "100%",
+                    height: md ? "" : "129.5px",
                     objectFit: "contain",
+                    backgroundColor: md ? "" : `${item.bgColor}`,
+                    padding: md ? "0 20px" : "20px 0",
                   },
                 }}
               >
