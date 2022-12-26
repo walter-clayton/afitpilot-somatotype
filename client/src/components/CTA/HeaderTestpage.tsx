@@ -44,100 +44,112 @@ const HeaderTestpage = () => {
   const xs = useMediaQuery("(max-width:680px)");
 
   return (
-    <Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          position: "relative",
-          justifyContent: "center",
-          backgroundColor: "RGB(51, 164, 116)",
-          padding: md ? "100px 0" : "100px 0 230px 0",
-        }}
-      >
-        <ThemeProvider theme={theme}>
-          <Typography
-            variant="h1"
-            sx={{
-              color: "#FFFF",
-              textAlign: "center",
-              fontSize: "54px",
-              marginBottom: "20px",
-              lineHeight: "71px",
-              fontWeight: 600,
-            }}
-          >
-            Free Somatotype Test
-          </Typography>
-        </ThemeProvider>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          marginTop: md ? "80px" : "-129px",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: md ? "column" : "row",
-        }}
-      >
-        {icons.map((item, index) => (
-          <Box
-            key={index}
-            sx={{
-              width: xs ? "280px" : "300px",
-              height: "250px",
-              paddingBottom: "20px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "start",
-              borderRadius: "20px",
-              overflow: "hidden",
-              boxShadow: 4,
-              marginTop: md ? "20px" : "0",
-              marginRight: md ? "0" : index === icons.length - 1 ? "0" : "20px",
-            }}
-          >
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        position: "relative",
+        justifyContent: "center",
+        backgroundColor: "RGB(51, 164, 116)",
+        padding: md ? "50px 0" : "100px 0",
+      }}
+    >
+      <ThemeProvider theme={theme}>
+        <Typography
+          variant="h1"
+          sx={{
+            color: "white",
+            textAlign: "center",
+            fontSize: "54px",
+            lineHeight: "71px",
+            fontWeight: 600,
+            marginBottom: md ? "30px" : "",
+          }}
+        >
+          Free Somatotype Test
+        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            transform: md ? "0" : "translateY(calc(121px + 100px))",
+            marginTop: md ? "" : "-121px",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: md ? "column" : "row",
+            width: "100%",
+          }}
+        >
+          {icons.map((item, index) => (
             <Box
+              key={index}
               sx={{
-                backgroundColor: `${item.bgColor}`,
-                padding: "20px 0",
-                width: "100%",
-                height: "150px",
-                color: "black",
-                position: "relative",
-                "& > img": {
-                  position: "absolute",
+                width: md ? (xs ? "90%" : "70%") : "300px",
+                height: md ? "" : "250px",
+                paddingBottom: md ? "0" : "20px",
+                display: "flex",
+                flexDirection: md ? "row" : "column",
+                alignItems: "center",
+                justifyContent: "start",
+                borderRadius: "20px",
+                overflow: "hidden",
+                boxShadow: 4,
+                marginTop: md ? "20px" : "",
+                marginRight: md
+                  ? "0"
+                  : index === icons.length - 1
+                  ? "0"
+                  : "20px",
+                backgroundColor: "RGBA(255, 255, 255, 0.8)",
+              }}
+            >
+              <Box
+                sx={{
+                  backgroundColor: md ? "" : `${item.bgColor}`,
+                  padding: md ? "0 20px" : "20px 0",
+                  width: md ? "100px" : "100%",
+                  height: md ? "" : "150px",
+                  color: "black",
+                  position: "relative",
+                  "& > img": {
+                    position: md ? "relative" : "absolute",
+                    width: "100%",
+                    height: "89.5px",
+                    objectFit: "contain",
+                  },
+                }}
+              >
+                <img src={item.icon} alt="icon" />
+              </Box>
+              <Box
+                sx={{
                   width: "100%",
-                  height: "89.5px",
-                  objectFit: "contain",
-                },
-              }}
-            >
-              <img src={item.icon} alt="icon" />
+                  padding: "10px",
+                }}
+              >
+                <Typography
+                  variant={xs ? "h6" : "h5"}
+                  sx={{
+                    textAlign: md ? "left" : "center",
+                    mt: md ? "" : "20px",
+                  }}
+                >
+                  {item.title}
+                </Typography>
+                <Typography
+                  sx={{
+                    textAlign: md ? "left" : "center",
+                    fontSize: xs ? "16px" : "19px",
+                    mt: md ? "10px" : "20px",
+                  }}
+                >
+                  {item.desc}
+                </Typography>
+              </Box>
             </Box>
-            <Typography
-              variant="h5"
-              sx={{
-                textAlign: "center",
-                mt: "20px",
-              }}
-            >
-              {item.title}
-            </Typography>
-            <Typography
-              sx={{
-                textAlign: "center",
-                fontSize: "19px",
-                mt: "20px",
-              }}
-            >
-              {item.desc}
-            </Typography>
-          </Box>
-        ))}
-      </Box>
+          ))}
+        </Box>
+      </ThemeProvider>
     </Box>
   );
 };
