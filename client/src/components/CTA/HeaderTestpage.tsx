@@ -124,10 +124,11 @@ const HeaderTestpage = () => {
               <Box
                 sx={{
                   width: "100%",
+                  padding: "10px",
                 }}
               >
                 <Typography
-                  variant="h5"
+                  variant={xs ? "h6" : "h5"}
                   sx={{
                     textAlign: md ? "left" : "center",
                     mt: md ? "" : "20px",
@@ -138,8 +139,8 @@ const HeaderTestpage = () => {
                 <Typography
                   sx={{
                     textAlign: md ? "left" : "center",
-                    fontSize: "19px",
-                    mt: md ? "" : "20px",
+                    fontSize: xs ? "16px" : "19px",
+                    mt: md ? "10px" : "20px",
                   }}
                 >
                   {item.desc}
