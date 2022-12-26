@@ -1,6 +1,6 @@
 import React from 'react'
 import CssBaseline from "@mui/material/CssBaseline";
-import { Box, Typography, Button, Grid } from "@mui/material/";
+import { Box, Typography, Button, Grid, useMediaQuery } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
@@ -40,6 +40,10 @@ const Root = styled('div')(({ theme }) => ({
 }));
 
 const NutritionCard = () => {
+    const medium = useMediaQuery("(max-width:899px)");
+    const small = useMediaQuery("(max-width:599px)");
+    const extraSmall = useMediaQuery("(max-width:449px)");
+    const xxSmall = useMediaQuery("(max-width:399px)");
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
@@ -152,9 +156,9 @@ const NutritionCard = () => {
                             backgroundColor: "RGB(108, 77, 123)",
                             padding: "14px 30px",
                             fontWeight: 600,
-                            width: '600px',
+                            width: small ? (extraSmall ? "80%" : "65%") : "600px",
                             textAlign: "start",
-                            fontSize: "35px",
+                            fontSize: small ? (extraSmall ? "25px" : "30px") : "42px",
                             lineHeight: "40px",
                             marginBottom: "20px",
                             textTransform: "initial",
