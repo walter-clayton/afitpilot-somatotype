@@ -13,30 +13,40 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 const category = [
     {
         label: 'MESOMORPH',
-        bgColor: '#B76060'
+        bgColor: '#B76060',
+        image: "Mesomorph",
+
     },
     {
         label: 'ECTOMORPH',
-        bgColor: '#DCB051'
+        bgColor: '#DCB051',
+        image: "ectomorph",
+
     },
     {
         label: 'ENDOMORPH',
-        bgColor: '#6C4D7B'
+        bgColor: '#6C4D7B',
+        image: "endomorph",
+
     },
     {
         label: 'HYBRID',
-        bgColor: '#56A278'
+        bgColor: '#56A278',
+        image: "hybrid",
+
     },
     {
         label: 'CENTRAL',
-        bgColor: '#4298B4'
+        bgColor: '#4298B4',
+        image: "central",
+
     },
 ];
 
 function TypesPage1() {
     const medium = useMediaQuery("(max-width:899px)");
     const small = useMediaQuery("(max-width:599px)");
-    const extraSmall = useMediaQuery("(max-width:380px)");
+    const extraSmall = useMediaQuery("(max-width:280px)");
 
     const theme = useTheme();
     const [activeStep, setActiveStep] = React.useState(0);
@@ -81,7 +91,7 @@ function TypesPage1() {
                         : "100%",
                 }}
             >
-                <Button size="large" sx={{ color: "black" }} onClick={handleBack} disabled={activeStep === 0}>
+                <Button size="large" sx={{ color: "black", mt: -26 }} onClick={handleBack} disabled={activeStep === 0}>
                     {theme.direction === 'rtl' ? (
                         <KeyboardArrowRight />
                     ) : (
@@ -95,36 +105,54 @@ function TypesPage1() {
                     enableMouseEvents
                 >
                     {category.map((step, index) => (
-                        <Paper
-                            square
-                            elevation={0}
-                            sx={{
-                                backgroundColor: `${step.bgColor}`,
-                                display: 'flex',
-                                borderRadius: "8px",
-                                color: "#FFFF",
-                            }}
-                        >
-                            <Typography
+                        <Box>
+                            <Paper
+                                square
+                                elevation={0}
                                 sx={{
-                                    margin: "0px auto", height: "50px", py: 1.5
+                                    backgroundColor: `${step.bgColor}`,
+                                    display: 'flex',
+                                    borderRadius: "8px",
+                                    color: "#FFFF",
                                 }}
                             >
-                                {step.label}
-                            </Typography>
-                        </Paper>
+                                <Typography
+                                    sx={{
+                                        margin: "0px auto", height: "50px", py: 1.5
+                                    }}
+                                >
+                                    {step.label}
+                                </Typography>
+                            </Paper>
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    mt: 3,
+                                }}
+                            >
+                                <img
+                                    src={require('../image/' + step.image + '.png')}
+                                    alt="graphs"
+                                    style={{
+                                        width: "180px",
+                                    }}
+                                />
+                            </Box>
+                        </Box>
                     ))}
                 </SwipeableViews>
                 <Button
                     size="large"
-                    sx={{ color: "black", }}
+                    sx={{ color: "black", mt: -26 }}
                     onClick={handleNext}
                     disabled={activeStep === maxSteps - 1}
                 >
                     {theme.direction === 'rtl' ? (
                         <KeyboardArrowLeft />
                     ) : (
-                        <KeyboardArrowRight sx={{ fontSize: 60, }} />
+                        <KeyboardArrowRight sx={{ fontSize: 60 }} />
                     )}
                 </Button>
             </Box>
