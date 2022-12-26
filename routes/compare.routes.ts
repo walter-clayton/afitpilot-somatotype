@@ -1,8 +1,8 @@
 import { Router } from "express";
 const router = Router();
 
-const { getAll } = require("../controllers/compare.controller");
+const { getAllComparisons } = require("../controllers/compare.controller");
 
-router.get("/getAll", getAll);
+router.get("/getAllComparisons", getAllComparisons);
 
 module.exports = router;

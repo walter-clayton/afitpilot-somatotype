@@ -2,16 +2,16 @@ import { Request, Response } from "express";
 const Comparison = require("../models/Comparison");
 
 interface ICompareCtrl {
-  getAll?: (req: Request, res: Response) => void;
+  getAllComparisons?: (req: Request, res: Response) => void;
 }
 
 const compareCtrl: ICompareCtrl = {};
 
-compareCtrl.getAll = async (req: Request, res: Response) => {
+compareCtrl.getAllComparisons = async (req: Request, res: Response) => {
   try {
     const comparisons = await Comparison.find();
 
-    res.status(200).send({ comaprisons: comparisons });
+    res.status(200).send({ comparisons: comparisons });
   } catch (error: unknown) {
     console.log((error as ErrorEvent).message);
     res.status(500).send({
