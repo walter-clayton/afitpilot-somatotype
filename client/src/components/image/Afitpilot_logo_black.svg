@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 250 250" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;">
+    <g transform="matrix(0.979757,0,0,0.979757,125,125)">
+        <g id="Afitpilot_logo.svg" transform="matrix(1,0,0,1,-123.5,-117)">
+            <clipPath id="_clip1">
+                <rect x="0" y="0" width="247" height="234"/>
+            </clipPath>
+            <g clip-path="url(#_clip1)">
+                <path d="M123.323,12.801L123.323,226.732" style="fill:none;fill-rule:nonzero;stroke:black;stroke-width:21.39px;"/>
+                <path d="M197.25,98.519L9.2,209.935" style="fill:none;fill-rule:nonzero;stroke:black;stroke-width:21.39px;"/>
+                <path d="M236.486,208.903L140.974,152.416L45.462,95.93" style="fill:none;fill-rule:nonzero;stroke:black;stroke-width:21.39px;"/>
+                <path d="M233.816,207.45C228.959,209.049 222.069,211.074 213.158,213.114C193.059,217.714 162.649,222.391 122.063,222.391L122.009,222.391L121.818,222.39C121.646,222.39 121.385,222.389 121.04,222.386C120.35,222.382 119.324,222.373 118.005,222.354C115.365,222.318 111.551,222.245 106.89,222.098C97.555,221.803 84.88,221.216 71.461,220.045C57.999,218.87 44.014,217.127 31.983,214.57C23.678,212.804 17.024,210.79 12.231,208.683C29.452,136.304 52.395,71.976 122.99,13.783C194.655,74.218 215.434,144.91 233.231,205.462C233.427,206.126 233.621,206.788 233.816,207.45Z" style="fill:none;fill-rule:nonzero;stroke:black;stroke-width:21.39px;"/>
+            </g>
+        </g>
+        <g id="Afitpilot_logo.svg1" serif:id="Afitpilot_logo.svg">
+        </g>
+    </g>
+</svg>

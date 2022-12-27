@@ -2,7 +2,7 @@ import { IBlogContent } from "./BlogInterfaces";
 
 //IMPORTED IMAGES :
 
-import logoImage from "../image/logo-black.png";
+import logoImage from "../image/Afitpilot_logo_black.png";
 import somatotypeImage from "../image/TestImageSomatotype.png";
 import errorImage from "../image/TestImageError.png";
 import buttonImage from "../image/TestImageButton.png";
