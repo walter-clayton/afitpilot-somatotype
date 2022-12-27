@@ -20,52 +20,6 @@ import { ISomatotype } from "../App";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { AddPoint, IPoints } from "./Calculation";
 
-interface Column {
-  id: "show" | "name" | "endo" | "meso" | "ecto" | "gender";
-  label: string;
-  width?: number;
-  align?: "center";
-  format?: (value: number) => string;
-}
-const columns: readonly Column[] = [
-  { id: "show", label: "Show", width: 0, align: "center" },
-  { id: "name", label: "Name", width: 0, align: "center" },
-  {
-    id: "endo",
-    label: "Endo",
-    width: 0,
-    align: "center",
-    format: (value: number) => value.toFixed(),
-  },
-  {
-    id: "meso",
-    label: "Meso",
-    width: 0,
-    align: "center",
-    format: (value: number) => value.toFixed(),
-  },
-  {
-    id: "ecto",
-    label: "Ecto",
-    width: 0,
-    align: "center",
-    format: (value: number) => value.toFixed(),
-  },
-  {
-    id: "gender",
-    label: "Gender",
-    width: 0,
-    align: "center",
-  },
-];
-interface Data {
-  show: JSX.Element;
-  name: string;
-  endo: number;
-  meso: number;
-  ecto: number;
-  gender: string;
-}
 function createRow(
   name: string,
   endo: string,
@@ -77,16 +31,6 @@ function createRow(
   return { name, endo, meso, ecto, gender, isDisplayed };
 }
 
-function createData(
-  show: JSX.Element,
-  name: string,
-  endo: number,
-  meso: number,
-  ecto: number,
-  gender: string
-): Data {
-  return { show, name, endo, meso, ecto, gender };
-}
 export interface IComparison {
   group: string;
   gender: string;
@@ -102,10 +46,11 @@ interface ITableCompare {
   toggleGraph?: boolean;
   setToggleGraph?: (toggleGraph: boolean) => void;
   tableTitle?: string;
+  page?: number;
+  setPage?: (newPage: number) => void;
 }
 
 const TableCompare: FC<ITableCompare> = (props) => {
-  const [page, setPage] = useState(0);
   const rowsPerPage: number = 5;
   const [rows, setRows] = useState<any[]>([]);
   const [shownSomatotypeArray, setShownSomatotypeArray] = useState<
@@ -175,7 +120,7 @@ const TableCompare: FC<ITableCompare> = (props) => {
     newPage: number
   ) => {
     CheckForDisplayedRows(rows);
-    setPage(newPage);
+    props.setPage!(newPage);
   };
 
   const handleCheckBoxChange = (
@@ -248,7 +193,10 @@ const TableCompare: FC<ITableCompare> = (props) => {
       );
     } else {
       tableBodyContent = rows
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        .slice(
+          props.page! * rowsPerPage,
+          props.page! * rowsPerPage + rowsPerPage
+        )
         .map((row, index) => (
           <TableRow
             key={index}
@@ -288,7 +236,7 @@ const TableCompare: FC<ITableCompare> = (props) => {
             <TablePagination
               component="div"
               count={rows.length}
-              page={page}
+              page={props.page!}
               onPageChange={handleChangePage}
               rowsPerPage={5}
               rowsPerPageOptions={[]}
