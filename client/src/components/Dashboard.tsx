@@ -90,6 +90,10 @@ const Dashboard: FC<IDashboard> = (props) => {
   const [showComparison, setShowComparison] = useState<boolean>(false);
   const [tableComparePage, setTableComparePage] = useState<number>(0);
 
+  const xxl = useMediaQuery("(min-width:1401px)");
+  const xlarge = useMediaQuery("(max-width:1400px)");
+  const large = useMediaQuery("(max-width:1200px)");
+  const medium = useMediaQuery("(max-width:900px)");
   const small = useMediaQuery("(max-width:600px)");
   const xSmall = useMediaQuery("(max-width:450px)");
   const xxs = useMediaQuery("(max-width:380px)");
@@ -229,7 +233,7 @@ const Dashboard: FC<IDashboard> = (props) => {
           sx={{
             display: "flex",
             flexDirection: "row",
-            justifyContent: "center",
+            justifyContent: "space-around",
             alignItems: "start",
             padding: "0px 15px",
           }}
@@ -289,6 +293,7 @@ const Dashboard: FC<IDashboard> = (props) => {
               }}
               xs={12}
               md={6}
+              xl={4.5}
               width={"100%"}
               padding={2}
             >
@@ -318,7 +323,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                 <img
                   src={avatar}
                   alt="manu tribesman"
-                  style={{ width: "100px" }}
+                  style={{ width: small ? "100px" : "200px" }}
                 />
                 <Grid
                   item
@@ -337,13 +342,14 @@ const Dashboard: FC<IDashboard> = (props) => {
                     flexDirection={"row"}
                     alignItems={"center"}
                     justifyContent={"center"}
-                    columnSpacing={3}
+                    columnSpacing={small ? (xxs ? 1.5 : 3) : 5}
                   >
                     <Grid item>
                       <Typography
-                        variant="h5"
+                        variant="h3"
                         sx={{
                           fontWeight: 600,
+                          fontSize: small ? (xxs ? "150%" : "200%") : "300%",
                         }}
                       >
                         {fetching || somatotypes.length <= 0
@@ -353,9 +359,10 @@ const Dashboard: FC<IDashboard> = (props) => {
                     </Grid>
                     <Grid item>
                       <Typography
-                        variant="h5"
+                        variant="h3"
                         sx={{
                           fontWeight: 600,
+                          fontSize: small ? (xxs ? "150%" : "200%") : "300%",
                         }}
                       >
                         -
@@ -363,9 +370,10 @@ const Dashboard: FC<IDashboard> = (props) => {
                     </Grid>
                     <Grid item>
                       <Typography
-                        variant="h5"
+                        variant="h3"
                         sx={{
                           fontWeight: 600,
+                          fontSize: small ? (xxs ? "150%" : "200%") : "300%",
                         }}
                       >
                         {fetching || somatotypes.length <= 0
@@ -375,9 +383,10 @@ const Dashboard: FC<IDashboard> = (props) => {
                     </Grid>
                     <Grid item>
                       <Typography
-                        variant="h5"
+                        variant="h3"
                         sx={{
                           fontWeight: 600,
+                          fontSize: small ? (xxs ? "150%" : "200%") : "300%",
                         }}
                       >
                         -
@@ -385,9 +394,10 @@ const Dashboard: FC<IDashboard> = (props) => {
                     </Grid>
                     <Grid item>
                       <Typography
-                        variant="h5"
+                        variant="h3"
                         sx={{
                           fontWeight: 600,
+                          fontSize: small ? (xxs ? "150%" : "200%") : "300%",
                         }}
                       >
                         {fetching || somatotypes.length <= 0
@@ -401,7 +411,26 @@ const Dashboard: FC<IDashboard> = (props) => {
                   <Typography
                     marginBottom={0.3}
                     variant="h5"
-                    sx={{ color: "#B78260", textAlign: "center" }}
+                    sx={{
+                      color: "#B78260",
+                      textAlign: "center",
+                      fontWeight: 600,
+                      fontSize: xxl
+                        ? "250%"
+                        : xlarge
+                        ? large
+                          ? medium
+                            ? small
+                              ? xSmall
+                                ? xxxs
+                                  ? "80%"
+                                  : "100%"
+                                : "150%"
+                              : "200%"
+                            : "150%"
+                          : "200%"
+                        : "150%",
+                    }}
                   >
                     {formatTypeResultText(typeResult)[0]}
                   </Typography>
@@ -410,6 +439,22 @@ const Dashboard: FC<IDashboard> = (props) => {
                     sx={{
                       color: "#e4ae3a",
                       textAlign: "center",
+                      fontWeight: 600,
+                      fontSize: xxl
+                        ? "250%"
+                        : xlarge
+                        ? large
+                          ? medium
+                            ? small
+                              ? xSmall
+                                ? xxxs
+                                  ? "80%"
+                                  : "100%"
+                                : "150%"
+                              : "200%"
+                            : "150%"
+                          : "200%"
+                        : "150%",
                     }}
                   >
                     {formatTypeResultText(typeResult)[1]}
@@ -487,6 +532,7 @@ const Dashboard: FC<IDashboard> = (props) => {
               }}
               xs={12}
               md={6}
+              xl={4.5}
               width={"100%"}
               padding={2}
             >
