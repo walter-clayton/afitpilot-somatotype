@@ -1,19 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Grid, Box, Button, Typography } from "@mui/material/";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CounterShare from "./CounterShare";
 import { useNavigate } from "react-router-dom";
-import Rectangle from '../image/Mountain.svg'
+import mesomorpyshape from '../image/mesomorpyshape.png'
+import centralshape from '../image/centralshape.png'
+import TypesPage1 from "./TypesPage1";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import TypesPage1 from "./TypesPage1";
 
 const theme = createTheme();
 theme.typography.h1 = {
-  "@media (min-width:600px)": {
-    fontSize: "3rem",
+  "@media (max-width:600px)": {
+    fontSize: "1.0 rem",
   },
   [theme.breakpoints.up("md")]: {
     fontSize: "1.5rem",
@@ -49,103 +50,92 @@ const TypesPage = () => {
   const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(false);
 
-  const Endomorph = [
-    {
-      image: "manu-tribesman",
-      bodyType: 'Balanced endomorph',
-      TypeCode: "BEn",
-      linkToPage: "/Balanced-endomorph",
-      description: "Endomorphy is dominant and mesomorphy and ectomorphy are equal(or do not differ by more than one half unit)."
-    },
-    {
-      image: "manu-tribesman",
-      bodyType: 'Mesomorphic endomorph ',
-      TypeCode: "MEn",
-      linkToPage: "/Balanced-endomorph",
-      description: " Endomorphy is dominant and mesomorphy is greater than ectomorphy.",
-    },
-    {
-      image: "manu-tribesman",
-      bodyType: ' Mesomorph-endomorph',
-      TypeCode: "M-En",
-      linkToPage: "/Balanced-endomorph",
-      description: " Endomorphy and mesomorphy are equal(or do not differ by more than one half unit),and ectomorphy is smaller.",
-    },
-  ];
   const Mesomorph = [
     {
-      image: "manu-tribesman",
-      bodyType: 'Endomorphic mesomorph',
-      TypeCode: "EnM",
-      linkToPage: "/Balanced-endomorph",
-      description: "Mesomorphy is dominant and endomorphy is greater than ectomorphy "
-    },
-    {
-      image: "manu-tribesman",
+      image: "balanced mesomorph",
       bodyType: 'Balanced mesomorph',
       TypeCode: "BM",
       linkToPage: "/Balanced-endomorph",
-      description: " Mesomorphy is dominant, endomorph and ectomorphy are less and equal(or do not differ by more than one-half unit.)      ",
     },
     {
-      image: "manu-tribesman",
+      image: "ectomorphic mesomorph",
       bodyType: 'Ectomorphic mesomorph ',
       TypeCode: "EcM",
       linkToPage: "/Balanced-endomorph",
-      description: "Mesomorphy is dominant,and ectomorphy is greater than endomorphy.",
     },
     {
-      image: "manu-tribesman",
-      bodyType: 'Mesomorph-ectomorph',
-      TypeCode: "M-Ec",
+      image: "endomorphic mesomorph",
+      bodyType: 'Endomorphic mesomorph',
+      TypeCode: "EnM",
       linkToPage: "/Balanced-endomorph",
-      description: "Mesomorphy and ectomorphy are equal(or do not differ by more than one-half unit); and endomorphy is lower.",
     },
   ];
-  const Ectomorphy = [
+  const Ectomorph = [
     {
-      image: "manu-tribesman",
+      image: "mesomorphic ectomorph",
       bodyType: 'Mesomorphic ectomorph ',
       TypeCode: "MEc",
       linkToPage: "/Balanced-endomorph",
-      description: "Ectomorphy is dominant;and mesomorphy is greater than endomorphy."
     },
     {
-      image: "manu-tribesman",
+      image: "balanced ectomorph",
       bodyType: 'Balanced ectomorph',
       TypeCode: "BEc",
       linkToPage: "/Balanced-endomorph",
-      description: "Ectomorphy is dominant;endomorphy and mesomorphy are equal and lower(or do not differ by more than one-half unit).",
     },
     {
-      image: "manu-tribesman",
+      image: "endomorphic ectomorph",
       bodyType: 'Endomorphic ectomorph ',
       TypeCode: "EnEc",
       linkToPage: "/Balanced-endomorph",
-      description: "Ectomorphy is dominant;and endomorphy is greater than mesomorphy.",
     },
   ];
-  const Neutral = [
+  const Endomorph = [
     {
-      image: "manu-tribesman",
-      bodyType: 'Endomorph-ectomorph',
-      TypeCode: "En-Ec",
-      linkToPage: "/Balanced-endomorph",
-      description: "Endomorphy and ectomorphy are equal (or do not differ by more than one-half unit);and mesomorphy is lower."
-    },
-    {
-      image: "manu-tribesman",
+      image: "ectomorphic endomorph",
       bodyType: 'Ectomorphic endomorph',
       TypeCode: "EcEn ",
       linkToPage: "/Balanced-endomorph",
-      description: "Endomorphy is dominant;and ectomorphy is greater than mesomorphy.",
     },
     {
-      image: "manu-tribesman",
+      image: "balanced endomorph",
+      bodyType: 'Balanced endomorph',
+      TypeCode: "BEn",
+      linkToPage: "/Balanced-endomorph",
+    },
+    {
+      image: "mesomorphic endomorph",
+      bodyType: 'Mesomorphic endomorph ',
+      TypeCode: "MEn",
+      linkToPage: "/Balanced-endomorph",
+    },
+  ];
+  const Hybrid = [
+    {
+      image: "mesomorph ectomorph",
+      bodyType: 'Mesomorph-ectomorph',
+      TypeCode: "M-Ec",
+      linkToPage: "/Balanced-endomorph",
+    },
+    {
+      image: "endomorph ectomorph",
+      bodyType: 'Endomorph-ectomorph',
+      TypeCode: "En-Ec",
+      linkToPage: "/Balanced-endomorph",
+    },
+    {
+      image: "mesomorph endomorph",
+      bodyType: 'Mesomorph-endomorph',
+      TypeCode: "M-En",
+      linkToPage: "/Balanced-endomorph",
+    },
+  ];
+  const Central = [
+    {
+      image: "central",
       bodyType: 'Central',
       TypeCode: "Central",
       linkToPage: "/Balanced-endomorph",
-      description: "No component differ by more than one unit from the other two,and consists of ratings of 2,3 or 4.      ",
     },
   ];
 
@@ -155,16 +145,19 @@ const TypesPage = () => {
       <Grid
         container
         sx={{
-          marginTop: 3,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           width: "100%",
           marginBottom: 4,
-        }}
-      >
-        <Grid xs={12} md={12} lg={12} sm={12}>
+        }}>
+        <Grid xs={12} md={12} lg={12} sm={12}
+          sx={{
+            backgroundColor: '#F5F5F6',
+            width: "100%",
+            mb: 7
+          }}>
           <Box
             sx={{
               marginTop: 5,
@@ -173,11 +166,12 @@ const TypesPage = () => {
               alignItems: "center",
               justifyContent: "center",
               width: "100%",
+              height: "150px"
             }}
           >
             <Typography variant="h1"
               sx={heading}>
-              Somatotypes Categories
+              Categories
             </Typography>
             <Button variant="contained"
               sx={{
@@ -190,37 +184,127 @@ const TypesPage = () => {
                 textAlign: 'center',
                 textTransform: 'initial',
                 marginTop: 0,
+                mb: -6,
                 "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
               }}
               onClick={() => {
                 navigate('/test');
               }}
             >
-              Find your Types <ArrowForwardSharpIcon />
+              Take the Test <ArrowForwardSharpIcon />
             </Button>
           </Box>
         </Grid>
+        {/* typepage for Categories */}
         <TypesPage1 />
+        {/* switch button to show SUBCATEGORIES */}
         <FormControlLabel control={<Switch defaultChecked />}
           checked={isChecked}
           onChange={() => setIsChecked(!isChecked)}
           label="13 SUBCATEGORIES" />
       </Grid>
-
       {isChecked &&
         <ThemeProvider theme={theme}>
-          <Box sx={{ mb: -1 }}>
+          <Box sx={{ mb: -2, }}>
             <img
-              src={Rectangle}
-              alt="manu tribesman"
+              src={mesomorpyshape}
+              alt=""
               style={{ width: "100%" }}
             />
           </Box>
-          <Box sx={{ width: "100%", backgroundColor: "#e7dfea", }}>
+          <Box sx={{ width: "100%", backgroundColor: "#E7CACA", }}>
             <Typography variant="h2" sx={{ color: "white", textAlign: "center" }}>
-              Endomorph
+              Mesomorph
             </Typography>
             <Grid container spacing={2}
+              direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
+            >
+              {Mesomorph.map((step, index) =>
+                <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}
+                  onClick={() => {
+                    navigate(step.linkToPage);
+                  }}>
+                  <img
+                    src={require('../image/' + step.image + '.png')}
+                    alt="manu tribesman"
+                    style={{ width: "200px", height: '200px' }}
+                  />
+                  <Typography variant="h1" sx={{ color: "#B76060", textAlign: 'center' }}>
+                    {step.bodyType}
+                    <Typography variant="body1" sx={{ color: "#000000", fontSize: "18px" }}>
+                      {step.TypeCode}
+                    </Typography>
+                  </Typography>
+                </Grid>
+              )}
+            </Grid>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Button variant="contained"
+                sx={{
+                  borderRadius: "40px",
+                  fontSize: "18px",
+                  lineHeight: "30px",
+                  backgroundColor: "RGB(108, 77, 123)",
+                  padding: "14px 30px",
+                  fontWeight: 600,
+                  textAlign: 'center',
+                  textTransform: 'initial',
+                  marginTop: 0,
+                  mt: 2,
+                  mb: -2,
+                  "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
+                }}
+                onClick={() => {
+                  navigate('/test');
+                }}
+              >
+                Take the Test <ArrowForwardSharpIcon />
+              </Button>
+            </Box>
+          </Box>
+          {/* second grid */}
+          <Box sx={{ width: "100%", backgroundColor: "#F2E2BF" }}>
+            <Typography variant="h2" sx={{ color: "white", textAlign: "center", mb: 2, pt: 2 }} >
+              Ectomorph
+            </Typography>
+            <Grid item container spacing={2}
+              direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
+            >
+              {Ectomorph.map((step, index) =>
+                <Grid item md={4} lg={4} xl={4} textAlign={"center"}
+                  onClick={() => {
+                    navigate(step.linkToPage);
+                  }}>
+                  <img
+                    src={require('../image/' + step.image + '.png')}
+                    alt="manu tribesman"
+                    style={{ width: "200px", height: '200px' }}
+                  />
+                  <Typography variant="h1" sx={{ color: "#DCB051", textAlign: "center" }}>
+                    {step.bodyType}
+                    <Typography variant="body1" sx={{ color: "#000000", fontSize: "18px" }}>
+                      {step.TypeCode}
+                    </Typography>
+                  </Typography>
+                </Grid>
+              )}
+            </Grid>
+          </Box>
+          {/* third grid */}
+          <Box sx={{ width: "100%", backgroundColor: "#DCD0E2" }}>
+            <Typography variant="h2" sx={{ color: "white", textAlign: "center", mb: 2 }}>
+              Endomorph
+            </Typography>
+            <Grid item
+              container
+              spacing={2}
               direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
             >
               {Endomorph.map((step, index) =>
@@ -231,110 +315,98 @@ const TypesPage = () => {
                   <img
                     src={require('../image/' + step.image + '.png')}
                     alt="manu tribesman"
-                    style={{ width: "100px" }}
+                    style={{ width: "200px", height: '200px' }}
                   />
-                  <Typography variant="h1" sx={{ color: "#88619a", textAlign: 'center' }}>
+                  <Typography variant="h1" sx={{ color: "#6C4D7B", textAlign: "center" }}>
                     {step.bodyType}
-                    <Typography variant="body1" sx={{ color: "black" }}>
+                    <Typography variant="body1" sx={{ color: "#000000", fontSize: "18px" }}>
                       {step.TypeCode}
-                    </Typography>
-                    <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
-                      {step.description}
                     </Typography>
                   </Typography>
                 </Grid>
               )}
             </Grid>
-          </Box>
-          {/* second grid */}
-          <Box sx={{ width: "100%", backgroundColor: "#d6ece3" }}>
-            <Typography variant="h2" sx={{ color: "white", textAlign: "center", mb: 2 }} >
-              Mesomorph
-            </Typography>
-            <Grid item container spacing={2}
-              direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
-              {Mesomorph.map((step, index) =>
-                <Grid item md={3} lg={3} xl={3} textAlign={"center"}
-                  onClick={() => {
-                    navigate(step.linkToPage);
-                  }}>
-                  <img
-                    src={require('../image/' + step.image + '.png')}
-                    alt="manu tribesman"
-                    style={{ width: "100px" }}
-                  />
-                  <Typography variant="h1" sx={{ color: "#33a474", textAlign: "center" }}>
-                    {step.bodyType}
-                    <Typography variant="body1" sx={{ color: "black" }}>
-                      {step.TypeCode}
-                    </Typography>
-                    <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
-                      {step.description}
-                    </Typography>
-                  </Typography>
-                </Grid>
-              )}
-            </Grid>
-          </Box>
-          {/* third grid */}
-          <Box sx={{ width: "100%", backgroundColor: "#f9eed7" }}>
-            <Typography variant="h2" sx={{ color: "white", textAlign: "center", mb: 2 }}>
-              Ectomorphy
-            </Typography>
-            <Grid item
-              container
-              spacing={2}
-              direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
-            >
-              {Ectomorphy.map((step, index) =>
-                <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}
-                  onClick={() => {
-                    navigate(step.linkToPage);
-                  }}>
-                  <img
-                    src={require('../image/' + step.image + '.png')}
-                    alt="manu tribesman"
-                    style={{ width: "100px" }}
-                  />
-                  <Typography variant="h1" sx={{ color: "#e4ae3a", textAlign: "center" }}>
-                    {step.bodyType}
-                    <Typography variant="body1" sx={{ color: "black" }}>
-                      {step.TypeCode}
-                    </Typography>
-                    <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
-                      {step.description}
-                    </Typography>
-                  </Typography>
-                </Grid>
-              )}
-            </Grid>
+              <Button variant="contained"
+                sx={{
+                  borderRadius: "40px",
+                  fontSize: "18px",
+                  lineHeight: "30px",
+                  backgroundColor: "RGB(108, 77, 123)",
+                  padding: "14px 30px",
+                  fontWeight: 600,
+                  textAlign: 'center',
+                  textTransform: 'initial',
+                  marginTop: 0,
+                  mt: 2,
+                  mb: -2,
+                  "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
+                }}
+                onClick={() => {
+                  navigate('/test');
+                }}
+              >
+                Take the Test <ArrowForwardSharpIcon />
+              </Button>
+            </Box>
           </Box>
           {/* fourth grid */}
-          <Box sx={{ width: "100%", backgroundColor: "#d9eaf0" }}>
-            <Typography variant="h2" sx={{ color: "white", textAlign: "center", mb: 2 }} >
-              Neutral
+          <Box sx={{ width: "100%", backgroundColor: "#D5E8DD" }}>
+            <Typography variant="h2" sx={{ color: "white", textAlign: "center", mb: 2, pt: 2 }} >
+              Hybrid
             </Typography>
             <Grid item container spacing={2}
               direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
             >
-              {Neutral.map((step, index) =>
-                <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}
+              {Hybrid.map((step, index) =>
+                <Grid item md={4} sm={12} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}
                   onClick={() => {
                     navigate(step.linkToPage);
                   }}>
                   <img
                     src={require('../image/' + step.image + '.png')}
                     alt="manu tribesman"
-                    style={{ width: "100px" }}
+                    style={{ width: "200px", height: '200px' }}
                   />
-                  <Typography variant="h1" sx={{ color: "#4298b4", textAlign: "center" }}>
+                  <Typography variant="h1" sx={{ color: "#56A278", textAlign: "center" }}>
                     {step.bodyType}
-                    <Typography variant="body1" sx={{ color: "black" }}>
+                    <Typography variant="body1" sx={{ color: "#000000", fontSize: "18px" }}>
                       {step.TypeCode}
                     </Typography>
-                    <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
-                      {step.description}
+                  </Typography>
+                </Grid>
+              )}
+            </Grid>
+          </Box>
+          {/* fifth grid */}
+          <Box sx={{ width: "100%", backgroundColor: "#A0CBDA" }}>
+            <Typography variant="h2" sx={{ color: "white", textAlign: "center", mb: 2 }} >
+              Central
+            </Typography>
+            <Grid item container spacing={2}
+              direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
+            >
+              {Central.map((step, index) =>
+                <Grid item md={12} lg={12} xl={12} sx={{ textAlign: "center", marginTop: 10 }}
+                  onClick={() => {
+                    navigate(step.linkToPage);
+                  }}>
+                  <img
+                    src={require('../image/' + step.image + '.png')}
+                    alt="manu tribesman"
+                    style={{ width: "200px", height: '200px' }}
+                  />
+                  <Typography variant="h1" sx={{ color: "#1874A3", textAlign: "center" }}>
+                    {step.bodyType}
+                    <Typography variant="body1" sx={{ color: "#000000", fontSize: "18px" }}>
+                      {step.TypeCode}
                     </Typography>
                   </Typography>
                 </Grid>
@@ -345,7 +417,7 @@ const TypesPage = () => {
         </ThemeProvider>
       }
     </Box >
-  );
+  )
 };
 
 export default TypesPage;
