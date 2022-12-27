@@ -85,8 +85,10 @@ const Dashboard: FC<IDashboard> = (props) => {
   const [compareResultsToShow, setCompareResultsToShow] = useState<
     IComparison[]
   >([]);
-  const [showComparisonOptions, setShowComparisonOptions] = useState(false);
-  const [showComparison, setShowComparison] = useState(false);
+  const [showComparisonOptions, setShowComparisonOptions] =
+    useState<boolean>(false);
+  const [showComparison, setShowComparison] = useState<boolean>(false);
+  const [tableComparePage, setTableComparePage] = useState<number>(0);
 
   const small = useMediaQuery("(max-width:600px)");
   const xSmall = useMediaQuery("(max-width:450px)");
@@ -641,6 +643,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                     }}
                     variant="contained"
                     onClick={() => {
+                      setTableComparePage(0);
                       setcomparisonState("Tribes");
                       setShowComparisonOptions(false);
                       setShowComparison(true);
@@ -687,6 +690,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                     }}
                     variant="contained"
                     onClick={() => {
+                      setTableComparePage(0);
                       setcomparisonState("Sports");
                       setShowComparisonOptions(false);
                       setShowComparison(true);
@@ -706,6 +710,8 @@ const Dashboard: FC<IDashboard> = (props) => {
                   toggleGraph={toggleGraph}
                   setToggleGraph={setToggleGraph}
                   tableTitle={comparisonState}
+                  page={tableComparePage}
+                  setPage={setTableComparePage}
                 />
               )}
             </Grid>
