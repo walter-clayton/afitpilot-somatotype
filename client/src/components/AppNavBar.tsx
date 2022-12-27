@@ -14,7 +14,7 @@ import { Grid, MenuItem, useMediaQuery } from "@mui/material/";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import Avatar from "@mui/material/Avatar";
-import logoIcon from "./image/logo-white.png";
+import logoIcon from "./image/Afitpilot_logo_outlined.png";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import Divider from "@mui/material/Divider";
 
