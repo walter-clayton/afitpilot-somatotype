@@ -54,6 +54,12 @@ export interface IData {
   anthropometric?: IAnthropometric | undefined;
 }
 
+export interface IColors {
+  primaryColor?: string;
+  secondaryColor?: string;
+  lightColor?: string;
+}
+
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(["user", "data"]);
   const [open, setOpen] = useState<boolean>(false);

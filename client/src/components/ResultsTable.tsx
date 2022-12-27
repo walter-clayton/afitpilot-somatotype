@@ -28,7 +28,7 @@ import { alignProperty } from "@mui/material/styles/cssUtils";
 import { display, flexbox, fontWeight } from "@mui/system";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { ISomatotype } from "../App";
+import { IColors, ISomatotype } from "../App";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { AddPoint, IPoints } from "./Calculation";
@@ -77,6 +77,7 @@ interface resultProps {
   setDashboardSnackBarMessage?: (msg: string) => void;
   isFetching?: boolean;
   setTypeResult?: (result: string) => void;
+  colors?: IColors;
 }
 
 const ResultsTable: FC<resultProps> = (props: any) => {
@@ -219,7 +220,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
         somatotypeToShow.endomorphy!,
         somatotypeToShow.mesomorphy!,
         somatotypeToShow.ectomorphy!,
-        "#B78260"
+        props.colors.primaryColor
       );
       pointsResultsArray.push(point);
     });
@@ -284,7 +285,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
     transform: "translate(-50%, -50%)",
     width: xxs ? "90%" : xSmall ? "80%" : medium ? "50%" : "35%",
     bgcolor: "background.paper",
-    border: "2px solid #000",
+    border: "2px solid #000000",
     boxShadow: 24,
     p: 4,
   };
@@ -341,7 +342,11 @@ const ResultsTable: FC<resultProps> = (props: any) => {
           .map((row, index) => (
             <TableRow
               key={index}
-              sx={{ backgroundColor: row.IsDisplayed ? "lightgrey" : "white" }}
+              sx={{
+                backgroundColor: row.IsDisplayed
+                  ? props.colors.lightColor
+                  : "white",
+              }}
             >
               <TableCell align="center" sx={cellStyle}>
                 <Checkbox
@@ -350,8 +355,21 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                   }}
                   aria-label="Somatotype selection checkbox"
                   checked={row.IsDisplayed}
-                  icon={<VisibilityOffIcon sx={{ color: "#aaaaaa" }} />}
-                  checkedIcon={<VisibilityIcon sx={{ color: "#aaaaaa" }} />}
+                  icon={
+                    <VisibilityOffIcon
+                      sx={{
+                        color: props.colors.primaryColor,
+                      }}
+                    />
+                  }
+                  checkedIcon={
+                    <VisibilityIcon sx={{ color: props.colors.primaryColor }} />
+                  }
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: "rgba(0,0,0,0)",
+                    },
+                  }}
                 />
               </TableCell>
               <TableCell align="center" sx={cellStyle}>
@@ -386,9 +404,12 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                     <IconButton
                       aria-label="edit"
                       sx={{
-                        color: "#aaaaaa",
+                        color: props.colors.primaryColor,
                         padding: "0",
-                        "&:hover": { color: "black" },
+                        "&:hover": {
+                          color: props.colors.primaryColor,
+                          backgroundColor: "rgba(0,0,0,0)",
+                        },
                       }}
                     >
                       <EditIcon sx={{ fontSize: 28 }} />
@@ -405,9 +426,12 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                     <IconButton
                       aria-label="delete"
                       sx={{
-                        color: "#aaaaaa",
+                        color: props.colors.primaryColor,
                         padding: "0",
-                        "&:hover": { color: "black" },
+                        "&:hover": {
+                          color: props.colors.primaryColor,
+                          backgroundColor: "rgba(0,0,0,0)",
+                        },
                       }}
                     >
                       <DeleteIcon sx={{ fontSize: 28 }} />
@@ -474,7 +498,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                 align="center"
                 colSpan={12}
                 sx={{
-                  backgroundColor: "#B78260",
+                  backgroundColor: props.colors.primaryColor,
                   color: "white",
                   fontWeight: 600,
                   textAlign: "center",

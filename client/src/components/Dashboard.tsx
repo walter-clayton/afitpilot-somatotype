@@ -10,7 +10,7 @@ import {
 import React, { useEffect, useState, useRef, FC } from "react";
 import { calculateSomatotype, IPoints } from "./Calculation";
 import ResultsTable from "./ResultsTable";
-import { IAnthropometric, IData, ISomatotype } from "../App";
+import { IAnthropometric, IColors, IData, ISomatotype } from "../App";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import SomatotypeGraph from "./SomatotypeGraph";
@@ -98,6 +98,12 @@ const Dashboard: FC<IDashboard> = (props) => {
   const xSmall = useMediaQuery("(max-width:450px)");
   const xxs = useMediaQuery("(max-width:380px)");
   const xxxs = useMediaQuery("(max-width:320px)");
+
+  const colors: IColors = {
+    primaryColor: "#B88C2E",
+    secondaryColor: "#DCB051",
+    lightColor: "#E8CB8C",
+  };
 
   const getUserDatas = async () => {
     const headers = {
@@ -224,7 +230,7 @@ const Dashboard: FC<IDashboard> = (props) => {
           p={3}
           textAlign="center"
           color={"white"}
-          sx={{ backgroundColor: "#B78260" }}
+          sx={{ backgroundColor: colors.primaryColor }}
         >
           Dashboard
         </Typography>
@@ -283,7 +289,7 @@ const Dashboard: FC<IDashboard> = (props) => {
             </Grid>
           )}
 
-          {/* Result Card   */}
+          {/* Result Card */}
           {!showNoResultsMessage && (
             <Grid
               item
@@ -306,14 +312,15 @@ const Dashboard: FC<IDashboard> = (props) => {
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
-                  border: "10px solid #B78260",
+                  border: `10px solid ${colors.primaryColor}`,
                   borderRadius: "25px",
+                  backgroundColor: colors.lightColor,
                 }}
               >
                 <Typography
                   variant="h6"
                   sx={{
-                    color: "#B78260",
+                    color: colors.secondaryColor,
                     textAlign: "start",
                     alignSelf: "start",
                   }}
@@ -331,7 +338,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                   marginBottom={1}
                   sx={{
                     color: "black",
-                    backgroundColor: "#e4ae3a",
+                    backgroundColor: colors.primaryColor,
                     textAlign: "center",
                     borderRadius: "25px",
                   }}
@@ -407,12 +414,17 @@ const Dashboard: FC<IDashboard> = (props) => {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Box sx={{ width: "100%", borderBottom: "2px solid #B78260" }}>
+                <Box
+                  sx={{
+                    width: "100%",
+                    borderBottom: `2px solid ${colors.primaryColor}`,
+                  }}
+                >
                   <Typography
                     marginBottom={0.3}
                     variant="h5"
                     sx={{
-                      color: "#B78260",
+                      color: colors.primaryColor,
                       textAlign: "center",
                       fontWeight: 600,
                       fontSize: xxl
@@ -437,7 +449,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                   <Typography
                     variant="h5"
                     sx={{
-                      color: "#e4ae3a",
+                      color: colors.secondaryColor,
                       textAlign: "center",
                       fontWeight: 600,
                       fontSize: xxl
@@ -477,8 +489,8 @@ const Dashboard: FC<IDashboard> = (props) => {
               </Grid>
               <Button
                 sx={{
-                  borderColor: "#B78260",
-                  color: "#B78260",
+                  borderColor: colors.primaryColor,
+                  color: colors.primaryColor,
                   padding: "14px 30px",
                   fontWeight: 600,
                   textAlign: "center",
@@ -506,9 +518,9 @@ const Dashboard: FC<IDashboard> = (props) => {
                       : "15%"
                     : "20%",
                   "&.MuiButtonBase-root:hover": {
-                    bgcolor: "#B78260",
+                    bgcolor: colors.primaryColor,
                     color: "#ffffff",
-                    borderColor: "#B78260",
+                    borderColor: colors.primaryColor,
                   },
                 }}
                 variant="outlined"
@@ -552,10 +564,11 @@ const Dashboard: FC<IDashboard> = (props) => {
                 setDashboardSnackBarMessage={props.setDashboardSnackBarMessage}
                 isFetching={fetching}
                 setTypeResult={setTypeResult}
+                colors={colors}
               />
               <Button
                 sx={{
-                  backgroundColor: "#B78260",
+                  backgroundColor: colors.primaryColor,
                   padding: "14px 30px",
                   fontWeight: 600,
                   textAlign: "center",
@@ -583,7 +596,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                       : "15%"
                     : "20%",
                   "&.MuiButtonBase-root:hover": {
-                    bgcolor: "#B78260",
+                    bgcolor: colors.primaryColor,
                   },
                 }}
                 variant="contained"
@@ -767,7 +780,7 @@ const Dashboard: FC<IDashboard> = (props) => {
             <Grid item xs={12}>
               <Button
                 sx={{
-                  backgroundColor: "#B78260",
+                  backgroundColor: colors.primaryColor,
                   padding: "14px 30px",
                   fontWeight: 600,
                   textAlign: "center",
@@ -778,7 +791,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                   width: "80%",
                   mx: "10%",
                   "&.MuiButtonBase-root:hover": {
-                    bgcolor: "#B78260",
+                    bgcolor: colors.primaryColor,
                   },
                 }}
                 variant="contained"
