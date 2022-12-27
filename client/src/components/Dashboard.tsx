@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import avatar from "./image/manu-tribesman.png";
 import TableCompare, { IComparison } from "./TableCompare";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ShareIcon from "@mui/icons-material/Share";
 
 const theme = createTheme();
 
@@ -468,6 +469,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                   console.log("share");
                 }}
               >
+                <ShareIcon sx={{ marginRight: "10px" }} />
                 Share
               </Button>
             </Grid>
