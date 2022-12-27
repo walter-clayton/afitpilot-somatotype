@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Grid, Box, Button, Typography } from "@mui/material/";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
@@ -6,6 +6,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CounterShare from "./CounterShare";
 import { useNavigate } from "react-router-dom";
 import Rectangle from '../image/Mountain.svg'
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
+import TypesPage1 from "./TypesPage1";
 
 const theme = createTheme();
 theme.typography.h1 = {
@@ -44,6 +47,8 @@ const heading = {
 
 const TypesPage = () => {
   const navigate = useNavigate();
+  const [isChecked, setIsChecked] = useState(false);
+
   const Endomorph = [
     {
       image: "manu-tribesman",
@@ -195,142 +200,150 @@ const TypesPage = () => {
             </Button>
           </Box>
         </Grid>
+        <TypesPage1 />
+        <FormControlLabel control={<Switch defaultChecked />}
+          checked={isChecked}
+          onChange={() => setIsChecked(!isChecked)}
+          label="13 SUBCATEGORIES" />
       </Grid>
-      <ThemeProvider theme={theme}>
-        <Box sx={{ mb: -1 }}>
-          <img
-            src={Rectangle}
-            alt="manu tribesman"
-            style={{ width: "100%" }}
-          />
-        </Box>
-        <Box sx={{ width: "100%", backgroundColor: "#e7dfea", }}>
-          <Typography variant="h2" sx={{ color: "white", textAlign: "center" }}>
-            Endomorph
-          </Typography>
-          <Grid container spacing={2}
-            direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
-          >
-            {Endomorph.map((step, index) =>
-              <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}
-                onClick={() => {
-                  navigate(step.linkToPage);
-                }}>
-                <img
-                  src={require('../image/' + step.image + '.png')}
-                  alt="manu tribesman"
-                  style={{ width: "100px" }}
-                />
-                <Typography variant="h1" sx={{ color: "#88619a", textAlign: 'center' }}>
-                  {step.bodyType}
-                  <Typography variant="body1" sx={{ color: "black" }}>
-                    {step.TypeCode}
+
+      {isChecked &&
+        <ThemeProvider theme={theme}>
+          <Box sx={{ mb: -1 }}>
+            <img
+              src={Rectangle}
+              alt="manu tribesman"
+              style={{ width: "100%" }}
+            />
+          </Box>
+          <Box sx={{ width: "100%", backgroundColor: "#e7dfea", }}>
+            <Typography variant="h2" sx={{ color: "white", textAlign: "center" }}>
+              Endomorph
+            </Typography>
+            <Grid container spacing={2}
+              direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
+            >
+              {Endomorph.map((step, index) =>
+                <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}
+                  onClick={() => {
+                    navigate(step.linkToPage);
+                  }}>
+                  <img
+                    src={require('../image/' + step.image + '.png')}
+                    alt="manu tribesman"
+                    style={{ width: "100px" }}
+                  />
+                  <Typography variant="h1" sx={{ color: "#88619a", textAlign: 'center' }}>
+                    {step.bodyType}
+                    <Typography variant="body1" sx={{ color: "black" }}>
+                      {step.TypeCode}
+                    </Typography>
+                    <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
+                      {step.description}
+                    </Typography>
                   </Typography>
-                  <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
-                    {step.description}
+                </Grid>
+              )}
+            </Grid>
+          </Box>
+          {/* second grid */}
+          <Box sx={{ width: "100%", backgroundColor: "#d6ece3" }}>
+            <Typography variant="h2" sx={{ color: "white", textAlign: "center", mb: 2 }} >
+              Mesomorph
+            </Typography>
+            <Grid item container spacing={2}
+              direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
+            >
+              {Mesomorph.map((step, index) =>
+                <Grid item md={3} lg={3} xl={3} textAlign={"center"}
+                  onClick={() => {
+                    navigate(step.linkToPage);
+                  }}>
+                  <img
+                    src={require('../image/' + step.image + '.png')}
+                    alt="manu tribesman"
+                    style={{ width: "100px" }}
+                  />
+                  <Typography variant="h1" sx={{ color: "#33a474", textAlign: "center" }}>
+                    {step.bodyType}
+                    <Typography variant="body1" sx={{ color: "black" }}>
+                      {step.TypeCode}
+                    </Typography>
+                    <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
+                      {step.description}
+                    </Typography>
                   </Typography>
-                </Typography>
-              </Grid>
-            )}
-          </Grid>
-        </Box>
-        {/* second grid */}
-        <Box sx={{ width: "100%", backgroundColor: "#d6ece3" }}>
-          <Typography variant="h2" sx={{ color: "white", textAlign: "center", mb: 2 }} >
-            Mesomorph
-          </Typography>
-          <Grid item container spacing={2}
-            direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
-          >
-            {Mesomorph.map((step, index) =>
-              <Grid item md={3} lg={3} xl={3} textAlign={"center"}
-                onClick={() => {
-                  navigate(step.linkToPage);
-                }}>
-                <img
-                  src={require('../image/' + step.image + '.png')}
-                  alt="manu tribesman"
-                  style={{ width: "100px" }}
-                />
-                <Typography variant="h1" sx={{ color: "#33a474", textAlign: "center" }}>
-                  {step.bodyType}
-                  <Typography variant="body1" sx={{ color: "black" }}>
-                    {step.TypeCode}
+                </Grid>
+              )}
+            </Grid>
+          </Box>
+          {/* third grid */}
+          <Box sx={{ width: "100%", backgroundColor: "#f9eed7" }}>
+            <Typography variant="h2" sx={{ color: "white", textAlign: "center", mb: 2 }}>
+              Ectomorphy
+            </Typography>
+            <Grid item
+              container
+              spacing={2}
+              direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
+            >
+              {Ectomorphy.map((step, index) =>
+                <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}
+                  onClick={() => {
+                    navigate(step.linkToPage);
+                  }}>
+                  <img
+                    src={require('../image/' + step.image + '.png')}
+                    alt="manu tribesman"
+                    style={{ width: "100px" }}
+                  />
+                  <Typography variant="h1" sx={{ color: "#e4ae3a", textAlign: "center" }}>
+                    {step.bodyType}
+                    <Typography variant="body1" sx={{ color: "black" }}>
+                      {step.TypeCode}
+                    </Typography>
+                    <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
+                      {step.description}
+                    </Typography>
                   </Typography>
-                  <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
-                    {step.description}
+                </Grid>
+              )}
+            </Grid>
+          </Box>
+          {/* fourth grid */}
+          <Box sx={{ width: "100%", backgroundColor: "#d9eaf0" }}>
+            <Typography variant="h2" sx={{ color: "white", textAlign: "center", mb: 2 }} >
+              Neutral
+            </Typography>
+            <Grid item container spacing={2}
+              direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
+            >
+              {Neutral.map((step, index) =>
+                <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}
+                  onClick={() => {
+                    navigate(step.linkToPage);
+                  }}>
+                  <img
+                    src={require('../image/' + step.image + '.png')}
+                    alt="manu tribesman"
+                    style={{ width: "100px" }}
+                  />
+                  <Typography variant="h1" sx={{ color: "#4298b4", textAlign: "center" }}>
+                    {step.bodyType}
+                    <Typography variant="body1" sx={{ color: "black" }}>
+                      {step.TypeCode}
+                    </Typography>
+                    <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
+                      {step.description}
+                    </Typography>
                   </Typography>
-                </Typography>
-              </Grid>
-            )}
-          </Grid>
-        </Box>
-        {/* third grid */}
-        <Box sx={{ width: "100%", backgroundColor: "#f9eed7" }}>
-          <Typography variant="h2" sx={{ color: "white", textAlign: "center", mb: 2 }}>
-            Ectomorphy
-          </Typography>
-          <Grid item
-            container
-            spacing={2}
-            direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
-          >
-            {Ectomorphy.map((step, index) =>
-              <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}
-                onClick={() => {
-                  navigate(step.linkToPage);
-                }}>
-                <img
-                  src={require('../image/' + step.image + '.png')}
-                  alt="manu tribesman"
-                  style={{ width: "100px" }}
-                />
-                <Typography variant="h1" sx={{ color: "#e4ae3a", textAlign: "center" }}>
-                  {step.bodyType}
-                  <Typography variant="body1" sx={{ color: "black" }}>
-                    {step.TypeCode}
-                  </Typography>
-                  <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
-                    {step.description}
-                  </Typography>
-                </Typography>
-              </Grid>
-            )}
-          </Grid>
-        </Box>
-        {/* fourth grid */}
-        <Box sx={{ width: "100%", backgroundColor: "#d9eaf0" }}>
-          <Typography variant="h2" sx={{ color: "white", textAlign: "center", mb: 2 }} >
-            Neutral
-          </Typography>
-          <Grid item container spacing={2}
-            direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
-          >
-            {Neutral.map((step, index) =>
-              <Grid item md={4} lg={4} xl={4} sx={{ textAlign: "center", marginTop: 10 }}
-                onClick={() => {
-                  navigate(step.linkToPage);
-                }}>
-                <img
-                  src={require('../image/' + step.image + '.png')}
-                  alt="manu tribesman"
-                  style={{ width: "100px" }}
-                />
-                <Typography variant="h1" sx={{ color: "#4298b4", textAlign: "center" }}>
-                  {step.bodyType}
-                  <Typography variant="body1" sx={{ color: "black" }}>
-                    {step.TypeCode}
-                  </Typography>
-                  <Typography variant="subtitle1" sx={{ color: "black", px: 5 }}>
-                    {step.description}
-                  </Typography>
-                </Typography>
-              </Grid>
-            )}
-          </Grid>
-        </Box>
-        <CounterShare />
-      </ThemeProvider>
+                </Grid>
+              )}
+            </Grid>
+          </Box>
+          <CounterShare />
+        </ThemeProvider>
+      }
     </Box >
   );
 };
