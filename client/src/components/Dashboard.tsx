@@ -394,20 +394,24 @@ const Dashboard: FC<IDashboard> = (props) => {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Typography
-                  marginBottom={0.3}
-                  variant="h5"
-                  sx={{ color: "#B78260", textAlign: "center" }}
-                >
-                  {formatTypeResultText(typeResult)[0]}
-                </Typography>
-                <Typography
-                  marginBottom={-8}
-                  variant="h5"
-                  sx={{ color: "#e4ae3a", textAlign: "center" }}
-                >
-                  {formatTypeResultText(typeResult)[1]}
-                </Typography>
+                <Box sx={{ width: "100%", borderBottom: "2px solid #B78260" }}>
+                  <Typography
+                    marginBottom={0.3}
+                    variant="h5"
+                    sx={{ color: "#B78260", textAlign: "center" }}
+                  >
+                    {formatTypeResultText(typeResult)[0]}
+                  </Typography>
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      color: "#e4ae3a",
+                      textAlign: "center",
+                    }}
+                  >
+                    {formatTypeResultText(typeResult)[1]}
+                  </Typography>
+                </Box>
                 <Grid
                   item
                   sx={{
