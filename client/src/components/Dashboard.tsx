@@ -24,6 +24,7 @@ import TableCompare, { IComparison } from "./TableCompare";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ShareIcon from "@mui/icons-material/Share";
 import html2canvas from "html2canvas";
+import CircleIcon from "@mui/icons-material/Circle";
 
 const theme = createTheme();
 
@@ -103,9 +104,10 @@ const Dashboard: FC<IDashboard> = (props) => {
   const cardRef = useRef<HTMLDivElement>(null);
 
   const colors: IColors = {
-    primaryColor: "#B88C2E",
-    secondaryColor: "#DCB051",
+    darkColor: "#B88C2E",
+    normalColor: "#DCB051",
     lightColor: "#E8CB8C",
+    clearColor: "#FFF7DA",
   };
 
   const getUserDatas = async () => {
@@ -267,7 +269,7 @@ const Dashboard: FC<IDashboard> = (props) => {
           p={3}
           textAlign="center"
           color={"white"}
-          sx={{ backgroundColor: colors.primaryColor }}
+          sx={{ backgroundColor: colors.darkColor }}
         >
           Dashboard
         </Typography>
@@ -350,15 +352,15 @@ const Dashboard: FC<IDashboard> = (props) => {
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
-                  border: `10px solid ${colors.primaryColor}`,
+                  border: `10px solid ${colors.darkColor}`,
                   borderRadius: "25px",
-                  backgroundColor: colors.lightColor,
+                  backgroundColor: colors.clearColor,
                 }}
               >
                 <Typography
                   variant="h5"
                   sx={{
-                    color: colors.primaryColor,
+                    color: colors.normalColor,
                     textAlign: "start",
                     alignSelf: "start",
                   }}
@@ -376,7 +378,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                   marginBottom={1}
                   sx={{
                     color: "black",
-                    backgroundColor: colors.primaryColor,
+                    backgroundColor: colors.darkColor,
                     textAlign: "center",
                     borderRadius: "25px",
                   }}
@@ -460,14 +462,14 @@ const Dashboard: FC<IDashboard> = (props) => {
                 <Box
                   sx={{
                     width: "100%",
-                    borderBottom: `2px solid ${colors.primaryColor}`,
+                    borderBottom: `2px solid ${colors.darkColor}`,
                   }}
                 >
                   <Typography
                     marginBottom={0.3}
                     variant="h5"
                     sx={{
-                      color: colors.primaryColor,
+                      color: colors.darkColor,
                       textAlign: "center",
                       fontWeight: 600,
                       fontSize: xxl
@@ -492,7 +494,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                   <Typography
                     variant="h5"
                     sx={{
-                      color: colors.secondaryColor,
+                      color: colors.normalColor,
                       textAlign: "center",
                       fontWeight: 600,
                       fontSize: xxl
@@ -525,15 +527,87 @@ const Dashboard: FC<IDashboard> = (props) => {
                   width={"100%"}
                 >
                   <SomatotypeGraph
+                    graphColor={"#5c5c5c"}
                     updateGraph={toggleGraph}
                     pointsArray={finalPointsArray}
                   />
                 </Grid>
+                <Grid
+                  item
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                  width={"100%"}
+                >
+                  <Grid
+                    container
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-around",
+                      alignItems: "center",
+                      flexDirection: "row",
+                    }}
+                    width={"100%"}
+                  >
+                    <Grid
+                      item
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "row",
+                      }}
+                    >
+                      <CircleIcon
+                        sx={{ marginRight: "10px", color: colors.darkColor }}
+                      />
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          color: colors.darkColor,
+                          textAlign: "center",
+                          fontWeight: 600,
+                          fontSize: "150%",
+                        }}
+                      >
+                        You
+                      </Typography>
+                    </Grid>
+                    {comparisonPointsArray.length > 0 ? (
+                      <Grid
+                        item
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          flexDirection: "row",
+                        }}
+                      >
+                        <CircleIcon
+                          sx={{ marginRight: "10px", color: "#000000" }}
+                        />
+                        <Typography
+                          variant="h5"
+                          sx={{
+                            color: "#000000",
+                            textAlign: "center",
+                            fontWeight: 600,
+                            fontSize: "150%",
+                          }}
+                        >
+                          {comparisonState}
+                        </Typography>
+                      </Grid>
+                    ) : null}
+                  </Grid>
+                </Grid>
               </Grid>
               <Button
                 sx={{
-                  borderColor: colors.primaryColor,
-                  color: colors.primaryColor,
+                  borderColor: colors.darkColor,
+                  color: colors.darkColor,
                   padding: "14px 30px",
                   fontWeight: 600,
                   textAlign: "center",
@@ -561,9 +635,9 @@ const Dashboard: FC<IDashboard> = (props) => {
                       : "15%"
                     : "20%",
                   "&.MuiButtonBase-root:hover": {
-                    bgcolor: colors.primaryColor,
+                    bgcolor: colors.darkColor,
                     color: "#ffffff",
-                    borderColor: colors.primaryColor,
+                    borderColor: colors.darkColor,
                   },
                 }}
                 variant="outlined"
@@ -611,7 +685,7 @@ const Dashboard: FC<IDashboard> = (props) => {
               />
               <Button
                 sx={{
-                  backgroundColor: colors.primaryColor,
+                  backgroundColor: colors.darkColor,
                   padding: "14px 30px",
                   fontWeight: 600,
                   textAlign: "center",
@@ -639,7 +713,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                       : "15%"
                     : "20%",
                   "&.MuiButtonBase-root:hover": {
-                    bgcolor: colors.primaryColor,
+                    bgcolor: colors.darkColor,
                   },
                 }}
                 variant="contained"
@@ -823,7 +897,7 @@ const Dashboard: FC<IDashboard> = (props) => {
             <Grid item xs={12}>
               <Button
                 sx={{
-                  backgroundColor: colors.primaryColor,
+                  backgroundColor: colors.darkColor,
                   padding: "14px 30px",
                   fontWeight: 600,
                   textAlign: "center",
@@ -834,7 +908,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                   width: "80%",
                   mx: "10%",
                   "&.MuiButtonBase-root:hover": {
-                    bgcolor: colors.primaryColor,
+                    bgcolor: colors.darkColor,
                   },
                 }}
                 variant="contained"

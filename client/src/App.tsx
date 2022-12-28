@@ -55,9 +55,10 @@ export interface IData {
 }
 
 export interface IColors {
-  primaryColor?: string;
-  secondaryColor?: string;
+  darkColor?: string;
+  normalColor?: string;
   lightColor?: string;
+  clearColor?: string;
 }
 
 function App() {

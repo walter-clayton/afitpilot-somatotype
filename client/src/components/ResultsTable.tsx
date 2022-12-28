@@ -220,7 +220,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
         somatotypeToShow.endomorphy!,
         somatotypeToShow.mesomorphy!,
         somatotypeToShow.ectomorphy!,
-        props.colors.primaryColor
+        props.colors.darkColor
       );
       pointsResultsArray.push(point);
     });
@@ -344,7 +344,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
               key={index}
               sx={{
                 backgroundColor: row.IsDisplayed
-                  ? props.colors.lightColor
+                  ? props.colors.clearColor
                   : "white",
               }}
             >
@@ -358,12 +358,12 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                   icon={
                     <VisibilityOffIcon
                       sx={{
-                        color: props.colors.primaryColor,
+                        color: props.colors.lightColor,
                       }}
                     />
                   }
                   checkedIcon={
-                    <VisibilityIcon sx={{ color: props.colors.primaryColor }} />
+                    <VisibilityIcon sx={{ color: props.colors.lightColor }} />
                   }
                   sx={{
                     "&:hover": {
@@ -404,10 +404,10 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                     <IconButton
                       aria-label="edit"
                       sx={{
-                        color: props.colors.primaryColor,
+                        color: props.colors.lightColor,
                         padding: "0",
                         "&:hover": {
-                          color: props.colors.primaryColor,
+                          color: props.colors.lightColor,
                           backgroundColor: "rgba(0,0,0,0)",
                         },
                       }}
@@ -426,10 +426,10 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                     <IconButton
                       aria-label="delete"
                       sx={{
-                        color: props.colors.primaryColor,
+                        color: props.colors.lightColor,
                         padding: "0",
                         "&:hover": {
-                          color: props.colors.primaryColor,
+                          color: props.colors.lightColor,
                           backgroundColor: "rgba(0,0,0,0)",
                         },
                       }}
@@ -498,7 +498,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                 align="center"
                 colSpan={12}
                 sx={{
-                  backgroundColor: props.colors.primaryColor,
+                  backgroundColor: props.colors.darkColor,
                   color: "white",
                   fontWeight: 600,
                   textAlign: "center",

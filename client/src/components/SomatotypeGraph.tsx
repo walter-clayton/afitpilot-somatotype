@@ -8,6 +8,7 @@ import {
 import { IAnthropometric, ISomatotype } from "../App";
 
 interface ISomatotypeGraph {
+  graphColor?: string;
   updateGraph?: boolean;
   pointsArray?: IPoints[];
 }
@@ -34,7 +35,8 @@ const SomatotypeGraph: FC<ISomatotypeGraph> = (props): any => {
       canvas,
       canvasRef.current?.offsetWidth,
       canvasRef.current?.offsetHeight,
-      props.pointsArray!
+      props.pointsArray!,
+      props.graphColor!
     );
 
     function handleResize() {
@@ -49,7 +51,8 @@ const SomatotypeGraph: FC<ISomatotypeGraph> = (props): any => {
           canvas,
           canvasRef.current?.offsetWidth,
           canvasRef.current?.offsetHeight,
-          props.pointsArray!
+          props.pointsArray!,
+          props.graphColor!
         );
       }
     }
