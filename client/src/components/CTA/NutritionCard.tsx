@@ -27,23 +27,24 @@ theme.typography.body2 = {
     },
 };
 const Root = styled('div')(({ theme }) => ({
-    "@media (max-width:600px)": {
-        height: '270px',
-        width: '400px',
-        padding: "25px 40px",
-    },
-    [theme.breakpoints.up('md')]: {
-        height: '270px',
-        width: '400px',
-        padding: "25px 40px",
-    },
+    // "@media (max-width:600px)": {
+    //     height: '270px',
+    //     width: '400px',
+    //     padding: "25px 40px",
+    // },
+    // [theme.breakpoints.up('md')]: {
+    //     height: '270px',
+    //     width: '400px',
+    //     padding: "25px 40px",
+    // },
 }));
 
 const NutritionCard = () => {
-    const medium = useMediaQuery("(max-width:899px)");
-    const small = useMediaQuery("(max-width:599px)");
+    const medium = useMediaQuery("(min-width:769px)");
+    const small = useMediaQuery("(max-width:768px)");
     const extraSmall = useMediaQuery("(max-width:449px)");
     const xxSmall = useMediaQuery("(max-width:399px)");
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
@@ -58,7 +59,7 @@ const NutritionCard = () => {
                         marginTop: "40px",
                     }}>
                     <Stack
-                        direction={{ xs: 'column', sm: 'column', md: "row", lg: 'row', xl: 'row' }}
+                        direction={small ? 'column' : 'row'}
                         spacing={2}>
                         <Paper
                             square
@@ -67,7 +68,14 @@ const NutritionCard = () => {
                                 alignItems: 'center',
                                 color: "#FFFFFF",
                                 borderRadius: '8px',
-                                backgroundColor: '#606161'
+                                backgroundColor: '#606161',
+                                width: medium
+                                    ? small
+                                        ? extraSmall
+                                            ? "100%"
+                                            : "100%"
+                                        : "55%"
+                                    : "400px",
                             }} >
                             <Root>
                                 <Stack
@@ -76,7 +84,8 @@ const NutritionCard = () => {
                                     alignItems="center"
                                     spacing={2}>
                                     <Box>
-                                        <img src={avatar} alt="avatar" width={"120px"} height={"230px"} />
+                                        <img src={avatar} alt="avatar" width={"120px"} height={"230px"}
+                                        />
                                     </Box>
                                     <Typography variant="body1">
                                         Personal Coach
@@ -94,6 +103,13 @@ const NutritionCard = () => {
                                 borderRadius: '8px',
                                 backgroundColor: '#606161',
                                 color: "#FFFFFF",
+                                width: medium
+                                    ? small
+                                        ? extraSmall
+                                            ? "100%"
+                                            : "100%"
+                                        : "55%"
+                                    : "400px",
                             }}>
                             <Root>
                                 <Stack
@@ -120,6 +136,13 @@ const NutritionCard = () => {
                                 borderRadius: '8px',
                                 backgroundColor: '#606161',
                                 color: "#FFFFFF",
+                                width: medium
+                                    ? small
+                                        ? extraSmall
+                                            ? "100%"
+                                            : "100%"
+                                        : "55%"
+                                    : "400px",
                             }}>
                             <Root>
                                 <Stack
