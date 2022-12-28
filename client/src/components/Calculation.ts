@@ -84,7 +84,7 @@ export function AddPoint(
     endomorphy: endomorphy,
     mesomorphy: mesomorphy,
     ectomorphy: ectomorphy,
-    pointColor: pointColor
+    pointColor: pointColor,
   };
   return pos;
 }
@@ -95,6 +95,7 @@ export function UpdateCanvas(
   canvasWidthValue: number | undefined,
   canvasHeightValue: number | undefined,
   addedPointsList: Array<IPoints>,
+  graphColor: string
 ) {
   if (canvas !== undefined && canvas !== null && context !== undefined) {
     // ctx.reset();
@@ -102,7 +103,13 @@ export function UpdateCanvas(
     (canvas.width as number | undefined) = canvasWidthValue;
     (canvas.height as number | undefined) = canvasHeightValue;
 
-    drawGraph(context, canvasWidthValue, canvasHeightValue);
+    drawGraph(
+      context,
+      canvasWidthValue,
+      canvasHeightValue,
+      graphColor,
+      String(canvasWidthValue! / 25)
+    );
 
     if (addedPointsList !== undefined) {
       for (let i = 0; i < addedPointsList.length; i++) {
@@ -139,7 +146,9 @@ export function UpdateCanvas(
 function drawGraph(
   context: any,
   canvasWidthValue: number | undefined,
-  canvasHeightValue: number | undefined
+  canvasHeightValue: number | undefined,
+  graphColor: string,
+  fontsize: string
 ) {
   // middle line of the canvas
   context.beginPath();
@@ -151,7 +160,17 @@ function drawGraph(
     canvasWidthValue! * getWidthRatio(247),
     canvasHeightValue! * getHeightRatio(516)
   );
-  context.strokeStyle = "black";
+
+  context.font = `bold ${fontsize}px Roboto`;
+  context.fillStyle = graphColor;
+  context.strokeStyle = graphColor;
+  context.fillText(
+    "Meso",
+    canvasWidthValue! * getWidthRatio(220),
+    canvasHeightValue! * getHeightRatio(110)
+  );
+
+  context.strokeStyle = graphColor;
   context.stroke();
   context.closePath();
 
@@ -164,7 +183,7 @@ function drawGraph(
     0,
     2 * Math.PI
   );
-  context.strokeStyle = "black";
+  context.strokeStyle = graphColor;
   context.stroke();
   context.closePath();
 
@@ -176,7 +195,7 @@ function drawGraph(
     (5 / 3) * Math.PI,
     0
   );
-  context.strokeStyle = "black";
+  context.strokeStyle = graphColor;
   context.stroke();
   context.closePath();
 
@@ -189,7 +208,7 @@ function drawGraph(
     1 * Math.PI,
     (4 / 3) * Math.PI
   );
-  context.strokeStyle = "black";
+  context.strokeStyle = graphColor;
   context.stroke();
   context.closePath();
 
@@ -202,7 +221,7 @@ function drawGraph(
     (1 / 3) * Math.PI,
     (2 / 3) * Math.PI
   );
-  context.strokeStyle = "black";
+  context.strokeStyle = graphColor;
   context.stroke();
   context.closePath();
 
@@ -216,7 +235,17 @@ function drawGraph(
     canvasWidthValue! * getWidthRatio(47),
     canvasHeightValue! * getHeightRatio(231)
   );
-  context.strokeStyle = "black";
+
+  context.font = `bold ${fontsize} Roboto`;
+  context.fillStyle = graphColor;
+  context.strokeStyle = graphColor;
+  context.fillText(
+    "Ecto",
+    canvasWidthValue! * getWidthRatio(450),
+    canvasHeightValue! * getHeightRatio(480)
+  );
+
+  context.strokeStyle = graphColor;
   context.stroke();
   context.closePath();
 
@@ -230,7 +259,17 @@ function drawGraph(
     canvasWidthValue! * getWidthRatio(447),
     canvasHeightValue! * getHeightRatio(231)
   );
-  context.strokeStyle = "black";
+
+  context.font = `bold ${fontsize} Roboto`;
+  context.fillStyle = graphColor;
+  context.strokeStyle = graphColor;
+  context.fillText(
+    "Endo",
+    canvasWidthValue! * getWidthRatio(0),
+    canvasHeightValue! * getHeightRatio(480)
+  );
+
+  context.strokeStyle = graphColor;
   context.stroke();
   context.closePath();
 }
@@ -260,7 +299,9 @@ function drawNewPoint(
   ectomorphyValue =
     Number(ectomorphyValue) < 1 ? 1 : Number(ectomorphyValue?.toFixed());
   context.fillText(
-    ` ${Math.abs(endomorphyValue)}-${Math.abs(mesomorphyValue)}-${Math.abs(ectomorphyValue)}`,
+    ` ${Math.abs(endomorphyValue)}-${Math.abs(mesomorphyValue)}-${Math.abs(
+      ectomorphyValue
+    )}`,
     xPos,
     yPos
   );
