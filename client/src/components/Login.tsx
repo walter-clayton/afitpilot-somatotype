@@ -83,9 +83,11 @@ export default function Login(props: any) {
       );
       setFetching(false);
       removeCookie("data", { path: "/", sameSite: "none", secure: true });
+      const now = new Date();
+      const seconds = Math.floor(now.getTime() / 1000);
       setCookie(
         "user",
-        { ...response.data.user },
+        { ...response.data.user, createdAt: seconds },
         {
           path: "/",
           sameSite: "none",

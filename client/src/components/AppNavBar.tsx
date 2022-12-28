@@ -77,6 +77,8 @@ const ResponsiveAppBar = (props: any) => {
     props.setOpen(true);
     props.setSnackbarMessage("Log out successfully");
     props.setData(undefined);
+    clearInterval(props.clearInterval);
+    props.setClearInterval(undefined);
     navigate("/Login");
     window.scrollTo(0, 0);
   };
