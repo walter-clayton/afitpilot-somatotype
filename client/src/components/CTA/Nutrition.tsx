@@ -145,6 +145,8 @@ const Nutrition = () => {
                             padding: "50px 0",
                             backgroundColor: "#33A474",
                             marginTop: { xs: "50px", sm: "0", },
+                            borderRight: 6,
+                            borderColor: '#4298B4'
                         }}>
                         <Box
                             sx={{
@@ -176,6 +178,8 @@ const Nutrition = () => {
                             alignItems: "center",
                             marginTop: { xs: "50px", sm: "0" },
                             backgroundColor: "#33A474",
+                            borderLeft: 6,
+                            borderColor: '#4298B4'
                         }}>
                         <Box>
                             <Typography variant="h5"
