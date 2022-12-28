@@ -23,6 +23,7 @@ import avatar from "./image/manu-tribesman.png";
 import TableCompare, { IComparison } from "./TableCompare";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ShareIcon from "@mui/icons-material/Share";
+import html2canvas from "html2canvas";
 
 const theme = createTheme();
 
@@ -98,6 +99,8 @@ const Dashboard: FC<IDashboard> = (props) => {
   const xSmall = useMediaQuery("(max-width:450px)");
   const xxs = useMediaQuery("(max-width:380px)");
   const xxxs = useMediaQuery("(max-width:320px)");
+
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const colors: IColors = {
     primaryColor: "#B88C2E",
@@ -221,6 +224,40 @@ const Dashboard: FC<IDashboard> = (props) => {
     return resultsTexts;
   };
 
+  const createExportImage = async () => {
+    const element: HTMLDivElement = cardRef.current!;
+    const canvas = await html2canvas(element, { backgroundColor: null });
+
+    const data = canvas.toDataURL("image/png");
+
+    shareImage(data);
+
+    // // Create image from canvas and export it
+    // const link = document.createElement("a");
+
+    // link.href = data;
+    // link.download = "downloaded-image.png";
+
+    // document.body.appendChild(link);
+    // link.click();
+    // document.body.removeChild(link);
+  };
+
+  const shareImage = async (dataToShare: any) => {
+    const response = await fetch(dataToShare);
+    const blob = await response.blob();
+    const filesArray = [
+      new File([blob], "meme.png", {
+        type: "image/png",
+        lastModified: new Date().getTime(),
+      }),
+    ];
+    const shareData = {
+      files: filesArray,
+    };
+    navigator.share(shareData);
+  };
+
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -304,6 +341,7 @@ const Dashboard: FC<IDashboard> = (props) => {
               padding={2}
             >
               <Grid
+                ref={cardRef}
                 container
                 padding={2}
                 sx={{
@@ -525,7 +563,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                 }}
                 variant="outlined"
                 onClick={() => {
-                  console.log("share");
+                  createExportImage();
                 }}
               >
                 <ShareIcon sx={{ marginRight: "10px" }} />
