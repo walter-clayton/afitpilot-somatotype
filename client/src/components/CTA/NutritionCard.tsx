@@ -69,13 +69,8 @@ const NutritionCard = () => {
                                 color: "#FFFFFF",
                                 borderRadius: '8px',
                                 backgroundColor: '#606161',
-                                width: medium
-                                    ? small
-                                        ? extraSmall
-                                            ? "100%"
-                                            : "100%"
-                                        : "55%"
-                                    : "400px",
+                                width: small ? "100%" : "calc(100% / 3)"
+
                             }} >
                             <Root>
                                 <Stack
@@ -103,13 +98,8 @@ const NutritionCard = () => {
                                 borderRadius: '8px',
                                 backgroundColor: '#606161',
                                 color: "#FFFFFF",
-                                width: medium
-                                    ? small
-                                        ? extraSmall
-                                            ? "100%"
-                                            : "100%"
-                                        : "55%"
-                                    : "400px",
+                                width: small ? "100%" : "calc(100% / 3)"
+
                             }}>
                             <Root>
                                 <Stack
@@ -136,13 +126,8 @@ const NutritionCard = () => {
                                 borderRadius: '8px',
                                 backgroundColor: '#606161',
                                 color: "#FFFFFF",
-                                width: medium
-                                    ? small
-                                        ? extraSmall
-                                            ? "100%"
-                                            : "100%"
-                                        : "55%"
-                                    : "400px",
+                                width: small ? "100%" : "calc(100% / 3)"
+
                             }}>
                             <Root>
                                 <Stack
