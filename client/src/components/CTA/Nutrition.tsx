@@ -20,7 +20,6 @@ theme.typography.h1 = {
 theme.typography.h3 = {
     "@media (max-width:600px)": {
         fontSize: "30px",
-        textAlign: "center"
     },
     [theme.breakpoints.up("md")]: {
         fontSize: "54px",
@@ -39,7 +38,6 @@ theme.typography.h5 = {
 theme.typography.body1 = {
     "@media (max-width:600px)": {
         fontSize: "20px",
-        textAlign: "center"
     },
     [theme.breakpoints.up("md")]: {
         fontSize: "32px",
@@ -138,45 +136,64 @@ const Nutrition = () => {
                     </Grid>
                 </Grid>
                 {/* Instruction */}
-                <Grid container spacing={2}
+                <Grid container
                     sx={{
-                        backgroundColor: "#33A474",
-                        marginTop: 9,
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
+                        marginTop: { xs: "0px", sm: "50px" },
                     }}>
-                    <Grid item md={8} >
-                        <Typography variant="h3"
-                            sx={{ color: "#FFFFFF", mb: 2, fontSize: '54px' }}>
-                            3 MONTHS NUTRITION PROGRAM
-                        </Typography>
-                        <Typography variant="body1"
-                            sx={{ color: "#FFFFFF", mb: 2 }}>
-                            Changing your body takes time.
-                        </Typography>
-                        <Typography variant="body2"
-                            sx={{ color: "white" }}>
-                            That's why we are offering 2 months free.
-                        </Typography>
-                    </Grid>
-                    <Grid item md={4}>
-                        <Typography variant="h5"
-                            sx={{ color: "white", textAlign: "center", fontSize: "42px" }} >
-                            300 <span>&#8364;</span>
-                        </Typography>
-                        <Typography variant="h3" mr={2.6}
+                    <Grid item sm={8} xs={12}
+                        sx={{
+                            padding: "50px 0",
+                            backgroundColor: "#33A474",
+                            marginTop: { xs: "50px", sm: "0", },
+                        }}>
+                        <Box
                             sx={{
-                                color: "black", textAlign: "center",
-                                mt: { xs: -6, sm: -6.7, md: -8 }
+                                display: "flex",
+                                alignItems: medium ? "center" : "center",
+                                justifyContent: "center",
+                                flexDirection: "column"
                             }}>
-                            <img src={cross} alt="cancel" width={45} />
-                        </Typography>
-                        <Typography variant="h4"
-                            sx={{ color: "#ffff", textAlign: "center", fontSize: '100px' }}>
-                            100 <span>&#8364;</span>
-                        </Typography>
+                            <Typography variant="h3" textAlign={"center"}
+                                sx={{ color: "#FFFFFF", mb: 2, fontSize: '54px' }}>
+                                3 MONTHS NUTRITION PROGRAM
+                            </Typography>
+                            <Typography variant="body1"
+                                sx={{ color: "#FFFFFF", mb: 2 }}>
+                                Changing your body takes time.
+                            </Typography>
+                            <Typography variant="body2"
+                                sx={{ color: "white" }}>
+                                That's why we are offering 2 months free.
+                            </Typography>
+                        </Box>
+                    </Grid>
+                    <Grid item sm={4} xs={12}
+                        sx={{
+                            padding: "50px 0px",
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            marginTop: { xs: "50px", sm: "0" },
+                            backgroundColor: "#33A474",
+                        }}>
+                        <Box>
+                            <Typography variant="h5"
+                                sx={{ color: "white", textAlign: "center", fontSize: "42px" }} >
+                                300 <span>&#8364;</span>
+                            </Typography>
+                            <Typography variant="h3" mr={2.6}
+                                sx={{
+                                    color: "black", textAlign: "center",
+                                    mt: { xs: -6, sm: -6.7, md: -8 }
+                                }}>
+                                <img src={cross} alt="cancel" width={45} />
+                            </Typography>
+                            <Typography variant="h4"
+                                sx={{ color: "#ffff", textAlign: "center", fontSize: '100px' }}>
+                                100 <span>&#8364;</span>
+                            </Typography>
+                        </Box>
                     </Grid>
                 </Grid>
                 {/* NutritionCard page */}
