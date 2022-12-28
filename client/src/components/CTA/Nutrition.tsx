@@ -1,6 +1,6 @@
 import React from 'react'
 import CssBaseline from "@mui/material/CssBaseline";
-import { Grid, Box, Typography, } from "@mui/material/";
+import { Grid, Box, Typography, useMediaQuery } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import avatar from '../image/manu-tribesman.png';
 import NutritionCard from './NutritionCard';
@@ -56,6 +56,11 @@ theme.typography.body2 = {
 };
 ;
 const Nutrition = () => {
+    const medium = useMediaQuery("(min-width:769px)");
+    const small = useMediaQuery("(max-width:768px)");
+    const extraSmall = useMediaQuery("(max-width:449px)");
+    const xxSmall = useMediaQuery("(max-width:399px)");
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
@@ -104,7 +109,7 @@ const Nutrition = () => {
                         width: "100%",
                         marginTop: { md: -10, lg: -10, xl: -10 }
                     }}>
-                    <Grid item md={3}
+                    <Grid item md={3} sm={3}
                         sx={{
                             display: "flex",
                             justifyContent: "center",
@@ -113,16 +118,16 @@ const Nutrition = () => {
                         <img src={avatar} alt="avatar" width={"150px"} />
                     </Grid>
                     <Typography
-                        sx={{ display: { xs: 'none', sm: 'none', md: 'block', lg: 'block' }, color: "#4298B4", textAlign: "center", mt: 18 }}
+                        sx={{ display: { xs: 'none', sm: 'block', md: 'block', lg: 'block' }, color: "#4298B4", textAlign: "center", mt: 18, pl: 2.5 }}
                         variant="h1">
                         <img src={Arrow} alt="Arrow" />
                     </Typography>
                     <Typography
-                        sx={{ display: { xs: 'block', sm: 'block', md: 'none', lg: 'none' }, color: "#4298B4" }}
+                        sx={{ display: { xs: 'block', sm: 'none', md: 'none', lg: 'none' }, color: "#4298B4" }}
                         variant="h1" mt={1}>
                         <img src={ArrowDown} alt="ArrowDown" />
                     </Typography>
-                    <Grid item md={3}
+                    <Grid item md={3} sm={3}
                         sx={{
                             display: "flex",
                             justifyContent: "center",
