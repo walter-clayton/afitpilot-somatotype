@@ -356,14 +356,14 @@ const Dashboard: FC<IDashboard> = (props) => {
                 }}
               >
                 <Typography
-                  variant="h6"
+                  variant="h5"
                   sx={{
-                    color: colors.secondaryColor,
+                    color: colors.primaryColor,
                     textAlign: "start",
                     alignSelf: "start",
                   }}
                 >
-                  Name
+                  {cookies.user.name}
                 </Typography>
                 <img
                   src={avatar}
@@ -395,6 +395,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                         sx={{
                           fontWeight: 600,
                           fontSize: small ? (xxs ? "150%" : "200%") : "300%",
+                          color: "#ffffff",
                         }}
                       >
                         {fetching || somatotypes.length <= 0
@@ -408,6 +409,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                         sx={{
                           fontWeight: 600,
                           fontSize: small ? (xxs ? "150%" : "200%") : "300%",
+                          color: "#ffffff",
                         }}
                       >
                         -
@@ -419,6 +421,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                         sx={{
                           fontWeight: 600,
                           fontSize: small ? (xxs ? "150%" : "200%") : "300%",
+                          color: "#ffffff",
                         }}
                       >
                         {fetching || somatotypes.length <= 0
@@ -432,6 +435,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                         sx={{
                           fontWeight: 600,
                           fontSize: small ? (xxs ? "150%" : "200%") : "300%",
+                          color: "#ffffff",
                         }}
                       >
                         -
@@ -443,6 +447,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                         sx={{
                           fontWeight: 600,
                           fontSize: small ? (xxs ? "150%" : "200%") : "300%",
+                          color: "#ffffff",
                         }}
                       >
                         {fetching || somatotypes.length <= 0
