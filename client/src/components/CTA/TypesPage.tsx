@@ -142,40 +142,41 @@ const TypesPage = () => {
 
   const Mesomorph = [
     {
+      image: "endomorphic mesomorph",
+      bodyType: "Endomorphic Mesomorph",
+      TypeCode: "EnM",
+      linkToPage: "/Balanced-endomorph",
+    },
+    {
       image: "balanced mesomorph",
-      bodyType: "Balanced mesomorph",
+      bodyType: "Balanced Mesomorph",
       TypeCode: "BM",
       linkToPage: "/Balanced-endomorph",
     },
     {
       image: "ectomorphic mesomorph",
-      bodyType: "Ectomorphic mesomorph ",
+      bodyType: "Ectomorphic Mesomorph ",
       TypeCode: "EcM",
       linkToPage: "/Balanced-endomorph",
     },
-    {
-      image: "endomorphic mesomorph",
-      bodyType: "Endomorphic mesomorph",
-      TypeCode: "EnM",
-      linkToPage: "/Balanced-endomorph",
-    },
+
   ];
   const Ectomorph = [
     {
       image: "mesomorphic ectomorph",
-      bodyType: "Mesomorphic ectomorph ",
+      bodyType: "Mesomorphic Ectomorph ",
       TypeCode: "MEc",
       linkToPage: "/Balanced-endomorph",
     },
     {
       image: "balanced ectomorph",
-      bodyType: "Balanced ectomorph",
+      bodyType: "Balanced Ectomorph",
       TypeCode: "BEc",
       linkToPage: "/Balanced-endomorph",
     },
     {
       image: "endomorphic ectomorph",
-      bodyType: "Endomorphic ectomorph ",
+      bodyType: "Endomorphic Ectomorph ",
       TypeCode: "EnEc",
       linkToPage: "/Balanced-endomorph",
     },
@@ -183,19 +184,19 @@ const TypesPage = () => {
   const Endomorph = [
     {
       image: "ectomorphic endomorph",
-      bodyType: "Ectomorphic endomorph",
+      bodyType: "Ectomorphic Endomorph",
       TypeCode: "EcEn ",
       linkToPage: "/Balanced-endomorph",
     },
     {
       image: "balanced endomorph",
-      bodyType: "Balanced endomorph",
+      bodyType: "Balanced Endomorph",
       TypeCode: "BEn",
       linkToPage: "/Balanced-endomorph",
     },
     {
       image: "mesomorphic endomorph",
-      bodyType: "Mesomorphic endomorph ",
+      bodyType: "Mesomorphic Endomorph ",
       TypeCode: "MEn",
       linkToPage: "/Balanced-endomorph",
     },
@@ -203,19 +204,19 @@ const TypesPage = () => {
   const Hybrid = [
     {
       image: "mesomorph ectomorph",
-      bodyType: "Mesomorph-ectomorph",
+      bodyType: "Mesomorph Ectomorph",
       TypeCode: "M-Ec",
       linkToPage: "/Balanced-endomorph",
     },
     {
       image: "endomorph ectomorph",
-      bodyType: "Endomorph-ectomorph",
+      bodyType: "Endomorph Ectomorph",
       TypeCode: "En-Ec",
       linkToPage: "/Balanced-endomorph",
     },
     {
       image: "mesomorph endomorph",
-      bodyType: "Mesomorph-endomorph",
+      bodyType: "Mesomorph Endomorph",
       TypeCode: "M-En",
       linkToPage: "/Balanced-endomorph",
     },
@@ -224,7 +225,7 @@ const TypesPage = () => {
     {
       image: "central",
       bodyType: "Central",
-      TypeCode: "Central",
+      TypeCode: "C",
       linkToPage: "/Balanced-endomorph",
     },
   ];
@@ -326,7 +327,7 @@ const TypesPage = () => {
         </Box>
         <Box sx={{ width: "100%", backgroundColor: "#E7CACA" }}>
           <Typography variant="h2" sx={{ color: "white", textAlign: "center" }}>
-            Mesomorph
+            MESOMORPH
           </Typography>
           <Grid
             container
@@ -339,15 +340,15 @@ const TypesPage = () => {
                 md={4}
                 lg={4}
                 xl={4}
-                sx={{ textAlign: "center", marginTop: 10 }}
+                sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
                 onClick={() => {
                   navigate(step.linkToPage);
                 }}
               >
                 <img
-                  src={require("../image/" + step.image + ".png")}
+                  src={require("../image/" + step.image + ".svg")}
                   alt="manu tribesman"
-                  style={{ width: "200px", height: "200px" }}
+                  style={{ width: "250px", height: "250px" }}
                 />
                 <Typography
                   variant="h1"
@@ -356,7 +357,7 @@ const TypesPage = () => {
                   {step.bodyType}
                   <Typography
                     variant="body1"
-                    sx={{ color: "#000000", fontSize: "18px" }}
+                    sx={{ color: "#000000", fontSize: "18px", fontWeight: 800 }}
                   >
                     {step.TypeCode}
                   </Typography>
@@ -384,7 +385,6 @@ const TypesPage = () => {
                 textAlign: "center",
                 textTransform: "initial",
                 marginTop: 0,
-                mt: 2,
                 mb: -2,
                 "&.MuiButtonBase-root:hover": {
                   bgcolor: "RGB(108, 77, 123)",
@@ -404,7 +404,7 @@ const TypesPage = () => {
             variant="h2"
             sx={{ color: "white", textAlign: "center", mb: 2, pt: 2 }}
           >
-            Ectomorph
+            ECTOMORPH
           </Typography>
           <Grid
             item
@@ -418,15 +418,15 @@ const TypesPage = () => {
                 md={4}
                 lg={4}
                 xl={4}
-                textAlign={"center"}
+                sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
                 onClick={() => {
                   navigate(step.linkToPage);
                 }}
               >
                 <img
-                  src={require("../image/" + step.image + ".png")}
+                  src={require("../image/" + step.image + ".svg")}
                   alt="manu tribesman"
-                  style={{ width: "200px", height: "200px" }}
+                  style={{ width: "250px", height: "250px" }}
                 />
                 <Typography
                   variant="h1"
@@ -435,7 +435,7 @@ const TypesPage = () => {
                   {step.bodyType}
                   <Typography
                     variant="body1"
-                    sx={{ color: "#000000", fontSize: "18px" }}
+                    sx={{ color: "#000000", fontSize: "18px", fontWeight: 800 }}
                   >
                     {step.TypeCode}
                   </Typography>
@@ -450,7 +450,7 @@ const TypesPage = () => {
             variant="h2"
             sx={{ color: "white", textAlign: "center", mb: 2 }}
           >
-            Endomorph
+            ENDOMORPH
           </Typography>
           <Grid
             item
@@ -464,15 +464,15 @@ const TypesPage = () => {
                 md={4}
                 lg={4}
                 xl={4}
-                sx={{ textAlign: "center", marginTop: 10 }}
+                sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
                 onClick={() => {
                   navigate(step.linkToPage);
                 }}
               >
                 <img
-                  src={require("../image/" + step.image + ".png")}
+                  src={require("../image/" + step.image + ".svg")}
                   alt="manu tribesman"
-                  style={{ width: "200px", height: "200px" }}
+                  style={{ width: "250px", height: "250px" }}
                 />
                 <Typography
                   variant="h1"
@@ -481,7 +481,7 @@ const TypesPage = () => {
                   {step.bodyType}
                   <Typography
                     variant="body1"
-                    sx={{ color: "#000000", fontSize: "18px" }}
+                    sx={{ color: "#000000", fontSize: "18px", fontWeight: 800 }}
                   >
                     {step.TypeCode}
                   </Typography>
@@ -509,7 +509,6 @@ const TypesPage = () => {
                 textAlign: "center",
                 textTransform: "initial",
                 marginTop: 0,
-                mt: 2,
                 mb: -2,
                 "&.MuiButtonBase-root:hover": {
                   bgcolor: "RGB(108, 77, 123)",
@@ -529,7 +528,7 @@ const TypesPage = () => {
             variant="h2"
             sx={{ color: "white", textAlign: "center", mb: 2, pt: 2 }}
           >
-            Hybrid
+            HYBRID
           </Typography>
           <Grid
             item
@@ -544,15 +543,15 @@ const TypesPage = () => {
                 sm={12}
                 lg={4}
                 xl={4}
-                sx={{ textAlign: "center", marginTop: 10 }}
+                sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
                 onClick={() => {
                   navigate(step.linkToPage);
                 }}
               >
                 <img
-                  src={require("../image/" + step.image + ".png")}
+                  src={require("../image/" + step.image + ".svg")}
                   alt="manu tribesman"
-                  style={{ width: "200px", height: "200px" }}
+                  style={{ width: "250px", height: "250px" }}
                 />
                 <Typography
                   variant="h1"
@@ -561,7 +560,7 @@ const TypesPage = () => {
                   {step.bodyType}
                   <Typography
                     variant="body1"
-                    sx={{ color: "#000000", fontSize: "18px" }}
+                    sx={{ color: "#000000", fontSize: "18px", fontWeight: 800 }}
                   >
                     {step.TypeCode}
                   </Typography>
@@ -576,7 +575,7 @@ const TypesPage = () => {
             variant="h2"
             sx={{ color: "white", textAlign: "center", mb: 2 }}
           >
-            Central
+            CENTRAL
           </Typography>
           <Grid
             item
@@ -590,15 +589,15 @@ const TypesPage = () => {
                 md={12}
                 lg={12}
                 xl={12}
-                sx={{ textAlign: "center", marginTop: 10 }}
+                sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
                 onClick={() => {
                   navigate(step.linkToPage);
                 }}
               >
                 <img
-                  src={require("../image/" + step.image + ".png")}
+                  src={require("../image/" + step.image + ".svg")}
                   alt="manu tribesman"
-                  style={{ width: "200px", height: "200px" }}
+                  style={{ width: "250px", height: "250px" }}
                 />
                 <Typography
                   variant="h1"
@@ -607,7 +606,7 @@ const TypesPage = () => {
                   {step.bodyType}
                   <Typography
                     variant="body1"
-                    sx={{ color: "#000000", fontSize: "18px" }}
+                    sx={{ color: "#000000", fontSize: "18px", fontWeight: 800 }}
                   >
                     {step.TypeCode}
                   </Typography>
