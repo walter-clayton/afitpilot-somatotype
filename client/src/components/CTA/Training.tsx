@@ -8,6 +8,7 @@ import Arrow1 from '../image/Arrow1.png';
 import Arrow1Down from '../image/Arrow1Down.png';
 import cross from '../image/cross.png';
 
+
 const theme = createTheme();
 theme.typography.h1 = {
     "@media (max-width:600px)": {
@@ -19,24 +20,34 @@ theme.typography.h1 = {
 };
 theme.typography.h3 = {
     "@media (max-width:600px)": {
+        fontSize: "25px",
+    },
+    [theme.breakpoints.only("sm")]: {
         fontSize: "30px",
     },
-    [theme.breakpoints.up("md")]: {
-        fontSize: "54px",
+    [theme.breakpoints.up('md')]: {
+        fontSize: "44px",
     },
 };
 theme.typography.h4 = {
     "@media (max-width:700px)": {
-        fontSize: "50px",
+        fontSize: "60px",
+    },
+    [theme.breakpoints.only("sm")]: {
+        fontSize: "60px",
+    },
+    [theme.breakpoints.up('md')]: {
+        fontSize: "100px",
     },
 };
 theme.typography.h5 = {
     "@media (max-width:700px)": {
-        fontSize: "35px",
+        fontSize: "30px",
     },
 };
 theme.typography.body1 = {
-    "@media (max-width:600px)": {
+    "@media (max-width:600px)":
+    {
         fontSize: "20px",
     },
     [theme.breakpoints.up("md")]: {
@@ -46,7 +57,16 @@ theme.typography.body1 = {
 
 theme.typography.body2 = {
     "@media (max-width:600px)": {
-        fontSize: "18px",
+        fontSize: "15px",
+    },
+    [theme.breakpoints.up("md")]: {
+        fontSize: "24px",
+    },
+};
+
+theme.typography.body2 = {
+    "@media (max-width:600px)": {
+        fontSize: "15px",
     },
     [theme.breakpoints.up("md")]: {
         fontSize: "24px",
@@ -151,9 +171,10 @@ const Training = () => {
                         <Box
                             sx={{
                                 display: "flex",
-                                alignItems: medium ? "center" : "center",
+                                alignItems: medium ? "start" : "center",
                                 justifyContent: "center",
-                                flexDirection: "column"
+                                flexDirection: "column",
+                                paddingLeft: medium ? "50px" : "0px",
                             }}>
                             <Typography variant="h3" textAlign={"center"}
                                 sx={{ color: "#FFFFFF", mb: 2, fontSize: '54px' }}>
@@ -194,7 +215,7 @@ const Training = () => {
                                 <img src={cross} alt="cancel" width={45} />
                             </Typography>
                             <Typography variant="h4"
-                                sx={{ color: "#ffff", textAlign: "center", fontSize: '100px' }}>
+                                sx={{ color: "#ffff", textAlign: "center", fontSize: '100px', fontWeight: "bold" }}>
                                 100 <span>&#8364;</span>
                             </Typography>
                         </Box>
