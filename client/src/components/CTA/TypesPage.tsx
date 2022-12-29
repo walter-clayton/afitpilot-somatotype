@@ -6,8 +6,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CounterShare from "./CounterShare";
 import { useNavigate } from "react-router-dom";
 import mesomorpyshape from '../image/mesomorpyshape.png'
-import centralshape from '../image/centralshape.png'
-import TypesPage1 from "./TypesPage1";
+import TypesPage1, { Icategory } from "./TypesPage1";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
@@ -45,10 +44,96 @@ const heading = {
     fontWeight: 600,
   },
 };
-
+interface Icategories {
+  category1: Icategory[],
+  category2: Icategory[]
+}
 const TypesPage = () => {
   const navigate = useNavigate();
+  const categories: Icategories = {
+    category1: [
+      {
+        label: 'MESOMORPH',
+        bgColor: '#B76060',
+      },
+      {
+        label: 'ECTOMORPH',
+        bgColor: '#DCB051',
+      },
+      {
+        label: 'ENDOMORPH',
+        bgColor: '#6C4D7B',
+      },
+      {
+        label: 'HYBRID',
+        bgColor: '#56A278',
+      },
+      {
+        label: 'CENTRAL',
+        bgColor: '#4298B4',
+      },
+    ],
+    category2: [
+      {
+        label: 'Balanced Mesomorph',
+        bgColor: '#B76060',
+      },
+      {
+        label: 'Ectomorphic Mesomorph',
+        bgColor: '#B76060',
+      },
+      {
+        label: 'Endomorphic Mesomorph',
+        bgColor: '#B76060',
+      },
+      //ectomorph
+      {
+        label: 'Mesomorphic Ectomorph',
+        bgColor: '#DCB051',
+      },
+      {
+        label: 'Balanced Ectomorph',
+        bgColor: '#DCB051',
+      }, {
+        label: 'Endomorphic Ectomorph',
+        bgColor: '#DCB051',
+      },
+      //endomorph
+      {
+        label: 'Ectomorphic Endomorph',
+        bgColor: '#6C4D7B',
+      },
+      {
+        label: 'Balanced Endomorph',
+        bgColor: '#6C4D7B',
+      }, {
+        label: 'Mesomorphic Endomorph',
+        bgColor: '#6C4D7B',
+      },
+      //hybrid
+      {
+        label: 'Mesomorph Ectomorph',
+        bgColor: '#56A278',
+      },
+      {
+        label: 'Endomorph Ectomorph',
+        bgColor: '#56A278',
+      }, {
+        label: 'Mesomorph Endomorph',
+        bgColor: '#56A278',
+      },
+      //central
+      {
+        label: 'Central',
+        bgColor: '#4298B4',
+      },
+    ]
+  }
   const [isChecked, setIsChecked] = useState(false);
+  const [labelCategory, setLabelCategory] = useState("category1")
+  const [currentCategory, setCurrentCategory] = useState((categories as any)[labelCategory])
+
+  console.log(currentCategory.constructor.name)
 
   const Mesomorph = [
     {
@@ -196,13 +281,25 @@ const TypesPage = () => {
           </Box>
         </Grid>
         {/* typepage for Categories */}
-        <TypesPage1 />
+        <TypesPage1 currentCategory={currentCategory} labelCategory={labelCategory} />
         {/* switch button to show SUBCATEGORIES */}
-        <FormControlLabel control={<Switch defaultChecked />}
-          checked={isChecked}
-          onChange={() => setIsChecked(!isChecked)}
-          label="13 SUBCATEGORIES" />
+        <Box sx={{
+        }}>
+          <FormControlLabel control={<Switch defaultChecked
+          />}
+            checked={isChecked}
+            onChange={(event: any) => {
+              setIsChecked(!isChecked); if (event.target.checked) {
+                setCurrentCategory(categories["category2"]); setLabelCategory("category2")
+              } else {
+                setCurrentCategory(categories["category1"]); setLabelCategory("category1")
+
+              }
+            }}
+            label="13 SUBCATEGORIES" />
+        </Box>
       </Grid>
+
       {isChecked &&
         <ThemeProvider theme={theme}>
           <Box sx={{ mb: -2, }}>
