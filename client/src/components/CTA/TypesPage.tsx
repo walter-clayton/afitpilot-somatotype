@@ -348,7 +348,7 @@ const TypesPage = () => {
                 <img
                   src={require("../image/" + step.image + ".svg")}
                   alt="manu tribesman"
-                  style={{ width: "250px", height: "250px" }}
+                  style={{ width: "300px", height: "250px" }}
                 />
                 <Typography
                   variant="h1"
@@ -426,7 +426,7 @@ const TypesPage = () => {
                 <img
                   src={require("../image/" + step.image + ".svg")}
                   alt="manu tribesman"
-                  style={{ width: "250px", height: "250px" }}
+                  style={{ width: "300px", height: "250px" }}
                 />
                 <Typography
                   variant="h1"
@@ -472,7 +472,7 @@ const TypesPage = () => {
                 <img
                   src={require("../image/" + step.image + ".svg")}
                   alt="manu tribesman"
-                  style={{ width: "250px", height: "250px" }}
+                  style={{ width: "300px", height: "250px" }}
                 />
                 <Typography
                   variant="h1"
@@ -551,7 +551,7 @@ const TypesPage = () => {
                 <img
                   src={require("../image/" + step.image + ".svg")}
                   alt="manu tribesman"
-                  style={{ width: "250px", height: "250px" }}
+                  style={{ width: "300px", height: "250px" }}
                 />
                 <Typography
                   variant="h1"
@@ -597,7 +597,7 @@ const TypesPage = () => {
                 <img
                   src={require("../image/" + step.image + ".svg")}
                   alt="manu tribesman"
-                  style={{ width: "250px", height: "250px" }}
+                  style={{ width: "300px", height: "250px" }}
                 />
                 <Typography
                   variant="h1"
