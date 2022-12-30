@@ -141,19 +141,18 @@ const ResponsiveAppBar = (props: any) => {
                 window.scrollTo(0, 0);
               }}
             >
-              {xxxs ? null : (
-                <IconButton sx={{ p: 0 }}>
-                  <Avatar
-                    alt="logo"
-                    src={logoIcon}
-                    sx={{
-                      width: { xs: 32, sm: 48 },
-                      height: { xs: 32, sm: 48 },
-                      borderRadius: "0",
-                    }}
-                  />
-                </IconButton>
-              )}
+              <IconButton sx={{ p: 0 }}>
+                <Avatar
+                  alt="logo"
+                  src={logoIcon}
+                  sx={{
+                    width: { xs: 32, sm: 48 },
+                    height: { xs: 32, sm: 48 },
+                    borderRadius: "0",
+                  }}
+                />
+              </IconButton>
+
               <Typography
                 variant="h5"
                 noWrap
