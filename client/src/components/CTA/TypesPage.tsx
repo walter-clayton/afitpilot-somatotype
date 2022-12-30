@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Grid, Box, Button, Typography, useMediaQuery } from "@mui/material/";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
@@ -148,6 +148,11 @@ const TypesPage = () => {
   const [currentCategory, setCurrentCategory] = useState(
     (categories as any)[labelCategory]
   );
+  const section1Ref = useRef<HTMLDivElement>(null)
+  const section2Ref = useRef<HTMLDivElement>(null)
+  const section3Ref = useRef<HTMLDivElement>(null)
+  const section4Ref = useRef<HTMLDivElement>(null)
+  const section5Ref = useRef<HTMLDivElement>(null)
 
   const Mesomorph = [
     {
@@ -304,6 +309,11 @@ const TypesPage = () => {
         {/* typepage for Categories */}
         <TypesPage1
           currentCategory={currentCategory}
+          section1Ref={section1Ref}
+          section2Ref={section2Ref}
+          section3Ref={section3Ref}
+          section4Ref={section4Ref}
+          section5Ref={section5Ref}
           labelCategory={labelCategory}
           currentIndexCat1={currentIndexCat1}
           setCurrentIndexCat1={setCurrentIndexCat1}
@@ -334,7 +344,7 @@ const TypesPage = () => {
         <Box sx={{ mb: -2 }}>
           <img src={mesomorpyshape} alt="" style={{ width: "100%" }} />
         </Box>
-        <Box sx={{ width: "100%", backgroundColor: "#E7CACA" }}>
+        <Box ref={section1Ref} sx={{ width: "100%", backgroundColor: "#E7CACA" }}>
           <Typography variant="h2" sx={{ color: "white", textAlign: "center" }}>
             MESOMORPH
           </Typography>
@@ -416,7 +426,7 @@ const TypesPage = () => {
           </Box>
         </Box>
         {/* second grid */}
-        <Box sx={{ width: "100%", backgroundColor: "#F2E2BF" }}>
+        <Box ref={section2Ref} sx={{ width: "100%", backgroundColor: "#F2E2BF" }}>
           <Typography
             variant="h2"
             sx={{ color: "white", textAlign: "center", mb: 2, pt: 2 }}
@@ -470,7 +480,7 @@ const TypesPage = () => {
           </Grid>
         </Box>
         {/* third grid */}
-        <Box sx={{ width: "100%", backgroundColor: "#DCD0E2" }}>
+        <Box ref={section3Ref} sx={{ width: "100%", backgroundColor: "#DCD0E2" }}>
           <Typography
             variant="h2"
             sx={{ color: "white", textAlign: "center", mb: 2 }}
@@ -556,7 +566,7 @@ const TypesPage = () => {
           </Box>
         </Box>
         {/* fourth grid */}
-        <Box sx={{ width: "100%", backgroundColor: "#D5E8DD" }}>
+        <Box ref={section4Ref} sx={{ width: "100%", backgroundColor: "#D5E8DD" }}>
           <Typography
             variant="h2"
             sx={{ color: "white", textAlign: "center", mb: 2, pt: 2 }}
@@ -612,7 +622,7 @@ const TypesPage = () => {
           </Grid>
         </Box>
         {/* fifth grid */}
-        <Box sx={{ width: "100%", backgroundColor: "#A0CBDA" }}>
+        <Box ref={section5Ref} sx={{ width: "100%", backgroundColor: "#A0CBDA" }}>
           <Typography
             variant="h2"
             sx={{ color: "white", textAlign: "center", mb: 2 }}
