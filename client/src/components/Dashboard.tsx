@@ -10,7 +10,7 @@ import {
 import React, { useEffect, useState, useRef, FC } from "react";
 import { calculateSomatotype, IPoints } from "./Calculation";
 import ResultsTable from "./ResultsTable";
-import { IAnthropometric, IColors, IData, ISomatotype } from "../App";
+import { IAnthropometric, IData, ISomatotype } from "../App";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import SomatotypeGraph from "./SomatotypeGraph";
@@ -25,6 +25,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ShareIcon from "@mui/icons-material/Share";
 import html2canvas from "html2canvas";
 import CircleIcon from "@mui/icons-material/Circle";
+import { getColors, IColors } from "./Colors";
 
 const theme = createTheme();
 
@@ -102,13 +103,6 @@ const Dashboard: FC<IDashboard> = (props) => {
   const xxxs = useMediaQuery("(max-width:320px)");
 
   const cardRef = useRef<HTMLDivElement>(null);
-
-  const colors: IColors = {
-    darkColor: "#B88C2E",
-    normalColor: "#DCB051",
-    lightColor: "#E8CB8C",
-    clearColor: "#FFF7DA",
-  };
 
   const getUserDatas = async () => {
     const headers = {
@@ -269,7 +263,7 @@ const Dashboard: FC<IDashboard> = (props) => {
           p={3}
           textAlign="center"
           color={"white"}
-          sx={{ backgroundColor: colors.darkColor }}
+          sx={{ backgroundColor: getColors().darkColor }}
         >
           Dashboard
         </Typography>
@@ -352,15 +346,15 @@ const Dashboard: FC<IDashboard> = (props) => {
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
-                  border: `10px solid ${colors.darkColor}`,
+                  border: `10px solid ${getColors().darkColor}`,
                   borderRadius: "25px",
-                  backgroundColor: colors.clearColor,
+                  backgroundColor: getColors().clearColor,
                 }}
               >
                 <Typography
                   variant="h5"
                   sx={{
-                    color: colors.normalColor,
+                    color: getColors().normalColor,
                     textAlign: "start",
                     alignSelf: "start",
                   }}
@@ -378,7 +372,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                   marginBottom={1}
                   sx={{
                     color: "black",
-                    backgroundColor: colors.darkColor,
+                    backgroundColor: getColors().darkColor,
                     textAlign: "center",
                     borderRadius: "25px",
                   }}
@@ -462,14 +456,14 @@ const Dashboard: FC<IDashboard> = (props) => {
                 <Box
                   sx={{
                     width: "100%",
-                    borderBottom: `2px solid ${colors.darkColor}`,
+                    borderBottom: `2px solid ${getColors().darkColor}`,
                   }}
                 >
                   <Typography
                     marginBottom={0.3}
                     variant="h5"
                     sx={{
-                      color: colors.darkColor,
+                      color: getColors().darkColor,
                       textAlign: "center",
                       fontWeight: 600,
                       fontSize: xxl
@@ -494,7 +488,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                   <Typography
                     variant="h5"
                     sx={{
-                      color: colors.normalColor,
+                      color: getColors().normalColor,
                       textAlign: "center",
                       fontWeight: 600,
                       fontSize: xxl
@@ -561,12 +555,15 @@ const Dashboard: FC<IDashboard> = (props) => {
                       }}
                     >
                       <CircleIcon
-                        sx={{ marginRight: "10px", color: colors.darkColor }}
+                        sx={{
+                          marginRight: "10px",
+                          color: getColors().darkColor,
+                        }}
                       />
                       <Typography
                         variant="h5"
                         sx={{
-                          color: colors.darkColor,
+                          color: getColors().darkColor,
                           textAlign: "center",
                           fontWeight: 600,
                           fontSize: "150%",
@@ -606,8 +603,8 @@ const Dashboard: FC<IDashboard> = (props) => {
               </Grid>
               <Button
                 sx={{
-                  borderColor: colors.darkColor,
-                  color: colors.darkColor,
+                  borderColor: getColors().darkColor,
+                  color: getColors().darkColor,
                   padding: "14px 30px",
                   fontWeight: 600,
                   textAlign: "center",
@@ -635,9 +632,9 @@ const Dashboard: FC<IDashboard> = (props) => {
                       : "15%"
                     : "20%",
                   "&.MuiButtonBase-root:hover": {
-                    bgcolor: colors.darkColor,
+                    bgcolor: getColors().darkColor,
                     color: "#ffffff",
-                    borderColor: colors.darkColor,
+                    borderColor: getColors().darkColor,
                   },
                 }}
                 variant="outlined"
@@ -681,11 +678,10 @@ const Dashboard: FC<IDashboard> = (props) => {
                 setDashboardSnackBarMessage={props.setDashboardSnackBarMessage}
                 isFetching={fetching}
                 setTypeResult={setTypeResult}
-                colors={colors}
               />
               <Button
                 sx={{
-                  backgroundColor: colors.darkColor,
+                  backgroundColor: getColors().darkColor,
                   padding: "14px 30px",
                   fontWeight: 600,
                   textAlign: "center",
@@ -713,7 +709,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                       : "15%"
                     : "20%",
                   "&.MuiButtonBase-root:hover": {
-                    bgcolor: colors.darkColor,
+                    bgcolor: getColors().darkColor,
                   },
                 }}
                 variant="contained"
@@ -897,7 +893,7 @@ const Dashboard: FC<IDashboard> = (props) => {
             <Grid item xs={12}>
               <Button
                 sx={{
-                  backgroundColor: colors.darkColor,
+                  backgroundColor: getColors().darkColor,
                   padding: "14px 30px",
                   fontWeight: 600,
                   textAlign: "center",
@@ -908,7 +904,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                   width: "80%",
                   mx: "10%",
                   "&.MuiButtonBase-root:hover": {
-                    bgcolor: colors.darkColor,
+                    bgcolor: getColors().darkColor,
                   },
                 }}
                 variant="contained"
