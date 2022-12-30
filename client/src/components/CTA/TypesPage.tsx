@@ -1,6 +1,6 @@
 import { useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Grid, Box, Button, Typography } from "@mui/material/";
+import { Grid, Box, Button, Typography, useMediaQuery } from "@mui/material/";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CounterShare from "./CounterShare";
@@ -13,18 +13,24 @@ import Switch from "@mui/material/Switch";
 const theme = createTheme();
 theme.typography.h1 = {
   "@media (max-width:600px)": {
-    fontSize: "1.0 rem",
+    fontSize: "22px",
   },
-  [theme.breakpoints.up("md")]: {
-    fontSize: "1.5rem",
+  [theme.breakpoints.only("sm")]: {
+    fontSize: "25px",
+  },
+  [theme.breakpoints.up('md')]: {
+    fontSize: "28px",
   },
 };
 theme.typography.h2 = {
   "@media (max-width:600px)": {
-    fontSize: "3rem",
+    fontSize: "42px",
   },
-  [theme.breakpoints.up("md")]: {
-    fontSize: "5rem",
+  [theme.breakpoints.only("sm")]: {
+    fontSize: "70px",
+  },
+  [theme.breakpoints.up('md')]: {
+    fontSize: "100px",
   },
 };
 const heading = {
@@ -50,6 +56,9 @@ interface Icategories {
 }
 const TypesPage = () => {
   const navigate = useNavigate();
+  const medium = useMediaQuery("(max-width:899px)");
+  const small = useMediaQuery("(max-width:599px)");
+  const extraSmall = useMediaQuery("(max-width:449px)");
   const categories: Icategories = {
     category1: [
       {
@@ -302,7 +311,7 @@ const TypesPage = () => {
           setCurrentIndexCat2={setCurrentIndexCat2}
         />
         {/* switch button to show SUBCATEGORIES */}
-        <Box sx={{}}>
+        <Box >
           <FormControlLabel
             control={<Switch defaultChecked />}
             checked={isChecked}
@@ -348,7 +357,15 @@ const TypesPage = () => {
                 <img
                   src={require("../image/" + step.image + ".svg")}
                   alt="manu tribesman"
-                  style={{ width: "300px", height: "250px" }}
+                  style={{
+                    width: medium
+                      ? small
+                        ? extraSmall
+                          ? "65%"
+                          : "60%"
+                        : "55%"
+                      : "60%", height: "250px"
+                  }}
                 />
                 <Typography
                   variant="h1"
@@ -426,8 +443,16 @@ const TypesPage = () => {
                 <img
                   src={require("../image/" + step.image + ".svg")}
                   alt="manu tribesman"
-                  style={{ width: "300px", height: "250px" }}
-                />
+                  style={{
+                    width: medium
+                      ? small
+                        ? extraSmall
+                          ? "65%"
+                          : "60%"
+                        : "55%"
+                      : "60%",
+                    height: "250px"
+                  }} />
                 <Typography
                   variant="h1"
                   sx={{ color: "#DCB051", textAlign: "center" }}
@@ -472,8 +497,16 @@ const TypesPage = () => {
                 <img
                   src={require("../image/" + step.image + ".svg")}
                   alt="manu tribesman"
-                  style={{ width: "300px", height: "250px" }}
-                />
+                  style={{
+                    width: medium
+                      ? small
+                        ? extraSmall
+                          ? "65%"
+                          : "60%"
+                        : "55%"
+                      : "60%",
+                    height: "250px"
+                  }} />
                 <Typography
                   variant="h1"
                   sx={{ color: "#6C4D7B", textAlign: "center" }}
@@ -551,7 +584,16 @@ const TypesPage = () => {
                 <img
                   src={require("../image/" + step.image + ".svg")}
                   alt="manu tribesman"
-                  style={{ width: "300px", height: "250px" }}
+                  style={{
+                    width: medium
+                      ? small
+                        ? extraSmall
+                          ? "65%"
+                          : "60%"
+                        : "55%"
+                      : "60%",
+                    height: "250px"
+                  }}
                 />
                 <Typography
                   variant="h1"
@@ -597,8 +639,16 @@ const TypesPage = () => {
                 <img
                   src={require("../image/" + step.image + ".svg")}
                   alt="manu tribesman"
-                  style={{ width: "300px", height: "250px" }}
-                />
+                  style={{
+                    width: medium
+                      ? small
+                        ? extraSmall
+                          ? "65%"
+                          : "60%"
+                        : "55%"
+                      : "60%",
+                    height: "250px"
+                  }} />
                 <Typography
                   variant="h1"
                   sx={{ color: "#1874A3", textAlign: "center" }}
