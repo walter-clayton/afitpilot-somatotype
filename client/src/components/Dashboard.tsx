@@ -545,34 +545,36 @@ const Dashboard: FC<IDashboard> = (props) => {
                     }}
                     width={"100%"}
                   >
-                    <Grid
-                      item
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        flexDirection: "row",
-                      }}
-                    >
-                      <CircleIcon
+                    {pointsArray.length > 0 && (
+                      <Grid
+                        item
                         sx={{
-                          marginRight: "10px",
-                          color: getColors().darkColor,
-                        }}
-                      />
-                      <Typography
-                        variant="h5"
-                        sx={{
-                          color: getColors().darkColor,
-                          textAlign: "center",
-                          fontWeight: 600,
-                          fontSize: "150%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          flexDirection: "row",
                         }}
                       >
-                        You
-                      </Typography>
-                    </Grid>
-                    {comparisonPointsArray.length > 0 ? (
+                        <CircleIcon
+                          sx={{
+                            marginRight: "10px",
+                            color: getColors().darkColor,
+                          }}
+                        />
+                        <Typography
+                          variant="h5"
+                          sx={{
+                            color: getColors().darkColor,
+                            textAlign: "center",
+                            fontWeight: 600,
+                            fontSize: "150%",
+                          }}
+                        >
+                          You
+                        </Typography>
+                      </Grid>
+                    )}
+                    {comparisonPointsArray.length > 0 && (
                       <Grid
                         item
                         sx={{
@@ -597,7 +599,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                           {comparisonState}
                         </Typography>
                       </Grid>
-                    ) : null}
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
