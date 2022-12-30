@@ -28,12 +28,13 @@ import { alignProperty } from "@mui/material/styles/cssUtils";
 import { display, flexbox, fontWeight } from "@mui/system";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { IColors, ISomatotype } from "../App";
+import { ISomatotype } from "../App";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { AddPoint, IPoints } from "./Calculation";
 import { getSomatotypeType } from "./TestPage";
 import { useNavigate } from "react-router-dom";
+import { getColors, IColors } from "./Colors";
 
 function createRow(
   Endomorphy: string,
@@ -77,7 +78,6 @@ interface resultProps {
   setDashboardSnackBarMessage?: (msg: string) => void;
   isFetching?: boolean;
   setTypeResult?: (result: string) => void;
-  colors?: IColors;
 }
 
 const ResultsTable: FC<resultProps> = (props: any) => {
@@ -220,7 +220,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
         somatotypeToShow.endomorphy!,
         somatotypeToShow.mesomorphy!,
         somatotypeToShow.ectomorphy!,
-        props.colors.darkColor
+        getColors().darkColor!
       );
       pointsResultsArray.push(point);
     });
@@ -344,7 +344,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
               key={index}
               sx={{
                 backgroundColor: row.IsDisplayed
-                  ? props.colors.clearColor
+                  ? getColors().clearColor
                   : "white",
               }}
             >
@@ -358,12 +358,12 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                   icon={
                     <VisibilityOffIcon
                       sx={{
-                        color: props.colors.lightColor,
+                        color: getColors().lightColor,
                       }}
                     />
                   }
                   checkedIcon={
-                    <VisibilityIcon sx={{ color: props.colors.lightColor }} />
+                    <VisibilityIcon sx={{ color: getColors().lightColor }} />
                   }
                   sx={{
                     "&:hover": {
@@ -404,10 +404,10 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                     <IconButton
                       aria-label="edit"
                       sx={{
-                        color: props.colors.lightColor,
+                        color: getColors().lightColor,
                         padding: "0",
                         "&:hover": {
-                          color: props.colors.lightColor,
+                          color: getColors().lightColor,
                           backgroundColor: "rgba(0,0,0,0)",
                         },
                       }}
@@ -426,10 +426,10 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                     <IconButton
                       aria-label="delete"
                       sx={{
-                        color: props.colors.lightColor,
+                        color: getColors().lightColor,
                         padding: "0",
                         "&:hover": {
-                          color: props.colors.lightColor,
+                          color: getColors().lightColor,
                           backgroundColor: "rgba(0,0,0,0)",
                         },
                       }}
@@ -498,7 +498,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                 align="center"
                 colSpan={12}
                 sx={{
-                  backgroundColor: props.colors.darkColor,
+                  backgroundColor: getColors().darkColor,
                   color: "white",
                   fontWeight: 600,
                   textAlign: "center",

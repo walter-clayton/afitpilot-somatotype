@@ -9,6 +9,7 @@ import {
   Snackbar,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Visibility from "@mui/icons-material/Visibility";
@@ -17,34 +18,11 @@ import axios from "axios";
 import { CookiesProvider, useCookies } from "react-cookie";
 import { Navigate, useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
-
-function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window;
-  return {
-    width,
-    height,
-  };
-}
-
-function useWindowDimensions() {
-  const [windowDimensions, setWindowDimensions] = useState(
-    getWindowDimensions()
-  );
-
-  useEffect(() => {
-    function handleResize() {
-      setWindowDimensions(getWindowDimensions());
-    }
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  return windowDimensions;
-}
+import avatar from "./image/manu-tribesman.png";
+import { getColors, getSpecificColors, IColors, setColors } from "./Colors";
+import CircleIcon from "@mui/icons-material/Circle";
 
 const Profile = (props: any) => {
-  const { height, width } = useWindowDimensions();
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const defaultEmail = cookies.user.email;
   const defaultName = cookies.user.name;
@@ -53,6 +31,7 @@ const Profile = (props: any) => {
   const [isEditing, setIsEditing] = useState(false);
   const [emailhasChanges, setEmailHasChanges] = useState(false);
   const [nameHasChanges, setNameHasChanges] = useState(false);
+  const [colorhasChanges, setColorHasChanges] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showPwdConfirmation, setShowPwdConfirmation] = useState(false);
 
@@ -79,13 +58,22 @@ const Profile = (props: any) => {
   const handleEditPwdModalOpen = () => setEditPwdModal(true);
   const handleEditPwdModalClose = () => setEditPwdModal(false);
 
+  const defaultColor = getColors();
+  const [colorPicked, setColorPicked] = useState<IColors>(defaultColor);
+
+  const medium = useMediaQuery("(max-width:1000px)");
+  const small = useMediaQuery("(max-width:600px)");
+  const xSmall = useMediaQuery("(max-width:550px)");
+  const xxSmall = useMediaQuery("(max-width:450px)");
+  const xxs = useMediaQuery("(max-width:400px)");
+  const xxxs = useMediaQuery("(max-width:320px)");
+
   const modalStyle = {
     position: "absolute" as "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width:
-      width < 400 ? "90%" : width < 550 ? "80%" : width < 1000 ? "50%" : "35%",
+    width: xxs ? "90%" : xSmall ? "80%" : medium ? "50%" : "35%",
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 24,
@@ -99,10 +87,6 @@ const Profile = (props: any) => {
   const handleEditPassword = () => {
     handleEditPwdModalOpen();
   };
-
-  // useEffect(() => {
-  //   console.log(isNameValid(name));
-  // }, [name]);
 
   const handleSaveNewEmail = async () => {
     try {
@@ -280,6 +264,11 @@ const Profile = (props: any) => {
       if (nameHasChanges) {
         handleSaveNewName();
       }
+      if (colorhasChanges) {
+        setSnackBarMessage("Changes saved!");
+        setIsEditing(false);
+        setColorHasChanges(false);
+      }
       if (emailhasChanges || nameHasChanges) {
         const user = {
           email: email,
@@ -409,77 +398,382 @@ const Profile = (props: any) => {
     return isValid;
   };
 
+  const setMainColor = (colorIndex: number) => {
+    setColors(colorIndex);
+    setColorPicked(getSpecificColors(colorIndex));
+    setColorHasChanges(true);
+  };
+
   return (
     <>
+      <Typography
+        variant="h3"
+        p={3}
+        textAlign="center"
+        color={"white"}
+        sx={{ backgroundColor: colorPicked.darkColor }}
+      >
+        Profile
+      </Typography>
       <Grid
         container
         sx={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
+          alignItems: "center",
           padding: "0px 15px",
+          marginTop: "20px",
         }}
         width={"100%"}
       >
-        <Grid item m={3} sx={{}} xs={12} md={8} lg={6} alignSelf={"center"}>
-          <Typography variant="h3">Profile</Typography>
+        <Grid item width={"100%"} xs={10} sm={8} md={6} lg={4} paddingTop={2}>
+          <Grid
+            container
+            paddingTop={2}
+            sx={{
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              border: `10px solid ${colorPicked.darkColor}`,
+              borderRadius: "25px",
+              backgroundColor: colorPicked.clearColor,
+            }}
+          >
+            <img src={avatar} alt="manu tribesman" style={{ width: "100px" }} />
+            <Box
+              width={"100%"}
+              padding={1}
+              sx={{
+                backgroundColor: colorPicked.normalColor,
+                borderBottomLeftRadius: "12.5px",
+                borderBottomRightRadius: "12.5px",
+              }}
+            >
+              <TextField
+                error={nameIsIncorrect ? true : false}
+                onChange={handleChangeName}
+                id="name"
+                variant="outlined"
+                disabled={isEditing ? false : true}
+                value={name}
+                sx={{
+                  width: "80%",
+                  backgroundColor: isEditing
+                    ? "#ffffff"
+                    : colorPicked.normalColor,
+                  borderRadius: "25px",
+
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      border: nameIsIncorrect
+                        ? "2px solid #ff0000"
+                        : "0px solid #ffffff",
+                      borderRadius: "25px",
+                    },
+                    "&.Mui-focused fieldset": {
+                      border: nameIsIncorrect
+                        ? "2px solid #ff0000"
+                        : "0px solid #ffffff",
+                      borderRadius: "25px",
+                    },
+                  },
+
+                  "input:-webkit-autofill": {
+                    WebkitTextFillColor: isEditing
+                      ? colorPicked.darkColor
+                      : "#ffffff",
+                    transition: `background-color 600000s 0s`,
+                    fontFamily: '"Roboto","Helvetica","Arial",sans-serif',
+                    fontWeight: 400,
+                    fontSize: small
+                      ? xxs
+                        ? xxxs
+                          ? "80%"
+                          : "100%"
+                        : "120%"
+                      : "150%",
+                    lineHeight: "1.4375em",
+                    borderRadius: "25px",
+                  },
+
+                  input: {
+                    width: "100%",
+                    textAlign: "center",
+                    color: isEditing ? colorPicked.darkColor : "#ffffff",
+                    padding: 0.25,
+                    fontSize: small
+                      ? xxs
+                        ? xxxs
+                          ? "80%"
+                          : "100%"
+                        : "120%"
+                      : "150%",
+                    "&.Mui-disabled": {
+                      WebkitTextFillColor: isEditing
+                        ? colorPicked.darkColor
+                        : "#ffffff",
+                    },
+                  },
+                }}
+              />
+            </Box>
+          </Grid>
+          {nameIsIncorrect && (
+            <Typography
+              variant="caption"
+              display="block"
+              color="#ff0000"
+              alignSelf={"start"}
+              marginTop={0.5}
+            >
+              • Name can only contains lowercase letters !
+            </Typography>
+          )}
         </Grid>
 
-        <Grid
-          item
-          sx={{
-            flexGrow: 1,
-          }}
-          width={"100%"}
-          xs={12}
-          md={8}
-          lg={6}
-          alignSelf={"center"}
-        >
-          <TextField
-            error={emailIsIncorrect ? true : false}
-            onChange={handleChangeEmail}
-            id="email"
-            label="Email"
-            variant="outlined"
-            disabled={isEditing ? false : true}
-            value={email}
-            margin="normal"
-            sx={{ width: "100%" }}
-          />
+        <Grid item width={"100%"} xs={10} sm={8} md={6} lg={4} paddingTop={2}>
+          <Box
+            sx={{
+              backgroundColor: colorPicked.darkColor,
+              marginTop: 2,
+              padding: 2,
+              borderRadius: "25px",
+            }}
+          >
+            <TextField
+              error={emailIsIncorrect ? true : false}
+              onChange={handleChangeEmail}
+              id="email"
+              variant="outlined"
+              disabled={isEditing ? false : true}
+              value={email}
+              sx={{
+                width: "100%",
+                backgroundColor: isEditing ? "#ffffff" : colorPicked.darkColor,
+                borderRadius: "25px",
+
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    border: emailIsIncorrect
+                      ? "2px solid #ff0000"
+                      : "0px solid #ffffff",
+                    borderRadius: "25px",
+                  },
+                  "&.Mui-focused fieldset": {
+                    border: emailIsIncorrect
+                      ? "2px solid #ff0000"
+                      : "0px solid #ffffff",
+                    borderRadius: "25px",
+                  },
+                },
+
+                "input:-webkit-autofill": {
+                  WebkitTextFillColor: isEditing
+                    ? colorPicked.darkColor
+                    : "#ffffff",
+                  transition: `background-color 600000s 0s`,
+                  fontFamily: '"Roboto","Helvetica","Arial",sans-serif',
+                  fontWeight: 400,
+                  fontSize: small
+                    ? xxs
+                      ? xxxs
+                        ? "80%"
+                        : "100%"
+                      : "120%"
+                    : "150%",
+                  lineHeight: "1.4375em",
+                  borderRadius: "25px",
+                },
+
+                input: {
+                  width: "100%",
+                  textAlign: "center",
+                  color: isEditing ? colorPicked.darkColor : "#ffffff",
+                  padding: 1,
+                  fontSize: small
+                    ? xxs
+                      ? xxxs
+                        ? "80%"
+                        : "100%"
+                      : "120%"
+                    : "150%",
+                  "&.Mui-disabled": {
+                    WebkitTextFillColor: isEditing
+                      ? colorPicked.darkColor
+                      : "#ffffff",
+                  },
+                },
+              }}
+            />
+          </Box>
           {emailIsIncorrect ? (
             <Typography
               variant="caption"
               display="block"
-              gutterBottom
               color="#ff0000"
+              marginTop={0.5}
             >
               • Please enter a valid email !
             </Typography>
           ) : null}
-
-          <TextField
-            error={nameIsIncorrect ? true : false}
-            onChange={handleChangeName}
-            id="name"
-            label="Name"
-            variant="outlined"
-            disabled={isEditing ? false : true}
-            value={name}
-            margin="normal"
-            sx={{ width: "100%" }}
-          />
-          {nameIsIncorrect ? (
-            <Typography
-              variant="caption"
-              display="block"
-              gutterBottom
-              color="#ff0000"
-            >
-              • Name can only contains lowercase letters !
-            </Typography>
-          ) : null}
         </Grid>
+
+        {isEditing && (
+          <Grid item width={"100%"} xs={10} sm={8} md={6} lg={4} marginTop={4}>
+            <Typography
+              textAlign={"center"}
+              color={"#000000"}
+              sx={{
+                fontSize: small
+                  ? xxs
+                    ? xxxs
+                      ? "80%"
+                      : "100%"
+                    : "120%"
+                  : "150%",
+              }}
+            >
+              Color Picker
+            </Typography>
+            <Grid
+              container
+              width={"100%"}
+              display={"flex"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              columnSpacing={xxSmall ? (xxs ? (xxxs ? 0.3 : 0.5) : 0.75) : 2}
+            >
+              <Grid item>
+                <IconButton
+                  sx={{ padding: 0 }}
+                  onClick={() => {
+                    setMainColor(0);
+                  }}
+                >
+                  <CircleIcon
+                    sx={{
+                      color: getSpecificColors(0).normalColor,
+                      fontSize: xxSmall
+                        ? xxs
+                          ? xxxs
+                            ? "150%"
+                            : "165%"
+                          : "175%"
+                        : "200%",
+                      cursor: "pointer",
+                      "&:hover": {
+                        color: getSpecificColors(0).lightColor,
+                      },
+                    }}
+                  />
+                </IconButton>
+              </Grid>
+              <Grid item>
+                <IconButton
+                  sx={{ padding: 0 }}
+                  onClick={() => {
+                    setMainColor(1);
+                  }}
+                >
+                  <CircleIcon
+                    sx={{
+                      color: getSpecificColors(1).normalColor,
+                      fontSize: xxSmall
+                        ? xxs
+                          ? xxxs
+                            ? "150%"
+                            : "165%"
+                          : "175%"
+                        : "200%",
+                      cursor: "pointer",
+                      "&:hover": {
+                        color: getSpecificColors(1).lightColor,
+                      },
+                    }}
+                  />
+                </IconButton>
+              </Grid>
+              <Grid item>
+                <IconButton
+                  sx={{ padding: 0 }}
+                  onClick={() => {
+                    setMainColor(2);
+                  }}
+                >
+                  <CircleIcon
+                    sx={{
+                      color: getSpecificColors(2).normalColor,
+                      fontSize: xxSmall
+                        ? xxs
+                          ? xxxs
+                            ? "150%"
+                            : "165%"
+                          : "175%"
+                        : "200%",
+                      cursor: "pointer",
+                      "&:hover": {
+                        color: getSpecificColors(2).lightColor,
+                      },
+                    }}
+                  />
+                </IconButton>
+              </Grid>
+              <Grid item>
+                <IconButton
+                  sx={{ padding: 0 }}
+                  onClick={() => {
+                    setMainColor(3);
+                  }}
+                >
+                  <CircleIcon
+                    sx={{
+                      color: getSpecificColors(3).normalColor,
+                      fontSize: xxSmall
+                        ? xxs
+                          ? xxxs
+                            ? "150%"
+                            : "165%"
+                          : "175%"
+                        : "200%",
+                      cursor: "pointer",
+                      "&:hover": {
+                        color: getSpecificColors(3).lightColor,
+                      },
+                    }}
+                  />
+                </IconButton>
+              </Grid>
+              <Grid item>
+                <IconButton
+                  sx={{ padding: 0 }}
+                  onClick={() => {
+                    setMainColor(4);
+                  }}
+                >
+                  <CircleIcon
+                    sx={{
+                      color: getSpecificColors(4).normalColor,
+                      fontSize: xxSmall
+                        ? xxs
+                          ? xxxs
+                            ? "150%"
+                            : "165%"
+                          : "175%"
+                        : "200%",
+                      cursor: "pointer",
+                      "&:hover": {
+                        color: getSpecificColors(4).lightColor,
+                      },
+                    }}
+                  />
+                </IconButton>
+              </Grid>
+            </Grid>
+          </Grid>
+        )}
 
         {isEditing ? (
           <Grid
@@ -488,40 +782,97 @@ const Profile = (props: any) => {
               flexGrow: 1,
             }}
             width={"100%"}
-            xs={12}
-            md={8}
-            lg={6}
-            alignSelf={"center"}
           >
             <Grid
               container
               display={"flex"}
               flexDirection={"row"}
               width={"100%"}
-              spacing={0}
+              columnSpacing={{ xs: 0, md: 2 }}
               justifyContent={"center"}
+              marginTop={4}
             >
-              <Grid item xs={6} textAlign={"center"}>
+              <Grid
+                item
+                xs={10}
+                sm={8}
+                md={6}
+                lg={4}
+                textAlign={"center"}
+                order={{ xs: 2, md: 1 }}
+              >
                 <Button
-                  sx={{ margin: "10px 0" }}
+                  sx={{
+                    borderColor: "#000000",
+                    color: "#000000",
+                    padding: "14px 30px",
+                    fontWeight: 600,
+                    textAlign: "center",
+                    lineHeight: "30px",
+                    fontSize: small
+                      ? xxs
+                        ? xxxs
+                          ? "70%"
+                          : "80%"
+                        : "100%"
+                      : "120%",
+                    borderRadius: "40px",
+                    textTransform: "uppercase",
+                    marginBottom: 2,
+                    width: "100%",
+                    "&.MuiButtonBase-root:hover": {
+                      bgcolor: "#000000",
+                      color: "#ffffff",
+                      borderColor: "#000000",
+                    },
+                  }}
                   variant="outlined"
                   onClick={handleDiscardChanges}
-                  color={"error"}
                 >
                   Discard changes
                 </Button>
               </Grid>
-              <Grid item xs={6} textAlign={"center"}>
+              <Grid
+                item
+                xs={10}
+                sm={8}
+                md={6}
+                lg={4}
+                textAlign={"center"}
+                order={{ xs: 1, md: 2 }}
+              >
                 <Button
-                  sx={{ margin: "10px 0" }}
+                  sx={{
+                    backgroundColor: "#000000",
+                    color: "#ffffff",
+                    fontWeight: 600,
+                    textAlign: "center",
+                    lineHeight: "30px",
+                    fontSize: small
+                      ? xxs
+                        ? xxxs
+                          ? "70%"
+                          : "80%"
+                        : "100%"
+                      : "120%",
+                    textTransform: "uppercase",
+                    padding: "14px 30px",
+                    borderRadius: "40px",
+                    marginBottom: 2,
+                    width: "100%",
+                    "&.MuiButtonBase-root:hover": {
+                      bgcolor: "#000000",
+                    },
+                    display: "flex",
+                    "&:hover": { bgcolor: "#000000" },
+                  }}
                   variant="contained"
                   onClick={handleSaveChanges}
                   disabled={
-                    (!emailhasChanges && !nameHasChanges) ||
+                    (!emailhasChanges && !nameHasChanges && !colorhasChanges) ||
                     emailIsIncorrect ||
                     nameIsIncorrect
                   }
-                  color={"success"}
                 >
                   Save changes
                 </Button>
@@ -530,72 +881,113 @@ const Profile = (props: any) => {
           </Grid>
         ) : null}
 
-        <Grid
-          item
-          sx={{
-            flexGrow: 1,
-          }}
-          width={"100%"}
-          xs={12}
-          md={8}
-          lg={6}
-          alignSelf={"center"}
-          textAlign={"center"}
-        >
-          <Button
-            sx={{ margin: "10px 0", width: "50%" }}
-            variant="contained"
-            onClick={handleEditProfile}
-            disabled={isEditing ? true : false}
+        {!isEditing && (
+          <Grid
+            item
+            sx={{
+              flexGrow: 1,
+            }}
+            width={"100%"}
+            xs={10}
+            sm={8}
+            md={6}
+            lg={4}
           >
-            Edit Profile
-          </Button>
-        </Grid>
-
-        <Grid
-          item
-          sx={{
-            flexGrow: 1,
-          }}
-          width={"100%"}
-          xs={12}
-          md={8}
-          lg={6}
-          alignSelf={"center"}
-          textAlign={"center"}
-        >
-          <Button
-            sx={{ margin: "10px 0", width: "50%" }}
-            variant="contained"
-            onClick={handleEditPassword}
-            disabled={isEditing ? true : false}
-          >
-            Edit Password
-          </Button>
-        </Grid>
-
-        <Grid
-          item
-          sx={{
-            flexGrow: 1,
-          }}
-          width={"100%"}
-          xs={12}
-          md={8}
-          lg={6}
-          alignSelf={"center"}
-          textAlign={"center"}
-        >
-          <Button
-            sx={{ margin: "10px 0", width: "50%" }}
-            variant="contained"
-            onClick={handleDeleteAccount}
-            color="error"
-            disabled={fetching || isEditing}
-          >
-            {fetching ? <CircularProgress size={25} /> : "Delete account"}
-          </Button>
-        </Grid>
+            <Button
+              sx={{
+                backgroundColor: "#000000",
+                color: "#ffffff",
+                fontWeight: 600,
+                textAlign: "center",
+                lineHeight: "30px",
+                fontSize: small
+                  ? xxs
+                    ? xxxs
+                      ? "70%"
+                      : "80%"
+                    : "100%"
+                  : "120%",
+                textTransform: "uppercase",
+                padding: "14px 30px",
+                borderRadius: "40px",
+                marginTop: 4,
+                width: "100%",
+                "&.MuiButtonBase-root:hover": {
+                  bgcolor: "#000000",
+                },
+                display: "flex",
+                "&:hover": { bgcolor: "#000000" },
+              }}
+              variant="contained"
+              onClick={handleEditProfile}
+              disabled={fetching}
+            >
+              Edit Profile
+            </Button>
+            <Button
+              sx={{
+                backgroundColor: "#000000",
+                color: "#ffffff",
+                fontWeight: 600,
+                textAlign: "center",
+                lineHeight: "30px",
+                fontSize: small
+                  ? xxs
+                    ? xxxs
+                      ? "70%"
+                      : "80%"
+                    : "100%"
+                  : "120%",
+                textTransform: "uppercase",
+                padding: "14px 30px",
+                borderRadius: "40px",
+                marginTop: 2,
+                width: "100%",
+                "&.MuiButtonBase-root:hover": {
+                  bgcolor: "#000000",
+                },
+                display: "flex",
+                "&:hover": { bgcolor: "#000000" },
+              }}
+              variant="contained"
+              onClick={handleEditPassword}
+              disabled={fetching}
+            >
+              Edit Password
+            </Button>
+            <Button
+              sx={{
+                borderColor: "#000000",
+                color: "#000000",
+                padding: "14px 30px",
+                fontWeight: 600,
+                textAlign: "center",
+                lineHeight: "30px",
+                fontSize: small
+                  ? xxs
+                    ? xxxs
+                      ? "70%"
+                      : "80%"
+                    : "100%"
+                  : "120%",
+                borderRadius: "40px",
+                textTransform: "uppercase",
+                marginTop: 10,
+                width: "100%",
+                "&.MuiButtonBase-root:hover": {
+                  bgcolor: "#000000",
+                  color: "#ffffff",
+                  borderColor: "#000000",
+                },
+              }}
+              variant="outlined"
+              onClick={handleDeleteAccount}
+              disabled={fetching}
+            >
+              {fetching ? <CircularProgress size={25} /> : "Delete account"}
+            </Button>
+          </Grid>
+        )}
       </Grid>
 
       <Modal
