@@ -14,7 +14,7 @@ import { Grid, MenuItem, useMediaQuery } from "@mui/material/";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import Avatar from "@mui/material/Avatar";
-import logoIcon from "./image/logo-white.png";
+import logoIcon from "./image/Afitpilot_logo_outlined.png";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import Divider from "@mui/material/Divider";
 
@@ -77,6 +77,8 @@ const ResponsiveAppBar = (props: any) => {
     props.setOpen(true);
     props.setSnackbarMessage("Log out successfully");
     props.setData(undefined);
+    clearInterval(props.clearInterval);
+    props.setClearInterval(undefined);
     navigate("/Login");
     window.scrollTo(0, 0);
   };
@@ -139,19 +141,18 @@ const ResponsiveAppBar = (props: any) => {
                 window.scrollTo(0, 0);
               }}
             >
-              {xxxs ? null : (
-                <IconButton sx={{ p: 0 }}>
-                  <Avatar
-                    alt="logo"
-                    src={logoIcon}
-                    sx={{
-                      width: { xs: 32, sm: 48 },
-                      height: { xs: 32, sm: 48 },
-                      borderRadius: "0",
-                    }}
-                  />
-                </IconButton>
-              )}
+              <IconButton sx={{ p: 0 }}>
+                <Avatar
+                  alt="logo"
+                  src={logoIcon}
+                  sx={{
+                    width: { xs: 32, sm: 48 },
+                    height: { xs: 32, sm: 48 },
+                    borderRadius: "0",
+                  }}
+                />
+              </IconButton>
+
               <Typography
                 variant="h5"
                 noWrap

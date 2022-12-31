@@ -1,6 +1,6 @@
 import React from 'react'
 import CssBaseline from "@mui/material/CssBaseline";
-import { Box, Typography, Button, Grid } from "@mui/material/";
+import { Box, Typography, Button, Grid, useMediaQuery } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
@@ -26,20 +26,13 @@ theme.typography.body2 = {
         fontSize: "17px",
     },
 };
-const Root = styled('div')(({ theme }) => ({
-    "@media (max-width:600px)": {
-        height: '270px',
-        width: '400px',
-        padding: "25px 40px",
-    },
-    [theme.breakpoints.up('md')]: {
-        height: '270px',
-        width: '400px',
-        padding: "25px 40px",
-    },
-}));
 
 const NutritionCard = () => {
+    const medium = useMediaQuery("(min-width:769px)");
+    const small = useMediaQuery("(max-width:768px)");
+    const extraSmall = useMediaQuery("(max-width:449px)");
+    const xxSmall = useMediaQuery("(max-width:399px)");
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
@@ -54,7 +47,7 @@ const NutritionCard = () => {
                         marginTop: "40px",
                     }}>
                     <Stack
-                        direction={{ xs: 'column', sm: 'column', md: "row", lg: 'row', xl: 'row' }}
+                        direction={small ? 'column' : 'row'}
                         spacing={2}>
                         <Paper
                             square
@@ -63,25 +56,27 @@ const NutritionCard = () => {
                                 alignItems: 'center',
                                 color: "#FFFFFF",
                                 borderRadius: '8px',
-                                backgroundColor: '#606161'
+                                backgroundColor: '#606161',
+                                width: small ? "100%" : "calc(100% / 3)",
+                                padding: "25px 30px"
+
                             }} >
-                            <Root>
-                                <Stack
-                                    direction="row"
-                                    justifyContent="center"
-                                    alignItems="center"
-                                    spacing={2}>
-                                    <Box>
-                                        <img src={avatar} alt="avatar" width={"120px"} height={"230px"} />
-                                    </Box>
-                                    <Typography variant="body1">
-                                        Personal Coach
-                                        <Typography variant="body2">
-                                            Our Coaches will be at your service 24/7.
-                                        </Typography>
+                            <Stack
+                                direction="row"
+                                justifyContent="center"
+                                alignItems="center"
+                                spacing={2}>
+                                <Box>
+                                    <img src={avatar} alt="avatar" width={"120px"} height={"230px"}
+                                    />
+                                </Box>
+                                <Typography variant="body1">
+                                    Personal Coach
+                                    <Typography variant="body2">
+                                        Our Coaches will be at your service 24/7.
                                     </Typography>
-                                </Stack>
-                            </Root>
+                                </Typography>
+                            </Stack>
                         </Paper>
                         <Paper
                             elevation={3}
@@ -90,24 +85,24 @@ const NutritionCard = () => {
                                 borderRadius: '8px',
                                 backgroundColor: '#606161',
                                 color: "#FFFFFF",
+                                width: small ? "100%" : "calc(100% / 3)",
+                                padding: "25px 30px"
                             }}>
-                            <Root>
-                                <Stack
-                                    direction="row"
-                                    justifyContent="flex-start"
-                                    alignItems="center"
-                                    spacing={2}>
-                                    <Box>
-                                        <img src={TrueCoach} alt="TrueCoach" width={"120px"} height={"230px"} />
-                                    </Box>
-                                    <Typography variant="body1">
-                                        Written Plans
-                                        <Typography variant="body2">
-                                            Complete one meal at a time.
-                                        </Typography>
+                            <Stack
+                                direction="row"
+                                justifyContent="flex-start"
+                                alignItems="center"
+                                spacing={2}>
+                                <Box>
+                                    <img src={TrueCoach} alt="TrueCoach" width={"120px"} height={"230px"} />
+                                </Box>
+                                <Typography variant="body1">
+                                    Written Plans
+                                    <Typography variant="body2">
+                                        Complete one meal at a time.
                                     </Typography>
-                                </Stack>
-                            </Root>
+                                </Typography>
+                            </Stack>
                         </Paper>
                         <Paper
                             elevation={3}
@@ -116,24 +111,24 @@ const NutritionCard = () => {
                                 borderRadius: '8px',
                                 backgroundColor: '#606161',
                                 color: "#FFFFFF",
+                                width: small ? "100%" : "calc(100% / 3)",
+                                padding: "25px 30px"
                             }}>
-                            <Root>
-                                <Stack
-                                    direction="row"
-                                    justifyContent="flex-start"
-                                    alignItems="center"
-                                    spacing={2}>
-                                    <Box>
-                                        <img src={avatar} alt="avatar" width={"120px"} height={"230px"} />
-                                    </Box>
-                                    <Typography variant="body1">
-                                        Sport Specific
-                                        <Typography variant="body2">
-                                            Programs that make sense.
-                                        </Typography>
+                            <Stack
+                                direction="row"
+                                justifyContent="flex-start"
+                                alignItems="center"
+                                spacing={2}>
+                                <Box>
+                                    <img src={avatar} alt="avatar" width={"120px"} height={"230px"} />
+                                </Box>
+                                <Typography variant="body1">
+                                    Sport Specific
+                                    <Typography variant="body2">
+                                        Programs that make sense.
                                     </Typography>
-                                </Stack>
-                            </Root>
+                                </Typography>
+                            </Stack>
                         </Paper>
                     </Stack>
                 </Box>
@@ -152,9 +147,9 @@ const NutritionCard = () => {
                             backgroundColor: "RGB(108, 77, 123)",
                             padding: "14px 30px",
                             fontWeight: 600,
-                            width: '600px',
+                            width: small ? (extraSmall ? "100%" : "65%") : "600px",
                             textAlign: "start",
-                            fontSize: "35px",
+                            fontSize: small ? (extraSmall ? "25px" : "30px") : "42px",
                             lineHeight: "40px",
                             marginBottom: "20px",
                             textTransform: "initial",

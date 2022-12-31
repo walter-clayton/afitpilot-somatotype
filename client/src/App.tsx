@@ -27,6 +27,8 @@ import CommentPage from "./components/CTA/CommentPage";
 import TypeExample from "./components/CTA/TypeExample";
 import Nutrition from "./components/CTA/Nutrition";
 import Training from "./components/CTA/Training";
+import TypesPage1 from "./components/CTA/TypesPage1";
+import Disconnection from "./components/Disconnection";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -69,6 +71,10 @@ function App() {
   const [dashboardSnackBarMessage, setDashboardSnackBarMessage] =
     useState<string>("");
 
+  const [clearInterval, setClearInterval] = useState<number | undefined>(
+    undefined
+  );
+
   const handleClose = (event: any, reason: any) => {
     if (reason === "clickaway") {
       return;
@@ -82,11 +88,18 @@ function App() {
 
   return (
     <Router>
+      <Disconnection
+        clearInterval={clearInterval}
+        setClearInterval={setClearInterval}
+      />
+
       <ResponsiveAppBar
         setOpen={setOpen}
         setSnackbarMessage={setSnackbarMessage}
         setData={setData}
         setIsAdding={setIsAdding}
+        clearInterval={clearInterval}
+        setClearInterval={setClearInterval}
       />
       <Routes>
         <Route
@@ -151,6 +164,7 @@ function App() {
         <Route path="/TypeExample" element={<TypeExample />} />
         <Route path="/Nutrition" element={<Nutrition />} />
         <Route path="/Training" element={<Training />} />
+        <Route path="/TypesPage1" element={<TypesPage1 />} />
         <Route
           path="/Test"
           element={

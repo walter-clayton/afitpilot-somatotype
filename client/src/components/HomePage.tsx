@@ -8,7 +8,7 @@ const Home = () => {
     <>
       <Header />
       <CallToAction />
-      <FooterCTA />
+      {/* <FooterCTA /> */}
     </>
   );
 };
