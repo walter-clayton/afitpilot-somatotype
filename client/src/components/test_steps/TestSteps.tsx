@@ -24,6 +24,7 @@ import ModalImg from "./Modal";
 import bicepsImg from "../image/bicepsImg.jpeg";
 import calfImg from "../image/calfImg.jpeg";
 import BFImg from "../image/BFImg.jpeg";
+import Avatar from "../avatar/Avatar";
 
 const PrettoSlider = styled(Slider)({
   color: "RGB(108, 77, 123)",
@@ -377,16 +378,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
       somatotype: somatotype,
     };
 
-    setCookie(
-      "data",
-      { ...data },
-      {
-        path: "/",
-        sameSite: "none",
-        secure: true,
-        maxAge: 3600,
-      }
-    );
+    props.setData(data);
   };
 
   interface IInputSelect {
@@ -440,33 +432,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
   return (
     <Box sx={{ margin: md ? "" : "calc(100px + 140px) 0 120px 0" }}>
       {props.data ? (
-        <Button
-          sx={{
-            color: "white",
-            borderRadius: "40px",
-            fontSize: "16px",
-            fontWeight: "600",
-            padding: "20px 50px",
-            backgroundColor: "RGB(108, 77, 123)",
-            display: "flex",
-            margin: "0 auto",
-            "&.MuiButtonBase-root:hover": {
-              bgcolor: "RGB(108, 77, 123)",
-            },
-          }}
-          variant="contained"
-          onClick={() => {
-            navigate("/Signup");
-            window.scrollTo(0, 0);
-          }}
-        >
-          Save results
-          <ForwardIcon
-            sx={{
-              marginLeft: "10px",
-            }}
-          />
-        </Button>
+        <Avatar />
       ) : (
         <Box
           ref={boxRef}

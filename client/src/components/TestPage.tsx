@@ -406,133 +406,133 @@ const TestPage: FC<ITesting> = (props) => {
   const [pointsArray, setPointsArray] = useState<IPoints[]>([]);
   // const [params, setParams] = useParams()
 
-  useEffect(() => {
-    if (exceeded || notStandard) {
-      window.scrollTo(0, Number(gridRef.current?.offsetTop));
-      setShowResults(false);
-    }
-  }, [exceeded, notStandard]);
+  // useEffect(() => {
+  //   if (exceeded || notStandard) {
+  //     window.scrollTo(0, Number(gridRef.current?.offsetTop));
+  //     setShowResults(false);
+  //   }
+  // }, [exceeded, notStandard]);
 
-  const isExceeded = (soma: number[]): boolean => {
-    const endo: number | undefined =
-      Number(soma[0]) < 1 ? 1 : Number(soma[0]?.toFixed());
-    const meso: number | undefined =
-      Number(soma[1]) < 1 ? 1 : Number(soma[1]?.toFixed());
-    const ecto: number | undefined =
-      Number(soma[2]) < 1 ? 1 : Number(soma[2]?.toFixed());
-    let isExceeded: boolean = false;
-    //console.log(`${endo} ${meso} ${ecto}`);
+  // const isExceeded = (soma: number[]): boolean => {
+  //   const endo: number | undefined =
+  //     Number(soma[0]) < 1 ? 1 : Number(soma[0]?.toFixed());
+  //   const meso: number | undefined =
+  //     Number(soma[1]) < 1 ? 1 : Number(soma[1]?.toFixed());
+  //   const ecto: number | undefined =
+  //     Number(soma[2]) < 1 ? 1 : Number(soma[2]?.toFixed());
+  //   let isExceeded: boolean = false;
+  //   //console.log(`${endo} ${meso} ${ecto}`);
 
-    // endo limits: [1 - 15]
-    // meso limits: [1 - 12]
-    // ecto limits: [1 - 9]
-    isExceeded =
-      endo! < 1 ||
-      endo! > 15 ||
-      meso! < 1 ||
-      meso! > 12 ||
-      ecto! < 1 ||
-      ecto! > 9;
+  //   // endo limits: [1 - 15]
+  //   // meso limits: [1 - 12]
+  //   // ecto limits: [1 - 9]
+  //   isExceeded =
+  //     endo! < 1 ||
+  //     endo! > 15 ||
+  //     meso! < 1 ||
+  //     meso! > 12 ||
+  //     ecto! < 1 ||
+  //     ecto! > 9;
 
-    return isExceeded;
-  };
+  //   return isExceeded;
+  // };
 
-  const isStandard = (soma: number[]): boolean => {
-    const endo: number | undefined =
-      Number(soma[0]) < 1 ? 1 : Number(soma[0]?.toFixed());
-    const meso: number | undefined =
-      Number(soma[1]) < 1 ? 1 : Number(soma[1]?.toFixed());
-    const ecto: number | undefined =
-      Number(soma[2]) < 1 ? 1 : Number(soma[2]?.toFixed());
+  // const isStandard = (soma: number[]): boolean => {
+  //   const endo: number | undefined =
+  //     Number(soma[0]) < 1 ? 1 : Number(soma[0]?.toFixed());
+  //   const meso: number | undefined =
+  //     Number(soma[1]) < 1 ? 1 : Number(soma[1]?.toFixed());
+  //   const ecto: number | undefined =
+  //     Number(soma[2]) < 1 ? 1 : Number(soma[2]?.toFixed());
 
-    let isStandard: boolean = true;
+  //   let isStandard: boolean = true;
 
-    let valuesStandard: String[][] = Object.values(somatotypesStandard);
+  //   let valuesStandard: String[][] = Object.values(somatotypesStandard);
 
-    valuesStandard.forEach((array: String[]) => {
-      isStandard = array.includes(`${endo}${meso}${ecto}`);
-    });
+  //   valuesStandard.forEach((array: String[]) => {
+  //     isStandard = array.includes(`${endo}${meso}${ecto}`);
+  //   });
 
-    return isStandard;
-  };
+  //   return isStandard;
+  // };
 
-  const handleSubmit = () => {
-    if (!showResults) {
-      window.scrollTo(0, Number(gridRef.current?.offsetTop));
-    }
-    exceeded && setExceeded(false);
-    msgErr !== "" && setMsgErr("");
+  // const handleSubmit = () => {
+  //   if (!showResults) {
+  //     window.scrollTo(0, Number(gridRef.current?.offsetTop));
+  //   }
+  //   exceeded && setExceeded(false);
+  //   msgErr !== "" && setMsgErr("");
 
-    const somatotypeResults = calculateSomatotype(anthropometric!);
+  //   const somatotypeResults = calculateSomatotype(anthropometric!);
 
-    if (isExceeded(somatotypeResults)) {
-      setExceeded(true);
-      setMsgErr("Error values: somatotype exceeded");
-    } else {
-      setShowResults(true);
-      setToggleGraph(!toggleGraph);
+  //   if (isExceeded(somatotypeResults)) {
+  //     setExceeded(true);
+  //     setMsgErr("Error values: somatotype exceeded");
+  //   } else {
+  //     setShowResults(true);
+  //     setToggleGraph(!toggleGraph);
 
-      let pointsResultsArray: IPoints[] = [];
-      const point = AddPoint(
-        somatotypeResults[0],
-        somatotypeResults[1],
-        somatotypeResults[2],
-        "#B78260"
-      );
-      pointsResultsArray.push(point);
-      setPointsArray(pointsResultsArray);
+  //     let pointsResultsArray: IPoints[] = [];
+  //     const point = AddPoint(
+  //       somatotypeResults[0],
+  //       somatotypeResults[1],
+  //       somatotypeResults[2],
+  //       "#B78260"
+  //     );
+  //     pointsResultsArray.push(point);
+  //     setPointsArray(pointsResultsArray);
 
-      setSomatotype?.({
-        endomorphy: somatotypeResults[0],
-        mesomorphy: somatotypeResults[1],
-        ectomorphy: somatotypeResults[2],
-      });
-    }
-  };
+  //     setSomatotype?.({
+  //       endomorphy: somatotypeResults[0],
+  //       mesomorphy: somatotypeResults[1],
+  //       ectomorphy: somatotypeResults[2],
+  //     });
+  //   }
+  // };
 
-  const saveDatas = async () => {
-    try {
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${cookies.user.token}`,
-      };
+  // const saveDatas = async () => {
+  //   try {
+  //     const headers = {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${cookies.user.token}`,
+  //     };
 
-      const response = await axios.post(
-        process.env.REACT_APP_SAVEDATA_URL!,
-        {
-          data: {
-            somatotype: { ...somatotype },
-            anthropometric: { ...anthropometric },
-          },
-        },
-        { headers: headers }
-      );
-      window.scrollTo(0, 0);
-      props.setResultsSaved(response.data.dataSaved);
-    } catch (error: any) {
-      if (error.response) {
-        error.response.data.message
-          ? setSnackBarMessage(error.response.data.message)
-          : setSnackBarMessage(error.response.statusText);
-      } else {
-        setSnackBarMessage("Error with the server");
-      }
-      console.log("error ", error);
-    }
-  };
+  //     const response = await axios.post(
+  //       process.env.REACT_APP_SAVEDATA_URL!,
+  //       {
+  //         data: {
+  //           somatotype: { ...somatotype },
+  //           anthropometric: { ...anthropometric },
+  //         },
+  //       },
+  //       { headers: headers }
+  //     );
+  //     window.scrollTo(0, 0);
+  //     props.setResultsSaved(response.data.dataSaved);
+  //   } catch (error: any) {
+  //     if (error.response) {
+  //       error.response.data.message
+  //         ? setSnackBarMessage(error.response.data.message)
+  //         : setSnackBarMessage(error.response.statusText);
+  //     } else {
+  //       setSnackBarMessage("Error with the server");
+  //     }
+  //     console.log("error ", error);
+  //   }
+  // };
 
-  const handleSaveDatasClick = () => {
-    if (!cookies.user) {
-      props.setData({
-        somatotype: { ...somatotype },
-        anthropometric: { ...anthropometric },
-      });
-      navigate("/Signup");
-      window.scrollTo(0, 0);
-    } else {
-      saveDatas();
-    }
-  };
+  // const handleSaveDatasClick = () => {
+  //   if (!cookies.user) {
+  //     props.setData({
+  //       somatotype: { ...somatotype },
+  //       anthropometric: { ...anthropometric },
+  //     });
+  //     navigate("/Signup");
+  //     window.scrollTo(0, 0);
+  //   } else {
+  //     saveDatas();
+  //   }
+  // };
 
   const handleSnackBarClose = () => {
     setSnackBarState({ ...snackBarState, open: false });
@@ -543,235 +543,6 @@ const TestPage: FC<ITesting> = (props) => {
       <CssBaseline />
       <HeaderTestpage />
       <TestSteps setData={props.setData} data={props.data} />
-      {/* <Button
-        sx={{
-          "&:hover > svg": {
-            transform: "translateX(5px)",
-          },
-          borderRadius: "40px",
-          display: "flex",
-          margin: "0 auto",
-          backgroundColor: "RGB(108, 77, 123)",
-          fontSize: "16px",
-          fontWeight: 600,
-          padding: "19px 50px",
-          textTransform: "initial",
-          textAlign: "center",
-          "&.MuiButtonBase-root:hover": {
-            bgcolor: "RGB(108, 77, 123)",
-          },
-        }}
-        variant="contained"
-        onClick={() => {
-          navigate("/TestSteps");
-          window.scrollTo(0, 0);
-        }}
-      >
-        Take the Test
-        <ArrowForwardSharpIcon
-          fontSize="small"
-          sx={{ marginLeft: "5px", transition: ".1s ease-out" }}
-        />
-      </Button> */}
-      {/* <Button
-        sx={{
-          borderRadius: "40px",
-          display: "flex",
-          margin: "20px auto 0 auto",
-          backgroundColor: "RGB(51, 164, 116)",
-          padding: "20px 50px",
-          fontWeight: 600,
-          fontSize: "16px",
-          lineHeight: "30px",
-          "&:hover": { bgcolor: "#28835c" },
-        }}
-        variant="contained"
-        onClick={() => {
-          setManually((m) => !m);
-        }}
-      >
-        Enter details manually
-        <ArrowForwardIosIcon
-          sx={{
-            marginLeft: "10px",
-            fontSize: "25px",
-            transition: "all .3s ease-out",
-            transform: manually ? "rotate(90deg)" : "rotate(0)",
-          }}
-        />
-      </Button> */}
-      {/* <Grid
-        ref={gridRef}
-        container
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "0px 15px",
-          overflow: "hidden",
-        }}
-        width={"100%"}
-      >
-        
-        <Collapse in={manually} collapsedSize={0} easing={{ enter: "5" }}>
-          <Grid
-            item
-            sx={{
-              flexGrow: 1,
-              alignItems: "center",
-              margin: "20px auto",
-            }}
-            width={"100%"}
-            xs={12}
-            md={8}
-            lg={6}
-          >
-            {props.resultsSaved && (
-              <Alert
-                onClose={() => {
-                  props.setResultsSaved(false);
-                }}
-                severity="success"
-                sx={{ margin: "50px auto" }}
-              >
-                Results saved successfully
-              </Alert>
-            )}
-            {(exceeded || notStandard) && (
-              <Alert
-                onClose={() => {
-                  exceeded && setExceeded(false);
-                  notStandard && setNotStandard(false);
-                }}
-                severity="error"
-                sx={{ margin: "50px auto" }}
-              >
-                {msgErr}
-              </Alert>
-            )}
-            <AnthropometricForm
-              anthropometric={anthropometric}
-              setAnthropometric={setAnthropometric}
-              setAnthropometricFormHasError={setAnthropometricHasError}
-              isFetching={false}
-            />
-          </Grid>
-        </Collapse>
-
-        
-        <Grid
-          item
-          sx={{
-            flexGrow: 1,
-            alignItems: "center",
-            margin: "20px auto",
-          }}
-          xs={12}
-          md={8}
-          lg={6}
-        >
-          <Box>
-            <Button
-              variant="contained"
-              type="submit"
-              onClick={handleSubmit}
-              disabled={anthropometricHasError}
-              sx={{
-                textalign: "center",
-                fontSize: "20px",
-                lineHeight: 1.67,
-                padding: "14px 40px",
-                fontWeight: 600,
-                textAlign: "center",
-                backgroundColor: "RGB(108, 77, 123)",
-                borderRadius: "40px",
-                textTransform: "initial",
-                "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
-              }}
-            >
-              See Results <ArrowForwardSharpIcon />
-            </Button>
-          </Box>
-        </Grid>
-        
-        {showResults ? (
-          <Grid
-            item
-            sx={{
-              flexGrow: 1,
-              alignItems: "center",
-              margin: "20px 0",
-            }}
-            xs={12}
-            md={8}
-            lg={6}
-            width={"100%"}
-          >
-            <ResultsTable
-              showHistory={false}
-              multipleResults={false}
-              singleSomatotype={somatotype}
-              setPointsArray={setPointsArray}
-              toggleGraph={toggleGraph}
-              setToggleGraph={setToggleGraph}
-            />
-          </Grid>
-        ) : null}
-
-        <Grid
-          item
-          sx={{
-            flexGrow: 1,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            margin: "20px 0",
-          }}
-          xs={12}
-          md={8}
-          lg={6}
-          width={"100%"}
-        >
-          {showResults && (
-            <SomatotypeGraph
-              updateGraph={toggleGraph}
-              pointsArray={pointsArray}
-            />
-          )}
-        </Grid>
-
-        {showResults ? (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-            }}
-          >
-            <Button
-              sx={{
-                maxWidth: "sm",
-                borderRadius: "40px",
-                fontSize: "20px",
-                backgroundColor: "RGB(108, 77, 123)",
-                fontWeight: 600,
-                lineHeight: "40px",
-                textAlign: "center",
-                padding: "14px 40px",
-                textTransform: "initial",
-                "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
-              }}
-              variant="contained"
-              onClick={() => {
-                handleSaveDatasClick();
-              }}
-            >
-              Save Your Results
-            </Button>
-          </Box>
-        ) : null}
-      </Grid> */}
 
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
