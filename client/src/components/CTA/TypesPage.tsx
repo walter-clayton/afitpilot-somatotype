@@ -9,6 +9,8 @@ import mesomorpyshape from "../image/mesomorpyshape.png";
 import TypesPage1, { Icategory } from "./TypesPage1";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
+import FemaleIcon from '@mui/icons-material/Female';
+import MaleIcon from '@mui/icons-material/Male';
 
 const theme = createTheme();
 theme.typography.h1 = {
@@ -338,10 +340,13 @@ const TypesPage = () => {
             label="13 SUBCATEGORIES"
           />
         </Box>
+        <Box mt={4}>
+          <MaleIcon sx={{ fontSize: 70 }} />
+          <FemaleIcon sx={{ fontSize: 70 }} />
+        </Box>
       </Grid>
-
       <ThemeProvider theme={theme}>
-        <Box sx={{ mb: -2 }}>
+        <Box sx={{ mb: -2, mt: "-70px" }}>
           <img src={mesomorpyshape} alt="" style={{ width: "100%" }} />
         </Box>
         <Box ref={section1Ref} sx={{ width: "100%", backgroundColor: "#E7CACA" }}>
@@ -622,7 +627,7 @@ const TypesPage = () => {
           </Grid>
         </Box>
         {/* fifth grid */}
-        <Box ref={section5Ref} sx={{ width: "100%", backgroundColor: "#A0CBDA" }}>
+        <Box ref={section5Ref} sx={{ width: "100%", backgroundColor: "#CFE5EC" }}>
           <Typography
             variant="h2"
             sx={{ color: "white", textAlign: "center", mb: 2 }}
