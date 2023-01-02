@@ -220,8 +220,6 @@ const Profile = (props: any) => {
   };
 
   const handleDeleteAccount = async () => {
-    console.log(cookies.user.email);
-
     try {
       setFetching(true);
       const headers = {
