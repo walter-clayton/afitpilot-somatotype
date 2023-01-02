@@ -558,6 +558,13 @@ const Dashboard: FC<IDashboard> = (props) => {
                         <CircleIcon
                           sx={{
                             marginRight: "10px",
+                            fontSize: xSmall
+                              ? xxs
+                                ? xxxs
+                                  ? "60%"
+                                  : "70%"
+                                : "80%"
+                              : "100%",
                             color: getColors().darkColor,
                           }}
                         />
@@ -567,7 +574,13 @@ const Dashboard: FC<IDashboard> = (props) => {
                             color: getColors().darkColor,
                             textAlign: "center",
                             fontWeight: 600,
-                            fontSize: "150%",
+                            fontSize: xSmall
+                              ? xxs
+                                ? xxxs
+                                  ? "85%"
+                                  : "100%"
+                                : "120%"
+                              : "150%",
                           }}
                         >
                           You
@@ -585,7 +598,17 @@ const Dashboard: FC<IDashboard> = (props) => {
                         }}
                       >
                         <CircleIcon
-                          sx={{ marginRight: "10px", color: "#000000" }}
+                          sx={{
+                            marginRight: "10px",
+                            fontSize: xSmall
+                              ? xxs
+                                ? xxxs
+                                  ? "60%"
+                                  : "70%"
+                                : "80%"
+                              : "100%",
+                            color: "#000000",
+                          }}
                         />
                         <Typography
                           variant="h5"
@@ -593,7 +616,13 @@ const Dashboard: FC<IDashboard> = (props) => {
                             color: "#000000",
                             textAlign: "center",
                             fontWeight: 600,
-                            fontSize: "150%",
+                            fontSize: xSmall
+                              ? xxs
+                                ? xxxs
+                                  ? "85%"
+                                  : "100%"
+                                : "120%"
+                              : "150%",
                           }}
                         >
                           {comparisonState}

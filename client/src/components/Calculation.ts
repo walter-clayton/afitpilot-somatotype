@@ -136,7 +136,8 @@ export function UpdateCanvas(
           Number(addedPointsList[i].endomorphy),
           Number(addedPointsList[i].mesomorphy),
           Number(addedPointsList[i].ectomorphy),
-          addedPointsList[i].pointColor
+          addedPointsList[i].pointColor,
+          String(canvasWidthValue! / 20)
         );
       }
     }
@@ -236,7 +237,7 @@ function drawGraph(
     canvasHeightValue! * getHeightRatio(231)
   );
 
-  context.font = `bold ${fontsize} Roboto`;
+  context.font = `bold ${fontsize}px Roboto`;
   context.fillStyle = graphColor;
   context.strokeStyle = graphColor;
   context.fillText(
@@ -260,7 +261,7 @@ function drawGraph(
     canvasHeightValue! * getHeightRatio(231)
   );
 
-  context.font = `bold ${fontsize} Roboto`;
+  context.font = `bold ${fontsize}px Roboto`;
   context.fillStyle = graphColor;
   context.strokeStyle = graphColor;
   context.fillText(
@@ -281,7 +282,8 @@ function drawNewPoint(
   endomorphyValue: number,
   mesomorphyValue: number,
   ectomorphyValue: number,
-  pointColor: string
+  pointColor: string,
+  fontsize: string
 ) {
   context.beginPath();
   context.arc(xPos, yPos, 1.5, 0, 2 * Math.PI);
@@ -290,7 +292,7 @@ function drawNewPoint(
   context.strokeStyle = pointColor;
   context.stroke();
 
-  context.font = "18px Helvetica";
+  context.font = `bold ${fontsize}px Roboto`;
   // if value < 1 then value gets 1 to avoid value of 0
   endomorphyValue =
     Number(endomorphyValue) < 1 ? 1 : Number(endomorphyValue?.toFixed());
