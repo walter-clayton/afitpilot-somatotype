@@ -156,19 +156,19 @@ const TypesPage = () => {
 
   const Mesomorph = [
     {
-      image: "endomorphic mesomorph",
+      image: "EnM_man",
       bodyType: "Endomorphic Mesomorph",
       TypeCode: "EnM",
       linkToPage: "/Balanced-endomorph",
     },
     {
-      image: "balanced mesomorph",
+      image: "BM_man",
       bodyType: "Balanced Mesomorph",
       TypeCode: "BM",
       linkToPage: "/Balanced-endomorph",
     },
     {
-      image: "ectomorphic mesomorph",
+      image: "EcM_man",
       bodyType: "Ectomorphic Mesomorph ",
       TypeCode: "EcM",
       linkToPage: "/Balanced-endomorph",
@@ -177,19 +177,19 @@ const TypesPage = () => {
   ];
   const Ectomorph = [
     {
-      image: "mesomorphic ectomorph",
+      image: "MEc_man",
       bodyType: "Mesomorphic Ectomorph ",
       TypeCode: "MEc",
       linkToPage: "/Balanced-endomorph",
     },
     {
-      image: "balanced ectomorph",
+      image: "BEc_man",
       bodyType: "Balanced Ectomorph",
       TypeCode: "BEc",
       linkToPage: "/Balanced-endomorph",
     },
     {
-      image: "endomorphic ectomorph",
+      image: "EnEc_man",
       bodyType: "Endomorphic Ectomorph ",
       TypeCode: "EnEc",
       linkToPage: "/Balanced-endomorph",
@@ -197,19 +197,19 @@ const TypesPage = () => {
   ];
   const Endomorph = [
     {
-      image: "ectomorphic endomorph",
+      image: "EcEn_man",
       bodyType: "Ectomorphic Endomorph",
       TypeCode: "EcEn ",
       linkToPage: "/Balanced-endomorph",
     },
     {
-      image: "balanced endomorph",
+      image: "BEn_man",
       bodyType: "Balanced Endomorph",
       TypeCode: "BEn",
       linkToPage: "/Balanced-endomorph",
     },
     {
-      image: "mesomorphic endomorph",
+      image: "MEn_man",
       bodyType: "Mesomorphic Endomorph ",
       TypeCode: "MEn",
       linkToPage: "/Balanced-endomorph",
@@ -217,19 +217,19 @@ const TypesPage = () => {
   ];
   const Hybrid = [
     {
-      image: "mesomorph ectomorph",
+      image: "M-Ec_man",
       bodyType: "Mesomorph Ectomorph",
       TypeCode: "M-Ec",
       linkToPage: "/Balanced-endomorph",
     },
     {
-      image: "endomorph ectomorph",
+      image: "En-Ec_man",
       bodyType: "Endomorph Ectomorph",
       TypeCode: "En-Ec",
       linkToPage: "/Balanced-endomorph",
     },
     {
-      image: "mesomorph endomorph",
+      image: "M-En_man",
       bodyType: "Mesomorph Endomorph",
       TypeCode: "M-En",
       linkToPage: "/Balanced-endomorph",
@@ -237,7 +237,7 @@ const TypesPage = () => {
   ];
   const Central = [
     {
-      image: "central",
+      image: "C_man",
       bodyType: "Central",
       TypeCode: "C",
       linkToPage: "/Balanced-endomorph",
