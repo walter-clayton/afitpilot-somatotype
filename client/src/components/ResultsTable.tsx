@@ -285,9 +285,9 @@ const ResultsTable: FC<resultProps> = (props: any) => {
     transform: "translate(-50%, -50%)",
     width: xxs ? "90%" : xSmall ? "80%" : medium ? "50%" : "35%",
     bgcolor: "background.paper",
-    border: "2px solid #000000",
     boxShadow: 24,
     p: 4,
+    borderRadius: "25px",
   };
 
   let endoColumnTitle = small || minSmall ? "Endo" : "Endomorphy";
@@ -520,9 +520,17 @@ const ResultsTable: FC<resultProps> = (props: any) => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={modalStyle}>
-            <Typography id="modal-modal-description" textAlign={"center"}>
+            <Typography
+              id="modal-modal-description"
+              fontSize={"150%"}
+              textAlign={"center"}
+            >
               Do you want to
-              <Typography fontWeight={"bold"} component={"span"}>
+              <Typography
+                fontWeight={"bold"}
+                fontSize={"100%"}
+                component={"span"}
+              >
                 {" "}
                 edit{" "}
               </Typography>
@@ -538,8 +546,24 @@ const ResultsTable: FC<resultProps> = (props: any) => {
             >
               <Grid item>
                 <Button
+                  sx={{
+                    borderColor: "#000000",
+                    color: "#000000",
+                    padding: "14px 30px",
+                    fontWeight: 600,
+                    textAlign: "center",
+                    lineHeight: "30px",
+                    fontSize: "18px",
+                    borderRadius: "40px",
+                    textTransform: "initial",
+                    width: "100%",
+                    "&.MuiButtonBase-root:hover": {
+                      bgcolor: "#000000",
+                      color: "#ffffff",
+                      borderColor: "#000000",
+                    },
+                  }}
                   variant="outlined"
-                  color="error"
                   onClick={handleEditModalClose}
                 >
                   Cancel
@@ -547,8 +571,24 @@ const ResultsTable: FC<resultProps> = (props: any) => {
               </Grid>
               <Grid item>
                 <Button
+                  sx={{
+                    backgroundColor: "#000000",
+                    color: "#ffffff",
+                    fontWeight: 600,
+                    textAlign: "center",
+                    lineHeight: "30px",
+                    fontSize: "18px",
+                    textTransform: "initial",
+                    padding: "14px 30px",
+                    borderRadius: "40px",
+                    width: "100%",
+                    "&.MuiButtonBase-root:hover": {
+                      bgcolor: "#000000",
+                    },
+                    display: "flex",
+                    "&:hover": { bgcolor: "#000000" },
+                  }}
                   variant="contained"
-                  color="success"
                   onClick={() => {
                     props.setIsAdding(false);
                     navigate("/Add");
@@ -569,9 +609,17 @@ const ResultsTable: FC<resultProps> = (props: any) => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={modalStyle}>
-            <Typography id="modal-modal-description" textAlign={"center"}>
+            <Typography
+              id="modal-modal-description"
+              fontSize={"150%"}
+              textAlign={"center"}
+            >
               Do you want to
-              <Typography fontWeight={"bold"} component={"span"}>
+              <Typography
+                fontWeight={"bold"}
+                fontSize={"100%"}
+                component={"span"}
+              >
                 {" "}
                 delete{" "}
               </Typography>
@@ -587,8 +635,24 @@ const ResultsTable: FC<resultProps> = (props: any) => {
             >
               <Grid item>
                 <Button
+                  sx={{
+                    borderColor: "#000000",
+                    color: "#000000",
+                    padding: "14px 30px",
+                    fontWeight: 600,
+                    textAlign: "center",
+                    lineHeight: "30px",
+                    fontSize: "18px",
+                    borderRadius: "40px",
+                    textTransform: "initial",
+                    width: "100%",
+                    "&.MuiButtonBase-root:hover": {
+                      bgcolor: "#000000",
+                      color: "#ffffff",
+                      borderColor: "#000000",
+                    },
+                  }}
                   variant="outlined"
-                  color="error"
                   onClick={handleDeleteModalClose}
                 >
                   Cancel
@@ -596,8 +660,24 @@ const ResultsTable: FC<resultProps> = (props: any) => {
               </Grid>
               <Grid item>
                 <Button
+                  sx={{
+                    backgroundColor: "#000000",
+                    color: "#ffffff",
+                    fontWeight: 600,
+                    textAlign: "center",
+                    lineHeight: "30px",
+                    fontSize: "18px",
+                    textTransform: "initial",
+                    padding: "14px 30px",
+                    borderRadius: "40px",
+                    width: "100%",
+                    "&.MuiButtonBase-root:hover": {
+                      bgcolor: "#000000",
+                    },
+                    display: "flex",
+                    "&:hover": { bgcolor: "#000000" },
+                  }}
                   variant="contained"
-                  color="success"
                   onClick={() => {
                     deleteSomatotype(props.idSomatotype);
                     handleDeleteModalClose();
