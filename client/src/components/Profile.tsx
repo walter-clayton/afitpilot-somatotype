@@ -58,6 +58,11 @@ const Profile = (props: any) => {
   const handleEditPwdModalOpen = () => setEditPwdModal(true);
   const handleEditPwdModalClose = () => setEditPwdModal(false);
 
+  const [openDeleteConfirmModal, setOpenDeleteConfirmModal] =
+    React.useState(false);
+  const handleDeleteConfirmModalOpen = () => setOpenDeleteConfirmModal(true);
+  const handleDeleteConfirmModalClose = () => setOpenDeleteConfirmModal(false);
+
   const defaultColor = getColors();
   const [colorPicked, setColorPicked] = useState<IColors>(defaultColor);
 
@@ -75,9 +80,9 @@ const Profile = (props: any) => {
     transform: "translate(-50%, -50%)",
     width: xxs ? "90%" : xSmall ? "80%" : medium ? "50%" : "35%",
     bgcolor: "background.paper",
-    border: "2px solid #000",
     boxShadow: 24,
-    p: "15px",
+    p: 4,
+    borderRadius: "25px",
   };
 
   const handleEditProfile = () => {
@@ -86,6 +91,10 @@ const Profile = (props: any) => {
 
   const handleEditPassword = () => {
     handleEditPwdModalOpen();
+  };
+
+  const handleDeleteAccountModal = () => {
+    handleDeleteConfirmModalOpen();
   };
 
   const handleSaveNewEmail = async () => {
@@ -235,6 +244,7 @@ const Profile = (props: any) => {
       });
 
       setFetching(false);
+      handleDeleteConfirmModalClose();
       removeCookie("user", { path: "/", sameSite: "none", secure: true });
       props.setOpen(true);
       props.setSnackbarMessage("Account deleted successfully");
@@ -365,6 +375,10 @@ const Profile = (props: any) => {
 
   const handleCancelNewPwd = () => {
     handleEditPwdModalClose();
+  };
+
+  const handleCancelDeleteAccount = () => {
+    handleDeleteConfirmModalClose();
   };
 
   const handleSaveNewPwd = () => {
@@ -979,7 +993,7 @@ const Profile = (props: any) => {
                 },
               }}
               variant="outlined"
-              onClick={handleDeleteAccount}
+              onClick={handleDeleteAccountModal}
               disabled={fetching}
             >
               {fetching ? <CircularProgress size={25} /> : "Delete account"}
@@ -1136,8 +1150,24 @@ const Profile = (props: any) => {
           >
             <Grid item>
               <Button
+                sx={{
+                  borderColor: "#000000",
+                  color: "#000000",
+                  padding: "14px 30px",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  lineHeight: "30px",
+                  fontSize: "18px",
+                  borderRadius: "40px",
+                  textTransform: "initial",
+                  width: "100%",
+                  "&.MuiButtonBase-root:hover": {
+                    bgcolor: "#000000",
+                    color: "#ffffff",
+                    borderColor: "#000000",
+                  },
+                }}
                 variant="outlined"
-                color="error"
                 onClick={handleCancelNewPwd}
               >
                 Cancel
@@ -1145,8 +1175,24 @@ const Profile = (props: any) => {
             </Grid>
             <Grid item>
               <Button
+                sx={{
+                  backgroundColor: "#000000",
+                  color: "#ffffff",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  lineHeight: "30px",
+                  fontSize: "18px",
+                  textTransform: "initial",
+                  padding: "14px 30px",
+                  borderRadius: "40px",
+                  width: "100%",
+                  "&.MuiButtonBase-root:hover": {
+                    bgcolor: "#000000",
+                  },
+                  display: "flex",
+                  "&:hover": { bgcolor: "#000000" },
+                }}
                 variant="contained"
-                color="success"
                 onClick={handleSaveNewPwd}
                 disabled={
                   pwdAreNotEquals ||
@@ -1154,6 +1200,90 @@ const Profile = (props: any) => {
                   newPassword === "" ||
                   pwdConfirmation === ""
                 }
+              >
+                Confirm
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+      </Modal>
+      <Modal
+        open={openDeleteConfirmModal}
+        onClose={handleDeleteConfirmModalClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={modalStyle}>
+          <Typography
+            id="modal-modal-description"
+            fontSize={"150%"}
+            textAlign={"center"}
+          >
+            Do you want to
+            <Typography
+              fontWeight={"bold"}
+              fontSize={"100%"}
+              component={"span"}
+            >
+              {" "}
+              delete{" "}
+            </Typography>
+            your account?
+          </Typography>
+          <Grid
+            container
+            display={"flex"}
+            justifyContent={"center"}
+            alignContent={"center"}
+            spacing={2}
+            sx={{ mt: 2 }}
+          >
+            <Grid item>
+              <Button
+                sx={{
+                  borderColor: "#000000",
+                  color: "#000000",
+                  padding: "14px 30px",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  lineHeight: "30px",
+                  fontSize: "18px",
+                  borderRadius: "40px",
+                  textTransform: "initial",
+                  width: "100%",
+                  "&.MuiButtonBase-root:hover": {
+                    bgcolor: "#000000",
+                    color: "#ffffff",
+                    borderColor: "#000000",
+                  },
+                }}
+                variant="outlined"
+                onClick={handleCancelDeleteAccount}
+              >
+                Cancel
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                sx={{
+                  backgroundColor: "#000000",
+                  color: "#ffffff",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  lineHeight: "30px",
+                  fontSize: "18px",
+                  textTransform: "initial",
+                  padding: "14px 30px",
+                  borderRadius: "40px",
+                  width: "100%",
+                  "&.MuiButtonBase-root:hover": {
+                    bgcolor: "#000000",
+                  },
+                  display: "flex",
+                  "&:hover": { bgcolor: "#000000" },
+                }}
+                variant="contained"
+                onClick={handleDeleteAccount}
               >
                 Confirm
               </Button>
