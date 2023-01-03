@@ -355,7 +355,7 @@ const TypesPage = () => {
             label="13 SUBCATEGORIES"
           />
         </Box>
-        <Box mt={4}>
+        <Box my={4}>
           <MaleIcon
             onClick={() => {
               handleClick()
