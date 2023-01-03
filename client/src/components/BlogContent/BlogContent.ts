@@ -58,9 +58,8 @@ import fullLogoImage from "../image/TestImageLogo.png";
 //         buttonLink: "/",
 //          //The horizontal position of the button. Possible values are : "start" - "center" - "end"
 //         buttonPosition: "end",
-//          //The color of the button based on mui colors.
-//          //Possible values are : "success" - "error" - "primary" - "secondary" - "info" - "warning"
-//         buttonColor: "success",
+//          //The color of the button based on hexadecimal code colors.
+//         buttonColor: "#ff0000",
 //          //The style variant of the button based on mui style button themes.
 //          //Possible values are : "text" - "contained" - "outlined"
 //         buttonStyle: "contained"
@@ -139,9 +138,8 @@ const BlogArticle:IBlogContent = {
         buttonLink: "/",
          //The horizontal position of the button. Possible values are : "start" - "center" - "end"
         buttonPosition: "end",
-         //The color of the button based on mui colors.
-         //Possible values are : "success" - "error" - "primary" - "secondary" - "info" - "warning"
-        buttonColor: "success",
+         //The color of the button based on hexadecimal code colors.
+        buttonColor: "#1976D2",
          //The style variant of the button based on mui style button themes.
          //Possible values are : "text" - "contained" - "outlined"
         buttonStyle: "contained"
