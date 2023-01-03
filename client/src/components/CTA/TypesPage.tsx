@@ -9,10 +9,9 @@ import mesomorpyshape from "../image/mesomorpyshape.png";
 import TypesPage1, { Icategory } from "./TypesPage1";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import FemaleIcon from '@mui/icons-material/Female';
-import MaleIcon from '@mui/icons-material/Male';
-import TypeExample from "./TypeExample";
 import TypesPageFemale from "./TypePageFemale";
+import female from '../image/material-symbols_female.svg'
+import male from '../image/material-symbols_male.svg'
 
 const theme = createTheme();
 theme.typography.h1 = {
@@ -355,19 +354,59 @@ const TypesPage = () => {
             label="13 SUBCATEGORIES"
           />
         </Box>
-        <Box my={4}>
-          <MaleIcon
+        <Box sx={{
+          display: "flex",
+          flexDirection: "row",
+          textAlign: "center",
+          my: { xs: 5, sm: 4, md: 2, lg: 2 }
+        }}>
+          <img src={male} alt="MaleSymbol"
             onClick={() => {
               handleClick()
             }}
-            sx={{ fontSize: 70, cursor: 'pointer' }} />
-          <FemaleIcon
+            style={{
+              cursor: 'pointer',
+              paddingRight: "16px",
+              width: medium
+                ? small
+                  ? extraSmall
+                    ? "65%"
+                    : "60%"
+                  : "55%"
+                : "60%",
+              height: medium
+                ? small
+                  ? extraSmall
+                    ? "50px"
+                    : "60px"
+                  : "70px%"
+                : "70px",
+            }}
+          />
+          <img src={female} alt="FemaleSymbol"
+            style={{
+              cursor: 'pointer',
+              width: medium
+                ? small
+                  ? extraSmall
+                    ? "65%"
+                    : "60%"
+                  : "55%"
+                : "60%",
+              height: medium
+                ? small
+                  ? extraSmall
+                    ? "50px"
+                    : "60px"
+                  : "70px%"
+                : "70px",
+            }}
             onClick={() => {
               handleClickFeamle()
             }}
-            sx={{ fontSize: 70, cursor: 'pointer' }} />
+          />
         </Box>
-      </Grid>
+      </Grid >
       {isShown && (
 
         <ThemeProvider theme={theme}>
@@ -708,18 +747,20 @@ const TypesPage = () => {
           <CounterShare />
         </ThemeProvider>
       )}
-      {isShownFemale && (
-        <Box>
-          <TypesPageFemale
-            section1Ref={section1Ref}
-            section2Ref={section2Ref}
-            section3Ref={section3Ref}
-            section4Ref={section4Ref}
-            section5Ref={section5Ref}
-          />
-        </Box>
-      )}
-    </Box>
+      {
+        isShownFemale && (
+          <Box>
+            <TypesPageFemale
+              section1Ref={section1Ref}
+              section2Ref={section2Ref}
+              section3Ref={section3Ref}
+              section4Ref={section4Ref}
+              section5Ref={section5Ref}
+            />
+          </Box>
+        )
+      }
+    </Box >
   );
 };
 
