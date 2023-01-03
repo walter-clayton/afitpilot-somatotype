@@ -15,6 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getAllBlogContents } from "./BlogContent/BlogContent";
 import { IBlogContent } from "./BlogContent/BlogInterfaces";
 import { IBlogCardInfos } from "./BlogPage";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 interface IBlogArticlePage {
   blogCardInfos?: IBlogCardInfos;
@@ -231,13 +232,54 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
           {blogCardInfo?.content![layoutIndex].callToActionButton
             ?.isExternalLink ? (
             <Button
+              sx={{
+                backgroundColor:
+                  blogCardInfo?.content![layoutIndex].callToActionButton
+                    ?.buttonStyle === "contained"
+                    ? blogCardInfo?.content![layoutIndex].callToActionButton
+                        ?.buttonColor
+                    : "#ffffff",
+                color:
+                  blogCardInfo?.content![layoutIndex].callToActionButton
+                    ?.buttonStyle === "contained"
+                    ? "#ffffff"
+                    : blogCardInfo?.content![layoutIndex].callToActionButton
+                        ?.buttonColor,
+                borderColor:
+                  blogCardInfo?.content![layoutIndex].callToActionButton
+                    ?.buttonColor,
+                fontWeight: 600,
+                textAlign: "center",
+                lineHeight: "30px",
+                fontSize: "18px",
+                textTransform: "initial",
+                padding: "14px 30px",
+                borderRadius: "40px",
+                marginTop: "5px",
+                width: "100%",
+                "&.MuiButtonBase-root:hover": {
+                  bgcolor:
+                    blogCardInfo?.content![layoutIndex].callToActionButton
+                      ?.buttonColor,
+                  color: "#ffffff",
+                  borderColor:
+                    blogCardInfo?.content![layoutIndex].callToActionButton
+                      ?.buttonColor,
+                },
+                display: "flex",
+                "&:hover": {
+                  bgcolor:
+                    blogCardInfo?.content![layoutIndex].callToActionButton
+                      ?.buttonColor,
+                  color: "#ffffff",
+                  borderColor:
+                    blogCardInfo?.content![layoutIndex].callToActionButton
+                      ?.buttonColor,
+                },
+              }}
               variant={
                 blogCardInfo?.content![layoutIndex].callToActionButton
                   ?.buttonStyle
-              }
-              color={
-                blogCardInfo?.content![layoutIndex].callToActionButton
-                  ?.buttonColor
               }
               href={
                 blogCardInfo?.content![layoutIndex].callToActionButton
@@ -252,13 +294,54 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
             </Button>
           ) : (
             <Button
+              sx={{
+                backgroundColor:
+                  blogCardInfo?.content![layoutIndex].callToActionButton
+                    ?.buttonStyle === "contained"
+                    ? blogCardInfo?.content![layoutIndex].callToActionButton
+                        ?.buttonColor
+                    : "#ffffff",
+                color:
+                  blogCardInfo?.content![layoutIndex].callToActionButton
+                    ?.buttonStyle === "contained"
+                    ? "#ffffff"
+                    : blogCardInfo?.content![layoutIndex].callToActionButton
+                        ?.buttonColor,
+                borderColor:
+                  blogCardInfo?.content![layoutIndex].callToActionButton
+                    ?.buttonColor,
+                fontWeight: 600,
+                textAlign: "center",
+                lineHeight: "30px",
+                fontSize: "18px",
+                textTransform: "initial",
+                padding: "14px 30px",
+                borderRadius: "40px",
+                marginTop: "5px",
+                width: "100%",
+                "&.MuiButtonBase-root:hover": {
+                  bgcolor:
+                    blogCardInfo?.content![layoutIndex].callToActionButton
+                      ?.buttonColor,
+                  color: "#ffffff",
+                  borderColor:
+                    blogCardInfo?.content![layoutIndex].callToActionButton
+                      ?.buttonColor,
+                },
+                display: "flex",
+                "&:hover": {
+                  bgcolor:
+                    blogCardInfo?.content![layoutIndex].callToActionButton
+                      ?.buttonColor,
+                  color: "#ffffff",
+                  borderColor:
+                    blogCardInfo?.content![layoutIndex].callToActionButton
+                      ?.buttonColor,
+                },
+              }}
               variant={
                 blogCardInfo?.content![layoutIndex].callToActionButton
                   ?.buttonStyle
-              }
-              color={
-                blogCardInfo?.content![layoutIndex].callToActionButton
-                  ?.buttonColor
               }
               onClick={() => {
                 navigate(
@@ -345,11 +428,43 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
 
       {finalLayout.length > 0 && !noBlogFound ? finalLayout : null}
 
+      <Grid item xs={12} md={8} lg={6} alignSelf={"end"}>
+        <Button
+          variant="text"
+          onClick={() => {
+            window.scrollTo(0, 0);
+          }}
+        >
+          <Box display={"flex"} flexDirection={"row"}>
+            <Typography>Go back at top</Typography>
+            <ArrowUpwardIcon
+              sx={{ color: "#1976D2", marginLeft: "5px" }}
+              fontSize="small"
+            />
+          </Box>
+        </Button>
+      </Grid>
       <Grid item m={3} xs={12} md={8} lg={6} alignSelf={"center"}>
         <Button
-          type="submit"
+          sx={{
+            backgroundColor: "#000000",
+            color: "#ffffff",
+            fontWeight: 600,
+            textAlign: "center",
+            lineHeight: "30px",
+            fontSize: "18px",
+            textTransform: "initial",
+            padding: "14px 30px",
+            borderRadius: "40px",
+            marginTop: "5px",
+            width: "100%",
+            "&.MuiButtonBase-root:hover": {
+              bgcolor: "#000000",
+            },
+            display: "flex",
+            "&:hover": { bgcolor: "#000000" },
+          }}
           variant="contained"
-          size="large"
           onClick={() => {
             navigate("/Blog");
             window.scrollTo(0, 0);
