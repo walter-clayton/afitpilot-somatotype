@@ -65,6 +65,7 @@ const Profile = (props: any) => {
 
   const defaultColor = getColors();
   const [colorPicked, setColorPicked] = useState<IColors>(defaultColor);
+  const [previousColorIndex, setPreviousColorIndex] = useState<number>(0);
 
   const medium = useMediaQuery("(max-width:1000px)");
   const small = useMediaQuery("(max-width:600px)");
@@ -86,6 +87,7 @@ const Profile = (props: any) => {
   };
 
   const handleEditProfile = () => {
+    setPreviousColorIndex(getColors().index!);
     setIsEditing(true);
   };
 
@@ -301,6 +303,8 @@ const Profile = (props: any) => {
   };
 
   const handleDiscardChanges = () => {
+    setColors(previousColorIndex);
+    setColorPicked(getSpecificColors(previousColorIndex));
     setEmail(defaultEmail);
     setName(defaultName);
     setEmailHasChanges(false);
