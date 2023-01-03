@@ -435,15 +435,16 @@ const TypesPage = () => {
                 >
                   <img
                     src={require("../image/" + step.image + ".svg")}
-                    alt="manu tribesman"
+                    alt="Mesomorph"
                     style={{
                       width: medium
                         ? small
                           ? extraSmall
                             ? "65%"
                             : "60%"
-                          : "55%"
-                        : "60%", height: "250px"
+                          : "100%"
+                        : "100%",
+                      height: "350px"
                     }}
                   />
                   <Typography
@@ -521,16 +522,16 @@ const TypesPage = () => {
                 >
                   <img
                     src={require("../image/" + step.image + ".svg")}
-                    alt="manu tribesman"
+                    alt="Ectomorph"
                     style={{
                       width: medium
                         ? small
                           ? extraSmall
                             ? "65%"
                             : "60%"
-                          : "55%"
-                        : "60%",
-                      height: "250px"
+                          : "100%"
+                        : "100%",
+                      height: "350px"
                     }} />
                   <Typography
                     variant="h1"
@@ -575,16 +576,16 @@ const TypesPage = () => {
                 >
                   <img
                     src={require("../image/" + step.image + ".svg")}
-                    alt="manu tribesman"
+                    alt="Endomorph"
                     style={{
                       width: medium
                         ? small
                           ? extraSmall
                             ? "65%"
                             : "60%"
-                          : "55%"
-                        : "60%",
-                      height: "250px"
+                          : "100%"
+                        : "100%",
+                      height: "350px"
                     }} />
                   <Typography
                     variant="h1"
@@ -662,16 +663,16 @@ const TypesPage = () => {
                 >
                   <img
                     src={require("../image/" + step.image + ".svg")}
-                    alt="manu tribesman"
+                    alt="Hybrid"
                     style={{
                       width: medium
                         ? small
                           ? extraSmall
                             ? "65%"
                             : "60%"
-                          : "55%"
-                        : "60%",
-                      height: "250px"
+                          : "100%"
+                        : "100%",
+                      height: "350px"
                     }}
                   />
                   <Typography
@@ -717,16 +718,16 @@ const TypesPage = () => {
                 >
                   <img
                     src={require("../image/" + step.image + ".svg")}
-                    alt="manu tribesman"
+                    alt="central"
                     style={{
                       width: medium
                         ? small
                           ? extraSmall
                             ? "65%"
                             : "60%"
-                          : "55%"
-                        : "60%",
-                      height: "250px"
+                          : "100%"
+                        : "100%",
+                      height: "350px"
                     }} />
                   <Typography
                     variant="h1"

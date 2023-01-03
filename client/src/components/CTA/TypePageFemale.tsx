@@ -163,8 +163,9 @@ const TypesPageFemale = (props: any) => {
                                                     ? extraSmall
                                                         ? "65%"
                                                         : "60%"
-                                                    : "55%"
-                                                : "60%", height: "250px"
+                                                    : "100%"
+                                                : "100%",
+                                            height: "350px"
                                         }}
                                     />
                                     <Typography
@@ -249,9 +250,9 @@ const TypesPageFemale = (props: any) => {
                                                     ? extraSmall
                                                         ? "65%"
                                                         : "60%"
-                                                    : "55%"
-                                                : "60%",
-                                            height: "250px"
+                                                    : "100%"
+                                                : "100%",
+                                            height: "350px"
                                         }} />
                                     <Typography
                                         variant="h1"
@@ -303,9 +304,9 @@ const TypesPageFemale = (props: any) => {
                                                     ? extraSmall
                                                         ? "65%"
                                                         : "60%"
-                                                    : "55%"
-                                                : "60%",
-                                            height: "250px"
+                                                    : "100%"
+                                                : "100%",
+                                            height: "350px"
                                         }} />
                                     <Typography
                                         variant="h1"
@@ -390,9 +391,9 @@ const TypesPageFemale = (props: any) => {
                                                     ? extraSmall
                                                         ? "65%"
                                                         : "60%"
-                                                    : "55%"
-                                                : "60%",
-                                            height: "250px"
+                                                    : "100%"
+                                                : "100%",
+                                            height: "350px"
                                         }}
                                     />
                                     <Typography
@@ -445,9 +446,9 @@ const TypesPageFemale = (props: any) => {
                                                     ? extraSmall
                                                         ? "65%"
                                                         : "60%"
-                                                    : "55%"
-                                                : "60%",
-                                            height: "250px"
+                                                    : "100%"
+                                                : "100%",
+                                            height: "350px"
                                         }} />
                                     <Typography
                                         variant="h1"
