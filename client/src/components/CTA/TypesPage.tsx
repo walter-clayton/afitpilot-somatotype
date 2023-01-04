@@ -351,7 +351,7 @@ const TypesPage = () => {
                 setLabelCategory("category1");
               }
             }}
-            label="13 SUBCATEGORIES"
+            label={<Typography sx={{ fontSize: "1.5rem", fontWeight: 300 }}>13 SUBCATEGORIES</Typography>}
           />
         </Box>
         <Box sx={{
