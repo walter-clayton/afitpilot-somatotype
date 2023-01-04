@@ -93,6 +93,8 @@ const Dashboard: FC<IDashboard> = (props) => {
   const [showComparison, setShowComparison] = useState<boolean>(false);
   const [tableComparePage, setTableComparePage] = useState<number>(0);
 
+  const [isSharing, setIsSharing] = useState<boolean>(false);
+
   const xxl = useMediaQuery("(min-width:1401px)");
   const xlarge = useMediaQuery("(max-width:1400px)");
   const large = useMediaQuery("(max-width:1200px)");
@@ -253,6 +255,12 @@ const Dashboard: FC<IDashboard> = (props) => {
     };
     navigator.share(shareData);
   };
+
+  useEffect(() => {
+    document.onmouseenter = () => {
+      setIsSharing(false);
+    };
+  });
 
   return (
     <>
@@ -916,7 +924,9 @@ const Dashboard: FC<IDashboard> = (props) => {
                 variant="outlined"
                 onClick={() => {
                   createExportImage();
+                  setIsSharing(true);
                 }}
+                disabled={isSharing}
               >
                 <ShareIcon sx={{ marginRight: "10px" }} />
                 Share
