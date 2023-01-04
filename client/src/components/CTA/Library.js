@@ -193,9 +193,9 @@ const Library = (props) => {
             <Grid
                 container
                 spacing={2}
-                sx={{
-                    margin: "0 auto",
-                }}
+                // sx={{
+                //     margin: "0 auto",
+                // }}
                 alignItems={'center'}
                 direction={{ xs: "column", sm: "row", md: "row", lg: "row", xl: "row" }}
             >
@@ -208,9 +208,12 @@ const Library = (props) => {
                             md={4}
                             lg={4}
                             xl={4}
-                            sx={{ textAlign: "center", marginTop: 5, mb: 5, }}
+                            display="flex"
+                            justifyContent="center"
+                            alignItems="center"
+                            sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
                         >
-                            <Card sx={{ maxWidth: 345 }}>
+                            <Card sx={{ maxWidth: 345, placeSelf: "center" }}>
                                 <CardMedia
                                     component="img"
                                     height="250"
@@ -266,8 +269,6 @@ const Library = (props) => {
             )
             }
         </Box >
-
     )
 }
-
 export default Library
