@@ -256,6 +256,252 @@ const Dashboard: FC<IDashboard> = (props) => {
 
   return (
     <>
+      <Box
+        ref={cardRef}
+        sx={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "500px",
+          zIndex: -10,
+        }}
+      >
+        <Grid
+          container
+          padding={2}
+          sx={{
+            textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            border: `10px solid ${getColors().darkColor}`,
+            borderRadius: "25px",
+            backgroundColor: getColors().clearColor,
+          }}
+        >
+          <Typography
+            variant="h5"
+            sx={{
+              color: getColors().normalColor,
+              textAlign: "start",
+              alignSelf: "start",
+            }}
+          >
+            {cookies.user.name}
+          </Typography>
+          <img src={avatar} alt="manu tribesman" style={{ width: "150px" }} />
+          <Grid
+            item
+            width={"100%"}
+            marginBottom={1}
+            sx={{
+              color: "black",
+              backgroundColor: getColors().darkColor,
+              textAlign: "center",
+              borderRadius: "25px",
+            }}
+          >
+            <Grid
+              container
+              display={"flex"}
+              flexDirection={"row"}
+              alignItems={"center"}
+              justifyContent={"center"}
+              columnSpacing={1.5}
+            >
+              <Grid item>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    fontWeight: 600,
+                    fontSize: "150%",
+                    color: "#ffffff",
+                  }}
+                >
+                  {fetching || somatotypes.length <= 0
+                    ? ""
+                    : somatotypes[0].endomorphy?.toFixed()}
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    fontWeight: 600,
+                    fontSize: "150%",
+                    color: "#ffffff",
+                  }}
+                >
+                  -
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    fontWeight: 600,
+                    fontSize: "150%",
+                    color: "#ffffff",
+                  }}
+                >
+                  {fetching || somatotypes.length <= 0
+                    ? ""
+                    : somatotypes[0].mesomorphy?.toFixed()}
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    fontWeight: 600,
+                    fontSize: "150%",
+                    color: "#ffffff",
+                  }}
+                >
+                  -
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    fontWeight: 600,
+                    fontSize: "150%",
+                    color: "#ffffff",
+                  }}
+                >
+                  {fetching || somatotypes.length <= 0
+                    ? ""
+                    : somatotypes[0].ectomorphy?.toFixed()}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Box
+            sx={{
+              width: "100%",
+              borderBottom: `2px solid ${getColors().darkColor}`,
+            }}
+          >
+            <Typography
+              marginBottom={0.3}
+              variant="h5"
+              sx={{
+                color: getColors().darkColor,
+                textAlign: "center",
+                fontWeight: 600,
+              }}
+            >
+              {formatTypeResultText(typeResult)[0]}
+            </Typography>
+            <Typography
+              variant="h5"
+              sx={{
+                color: getColors().normalColor,
+                textAlign: "center",
+                fontWeight: 600,
+              }}
+            >
+              {formatTypeResultText(typeResult)[1]}
+            </Typography>
+          </Box>
+          <Grid
+            item
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            width={"100%"}
+          >
+            <SomatotypeGraph
+              graphColor={"#5c5c5c"}
+              updateGraph={toggleGraph}
+              pointsArray={finalPointsArray}
+            />
+          </Grid>
+          <Grid
+            item
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            width={"100%"}
+          >
+            <Grid
+              container
+              sx={{
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+                flexDirection: "row",
+              }}
+              width={"100%"}
+            >
+              {pointsArray.length > 0 && (
+                <Grid
+                  item
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "row",
+                  }}
+                >
+                  <CircleIcon
+                    sx={{
+                      marginRight: "10px",
+                      fontSize: "100%",
+                      color: getColors().darkColor,
+                    }}
+                  />
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      color: getColors().darkColor,
+                      textAlign: "center",
+                      fontWeight: 600,
+                    }}
+                  >
+                    You
+                  </Typography>
+                </Grid>
+              )}
+              {comparisonPointsArray.length > 0 && (
+                <Grid
+                  item
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "row",
+                  }}
+                >
+                  <CircleIcon
+                    sx={{
+                      marginRight: "10px",
+                      fontSize: "100%",
+                      color: "#000000",
+                    }}
+                  />
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      color: "#000000",
+                      textAlign: "center",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {comparisonState}
+                  </Typography>
+                </Grid>
+              )}
+            </Grid>
+          </Grid>
+        </Grid>
+      </Box>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Typography
@@ -337,7 +583,6 @@ const Dashboard: FC<IDashboard> = (props) => {
               padding={2}
             >
               <Grid
-                ref={cardRef}
                 container
                 padding={2}
                 sx={{
