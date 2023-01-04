@@ -122,8 +122,8 @@ function TypesPage1(props: any) {
       >
         {props.labelCategory === "category1" ? (
           <svg
-            style={{ maxWidth: "300px", width: "100%" }}
-            height="301"
+            style={{ maxWidth: "500px", width: "100%" }}
+            height="500"
             viewBox="0 0 598 601"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -271,7 +271,8 @@ function TypesPage1(props: any) {
           </svg>
         ) : (
           <svg
-            style={{ maxWidth: "400px", width: "100%" }}
+            style={{ maxWidth: "500px", width: "100%" }}
+            height="500"
             viewBox="0 0 598 601"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
