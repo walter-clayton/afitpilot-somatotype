@@ -44,7 +44,7 @@ const heading = {
     fontWeight: 600,
     textAlign: "center",
   },
-  "@media only screen and (min-width: 600px) and (max-width: 1400px)": {
+  "@media only screen and (min-width: 600px) and (max-width: 1716px)": {
     color: "black",
     textAlign: "center",
     fontSize: "54px",
@@ -351,7 +351,7 @@ const TypesPage = () => {
                 setLabelCategory("category1");
               }
             }}
-            label={<Typography sx={{ fontSize: "1.5rem", fontWeight: 300 }}>13 SUBCATEGORIES</Typography>}
+            label="13 SUBCATEGORIES"
           />
         </Box>
         <Box sx={{
