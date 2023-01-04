@@ -29,7 +29,7 @@ import TestSteps from "./test_steps/TestSteps";
 const theme = createTheme();
 
 interface ITesting {
-  setData: (data: IData) => void;
+  setData: (data: IData | undefined) => void;
   data: IData;
   resultsSaved: boolean;
   setResultsSaved: (bool: boolean) => void;

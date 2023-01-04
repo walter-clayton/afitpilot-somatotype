@@ -1,5 +1,5 @@
 import { ITypesSkin } from "../../Avatar";
-import { IColorSkin } from "../../CustomAvatar";
+import { IColorSkin } from "../../variablesAvatar/VariableAvatar";
 import { getCSkin } from "./Central";
 import { getBEcSkin, getEnEcSkin, getMEcSkin } from "./Ectomorphs";
 import { getBEnSkin, getEcEnSkin, getMEnSkin } from "./Endomorphs";

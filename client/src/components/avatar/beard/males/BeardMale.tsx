@@ -1,4 +1,4 @@
-import { IColorHair } from "../../CustomAvatar";
+import { IColorHair } from "../../variablesAvatar/VariableAvatar";
 
 interface IBeard {
   none: React.SVGProps<SVGGElement>;

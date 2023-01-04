@@ -10,8 +10,15 @@ import React, { FC, useState } from "react";
 import Avatar from "./Avatar";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import {
+  beards,
+  colorsHair,
+  colorsSkin,
+  faces,
+  hairs,
+} from "./variablesAvatar/VariableAvatar";
 
-const Plane = styled(Box)({
+export const Plane = styled(Box)({
   position: "absolute",
   zIndex: -1,
   bottom: 0,
@@ -32,118 +39,91 @@ const stylesStack: SxProps = {
   color: "black",
 };
 
-export interface IColorSkin {
-  light: string;
-  medium: string;
-  strong: string;
+export interface IIndexes {
+  indexHair: number;
+  indexFace: number;
+  indexBeard: number;
+  indexColorSkin: number;
+  indexColorHair: number;
 }
 
-export interface IColorHair {
-  light: string;
-  medium: string;
+export interface ISetters {
+  setIndexHair: (i: number) => void;
+  setIndexFace: (i: number) => void;
+  setIndexBeard: (i: number) => void;
+  setIndexColorSkin: (i: number) => void;
+  setIndexColorHair: (i: number) => void;
 }
-
-const colorsSkin: IColorSkin[] = [
-  { light: "#FDE9D9", medium: "#FCE3CF", strong: "#FBD5B7" },
-  { light: "#EBCEB8", medium: "#E5C0A4", strong: "#DFB18E" },
-  { light: "#C89D84", medium: "#C08F72", strong: "#B98262" },
-  { light: "#9D6B5A", medium: "#906253", strong: "#81584A" },
-  { light: "#865D55", medium: "#76524B", strong: "#664741" },
-];
-
-const colorsHair: IColorHair[] = [
-  { light: "#565656", medium: "#4D4D4D" },
-  { light: "#DBBEA6", medium: "#DEBE99" },
-  { light: "#AA8C66", medium: "#AA8866" },
-  { light: "#909090", medium: "#808080" },
-];
-
-const hairs: string[] = [
-  "none",
-  "short",
-  "medium",
-  "medium2",
-  "large",
-  "large2",
-];
-
-const faces: string[] = ["smiling", "neutral", "angry", "sad"];
-
-const beards: string[] = ["none", "short", "medium", "large"];
-
 interface ICustomAvatar {
   typeCode: string;
+  gender: string;
+  indexes: IIndexes;
+  setters: ISetters;
 }
 
 const CustomAvatar: FC<ICustomAvatar> = (props) => {
-  const [indexHair, setIndexHair] = useState<number>(0);
-  const [indexFace, setIndexFace] = useState<number>(0);
-  const [indexBeard, setIndexBeard] = useState<number>(0);
-  const [indexColorSkin, setIndexColorSkin] = useState<number>(0);
-  const [indexColorHair, setIndexColorHair] = useState<number>(0);
-
   const typeSoma: string = props.typeCode;
-  const gender: string = "male";
+  const gender: string = props.gender;
 
   const xs = useMediaQuery("(max-width: 580px)");
 
   const handleColorHairClick = (direction: string): void => {
     if (direction === "back") {
-      indexColorHair === 0
-        ? setIndexColorHair((i) => colorsHair.length - 1)
-        : setIndexColorHair((i) => i - 1);
+      props.indexes.indexColorHair === 0
+        ? props.setters.setIndexColorHair(colorsHair.length - 1)
+        : props.setters.setIndexColorHair(props.indexes.indexColorHair - 1);
     } else {
-      indexColorHair === colorsHair.length - 1
-        ? setIndexColorHair((i) => 0)
-        : setIndexColorHair((i) => i + 1);
+      props.indexes.indexColorHair === colorsHair.length - 1
+        ? props.setters.setIndexColorHair(0)
+        : props.setters.setIndexColorHair(props.indexes.indexColorHair + 1);
     }
   };
 
   const handleColorSkinClick = (direction: string): void => {
     if (direction === "back") {
-      indexColorSkin === 0
-        ? setIndexColorSkin((i) => colorsSkin.length - 1)
-        : setIndexColorSkin((i) => i - 1);
+      props.indexes.indexColorSkin === 0
+        ? props.setters.setIndexColorSkin(colorsSkin.length - 1)
+        : props.setters.setIndexColorSkin(props.indexes.indexColorSkin - 1);
     } else {
-      indexColorSkin === colorsSkin.length - 1
-        ? setIndexColorSkin((i) => 0)
-        : setIndexColorSkin((i) => i + 1);
+      props.indexes.indexColorSkin === colorsSkin.length - 1
+        ? props.setters.setIndexColorSkin(0)
+        : props.setters.setIndexColorSkin(props.indexes.indexColorSkin + 1);
     }
   };
 
   const handleHairClick = (direction: string): void => {
     if (direction === "back") {
-      indexHair === 0
-        ? setIndexHair((i) => hairs.length - 1)
-        : setIndexHair((i) => i - 1);
+      props.indexes.indexHair === 0
+        ? props.setters.setIndexHair(hairs.length - 1)
+        : props.setters.setIndexHair(props.indexes.indexHair - 1);
     } else {
-      indexHair === hairs.length - 1
-        ? setIndexHair((i) => 0)
-        : setIndexHair((i) => i + 1);
+      props.indexes.indexHair === hairs.length - 1
+        ? props.setters.setIndexHair(0)
+        : props.setters.setIndexHair(props.indexes.indexHair + 1);
     }
   };
 
   const handleFaceClick = (direction: string): void => {
     if (direction === "back") {
-      indexFace === 0
-        ? setIndexFace((i) => faces.length - 1)
-        : setIndexFace((i) => i - 1);
+      props.indexes.indexFace === 0
+        ? props.setters.setIndexFace(faces.length - 1)
+        : props.setters.setIndexFace(props.indexes.indexFace - 1);
     } else {
-      indexFace === faces.length - 1
-        ? setIndexFace((i) => 0)
-        : setIndexFace((i) => i + 1);
+      props.indexes.indexFace === faces.length - 1
+        ? props.setters.setIndexFace(0)
+        : props.setters.setIndexFace(props.indexes.indexFace + 1);
     }
   };
 
   const handleBeardClick = (direction: string): void => {
     if (direction === "back") {
-      indexBeard === 0
-        ? setIndexBeard((i) => beards.length - 1)
-        : setIndexBeard((i) => i - 1);
+      props.indexes.indexBeard === 0
+        ? props.setters.setIndexBeard(props.indexes.indexBeard - 1)
+        : props.setters.setIndexBeard(props.indexes.indexBeard - 1);
     } else {
-      indexBeard === beards.length - 1
-        ? setIndexBeard((i) => 0)
-        : setIndexBeard((i) => i + 1);
+      props.indexes.indexBeard === beards.length - 1
+        ? props.setters.setIndexBeard(0)
+        : props.setters.setIndexBeard(props.indexes.indexBeard + 1);
     }
   };
 
@@ -163,12 +143,13 @@ const CustomAvatar: FC<ICustomAvatar> = (props) => {
 
       <Avatar
         typeSoma={typeSoma}
-        hair={hairs[indexHair]}
-        face={faces[indexFace]}
-        beard={beards[indexBeard]}
+        hair={hairs[props.indexes.indexHair]}
+        face={faces[props.indexes.indexFace]}
+        beard={beards[props.indexes.indexBeard]}
         gender={gender}
-        colorsSkin={colorsSkin[indexColorSkin]}
-        colorsHair={colorsHair[indexColorHair]}
+        colorsSkin={colorsSkin[props.indexes.indexColorSkin]}
+        colorsHair={colorsHair[props.indexes.indexColorHair]}
+        cloth={false}
       />
 
       <Stack

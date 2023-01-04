@@ -1,5 +1,5 @@
 import { getBeardMale } from "../../beard/males/BeardMale";
-import { IColorHair, IColorSkin } from "../../CustomAvatar";
+import { IColorHair, IColorSkin } from "../../variablesAvatar/VariableAvatar";
 import { getFacesMales } from "../../faces/males/FacesMales";
 import { getHairMale } from "../../hairs/males/HairsMales";
 
@@ -13,7 +13,7 @@ export const getHeadMale = (
   <g>
     <g id="neck">
       <path
-        fill={colorsSkin.medium}
+        fill={colorsSkin.light}
         fillRule="nonzero"
         d="M189.823 81.332c0-9.98-6.756-18.07-15.092-18.07-8.337 0-15.094 8.09-15.094 18.07v7.414c0 9.98 6.757 18.071 15.094 18.071 8.336 0 15.092-8.091 15.092-18.071v-7.414z"
         transform="translate(-128.151)"
@@ -27,7 +27,7 @@ export const getHeadMale = (
     </g>
     <g id="ears">
       <path
-        fill={colorsSkin.medium}
+        fill={colorsSkin.light}
         fillRule="nonzero"
         d="M196.283 53.888h-42.537c-4.863 0-8.806 4.027-8.806 8.995 0 4.969 3.943 8.996 8.806 8.996h42.537c4.863 0 8.807-4.027 8.807-8.996 0-4.968-3.944-8.995-8.807-8.995z"
         transform="translate(-128.151)"
@@ -41,14 +41,14 @@ export const getHeadMale = (
     </g>
     <path
       id="head"
-      fill={colorsSkin.medium}
+      fill={colorsSkin.light}
       fillRule="nonzero"
       d="M180.931 27.735H168.34c-10.431 0-18.888 8.456-18.888 18.888v22.384c0 10.433 8.457 18.89 18.888 18.89h12.591c10.431 0 18.888-8.457 18.888-18.89V46.623c0-10.432-8.457-18.888-18.888-18.888z"
       transform="translate(-128.151)"
     ></path>
     <g id="chin">
       <path
-        fill={colorsSkin.medium}
+        fill={colorsSkin.light}
         fillRule="nonzero"
         d="M180.532 85.336h-11.765a2.304 2.304 0 000 4.608h11.765a2.304 2.304 0 000-4.608z"
         transform="translate(-128.151)"

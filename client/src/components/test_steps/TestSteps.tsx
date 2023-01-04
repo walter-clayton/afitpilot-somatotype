@@ -4,13 +4,13 @@ import { useNavigate } from "react-router-dom";
 import {
   Box,
   OutlinedInput,
-  InputAdornment,
   Typography,
   Select,
   Button,
   Slider,
   MenuItem,
   useMediaQuery,
+  IconButton,
 } from "@mui/material";
 import ForwardIcon from "@mui/icons-material/Forward";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
@@ -24,11 +24,25 @@ import ModalImg from "./Modal";
 import bicepsImg from "../image/bicepsImg.jpeg";
 import calfImg from "../image/calfImg.jpeg";
 import BFImg from "../image/BFImg.jpeg";
-import CustomAvatar from "../avatar/CustomAvatar";
+import CustomAvatar, {
+  IIndexes,
+  ISetters,
+  Plane,
+} from "../avatar/CustomAvatar";
+import Avatar from "../avatar/Avatar";
 import Stack from "@mui/material/Stack";
 import { getSomatotypeType } from "../TestPage";
 import SomatotypeGraph from "../SomatotypeGraph";
 import { AddPoint, IPoints } from "../Calculation";
+import {
+  beards,
+  colorsHair,
+  colorsSkin,
+  faces,
+  hairs,
+} from "../avatar/variablesAvatar/VariableAvatar";
+import CircleIcon from "@mui/icons-material/Circle";
+import { getSpecificColors } from "../Colors";
 
 const PrettoSlider = styled(Slider)({
   color: "RGB(108, 77, 123)",
@@ -125,7 +139,7 @@ const Circles = styled("div")({
 });
 
 interface ITestSteps {
-  setData: (data: IData) => void;
+  setData: (data: IData | undefined) => void;
   data: IData;
 }
 
@@ -133,6 +147,8 @@ const TestSteps: FC<ITestSteps> = (props) => {
   const [cookies, setCookie, removeCookie] = useCookies(["data"]);
   const navigate = useNavigate();
   const xs = useMediaQuery("(max-width:680px)");
+
+  const [datas, setDatas] = useState<IData | undefined>(undefined);
 
   const [somatotypeTitle, setSomatotypeTitle] = useState("");
   const [somatotypeCode, setSomatotypeCode] = useState("");
@@ -145,18 +161,18 @@ const TestSteps: FC<ITestSteps> = (props) => {
 
   const [stepAvatar, setStepAvatar] = useState(1);
 
+  const [indexHair, setIndexHair] = useState<number>(0);
+  const [indexFace, setIndexFace] = useState<number>(0);
+  const [indexBeard, setIndexBeard] = useState<number>(0);
+  const [indexColorSkin, setIndexColorSkin] = useState<number>(0);
+  const [indexColorHair, setIndexColorHair] = useState<number>(0);
+
+  const [mainColor, setMainColor] = useState(0);
+
   // for ModalImg
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  useEffect(() => {
-    console.log(stepAvatar);
-
-    setStepAvatar(1);
-
-    console.log(stepAvatar);
-  }, []);
 
   const Question = styled("div")({
     backgroundColor: "RGB(108, 77, 123)",
@@ -320,7 +336,6 @@ const TestSteps: FC<ITestSteps> = (props) => {
   ) => {
     let valuesTemp: IValues = { ...values };
     (valuesTemp as any)[steps[currentStep].label] = String(event.target.value);
-    console.log(event.target.value);
 
     setValues({ ...valuesTemp });
   };
@@ -401,7 +416,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
       somatotype: somatotype,
     };
 
-    props.setData(data);
+    setDatas(data);
 
     const type: string = getSomatotypeType(
       data.somatotype!.endomorphy,
@@ -488,6 +503,22 @@ const TestSteps: FC<ITestSteps> = (props) => {
   const md = useMediaQuery("(max-width:980px)");
 
   const AvatarStep1: FC = () => {
+    const indexes: IIndexes = {
+      indexHair: indexHair,
+      indexBeard: indexBeard,
+      indexFace: indexFace,
+      indexColorHair: indexColorHair,
+      indexColorSkin: indexColorSkin,
+    };
+
+    const setters: ISetters = {
+      setIndexHair: setIndexHair,
+      setIndexBeard: setIndexBeard,
+      setIndexFace: setIndexFace,
+      setIndexColorHair: setIndexColorHair,
+      setIndexColorSkin: setIndexColorSkin,
+    };
+
     return (
       <Box>
         <Box sx={{ backgroundColor: "#F6F6F7" }}>
@@ -502,7 +533,12 @@ const TestSteps: FC<ITestSteps> = (props) => {
           >
             Your somatotype is:
           </Typography>
-          <CustomAvatar typeCode={somatotypeCode} />
+          <CustomAvatar
+            typeCode={somatotypeCode}
+            gender={values.gender}
+            indexes={indexes}
+            setters={setters}
+          />
         </Box>
         <Stack
           direction="row"
@@ -515,11 +551,11 @@ const TestSteps: FC<ITestSteps> = (props) => {
             backgroundColor: "#D9D9D9",
           }}
         >
-          <span>{props.data.somatotype?.endomorphy?.toFixed()}</span>
+          <span>{datas!.somatotype?.endomorphy?.toFixed()}</span>
           <span>-</span>
-          <span>{props.data.somatotype?.mesomorphy?.toFixed()}</span>
+          <span>{datas!.somatotype?.mesomorphy?.toFixed()}</span>
           <span>-</span>
-          <span>{props.data.somatotype?.ectomorphy?.toFixed()}</span>
+          <span>{datas!.somatotype?.ectomorphy?.toFixed()}</span>
         </Stack>
         <Box py={2}>
           <Typography
@@ -550,9 +586,9 @@ const TestSteps: FC<ITestSteps> = (props) => {
 
   const AvatarStep2: FC = () => {
     const point: IPoints = AddPoint(
-      props.data!.somatotype?.endomorphy!,
-      props.data!.somatotype?.mesomorphy!,
-      props.data!.somatotype?.ectomorphy!,
+      datas!.somatotype?.endomorphy!,
+      datas!.somatotype?.mesomorphy!,
+      datas!.somatotype?.ectomorphy!,
       "#6C4D7B"
     );
 
@@ -586,9 +622,99 @@ const TestSteps: FC<ITestSteps> = (props) => {
     );
   };
 
+  const AvatarStep3: FC = () => {
+    const pickColors = ["#6C4D7B", "#4298B4", "#B78260", "#56A278", "#B76060"];
+
+    return (
+      <Box>
+        <Box
+          sx={{
+            backgroundColor: getSpecificColors(mainColor).clearColor,
+            position: "relative",
+            zIndex: 0,
+          }}
+        >
+          <Typography
+            variant="h4"
+            py={2}
+            sx={{
+              textAlign: "center",
+              color: "#606161",
+              fontWeight: "500",
+            }}
+          >
+            Your Avatar:
+          </Typography>
+
+          <Avatar
+            typeSoma={somatotypeCode}
+            hair={hairs[indexHair]}
+            face={faces[indexFace]}
+            beard={beards[indexBeard]}
+            gender={values.gender}
+            colorsSkin={colorsSkin[indexColorSkin]}
+            colorsHair={colorsHair[indexColorHair]}
+            cloth={true}
+            mainColor={mainColor}
+          />
+          <Plane />
+        </Box>
+
+        <Stack
+          direction="row"
+          justifyContent="center"
+          spacing={2}
+          py={1}
+          sx={{
+            fontWeight: "bold",
+            fontSize: "30px",
+            backgroundColor: getSpecificColors(mainColor).darkColor,
+            color: "white",
+          }}
+        >
+          <span>{datas!.somatotype?.endomorphy?.toFixed()}</span>
+          <span>-</span>
+          <span>{datas!.somatotype?.mesomorphy?.toFixed()}</span>
+          <span>-</span>
+          <span>{datas!.somatotype?.ectomorphy?.toFixed()}</span>
+        </Stack>
+        <Box>
+          <Typography variant="h5" textAlign="center" fontWeight="bold" mt={2}>
+            Color Picker
+          </Typography>
+          <Stack direction="row" justifyContent="center" spacing={2} mt={2}>
+            {pickColors.map((item, index) => (
+              <IconButton
+                key={index}
+                sx={{ padding: 0 }}
+                onClick={() => {
+                  setMainColor(index);
+                }}
+              >
+                <CircleIcon
+                  sx={{
+                    color: getSpecificColors(index).normalColor,
+                    fontSize: "50px",
+                    cursor: "pointer",
+                    "&:hover": {
+                      opacity: 0.5,
+                    },
+                  }}
+                />
+              </IconButton>
+            ))}
+          </Stack>
+        </Box>
+      </Box>
+    );
+  };
+
+  const handleSave = () => {};
+
   return (
     <Box sx={{ margin: md ? "" : "calc(100px + 140px) 0 120px 0" }}>
-      {props.data ? (
+      {/* if datas has somatotypes then we show the second step (steps of avatar svg) else we show the first step (questions's steps) */}
+      {datas ? (
         <Box
           boxShadow="3"
           sx={{
@@ -600,13 +726,14 @@ const TestSteps: FC<ITestSteps> = (props) => {
         >
           {stepAvatar === 1 && <AvatarStep1 />}
           {stepAvatar === 2 && <AvatarStep2 />}
+          {stepAvatar === 3 && <AvatarStep3 />}
           <Stack mb={2}>
             <Next
               onClick={() => {
-                setStepAvatar((s) => s + 1);
+                stepAvatar < 3 ? setStepAvatar((s) => s + 1) : handleSave();
               }}
             >
-              Next
+              {stepAvatar < 3 ? "Next" : "Save"}
               <ForwardIcon
                 sx={{
                   marginLeft: "10px",

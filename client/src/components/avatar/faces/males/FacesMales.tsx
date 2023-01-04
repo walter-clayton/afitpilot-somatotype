@@ -1,4 +1,4 @@
-import { IColorSkin } from "../../CustomAvatar";
+import { IColorSkin } from "../../variablesAvatar/VariableAvatar";
 
 interface IFace {
   neutral: React.SVGProps<SVGGElement>;

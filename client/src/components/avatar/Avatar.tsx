@@ -1,8 +1,11 @@
 import { Box } from "@mui/material";
 import React, { FC } from "react";
-import { IColorHair, IColorSkin } from "./CustomAvatar";
+import { IColors } from "../Colors";
+import { getClothMale } from "./clothes/male/ClothesMale";
+import { Plane } from "./CustomAvatar";
 import { getHeadMale } from "./head/males/HeadMale";
 import { getMaleSkin } from "./skins/males/SkinsMales";
+import { IColorHair, IColorSkin } from "./variablesAvatar/VariableAvatar";
 
 export interface ITypesSkin {
   BM: React.SVGProps<SVGGElement>;
@@ -28,11 +31,14 @@ interface IAvatar {
   gender: string;
   colorsSkin: IColorSkin;
   colorsHair: IColorHair;
+  cloth: boolean;
+  mainColor?: number;
 }
 
 const Avatar: FC<IAvatar> = (props) => {
   const skinBody: React.ReactNode = getMaleSkin(
-    props.typeSoma,
+    // props.typeSoma,
+    "BM",
     props.colorsSkin
   ) as React.ReactNode;
 
@@ -44,12 +50,17 @@ const Avatar: FC<IAvatar> = (props) => {
     props.colorsHair
   ) as React.ReactNode;
 
+  const cloth: React.ReactNode = (
+    props.cloth ? getClothMale(props.mainColor!)["BM"] : <g></g>
+  ) as React.ReactNode;
+
   return (
     <Box
       sx={{
         maxWidth: "250px",
         width: "100%",
         px: 2,
+        margin: "0 auto",
       }}
     >
       <svg
@@ -60,16 +71,12 @@ const Avatar: FC<IAvatar> = (props) => {
         clipRule="evenodd"
         viewBox="0 0 140 351"
       >
-        <g id="body" transform="translate(-104.838 .675)">
-          {skinBody}
-        </g>
+        <g id="body">{skinBody}</g>
+
         <g id="head-container" transform="translate(22.558 .675)">
           {head}
         </g>
-        {/* {skinn}
-    <g id="hair" transform="matrix(1.03247,0,0,1,-6.73595,0)">
-      {hairr}
-    </g> */}
+        <g id="cloth">{cloth}</g>
       </svg>
     </Box>
   );

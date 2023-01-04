@@ -1,4 +1,4 @@
-import { IColorSkin } from "../../CustomAvatar";
+import { IColorSkin } from "../../variablesAvatar/VariableAvatar";
 
 // Mesomorphic Ectomorph
 export const getMEcSkin = (
@@ -13,12 +13,12 @@ export const getMEcSkin = (
       <g id="arm-left">
         <path
           id="bicep-left"
-          fill={colorsSkin.medium}
+          fill={colorsSkin.light}
           d="M214.969 114.213l4.565-4.565c3.4-3.11 8.07-2.969 9.749.295l5.58 10.851a14.02 14.02 0 011.326 3.992l1.09 6.183c.578 3.278.551 6.777-.081 10.345l-1.138 6.425c-.166.936-.25 1.865-.25 2.775v2.21c0 1.06-.268 2.17-.78 3.23-.691 1.429-.883 2.926-.852 4.347.116 5.457-2.898 10.806-6.071 12.12l-.056.023c-3.588 1.486-7.401-2.277-8.517-8.404l-1.935-5.88-3.437-12.305c-.931-3.331-1.19-6.965-.765-10.723l.604-5.33.532-5.346c.118-1.179-.163-2.265-.797-3.083-1.464-1.892-.929-4.998 1.233-7.16z"
         ></path>
         <path
           id="forearm-left"
-          fill={colorsSkin.medium}
+          fill={colorsSkin.light}
           d="M227.659 138.035l.067.003c4.278.19 7.825 5.194 7.921 11.178l.725 44.928c.096 5.983-3.294 10.68-7.572 10.49l-.067-.003c-4.278-.19-7.824-5.194-7.921-11.177l-.724-44.928c-.097-5.984 3.293-10.68 7.571-10.491z"
         ></path>
         <g id="hand-left" fill={colorsSkin.strong}>
@@ -30,19 +30,19 @@ export const getMEcSkin = (
         </g>
         <path
           id="thumb-left"
-          fill={colorsSkin.medium}
+          fill={colorsSkin.light}
           d="M214.51 200.326c-.032-3.072 1.817-5.429 4.129-5.266 2.312.163 4.212 2.786 4.243 5.858l.085 8.39c.031 3.072-1.817 5.43-4.129 5.266-2.312-.163-4.212-2.786-4.243-5.858l-.085-8.39z"
         ></path>
       </g>
       <g id="arm-right">
         <path
           id="bicep-right"
-          fill={colorsSkin.medium}
+          fill={colorsSkin.light}
           d="M134.71 114.213l-4.565-4.565c-3.4-3.11-8.071-2.969-9.749.295l-5.58 10.851a14.052 14.052 0 00-1.327 3.992l-1.09 6.183c-.578 3.278-.55 6.777.082 10.345l1.138 6.425c.166.936.249 1.865.249 2.775v2.21c0 1.06.268 2.17.781 3.23.69 1.429.882 2.926.852 4.347-.116 5.457 2.898 10.806 6.07 12.12l.056.023c3.588 1.486 7.402-2.277 8.518-8.404l1.934-5.88 3.438-12.305c.93-3.331 1.189-6.965.764-10.723l-.603-5.33-.532-5.346c-.118-1.179.163-2.265.796-3.083 1.464-1.892.929-4.998-1.232-7.16z"
         ></path>
         <path
           id="forearm-right"
-          fill={colorsSkin.medium}
+          fill={colorsSkin.light}
           d="M122.016 138.035l-.067.003c-4.278.19-7.824 5.194-7.921 11.178l-.724 44.928c-.097 5.983 3.293 10.68 7.572 10.49l.066-.003c4.279-.19 7.825-5.194 7.922-11.177l.724-44.928c.097-5.984-3.293-10.68-7.572-10.491z"
         ></path>
         <g id="hand-right" fill={colorsSkin.strong}>
@@ -57,7 +57,7 @@ export const getMEcSkin = (
         </g>
         <path
           id="thumb-right"
-          fill={colorsSkin.medium}
+          fill={colorsSkin.light}
           d="M135.166 200.326c.031-3.072-1.817-5.429-4.129-5.266-2.312.163-4.212 2.786-4.243 5.858l-.085 8.39c-.032 3.072 1.817 5.43 4.129 5.266 2.312-.163 4.212-2.786 4.243-5.858l.085-8.39z"
         ></path>
       </g>
@@ -78,7 +78,7 @@ export const getMEcSkin = (
           fill={colorsSkin.strong}
           d="M160.127 175.223H147.22c-.633 0-1.146.513-1.146 1.146l-4.145 38.669v13.496c0 1.713.139 3.424.419 5.114l.934 5.673a27.913 27.913 0 003.214 9.145l2.707 4.814a6.835 6.835 0 01.877 3.35 6.831 6.831 0 006.831 6.83h4.298a7.315 7.315 0 007.314-7.314c0-.864.152-1.721.451-2.532l.976-2.642c.418-1.134.747-2.3.983-3.485l1.474-7.407 1.424-9.482c.231-1.546.348-3.105.348-4.668v-36.654c0-7.762-6.291-14.053-14.052-14.053z"
         ></path>
-        <g id="foot-right" fill={colorsSkin.medium}>
+        <g id="foot-right" fill={colorsSkin.light}>
           <path
             id="color32"
             d="M161.873 308.505h-8.116c-4.68 0-8.473 3.384-8.473 7.558 0 4.174 3.793 7.557 8.473 7.557h8.116c4.679 0 8.473-3.383 8.473-7.557s-3.794-7.558-8.473-7.558z"
@@ -100,7 +100,7 @@ export const getMEcSkin = (
           fill={colorsSkin.strong}
           d="M191.234 175.194h7.531a4.55 4.55 0 014.502 3.902l4.788 33.311c.212 1.481.319 2.976.319 4.472v11.072c0 1.729-.143 3.456-.426 5.162l-.926 5.564a27.538 27.538 0 01-3.213 9.063l-2.706 4.764a6.755 6.755 0 00-.881 3.336 6.755 6.755 0 01-6.755 6.755h-4.452a7.235 7.235 0 01-7.235-7.235c0-.862-.154-1.718-.455-2.525l-.972-2.611a22.64 22.64 0 01-.983-3.452l-1.474-7.336-1.417-9.349a31.478 31.478 0 01-.355-4.711v-35.072c0-8.345 6.765-15.11 15.11-15.11z"
         ></path>
-        <g id="foot-left" fill={colorsSkin.medium}>
+        <g id="foot-left" fill={colorsSkin.light}>
           <path
             id="color34"
             d="M188.995 308.505h8.115c4.68 0 8.474 3.373 8.474 7.532s-3.794 7.531-8.474 7.531h-8.115c-4.679 0-8.474-3.372-8.474-7.531s3.795-7.532 8.474-7.532z"
@@ -122,7 +122,7 @@ export const getMEcSkin = (
       ></path>
       <path
         id="shoulders"
-        fill={colorsSkin.strong}
+        fill={colorsSkin.light}
         fillRule="nonzero"
         d="M214.151 94.883h-79.544c-8.61 0-15.591 6.98-15.591 15.591 0 8.61 6.981 15.59 15.591 15.59h79.544c8.61 0 15.59-6.98 15.59-15.59 0-8.611-6.98-15.591-15.59-15.591z"
         transform="matrix(.78241 0 0 1 38.705 .582)"
@@ -136,7 +136,7 @@ export const getMEcSkin = (
       ></path>
       <path
         id="abs-back"
-        fill={colorsSkin.medium}
+        fill={colorsSkin.light}
         fillRule="nonzero"
         d="M176.982 139.667h-4.666c-11.126 0-20.146 8.164-20.146 18.235 0 0 .162 11.954.232 11.933l22.929 10.316c-.071-.059 22.568-10.166 22.277-10.316-.241-.124.009.038 0 0l-.481-11.933c0-10.071-9.019-18.235-20.145-18.235z"
         transform="matrix(.78241 0 0 1 38.705 3.582)"
@@ -150,7 +150,7 @@ export const getMEcSkin = (
       ></path>
       <path
         id="torso1"
-        fill={colorsSkin.medium}
+        fill={colorsSkin.light}
         fillRule="nonzero"
         d="M200.206 94.883h-51.293c-9.163 0-16.591 7.47-16.591 16.687v10.057c0 9.216 7.428 16.688 16.591 16.688h51.293c9.163 0 16.591-7.472 16.591-16.688V111.57c0-9.217-7.428-16.687-16.591-16.687z"
         transform="matrix(.78241 0 0 1 38.705 .582)"
@@ -208,14 +208,14 @@ export const getBEcSkin = (
       <g id="arm-left" transform="matrix(.78241 0 0 1 36.705 -3.418)">
         <path
           id="bicep-left"
-          fill={colorsSkin.medium}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M218.65 125.151c.118-1.179 8.954-18.472 10.633-15.208l3.014 5.032c.629 1.223 3.641 8.384 3.892 9.811l.185 6.144a29.395 29.395 0 010 10.292l-.314 6.517c-.166.936-.25 1.865-.25 2.775v2.21c0 1.06-.071 11.81-.029 11.745 0 0-14.493.094-14.655-.174l-1.04-19.084c-.931-3.331-1.786-18.831-1.786-18.831l.35-1.229z"
           transform="translate(-2.982 -.667)"
         ></path>
         <path
           id="forearm-left"
-          fill={colorsSkin.medium}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M227.659 138.035l.067.003c4.278.19 7.825 5.194 7.921 11.178l.725 44.928c.096 5.983-3.294 10.68-7.572 10.49l-.067-.003c-4.278-.19-7.824-5.194-7.921-11.177l-.724-44.928c-.097-5.984 3.293-10.68 7.571-10.491z"
           transform="translate(-2.982 -.667)"
@@ -235,7 +235,7 @@ export const getBEcSkin = (
         </g>
         <path
           id="thumb-left"
-          fill={colorsSkin.medium}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M217.066 200.326c-.026-3.072 1.462-5.429 3.322-5.266 1.859.163 3.388 2.786 3.413 5.858l.068 8.39c.025 3.072-1.462 5.43-3.321 5.266-1.86-.163-3.388-2.786-3.413-5.858l-.069-8.39z"
           transform="translate(-1.704 -.667)"
@@ -244,14 +244,14 @@ export const getBEcSkin = (
       <g id="arm-right" transform="matrix(-.78241 0 0 1 312.961 -3.813)">
         <path
           id="bicep-right"
-          fill={colorsSkin.medium}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M217.644 123.155c.118-1.179 12.592-12.265 14.271-9.001l2.948 6.64a14.02 14.02 0 011.326 3.992l.185 6.144a29.395 29.395 0 010 10.292l-.314 6.517c-.166.936-.25 1.865-.25 2.775v2.21c0 1.06-.071 11.81-.029 11.745 0 0-14.493.094-14.655-.174l-1.04-19.084c-.931-3.331-2.463-18.436-2.463-18.436l.021-3.62z"
           transform="translate(-4.687 -.667)"
         ></path>
         <path
           id="forearm-right"
-          fill={colorsSkin.medium}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M227.659 138.035l.067.003c4.278.19 7.825 5.194 7.921 11.178l.725 44.928c.096 5.983-3.294 10.68-7.572 10.49l-.067-.003c-4.278-.19-7.824-5.194-7.921-11.177l-.724-44.928c-.097-5.984 3.293-10.68 7.571-10.491z"
           transform="translate(-4.687 -.667)"
@@ -273,7 +273,7 @@ export const getBEcSkin = (
         </g>
         <path
           id="thumb-right"
-          fill={colorsSkin.medium}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M217.893 200.326c-.025-3.072 1.462-5.429 3.322-5.266 1.86.163 3.388 2.786 3.413 5.858l.068 8.39c.025 3.072-1.461 5.43-3.321 5.266-1.86-.163-3.388-2.786-3.413-5.858l-.069-8.39z"
           transform="translate(-4.687 -.667)"
@@ -299,13 +299,13 @@ export const getBEcSkin = (
         <g id="foot-right" transform="translate(.852 -.667)">
           <path
             id="color3"
-            fill={colorsSkin.medium}
+            fill={colorsSkin.light}
             fillRule="nonzero"
             d="M161.873 308.505h-8.116c-4.68 0-8.473 3.384-8.473 7.558 0 4.174 3.793 7.557 8.473 7.557h8.116c4.679 0 8.473-3.383 8.473-7.557s-3.794-7.558-8.473-7.558z"
           ></path>
           <path
             id="color31"
-            fill={colorsSkin.medium}
+            fill={colorsSkin.light}
             fillRule="nonzero"
             d="M167.54 315.333h-19.45c-1.549 0-2.806 1.121-2.806 2.503v3.274c0 1.382 1.257 2.502 2.806 2.502h19.45c1.55 0 2.806-1.12 2.806-2.502v-3.274c0-1.382-1.256-2.503-2.806-2.503z"
           ></path>
@@ -330,13 +330,13 @@ export const getBEcSkin = (
         <g id="foot-left">
           <path
             id="color32"
-            fill={colorsSkin.medium}
+            fill={colorsSkin.light}
             fillRule="nonzero"
             d="M188.995 308.505h8.115c4.68 0 8.474 3.373 8.474 7.532s-3.794 7.531-8.474 7.531h-8.115c-4.679 0-8.474-3.372-8.474-7.531s3.795-7.532 8.474-7.532z"
           ></path>
           <path
             id="color33"
-            fill={colorsSkin.medium}
+            fill={colorsSkin.light}
             fillRule="nonzero"
             d="M183.327 311.254h19.451c1.549 0 2.806 1.618 2.806 3.616v4.729c0 1.997-1.257 3.616-2.806 3.616h-19.451c-1.549 0-2.806-1.619-2.806-3.616v-4.729c0-1.998 1.257-3.616 2.806-3.616z"
           ></path>
@@ -353,7 +353,7 @@ export const getBEcSkin = (
       ></path>
       <path
         id="shoulders"
-        fill={colorsSkin.strong}
+        fill={colorsSkin.light}
         fillRule="nonzero"
         d="M214.151 94.883h-79.544c-8.61 0-15.591 6.98-15.591 15.591 0 8.61 6.981 9.686 15.591 9.686l79.544.991c8.61 0 15.59-2.067 15.59-10.677 0-8.611-6.98-15.591-15.59-15.591z"
         transform="matrix(.78241 0 0 1 39.372 -.084)"
@@ -361,7 +361,7 @@ export const getBEcSkin = (
       <g transform="matrix(.78241 0 0 1 39.372 2.916)">
         <path
           id="abs-back"
-          fill={colorsSkin.medium}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M176.982 139.667h-4.666c-11.126 0-20.146 8.164-20.146 18.235 0 0 .162 11.954.232 11.933l22.929 10.316c-.071-.059 22.568-10.166 22.277-10.316-.241-.124.009.038 0 0l-.481-11.933c0-10.071-9.019-18.235-20.145-18.235z"
         ></path>
@@ -375,7 +375,7 @@ export const getBEcSkin = (
       ></path>
       <path
         id="torso1"
-        fill={colorsSkin.medium}
+        fill={colorsSkin.light}
         fillRule="nonzero"
         d="M200.206 94.883h-51.293c-9.163 0-16.591 7.47-16.591 16.687v10.057c0 9.216 7.428 13.5 16.591 13.5h51.293c9.163 0 16.591-4.284 16.591-13.5V111.57c0-9.217-7.428-16.687-16.591-16.687z"
         transform="matrix(.71233 0 0 1 51.605 -.084)"
@@ -448,14 +448,14 @@ export const getEnEcSkin = (
       <g id="arm-left" transform="matrix(.78241 0 0 1 36.705 -3.418)">
         <path
           id="bicep-left"
-          fill={colorsSkin.medium}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M218.65 125.151c.118-1.179 8.954-18.472 10.633-15.208l3.014 5.032c.629 1.223 3.641 8.384 3.892 9.811l.185 6.144a29.395 29.395 0 010 10.292l-.314 6.517c-.166.936-.25 1.865-.25 2.775v2.21c0 1.06-.071 11.81-.029 11.745 0 0-14.493.094-14.655-.174l-1.04-19.084c-.931-3.331-1.786-18.831-1.786-18.831l.35-1.229z"
           transform="translate(-2.982 -.667)"
         ></path>
         <path
           id="forearm-left"
-          fill={colorsSkin.medium}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M227.659 138.035l.067.003c4.278.19 7.825 5.194 7.921 11.178l.725 44.928c.096 5.983-3.294 10.68-7.572 10.49l-.067-.003c-4.278-.19-7.824-5.194-7.921-11.177l-.724-44.928c-.097-5.984 3.293-10.68 7.571-10.491z"
           transform="translate(-2.982 -.667)"
@@ -475,7 +475,7 @@ export const getEnEcSkin = (
         </g>
         <path
           id="thumb-left"
-          fill={colorsSkin.medium}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M217.066 200.326c-.026-3.072 1.462-5.429 3.322-5.266 1.859.163 3.388 2.786 3.413 5.858l.068 8.39c.025 3.072-1.462 5.43-3.321 5.266-1.86-.163-3.388-2.786-3.413-5.858l-.069-8.39z"
           transform="translate(-1.704 -.667)"
@@ -484,14 +484,14 @@ export const getEnEcSkin = (
       <g id="arm-right" transform="matrix(-.78241 0 0 1 312.961 -3.813)">
         <path
           id="bicep-right"
-          fill={colorsSkin.medium}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M217.644 123.155c.118-1.179 12.592-12.265 14.271-9.001l2.948 6.64a14.02 14.02 0 011.326 3.992l.185 6.144a29.395 29.395 0 010 10.292l-.314 6.517c-.166.936-.25 1.865-.25 2.775v2.21c0 1.06-.071 11.81-.029 11.745 0 0-14.493.094-14.655-.174l-1.04-19.084c-.931-3.331-2.463-18.436-2.463-18.436l.021-3.62z"
           transform="translate(-4.687 -.667)"
         ></path>
         <path
           id="forearm-right"
-          fill={colorsSkin.medium}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M227.659 138.035l.067.003c4.278.19 7.825 5.194 7.921 11.178l.725 44.928c.096 5.983-3.294 10.68-7.572 10.49l-.067-.003c-4.278-.19-7.824-5.194-7.921-11.177l-.724-44.928c-.097-5.984 3.293-10.68 7.571-10.491z"
           transform="translate(-4.687 -.667)"
@@ -513,7 +513,7 @@ export const getEnEcSkin = (
         </g>
         <path
           id="thumb-right"
-          fill={colorsSkin.medium}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M217.893 200.326c-.025-3.072 1.462-5.429 3.322-5.266 1.86.163 3.388 2.786 3.413 5.858l.068 8.39c.025 3.072-1.461 5.43-3.321 5.266-1.86-.163-3.388-2.786-3.413-5.858l-.069-8.39z"
           transform="translate(-4.687 -.667)"
@@ -539,13 +539,13 @@ export const getEnEcSkin = (
         <g id="foot-right" transform="translate(.852 -.667)">
           <path
             id="color3"
-            fill={colorsSkin.medium}
+            fill={colorsSkin.light}
             fillRule="nonzero"
             d="M161.873 308.505h-8.116c-4.68 0-8.473 3.384-8.473 7.558 0 4.174 3.793 7.557 8.473 7.557h8.116c4.679 0 8.473-3.383 8.473-7.557s-3.794-7.558-8.473-7.558z"
           ></path>
           <path
             id="color31"
-            fill={colorsSkin.medium}
+            fill={colorsSkin.light}
             fillRule="nonzero"
             d="M167.54 315.333h-19.45c-1.549 0-2.806 1.121-2.806 2.503v3.274c0 1.382 1.257 2.502 2.806 2.502h19.45c1.55 0 2.806-1.12 2.806-2.502v-3.274c0-1.382-1.256-2.503-2.806-2.503z"
           ></path>
@@ -570,13 +570,13 @@ export const getEnEcSkin = (
         <g id="foot-left">
           <path
             id="color32"
-            fill={colorsSkin.medium}
+            fill={colorsSkin.light}
             fillRule="nonzero"
             d="M188.995 308.505h8.115c4.68 0 8.474 3.373 8.474 7.532s-3.794 7.531-8.474 7.531h-8.115c-4.679 0-8.474-3.372-8.474-7.531s3.795-7.532 8.474-7.532z"
           ></path>
           <path
             id="color33"
-            fill={colorsSkin.medium}
+            fill={colorsSkin.light}
             fillRule="nonzero"
             d="M183.327 311.254h19.451c1.549 0 2.806 1.618 2.806 3.616v4.729c0 1.997-1.257 3.616-2.806 3.616h-19.451c-1.549 0-2.806-1.619-2.806-3.616v-4.729c0-1.998 1.257-3.616 2.806-3.616z"
           ></path>
@@ -593,7 +593,7 @@ export const getEnEcSkin = (
       ></path>
       <path
         id="shoulders"
-        fill={colorsSkin.strong}
+        fill={colorsSkin.light}
         fillRule="nonzero"
         d="M214.151 94.883h-79.544c-8.61 0-15.591 6.98-15.591 15.591 0 8.61 6.981 9.686 15.591 9.686l79.544.991c8.61 0 15.59-2.067 15.59-10.677 0-8.611-6.98-15.591-15.59-15.591z"
         transform="matrix(.78241 0 0 1 39.372 -.084)"
@@ -601,7 +601,7 @@ export const getEnEcSkin = (
       <g transform="matrix(.78241 0 0 1 39.372 2.916)">
         <path
           id="abs-back"
-          fill={colorsSkin.medium}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M176.982 139.667h-4.666c-11.126 0-20.146 8.164-20.146 18.235 0 0-.95 21.92-.88 21.899l24.041.35c-.071-.059 23.21-.2 22.919-.35-.241-.124-1.123-21.899-1.123-21.899 0-10.071-9.019-18.235-20.145-18.235z"
         ></path>
@@ -615,7 +615,7 @@ export const getEnEcSkin = (
       ></path>
       <path
         id="torso1"
-        fill={colorsSkin.medium}
+        fill={colorsSkin.light}
         fillRule="nonzero"
         d="M200.206 94.883h-51.293c-9.163 0-16.591 7.47-16.591 16.687v10.057c0 9.216 7.428 13.5 16.591 13.5h51.293c9.163 0 16.591-4.284 16.591-13.5V111.57c0-9.217-7.428-16.687-16.591-16.687z"
         transform="matrix(.71233 0 0 1 51.605 -.084)"
