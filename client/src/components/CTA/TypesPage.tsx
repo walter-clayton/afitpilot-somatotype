@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Grid, Box, Button, Typography, useMediaQuery } from "@mui/material/";
+import { Grid, Box, Button, Typography, useMediaQuery, Stack } from "@mui/material/";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CounterShare from "./CounterShare";
@@ -10,8 +10,9 @@ import TypesPage1, { Icategory } from "./TypesPage1";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import TypesPageFemale from "./TypePageFemale";
-import female from '../image/material-symbols_female.svg'
-import male from '../image/material-symbols_male.svg'
+import FemaleIcon from '@mui/icons-material/Female';
+import MaleIcon from '@mui/icons-material/Male';
+import IconButton from '@mui/material/IconButton';
 
 const theme = createTheme();
 theme.typography.h1 = {
@@ -162,8 +163,9 @@ const TypesPage = () => {
   const handleClickFeamle = () => {
     setIsShownFemale(true);
     setIsShown(false);
-
   }
+  const xxs = useMediaQuery("(max-width:380px)");
+
   const section1Ref = useRef<HTMLDivElement>(null)
   const section2Ref = useRef<HTMLDivElement>(null)
   const section3Ref = useRef<HTMLDivElement>(null)
@@ -351,60 +353,54 @@ const TypesPage = () => {
                 setLabelCategory("category1");
               }
             }}
-            label="13 SUBCATEGORIES"
+            label={<Typography sx={{ fontSize: "1.4rem", fontWeight: 300 }}>13 SUBCATEGORIES</Typography>}
           />
         </Box>
+        {/* switch netween male and female */}
         <Box sx={{
           display: "flex",
           flexDirection: "row",
           textAlign: "center",
           my: { xs: 5, sm: 4, md: 2, lg: 2 }
         }}>
-          <img src={male} alt="MaleSymbol"
-            onClick={() => {
-              handleClick()
-            }}
-            style={{
-              cursor: 'pointer',
-              paddingRight: "16px",
-              width: medium
-                ? small
-                  ? extraSmall
-                    ? "65%"
-                    : "60%"
-                  : "55%"
-                : "60%",
-              height: medium
-                ? small
-                  ? extraSmall
-                    ? "50px"
-                    : "60px"
-                  : "70px%"
-                : "70px",
-            }}
-          />
-          <img src={female} alt="FemaleSymbol"
-            style={{
-              cursor: 'pointer',
-              width: medium
-                ? small
-                  ? extraSmall
-                    ? "65%"
-                    : "60%"
-                  : "55%"
-                : "60%",
-              height: medium
-                ? small
-                  ? extraSmall
-                    ? "50px"
-                    : "60px"
-                  : "70px%"
-                : "70px",
-            }}
-            onClick={() => {
-              handleClickFeamle()
-            }}
-          />
+          <Stack direction="row" spacing={2}>
+            <IconButton sx={{
+              backgroundColor: isShown ? "#000000" : "white",
+              border: 1.3,
+              color: isShown ? "white" : "#000000",
+              borderRadius: 1,
+              "&.MuiButtonBase-root:hover": { bgcolor: isShown ? "#000000" : "white", },
+              width: xxs ? "50px" : "70px",
+              height: xxs ? "50px" : "70px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }} >
+              <MaleIcon
+                sx={{ fontSize: 60 }}
+                onClick={() => {
+                  handleClick()
+                }} />
+            </IconButton>
+            <IconButton sx={{
+              backgroundColor: isShownFemale ? "#000000" : "white",
+              border: 1.3,
+              color: isShownFemale ? "white" : "#000000",
+              borderRadius: 1,
+              "&.MuiButtonBase-root:hover": { bgcolor: isShownFemale ? "#000000" : "white", },
+              width: xxs ? "50px" : "70px",
+              height: xxs ? "50px" : "70px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }} >
+              <FemaleIcon
+                sx={{ fontSize: 60 }}
+                onClick={() => {
+                  handleClickFeamle()
+                }} />
+            </IconButton>
+          </Stack>
         </Box>
       </Grid >
       {isShown && (

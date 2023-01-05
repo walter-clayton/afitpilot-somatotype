@@ -14,7 +14,7 @@ export interface Icategory {
 function TypesPage1(props: any) {
   const medium = useMediaQuery("(max-width:899px)");
   const small = useMediaQuery("(max-width:599px)");
-  const extraSmall = useMediaQuery("(max-width:280px)");
+  const extraSmall = useMediaQuery("(max-width:480px)");
 
   console.log(props.labelCategory);
   return (
@@ -78,7 +78,7 @@ function TypesPage1(props: any) {
               }}
               sx={{
                 fontSize: 50,
-                left: "5px",
+                left: "0px",
                 position: "absolute",
                 cursor: "pointer",
               }}
@@ -104,7 +104,7 @@ function TypesPage1(props: any) {
               }}
               sx={{
                 fontSize: 50,
-                right: "5px",
+                right: "0px",
                 position: "absolute",
                 cursor: "pointer",
               }}
@@ -122,8 +122,9 @@ function TypesPage1(props: any) {
       >
         {props.labelCategory === "category1" ? (
           <svg
-            style={{ maxWidth: "500px", width: "100%" }}
-            height="500"
+            style={{
+              maxWidth: "500px", width: "100%", height: extraSmall ? "50%" : "500px"
+            }}
             viewBox="0 0 598 601"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -271,8 +272,9 @@ function TypesPage1(props: any) {
           </svg>
         ) : (
           <svg
-            style={{ maxWidth: "500px", width: "100%" }}
-            height="500"
+            style={{
+              maxWidth: "500px", width: "100%", height: extraSmall ? "50%" : "500px"
+            }}
             viewBox="0 0 598 601"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
