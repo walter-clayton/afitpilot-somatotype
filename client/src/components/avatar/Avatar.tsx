@@ -36,13 +36,15 @@ interface IAvatar {
 }
 
 const Avatar: FC<IAvatar> = (props) => {
+  const code = "EnEc";
   const skinBody: React.ReactNode = getMaleSkin(
     // props.typeSoma,
-    "BM",
+    code,
     props.colorsSkin
   ) as React.ReactNode;
 
   const head: React.ReactNode = getHeadMale(
+    code,
     props.hair,
     props.beard,
     props.face,
@@ -51,7 +53,7 @@ const Avatar: FC<IAvatar> = (props) => {
   ) as React.ReactNode;
 
   const cloth: React.ReactNode = (
-    props.cloth ? getClothMale(props.mainColor!)["BM"] : <g></g>
+    props.cloth ? getClothMale(props.mainColor!)[code] : <g></g>
   ) as React.ReactNode;
 
   return (
@@ -73,10 +75,8 @@ const Avatar: FC<IAvatar> = (props) => {
       >
         <g id="body">{skinBody}</g>
 
-        <g id="head-container" transform="translate(22.558 .675)">
-          {head}
-        </g>
         <g id="cloth">{cloth}</g>
+        <g id="head-container">{head}</g>
       </svg>
     </Box>
   );

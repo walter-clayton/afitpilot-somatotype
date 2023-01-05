@@ -4,7 +4,7 @@ import { IColorSkin } from "../../variablesAvatar/VariableAvatar";
 export const getCSkin = (
   colorsSkin: IColorSkin
 ): React.SVGProps<SVGGElement> => (
-  <g>
+  <g transform="translate(-105.407 .806)">
     <g id="arms">
       <g id="arm-left" transform="matrix(.78241 0 0 1 36.705 -3.418)">
         <path
@@ -23,20 +23,20 @@ export const getCSkin = (
         ></path>
         <g id="hand-left" transform="translate(-1.704 -.667)">
           <path
-            fill={colorsSkin.strong}
+            fill={colorsSkin.light}
             fillRule="nonzero"
             d="M225.638 185.911l2.264.203c4.338.39 7.918 6.342 7.996 13.294l.069 6.176c.078 6.952-3.376 12.271-7.714 11.881l-2.263-.204c-4.244-.381-7.761-6.084-7.986-12.839a17.171 17.171 0 01-.01-.455l-.07-6.175c-.078-6.952 3.376-12.271 7.714-11.881z"
           ></path>
           <path
             id="color"
-            fill={colorsSkin.strong}
+            fill={colorsSkin.light}
             fillRule="nonzero"
             d="M224.158 203.261c1.1-4.265 4.696-6.117 8.032-4.137 3.336 1.981 5.148 7.044 4.048 11.31l-3.006 11.649c-1.099 4.265-4.696 6.117-8.031 4.136-3.336-1.981-5.148-7.044-4.048-11.309l3.005-11.649z"
           ></path>
         </g>
         <path
           id="thumb-left"
-          fill={colorsSkin.light}
+          fill={colorsSkin.strong}
           fillRule="nonzero"
           d="M217.066 200.326c-.026-3.072 1.462-5.429 3.322-5.266 1.859.163 3.388 2.786 3.413 5.858l.068 8.39c.025 3.072-1.462 5.43-3.321 5.266-1.86-.163-3.388-2.786-3.413-5.858l-.069-8.39z"
           transform="translate(-1.704 -.667)"
@@ -59,14 +59,14 @@ export const getCSkin = (
         ></path>
         <g id="hand-right">
           <path
-            fill={colorsSkin.strong}
+            fill={colorsSkin.light}
             fillRule="nonzero"
             d="M226.465 185.911l2.264.203c4.338.39 7.918 6.342 7.996 13.294l.07 6.176c.078 6.952-3.376 12.271-7.715 11.881l-2.263-.204c-4.338-.39-7.918-6.342-7.996-13.294l-.07-6.175c-.078-6.952 3.376-12.271 7.714-11.881z"
             transform="translate(-3.409 -.667)"
           ></path>
           <path
             id="color1"
-            fill={colorsSkin.strong}
+            fill={colorsSkin.light}
             fillRule="nonzero"
             d="M224.985 203.261c1.1-4.265 4.696-6.117 8.032-4.137 3.336 1.981 5.148 7.044 4.048 11.31l-3.005 11.649c-1.1 4.265-4.697 6.117-8.032 4.136-3.336-1.981-5.148-7.044-4.047-11.309l3.004-11.649z"
             transform="translate(-4.687 -.667)"
@@ -74,7 +74,7 @@ export const getCSkin = (
         </g>
         <path
           id="thumb-right"
-          fill={colorsSkin.light}
+          fill={colorsSkin.strong}
           fillRule="nonzero"
           d="M217.893 200.326c-.025-3.072 1.462-5.429 3.322-5.266 1.86.163 3.388 2.786 3.413 5.858l.068 8.39c.025 3.072-1.461 5.43-3.321 5.266-1.86-.163-3.388-2.786-3.413-5.858l-.069-8.39z"
           transform="translate(-4.687 -.667)"
@@ -85,14 +85,14 @@ export const getCSkin = (
       <g id="leg-right" transform="matrix(.78241 0 0 1.02452 38.705 -7.337)">
         <path
           id="tibia-right"
-          fill={colorsSkin.strong}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M169.017 259.532c-.582-3.268-18.379-5.165-18.379.066l-.336 21.121.001 17.613-1.894 18.05c0 3.945 3.869 7.142 8.642 7.142h2.016c4.773 0 8.642-3.197 8.642-7.142v-26.356c0-1.835 1.112-24.013 1.112-26.044 0 0 .266-4.054.196-4.45z"
           transform="translate(.852 -.667)"
         ></path>
         <path
           id="thigh-right"
-          fill={colorsSkin.strong}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M176.124 190.304c-.186-1.816 27.045-1.424 27.085-1.14l1.803 23.243c.212 1.481.583 16.779.3 18.485 0 0-6.419 28.298-6.395 29.467.047 2.312-18.096 2.519-18.314-.242-.068-.86-4.957-29.225-4.957-29.225-.236-1.559.478-40.588.478-40.588z"
           transform="matrix(-1 0 0 1 350.484 -.943)"
@@ -118,13 +118,13 @@ export const getCSkin = (
       >
         <path
           id="tibia-left"
-          fill={colorsSkin.strong}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M188.016 245.119h2.082a9.457 9.457 0 019.456 9.456l.001 25.327-.001 17.983 1.894 18.43c0 4.028-3.869 7.292-8.643 7.292h-2.015c-4.773 0-8.642-3.264-8.642-7.292v-27.417c0-1.764-1.112-24.01-1.112-26.082v-10.717a6.984 6.984 0 016.98-6.98z"
         ></path>
         <path
           id="thigh-left"
-          fill={colorsSkin.strong}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M176.124 190.304c-.06-1.972 27.736-3.538 27.776-3.254l.108 13.502.288 30.064c0 1.729-4.583 27.943-4.583 29.112 0 3.73-18.677 3.63-18.677-.366 0-.862-4.407-28.746-4.407-28.746-.236-1.559-.505-40.312-.505-40.312z"
         ></path>
@@ -147,7 +147,7 @@ export const getCSkin = (
     <g id="torso">
       <path
         id="trunk"
-        fill={colorsSkin.strong}
+        fill={colorsSkin.light}
         fillRule="nonzero"
         d="M206.362 138.849c0-19.513-15.69-27.041-31.609-27.041-15.92 0-30.453 7.528-30.453 27.041l-1.124 38.305c0 19.514 15.657 30.846 31.577 30.846 13.242 0 25.975-7.841 29.884-21.709.79-2.804 1.22-5.855 1.22-9.137l.505-38.305z"
         transform="matrix(.78241 0 0 1 39.372 -.084)"

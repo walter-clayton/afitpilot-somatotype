@@ -4,7 +4,7 @@ import { IColorSkin } from "../../variablesAvatar/VariableAvatar";
 export const getHybridMEcSkin = (
   colorsSkin: IColorSkin
 ): React.SVGProps<SVGGElement> => (
-  <g>
+  <g transform="translate(-105.877 .045)">
     <g
       id="arms"
       fillRule="nonzero"
@@ -21,7 +21,7 @@ export const getHybridMEcSkin = (
           fill={colorsSkin.light}
           d="M227.659 138.035l.067.003c4.278.19 7.825 5.194 7.921 11.178l.725 44.928c.096 5.983-3.294 10.68-7.572 10.49l-.067-.003c-4.278-.19-7.824-5.194-7.921-11.177l-.724-44.928c-.097-5.984 3.293-10.68 7.571-10.491z"
         ></path>
-        <g id="hand-left" fill={colorsSkin.strong}>
+        <g id="hand-left" fill={colorsSkin.light}>
           <path d="M225.166 185.911l2.814.203c5.393.39 9.844 6.342 9.941 13.294l.086 6.176c.097 6.952-4.197 12.271-9.59 11.881l-2.814-.204c-5.393-.39-9.843-6.342-9.94-13.294l-.087-6.175c-.097-6.952 4.197-12.271 9.59-11.881z"></path>
           <path
             id="color"
@@ -30,7 +30,7 @@ export const getHybridMEcSkin = (
         </g>
         <path
           id="thumb-left"
-          fill={colorsSkin.light}
+          fill={colorsSkin.strong}
           d="M214.51 200.326c-.032-3.072 1.817-5.429 4.129-5.266 2.312.163 4.212 2.786 4.243 5.858l.085 8.39c.031 3.072-1.817 5.43-4.129 5.266-2.312-.163-4.212-2.786-4.243-5.858l-.085-8.39z"
         ></path>
       </g>
@@ -45,7 +45,7 @@ export const getHybridMEcSkin = (
           fill={colorsSkin.light}
           d="M122.016 138.035l-.067.003c-4.278.19-7.824 5.194-7.921 11.178l-.724 44.928c-.097 5.983 3.293 10.68 7.572 10.49l.066-.003c4.279-.19 7.825-5.194 7.922-11.177l.724-44.928c.097-5.984-3.293-10.68-7.572-10.491z"
         ></path>
-        <g id="hand-right" fill={colorsSkin.strong}>
+        <g id="hand-right" fill={colorsSkin.light}>
           <path
             id="color3"
             d="M124.51 185.911l-2.814.203c-5.393.39-9.844 6.342-9.941 13.294l-.086 6.176c-.097 6.952 4.196 12.271 9.589 11.881l2.814-.204c3.418-.247 6.458-2.728 8.25-6.282 1.036-2.054 1.655-4.466 1.691-7.012l.086-6.175c.097-6.952-4.196-12.271-9.589-11.881z"
@@ -57,7 +57,7 @@ export const getHybridMEcSkin = (
         </g>
         <path
           id="thumb-right"
-          fill={colorsSkin.light}
+          fill={colorsSkin.strong}
           d="M135.166 200.326c.031-3.072-1.817-5.429-4.129-5.266-2.312.163-4.212 2.786-4.243 5.858l-.085 8.39c-.032 3.072 1.817 5.43 4.129 5.266 2.312-.163 4.212-2.786 4.243-5.858l.085-8.39z"
         ></path>
       </g>
@@ -70,12 +70,12 @@ export const getHybridMEcSkin = (
       <g id="leg-right">
         <path
           id="tibia-right"
-          fill={colorsSkin.strong}
+          fill={colorsSkin.light}
           d="M161.971 246.652h-2.196a9.472 9.472 0 00-9.472 9.472l-.001 24.595.001 17.613-1.894 18.05c0 3.945 3.869 7.142 8.642 7.142h2.016c4.773 0 8.642-3.197 8.642-7.142v-26.356c0-1.835.449-3.642 1.305-5.266a11.268 11.268 0 001.306-5.266v-3.465c0-2.031-.253-4.054-.75-6.023a24.576 24.576 0 01-.749-6.024v-10.48a6.851 6.851 0 00-6.85-6.85z"
         ></path>
         <path
           id="thigh-right"
-          fill={colorsSkin.strong}
+          fill={colorsSkin.light}
           d="M160.127 175.223H147.22c-.633 0-1.146.513-1.146 1.146l-4.145 38.669v13.496c0 1.713.139 3.424.419 5.114l.934 5.673a27.913 27.913 0 003.214 9.145l2.707 4.814a6.835 6.835 0 01.877 3.35 6.831 6.831 0 006.831 6.83h4.298a7.315 7.315 0 007.314-7.314c0-.864.152-1.721.451-2.532l.976-2.642c.418-1.134.747-2.3.983-3.485l1.474-7.407 1.424-9.482c.231-1.546.348-3.105.348-4.668v-36.654c0-7.762-6.291-14.053-14.052-14.053z"
         ></path>
         <g id="foot-right" fill={colorsSkin.light}>
@@ -92,12 +92,12 @@ export const getHybridMEcSkin = (
       <g id="leg-left">
         <path
           id="tibia-left"
-          fill={colorsSkin.strong}
+          fill={colorsSkin.light}
           d="M188.016 245.119h2.082a9.457 9.457 0 019.456 9.456l.001 25.327-.001 17.983 1.894 18.43c0 4.028-3.869 7.292-8.643 7.292h-2.015c-4.773 0-8.642-3.264-8.642-7.292v-27.417c0-1.764-.45-3.499-1.306-5.042a10.403 10.403 0 01-1.305-5.041v-3.779c0-2.023.246-4.038.732-6.002l.018-.071a25.57 25.57 0 00.749-6.147v-10.717a6.984 6.984 0 016.98-6.98z"
         ></path>
         <path
           id="thigh-left"
-          fill={colorsSkin.strong}
+          fill={colorsSkin.light}
           d="M191.234 175.194h7.531a4.55 4.55 0 014.502 3.902l4.788 33.311c.212 1.481.319 2.976.319 4.472v11.072c0 1.729-.143 3.456-.426 5.162l-.926 5.564a27.538 27.538 0 01-3.213 9.063l-2.706 4.764a6.755 6.755 0 00-.881 3.336 6.755 6.755 0 01-6.755 6.755h-4.452a7.235 7.235 0 01-7.235-7.235c0-.862-.154-1.718-.455-2.525l-.972-2.611a22.64 22.64 0 01-.983-3.452l-1.474-7.336-1.417-9.349a31.478 31.478 0 01-.355-4.711v-35.072c0-8.345 6.765-15.11 15.11-15.11z"
         ></path>
         <g id="foot-left" fill={colorsSkin.light}>
@@ -115,7 +115,7 @@ export const getHybridMEcSkin = (
     <g id="torso">
       <path
         id="trunk"
-        fill={colorsSkin.strong}
+        fill={colorsSkin.light}
         fillRule="nonzero"
         d="M206.362 138.849c0-19.513-15.69-27.041-31.609-27.041-15.92 0-30.453 7.528-30.453 27.041l1.628 33.818c0 19.514 12.905 35.333 28.825 35.333 15.919 0 28.825-11.375 28.825-30.888l2.784-38.263z"
         transform="matrix(.86065 0 0 1 25.026 .582)"
@@ -129,7 +129,7 @@ export const getHybridMEcSkin = (
       ></path>
       <path
         id="deltoids"
-        fill={colorsSkin.strong}
+        fill={colorsSkin.light}
         fillRule="nonzero"
         d="M216.797 118.579c0-18.088-18.911-32.751-42.237-32.751-23.328 0-42.238 14.663-42.238 32.751 0 18.087 18.91 32.75 42.238 32.75 8.693 0 16.773-2.037 23.49-5.528 11.305-5.877 18.747-15.876 18.747-27.222z"
         transform="matrix(.86065 0 0 1 25.026 .582)"
@@ -203,7 +203,7 @@ export const getHybridMEcSkin = (
 export const getHybridEnEcSkin = (
   colorsSkin: IColorSkin
 ): React.SVGProps<SVGGElement> => (
-  <g>
+  <g transform="translate(-105.789 -1.029)">
     <g id="arms">
       <g id="arm-left" transform="matrix(.78241 0 0 1 36.705 -3.418)">
         <path
@@ -222,20 +222,20 @@ export const getHybridEnEcSkin = (
         ></path>
         <g id="hand-left" transform="translate(-1.704 -.667)">
           <path
-            fill={colorsSkin.strong}
+            fill={colorsSkin.light}
             fillRule="nonzero"
             d="M225.638 185.911l2.264.203c4.338.39 7.918 6.342 7.996 13.294l.069 6.176c.078 6.952-3.376 12.271-7.714 11.881l-2.263-.204c-4.244-.381-7.761-6.084-7.986-12.839a17.171 17.171 0 01-.01-.455l-.07-6.175c-.078-6.952 3.376-12.271 7.714-11.881z"
           ></path>
           <path
             id="color"
-            fill={colorsSkin.strong}
+            fill={colorsSkin.light}
             fillRule="nonzero"
             d="M224.158 203.261c1.1-4.265 4.696-6.117 8.032-4.137 3.336 1.981 5.148 7.044 4.048 11.31l-3.006 11.649c-1.099 4.265-4.696 6.117-8.031 4.136-3.336-1.981-5.148-7.044-4.048-11.309l3.005-11.649z"
           ></path>
         </g>
         <path
           id="thumb-left"
-          fill={colorsSkin.light}
+          fill={colorsSkin.strong}
           fillRule="nonzero"
           d="M217.066 200.326c-.026-3.072 1.462-5.429 3.322-5.266 1.859.163 3.388 2.786 3.413 5.858l.068 8.39c.025 3.072-1.462 5.43-3.321 5.266-1.86-.163-3.388-2.786-3.413-5.858l-.069-8.39z"
           transform="translate(-1.704 -.667)"
@@ -258,14 +258,14 @@ export const getHybridEnEcSkin = (
         ></path>
         <g id="hand-right">
           <path
-            fill={colorsSkin.strong}
+            fill={colorsSkin.light}
             fillRule="nonzero"
             d="M226.465 185.911l2.264.203c4.338.39 7.918 6.342 7.996 13.294l.07 6.176c.078 6.952-3.376 12.271-7.715 11.881l-2.263-.204c-4.338-.39-7.918-6.342-7.996-13.294l-.07-6.175c-.078-6.952 3.376-12.271 7.714-11.881z"
             transform="translate(-3.409 -.667)"
           ></path>
           <path
             id="color1"
-            fill={colorsSkin.strong}
+            fill={colorsSkin.light}
             fillRule="nonzero"
             d="M224.985 203.261c1.1-4.265 4.696-6.117 8.032-4.137 3.336 1.981 5.148 7.044 4.048 11.31l-3.005 11.649c-1.1 4.265-4.697 6.117-8.032 4.136-3.336-1.981-5.148-7.044-4.047-11.309l3.004-11.649z"
             transform="translate(-4.687 -.667)"
@@ -273,7 +273,7 @@ export const getHybridEnEcSkin = (
         </g>
         <path
           id="thumb-right"
-          fill={colorsSkin.light}
+          fill={colorsSkin.strong}
           fillRule="nonzero"
           d="M217.893 200.326c-.025-3.072 1.462-5.429 3.322-5.266 1.86.163 3.388 2.786 3.413 5.858l.068 8.39c.025 3.072-1.461 5.43-3.321 5.266-1.86-.163-3.388-2.786-3.413-5.858l-.069-8.39z"
           transform="translate(-4.687 -.667)"
@@ -284,14 +284,14 @@ export const getHybridEnEcSkin = (
       <g id="leg-right" transform="matrix(.78241 0 0 1 37.705 .582)">
         <path
           id="tibia-right"
-          fill={colorsSkin.strong}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M167.979 258.608s-18.388.222-18.545.239l-.334 21.456.001 17.613-.692 18.466c0 3.945 3.869 7.142 8.642 7.142h2.016c4.773 0 8.642-3.197 8.642-7.142l.412-26.772c0-1.835-.142-28.971-.142-31.002z"
           transform="translate(.852 -.667)"
         ></path>
         <path
           id="thigh-right"
-          fill={colorsSkin.strong}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M175.646 197.75c-.186-.214 29.072-.506 29.112-.222 0 0 1.981 15.215.825 31.23-1.098 15.218-5.328 31.278-5.572 31.284-3.046.073-12.537-.055-18.337.038-.032.001-1.724-6.561-3.472-14.952-2.535-12.17-2.662-15.038-2.617-16.37.467-13.905-.013-31.115.061-31.008z"
           transform="matrix(-1 0 0 1 350.484 -.943)"
@@ -314,14 +314,14 @@ export const getHybridEnEcSkin = (
       <g id="leg-left" transform="matrix(-.78241 0 0 1 314.533 .582)">
         <path
           id="tibia-left"
-          fill={colorsSkin.strong}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M167.979 258.608s-18.388.222-18.545.239l-.334 21.456.001 17.613-.692 18.466c0 3.945 3.869 7.142 8.642 7.142h2.016c4.773 0 8.642-3.197 8.642-7.142l.412-26.772c0-1.835-.142-28.971-.142-31.002z"
           transform="translate(.852 -.667)"
         ></path>
         <path
           id="thigh-left"
-          fill={colorsSkin.strong}
+          fill={colorsSkin.light}
           fillRule="nonzero"
           d="M175.646 197.75c-.276-.045 29.072-.506 29.112-.222 0 0 1.539 15.402.424 30.915-1.132 15.739-4.919 31.593-5.171 31.599-3.046.073-12.528.026-18.346-.006-.002 0-1.277-7.399-2.558-15.101-1.174-7.068-2.353-14.392-2.556-16.492-1.488-15.42-.905-30.693-.905-30.693z"
           transform="matrix(-1 0 0 1 350.484 -.943)"
@@ -345,7 +345,7 @@ export const getHybridEnEcSkin = (
     <g id="torso">
       <path
         id="trunk"
-        fill={colorsSkin.strong}
+        fill={colorsSkin.light}
         fillRule="nonzero"
         d="M206.362 138.849c0-19.513-15.69-27.041-31.609-27.041-15.92 0-30.453 7.528-30.453 27.041l-8.159 44.302c0 19.514 22.692 24.849 38.612 24.849 15.919 0 40.206-5.336 40.206-24.849l-8.597-44.302z"
         transform="matrix(.78241 0 0 1 38.372 -.084)"
@@ -424,7 +424,7 @@ export const getHybridEnEcSkin = (
 export const getHybridMEnSkin = (
   colorsSkin: IColorSkin
 ): React.SVGProps<SVGGElement> => (
-  <g>
+  <g transform="translate(-105.792 .806)">
     <g id="arms" transform="matrix(1.35324 0 0 1 -63.083 0)">
       <g id="arm-left" transform="matrix(.82075 0 0 1 28.45 -3.418)">
         <path
@@ -443,20 +443,20 @@ export const getHybridMEnSkin = (
         ></path>
         <g id="hand-left" transform="translate(-1.704 -.667)">
           <path
-            fill={colorsSkin.strong}
+            fill={colorsSkin.light}
             fillRule="nonzero"
             d="M225.638 185.911l2.264.203c4.338.39 7.918 6.342 7.996 13.294l.069 6.176c.078 6.952-3.376 12.271-7.714 11.881l-2.263-.204c-4.244-.381-7.761-6.084-7.986-12.839a17.171 17.171 0 01-.01-.455l-.07-6.175c-.078-6.952 3.376-12.271 7.714-11.881z"
           ></path>
           <path
             id="color"
-            fill={colorsSkin.strong}
+            fill={colorsSkin.light}
             fillRule="nonzero"
             d="M224.158 203.261c1.1-4.265 4.696-6.117 8.032-4.137 3.336 1.981 5.148 7.044 4.048 11.31l-3.006 11.649c-1.099 4.265-4.696 6.117-8.031 4.136-3.336-1.981-5.148-7.044-4.048-11.309l3.005-11.649z"
           ></path>
         </g>
         <path
           id="thumb-left"
-          fill={colorsSkin.light}
+          fill={colorsSkin.strong}
           fillRule="nonzero"
           d="M217.066 200.326c-.026-3.072 1.462-5.429 3.322-5.266 1.859.163 3.388 2.786 3.413 5.858l.068 8.39c.025 3.072-1.462 5.43-3.321 5.266-1.86-.163-3.388-2.786-3.413-5.858l-.069-8.39z"
           transform="translate(-1.704 -.667)"
@@ -479,14 +479,14 @@ export const getHybridMEnSkin = (
         ></path>
         <g id="hand-right">
           <path
-            fill={colorsSkin.strong}
+            fill={colorsSkin.light}
             fillRule="nonzero"
             d="M226.465 185.911l2.264.203c4.338.39 7.918 6.342 7.996 13.294l.07 6.176c.078 6.952-3.376 12.271-7.715 11.881l-2.263-.204c-4.338-.39-7.918-6.342-7.996-13.294l-.07-6.175c-.078-6.952 3.376-12.271 7.714-11.881z"
             transform="translate(-3.409 -.667)"
           ></path>
           <path
             id="color1"
-            fill={colorsSkin.strong}
+            fill={colorsSkin.light}
             fillRule="nonzero"
             d="M224.985 203.261c1.1-4.265 4.696-6.117 8.032-4.137 3.336 1.981 5.148 7.044 4.048 11.31l-3.005 11.649c-1.1 4.265-4.697 6.117-8.032 4.136-3.336-1.981-5.148-7.044-4.047-11.309l3.004-11.649z"
             transform="translate(-4.687 -.667)"
@@ -494,7 +494,7 @@ export const getHybridMEnSkin = (
         </g>
         <path
           id="thumb-right"
-          fill={colorsSkin.light}
+          fill={colorsSkin.strong}
           fillRule="nonzero"
           d="M217.893 200.326c-.025-3.072 1.462-5.429 3.322-5.266 1.86.163 3.388 2.786 3.413 5.858l.068 8.39c.025 3.072-1.461 5.43-3.321 5.266-1.86-.163-3.388-2.786-3.413-5.858l-.069-8.39z"
           transform="translate(-4.687 -.667)"
@@ -505,12 +505,12 @@ export const getHybridMEnSkin = (
       <g id="leg-right">
         <path
           id="tibia-right"
-          fill={colorsSkin.strong}
+          fill={colorsSkin.light}
           d="M161.971 246.652h-2.196a9.472 9.472 0 00-9.472 9.472l-.001 24.595.001 17.613-1.894 18.05c0 3.945 3.869 7.142 8.642 7.142h2.016c4.773 0 8.642-3.197 8.642-7.142v-26.356c0-1.835.449-3.642 1.305-5.266a11.268 11.268 0 001.306-5.266v-3.465c0-2.031-.253-4.054-.75-6.023a24.576 24.576 0 01-.749-6.024v-10.48a6.851 6.851 0 00-6.85-6.85z"
         ></path>
         <path
           id="thigh-right"
-          fill={colorsSkin.strong}
+          fill={colorsSkin.light}
           d="M160.127 175.223H147.22c-.633 0-1.146.513-1.146 1.146l-4.145 38.669v13.496c0 1.713.139 3.424.419 5.114l.934 5.673a27.913 27.913 0 003.214 9.145l2.707 4.814a6.835 6.835 0 01.877 3.35 6.831 6.831 0 006.831 6.83h4.298a7.315 7.315 0 007.314-7.314c0-.864.152-1.721.451-2.532l.976-2.642c.418-1.134.747-2.3.983-3.485l1.474-7.407 1.424-9.482c.231-1.546.348-3.105.348-4.668v-36.654c0-7.762-6.291-14.053-14.052-14.053z"
         ></path>
         <g id="foot-right" fill={colorsSkin.light}>
@@ -527,12 +527,12 @@ export const getHybridMEnSkin = (
       <g id="leg-left">
         <path
           id="tibia-left"
-          fill={colorsSkin.strong}
+          fill={colorsSkin.light}
           d="M188.016 245.119h2.082a9.457 9.457 0 019.456 9.456l.001 25.327-.001 17.983 1.894 18.43c0 4.028-3.869 7.292-8.643 7.292h-2.015c-4.773 0-8.642-3.264-8.642-7.292v-27.417c0-1.764-.45-3.499-1.306-5.042a10.403 10.403 0 01-1.305-5.041v-3.779c0-2.023.246-4.038.732-6.002l.018-.071a25.57 25.57 0 00.749-6.147v-10.717a6.984 6.984 0 016.98-6.98z"
         ></path>
         <path
           id="thigh-left"
-          fill={colorsSkin.strong}
+          fill={colorsSkin.light}
           d="M191.234 175.194h7.531a4.55 4.55 0 014.502 3.902l4.788 33.311c.212 1.481.319 2.976.319 4.472v11.072c0 1.729-.143 3.456-.426 5.162l-.926 5.564a27.538 27.538 0 01-3.213 9.063l-2.706 4.764a6.755 6.755 0 00-.881 3.336 6.755 6.755 0 01-6.755 6.755h-4.452a7.235 7.235 0 01-7.235-7.235c0-.862-.154-1.718-.455-2.525l-.972-2.611a22.64 22.64 0 01-.983-3.452l-1.474-7.336-1.417-9.349a31.478 31.478 0 01-.355-4.711v-35.072c0-8.345 6.765-15.11 15.11-15.11z"
         ></path>
         <g id="foot-left" fill={colorsSkin.light}>
@@ -550,7 +550,7 @@ export const getHybridMEnSkin = (
     <g id="torso">
       <path
         id="trunk"
-        fill={colorsSkin.strong}
+        fill={colorsSkin.light}
         fillRule="nonzero"
         d="M206.362 138.849c0-19.513-15.69-27.041-31.609-27.041-15.92 0-30.453 7.528-30.453 27.041l-3.521 38.108c0 19.514 18.054 31.043 33.974 31.043 15.919 0 34.341-11.531 34.341-31.044l-2.732-38.107z"
         transform="matrix(1.01768 0 0 1 -2.426 0)"
@@ -564,7 +564,7 @@ export const getHybridMEnSkin = (
       ></path>
       <path
         id="deltoids"
-        fill={colorsSkin.strong}
+        fill={colorsSkin.light}
         fillRule="nonzero"
         d="M216.797 118.579c0-18.088-18.911-32.751-42.237-32.751-23.328 0-42.238 14.663-42.238 32.751 0 18.087 18.91 32.75 42.238 32.75 8.693 0 16.773-2.037 23.49-5.528 11.305-5.877 18.747-15.876 18.747-27.222z"
         transform="matrix(1.05625 0 0 1 -9.173 0)"
