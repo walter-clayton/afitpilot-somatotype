@@ -107,7 +107,6 @@ const NutritionCard = () => {
                                         “You” means the individual accessing or using the Service, or the company, or other legal entity on behalf of which such individual is accessing or using the Service, as applicable.
                                     </Typography>
                                 </ListItem>
-
                             </ListItem>
                             <ListItem>
                                 <ListItem>
