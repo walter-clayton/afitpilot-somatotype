@@ -1,6 +1,13 @@
 import { useState, useRef } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Grid, Box, Button, Typography, useMediaQuery, Stack } from "@mui/material/";
+import {
+  Grid,
+  Box,
+  Button,
+  Typography,
+  useMediaQuery,
+  Stack,
+} from "@mui/material/";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CounterShare from "./CounterShare";
@@ -10,9 +17,9 @@ import TypesPage1, { Icategory } from "./TypesPage1";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import TypesPageFemale from "./TypePageFemale";
-import FemaleIcon from '@mui/icons-material/Female';
-import MaleIcon from '@mui/icons-material/Male';
-import IconButton from '@mui/material/IconButton';
+import FemaleIcon from "@mui/icons-material/Female";
+import MaleIcon from "@mui/icons-material/Male";
+import IconButton from "@mui/material/IconButton";
 
 const theme = createTheme();
 theme.typography.h1 = {
@@ -22,7 +29,7 @@ theme.typography.h1 = {
   [theme.breakpoints.only("sm")]: {
     fontSize: "25px",
   },
-  [theme.breakpoints.up('md')]: {
+  [theme.breakpoints.up("md")]: {
     fontSize: "28px",
   },
 };
@@ -33,7 +40,7 @@ theme.typography.h2 = {
   [theme.breakpoints.only("sm")]: {
     fontSize: "70px",
   },
-  [theme.breakpoints.up('md')]: {
+  [theme.breakpoints.up("md")]: {
     fontSize: "100px",
   },
 };
@@ -158,19 +165,18 @@ const TypesPage = () => {
   const handleClick = () => {
     setIsShown(true);
     setIsShownFemale(false);
-
-  }
+  };
   const handleClickFeamle = () => {
     setIsShownFemale(true);
     setIsShown(false);
-  }
+  };
   const xxs = useMediaQuery("(max-width:380px)");
 
-  const section1Ref = useRef<HTMLDivElement>(null)
-  const section2Ref = useRef<HTMLDivElement>(null)
-  const section3Ref = useRef<HTMLDivElement>(null)
-  const section4Ref = useRef<HTMLDivElement>(null)
-  const section5Ref = useRef<HTMLDivElement>(null)
+  const section1Ref = useRef<HTMLDivElement>(null);
+  const section2Ref = useRef<HTMLDivElement>(null);
+  const section3Ref = useRef<HTMLDivElement>(null);
+  const section4Ref = useRef<HTMLDivElement>(null);
+  const section5Ref = useRef<HTMLDivElement>(null);
 
   const Mesomorph = [
     {
@@ -191,7 +197,6 @@ const TypesPage = () => {
       TypeCode: "EcM",
       linkToPage: "/Balanced-endomorph",
     },
-
   ];
   const Ectomorph = [
     {
@@ -277,6 +282,7 @@ const TypesPage = () => {
         }}
       >
         <Grid
+          item
           xs={12}
           md={12}
           lg={12}
@@ -339,10 +345,9 @@ const TypesPage = () => {
           setCurrentIndexCat2={setCurrentIndexCat2}
         />
         {/* switch button to show SUBCATEGORIES */}
-        <Box >
+        <Box>
           <FormControlLabel
-            control={<Switch defaultChecked />}
-            checked={isChecked}
+            control={<Switch defaultChecked={isChecked} />}
             onChange={(event: any) => {
               setIsChecked(!isChecked);
               if (event.target.checked) {
@@ -353,64 +358,81 @@ const TypesPage = () => {
                 setLabelCategory("category1");
               }
             }}
-            label={<Typography sx={{ fontSize: "1.4rem", fontWeight: 300 }}>13 SUBCATEGORIES</Typography>}
+            label={
+              <Typography sx={{ fontSize: "1.4rem", fontWeight: 300 }}>
+                13 SUBCATEGORIES
+              </Typography>
+            }
           />
         </Box>
         {/* switch netween male and female */}
-        <Box sx={{
-          display: "flex",
-          flexDirection: "row",
-          textAlign: "center",
-          my: { xs: 5, sm: 4, md: 2, lg: 2 }
-        }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            textAlign: "center",
+            my: { xs: 5, sm: 4, md: 2, lg: 2 },
+          }}
+        >
           <Stack direction="row" spacing={2}>
-            <IconButton sx={{
-              backgroundColor: isShown ? "#000000" : "white",
-              border: 1.3,
-              color: isShown ? "white" : "#000000",
-              borderRadius: 1,
-              "&.MuiButtonBase-root:hover": { bgcolor: isShown ? "#000000" : "white", },
-              width: xxs ? "50px" : "70px",
-              height: xxs ? "50px" : "70px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }} >
-              <MaleIcon
-                sx={{ fontSize: 60 }}
-                onClick={() => {
-                  handleClick()
-                }} />
+            <IconButton
+              sx={{
+                backgroundColor: isShown ? "#000000" : "white",
+                border: 1.3,
+                color: isShown ? "white" : "#000000",
+                borderRadius: 1,
+                "&.MuiButtonBase-root:hover": {
+                  bgcolor: isShown ? "#000000" : "white",
+                },
+                width: xxs ? "50px" : "70px",
+                height: xxs ? "50px" : "70px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onClick={() => {
+                handleClick();
+              }}
+            >
+              <MaleIcon sx={{ fontSize: 60 }} />
             </IconButton>
-            <IconButton sx={{
-              backgroundColor: isShownFemale ? "#000000" : "white",
-              border: 1.3,
-              color: isShownFemale ? "white" : "#000000",
-              borderRadius: 1,
-              "&.MuiButtonBase-root:hover": { bgcolor: isShownFemale ? "#000000" : "white", },
-              width: xxs ? "50px" : "70px",
-              height: xxs ? "50px" : "70px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }} >
-              <FemaleIcon
-                sx={{ fontSize: 60 }}
-                onClick={() => {
-                  handleClickFeamle()
-                }} />
+            <IconButton
+              sx={{
+                backgroundColor: isShownFemale ? "#000000" : "white",
+                border: 1.3,
+                color: isShownFemale ? "white" : "#000000",
+                borderRadius: 1,
+                "&.MuiButtonBase-root:hover": {
+                  bgcolor: isShownFemale ? "#000000" : "white",
+                },
+                width: xxs ? "50px" : "70px",
+                height: xxs ? "50px" : "70px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onClick={() => {
+                handleClickFeamle();
+              }}
+            >
+              <FemaleIcon sx={{ fontSize: 60 }} />
             </IconButton>
           </Stack>
         </Box>
-      </Grid >
+      </Grid>
       {isShown && (
-
         <ThemeProvider theme={theme}>
           <Box sx={{ mb: -2, mt: "-70px" }}>
             <img src={mesomorpyshape} alt="" style={{ width: "100%" }} />
           </Box>
-          <Box ref={section1Ref} sx={{ width: "100%", backgroundColor: "#E7CACA" }}>
-            <Typography variant="h2" sx={{ color: "white", textAlign: "center" }}>
+          <Box
+            ref={section1Ref}
+            sx={{ width: "100%", backgroundColor: "#E7CACA" }}
+          >
+            <Typography
+              variant="h2"
+              sx={{ color: "white", textAlign: "center" }}
+            >
               MESOMORPH
             </Typography>
             <Grid
@@ -420,6 +442,7 @@ const TypesPage = () => {
             >
               {Mesomorph.map((step, index) => (
                 <Grid
+                  key={index}
                   item
                   md={4}
                   lg={4}
@@ -440,7 +463,7 @@ const TypesPage = () => {
                             : "60%"
                           : "100%"
                         : "100%",
-                      height: "350px"
+                      height: "350px",
                     }}
                   />
                   <Typography
@@ -450,7 +473,11 @@ const TypesPage = () => {
                     {step.bodyType}
                     <Typography
                       variant="body1"
-                      sx={{ color: "#000000", fontSize: "18px", fontWeight: 800 }}
+                      sx={{
+                        color: "#000000",
+                        fontSize: "18px",
+                        fontWeight: 800,
+                      }}
                     >
                       {step.TypeCode}
                     </Typography>
@@ -492,7 +519,10 @@ const TypesPage = () => {
             </Box>
           </Box>
           {/* second grid */}
-          <Box ref={section2Ref} sx={{ width: "100%", backgroundColor: "#F2E2BF" }}>
+          <Box
+            ref={section2Ref}
+            sx={{ width: "100%", backgroundColor: "#F2E2BF" }}
+          >
             <Typography
               variant="h2"
               sx={{ color: "white", textAlign: "center", mb: 2, pt: 2 }}
@@ -507,6 +537,7 @@ const TypesPage = () => {
             >
               {Ectomorph.map((step, index) => (
                 <Grid
+                  key={index}
                   item
                   md={4}
                   lg={4}
@@ -527,8 +558,9 @@ const TypesPage = () => {
                             : "60%"
                           : "100%"
                         : "100%",
-                      height: "350px"
-                    }} />
+                      height: "350px",
+                    }}
+                  />
                   <Typography
                     variant="h1"
                     sx={{ color: "#DCB051", textAlign: "center" }}
@@ -536,7 +568,11 @@ const TypesPage = () => {
                     {step.bodyType}
                     <Typography
                       variant="body1"
-                      sx={{ color: "#000000", fontSize: "18px", fontWeight: 800 }}
+                      sx={{
+                        color: "#000000",
+                        fontSize: "18px",
+                        fontWeight: 800,
+                      }}
                     >
                       {step.TypeCode}
                     </Typography>
@@ -546,7 +582,10 @@ const TypesPage = () => {
             </Grid>
           </Box>
           {/* third grid */}
-          <Box ref={section3Ref} sx={{ width: "100%", backgroundColor: "#DCD0E2" }}>
+          <Box
+            ref={section3Ref}
+            sx={{ width: "100%", backgroundColor: "#DCD0E2" }}
+          >
             <Typography
               variant="h2"
               sx={{ color: "white", textAlign: "center", mb: 2 }}
@@ -561,6 +600,7 @@ const TypesPage = () => {
             >
               {Endomorph.map((step, index) => (
                 <Grid
+                  key={index}
                   item
                   md={4}
                   lg={4}
@@ -581,8 +621,9 @@ const TypesPage = () => {
                             : "60%"
                           : "100%"
                         : "100%",
-                      height: "350px"
-                    }} />
+                      height: "350px",
+                    }}
+                  />
                   <Typography
                     variant="h1"
                     sx={{ color: "#6C4D7B", textAlign: "center" }}
@@ -590,7 +631,11 @@ const TypesPage = () => {
                     {step.bodyType}
                     <Typography
                       variant="body1"
-                      sx={{ color: "#000000", fontSize: "18px", fontWeight: 800 }}
+                      sx={{
+                        color: "#000000",
+                        fontSize: "18px",
+                        fontWeight: 800,
+                      }}
                     >
                       {step.TypeCode}
                     </Typography>
@@ -632,7 +677,10 @@ const TypesPage = () => {
             </Box>
           </Box>
           {/* fourth grid */}
-          <Box ref={section4Ref} sx={{ width: "100%", backgroundColor: "#D5E8DD" }}>
+          <Box
+            ref={section4Ref}
+            sx={{ width: "100%", backgroundColor: "#D5E8DD" }}
+          >
             <Typography
               variant="h2"
               sx={{ color: "white", textAlign: "center", mb: 2, pt: 2 }}
@@ -647,6 +695,7 @@ const TypesPage = () => {
             >
               {Hybrid.map((step, index) => (
                 <Grid
+                  key={index}
                   item
                   md={4}
                   sm={12}
@@ -668,7 +717,7 @@ const TypesPage = () => {
                             : "60%"
                           : "100%"
                         : "100%",
-                      height: "350px"
+                      height: "350px",
                     }}
                   />
                   <Typography
@@ -678,7 +727,11 @@ const TypesPage = () => {
                     {step.bodyType}
                     <Typography
                       variant="body1"
-                      sx={{ color: "#000000", fontSize: "18px", fontWeight: 800 }}
+                      sx={{
+                        color: "#000000",
+                        fontSize: "18px",
+                        fontWeight: 800,
+                      }}
                     >
                       {step.TypeCode}
                     </Typography>
@@ -688,7 +741,10 @@ const TypesPage = () => {
             </Grid>
           </Box>
           {/* fifth grid */}
-          <Box ref={section5Ref} sx={{ width: "100%", backgroundColor: "#CFE5EC" }}>
+          <Box
+            ref={section5Ref}
+            sx={{ width: "100%", backgroundColor: "#CFE5EC" }}
+          >
             <Typography
               variant="h2"
               sx={{ color: "white", textAlign: "center", mb: 2 }}
@@ -703,6 +759,7 @@ const TypesPage = () => {
             >
               {Central.map((step, index) => (
                 <Grid
+                  key={index}
                   item
                   md={12}
                   lg={12}
@@ -723,8 +780,9 @@ const TypesPage = () => {
                             : "60%"
                           : "100%"
                         : "100%",
-                      height: "350px"
-                    }} />
+                      height: "350px",
+                    }}
+                  />
                   <Typography
                     variant="h1"
                     sx={{ color: "#1874A3", textAlign: "center" }}
@@ -732,7 +790,11 @@ const TypesPage = () => {
                     {step.bodyType}
                     <Typography
                       variant="body1"
-                      sx={{ color: "#000000", fontSize: "18px", fontWeight: 800 }}
+                      sx={{
+                        color: "#000000",
+                        fontSize: "18px",
+                        fontWeight: 800,
+                      }}
                     >
                       {step.TypeCode}
                     </Typography>
@@ -744,20 +806,18 @@ const TypesPage = () => {
           <CounterShare />
         </ThemeProvider>
       )}
-      {
-        isShownFemale && (
-          <Box>
-            <TypesPageFemale
-              section1Ref={section1Ref}
-              section2Ref={section2Ref}
-              section3Ref={section3Ref}
-              section4Ref={section4Ref}
-              section5Ref={section5Ref}
-            />
-          </Box>
-        )
-      }
-    </Box >
+      {isShownFemale && (
+        <Box>
+          <TypesPageFemale
+            section1Ref={section1Ref}
+            section2Ref={section2Ref}
+            section3Ref={section3Ref}
+            section4Ref={section4Ref}
+            section5Ref={section5Ref}
+          />
+        </Box>
+      )}
+    </Box>
   );
 };
 
