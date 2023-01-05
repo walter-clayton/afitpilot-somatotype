@@ -153,6 +153,7 @@ function App() {
             )
           }
         />
+        <Route path="/Home" element={<Home />} />
         <Route path="/Forget" element={<Forget />} />
         <Route path="/Resetpass" element={<Resetpass />} />
         <Route path="/Contact" element={<Contact />} />
