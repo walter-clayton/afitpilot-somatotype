@@ -301,10 +301,10 @@ const TypesPage = () => {
               alignItems: "center",
               justifyContent: "center",
               width: "100%",
-              height: "150px",
+              height: "250px",
             }}
           >
-            <Typography variant="h1" sx={heading}>
+            <Typography variant="h1" sx={heading} pb={6}>
               Categories
             </Typography>
             <Button
@@ -319,7 +319,7 @@ const TypesPage = () => {
                 textAlign: "center",
                 textTransform: "initial",
                 marginTop: 0,
-                mb: -6,
+                mb: { xs: -15, sm: -11, md: -11, lg: -11 },
                 "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
               }}
               onClick={() => {
@@ -420,404 +420,408 @@ const TypesPage = () => {
           </Stack>
         </Box>
       </Grid>
-      {isShown && (
-        <ThemeProvider theme={theme}>
-          <Box sx={{ mb: -2, mt: "-70px" }}>
-            <img src={mesomorpyshape} alt="" style={{ width: "100%" }} />
-          </Box>
-          <Box
-            ref={section1Ref}
-            sx={{ width: "100%", backgroundColor: "#E7CACA" }}
-          >
-            <Typography
-              variant="h2"
-              sx={{ color: "white", textAlign: "center" }}
-            >
-              MESOMORPH
-            </Typography>
-            <Grid
-              container
-              spacing={2}
-              direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
-            >
-              {Mesomorph.map((step, index) => (
-                <Grid
-                  key={index}
-                  item
-                  md={4}
-                  lg={4}
-                  xl={4}
-                  sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
-                  onClick={() => {
-                    navigate(step.linkToPage);
-                  }}
-                >
-                  <img
-                    src={require("../image/" + step.image + ".svg")}
-                    alt="Mesomorph"
-                    style={{
-                      width: medium
-                        ? small
-                          ? extraSmall
-                            ? "65%"
-                            : "60%"
-                          : "100%"
-                        : "100%",
-                      height: "350px",
-                    }}
-                  />
-                  <Typography
-                    variant="h1"
-                    sx={{ color: "#B76060", textAlign: "center" }}
-                  >
-                    {step.bodyType}
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        color: "#000000",
-                        fontSize: "18px",
-                        fontWeight: 800,
-                      }}
-                    >
-                      {step.TypeCode}
-                    </Typography>
-                  </Typography>
-                </Grid>
-              ))}
-            </Grid>
+      {
+        isShown && (
+          <ThemeProvider theme={theme}>
+            <Box sx={{ mb: -2, mt: "-70px" }}>
+              <img src={mesomorpyshape} alt="" style={{ width: "100%" }} />
+            </Box>
             <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
+              ref={section1Ref}
+              sx={{ width: "100%", backgroundColor: "#E7CACA" }}
             >
-              <Button
-                variant="contained"
+              <Typography
+                variant="h2"
+                sx={{ color: "white", textAlign: "center" }}
+              >
+                MESOMORPH
+              </Typography>
+              <Grid
+                container
+                spacing={2}
+                direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
+              >
+                {Mesomorph.map((step, index) => (
+                  <Grid
+                    key={index}
+                    item
+                    md={4}
+                    lg={4}
+                    xl={4}
+                    sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
+                    onClick={() => {
+                      navigate(step.linkToPage);
+                    }}
+                  >
+                    <img
+                      src={require("../image/" + step.image + ".svg")}
+                      alt="Mesomorph"
+                      style={{
+                        width: medium
+                          ? small
+                            ? extraSmall
+                              ? "65%"
+                              : "60%"
+                            : "100%"
+                          : "100%",
+                        height: "350px",
+                      }}
+                    />
+                    <Typography
+                      variant="h1"
+                      sx={{ color: "#B76060", textAlign: "center" }}
+                    >
+                      {step.bodyType}
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          color: "#000000",
+                          fontSize: "18px",
+                          fontWeight: 800,
+                        }}
+                      >
+                        {step.TypeCode}
+                      </Typography>
+                    </Typography>
+                  </Grid>
+                ))}
+              </Grid>
+              <Box
                 sx={{
-                  borderRadius: "40px",
-                  fontSize: "18px",
-                  lineHeight: "30px",
-                  backgroundColor: "RGB(108, 77, 123)",
-                  padding: "14px 30px",
-                  fontWeight: 600,
-                  textAlign: "center",
-                  textTransform: "initial",
-                  marginTop: 0,
-                  mb: -2,
-                  "&.MuiButtonBase-root:hover": {
-                    bgcolor: "RGB(108, 77, 123)",
-                  },
-                }}
-                onClick={() => {
-                  navigate("/test");
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                Take the Test <ArrowForwardSharpIcon />
-              </Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    borderRadius: "40px",
+                    fontSize: "18px",
+                    lineHeight: "30px",
+                    backgroundColor: "RGB(108, 77, 123)",
+                    padding: "14px 30px",
+                    fontWeight: 600,
+                    textAlign: "center",
+                    textTransform: "initial",
+                    marginTop: 0,
+                    mb: -2,
+                    "&.MuiButtonBase-root:hover": {
+                      bgcolor: "RGB(108, 77, 123)",
+                    },
+                  }}
+                  onClick={() => {
+                    navigate("/test");
+                  }}
+                >
+                  Take the Test <ArrowForwardSharpIcon />
+                </Button>
+              </Box>
             </Box>
-          </Box>
-          {/* second grid */}
-          <Box
-            ref={section2Ref}
-            sx={{ width: "100%", backgroundColor: "#F2E2BF" }}
-          >
-            <Typography
-              variant="h2"
-              sx={{ color: "white", textAlign: "center", mb: 2, pt: 2 }}
-            >
-              ECTOMORPH
-            </Typography>
-            <Grid
-              item
-              container
-              spacing={2}
-              direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
-            >
-              {Ectomorph.map((step, index) => (
-                <Grid
-                  key={index}
-                  item
-                  md={4}
-                  lg={4}
-                  xl={4}
-                  sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
-                  onClick={() => {
-                    navigate(step.linkToPage);
-                  }}
-                >
-                  <img
-                    src={require("../image/" + step.image + ".svg")}
-                    alt="Ectomorph"
-                    style={{
-                      width: medium
-                        ? small
-                          ? extraSmall
-                            ? "65%"
-                            : "60%"
-                          : "100%"
-                        : "100%",
-                      height: "350px",
-                    }}
-                  />
-                  <Typography
-                    variant="h1"
-                    sx={{ color: "#DCB051", textAlign: "center" }}
-                  >
-                    {step.bodyType}
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        color: "#000000",
-                        fontSize: "18px",
-                        fontWeight: 800,
-                      }}
-                    >
-                      {step.TypeCode}
-                    </Typography>
-                  </Typography>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-          {/* third grid */}
-          <Box
-            ref={section3Ref}
-            sx={{ width: "100%", backgroundColor: "#DCD0E2" }}
-          >
-            <Typography
-              variant="h2"
-              sx={{ color: "white", textAlign: "center", mb: 2 }}
-            >
-              ENDOMORPH
-            </Typography>
-            <Grid
-              item
-              container
-              spacing={2}
-              direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
-            >
-              {Endomorph.map((step, index) => (
-                <Grid
-                  key={index}
-                  item
-                  md={4}
-                  lg={4}
-                  xl={4}
-                  sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
-                  onClick={() => {
-                    navigate(step.linkToPage);
-                  }}
-                >
-                  <img
-                    src={require("../image/" + step.image + ".svg")}
-                    alt="Endomorph"
-                    style={{
-                      width: medium
-                        ? small
-                          ? extraSmall
-                            ? "65%"
-                            : "60%"
-                          : "100%"
-                        : "100%",
-                      height: "350px",
-                    }}
-                  />
-                  <Typography
-                    variant="h1"
-                    sx={{ color: "#6C4D7B", textAlign: "center" }}
-                  >
-                    {step.bodyType}
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        color: "#000000",
-                        fontSize: "18px",
-                        fontWeight: 800,
-                      }}
-                    >
-                      {step.TypeCode}
-                    </Typography>
-                  </Typography>
-                </Grid>
-              ))}
-            </Grid>
+            {/* second grid */}
             <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
+              ref={section2Ref}
+              sx={{ width: "100%", backgroundColor: "#F2E2BF" }}
             >
-              <Button
-                variant="contained"
+              <Typography
+                variant="h2"
+                sx={{ color: "white", textAlign: "center", mb: 2, pt: 2 }}
+              >
+                ECTOMORPH
+              </Typography>
+              <Grid
+                item
+                container
+                spacing={2}
+                direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
+              >
+                {Ectomorph.map((step, index) => (
+                  <Grid
+                    key={index}
+                    item
+                    md={4}
+                    lg={4}
+                    xl={4}
+                    sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
+                    onClick={() => {
+                      navigate(step.linkToPage);
+                    }}
+                  >
+                    <img
+                      src={require("../image/" + step.image + ".svg")}
+                      alt="Ectomorph"
+                      style={{
+                        width: medium
+                          ? small
+                            ? extraSmall
+                              ? "65%"
+                              : "60%"
+                            : "100%"
+                          : "100%",
+                        height: "350px",
+                      }}
+                    />
+                    <Typography
+                      variant="h1"
+                      sx={{ color: "#DCB051", textAlign: "center" }}
+                    >
+                      {step.bodyType}
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          color: "#000000",
+                          fontSize: "18px",
+                          fontWeight: 800,
+                        }}
+                      >
+                        {step.TypeCode}
+                      </Typography>
+                    </Typography>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+            {/* third grid */}
+            <Box
+              ref={section3Ref}
+              sx={{ width: "100%", backgroundColor: "#DCD0E2" }}
+            >
+              <Typography
+                variant="h2"
+                sx={{ color: "white", textAlign: "center", mb: 2 }}
+              >
+                ENDOMORPH
+              </Typography>
+              <Grid
+                item
+                container
+                spacing={2}
+                direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
+              >
+                {Endomorph.map((step, index) => (
+                  <Grid
+                    key={index}
+                    item
+                    md={4}
+                    lg={4}
+                    xl={4}
+                    sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
+                    onClick={() => {
+                      navigate(step.linkToPage);
+                    }}
+                  >
+                    <img
+                      src={require("../image/" + step.image + ".svg")}
+                      alt="Endomorph"
+                      style={{
+                        width: medium
+                          ? small
+                            ? extraSmall
+                              ? "65%"
+                              : "60%"
+                            : "100%"
+                          : "100%",
+                        height: "350px",
+                      }}
+                    />
+                    <Typography
+                      variant="h1"
+                      sx={{ color: "#6C4D7B", textAlign: "center" }}
+                    >
+                      {step.bodyType}
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          color: "#000000",
+                          fontSize: "18px",
+                          fontWeight: 800,
+                        }}
+                      >
+                        {step.TypeCode}
+                      </Typography>
+                    </Typography>
+                  </Grid>
+                ))}
+              </Grid>
+              <Box
                 sx={{
-                  borderRadius: "40px",
-                  fontSize: "18px",
-                  lineHeight: "30px",
-                  backgroundColor: "RGB(108, 77, 123)",
-                  padding: "14px 30px",
-                  fontWeight: 600,
-                  textAlign: "center",
-                  textTransform: "initial",
-                  marginTop: 0,
-                  mb: -2,
-                  "&.MuiButtonBase-root:hover": {
-                    bgcolor: "RGB(108, 77, 123)",
-                  },
-                }}
-                onClick={() => {
-                  navigate("/test");
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                Take the Test <ArrowForwardSharpIcon />
-              </Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    borderRadius: "40px",
+                    fontSize: "18px",
+                    lineHeight: "30px",
+                    backgroundColor: "RGB(108, 77, 123)",
+                    padding: "14px 30px",
+                    fontWeight: 600,
+                    textAlign: "center",
+                    textTransform: "initial",
+                    marginTop: 0,
+                    mb: -2,
+                    "&.MuiButtonBase-root:hover": {
+                      bgcolor: "RGB(108, 77, 123)",
+                    },
+                  }}
+                  onClick={() => {
+                    navigate("/test");
+                  }}
+                >
+                  Take the Test <ArrowForwardSharpIcon />
+                </Button>
+              </Box>
             </Box>
-          </Box>
-          {/* fourth grid */}
-          <Box
-            ref={section4Ref}
-            sx={{ width: "100%", backgroundColor: "#D5E8DD" }}
-          >
-            <Typography
-              variant="h2"
-              sx={{ color: "white", textAlign: "center", mb: 2, pt: 2 }}
+            {/* fourth grid */}
+            <Box
+              ref={section4Ref}
+              sx={{ width: "100%", backgroundColor: "#D5E8DD" }}
             >
-              HYBRID
-            </Typography>
-            <Grid
-              item
-              container
-              spacing={2}
-              direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
-            >
-              {Hybrid.map((step, index) => (
-                <Grid
-                  key={index}
-                  item
-                  md={4}
-                  sm={12}
-                  lg={4}
-                  xl={4}
-                  sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
-                  onClick={() => {
-                    navigate(step.linkToPage);
-                  }}
-                >
-                  <img
-                    src={require("../image/" + step.image + ".svg")}
-                    alt="Hybrid"
-                    style={{
-                      width: medium
-                        ? small
-                          ? extraSmall
-                            ? "65%"
-                            : "60%"
-                          : "100%"
-                        : "100%",
-                      height: "350px",
+              <Typography
+                variant="h2"
+                sx={{ color: "white", textAlign: "center", mb: 2, pt: 2 }}
+              >
+                HYBRID
+              </Typography>
+              <Grid
+                item
+                container
+                spacing={2}
+                direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
+              >
+                {Hybrid.map((step, index) => (
+                  <Grid
+                    key={index}
+                    item
+                    md={4}
+                    sm={12}
+                    lg={4}
+                    xl={4}
+                    sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
+                    onClick={() => {
+                      navigate(step.linkToPage);
                     }}
-                  />
-                  <Typography
-                    variant="h1"
-                    sx={{ color: "#56A278", textAlign: "center" }}
                   >
-                    {step.bodyType}
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        color: "#000000",
-                        fontSize: "18px",
-                        fontWeight: 800,
+                    <img
+                      src={require("../image/" + step.image + ".svg")}
+                      alt="Hybrid"
+                      style={{
+                        width: medium
+                          ? small
+                            ? extraSmall
+                              ? "65%"
+                              : "60%"
+                            : "100%"
+                          : "100%",
+                        height: "350px",
                       }}
+                    />
+                    <Typography
+                      variant="h1"
+                      sx={{ color: "#56A278", textAlign: "center" }}
                     >
-                      {step.TypeCode}
+                      {step.bodyType}
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          color: "#000000",
+                          fontSize: "18px",
+                          fontWeight: 800,
+                        }}
+                      >
+                        {step.TypeCode}
+                      </Typography>
                     </Typography>
-                  </Typography>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-          {/* fifth grid */}
-          <Box
-            ref={section5Ref}
-            sx={{ width: "100%", backgroundColor: "#CFE5EC" }}
-          >
-            <Typography
-              variant="h2"
-              sx={{ color: "white", textAlign: "center", mb: 2 }}
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+            {/* fifth grid */}
+            <Box
+              ref={section5Ref}
+              sx={{ width: "100%", backgroundColor: "#CFE5EC" }}
             >
-              CENTRAL
-            </Typography>
-            <Grid
-              item
-              container
-              spacing={2}
-              direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
-            >
-              {Central.map((step, index) => (
-                <Grid
-                  key={index}
-                  item
-                  md={12}
-                  lg={12}
-                  xl={12}
-                  sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
-                  onClick={() => {
-                    navigate(step.linkToPage);
-                  }}
-                >
-                  <img
-                    src={require("../image/" + step.image + ".svg")}
-                    alt="central"
-                    style={{
-                      width: medium
-                        ? small
-                          ? extraSmall
-                            ? "65%"
-                            : "60%"
-                          : "100%"
-                        : "100%",
-                      height: "350px",
+              <Typography
+                variant="h2"
+                sx={{ color: "white", textAlign: "center", mb: 2 }}
+              >
+                CENTRAL
+              </Typography>
+              <Grid
+                item
+                container
+                spacing={2}
+                direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
+              >
+                {Central.map((step, index) => (
+                  <Grid
+                    key={index}
+                    item
+                    md={12}
+                    lg={12}
+                    xl={12}
+                    sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
+                    onClick={() => {
+                      navigate(step.linkToPage);
                     }}
-                  />
-                  <Typography
-                    variant="h1"
-                    sx={{ color: "#1874A3", textAlign: "center" }}
                   >
-                    {step.bodyType}
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        color: "#000000",
-                        fontSize: "18px",
-                        fontWeight: 800,
+                    <img
+                      src={require("../image/" + step.image + ".svg")}
+                      alt="central"
+                      style={{
+                        width: medium
+                          ? small
+                            ? extraSmall
+                              ? "65%"
+                              : "60%"
+                            : "100%"
+                          : "100%",
+                        height: "350px",
                       }}
+                    />
+                    <Typography
+                      variant="h1"
+                      sx={{ color: "#1874A3", textAlign: "center" }}
                     >
-                      {step.TypeCode}
+                      {step.bodyType}
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          color: "#000000",
+                          fontSize: "18px",
+                          fontWeight: 800,
+                        }}
+                      >
+                        {step.TypeCode}
+                      </Typography>
                     </Typography>
-                  </Typography>
-                </Grid>
-              ))}
-            </Grid>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+            <CounterShare />
+          </ThemeProvider>
+        )
+      }
+      {
+        isShownFemale && (
+          <Box>
+            <TypesPageFemale
+              section1Ref={section1Ref}
+              section2Ref={section2Ref}
+              section3Ref={section3Ref}
+              section4Ref={section4Ref}
+              section5Ref={section5Ref}
+            />
           </Box>
-          <CounterShare />
-        </ThemeProvider>
-      )}
-      {isShownFemale && (
-        <Box>
-          <TypesPageFemale
-            section1Ref={section1Ref}
-            section2Ref={section2Ref}
-            section3Ref={section3Ref}
-            section4Ref={section4Ref}
-            section5Ref={section5Ref}
-          />
-        </Box>
-      )}
-    </Box>
+        )
+      }
+    </Box >
   );
 };
 
