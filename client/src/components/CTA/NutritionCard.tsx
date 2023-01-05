@@ -46,11 +46,12 @@ const NutritionCard = () => {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: extraSmall ? 230 : 400,
+        width: extraSmall ? 250 : 400,
         height: 400,
         bgcolor: 'white',
         boxShadow: 24,
-        p: extraSmall ? 1 : 4,
+        borderRadius: "25px",
+        p: extraSmall ? 2 : 4,
         overflowY: 'scroll',
         display: 'block'
     };
@@ -106,7 +107,6 @@ const NutritionCard = () => {
                                         “You” means the individual accessing or using the Service, or the company, or other legal entity on behalf of which such individual is accessing or using the Service, as applicable.
                                     </Typography>
                                 </ListItem>
-
                             </ListItem>
                             <ListItem>
                                 <ListItem>
@@ -160,15 +160,6 @@ const NutritionCard = () => {
                                 This contract shall start upon acceptance of this document.                            </Typography>
                         </Typography>
                         <br></br>
-                        <Box>
-                            <FormControlLabel control={<Checkbox />}
-                                label={<Typography variant='h1' sx={{
-                                    fontWeight: 300, fontSize: "20px"
-                                }}>
-                                    I Accept
-                                </Typography>}
-                            />
-                        </Box>
                         <Stack
                             direction="row"
                             justifyContent="space-between"
@@ -179,7 +170,8 @@ const NutritionCard = () => {
                                 href="https://checkout.stripe.com/c/pay/cs_test_b1RT65qsTuAKmtK3UqnBwRRI7Hlw2zGpc11sbN1Bix4bqkNgL3UrYfyMng#fidkdWxOYHwnPyd1blpxYHZxWjA0SEZCR3JOZmFjVjR9aXZSV0NVbD1dVX81UDxJTUQ3PVJRUHRIdjBHQDRLbX9%2FUWt2XE5gUnA0N2pAdH1tb0JHdXV9Qz1Gf0BMckZ9amhIPFJfR2pGRGhXNTVzalRgbGdwTCcpJ3VpbGtuQH11anZgYUxhJz8ncWB2cVo9ckhgXHM0YHY2T1xjTWRgUFInKSd3YGNgd3dgd0p3bGJsayc%2FJ21xcXV2PyoqcnJyK2JqamJpYCtmamgqJ3gl" target="_blank"
                             >Accept
                             </Button>
-                            <Button sx={{ display: 'flex', justifyContent: "center", }} variant='contained'
+                            <Button sx={{ display: 'flex', justifyContent: "center", }} variant='outlined'
+                                onClick={handleClose}
                             >
                                 Decline
                             </Button>
