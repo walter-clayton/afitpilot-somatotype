@@ -71,7 +71,7 @@ const Library = () => {
       TypeCode: "BM",
     },
     {
-      images: "eskimo woman",
+      images: "eskimo man",
       bodytype: "Eskimo man",
       SomatotypeType: "4 - 6 - 2",
       TypeCode: "EnM",
