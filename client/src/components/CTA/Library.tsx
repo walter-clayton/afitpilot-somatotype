@@ -13,11 +13,8 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 
 const Library = () => {
-  const [showComparisonOptions, setShowComparisonOptions] =
-    useState<boolean>(false);
   const [tableComparePage, setTableComparePage] = useState<number>(0);
-  const [comparisonState, setcomparisonState] = useState<string>("Compare");
-  const [showComparison, setShowComparison] = useState<boolean>(false);
+  const [comparisonState, setcomparisonState] = useState<string>("Tribes");
   const [compareTribesResults, setCompareTribesResults] = useState<
     IComparison[]
   >([]);
@@ -69,12 +66,12 @@ const Library = () => {
     },
     {
       images: "manu woman",
-      bodytype: "Manu-woman",
+      bodytype: "Manu woman",
       SomatotypeType: "2 - 5 - 2",
       TypeCode: "BM",
     },
     {
-      images: "eskimo woman",
+      images: "eskimo man",
       bodytype: "Eskimo man",
       SomatotypeType: "4 - 6 - 2",
       TypeCode: "EnM",
@@ -143,11 +140,15 @@ const Library = () => {
     setCompareTribesResults(tribesArray);
   }, [compareResults]);
 
+  useEffect(() => {
+    setcomparisonState("Tribes");
+    setCompareResultsToShow(compareTribesResults);
+  }, [compareTribesResults]);
+
   const getCompareDatas = async () => {
     const headers = {
       "Content-Type": "application/json",
       access_key: process.env.REACT_APP_ACCESS_KEY,
-      Authorization: `Bearer ${cookies.user.token}`,
     };
 
     try {
@@ -254,10 +255,10 @@ const Library = () => {
                 fontWeight: 600,
               }}
             >
-              30
+              0
             </Typography>
             <Typography sx={{ color: "black", textAlign: "center" }}>
-              Other
+              Occupations
             </Typography>
           </Grid>
           <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
@@ -272,7 +273,7 @@ const Library = () => {
                 fontWeight: 600,
               }}
             >
-              10
+              13
             </Typography>
             <Typography sx={{ color: "black", textAlign: "center" }}>
               Sports
@@ -290,24 +291,26 @@ const Library = () => {
                 fontWeight: 600,
               }}
             >
-              20
+              5
             </Typography>
             <Typography sx={{ color: "black", textAlign: "center" }}>
               Tribesman
             </Typography>
           </Grid>
         </Grid>
-        <Grid container>
+        <Grid container justifyContent={"space-around"}>
           <Grid
             item
             xs={12}
-            md={6}
+            sm={10}
+            md={5}
             sx={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
             }}
             width={"100%"}
+            padding={2}
           >
             <SomatotypeGraph
               graphColor={"#5c5c5c"}
@@ -318,69 +321,18 @@ const Library = () => {
           <Grid
             item
             sx={{
+              display: "flex",
+              justifyContent: "center",
               alignItems: "center",
               marginTop: "20px",
             }}
             xs={12}
+            sm={12}
             md={6}
             width={"100%"}
             padding={2}
           >
-            <Button
-              sx={{
-                backgroundColor: "#000000",
-                color: "#ffffff",
-                fontWeight: 600,
-                textAlign: "center",
-                lineHeight: "30px",
-                fontSize: "18px",
-                textTransform: "initial",
-                padding: "14px 30px",
-                borderRadius: "40px",
-                marginTop: "20px",
-                width: small
-                  ? extraSmall
-                    ? xxs
-                      ? xxxs
-                        ? "90%"
-                        : "80%"
-                      : "75%"
-                    : "70%"
-                  : "60%",
-                mx: small
-                  ? extraSmall
-                    ? xxs
-                      ? xxxs
-                        ? "5%"
-                        : "10%"
-                      : "12.5%"
-                    : "15%"
-                  : "20%",
-                "&.MuiButtonBase-root:hover": {
-                  bgcolor: "#000000",
-                },
-                display: "flex",
-                "&:hover": { bgcolor: "#000000" },
-              }}
-              variant="contained"
-              onClick={() => {
-                setShowComparisonOptions((m) => !m);
-              }}
-            >
-              Compare
-              <ArrowForwardIosIcon
-                sx={{
-                  marginLeft: "10px",
-                  fontSize: "25px",
-                  transition: "all .3s ease-out",
-                  transform: showComparisonOptions
-                    ? "rotate(90deg)"
-                    : "rotate(0)",
-                }}
-              />
-            </Button>
-
-            {showComparisonOptions && (
+            <Box width={"100%"}>
               <Box>
                 <Button
                   sx={{
@@ -422,8 +374,6 @@ const Library = () => {
                   onClick={() => {
                     setTableComparePage(0);
                     setcomparisonState("Tribes");
-                    setShowComparisonOptions(false);
-                    setShowComparison(true);
                     setCompareResultsToShow(compareTribesResults);
                   }}
                 >
@@ -469,28 +419,26 @@ const Library = () => {
                   onClick={() => {
                     setTableComparePage(0);
                     setcomparisonState("Sports");
-                    setShowComparisonOptions(false);
-                    setShowComparison(true);
                     setCompareResultsToShow(compareSportsResults);
                   }}
                 >
                   Sports
                 </Button>
               </Box>
-            )}
 
-            {showComparison && (
-              <TableCompare
-                datas={compareResultsToShow}
-                isFetching={fetching}
-                setPointsArray={setComparisonPointsArray}
-                toggleGraph={toggleGraph}
-                setToggleGraph={setToggleGraph}
-                tableTitle={comparisonState}
-                page={tableComparePage}
-                setPage={setTableComparePage}
-              />
-            )}
+              {!fetching && (
+                <TableCompare
+                  datas={compareResultsToShow}
+                  isFetching={fetching}
+                  setPointsArray={setComparisonPointsArray}
+                  toggleGraph={toggleGraph}
+                  setToggleGraph={setToggleGraph}
+                  tableTitle={comparisonState}
+                  page={tableComparePage}
+                  setPage={setTableComparePage}
+                />
+              )}
+            </Box>
           </Grid>
         </Grid>
       </Grid>
@@ -520,11 +468,17 @@ const Library = () => {
               justifyContent="center"
               alignItems="center"
               sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
+              width={"100%"}
             >
-              <Card sx={{ maxWidth: 345, placeSelf: "center" }}>
+              <Card
+                sx={{
+                  placeSelf: "center",
+                  width: "90%",
+                  borderRadius: "25px",
+                }}
+              >
                 <CardMedia
                   component="img"
-                  height="250"
                   sx={{ objectFit: "fill" }}
                   image={require("../image/" + step.images + ".svg")}
                 />

@@ -21,7 +21,8 @@ import Divider from "@mui/material/Divider";
 const pages = [
   { title: "Test", path: "/Test" },
   { title: "Somatotypes", path: "/Types" },
-  { title: "Blog", path: "/Blog" },
+  { title: "Blogs", path: "/Blog" },
+  { title: "Library", path: "/Library" },
 ];
 
 const profilePages = [
