@@ -32,6 +32,14 @@ const comparisons: IComparison[] = [
   },
   {
     group: "Tribe",
+    gender: "Female",
+    name: "Manu",
+    endo: 2,
+    meso: 5,
+    ecto: 2,
+  },
+  {
+    group: "Tribe",
     gender: "Male",
     name: "Eskimo",
     endo: 4,

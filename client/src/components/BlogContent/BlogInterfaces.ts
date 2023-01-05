@@ -23,15 +23,7 @@ export interface IBlogTextWithImage {
     isExternalLink?: boolean;
     buttonLink?: string;
     buttonPosition?: string;
-    buttonColor?:
-      | "inherit"
-      | "success"
-      | "error"
-      | "primary"
-      | "secondary"
-      | "info"
-      | "warning"
-      | undefined;
+    buttonColor?: string;
     buttonStyle?: "text" | "contained" | "outlined" | undefined;
   }
   
