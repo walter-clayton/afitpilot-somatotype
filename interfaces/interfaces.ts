@@ -13,9 +13,11 @@ export interface IUser {
   email: string;
   name: string;
   password: string;
-  firstScan?: boolean;
+  gender: string;
+  mainColor: Number;
   somatotypes: IRelationShip[];
   anthropometrics: IAnthropometric[];
+  avatars: IAvatar[];
   createdAt: String;
   updatedAt: String;
 }
@@ -24,6 +26,8 @@ export interface ISomatotype {
   endomorphy: number;
   mesomorphy: number;
   ectomorphy: number;
+  titleSomatotype: String;
+  codeSomatotype: String;
   users: IRelationShip[];
   anthropometric: IAnthropometric;
   createdAt: String;
@@ -58,4 +62,16 @@ export interface IComparison {
   endo: number;
   meso: number;
   ecto: number;
+}
+
+export interface IAvatar {
+  indexHair: Number;
+  indexColorHair: Number;
+  indexBeard: Number;
+  indexColorSkin: Number;
+  indexFace: Number;
+  user: IUser;
+  somatotype: ISomatotype;
+  createdAt: String;
+  updatedAt: String;
 }

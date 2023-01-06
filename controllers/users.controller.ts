@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from "express";
 const os = require("os");
 import { IAnthropometric, IData, ISomatotype } from "../interfaces/interfaces";
 const User = require("../models/User");
+const Avatar = require("../models/Avatar");
 const Somatotype = require("../models/Somatotype");
 const Anthropometric = require("../models/Anthropometric");
 const { sendEmailPassword, sendEmailResetPassword } = require("../mail/mailer");
@@ -29,7 +30,12 @@ usersCtrl.register = async (req: Request, res: Response) => {
   email = (email as string).toLowerCase();
 
   try {
-    const newUser = await User({ email: email, name });
+    const newUser = await User({
+      email: email,
+      name,
+      gender: data.user.gender,
+      mainColor: data.user.mainColor,
+    });
 
     // random password
     const generatedPass: string = await newUser.generatePassword();
@@ -45,11 +51,15 @@ usersCtrl.register = async (req: Request, res: Response) => {
         const endomorphy = Number(somatotype.endomorphy.toFixed(1));
         const mesomorphy = Number(somatotype.mesomorphy.toFixed(1));
         const ectomorphy = Number(somatotype.ectomorphy.toFixed(1));
+        const titleSomatotype = somatotype.titleSomatotype;
+        const codeSomatotype = somatotype.codeSomatotype;
 
         const newSomatotype = await Somatotype({
           endomorphy,
           mesomorphy,
           ectomorphy,
+          titleSomatotype,
+          codeSomatotype,
         });
 
         // create the anthropometric
@@ -75,9 +85,15 @@ usersCtrl.register = async (req: Request, res: Response) => {
           bicep_girth,
         });
 
+        // create Avatar
+        const avatar = { ...data.avatar };
+
+        const newAvatar = await Avatar({ ...avatar });
+
         // RelationShip
         newUser.somatotypes.push(newSomatotype);
         newUser.anthropometrics.push(newAnthropometric);
+        newUser.anthropometrics.push(newAvatar);
 
         newSomatotype.users.push(newUser);
         newSomatotype.anthropometric = newAnthropometric;
@@ -85,8 +101,12 @@ usersCtrl.register = async (req: Request, res: Response) => {
         newAnthropometric.users.push(newUser);
         newAnthropometric.somatotype = newSomatotype;
 
+        newAvatar.user.push(newUser);
+        newAvatar.somatotype.push(newSomatotype);
+
         await newSomatotype.save();
         await newAnthropometric.save();
+        await newAvatar.save();
       } else {
         return res.status(403).send({
           message: "data.somatotype and data.anthropometric are required",
@@ -106,6 +126,8 @@ usersCtrl.register = async (req: Request, res: Response) => {
           token: accessToken,
           email: newUser.email,
           name: newUser.name,
+          gender: newUser.gender,
+          mainColor: newUser.mainColor,
         },
       });
     } else {
@@ -126,7 +148,7 @@ usersCtrl.deleteUser = async (req: Request, res: Response) => {
   try {
     const user = await User.findByEmail(
       (email as string)?.toLowerCase()
-    ).populate(["somatotypes", "anthropometrics"]);
+    ).populate(["somatotypes", "anthropometrics", "avatars"]);
 
     if (user.length > 0) {
       // delete all his somatotypes
@@ -140,6 +162,13 @@ usersCtrl.deleteUser = async (req: Request, res: Response) => {
       if (user[0].anthropometrics.length > 0) {
         user[0].anthropometrics.forEach(async (anthropometric: any) => {
           await anthropometric.delete();
+        });
+      }
+
+      // delete all his avatars
+      if (user[0].avatars.length > 0) {
+        user[0].avatars.forEach(async (avatar: any) => {
+          await avatar.delete();
         });
       }
 

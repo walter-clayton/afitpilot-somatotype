@@ -166,7 +166,7 @@ const TypesPage = () => {
     setIsShown(true);
     setIsShownFemale(false);
   };
-  const handleClickFeamle = () => {
+  const handleClickFemale = () => {
     setIsShownFemale(true);
     setIsShown(false);
   };
@@ -323,6 +323,7 @@ const TypesPage = () => {
                 "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
               }}
               onClick={() => {
+                window.scrollTo(0, 0);
                 navigate("/test");
               }}
             >
@@ -412,7 +413,7 @@ const TypesPage = () => {
                 justifyContent: "center",
               }}
               onClick={() => {
-                handleClickFeamle();
+                handleClickFemale();
               }}
             >
               <FemaleIcon sx={{ fontSize: 60 }} />
@@ -451,6 +452,7 @@ const TypesPage = () => {
                     sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
                     onClick={() => {
                       navigate(step.linkToPage);
+                      window.scrollTo(0, 0);
                     }}
                   >
                     <img
@@ -512,6 +514,7 @@ const TypesPage = () => {
                     },
                   }}
                   onClick={() => {
+                    window.scrollTo(0, 0);
                     navigate("/test");
                   }}
                 >
@@ -609,6 +612,7 @@ const TypesPage = () => {
                     sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
                     onClick={() => {
                       navigate(step.linkToPage);
+                      window.scrollTo(0, 0);
                     }}
                   >
                     <img
@@ -671,6 +675,7 @@ const TypesPage = () => {
                   }}
                   onClick={() => {
                     navigate("/test");
+                    window.scrollTo(0, 0);
                   }}
                 >
                   Take the Test <ArrowForwardSharpIcon />
@@ -768,6 +773,7 @@ const TypesPage = () => {
                     sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
                     onClick={() => {
                       navigate(step.linkToPage);
+                      window.scrollTo(0, 0);
                     }}
                   >
                     <img
