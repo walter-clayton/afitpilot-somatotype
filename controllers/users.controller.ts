@@ -20,6 +20,7 @@ interface IUsersCtrl {
   editSomatotype?: (req: Request, res: Response) => void;
   getAllUsers?: (req: Request, res: Response) => void;
   getAllSomatotypes?: (req: Request, res: Response) => void;
+  getAvatar?: (req: Request, res: Response) => void;
 }
 
 const usersCtrl: IUsersCtrl = {};
@@ -93,7 +94,7 @@ usersCtrl.register = async (req: Request, res: Response) => {
         // RelationShip
         newUser.somatotypes.push(newSomatotype);
         newUser.anthropometrics.push(newAnthropometric);
-        newUser.anthropometrics.push(newAvatar);
+        newUser.avatars.push(newAvatar);
 
         newSomatotype.users.push(newUser);
         newSomatotype.anthropometric = newAnthropometric;
@@ -511,6 +512,11 @@ usersCtrl.getAllSomatotypes = async (req: Request, res: Response) => {
         "Error with the database: please try again or contact the administrator.",
     });
   }
+};
+
+usersCtrl.getAvatar = async (req: Request, res: Response) => {
+  const user = await User.findById(req.user_id).populate(["avatars", "somatotypes"]);
+  res.send({avatar:user.avatars[user.avatars.length - 1], titleSomatotype: user.somatotypes[user.somatotypes.length -1].titleSomatotype, codeSomatotype: user.somatotypes[user.somatotypes.length -1].codeSomatotype});
 };
 
 module.exports = usersCtrl;

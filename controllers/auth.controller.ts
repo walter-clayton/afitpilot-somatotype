@@ -12,13 +12,15 @@ const usersCtrl: IUsersCtrl = {};
 
 usersCtrl.login = async (req: Request, res: Response) => {
   const { email, password, data } = req.body;
-
+  console.log(password);
+  
   try {
     const user = await User.findByEmail(email);
-
+    
     if (user.length > 0) {
       const matchPassword = await user[0].matchPassword(password);
-
+      console.log(matchPassword);
+      
       if (matchPassword) {
         const accessToken: string = await user[0].generateAuthToken();
 

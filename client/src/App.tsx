@@ -55,7 +55,7 @@ export interface IAnthropometric {
   bicep_girth?: number | undefined;
 }
 
-interface IParamsAvatar {
+export interface IParamsAvatar {
   indexHair?: number;
   indexColorHair?: number;
   indexBeard?: number;
