@@ -81,6 +81,8 @@ export default function Login(props: any) {
           headers: headers,
         }
       );
+      console.log(response.data.user);
+
       setFetching(false);
       removeCookie("data", { path: "/", sameSite: "none", secure: true });
       const now = new Date();

@@ -166,7 +166,7 @@ const TypesPage = () => {
     setIsShown(true);
     setIsShownFemale(false);
   };
-  const handleClickFeamle = () => {
+  const handleClickFemale = () => {
     setIsShownFemale(true);
     setIsShown(false);
   };
@@ -301,10 +301,10 @@ const TypesPage = () => {
               alignItems: "center",
               justifyContent: "center",
               width: "100%",
-              height: "150px",
+              height: "250px",
             }}
           >
-            <Typography variant="h1" sx={heading}>
+            <Typography variant="h1" sx={heading} pb={6}>
               Categories
             </Typography>
             <Button
@@ -319,10 +319,11 @@ const TypesPage = () => {
                 textAlign: "center",
                 textTransform: "initial",
                 marginTop: 0,
-                mb: -6,
+                mb: { xs: -15, sm: -11, md: -11, lg: -11 },
                 "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
               }}
               onClick={() => {
+                window.scrollTo(0, 0);
                 navigate("/test");
               }}
             >
@@ -412,7 +413,7 @@ const TypesPage = () => {
                 justifyContent: "center",
               }}
               onClick={() => {
-                handleClickFeamle();
+                handleClickFemale();
               }}
             >
               <FemaleIcon sx={{ fontSize: 60 }} />
@@ -450,10 +451,13 @@ const TypesPage = () => {
                   sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
                   onClick={() => {
                     navigate(step.linkToPage);
+                    window.scrollTo(0, 0);
                   }}
                 >
                   <img
-                    src={require("../image/" + step.image + ".svg")}
+                    src={require("../image/Typespage_avatars/" +
+                      step.image +
+                      ".svg")}
                     alt="Mesomorph"
                     style={{
                       width: medium
@@ -511,6 +515,7 @@ const TypesPage = () => {
                   },
                 }}
                 onClick={() => {
+                  window.scrollTo(0, 0);
                   navigate("/test");
                 }}
               >
@@ -548,7 +553,9 @@ const TypesPage = () => {
                   }}
                 >
                   <img
-                    src={require("../image/" + step.image + ".svg")}
+                    src={require("../image/Typespage_avatars/" +
+                      step.image +
+                      ".svg")}
                     alt="Ectomorph"
                     style={{
                       width: medium
@@ -608,10 +615,13 @@ const TypesPage = () => {
                   sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
                   onClick={() => {
                     navigate(step.linkToPage);
+                    window.scrollTo(0, 0);
                   }}
                 >
                   <img
-                    src={require("../image/" + step.image + ".svg")}
+                    src={require("../image/Typespage_avatars/" +
+                      step.image +
+                      ".svg")}
                     alt="Endomorph"
                     style={{
                       width: medium
@@ -670,6 +680,7 @@ const TypesPage = () => {
                 }}
                 onClick={() => {
                   navigate("/test");
+                  window.scrollTo(0, 0);
                 }}
               >
                 Take the Test <ArrowForwardSharpIcon />
@@ -707,7 +718,9 @@ const TypesPage = () => {
                   }}
                 >
                   <img
-                    src={require("../image/" + step.image + ".svg")}
+                    src={require("../image/Typespage_avatars/" +
+                      step.image +
+                      ".svg")}
                     alt="Hybrid"
                     style={{
                       width: medium
@@ -767,10 +780,13 @@ const TypesPage = () => {
                   sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
                   onClick={() => {
                     navigate(step.linkToPage);
+                    window.scrollTo(0, 0);
                   }}
                 >
                   <img
-                    src={require("../image/" + step.image + ".svg")}
+                    src={require("../image/Typespage_avatars/" +
+                      step.image +
+                      ".svg")}
                     alt="central"
                     style={{
                       width: medium

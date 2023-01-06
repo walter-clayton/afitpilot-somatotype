@@ -4,19 +4,19 @@ import {
   Typography,
   Container,
   Box,
-  Button,
   useMediaQuery,
 } from "@mui/material/";
 import FacebookIcon from "@mui/icons-material/Facebook";
+import WhatsappIcon from "@mui/icons-material/WhatsApp";
 import EmailIcon from "@mui/icons-material/Email";
 import Stack from "@mui/material/Stack";
-import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
 import PinterestIcon from "@mui/icons-material/Pinterest";
 import {
   FacebookShareButton,
   EmailShareButton,
   PinterestShareButton,
+  WhatsappShareButton,
 } from "react-share";
 
 const CounterShare = () => {
@@ -28,8 +28,8 @@ const CounterShare = () => {
     localStorage.setItem("count", String(count));
   }, [count]);
 
-  const shareUrl = "http://github.com";
-  const title = "GitHub";
+  var url = window.location.href;
+  const title = "Afitpilot";
 
   const style = {
     width: "100%",
@@ -95,7 +95,7 @@ const CounterShare = () => {
                 justifyContent: "center",
               }}
             >
-              <FacebookShareButton url={shareUrl} quote={title}>
+              <FacebookShareButton url={url} quote={title}>
                 <FacebookIcon
                   sx={{ marginTop: "5px", fontSize: xxs ? "120%" : "180%" }}
                 />
@@ -104,7 +104,7 @@ const CounterShare = () => {
             <Box
               onClick={() => setCount(count + 1)}
               sx={{
-                backgroundColor: " #33a474",
+                backgroundColor: "#34b7f1",
                 border: 1.3,
                 color: "#fff",
                 borderRadius: "50%",
@@ -116,7 +116,7 @@ const CounterShare = () => {
                 justifyContent: "center",
               }}
             >
-              <EmailShareButton url={shareUrl} title={title}>
+              <EmailShareButton title={title} url={url}>
                 <EmailIcon
                   sx={{ marginTop: "5px", fontSize: xxs ? "120%" : "180%" }}
                 />
@@ -125,11 +125,11 @@ const CounterShare = () => {
             <Box
               onClick={() => setCount(count + 1)}
               sx={{
-                backgroundColor: "#e3102e",
+                backgroundColor: " #25d366",
                 border: 1.3,
                 color: "#fff",
                 borderRadius: "50%",
-                "&.MuiButtonBase-root:hover": { bgcolor: " #e3102e" },
+                "&.MuiButtonBase-root:hover": { bgcolor: " #33a474" },
                 width: xxs ? "35px" : "50px",
                 height: xxs ? "35px" : "50px",
                 display: "flex",
@@ -137,14 +137,11 @@ const CounterShare = () => {
                 justifyContent: "center",
               }}
             >
-              <PinterestShareButton
-                url={String(window.location)}
-                media={`${String(window.location)}`}
-              >
-                <PinterestIcon
+              <WhatsappShareButton url={url} title={title}>
+                <WhatsappIcon
                   sx={{ marginTop: "5px", fontSize: xxs ? "120%" : "180%" }}
                 />
-              </PinterestShareButton>
+              </WhatsappShareButton>
             </Box>
           </Stack>
         </Box>

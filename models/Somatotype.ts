@@ -5,6 +5,8 @@ const somatotypeSchema: Schema = new Schema<ISomatotype>({
   endomorphy: { type: Number, required: true },
   mesomorphy: { type: Number, required: true },
   ectomorphy: { type: Number, required: true },
+  titleSomatotype: { type: String, required: true },
+  codeSomatotype: { type: String, required: true },
   users: [{ type: Schema.Types.ObjectId, ref: "User" }],
   anthropometric: { type: Schema.Types.ObjectId, ref: "Anthropometric" },
   createdAt: { type: String, default: new Date().toLocaleString() },
