@@ -71,6 +71,7 @@ export interface IAvatar {
   indexColorSkin: Number;
   indexFace: Number;
   user: IUser;
+  somatotype: ISomatotype;
   createdAt: String;
   updatedAt: String;
 }

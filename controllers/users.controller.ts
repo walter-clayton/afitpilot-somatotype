@@ -102,6 +102,7 @@ usersCtrl.register = async (req: Request, res: Response) => {
         newAnthropometric.somatotype = newSomatotype;
 
         newAvatar.user.push(newUser);
+        newAvatar.somatotype.push(newSomatotype);
 
         await newSomatotype.save();
         await newAnthropometric.save();
@@ -147,7 +148,7 @@ usersCtrl.deleteUser = async (req: Request, res: Response) => {
   try {
     const user = await User.findByEmail(
       (email as string)?.toLowerCase()
-    ).populate(["somatotypes", "anthropometrics"]);
+    ).populate(["somatotypes", "anthropometrics", "avatars"]);
 
     if (user.length > 0) {
       // delete all his somatotypes
@@ -161,6 +162,13 @@ usersCtrl.deleteUser = async (req: Request, res: Response) => {
       if (user[0].anthropometrics.length > 0) {
         user[0].anthropometrics.forEach(async (anthropometric: any) => {
           await anthropometric.delete();
+        });
+      }
+
+      // delete all his avatars
+      if (user[0].avatars.length > 0) {
+        user[0].avatars.forEach(async (avatar: any) => {
+          await avatar.delete();
         });
       }
 
