@@ -10,7 +10,7 @@ import {
 import React, { useEffect, useState, useRef, FC } from "react";
 import { calculateSomatotype, IPoints } from "./Calculation";
 import ResultsTable from "./ResultsTable";
-import { IAnthropometric, IData, ISomatotype } from "../App";
+import { IAnthropometric, IData, IParamsAvatar, ISomatotype } from "../App";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import SomatotypeGraph from "./SomatotypeGraph";
@@ -19,13 +19,21 @@ import { useCookies } from "react-cookie";
 import CounterShare from "./CTA/CounterShare";
 import AddPage from "./AddPage";
 import { useNavigate } from "react-router-dom";
-import avatar from "./image/manu-tribesman.png";
+// import avatar from "./image/manu-tribesman.png";
 import TableCompare, { IComparison } from "./TableCompare";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ShareIcon from "@mui/icons-material/Share";
 import html2canvas from "html2canvas";
 import CircleIcon from "@mui/icons-material/Circle";
-import { getColors, IColors } from "./Colors";
+import { getColors, IColors, setColors } from "./Colors";
+import Avatar from "./avatar/Avatar";
+import {
+  beards,
+  colorsHair,
+  colorsSkin,
+  faces,
+  hairs,
+} from "./avatar/variablesAvatar/VariableAvatar";
 
 const theme = createTheme();
 
@@ -95,6 +103,16 @@ const Dashboard: FC<IDashboard> = (props) => {
 
   const [isSharing, setIsSharing] = useState<boolean>(false);
 
+  const [avatar, setAvatar] = useState<IParamsAvatar>({
+    indexHair: 0,
+    indexColorHair: 0,
+    indexFace: 0,
+    indexColorSkin: 0,
+    indexBeard: 0,
+  });
+  const [titleSomatotype, setTitleSomatotype] = useState<string>("");
+  const [codeSomatotype, setCodeSomatotype] = useState<string>("");
+
   const xxl = useMediaQuery("(min-width:1401px)");
   const xlarge = useMediaQuery("(max-width:1400px)");
   const large = useMediaQuery("(max-width:1200px)");
@@ -121,6 +139,35 @@ const Dashboard: FC<IDashboard> = (props) => {
       );
       setSomatotypes(response.data.data.somatotypes);
       setToggleGraph(!toggleGraph);
+      setFetching(false);
+    } catch (error) {
+      // if (error.response) {
+      //     error.response.data.message
+      //       ? setSnackbarMessage(error.response.data.message)
+      //       : setSnackbarMessage(error.response.statusText);
+      //   } else {
+      //     setSnackbarMessage("Error with the server");
+      //   }
+      console.log("error ", error);
+      setFetching(false);
+    }
+  };
+
+  const getAvatar = async () => {
+    const headers = {
+      "Content-Type": "application/json",
+      access_key: process.env.REACT_APP_ACCESS_KEY,
+      Authorization: `Bearer ${cookies.user.token}`,
+    };
+
+    try {
+      setFetching(true);
+      const response = await axios.get(process.env.REACT_APP_GETAVATAR_URL!, {
+        headers: headers,
+      });
+      setAvatar(response.data.avatar);
+      setTitleSomatotype(response.data.titleSomatotype);
+      setCodeSomatotype(response.data.codeSomatotype);
       setFetching(false);
     } catch (error) {
       // if (error.response) {
@@ -176,6 +223,8 @@ const Dashboard: FC<IDashboard> = (props) => {
   useEffect(() => {
     getUserDatas();
     getCompareDatas();
+    getAvatar();
+    setColors(cookies.user.mainColor);
   }, []);
 
   useEffect(() => {
@@ -298,7 +347,7 @@ const Dashboard: FC<IDashboard> = (props) => {
           >
             {cookies.user.name}
           </Typography>
-          <img src={avatar} alt="manu tribesman" style={{ width: "150px" }} />
+          {/* <img src={avatar} alt="manu tribesman" style={{ width: "150px" }} /> */}
           <Grid
             item
             width={"100%"}
@@ -533,18 +582,7 @@ const Dashboard: FC<IDashboard> = (props) => {
           width={"100%"}
         >
           {props.resultsSaved ? (
-            <Grid
-              item
-              sx={{
-                flexGrow: 1,
-                alignItems: "center",
-                margin: "20px 0",
-              }}
-              xs={12}
-              md={9}
-              lg={7}
-              width={"100%"}
-            >
+            <Box m={4} width={"100%"}>
               <Alert
                 onClose={() => {
                   props.setResultsSaved!(false);
@@ -552,7 +590,7 @@ const Dashboard: FC<IDashboard> = (props) => {
               >
                 Results saved successfully!
               </Alert>
-            </Grid>
+            </Box>
           ) : null}
 
           {/* No Results Message */}
@@ -614,11 +652,24 @@ const Dashboard: FC<IDashboard> = (props) => {
                 >
                   {cookies.user.name}
                 </Typography>
-                <img
+                {/* <img
                   src={avatar}
                   alt="manu tribesman"
                   style={{ width: small ? "100px" : "200px" }}
+                /> */}
+
+                <Avatar
+                  typeSoma={codeSomatotype}
+                  hair={hairs[avatar.indexHair!]}
+                  face={faces[avatar.indexFace!]}
+                  beard={beards[avatar.indexBeard!]}
+                  gender={cookies.user.gender}
+                  colorsSkin={colorsSkin[avatar.indexColorSkin!]}
+                  colorsHair={colorsHair[avatar.indexColorHair!]}
+                  cloth={true}
+                  mainColor={cookies.user.mainColor}
                 />
+
                 <Grid
                   item
                   width={"100%"}
@@ -736,7 +787,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                         : "150%",
                     }}
                   >
-                    {formatTypeResultText(typeResult)[0]}
+                    {titleSomatotype}
                   </Typography>
                   <Typography
                     variant="h5"
@@ -761,7 +812,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                         : "150%",
                     }}
                   >
-                    {formatTypeResultText(typeResult)[1]}
+                    {codeSomatotype}
                   </Typography>
                 </Box>
                 <Grid
