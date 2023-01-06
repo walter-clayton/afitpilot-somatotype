@@ -65,7 +65,7 @@ const TableCompare: FC<ITableCompare> = (props) => {
 
   useEffect(() => {
     setRows([]);
-    if (props.datas !== undefined) {
+    if (props.datas !== undefined && props.datas.length > 0) {
       props.datas.forEach((comparison: IComparison, index: number) => {
         let isDisplayed = false;
         if (index === 0) {
@@ -244,7 +244,6 @@ const TableCompare: FC<ITableCompare> = (props) => {
           </TableCell>
         </TableRow>
       );
-
       return [tableHeadContent, tableBodyContent];
     }
   };

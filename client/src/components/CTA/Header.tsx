@@ -182,7 +182,7 @@ const Header = () => {
       </Grid>
       <Grid item xs={12} width={"100%"} mt={4}>
         <Grid container spacing={2}>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
             <Typography
               variant="h1"
               sx={{ color: "#33a474" }}
@@ -192,17 +192,17 @@ const Header = () => {
               <Typography sx={{ color: "black" }}>Tests taken</Typography>
             </Typography>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
             <Typography
               variant="h1"
               sx={{ color: "#4298b4" }}
               textAlign={"center"}
             >
               {fetching ? <CircularProgress size={25} /> : totalUsers}
-              <Typography sx={{ color: "black" }}>Avatars</Typography>
+              <Typography sx={{ color: "black" }}>Avatars Created</Typography>
             </Typography>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
             <Typography
               variant="h1"
               sx={{ color: "#e4ae3a" }}
@@ -210,7 +210,7 @@ const Header = () => {
             >
               {fetching ? <CircularProgress size={25} /> : uniqueSomatotypes}
               <Typography sx={{ color: "black" }}>
-                {xxxs ? `Somato-types` : "Somatotypes"}
+                {xxxs ? `Unique Somatotypes` : "Somatotypes"}
               </Typography>{" "}
             </Typography>
           </Grid>

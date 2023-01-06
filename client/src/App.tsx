@@ -29,6 +29,7 @@ import Nutrition from "./components/CTA/Nutrition";
 import Training from "./components/CTA/Training";
 import TypesPage1 from "./components/CTA/TypesPage1";
 import Disconnection from "./components/Disconnection";
+import Library from "./components/CTA/Library";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -72,13 +73,6 @@ export interface IData {
   anthropometric?: IAnthropometric | undefined;
   user?: IUser;
   avatar?: IParamsAvatar;
-}
-
-export interface IColors {
-  darkColor?: string;
-  normalColor?: string;
-  lightColor?: string;
-  clearColor?: string;
 }
 
 function App() {
@@ -178,6 +172,7 @@ function App() {
             )
           }
         />
+        <Route path="/Home" element={<Home />} />
         <Route path="/Forget" element={<Forget />} />
         <Route path="/Resetpass" element={<Resetpass />} />
         <Route path="/Contact" element={<Contact />} />
@@ -191,6 +186,7 @@ function App() {
         <Route path="/Nutrition" element={<Nutrition />} />
         <Route path="/Training" element={<Training />} />
         <Route path="/TypesPage1" element={<TypesPage1 />} />
+        <Route path="/Library" element={<Library />} />
         <Route
           path="/Test"
           element={

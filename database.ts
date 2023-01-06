@@ -13,7 +13,7 @@ const defaultComparisons: IComparison[] =
 mongoose
   .connect(uri, { dbName: dbName })
   .then(async (db: Mongoose) => {
-    // await Comparison.collection.drop();
+    //await Comparison.collection.drop();
     const comparisons = await Comparison.find();
 
     console.log(comparisons.length);

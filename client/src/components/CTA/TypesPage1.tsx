@@ -14,8 +14,8 @@ export interface Icategory {
 function TypesPage1(props: any) {
   const medium = useMediaQuery("(max-width:899px)");
   const small = useMediaQuery("(max-width:599px)");
-  const extraSmall = useMediaQuery("(max-width:280px)");
-  console.log(props.labelCategory);
+  const extraSmall = useMediaQuery("(max-width:480px)");
+
   return (
     <Grid
       container
@@ -77,7 +77,7 @@ function TypesPage1(props: any) {
               }}
               sx={{
                 fontSize: 50,
-                left: "5px",
+                left: "0px",
                 position: "absolute",
                 cursor: "pointer",
               }}
@@ -103,7 +103,7 @@ function TypesPage1(props: any) {
               }}
               sx={{
                 fontSize: 50,
-                right: "5px",
+                right: "0px",
                 position: "absolute",
                 cursor: "pointer",
               }}
@@ -121,34 +121,45 @@ function TypesPage1(props: any) {
       >
         {props.labelCategory === "category1" ? (
           <svg
-            style={{ maxWidth: "300px", width: "100%" }}
-            height="301"
+            style={{
+              maxWidth: "500px",
+              width: "100%",
+              height: extraSmall ? "50%" : "500px",
+              paddingLeft: "20px",
+            }}
             viewBox="0 0 598 601"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
               d="M97.7955 236.696L234.751 318.014L239.466 351.176L262.243 362.494V528.133L211.179 526.023L140.484 519.168L67.3721 506.605L34.5514 499.073L13.0312 488.312L20.0249 453.879L29.1712 417.294L50.1556 349.504L75.4407 283.865L97.7955 236.696Z"
+              onClick={() => {
+                window.scrollTo(0, props.section3Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat1].label ===
                 "ENDOMORPH"
                   ? props.currentCategory[props.currentIndexCat1].bgColor
                   : "white"
               }
-              fill-opacity="0.5"
             />
             <path
               d="M191.669 106.949C224.291 64.3408 285.904 17.0728 285.904 17.0728C285.904 17.0728 339.082 61.1158 385.401 116.935C431.72 172.755 446.191 210.203 446.191 210.203L313.359 288.818L285.904 273.456L259.142 288.818L117.273 203.877C117.273 203.877 157.074 146.545 191.669 106.949Z"
+              onClick={() => {
+                window.scrollTo(0, props.section1Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat1].label ===
                 "MESOMORPH"
                   ? props.currentCategory[props.currentIndexCat1].bgColor
                   : "white"
               }
-              fill-opacity="0.5"
             />
             <path
               d="M309.523 529.194L309.523 367.738L330.815 351.759L333.828 320.541L471.568 242.771L480.398 252.588L544.051 426.593L556.14 477.55L544.049 492.811L490.007 505.244L390.527 520.506L309.523 529.194Z"
+              onClick={() => {
+                window.scrollTo(0, props.section2Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat1].label ===
                 "ECTOMORPH"
@@ -158,80 +169,86 @@ function TypesPage1(props: any) {
             />
             <path
               d="M322 286.75L450.546 211.644L465.711 240.17L336.803 312.387L334.998 295.777L322 286.75Z"
+              onClick={() => {
+                window.scrollTo(0, props.section4Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat1].label === "HYBRID"
                   ? props.currentCategory[props.currentIndexCat1].bgColor
                   : "white"
               }
-              fill-opacity="0.5"
             />
             <path
               d="M234.595 313.277L99.9848 237.706L116.729 209.187L249.012 286.597L235.488 296.92L234.595 313.277Z"
+              onClick={() => {
+                window.scrollTo(0, props.section4Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat1].label === "HYBRID"
                   ? props.currentCategory[props.currentIndexCat1].bgColor
                   : "white"
               }
-              fill-opacity="0.5"
             />
             <path
               d="M304.796 371.96L304.796 526.204L266.677 526.204L266.677 371.96L285.284 380.769L304.796 371.96Z"
+              onClick={() => {
+                window.scrollTo(0, props.section4Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat1].label === "HYBRID"
                   ? props.currentCategory[props.currentIndexCat1].bgColor
                   : "white"
               }
-              fill-opacity="0.5"
             />
             <path
               d="M282.883 539.769C282.883 532.269 282.883 532.269 282.882 532.269H282.876H282.848L282.732 532.268C282.629 532.268 282.472 532.268 282.263 532.267C282.067 532.267 281.825 532.266 281.539 532.264C281.217 532.263 280.837 532.261 280.403 532.258C278.766 532.247 276.35 532.226 273.251 532.183C267.052 532.097 258.121 531.925 247.217 531.582C225.4 530.894 195.724 529.519 164.249 526.772C132.743 524.023 99.5941 519.912 70.7773 513.787C44.342 508.167 22.4987 501.034 8.78708 492.306C50.2314 314.367 104.358 153.863 285.146 9.81177C464.018 155.101 514.621 327.401 556.665 470.555C558.708 477.51 560.73 484.396 562.746 491.207C559.912 492.306 556.078 493.729 551.247 495.381C539.374 499.443 521.479 504.895 497.604 510.359C449.857 521.287 378.172 532.269 282.883 532.269V539.769Z"
               stroke="black"
-              stroke-width="15"
+              strokeWidth="15"
             />
             <path
               d="M285.807 11.3232L285.807 273.27"
               stroke="black"
-              stroke-width="15"
+              strokeWidth="15"
             />
             <path
               d="M262.744 364.716L262.744 529.565"
               stroke="black"
-              stroke-width="15"
+              strokeWidth="15"
             />
             <path
               d="M309.422 361.275L309.422 530.472"
               stroke="black"
-              stroke-width="15"
+              strokeWidth="15"
             />
             <path
               d="M249.051 349.796L10.617 490.434"
               stroke="black"
-              stroke-width="15"
+              strokeWidth="15"
             />
             <path
               d="M475.807 239.144L333.41 319.633"
               stroke="black"
-              stroke-width="15"
+              strokeWidth="15"
             />
             <path
               d="M454.082 204.577L316.142 284.45"
               stroke="black"
-              stroke-width="15"
+              strokeWidth="15"
             />
             <path
               d="M557.791 486.431L326.095 351.131"
               stroke="black"
-              stroke-width="15"
+              strokeWidth="15"
             />
             <path
               d="M236.678 319.064L95.0297 239.479"
               stroke="black"
-              stroke-width="15"
+              strokeWidth="15"
             />
             <path
               d="M256.967 285.764L116.453 202.856"
               stroke="black"
-              stroke-width="15"
+              strokeWidth="15"
             />
             <path
               d="M241.808 296.752L286.974 270.676L332.14 296.752V348.906L286.974 374.982L241.808 348.906V296.752Z"
@@ -239,6 +256,9 @@ function TypesPage1(props: any) {
             />
             <path
               d="M241.808 296.752L286.974 270.676L332.14 296.752V348.906L286.974 374.982L241.808 348.906V296.752Z"
+              onClick={() => {
+                window.scrollTo(0, props.section5Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat1].label ===
                 "CENTRAL"
@@ -249,18 +269,26 @@ function TypesPage1(props: any) {
             <path
               d="M241.808 296.752L286.974 270.676L332.14 296.752V348.906L286.974 374.982L241.808 348.906V296.752Z"
               stroke="black"
-              stroke-width="15"
+              strokeWidth="15"
             />
           </svg>
         ) : (
           <svg
-            style={{ maxWidth: "400px", width: "100%" }}
+            style={{
+              maxWidth: "500px",
+              width: "100%",
+              height: extraSmall ? "50%" : "500px",
+              paddingLeft: "20px",
+            }}
             viewBox="0 0 598 601"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
               d="M90.8879 235.582L245.729 326.536L11.9316 466.457L25.0208 418.346L44.1889 349.317L90.8879 235.582Z"
+              onClick={() => {
+                window.scrollTo(0, props.section3Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat2].label ===
                 "Mesomorphic Endomorph"
@@ -270,6 +298,9 @@ function TypesPage1(props: any) {
             />
             <path
               d="M245.087 328.923L246.907 350.079L264.164 360.568L188.437 408.409L144.961 435.197L101.924 459.79L25.0211 505.281L3.55273 492.718L11.8868 466.189L127.834 398.523L245.087 328.923Z"
+              onClick={() => {
+                window.scrollTo(0, props.section3Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat2].label ===
                 "Balanced Endomorph"
@@ -279,6 +310,9 @@ function TypesPage1(props: any) {
             />
             <path
               d="M156.379 428.171L266.37 359.469V448.348V535.651L202.05 532.921L141.121 527.561L68.0093 518.824L25.0215 505.281L156.379 428.171Z"
+              onClick={() => {
+                window.scrollTo(0, props.section3Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat2].label ===
                 "Ectomorphic Endomorph"
@@ -288,6 +322,9 @@ function TypesPage1(props: any) {
             />
             <path
               d="M305.432 20.3022L362.65 73.0643L415.217 137.834L457.389 203.562L372.374 254.631L305.432 293.161H305.433L305.432 20.3022Z"
+              onClick={() => {
+                window.scrollTo(0, props.section1Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat2].label ===
                 "Ectomorphic Mesomorph"
@@ -297,6 +334,9 @@ function TypesPage1(props: any) {
             />
             <path
               d="M266.099 20.1733L286.304 2.66223L305.294 20.1733L304.823 292.34L286.816 281.536L266.098 294.486L266.098 170.295L266.099 20.1733Z"
+              onClick={() => {
+                window.scrollTo(0, props.section1Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat2].label ===
                 "Balanced Mesomorph"
@@ -306,6 +346,9 @@ function TypesPage1(props: any) {
             />
             <path
               d="M186.176 98.096L234.674 47.407L266.099 17.3439V292.025L109.07 202.245L145.034 148.298L186.176 98.096Z"
+              onClick={() => {
+                window.scrollTo(0, props.section1Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat2].label ===
                 "Endomorphic Mesomorph"
@@ -315,6 +358,9 @@ function TypesPage1(props: any) {
             />
             <path
               d="M305.501 535.653L305.501 362.894L546.755 502.008L488.521 516.127L438.707 525.813L390.623 531.694L305.501 535.653Z"
+              onClick={() => {
+                window.scrollTo(0, props.section2Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat2].label ===
                 "Endomorphic Ectomorph"
@@ -324,6 +370,9 @@ function TypesPage1(props: any) {
             />
             <path
               d="M546.755 502.008L305.501 362.894L325.41 350.726L325.41 328.947L346.935 340.334L560.924 465.065L568.518 493.625L546.755 502.008Z"
+              onClick={() => {
+                window.scrollTo(0, props.section2Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat2].label ===
                 "Balanced Ectomorph"
@@ -333,6 +382,9 @@ function TypesPage1(props: any) {
             />
             <path
               d="M325.466 327.069L475.891 235.187L521.661 340.335L548.977 427.168L559.131 462.858L325.466 327.069Z"
+              onClick={() => {
+                window.scrollTo(0, props.section2Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat2].label ===
                 "Mesomorphic Ectomorph"
@@ -343,37 +395,37 @@ function TypesPage1(props: any) {
             <path
               d="M283.52 539.583C283.52 537.083 283.519 537.083 283.518 537.083H283.511H283.481L283.361 537.083L283.207 537.083C283.118 537.083 283.01 537.082 282.884 537.082C282.673 537.081 282.411 537.08 282.1 537.079C281.786 537.077 281.421 537.075 281.007 537.072C279.359 537.062 276.931 537.04 273.819 536.997C267.594 536.911 258.634 536.739 247.696 536.394C225.818 535.704 196.045 534.325 164.451 531.568C132.846 528.81 99.472 524.677 70.3743 518.492C42.0454 512.47 18.1313 504.572 3.77416 494.344C45.6536 313.64 100.048 149.862 285.811 3.22165C468.456 150.04 519.79 324.867 562.067 468.849C564.558 477.332 567.018 485.709 569.471 493.967C568.816 494.24 568 494.574 567.023 494.963C564.028 496.156 559.519 497.868 553.503 499.926C541.47 504.043 523.407 509.543 499.356 515.048C451.255 526.056 379.197 537.083 283.52 537.083V539.583Z"
               stroke="black"
-              stroke-width="5"
+              strokeWidth="5"
             />
             <path
               d="M266.65 18.1055L266.65 535.289"
               stroke="black"
-              stroke-width="5"
+              strokeWidth="5"
             />
             <path
               d="M304.787 18.1055L304.787 535.288"
               stroke="black"
-              stroke-width="5"
+              strokeWidth="5"
             />
             <path
               d="M459.547 202.749L8.74514 468.709"
               stroke="black"
-              stroke-width="5"
+              strokeWidth="5"
             />
             <path
               d="M475.264 237.476L26.3785 505.372"
               stroke="black"
-              stroke-width="5"
+              strokeWidth="5"
             />
             <path
               d="M546.097 501.607L92.13 236.327"
               stroke="black"
-              stroke-width="5"
+              strokeWidth="5"
             />
             <path
               d="M561.125 465.176L108.636 202.352"
               stroke="black"
-              stroke-width="5"
+              strokeWidth="5"
             />
             <path
               d="M245.593 327.135L267.612 294.758L304.186 294.758L324.587 327.198L305.985 362.08H267.997L245.593 327.135Z"
@@ -386,10 +438,13 @@ function TypesPage1(props: any) {
             <path
               d="M245.593 327.135L267.612 294.758L304.186 294.758L324.587 327.198L305.985 362.08H267.997L245.593 327.135Z"
               stroke="black"
-              stroke-width="5"
+              strokeWidth="5"
             />
             <path
               d="M474.973 236.144L325.601 325.38V304.31V304.015L325.343 303.872L306.881 293.661L457.532 204.435L474.973 236.144Z"
+              onClick={() => {
+                window.scrollTo(0, props.section4Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat2].label ===
                 "Mesomorph Ectomorph"
@@ -400,6 +455,9 @@ function TypesPage1(props: any) {
             />
             <path
               d="M267.997 535.595L268.843 362.87L286.538 374.138L286.81 374.311L287.08 374.135L304.296 362.896L301.297 535.595H267.997Z"
+              onClick={() => {
+                window.scrollTo(0, props.section4Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat2].label ===
                 "Endomorph Ectomorph"
@@ -410,6 +468,9 @@ function TypesPage1(props: any) {
             />
             <path
               d="M247.306 304.407L244.503 323.812L92.549 235.145L109.199 204.017L262.764 293.33L247.513 304.07L247.337 304.194L247.306 304.407Z"
+              onClick={() => {
+                window.scrollTo(0, props.section4Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat2].label ===
                 "Mesomorph Endomorph"
@@ -429,10 +490,13 @@ function TypesPage1(props: any) {
             <path
               d="M246.571 304.913L286.053 282.119L325.534 304.913V350.503L286.053 373.297L246.571 350.503V304.913Z"
               stroke="black"
-              stroke-width="5.60979"
+              strokeWidth="5.60979"
             />
             <path
               d="M246.569 304.913L286.052 282.118L325.534 304.913V350.503L286.052 373.298L246.569 350.503V304.913Z"
+              onClick={() => {
+                window.scrollTo(0, props.section5Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat2].label ===
                 "Central"
@@ -440,7 +504,7 @@ function TypesPage1(props: any) {
                   : "white"
               }
               stroke="black"
-              stroke-width="5.60993"
+              strokeWidth="5.60993"
             />
             <path
               d="M122.237 431.297L115.726 418.79L121.19 415.946C122.503 415.263 123.671 415.023 124.694 415.227C125.711 415.419 126.484 416.024 127.014 417.041C127.365 417.715 127.495 418.384 127.404 419.047C127.314 419.71 127.025 420.311 126.539 420.85C127.353 420.682 128.088 420.75 128.743 421.056C129.404 421.343 129.934 421.871 130.334 422.64C130.913 423.752 130.984 424.812 130.547 425.821C130.116 426.812 129.232 427.655 127.896 428.351L122.237 431.297ZM120.669 422.959L123.561 421.453C125.11 420.647 125.574 419.646 124.952 418.452C124.331 417.257 123.245 417.063 121.696 417.87L118.804 419.375L120.669 422.959ZM123.523 428.44L126.716 426.778C128.277 425.965 128.732 424.932 128.079 423.679C127.426 422.425 126.32 422.205 124.758 423.017L121.565 424.679L123.523 428.44ZM134.451 424.939L127.94 412.432L136.26 408.101L137.202 409.911L131.064 413.106L132.855 416.547L138.603 413.555L139.545 415.365L133.797 418.357L135.691 421.994L141.829 418.798L142.771 420.608L134.451 424.939ZM144.823 419.54L140.307 410.865L142.471 409.738L143.173 411.086C143.21 410.436 143.409 409.851 143.771 409.332C144.144 408.807 144.644 408.382 145.271 408.055C147.317 406.99 148.958 407.646 150.196 410.023L152.948 415.31L150.73 416.464L148.034 411.284C147.683 410.61 147.297 410.187 146.877 410.015C146.469 409.837 145.998 409.886 145.466 410.163C144.816 410.502 144.403 410.98 144.228 411.597C144.059 412.196 144.15 412.832 144.501 413.507L147.04 418.385L144.823 419.54Z"
@@ -525,6 +589,9 @@ function TypesPage1(props: any) {
             />
             <path
               d="M182.544 170.575V156.475H191.924V158.515H185.004V162.395H191.484V164.435H185.004V168.535H191.924V170.575H182.544ZM194.238 170.575V160.795H196.678V162.315C197.011 161.755 197.458 161.328 198.018 161.035C198.591 160.741 199.231 160.595 199.938 160.595C202.244 160.595 203.398 161.935 203.398 164.615V170.575H200.898V164.735C200.898 163.975 200.751 163.421 200.458 163.075C200.178 162.728 199.738 162.555 199.138 162.555C198.404 162.555 197.818 162.788 197.378 163.255C196.951 163.708 196.738 164.315 196.738 165.075V170.575H194.238ZM206.217 170.575V156.475H208.357L213.357 165.695L218.337 156.475H220.437V170.575H218.117V161.075L214.077 168.435H212.577L208.537 161.115V170.575H206.217Z"
+              onClick={() => {
+                window.scrollTo(0, props.section1Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat2].label ===
                 "Endomorphic Mesomorph"
@@ -534,6 +601,9 @@ function TypesPage1(props: any) {
             />
             <path
               d="M292.383 178.101H278.283V171.941C278.283 170.461 278.609 169.314 279.263 168.501C279.903 167.688 280.796 167.281 281.943 167.281C282.703 167.281 283.356 167.474 283.903 167.861C284.449 168.248 284.849 168.781 285.103 169.461C285.329 168.661 285.729 168.041 286.303 167.601C286.863 167.148 287.576 166.921 288.443 166.921C289.696 166.921 290.669 167.348 291.363 168.201C292.043 169.041 292.383 170.214 292.383 171.721V178.101ZM284.263 175.641V172.381C284.263 170.634 283.589 169.761 282.243 169.761C280.896 169.761 280.223 170.634 280.223 172.381V175.641H284.263ZM290.443 175.641V172.041C290.443 170.281 289.736 169.401 288.323 169.401C286.909 169.401 286.203 170.281 286.203 172.041V175.641H290.443ZM292.383 164.292H278.283V162.152L287.503 157.152L278.283 152.172V150.072H292.383V152.392H282.883L290.243 156.432V157.932L282.923 161.972H292.383V164.292Z"
+              onClick={() => {
+                window.scrollTo(0, props.section1Ref.current?.offsetTop!);
+              }}
               fill={
                 props.currentCategory[props.currentIndexCat2].label ===
                 "Balanced Mesomorph"

@@ -28,12 +28,13 @@ import { alignProperty } from "@mui/material/styles/cssUtils";
 import { display, flexbox, fontWeight } from "@mui/system";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { IColors, ISomatotype } from "../App";
+import { ISomatotype } from "../App";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { AddPoint, IPoints } from "./Calculation";
 import { getSomatotypeType } from "./TestPage";
 import { useNavigate } from "react-router-dom";
+import { getColors, IColors } from "./Colors";
 
 function createRow(
   Endomorphy: string,
@@ -77,7 +78,6 @@ interface resultProps {
   setDashboardSnackBarMessage?: (msg: string) => void;
   isFetching?: boolean;
   setTypeResult?: (result: string) => void;
-  colors?: IColors;
 }
 
 const ResultsTable: FC<resultProps> = (props: any) => {
@@ -220,7 +220,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
         somatotypeToShow.endomorphy!,
         somatotypeToShow.mesomorphy!,
         somatotypeToShow.ectomorphy!,
-        props.colors.darkColor
+        getColors().darkColor!
       );
       pointsResultsArray.push(point);
     });
@@ -285,9 +285,9 @@ const ResultsTable: FC<resultProps> = (props: any) => {
     transform: "translate(-50%, -50%)",
     width: xxs ? "90%" : xSmall ? "80%" : medium ? "50%" : "35%",
     bgcolor: "background.paper",
-    border: "2px solid #000000",
     boxShadow: 24,
     p: 4,
+    borderRadius: "25px",
   };
 
   let endoColumnTitle = small || minSmall ? "Endo" : "Endomorphy";
@@ -344,7 +344,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
               key={index}
               sx={{
                 backgroundColor: row.IsDisplayed
-                  ? props.colors.clearColor
+                  ? getColors().clearColor
                   : "white",
               }}
             >
@@ -358,12 +358,12 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                   icon={
                     <VisibilityOffIcon
                       sx={{
-                        color: props.colors.lightColor,
+                        color: getColors().lightColor,
                       }}
                     />
                   }
                   checkedIcon={
-                    <VisibilityIcon sx={{ color: props.colors.lightColor }} />
+                    <VisibilityIcon sx={{ color: getColors().lightColor }} />
                   }
                   sx={{
                     "&:hover": {
@@ -404,10 +404,10 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                     <IconButton
                       aria-label="edit"
                       sx={{
-                        color: props.colors.lightColor,
+                        color: getColors().lightColor,
                         padding: "0",
                         "&:hover": {
-                          color: props.colors.lightColor,
+                          color: getColors().lightColor,
                           backgroundColor: "rgba(0,0,0,0)",
                         },
                       }}
@@ -426,10 +426,10 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                     <IconButton
                       aria-label="delete"
                       sx={{
-                        color: props.colors.lightColor,
+                        color: getColors().lightColor,
                         padding: "0",
                         "&:hover": {
-                          color: props.colors.lightColor,
+                          color: getColors().lightColor,
                           backgroundColor: "rgba(0,0,0,0)",
                         },
                       }}
@@ -498,7 +498,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                 align="center"
                 colSpan={12}
                 sx={{
-                  backgroundColor: props.colors.darkColor,
+                  backgroundColor: getColors().darkColor,
                   color: "white",
                   fontWeight: 600,
                   textAlign: "center",
@@ -520,9 +520,17 @@ const ResultsTable: FC<resultProps> = (props: any) => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={modalStyle}>
-            <Typography id="modal-modal-description" textAlign={"center"}>
+            <Typography
+              id="modal-modal-description"
+              fontSize={"150%"}
+              textAlign={"center"}
+            >
               Do you want to
-              <Typography fontWeight={"bold"} component={"span"}>
+              <Typography
+                fontWeight={"bold"}
+                fontSize={"100%"}
+                component={"span"}
+              >
                 {" "}
                 edit{" "}
               </Typography>
@@ -538,8 +546,24 @@ const ResultsTable: FC<resultProps> = (props: any) => {
             >
               <Grid item>
                 <Button
+                  sx={{
+                    borderColor: "#000000",
+                    color: "#000000",
+                    padding: "14px 30px",
+                    fontWeight: 600,
+                    textAlign: "center",
+                    lineHeight: "30px",
+                    fontSize: "18px",
+                    borderRadius: "40px",
+                    textTransform: "initial",
+                    width: "100%",
+                    "&.MuiButtonBase-root:hover": {
+                      bgcolor: "#000000",
+                      color: "#ffffff",
+                      borderColor: "#000000",
+                    },
+                  }}
                   variant="outlined"
-                  color="error"
                   onClick={handleEditModalClose}
                 >
                   Cancel
@@ -547,8 +571,24 @@ const ResultsTable: FC<resultProps> = (props: any) => {
               </Grid>
               <Grid item>
                 <Button
+                  sx={{
+                    backgroundColor: "#000000",
+                    color: "#ffffff",
+                    fontWeight: 600,
+                    textAlign: "center",
+                    lineHeight: "30px",
+                    fontSize: "18px",
+                    textTransform: "initial",
+                    padding: "14px 30px",
+                    borderRadius: "40px",
+                    width: "100%",
+                    "&.MuiButtonBase-root:hover": {
+                      bgcolor: "#000000",
+                    },
+                    display: "flex",
+                    "&:hover": { bgcolor: "#000000" },
+                  }}
                   variant="contained"
-                  color="success"
                   onClick={() => {
                     props.setIsAdding(false);
                     navigate("/Add");
@@ -569,9 +609,17 @@ const ResultsTable: FC<resultProps> = (props: any) => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={modalStyle}>
-            <Typography id="modal-modal-description" textAlign={"center"}>
+            <Typography
+              id="modal-modal-description"
+              fontSize={"150%"}
+              textAlign={"center"}
+            >
               Do you want to
-              <Typography fontWeight={"bold"} component={"span"}>
+              <Typography
+                fontWeight={"bold"}
+                fontSize={"100%"}
+                component={"span"}
+              >
                 {" "}
                 delete{" "}
               </Typography>
@@ -587,8 +635,24 @@ const ResultsTable: FC<resultProps> = (props: any) => {
             >
               <Grid item>
                 <Button
+                  sx={{
+                    borderColor: "#000000",
+                    color: "#000000",
+                    padding: "14px 30px",
+                    fontWeight: 600,
+                    textAlign: "center",
+                    lineHeight: "30px",
+                    fontSize: "18px",
+                    borderRadius: "40px",
+                    textTransform: "initial",
+                    width: "100%",
+                    "&.MuiButtonBase-root:hover": {
+                      bgcolor: "#000000",
+                      color: "#ffffff",
+                      borderColor: "#000000",
+                    },
+                  }}
                   variant="outlined"
-                  color="error"
                   onClick={handleDeleteModalClose}
                 >
                   Cancel
@@ -596,8 +660,24 @@ const ResultsTable: FC<resultProps> = (props: any) => {
               </Grid>
               <Grid item>
                 <Button
+                  sx={{
+                    backgroundColor: "#000000",
+                    color: "#ffffff",
+                    fontWeight: 600,
+                    textAlign: "center",
+                    lineHeight: "30px",
+                    fontSize: "18px",
+                    textTransform: "initial",
+                    padding: "14px 30px",
+                    borderRadius: "40px",
+                    width: "100%",
+                    "&.MuiButtonBase-root:hover": {
+                      bgcolor: "#000000",
+                    },
+                    display: "flex",
+                    "&:hover": { bgcolor: "#000000" },
+                  }}
                   variant="contained"
-                  color="success"
                   onClick={() => {
                     deleteSomatotype(props.idSomatotype);
                     handleDeleteModalClose();

@@ -19,9 +19,10 @@ import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import Divider from "@mui/material/Divider";
 
 const pages = [
-  { title: "Test", path: "/Test" },
+  { title: "Homepage", path: "/Home" },
   { title: "Somatotypes", path: "/Types" },
-  { title: "Blog", path: "/Blog" },
+  { title: "Blogs", path: "/Blog" },
+  { title: "Library", path: "/Library" },
 ];
 
 const profilePages = [
@@ -100,8 +101,8 @@ const ResponsiveAppBar = (props: any) => {
           <Grid container alignItems={"center"}>
             <Grid
               item
-              xs={4}
-              sx={{ display: { xs: "none", md: "flex" }, cursor: "pointer" }}
+              xs={3.5}
+              sx={{ display: large ? "flex" : "none", cursor: "pointer" }}
               flexDirection={"row"}
               onClick={() => {
                 navigate("/");
@@ -132,7 +133,7 @@ const ResponsiveAppBar = (props: any) => {
               item
               xs={10}
               sx={{
-                display: { xs: "flex", md: "none" },
+                display: large ? "none" : "flex",
                 justifyContent: "start",
                 cursor: "pointer",
               }}
@@ -141,19 +142,18 @@ const ResponsiveAppBar = (props: any) => {
                 window.scrollTo(0, 0);
               }}
             >
-              {xxxs ? null : (
-                <IconButton sx={{ p: 0 }}>
-                  <Avatar
-                    alt="logo"
-                    src={logoIcon}
-                    sx={{
-                      width: { xs: 32, sm: 48 },
-                      height: { xs: 32, sm: 48 },
-                      borderRadius: "0",
-                    }}
-                  />
-                </IconButton>
-              )}
+              <IconButton sx={{ p: 0 }}>
+                <Avatar
+                  alt="logo"
+                  src={logoIcon}
+                  sx={{
+                    width: { xs: 32, sm: 48 },
+                    height: { xs: 32, sm: 48 },
+                    borderRadius: "0",
+                  }}
+                />
+              </IconButton>
+
               <Typography
                 variant="h5"
                 noWrap
@@ -177,7 +177,7 @@ const ResponsiveAppBar = (props: any) => {
               xs={2}
               sx={{
                 justifyContent: "end",
-                display: { xs: "flex", md: "none" },
+                display: large ? "none" : "flex",
               }}
             >
               <IconButton
@@ -209,7 +209,7 @@ const ResponsiveAppBar = (props: any) => {
                 open={Boolean(anchorElNavLogged)}
                 onClose={handleCloseNavLoggedMenu}
                 sx={{
-                  display: { xs: "block", md: "none" },
+                  display: large ? "none" : "block",
                 }}
               >
                 <MenuItem sx={{ justifyContent: "center" }}>
@@ -317,7 +317,7 @@ const ResponsiveAppBar = (props: any) => {
                 open={Boolean(anchorElNav)}
                 onClose={handleCloseNavMenu}
                 sx={{
-                  display: { xs: "block", md: "none" },
+                  display: large ? "none" : "block",
                 }}
               >
                 <MenuItem sx={{ justifyContent: "center" }}>
@@ -391,10 +391,10 @@ const ResponsiveAppBar = (props: any) => {
             </Grid>
             <Grid
               item
-              xs={4}
+              xs={5}
               sx={{
                 justifyContent: "center",
-                display: { xs: "none", md: "flex" },
+                display: large ? "flex" : "none",
               }}
             >
               {pages.map((page, index) => (
@@ -413,10 +413,10 @@ const ResponsiveAppBar = (props: any) => {
             </Grid>
             <Grid
               item
-              xs={4}
+              xs={3.5}
               sx={{
                 justifyContent: "end",
-                display: { xs: "none", md: "flex" },
+                display: large ? "flex" : "none",
               }}
             >
               <Grid

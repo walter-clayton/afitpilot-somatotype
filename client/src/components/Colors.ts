@@ -1,6 +1,5 @@
 export interface IColors {
   index?: number;
-  name?: string;
   darkColor?: string;
   normalColor?: string;
   lightColor?: string;
@@ -10,7 +9,6 @@ export interface IColors {
 const colorsArray: IColors[] = [
   {
     index: 0,
-    name: "yellow",
     darkColor: "#B88C2E",
     normalColor: "#DCB051",
     lightColor: "#E8CB8C",
@@ -18,7 +16,6 @@ const colorsArray: IColors[] = [
   },
   {
     index: 1,
-    name: "blue",
     darkColor: "#145F85",
     normalColor: "#1874A3",
     lightColor: "#1D8EC8",
@@ -26,7 +23,6 @@ const colorsArray: IColors[] = [
   },
   {
     index: 2,
-    name: "green",
     darkColor: "#478563",
     normalColor: "#56A278",
     lightColor: "#7AB896",
@@ -34,7 +30,6 @@ const colorsArray: IColors[] = [
   },
   {
     index: 3,
-    name: "red",
     darkColor: "#693030",
     normalColor: "#974444",
     lightColor: "#B76060",
@@ -42,7 +37,6 @@ const colorsArray: IColors[] = [
   },
   {
     index: 4,
-    name: "purple",
     darkColor: "#533B5E",
     normalColor: "#6C4D7B",
     lightColor: "#8A629D",
