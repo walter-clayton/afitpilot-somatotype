@@ -582,18 +582,7 @@ const Dashboard: FC<IDashboard> = (props) => {
           width={"100%"}
         >
           {props.resultsSaved ? (
-            <Grid
-              item
-              sx={{
-                flexGrow: 1,
-                alignItems: "center",
-                margin: "20px 0",
-              }}
-              xs={12}
-              md={9}
-              lg={7}
-              width={"100%"}
-            >
+            <Box m={4} width={"100%"}>
               <Alert
                 onClose={() => {
                   props.setResultsSaved!(false);
@@ -601,7 +590,7 @@ const Dashboard: FC<IDashboard> = (props) => {
               >
                 Results saved successfully!
               </Alert>
-            </Grid>
+            </Box>
           ) : null}
 
           {/* No Results Message */}
