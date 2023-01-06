@@ -83,7 +83,6 @@ const Signup: FC<ISignUp> = (props) => {
         { headers: headers }
       );
       setOpen(true);
-      removeCookie("data", { path: "/", sameSite: "none", secure: true });
       setCookie(
         "user",
         { ...response.data.user },

@@ -36,7 +36,8 @@ interface IAvatar {
 }
 
 const Avatar: FC<IAvatar> = (props) => {
-  const code = "EnEc";
+  const code = props.typeSoma;
+
   const skinBody: React.ReactNode = getMaleSkin(
     // props.typeSoma,
     code,
@@ -53,14 +54,14 @@ const Avatar: FC<IAvatar> = (props) => {
   ) as React.ReactNode;
 
   const cloth: React.ReactNode = (
-    props.cloth ? getClothMale(props.mainColor!)[code] : <g></g>
+    props.cloth ? (getClothMale(props.mainColor!) as any)[code] : <g></g>
   ) as React.ReactNode;
 
   return (
     <Box
       sx={{
         maxWidth: "250px",
-        width: "100%",
+        width: "70%",
         px: 2,
         margin: "0 auto",
       }}

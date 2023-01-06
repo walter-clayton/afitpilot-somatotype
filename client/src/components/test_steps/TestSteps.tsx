@@ -411,17 +411,10 @@ const TestSteps: FC<ITestSteps> = (props) => {
       ectomorphy: ecto,
     };
 
-    const data: IData = {
-      anthropometric: anthropometrics,
-      somatotype: somatotype,
-    };
-
-    setDatas(data);
-
     const type: string = getSomatotypeType(
-      data.somatotype!.endomorphy,
-      data.somatotype!.mesomorphy,
-      data.somatotype!.ectomorphy
+      somatotype.endomorphy,
+      somatotype!.mesomorphy,
+      somatotype!.ectomorphy
     );
 
     const typeTitle = type.split(/\(|\)/)[0];
@@ -429,6 +422,17 @@ const TestSteps: FC<ITestSteps> = (props) => {
 
     setSomatotypeTitle(typeTitle);
     setSomatotypeCode(typeCode);
+
+    const data: IData = {
+      anthropometric: anthropometrics,
+      somatotype: {
+        ...somatotype,
+        titleSomatotype: typeTitle,
+        codeSomatotype: typeCode,
+      },
+    };
+
+    setDatas(data);
   };
 
   const getColorCode = () => {
@@ -551,11 +555,23 @@ const TestSteps: FC<ITestSteps> = (props) => {
             backgroundColor: "#D9D9D9",
           }}
         >
-          <span>{datas!.somatotype?.endomorphy?.toFixed()}</span>
+          <span>
+            {datas!.somatotype?.endomorphy?.toFixed() === "0"
+              ? "1"
+              : datas!.somatotype?.endomorphy?.toFixed()}
+          </span>
           <span>-</span>
-          <span>{datas!.somatotype?.mesomorphy?.toFixed()}</span>
+          <span>
+            {datas!.somatotype?.mesomorphy?.toFixed() === "0"
+              ? "1"
+              : datas!.somatotype?.mesomorphy?.toFixed()}
+          </span>
           <span>-</span>
-          <span>{datas!.somatotype?.ectomorphy?.toFixed()}</span>
+          <span>
+            {datas!.somatotype?.ectomorphy?.toFixed() === "0"
+              ? "1"
+              : datas!.somatotype?.ectomorphy?.toFixed()}
+          </span>
         </Stack>
         <Box py={2}>
           <Typography
@@ -682,7 +698,13 @@ const TestSteps: FC<ITestSteps> = (props) => {
           <Typography variant="h5" textAlign="center" fontWeight="bold" mt={2}>
             Color Picker
           </Typography>
-          <Stack direction="row" justifyContent="center" spacing={2} mt={2}>
+          <Stack
+            direction="row"
+            flexWrap="wrap"
+            justifyContent="center"
+            spacing={2}
+            mt={2}
+          >
             {pickColors.map((item, index) => (
               <IconButton
                 key={index}
@@ -709,10 +731,30 @@ const TestSteps: FC<ITestSteps> = (props) => {
     );
   };
 
-  const handleSave = () => {};
+  const handleSave = () => {
+    const data: IData = { ...datas };
+
+    data.user = { gender: values.gender, mainColor: mainColor };
+
+    data.avatar = {
+      indexHair,
+      indexColorHair,
+      indexBeard,
+      indexColorSkin,
+      indexFace,
+    };
+
+    props.setData(data);
+    navigate("/signup");
+  };
 
   return (
-    <Box sx={{ margin: md ? "" : "calc(100px + 140px) 0 120px 0" }}>
+    <Box
+      sx={{
+        margin: md ? "" : "calc(100px + 140px) 0 120px 0",
+        padding: "50px 0",
+      }}
+    >
       {/* if datas has somatotypes then we show the second step (steps of avatar svg) else we show the first step (questions's steps) */}
       {datas ? (
         <Box

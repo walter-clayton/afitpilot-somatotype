@@ -34,6 +34,8 @@ export interface ISomatotype {
   endomorphy?: number | undefined;
   mesomorphy?: number | undefined;
   ectomorphy?: number | undefined;
+  titleSomatotype?: string | undefined;
+  codeSomatotype?: string | undefined;
   somatotypeTitle?: string;
   somatotypeCode?: string;
   createdAt?: string | undefined;
@@ -53,18 +55,23 @@ export interface IAnthropometric {
 }
 
 interface IParamsAvatar {
-  indexColorSkin?: number;
   indexHair?: number;
   indexColorHair?: number;
-  indexFace?: number;
   indexBeard?: number;
+  indexFace?: number;
+  indexColorSkin?: number;
+}
+
+interface IUser {
+  mainColor?: number | undefined;
+  gender?: string | undefined;
 }
 
 export interface IData {
   somatotype?: ISomatotype | undefined;
   anthropometric?: IAnthropometric | undefined;
-  mainColor?: number | undefined;
-  paramsAvatar?: IParamsAvatar;
+  user?: IUser;
+  avatar?: IParamsAvatar;
 }
 
 export interface IColors {

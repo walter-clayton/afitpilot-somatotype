@@ -225,7 +225,7 @@ export const getEcEnSkin = (
 export const getBEnSkin = (
   colorsSkin: IColorSkin
 ): React.SVGProps<SVGGElement> => (
-  <g transform="translate(-103.832 -1.325)">
+  <g transform="translate(-105.407 -1.325)">
     <g id="arms">
       <g id="arm-left" transform="matrix(.78241 0 0 1 36.705 -3.418)">
         <path
