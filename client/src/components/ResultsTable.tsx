@@ -591,7 +591,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                   variant="contained"
                   onClick={() => {
                     props.setIsAdding(false);
-                    navigate("/Add");
+                    navigate("/Test");
                     window.scrollTo(0, 0);
                     handleEditModalClose();
                   }}

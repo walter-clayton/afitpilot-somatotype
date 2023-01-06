@@ -229,7 +229,7 @@ const ResponsiveAppBar = (props: any) => {
                     variant="contained"
                     onClick={() => {
                       props.setIsAdding!(true);
-                      navigate("/Add");
+                      navigate("/Test");
                       handleCloseNavLoggedMenu();
                       window.scrollTo(0, 0);
                     }}
@@ -550,7 +550,7 @@ const ResponsiveAppBar = (props: any) => {
                     }}
                     variant="contained"
                     onClick={() => {
-                      cookies.user ? navigate("/Add") : navigate("/Test");
+                      navigate("/Test");
                       window.scrollTo(0, 0);
                     }}
                   >

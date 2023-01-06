@@ -195,6 +195,11 @@ function App() {
               data={data!}
               resultsSaved={resultsSaved}
               setResultsSaved={setResultsSaved}
+              isAdding={isAdding}
+              idRow={idRow}
+              idSomatotype={idSomatotype}
+              setDashboardSnackBarOpen={setDashboardSnackBarOpen}
+              setDashboardSnackBarMessage={setDashboardSnackBarMessage}
             />
           }
         />

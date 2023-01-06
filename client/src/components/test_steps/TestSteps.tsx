@@ -33,7 +33,7 @@ import Avatar from "../avatar/Avatar";
 import Stack from "@mui/material/Stack";
 import { getSomatotypeType } from "../TestPage";
 import SomatotypeGraph from "../SomatotypeGraph";
-import { AddPoint, IPoints } from "../Calculation";
+import { AddPoint, calculateSomatotype, IPoints } from "../Calculation";
 import {
   beards,
   colorsHair,
@@ -43,6 +43,7 @@ import {
 } from "../avatar/variablesAvatar/VariableAvatar";
 import CircleIcon from "@mui/icons-material/Circle";
 import { getSpecificColors } from "../Colors";
+import axios from "axios";
 
 const PrettoSlider = styled(Slider)({
   color: "RGB(108, 77, 123)",
@@ -141,10 +142,15 @@ const Circles = styled("div")({
 interface ITestSteps {
   setData: (data: IData | undefined) => void;
   data: IData;
+  isAdding?: boolean;
+  idRow?: string;
+  idSomatotype?: string;
+  setDashboardSnackBarOpen?: (open: boolean) => void;
+  setDashboardSnackBarMessage?: (msg: string) => void;
 }
 
 const TestSteps: FC<ITestSteps> = (props) => {
-  const [cookies, setCookie, removeCookie] = useCookies(["data"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["user", "data"]);
   const navigate = useNavigate();
   const xs = useMediaQuery("(max-width:680px)");
 
@@ -168,6 +174,14 @@ const TestSteps: FC<ITestSteps> = (props) => {
   const [indexColorHair, setIndexColorHair] = useState<number>(0);
 
   const [mainColor, setMainColor] = useState(0);
+
+  const [fetching, setFetching] = useState<boolean>(false);
+  const [somatotype, setSomatotype] = useState<ISomatotype | undefined>(
+    undefined
+  );
+  const [anthropometric, setAnthropometric] = useState<
+    IAnthropometric | undefined
+  >(undefined);
 
   // for ModalImg
   const [open, setOpen] = useState(false);
@@ -340,7 +354,56 @@ const TestSteps: FC<ITestSteps> = (props) => {
     setValues({ ...valuesTemp });
   };
 
-  const handleFinish = () => {
+  useEffect(() => {
+    if (cookies.user) {
+      getUserDatas();
+    }
+  }, []);
+
+  const getUserDatas = async () => {
+    const headers = {
+      "Content-Type": "application/json",
+      access_key: process.env.REACT_APP_ACCESS_KEY,
+      Authorization: `Bearer ${cookies.user.token}`,
+    };
+
+    try {
+      setFetching(true);
+      const response = await axios.get(
+        process.env.REACT_APP_GETUSERDATAS_URL!,
+        { headers: headers }
+      );
+      props.isAdding
+        ? setAnthropometric((anthropometric) => ({
+            height: 180,
+            weight: 80,
+            supraspinal_skinfold: 12,
+            subscapular_skinfold: 12,
+            tricep_skinfold: 12,
+            femur_breadth: 8,
+            humerus_breadth: 7,
+            calf_girth: 38,
+            bicep_girth: 38,
+          }))
+        : setAnthropometric(
+            response.data.data.anthropometrics.reverse()[props.idRow!]
+          );
+
+      setFetching(false);
+    } catch (error) {
+      // if (error.response) {
+      //     error.response.data.message
+      //       ? setSnackbarMessage(error.response.data.message)
+      //       : setSnackbarMessage(error.response.statusText);
+      //   } else {
+      //     setSnackbarMessage("Error with the server");
+      //   }
+      console.log("error ", error);
+      setFetching(false);
+    }
+  };
+
+  const handleFinish = async () => {
     const getFemur = (): number => {
       const toFoot = Number(values.height) * 0.0328084; // convert height cm to Foot Unit
       return (toFoot - 0.9) / 0.60375;
@@ -372,6 +435,8 @@ const TestSteps: FC<ITestSteps> = (props) => {
       calf_girth: Number(values.calf),
       bicep_girth: Number(values.arm),
     };
+
+    setAnthropometric((anthropometric) => anthropometrics);
 
     // somatotype calcule
 
@@ -405,7 +470,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
       ecto = 0.1;
     }
 
-    const somatotype: ISomatotype = {
+    let somatotype: ISomatotype = {
       endomorphy: endo,
       mesomorphy: meso,
       ectomorphy: ecto,
@@ -423,13 +488,61 @@ const TestSteps: FC<ITestSteps> = (props) => {
     setSomatotypeTitle(typeTitle);
     setSomatotypeCode(typeCode);
 
+    somatotype = {
+      ...somatotype,
+      titleSomatotype: typeTitle,
+      codeSomatotype: typeCode,
+    };
+
+    if (cookies.user) {
+      let url: string;
+      props.isAdding
+        ? (url = process.env.REACT_APP_SAVEDATA_URL!)
+        : (url =
+            `${process.env.REACT_APP_EDITSOMATOTYPE_URL}/${props.idSomatotype}`!);
+
+      const headers = {
+        "Content-Type": "application/json",
+        access_key: process.env.REACT_APP_ACCESS_KEY,
+        Authorization: `Bearer ${cookies.user.token}`,
+      };
+
+      try {
+        setFetching(true);
+        console.log(somatotype);
+
+        const response = await axios.post(
+          url,
+          { somatotype, anthropometric },
+          { headers: headers }
+        );
+        console.log(response);
+
+        navigate("/");
+        window.scrollTo(0, 0);
+        props.setDashboardSnackBarOpen!(true);
+        props.isAdding
+          ? props.setDashboardSnackBarMessage!("New Somatotype saved !")
+          : props.setDashboardSnackBarMessage!("Somatotype changes saved !");
+
+        setFetching(false);
+        getUserDatas();
+      } catch (error) {
+        // if (error.response) {
+        //     error.response.data.message
+        //       ? setSnackbarMessage(error.response.data.message)
+        //       : setSnackbarMessage(error.response.statusText);
+        //   } else {
+        //     setSnackbarMessage("Error with the server");
+        //   }
+        console.log("error ", error);
+        setFetching(false);
+      }
+    }
+
     const data: IData = {
       anthropometric: anthropometrics,
-      somatotype: {
-        ...somatotype,
-        titleSomatotype: typeTitle,
-        codeSomatotype: typeCode,
-      },
+      somatotype: somatotype,
     };
 
     setDatas(data);
@@ -872,7 +985,9 @@ const TestSteps: FC<ITestSteps> = (props) => {
           <Next
             onClick={() => {
               currentStep < steps.length - 1 && setCurrentStep((c) => c + 1);
+
               currentStep === steps.length - 1 && handleFinish();
+
               window.scrollTo(0, boxRef.current?.offsetTop! - 20);
             }}
           >
