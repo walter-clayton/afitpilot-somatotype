@@ -73,7 +73,7 @@ const AddPage: FC<IAdding> = (props: any) => {
     //   subscapular_skinfold: 12,
     //   tricep_skinfold: 12,
     //   femur_breadth: 8,
-    //   humerus_breadth: 7,
+    //   humerus_breadth: 7,anthropometric
     //   calf_girth: 38,
     //   bicep_girth: 38,
     // }));
