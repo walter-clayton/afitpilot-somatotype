@@ -1052,7 +1052,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                 variant="contained"
                 onClick={() => {
                   props.setIsAdding!(true);
-                  navigate("/Add");
+                  navigate("/Test");
                   window.scrollTo(0, 0);
                 }}
               >
@@ -1247,7 +1247,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                 variant="contained"
                 onClick={() => {
                   props.setIsAdding!(true);
-                  navigate("/Add");
+                  navigate("/Test");
                   window.scrollTo(0, 0);
                 }}
               >

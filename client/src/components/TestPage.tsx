@@ -33,6 +33,11 @@ interface ITesting {
   data: IData;
   resultsSaved: boolean;
   setResultsSaved: (bool: boolean) => void;
+  isAdding?: boolean;
+  idRow?: string;
+  idSomatotype?: string;
+  setDashboardSnackBarOpen?: (open: boolean) => void;
+  setDashboardSnackBarMessage?: (msg: string) => void;
 }
 
 interface ISomatotypesStandard {
@@ -542,7 +547,15 @@ const TestPage: FC<ITesting> = (props) => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <HeaderTestpage />
-      <TestSteps setData={props.setData} data={props.data} />
+      <TestSteps
+        setData={props.setData}
+        data={props.data}
+        isAdding={props.isAdding}
+        idRow={props.idRow}
+        idSomatotype={props.idSomatotype}
+        setDashboardSnackBarOpen={props.setDashboardSnackBarOpen}
+        setDashboardSnackBarMessage={props.setDashboardSnackBarMessage}
+      />
 
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}

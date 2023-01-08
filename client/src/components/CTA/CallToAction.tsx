@@ -4,9 +4,11 @@ import { Grid, Box, Button, Typography, useMediaQuery } from "@mui/material/";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import manuTribesManBackground from "../image/manu-tribesman-with-background.png";
 import HomeTraining from "../image/HomeTraining.svg";
-import HomeType from "../image/HomeType.svg";
-import HomeCompare from "../image/HomeCompare.svg";
-import HomeFeed from "../image/HomeFeed.svg";
+import TypeFemale from "../image/TypeFemale.svg";
+import TypeMale from "../image/TypeMale.svg";
+import Nutrition from "../image/Nutrition.svg";
+import compare from "../image/compare.svg";
+import Optimise from "../image/Optimise.svg";
 import { useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
@@ -173,20 +175,43 @@ const CallToAction = () => {
               justifyContent: "center",
             }}
           >
-            <img
-              src={HomeType}
-              alt="Manu Tribesman with background"
-              style={{
-                maxWidth: "600px",
-                width: medium
-                  ? small
-                    ? extraSmall
-                      ? "95%"
-                      : "80%"
-                    : "65%"
-                  : "80%",
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
               }}
-            />
+            >            <img
+                src={TypeMale}
+                alt="Manu Tribesman with background"
+                style={{
+                  maxWidth: "600px",
+                  width: medium
+                    ? small
+                      ? extraSmall
+                        ? "55%"
+                        : "60%"
+                      : "65%"
+                    : "100%",
+                }}
+              />
+              <img
+                src={TypeFemale}
+                alt="Manu Tribesman with background"
+                style={{
+                  maxWidth: "600px",
+                  width: medium
+                    ? small
+                      ? extraSmall
+                        ? "55%"
+                        : "60%"
+                      : "65%"
+                    : "100%",
+                }}
+              />
+            </Box>
+
           </Box>
         </Grid>
       </Grid>
@@ -209,7 +234,7 @@ const CallToAction = () => {
             }}
           >
             <img
-              src={HomeFeed}
+              src={Nutrition}
               alt="HomeFeed"
               style={{
                 maxHeight: "600px",
@@ -217,9 +242,10 @@ const CallToAction = () => {
                   ? small
                     ? extraSmall
                       ? "65%"
-                      : "60%"
-                    : "55%"
-                  : "60%",
+                      : "70%"
+                    : "75%"
+                  : "100%",
+
               }}
             />
           </Box>
@@ -500,7 +526,7 @@ const CallToAction = () => {
             }}
           >
             <img
-              src={HomeTraining}
+              src={manuTribesManBackground}
               alt="Training"
               style={{
                 maxHeight: "600px",
@@ -508,9 +534,9 @@ const CallToAction = () => {
                   ? small
                     ? extraSmall
                       ? "65%"
-                      : "60%"
-                    : "55%"
-                  : "60%",
+                      : "70%"
+                    : "75%"
+                  : "100%",
               }}
             />
           </Box>
@@ -535,7 +561,7 @@ const CallToAction = () => {
             }}
           >
             <img
-              src={manuTribesManBackground}
+              src={Optimise}
               alt="Tribes mans"
               style={{
                 maxHeight: "600px",
@@ -543,9 +569,9 @@ const CallToAction = () => {
                   ? small
                     ? extraSmall
                       ? "65%"
-                      : "60%"
-                    : "55%"
-                  : "60%",
+                      : "70%"
+                    : "75%"
+                  : "100%",
               }}
             />
           </Box>
@@ -684,7 +710,7 @@ const CallToAction = () => {
         display={"flex"}
         justifyContent={"space-around"}
         alignItems={"center"}
-        sx={{ backgroundColor: "#F5F5F6", marginTop: 8, padding: 4 }}
+        sx={{ backgroundColor: "#F5F5F6", marginTop: 8, padding: 4, }}
       >
         <Grid
           item
@@ -793,7 +819,7 @@ const CallToAction = () => {
             }}
           >
             <img
-              src={HomeCompare}
+              src={compare}
               alt=""
               style={{
                 maxHeight: "600px",
@@ -801,9 +827,9 @@ const CallToAction = () => {
                   ? small
                     ? extraSmall
                       ? "65%"
-                      : "60%"
-                    : "55%"
-                  : "60%",
+                      : "70%"
+                    : "75%"
+                  : "100%",
               }}
             />
           </Box>

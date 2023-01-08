@@ -221,7 +221,10 @@ usersCtrl.sendResetEmail = async (req: Request, res: Response) => {
 usersCtrl.saveResults = async (req: Request, res: Response) => {
   const { somatotype, anthropometric } = req.body;
 
+  
+  
   const data = { somatotype, anthropometric };
+  console.log(data);
 
   try {
     const user = await User.findById(req.user_id);
