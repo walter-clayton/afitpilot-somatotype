@@ -6,6 +6,7 @@ const Avatar = require("../models/Avatar");
 const Somatotype = require("../models/Somatotype");
 const Anthropometric = require("../models/Anthropometric");
 const { sendEmailPassword, sendEmailResetPassword } = require("../mail/mailer");
+import { Schema, model } from "mongoose";
 
 interface IUsersCtrl {
   register?: (req: Request, res: Response) => void;
@@ -281,11 +282,14 @@ usersCtrl.saveResults = async (req: Request, res: Response) => {
 
       console.log(newAvatar2);
       
+      // Schema.Types.ObjectId objectId = new Schema.Types.ObjectId(new Date());
 
-      await newSomatotype.save();
-      await newAnthropometric.save();
-      await newAvatar2.save();
-      await user.save();
+      // console.log(objectId);
+      
+      // await newSomatotype.save();
+      // await newAnthropometric.save();
+      // await newAvatar2.save();
+      // await user.save();
     } else {
       return res.status(403).send({
         message: "data.somatotype and data.anthropometric are required",
