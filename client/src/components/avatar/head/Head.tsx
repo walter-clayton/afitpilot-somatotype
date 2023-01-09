@@ -1,9 +1,9 @@
-import { getBeardMale } from "../../beard/males/BeardMale";
-import { IColorHair, IColorSkin } from "../../variablesAvatar/VariableAvatar";
-import { getFacesMales } from "../../faces/males/FacesMales";
-import { getHairMale } from "../../hairs/males/HairsMales";
+import { getBeardMale } from "../beard/males/BeardMale";
+import { IColorHair, IColorSkin } from "../variablesAvatar/VariableAvatar";
+import { getFacesMales } from "../faces/males/FacesMales";
+import { getHairMale } from "../hairs/males/HairsMales";
 
-export const getHeadMale = (
+export const getHead = (
   skin: string,
   hair: string,
   beard: string,

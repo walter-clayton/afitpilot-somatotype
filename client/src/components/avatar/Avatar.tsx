@@ -3,8 +3,8 @@ import React, { FC } from "react";
 import { IColors } from "../Colors";
 import { getClothMale } from "./clothes/male/ClothesMale";
 import { Plane } from "./CustomAvatar";
-import { getHeadMale } from "./head/males/HeadMale";
-import { getMaleSkin } from "./skins/males/SkinsMales";
+import { getHead } from "./head/Head";
+import { getSkin } from "./skins/Skins";
 import { IColorHair, IColorSkin } from "./variablesAvatar/VariableAvatar";
 
 export interface ITypesSkin {
@@ -36,15 +36,18 @@ interface IAvatar {
 }
 
 const Avatar: FC<IAvatar> = (props) => {
-  const code = props.typeSoma;
+  // const code = props.typeSoma;
+  const code = "BM";
+  const gen: string = "female";
 
-  const skinBody: React.ReactNode = getMaleSkin(
+  const skinBody: React.ReactNode = getSkin(
     // props.typeSoma,
+    gen,
     code,
     props.colorsSkin
   ) as React.ReactNode;
 
-  const head: React.ReactNode = getHeadMale(
+  const head: React.ReactNode = getHead(
     code,
     props.hair,
     props.beard,
@@ -72,7 +75,7 @@ const Avatar: FC<IAvatar> = (props) => {
         strokeLinejoin="round"
         strokeMiterlimit="2"
         clipRule="evenodd"
-        viewBox="0 0 140 351"
+        viewBox={gen === "male" ? "0 0 140 351" : "0 0 144 342"}
       >
         <g id="body">{skinBody}</g>
 

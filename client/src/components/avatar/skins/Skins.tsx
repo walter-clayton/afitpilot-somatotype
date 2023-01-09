@@ -1,21 +1,23 @@
-import { ITypesSkin } from "../../Avatar";
-import { IColorSkin } from "../../variablesAvatar/VariableAvatar";
-import { getCSkin } from "./Central";
-import { getBEcSkin, getEnEcSkin, getMEcSkin } from "./Ectomorphs";
-import { getBEnSkin, getEcEnSkin, getMEnSkin } from "./Endomorphs";
+import { ITypesSkin } from "../Avatar";
+import { IColorSkin } from "../variablesAvatar/VariableAvatar";
+import { getBMSkinFem } from "./females/MesomorphsFem";
+import { getCSkin } from "./males/Central";
+import { getBEcSkin, getEnEcSkin, getMEcSkin } from "./males/Ectomorphs";
+import { getBEnSkin, getEcEnSkin, getMEnSkin } from "./males/Endomorphs";
 import {
   getHybridEnEcSkin,
   getHybridMEcSkin,
   getHybridMEnSkin,
-} from "./Hybrid";
-import { getBMSkin, getEcMSkin, getEnMSkin } from "./Mesomorphs";
+} from "./males/Hybrid";
+import { getBMSkin, getEcMSkin, getEnMSkin } from "./males/Mesomorphs";
 
-export const getMaleSkin = (
+export const getSkin = (
+  gender: string,
   skin: string,
   colorsSkin: IColorSkin
 ): React.SVGProps<SVGGElement> => {
   const skins: ITypesSkin = {
-    BM: getBMSkin(colorsSkin),
+    BM: gender === "male" ? getBMSkin(colorsSkin) : getBMSkinFem(colorsSkin),
     EnM: getEnMSkin(colorsSkin),
     EcM: getEcMSkin(colorsSkin),
     MEc: getMEcSkin(colorsSkin),
