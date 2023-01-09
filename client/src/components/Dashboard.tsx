@@ -49,6 +49,7 @@ interface IDashboard {
   setDashboardSnackBarOpen?: (bool: boolean) => void;
   dashboardSnackBarMessage?: string;
   setDashboardSnackBarMessage?: (msg: string) => void;
+  setAvatar: (avatar: IParamsAvatar) => void;
 }
 
 const Dashboard: FC<IDashboard> = (props) => {
@@ -137,6 +138,7 @@ const Dashboard: FC<IDashboard> = (props) => {
         process.env.REACT_APP_GETUSERDATAS_URL!,
         { headers: headers }
       );
+
       setSomatotypes(response.data.data.somatotypes);
       setToggleGraph(!toggleGraph);
       setFetching(false);
@@ -165,9 +167,11 @@ const Dashboard: FC<IDashboard> = (props) => {
       const response = await axios.get(process.env.REACT_APP_GETAVATAR_URL!, {
         headers: headers,
       });
+
+      props.setAvatar(response.data.avatar);
       setAvatar(response.data.avatar);
-      setTitleSomatotype(response.data.titleSomatotype);
-      setCodeSomatotype(response.data.codeSomatotype);
+      setTitleSomatotype(response.data.avatar.titleSoma);
+      setCodeSomatotype(response.data.avatar.codeSoma);
       setFetching(false);
     } catch (error) {
       // if (error.response) {
@@ -652,12 +656,6 @@ const Dashboard: FC<IDashboard> = (props) => {
                 >
                   {cookies.user.name}
                 </Typography>
-                {/* <img
-                  src={avatar}
-                  alt="manu tribesman"
-                  style={{ width: small ? "100px" : "200px" }}
-                /> */}
-
                 <Avatar
                   typeSoma={codeSomatotype}
                   hair={hairs[avatar.indexHair!]}
@@ -700,6 +698,9 @@ const Dashboard: FC<IDashboard> = (props) => {
                       >
                         {fetching || somatotypes.length <= 0
                           ? ""
+                          : somatotypes[0].endomorphy?.toFixed() === "0" ||
+                            Number(somatotypes[0].endomorphy) < 0
+                          ? "1"
                           : somatotypes[0].endomorphy?.toFixed()}
                       </Typography>
                     </Grid>
@@ -726,6 +727,9 @@ const Dashboard: FC<IDashboard> = (props) => {
                       >
                         {fetching || somatotypes.length <= 0
                           ? ""
+                          : somatotypes[0].mesomorphy?.toFixed() === "0" ||
+                            Number(somatotypes[0].mesomorphy) < 0
+                          ? "1"
                           : somatotypes[0].mesomorphy?.toFixed()}
                       </Typography>
                     </Grid>
@@ -752,6 +756,9 @@ const Dashboard: FC<IDashboard> = (props) => {
                       >
                         {fetching || somatotypes.length <= 0
                           ? ""
+                          : somatotypes[0].ectomorphy?.toFixed() === "0" ||
+                            Number(somatotypes[0].ectomorphy) < 0
+                          ? "1"
                           : somatotypes[0].ectomorphy?.toFixed()}
                       </Typography>
                     </Grid>

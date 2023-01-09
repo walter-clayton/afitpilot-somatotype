@@ -57,6 +57,8 @@ export interface IAnthropometric {
 }
 
 export interface IParamsAvatar {
+  titleSoma?: string;
+  codeSoma?: string;
   indexHair?: number;
   indexColorHair?: number;
   indexBeard?: number;
@@ -95,6 +97,8 @@ function App() {
   const [clearInterval, setClearInterval] = useState<number | undefined>(
     undefined
   );
+
+  const [avatar, setAvatar] = useState<IParamsAvatar | undefined>(undefined);
 
   const handleClose = (event: any, reason: any) => {
     if (reason === "clickaway") {
@@ -139,6 +143,7 @@ function App() {
                 setDashboardSnackBarOpen={setDashboardSnackBarOpen}
                 dashboardSnackBarMessage={dashboardSnackBarMessage}
                 setDashboardSnackBarMessage={setDashboardSnackBarMessage}
+                setAvatar={setAvatar}
               />
             ) : (
               <Home />
@@ -202,6 +207,7 @@ function App() {
               idSomatotype={idSomatotype}
               setDashboardSnackBarOpen={setDashboardSnackBarOpen}
               setDashboardSnackBarMessage={setDashboardSnackBarMessage}
+              avatar={avatar}
             />
           }
         />

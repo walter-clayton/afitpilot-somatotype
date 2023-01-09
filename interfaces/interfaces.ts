@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { ObjectId, Schema } from "mongoose";
 
 export interface IReqUser {
   email: string;
@@ -30,6 +30,7 @@ export interface ISomatotype {
   codeSomatotype: String;
   users: IRelationShip[];
   anthropometric: IAnthropometric;
+  avatar: IAvatar;
   createdAt: String;
   updatedAt: String;
 }
@@ -70,6 +71,8 @@ export interface IAvatar {
   indexBeard: Number;
   indexColorSkin: Number;
   indexFace: Number;
+  titleSoma: String;
+  codeSoma: String;
   user: IUser;
   somatotype: ISomatotype;
   createdAt: String;
