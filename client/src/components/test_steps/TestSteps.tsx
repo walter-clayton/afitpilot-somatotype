@@ -506,8 +506,6 @@ const TestSteps: FC<ITestSteps> = (props) => {
         titleSoma: typeTitle,
         codeSoma: typeCode,
       };
-      console.log(props.avatar);
-
       saveResults(data);
     } else {
       setDatas(data);
@@ -518,8 +516,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
     let url: string;
     props.isAdding
       ? (url = process.env.REACT_APP_SAVEDATA_URL!)
-      : (url =
-          `${process.env.REACT_APP_EDITSOMATOTYPE_URL}/${props.idSomatotype}`!);
+      : (url = `${process.env.REACT_APP_EDITSOMATOTYPE_URL}`!);
 
     const headers = {
       "Content-Type": "application/json",
@@ -532,10 +529,9 @@ const TestSteps: FC<ITestSteps> = (props) => {
 
       const response = await axios.post(
         url,
-        props.isAdding ? { data } : { somatotype, anthropometric },
+        { data, id: props.idSomatotype },
         { headers: headers }
       );
-      console.log(response);
 
       navigate("/");
       window.scrollTo(0, 0);
@@ -680,19 +676,22 @@ const TestSteps: FC<ITestSteps> = (props) => {
           }}
         >
           <span>
-            {datas!.somatotype?.endomorphy?.toFixed() === "0"
+            {datas!.somatotype?.endomorphy?.toFixed() === "0" ||
+            Number(datas!.somatotype?.endomorphy) < 0
               ? "1"
               : datas!.somatotype?.endomorphy?.toFixed()}
           </span>
           <span>-</span>
           <span>
-            {datas!.somatotype?.mesomorphy?.toFixed() === "0"
+            {datas!.somatotype?.mesomorphy?.toFixed() === "0" ||
+            Number(datas!.somatotype?.mesomorphy) < 0
               ? "1"
               : datas!.somatotype?.mesomorphy?.toFixed()}
           </span>
           <span>-</span>
           <span>
-            {datas!.somatotype?.ectomorphy?.toFixed() === "0"
+            {datas!.somatotype?.ectomorphy?.toFixed() === "0" ||
+            Number(datas!.somatotype?.ectomorphy) < 0
               ? "1"
               : datas!.somatotype?.ectomorphy?.toFixed()}
           </span>
@@ -969,6 +968,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
                       valueLabelDisplay="on"
                       aria-label="pretto slider"
                       defaultValue={Number((defaultValues as any)[item.label])}
+                      value={Number((values as any)[item.label])}
                       min={Number(item.min)}
                       max={Number(item.max)}
                       step={1}

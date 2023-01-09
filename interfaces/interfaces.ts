@@ -30,6 +30,7 @@ export interface ISomatotype {
   codeSomatotype: String;
   users: IRelationShip[];
   anthropometric: IAnthropometric;
+  avatar: IAvatar;
   createdAt: String;
   updatedAt: String;
 }
@@ -65,7 +66,6 @@ export interface IComparison {
 }
 
 export interface IAvatar {
-  idAvatar: ObjectId;
   indexHair: Number;
   indexColorHair: Number;
   indexBeard: Number;

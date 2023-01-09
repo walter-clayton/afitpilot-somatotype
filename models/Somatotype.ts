@@ -9,6 +9,7 @@ const somatotypeSchema: Schema = new Schema<ISomatotype>({
   codeSomatotype: { type: String, required: true },
   users: [{ type: Schema.Types.ObjectId, ref: "User" }],
   anthropometric: { type: Schema.Types.ObjectId, ref: "Anthropometric" },
+  avatar: { type: Schema.Types.ObjectId, ref: "Avatar" },
   createdAt: { type: String, default: new Date().toLocaleString() },
   updatedAt: { type: String, default: new Date().toLocaleString() },
 });

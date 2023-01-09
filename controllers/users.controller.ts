@@ -28,7 +28,6 @@ const usersCtrl: IUsersCtrl = {};
 
 usersCtrl.register = async (req: Request, res: Response) => {
   let { email, name, data } = req.body;
-  console.log(data);
 
   email = (email as string).toLowerCase();
 
@@ -93,12 +92,17 @@ usersCtrl.register = async (req: Request, res: Response) => {
 
         const newAvatar = await Avatar({ ...avatar });
 
+        while (newUser.avatars.includes(newAvatar._id)) {
+          newAvatar._id = new mongoose.Types.ObjectId();
+        }
+
         // RelationShip
         newUser.somatotypes.push(newSomatotype);
         newUser.anthropometrics.push(newAnthropometric);
         newUser.avatars.push(newAvatar);
 
         newSomatotype.users.push(newUser);
+        newSomatotype.avatar = (newAvatar);
         newSomatotype.anthropometric = newAnthropometric;
 
         newAnthropometric.users.push(newUser);
@@ -275,11 +279,17 @@ usersCtrl.saveResults = async (req: Request, res: Response) => {
         newAvatar._id = new mongoose.Types.ObjectId();
       }
 
+      newSomatotype.avatar = (newAvatar);
+
       newSomatotype.anthropometric = newAnthropometric;
       newAnthropometric.somatotype = newSomatotype;
       newAvatar.somatotype = newSomatotype;
       newAvatar.user = user;
       user.avatars.push(newAvatar);
+      user.somatotypes.push(newSomatotype);
+      user.anthropometrics.push(newAnthropometric);
+
+      console.log(newSomatotype);      
 
       await newSomatotype.save();
       await newAnthropometric.save();
@@ -439,40 +449,91 @@ usersCtrl.deleteSomatotype = async (req: Request, res: Response) => {
 };
 
 usersCtrl.editSomatotype = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { somatotype, anthropometric }: IData = req.body;
+  // const { id } = req.params;
+  // const { somatotype, anthropometric }: IData = req.body;
 
-  try {
-    const endomorphy = Number(somatotype.endomorphy.toFixed(1));
-    const mesomorphy = Number(somatotype.mesomorphy.toFixed(1));
-    const ectomorphy = Number(somatotype.ectomorphy.toFixed(1));
+  // try {
+  //   const endomorphy = Number(somatotype.endomorphy.toFixed(1));
+  //   const mesomorphy = Number(somatotype.mesomorphy.toFixed(1));
+  //   const ectomorphy = Number(somatotype.ectomorphy.toFixed(1));
 
-    const newSomatotype = await Somatotype.findByIdAndUpdate(id, {
-      endomorphy,
-      mesomorphy,
-      ectomorphy,
-    });
-    const newAnthropometric = await Anthropometric.findByIdAndUpdate(
-      newSomatotype.anthropometric,
-      anthropometric
-    );
+  //   const newSomatotype = await Somatotype.findByIdAndUpdate(id, {
+  //     endomorphy,
+  //     mesomorphy,
+  //     ectomorphy,
+  //   });
+  //   const newAnthropometric = await Anthropometric.findByIdAndUpdate(
+  //     newSomatotype.anthropometric,
+  //     anthropometric
+  //   );
 
-    if (!somatotype) {
-      res
-        .status(403)
-        .send({ message: "Unable to update: results doesn't exist" });
+  //   if (!somatotype) {
+  //     res
+  //       .status(403)
+  //       .send({ message: "Unable to update: results doesn't exist" });
+  //   } else {
+  //     await newAnthropometric.save();
+  //     await newSomatotype.save();
+
+  //     res.status(202).send({ message: "The results edited successfully" });
+  //   }
+  // } catch (error: unknown) {
+  //   console.log(error);
+  //   res.status(500).send({
+  //     message:
+  //       "Error with the database: please try again or contact the administrator.",
+  //   });
+  // }
+
+  const { data, id } = req.body;
+
+  const editedSomatotype = await Somatotype.findById(id);
+  const editedAnthropometric = await Anthropometric.findById(editedSomatotype.anthropometric);
+  const editedAvatar = await Avatar.findById(editedSomatotype.avatar);
+
+  if (data) {
+    if (data.somatotype && data.anthropometric) {
+      const { somatotype, anthropometric }: IData = data;
+
+      // create the somatotype
+      editedSomatotype.endomorphy = Number(somatotype.endomorphy.toFixed(1));
+      editedSomatotype.mesomorphy = Number(somatotype.mesomorphy.toFixed(1));
+      editedSomatotype.ectomorphy = Number(somatotype.ectomorphy.toFixed(1));
+      editedSomatotype.titleSomatotype = somatotype.titleSomatotype;
+      editedSomatotype.codeSomatotype = somatotype.codeSomatotype;      
+
+      // create the anthropometric
+      editedAnthropometric.height = anthropometric.height;
+      editedAnthropometric.weight = anthropometric.weight;
+      editedAnthropometric.supraspinal_skinfold = anthropometric.supraspinal_skinfold;
+      editedAnthropometric.subscapular_skinfold = anthropometric.subscapular_skinfold;
+      editedAnthropometric.tricep_skinfold = anthropometric.tricep_skinfold;
+      editedAnthropometric.femur_breadth = anthropometric.femur_breadth;
+      editedAnthropometric.humerus_breadth = anthropometric.humerus_breadth;
+      editedAnthropometric.calf_girth = anthropometric.calf_girth;
+      editedAnthropometric.bicep_girth = anthropometric.bicep_girth;
+
+      // create Avatar
+      const avatar = { ...data.avatar };
+      editedAvatar.titleSomatotype = editedSomatotype.titleSomatotype;
+      editedAvatar.codeSomatotype = editedSomatotype.codeSomatotype;
+
+      await editedSomatotype.save();
+      await editedAnthropometric.save();
+      await editedAvatar.save();
+
     } else {
-      await newAnthropometric.save();
-      await newSomatotype.save();
-
-      res.status(202).send({ message: "The results edited successfully" });
+      return res.status(403).send({
+        message: "data.somatotype and data.anthropometric are required",
+      });
     }
-  } catch (error: unknown) {
-    console.log(error);
-    res.status(500).send({
-      message:
-        "Error with the database: please try again or contact the administrator.",
+
+    res.status(202).send({
+      message: `New somatotype added successfully!`,
+      dataSaved: data ? true : false,
     });
+  } else {
+    res.status(403).send({ message: "Data is required" });
   }
 };
 
@@ -522,7 +583,6 @@ usersCtrl.getAvatar = async (req: Request, res: Response) => {
     "avatars",
     "somatotypes",
   ]);
-  console.log(user.avatars);
 
   res.send({ avatar: user.avatars[user.avatars.length - 1] });
 };
