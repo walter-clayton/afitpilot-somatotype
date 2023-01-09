@@ -18,7 +18,7 @@ import { styled } from "@mui/system";
 import CircularProgress, {
   CircularProgressProps,
 } from "@mui/material/CircularProgress";
-import { IAnthropometric, IData, ISomatotype } from "../../App";
+import { IAnthropometric, IData, IParamsAvatar, ISomatotype } from "../../App";
 import ResultsTable from "../ResultsTable";
 import ModalImg from "./Modal";
 import bicepsImg from "../image/bicepsImg.jpeg";
@@ -147,6 +147,7 @@ interface ITestSteps {
   idSomatotype?: string;
   setDashboardSnackBarOpen?: (open: boolean) => void;
   setDashboardSnackBarMessage?: (msg: string) => void;
+  avatar?: IParamsAvatar;
 }
 
 const TestSteps: FC<ITestSteps> = (props) => {
@@ -494,58 +495,68 @@ const TestSteps: FC<ITestSteps> = (props) => {
       codeSomatotype: typeCode,
     };
 
-    if (cookies.user) {
-      let url: string;
-      props.isAdding
-        ? (url = process.env.REACT_APP_SAVEDATA_URL!)
-        : (url =
-            `${process.env.REACT_APP_EDITSOMATOTYPE_URL}/${props.idSomatotype}`!);
-
-      const headers = {
-        "Content-Type": "application/json",
-        access_key: process.env.REACT_APP_ACCESS_KEY,
-        Authorization: `Bearer ${cookies.user.token}`,
-      };
-
-      try {
-        setFetching(true);
-        console.log(somatotype);
-
-        const response = await axios.post(
-          url,
-          { somatotype, anthropometric },
-          { headers: headers }
-        );
-        console.log(response);
-
-        navigate("/");
-        window.scrollTo(0, 0);
-        props.setDashboardSnackBarOpen!(true);
-        props.isAdding
-          ? props.setDashboardSnackBarMessage!("New Somatotype saved !")
-          : props.setDashboardSnackBarMessage!("Somatotype changes saved !");
-
-        setFetching(false);
-        getUserDatas();
-      } catch (error) {
-        // if (error.response) {
-        //     error.response.data.message
-        //       ? setSnackbarMessage(error.response.data.message)
-        //       : setSnackbarMessage(error.response.statusText);
-        //   } else {
-        //     setSnackbarMessage("Error with the server");
-        //   }
-        console.log("error ", error);
-        setFetching(false);
-      }
-    }
-
     const data: IData = {
       anthropometric: anthropometrics,
       somatotype: somatotype,
     };
 
-    setDatas(data);
+    if (cookies.user) {
+      data.avatar = {
+        ...props.avatar,
+        titleSoma: typeTitle,
+        codeSoma: typeCode,
+      };
+      console.log(props.avatar);
+
+      saveResults(data);
+    } else {
+      setDatas(data);
+    }
+  };
+
+  const saveResults = async (data: IData) => {
+    let url: string;
+    props.isAdding
+      ? (url = process.env.REACT_APP_SAVEDATA_URL!)
+      : (url =
+          `${process.env.REACT_APP_EDITSOMATOTYPE_URL}/${props.idSomatotype}`!);
+
+    const headers = {
+      "Content-Type": "application/json",
+      access_key: process.env.REACT_APP_ACCESS_KEY,
+      Authorization: `Bearer ${cookies.user.token}`,
+    };
+
+    try {
+      setFetching(true);
+
+      const response = await axios.post(
+        url,
+        props.isAdding ? { data } : { somatotype, anthropometric },
+        { headers: headers }
+      );
+      console.log(response);
+
+      navigate("/");
+      window.scrollTo(0, 0);
+      props.setDashboardSnackBarOpen!(true);
+      props.isAdding
+        ? props.setDashboardSnackBarMessage!("New Somatotype saved !")
+        : props.setDashboardSnackBarMessage!("Somatotype changes saved !");
+
+      setFetching(false);
+      getUserDatas();
+    } catch (error) {
+      // if (error.response) {
+      //     error.response.data.message
+      //       ? setSnackbarMessage(error.response.data.message)
+      //       : setSnackbarMessage(error.response.statusText);
+      //   } else {
+      //     setSnackbarMessage("Error with the server");
+      //   }
+      console.log("error ", error);
+      setFetching(false);
+    }
   };
 
   const getColorCode = () => {
@@ -855,6 +866,8 @@ const TestSteps: FC<ITestSteps> = (props) => {
       indexBeard,
       indexColorSkin,
       indexFace,
+      titleSoma: somatotypeTitle,
+      codeSoma: somatotypeCode,
     };
 
     props.setData(data);

@@ -7,8 +7,10 @@ const avatarSchema: Schema = new Schema<IAvatar>({
   indexBeard: { type: Number, required: true },
   indexColorSkin: { type: Number, required: true },
   indexFace: { type: Number, required: true },
-  user: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  somatotype: [{ type: Schema.Types.ObjectId, ref: "Somatotype" }],
+  titleSoma: { type: String, required: true },
+  codeSoma: { type: String, required: true },
+  user: { type: Schema.Types.ObjectId, ref: "User" },
+  somatotype: { type: Schema.Types.ObjectId, ref: "Somatotype" },
   createdAt: { type: String, default: new Date().toLocaleString() },
   updatedAt: { type: String, default: new Date().toLocaleString() },
 });

@@ -49,6 +49,7 @@ interface IDashboard {
   setDashboardSnackBarOpen?: (bool: boolean) => void;
   dashboardSnackBarMessage?: string;
   setDashboardSnackBarMessage?: (msg: string) => void;
+  setAvatar: (avatar: IParamsAvatar) => void;
 }
 
 const Dashboard: FC<IDashboard> = (props) => {
@@ -165,9 +166,12 @@ const Dashboard: FC<IDashboard> = (props) => {
       const response = await axios.get(process.env.REACT_APP_GETAVATAR_URL!, {
         headers: headers,
       });
+      console.log(response.data.avatar);
+
+      props.setAvatar(response.data.avatar);
       setAvatar(response.data.avatar);
-      setTitleSomatotype(response.data.titleSomatotype);
-      setCodeSomatotype(response.data.codeSomatotype);
+      setTitleSomatotype(response.data.avatar.titleSoma);
+      setCodeSomatotype(response.data.avatar.codeSoma);
       setFetching(false);
     } catch (error) {
       // if (error.response) {

@@ -6,6 +6,7 @@ const Avatar = require("../models/Avatar");
 const Somatotype = require("../models/Somatotype");
 const Anthropometric = require("../models/Anthropometric");
 const { sendEmailPassword, sendEmailResetPassword } = require("../mail/mailer");
+import { Schema, model } from "mongoose";
 
 interface IUsersCtrl {
   register?: (req: Request, res: Response) => void;
@@ -27,6 +28,8 @@ const usersCtrl: IUsersCtrl = {};
 
 usersCtrl.register = async (req: Request, res: Response) => {
   let { email, name, data } = req.body;
+  console.log(data);
+  
 
   email = (email as string).toLowerCase();
 
@@ -102,8 +105,8 @@ usersCtrl.register = async (req: Request, res: Response) => {
         newAnthropometric.users.push(newUser);
         newAnthropometric.somatotype = newSomatotype;
 
-        newAvatar.user.push(newUser);
-        newAvatar.somatotype.push(newSomatotype);
+        newAvatar.user = newUser;
+        newAvatar.somatotype = newSomatotype;
 
         await newSomatotype.save();
         await newAnthropometric.save();
@@ -219,84 +222,86 @@ usersCtrl.sendResetEmail = async (req: Request, res: Response) => {
 };
 
 usersCtrl.saveResults = async (req: Request, res: Response) => {
-  const { somatotype, anthropometric } = req.body;
+  const {data} = req.body;
+  const user = await User.findById(req.user_id);
 
-  
-  
-  const data = { somatotype, anthropometric };
-  console.log(data);
+  if (data) {
+    if (data.somatotype && data.anthropometric) {
+      const { somatotype, anthropometric }: IData = data;
 
-  try {
-    const user = await User.findById(req.user_id);
+      // create the somatotype
+      const endomorphy = Number(somatotype.endomorphy.toFixed(1));
+      const mesomorphy = Number(somatotype.mesomorphy.toFixed(1));
+      const ectomorphy = Number(somatotype.ectomorphy.toFixed(1));
+      const titleSomatotype = somatotype.titleSomatotype;
+      const codeSomatotype = somatotype.codeSomatotype;
 
-    if (user) {
-      if (data) {
-        if (data.somatotype && data.anthropometric) {
-          const { somatotype, anthropometric }: IData = data;
+      const newSomatotype = await Somatotype({
+        endomorphy,
+        mesomorphy,
+        ectomorphy,
+        titleSomatotype,
+        codeSomatotype,
+      });
 
-          // create the somatotype
-          const endomorphy = Number(somatotype.endomorphy.toFixed(1));
-          const mesomorphy = Number(somatotype.mesomorphy.toFixed(1));
-          const ectomorphy = Number(somatotype.ectomorphy.toFixed(1));
+      // create the anthropometric
+      const height = anthropometric.height;
+      const weight = anthropometric.weight;
+      const supraspinal_skinfold = anthropometric.supraspinal_skinfold;
+      const subscapular_skinfold = anthropometric.subscapular_skinfold;
+      const tricep_skinfold = anthropometric.tricep_skinfold;
+      const femur_breadth = anthropometric.femur_breadth;
+      const humerus_breadth = anthropometric.humerus_breadth;
+      const calf_girth = anthropometric.calf_girth;
+      const bicep_girth = anthropometric.bicep_girth;
 
-          const newSomatotype = await Somatotype({
-            endomorphy,
-            mesomorphy,
-            ectomorphy,
-          });
+      const newAnthropometric = await Anthropometric({
+        height,
+        weight,
+        supraspinal_skinfold,
+        subscapular_skinfold,
+        tricep_skinfold,
+        femur_breadth,
+        humerus_breadth,
+        calf_girth,
+        bicep_girth,
+      });
 
-          // create the anthropometric
-          const height = anthropometric.height;
-          const weight = anthropometric.weight;
-          const supraspinal_skinfold = anthropometric.supraspinal_skinfold;
-          const subscapular_skinfold = anthropometric.subscapular_skinfold;
-          const tricep_skinfold = anthropometric.tricep_skinfold;
-          const femur_breadth = anthropometric.femur_breadth;
-          const humerus_breadth = anthropometric.humerus_breadth;
-          const calf_girth = anthropometric.calf_girth;
-          const bicep_girth = anthropometric.bicep_girth;
+      // create Avatar
+      const avatar = { ...data.avatar };   
 
-          const newAnthropometric = await Anthropometric({
-            height,
-            weight,
-            supraspinal_skinfold,
-            subscapular_skinfold,
-            tricep_skinfold,
-            femur_breadth,
-            humerus_breadth,
-            calf_girth,
-            bicep_girth,
-          });
+      const newAvatar2 = await Avatar({ ...avatar });
 
-          // RelationShip
-          user.somatotypes.push(newSomatotype);
-          user.anthropometrics.push(newAnthropometric);
+      console.log(user.avatars.includes(newAvatar2._id));      
 
-          newSomatotype.users.push(user);
-          newSomatotype.anthropometric = newAnthropometric;
+      newSomatotype.anthropometric = newAnthropometric;
+      newAnthropometric.somatotype = newSomatotype;
+      newAvatar2.somatotype = newSomatotype;
+      newAvatar2.user = user;
+      user.avatars.push(newAvatar2);  
 
-          newAnthropometric.users.push(user);
-          newAnthropometric.somatotype = newSomatotype;
+      console.log(newAvatar2);
+      
+      // Schema.Types.ObjectId objectId = new Schema.Types.ObjectId(new Date());
 
-          await newSomatotype.save();
-          await newAnthropometric.save();
-          await user.save();
-
-          res.status(201).send({ dataSaved: true });
-        } else {
-          return res.status(403).send({
-            message: "data.somatotype and data.anthropometric are required",
-          });
-        }
-      }
+      // console.log(objectId);
+      
+      // await newSomatotype.save();
+      // await newAnthropometric.save();
+      // await newAvatar2.save();
+      // await user.save();
     } else {
-      res.status(403).send({ message: "User not found" });
+      return res.status(403).send({
+        message: "data.somatotype and data.anthropometric are required",
+      });
     }
-  } catch (error) {
-    console.log((error as ErrorEvent).message);
-    res.status(500).send({
-      message: "Error server",
+
+    res.status(202).send({
+      message: `New somatotype added successfully!`,
+      dataSaved: data ? true : false,      
     });
+  } else {
+    res.status(403).send({ message: "Data is required" });
   }
 };
 
@@ -519,7 +524,9 @@ usersCtrl.getAllSomatotypes = async (req: Request, res: Response) => {
 
 usersCtrl.getAvatar = async (req: Request, res: Response) => {
   const user = await User.findById(req.user_id).populate(["avatars", "somatotypes"]);
-  res.send({avatar:user.avatars[user.avatars.length - 1], titleSomatotype: user.somatotypes[user.somatotypes.length -1].titleSomatotype, codeSomatotype: user.somatotypes[user.somatotypes.length -1].codeSomatotype});
+  console.log(user.avatars);
+  
+  res.send({avatar:user.avatars[user.avatars.length - 1]});
 };
 
 module.exports = usersCtrl;
