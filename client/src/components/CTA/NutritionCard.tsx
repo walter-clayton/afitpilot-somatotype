@@ -4,11 +4,10 @@ import { Box, Typography, Button, Grid, useMediaQuery } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
-import avatar from '../image/manu-tribesman.png';
-import TrueCoach from '../image/TrueCoach.png';
+import SportGirl from '../image/SportGirl.svg';
+import Coach from '../image/Coach.svg';
+import TrueCoach from '../image/TrueCoach.svg';
 import Modal from '@mui/material/Modal';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 
@@ -17,14 +16,20 @@ const theme = createTheme();
 theme.typography.body1 = {
     "@media (max-width:600px)": {
         fontSize: "24px",
+        fontWeight: 600
+    },
+    [theme.breakpoints.only("sm")]: {
+        fontSize: "24px",
+        fontWeight: 600
     },
     [theme.breakpoints.up("md")]: {
         fontSize: "25px",
+        fontWeight: 600
     },
 };
 theme.typography.body2 = {
     "@media (max-width:600px)": {
-        fontSize: "15px",
+        fontSize: "14px",
     },
     [theme.breakpoints.up("md")]: {
         fontSize: "17px",
@@ -203,7 +208,6 @@ const NutritionCard = () => {
                                 backgroundColor: '#606161',
                                 width: small ? "100%" : "calc(100% / 3)",
                                 padding: "25px 30px"
-
                             }} >
                             <Stack
                                 direction="row"
@@ -211,15 +215,17 @@ const NutritionCard = () => {
                                 alignItems="center"
                                 spacing={2}>
                                 <Box>
-                                    <img src={avatar} alt="avatar" width={"120px"} height={"230px"}
+                                    <img src={Coach} alt="avatar" width={"120px"} height={"230px"}
                                     />
                                 </Box>
-                                <Typography variant="body1">
-                                    Personal Coach
+                                <Box>
+                                    <Typography variant="body1">
+                                        Personal Coach
+                                    </Typography>
                                     <Typography variant="body2">
                                         Our Coaches will be at your service 24/7.
                                     </Typography>
-                                </Typography>
+                                </Box>
                             </Stack>
                         </Paper>
                         <Paper
@@ -240,12 +246,14 @@ const NutritionCard = () => {
                                 <Box>
                                     <img src={TrueCoach} alt="TrueCoach" width={"120px"} height={"230px"} />
                                 </Box>
-                                <Typography variant="body1">
-                                    Written Plans
-                                    <Typography variant="body2">
-                                        Complete one meal at a time.
+                                <Box>
+                                    <Typography variant="body1">
+                                        Mobile App
                                     </Typography>
-                                </Typography>
+                                    <Typography variant="body2">
+                                        Complete one workout at a time.
+                                    </Typography>
+                                </Box>
                             </Stack>
                         </Paper>
                         <Paper
@@ -264,14 +272,16 @@ const NutritionCard = () => {
                                 alignItems="center"
                                 spacing={2}>
                                 <Box>
-                                    <img src={avatar} alt="avatar" width={"120px"} height={"230px"} />
+                                    <img src={SportGirl} alt="avatar" width={"120px"} height={"230px"} />
                                 </Box>
-                                <Typography variant="body1">
-                                    Sport Specific
+                                <Box>
+                                    <Typography variant="body1">
+                                        Sport Specific
+                                    </Typography>
                                     <Typography variant="body2">
                                         Programs that make sense.
                                     </Typography>
-                                </Typography>
+                                </Box>
                             </Stack>
                         </Paper>
                     </Stack>

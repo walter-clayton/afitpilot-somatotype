@@ -30,6 +30,7 @@ import Training from "./components/CTA/Training";
 import TypesPage1 from "./components/CTA/TypesPage1";
 import Disconnection from "./components/Disconnection";
 import Library from "./components/CTA/Library";
+import Optimisation from "./components/CTA/Optimisation";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -190,6 +191,7 @@ function App() {
         <Route path="/TypeExample" element={<TypeExample />} />
         <Route path="/Nutrition" element={<Nutrition />} />
         <Route path="/Training" element={<Training />} />
+        <Route path="/Optimisation" element={<Optimisation />} />
         <Route path="/TypesPage1" element={<TypesPage1 />} />
         <Route path="/Library" element={<Library />} />
         <Route
