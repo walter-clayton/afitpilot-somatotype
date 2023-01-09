@@ -6,7 +6,7 @@ const Avatar = require("../models/Avatar");
 const Somatotype = require("../models/Somatotype");
 const Anthropometric = require("../models/Anthropometric");
 const { sendEmailPassword, sendEmailResetPassword } = require("../mail/mailer");
-import { Schema, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 
 interface IUsersCtrl {
   register?: (req: Request, res: Response) => void;
@@ -29,7 +29,6 @@ const usersCtrl: IUsersCtrl = {};
 usersCtrl.register = async (req: Request, res: Response) => {
   let { email, name, data } = req.body;
   console.log(data);
-  
 
   email = (email as string).toLowerCase();
 
@@ -222,7 +221,7 @@ usersCtrl.sendResetEmail = async (req: Request, res: Response) => {
 };
 
 usersCtrl.saveResults = async (req: Request, res: Response) => {
-  const {data} = req.body;
+  const { data } = req.body;
   const user = await User.findById(req.user_id);
 
   if (data) {
@@ -268,28 +267,24 @@ usersCtrl.saveResults = async (req: Request, res: Response) => {
       });
 
       // create Avatar
-      const avatar = { ...data.avatar };   
+      const avatar = { ...data.avatar };
 
-      const newAvatar2 = await Avatar({ ...avatar });
+      const newAvatar = await Avatar({ ...avatar });
 
-      console.log(user.avatars.includes(newAvatar2._id));      
+      while (user.avatars.includes(newAvatar._id)) {
+        newAvatar._id = new mongoose.Types.ObjectId();
+      }
 
       newSomatotype.anthropometric = newAnthropometric;
       newAnthropometric.somatotype = newSomatotype;
-      newAvatar2.somatotype = newSomatotype;
-      newAvatar2.user = user;
-      user.avatars.push(newAvatar2);  
+      newAvatar.somatotype = newSomatotype;
+      newAvatar.user = user;
+      user.avatars.push(newAvatar);
 
-      console.log(newAvatar2);
-      
-      // Schema.Types.ObjectId objectId = new Schema.Types.ObjectId(new Date());
-
-      // console.log(objectId);
-      
-      // await newSomatotype.save();
-      // await newAnthropometric.save();
-      // await newAvatar2.save();
-      // await user.save();
+      await newSomatotype.save();
+      await newAnthropometric.save();
+      await newAvatar.save();
+      await user.save();
     } else {
       return res.status(403).send({
         message: "data.somatotype and data.anthropometric are required",
@@ -298,7 +293,7 @@ usersCtrl.saveResults = async (req: Request, res: Response) => {
 
     res.status(202).send({
       message: `New somatotype added successfully!`,
-      dataSaved: data ? true : false,      
+      dataSaved: data ? true : false,
     });
   } else {
     res.status(403).send({ message: "Data is required" });
@@ -523,10 +518,13 @@ usersCtrl.getAllSomatotypes = async (req: Request, res: Response) => {
 };
 
 usersCtrl.getAvatar = async (req: Request, res: Response) => {
-  const user = await User.findById(req.user_id).populate(["avatars", "somatotypes"]);
+  const user = await User.findById(req.user_id).populate([
+    "avatars",
+    "somatotypes",
+  ]);
   console.log(user.avatars);
-  
-  res.send({avatar:user.avatars[user.avatars.length - 1]});
+
+  res.send({ avatar: user.avatars[user.avatars.length - 1] });
 };
 
 module.exports = usersCtrl;

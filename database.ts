@@ -18,7 +18,7 @@ mongoose
   .then(async (db: Mongoose) => {
     //await Comparison.collection.drop();
     const comparisons = await Comparison.find();
-    
+
     // await Somatotype.collection.drop();
     // await Avatar.collection.drop();
     // await Anthropometric.collection.drop();
