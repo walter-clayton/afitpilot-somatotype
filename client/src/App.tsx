@@ -180,7 +180,7 @@ function App() {
         <Route path="/Privacy" element={<Privacy />} />
         <Route path="/Types" element={<Types />} />
         <Route path="/FooterCTA" element={<FooterCTA />} />
-        <Route path="/Error404" element={<Error404 />} />
+        <Route path='*' element={<Error404 />} />
         <Route path="/CommentPage" element={<CommentPage />} />
         <Route path="/TypeExample" element={<TypeExample />} />
         <Route path="/Nutrition" element={<Nutrition />} />
