@@ -17,12 +17,17 @@ import Avatar from "@mui/material/Avatar";
 import logoIcon from "./image/Afitpilot_logo_outlined.png";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import Divider from "@mui/material/Divider";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const pages = [
   { title: "Homepage", path: "/Home" },
   { title: "Somatotypes", path: "/Types" },
   { title: "Blogs", path: "/Blog" },
   { title: "Library", path: "/Library" },
+];
+const Optimise = [
+  { title: "Nutrition", path: "/Nutrition" },
+  { title: "Training", path: "/Training" },
 ];
 
 const profilePages = [
@@ -84,6 +89,14 @@ const ResponsiveAppBar = (props: any) => {
     window.scrollTo(0, 0);
   };
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   useEffect(() => {
     function handleResize() {
       handleCloseNavMenu();
@@ -274,6 +287,21 @@ const ResponsiveAppBar = (props: any) => {
                     <Typography textAlign="center">{page.title}</Typography>
                   </MenuItem>
                 ))}
+                <Button
+                  id="demo-customized-button"
+                  aria-controls={open ? 'demo-customized-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                  disableElevation
+                  onClick={(e) => {
+                    handleClick(e)
+                    navigate("./Optimisation");
+                    window.scrollTo(0, 0);
+                  }}
+                  endIcon={<KeyboardArrowDownIcon />}
+                >
+                  Optimise
+                </Button>
                 <MenuItem sx={{ minHeight: "0" }}>
                   <Divider sx={dividerStyle} />
                 </MenuItem>
@@ -361,6 +389,21 @@ const ResponsiveAppBar = (props: any) => {
                     <Typography textAlign="center">{page.title}</Typography>
                   </MenuItem>
                 ))}
+                <Button
+                  id="demo-customized-button"
+                  aria-controls={open ? 'demo-customized-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                  disableElevation
+                  onClick={(e) => {
+                    handleClick(e)
+                    navigate("./Optimisation");
+                    window.scrollTo(0, 0);
+                  }}
+                  endIcon={<KeyboardArrowDownIcon />}
+                >
+                  Optimise
+                </Button>
                 <MenuItem sx={{ minHeight: "0" }}>
                   <Divider sx={dividerStyle} />
                 </MenuItem>
@@ -410,6 +453,49 @@ const ResponsiveAppBar = (props: any) => {
                   {page.title}
                 </Button>
               ))}
+              {/* optimise submenu */}
+              <Button
+                sx={{
+                  fontWeight: 400,
+                  color: "white",
+                }}
+                aria-controls={open ? 'demo-customized-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                disableElevation
+                onClick={(e) => {
+                  handleClick(e)
+                  navigate("./Optimisation");
+                  window.scrollTo(0, 0);
+                }}
+                endIcon={<KeyboardArrowDownIcon />}
+              >
+                Optimise
+              </Button>
+              <Menu
+                id="demo-customized-m enu"
+                MenuListProps={{
+                  'aria-labelledby': 'demo-customized-button',
+                }}
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+              >
+                {Optimise.map((optimise, index) => (
+                  <MenuItem
+                    onClick={() => {
+                      handleClose();
+                      navigate(optimise.path);
+                      window.scrollTo(0, 0);
+                    }}
+                    disableRipple>
+                    <Typography textAlign="center">
+                      {optimise.title}
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+
             </Grid>
             <Grid
               item
@@ -557,8 +643,8 @@ const ResponsiveAppBar = (props: any) => {
                     {cookies.user
                       ? "Add new"
                       : cookies.data
-                      ? "Save results"
-                      : "Take the Test"}
+                        ? "Save results"
+                        : "Take the Test"}
                     <ArrowForwardSharpIcon fontSize="small" />
                   </Button>
                 </Grid>
