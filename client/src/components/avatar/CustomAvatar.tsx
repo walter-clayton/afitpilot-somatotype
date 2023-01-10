@@ -59,6 +59,8 @@ interface ICustomAvatar {
   gender: string;
   indexes: IIndexes;
   setters: ISetters;
+  clothes?: boolean;
+  mainColor?: number;
 }
 
 const CustomAvatar: FC<ICustomAvatar> = (props) => {
@@ -138,6 +140,7 @@ const CustomAvatar: FC<ICustomAvatar> = (props) => {
         zIndex: 0,
         pt: 4,
       }}
+      width={"100%"}
     >
       <Plane />
 
@@ -149,7 +152,8 @@ const CustomAvatar: FC<ICustomAvatar> = (props) => {
         gender={gender}
         colorsSkin={colorsSkin[props.indexes.indexColorSkin]}
         colorsHair={colorsHair[props.indexes.indexColorHair]}
-        cloth={false}
+        cloth={props.clothes!}
+        mainColor={props.mainColor!}
       />
 
       <Stack
