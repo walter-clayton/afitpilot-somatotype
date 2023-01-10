@@ -18,9 +18,18 @@ import axios from "axios";
 import { CookiesProvider, useCookies } from "react-cookie";
 import { Navigate, useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
-import avatar from "./image/manu-tribesman.png";
-import { getColors, getSpecificColors, IColors, setColors } from "./Colors";
+import { getSpecificColors, IColors } from "./Colors";
 import CircleIcon from "@mui/icons-material/Circle";
+import Avatar from "./avatar/Avatar";
+import {
+  beards,
+  colorsHair,
+  colorsSkin,
+  faces,
+  hairs,
+} from "./avatar/variablesAvatar/VariableAvatar";
+import { IParamsAvatar } from "../App";
+import CustomAvatar, { IIndexes, ISetters } from "./avatar/CustomAvatar";
 
 const Profile = (props: any) => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -63,9 +72,17 @@ const Profile = (props: any) => {
   const handleDeleteConfirmModalOpen = () => setOpenDeleteConfirmModal(true);
   const handleDeleteConfirmModalClose = () => setOpenDeleteConfirmModal(false);
 
-  const defaultColor = getColors();
+  const defaultColor = getSpecificColors(cookies.user.mainColor);
   const [colorPicked, setColorPicked] = useState<IColors>(defaultColor);
-  const [previousColorIndex, setPreviousColorIndex] = useState<number>(0);
+
+  const [colorPickedIndex, setColorPickedIndex] = useState<number>(
+    cookies.user.mainColor
+  );
+  const [previousColorIndex, setPreviousColorIndex] = useState<number>(
+    cookies.user.mainColor
+  );
+
+  const [codeSomatotype, setCodeSomatotype] = useState<string>("");
 
   const medium = useMediaQuery("(max-width:1000px)");
   const small = useMediaQuery("(max-width:600px)");
@@ -73,6 +90,28 @@ const Profile = (props: any) => {
   const xxSmall = useMediaQuery("(max-width:450px)");
   const xxs = useMediaQuery("(max-width:400px)");
   const xxxs = useMediaQuery("(max-width:320px)");
+
+  const [indexHair, setIndexHair] = useState<number>(0);
+  const [indexFace, setIndexFace] = useState<number>(0);
+  const [indexBeard, setIndexBeard] = useState<number>(0);
+  const [indexColorSkin, setIndexColorSkin] = useState<number>(0);
+  const [indexColorHair, setIndexColorHair] = useState<number>(0);
+
+  let indexes: IIndexes = {
+    indexHair: indexHair,
+    indexBeard: indexBeard,
+    indexFace: indexFace,
+    indexColorHair: indexColorHair,
+    indexColorSkin: indexColorSkin,
+  };
+
+  const setters: ISetters = {
+    setIndexHair: setIndexHair,
+    setIndexBeard: setIndexBeard,
+    setIndexFace: setIndexFace,
+    setIndexColorHair: setIndexColorHair,
+    setIndexColorSkin: setIndexColorSkin,
+  };
 
   const modalStyle = {
     position: "absolute" as "absolute",
@@ -86,8 +125,58 @@ const Profile = (props: any) => {
     borderRadius: "25px",
   };
 
+  const getAvatar = async () => {
+    const headers = {
+      "Content-Type": "application/json",
+      access_key: process.env.REACT_APP_ACCESS_KEY,
+      Authorization: `Bearer ${cookies.user.token}`,
+    };
+
+    try {
+      setFetching(true);
+      const response = await axios.get(process.env.REACT_APP_GETAVATAR_URL!, {
+        headers: headers,
+      });
+
+      props.setAvatar(response.data.avatar);
+      setCodeSomatotype(response.data.avatar.codeSoma);
+
+      setFetching(false);
+    } catch (error) {
+      // if (error.response) {
+      //     error.response.data.message
+      //       ? setSnackbarMessage(error.response.data.message)
+      //       : setSnackbarMessage(error.response.statusText);
+      //   } else {
+      //     setSnackbarMessage("Error with the server");
+      //   }
+      console.log("error ", error);
+      setFetching(false);
+    }
+  };
+
+  useEffect(() => {
+    getAvatar();
+  }, []);
+
+  useEffect(() => {
+    if (props.avatar !== undefined) {
+      setIndexHair(props.avatar.indexHair!);
+      setIndexFace(props.avatar.indexFace!);
+      setIndexBeard(props.avatar.indexBeard!);
+      setIndexColorSkin(props.avatar.indexColorSkin!);
+      setIndexColorHair(props.avatar.indexColorHair!);
+    }
+  }, [props.avatar]);
+
+  useEffect(() => {
+    if (colorPickedIndex !== undefined) {
+      setColorPicked(getSpecificColors(colorPickedIndex));
+    }
+  }, [colorPickedIndex]);
+
   const handleEditProfile = () => {
-    setPreviousColorIndex(getColors().index!);
+    setPreviousColorIndex(cookies.user.mainColor);
     setIsEditing(true);
   };
 
@@ -122,6 +211,7 @@ const Profile = (props: any) => {
       setSnackBarMessage("Changes saved!");
       setEmailHasChanges(false);
       setNameHasChanges(false);
+      setColorHasChanges(false);
       setIsEditing(false);
       setEmailIsIncorrect(false);
       setNameIsIncorrect(false);
@@ -172,6 +262,7 @@ const Profile = (props: any) => {
       setSnackBarMessage("Changes saved!");
       setEmailHasChanges(false);
       setNameHasChanges(false);
+      setColorHasChanges(false);
       setIsEditing(false);
       setEmailIsIncorrect(false);
       setNameIsIncorrect(false);
@@ -230,6 +321,72 @@ const Profile = (props: any) => {
     }
   };
 
+  const handleSaveNewMainColor = async () => {
+    try {
+      setFetching(true);
+      const headers = {
+        "Content-Type": "application/json",
+        access_key: process.env.REACT_APP_ACCESS_KEY,
+        Authorization: `Bearer ${cookies.user.token}`,
+      };
+
+      const response = await axios.post(
+        process.env.REACT_APP_EDITMAINCOLOR_URL!,
+        {
+          mainColor: colorPickedIndex,
+        },
+        {
+          headers: headers,
+        }
+      );
+
+      const now = new Date();
+      const seconds = Math.floor(now.getTime() / 1000);
+
+      const cookieUser = { ...cookies.user };
+      cookieUser.mainColor = colorPickedIndex;
+
+      setCookie(
+        "user",
+        { ...cookieUser, createdAt: seconds },
+        {
+          path: "/",
+          sameSite: "none",
+          secure: true,
+          maxAge: 3600,
+        }
+      );
+
+      setSnackBarMessage("Changes saved!");
+      setEmailHasChanges(false);
+      setNameHasChanges(false);
+      setColorHasChanges(false);
+      setIsEditing(false);
+      setEmailIsIncorrect(false);
+      setNameIsIncorrect(false);
+
+      setFetching(false);
+    } catch (error: any) {
+      // if (error.response) {
+      //   error.response.data.message
+      //     ? setSnackbarMessage(error.response.data.message)
+      //     : setSnackbarMessage(error.response.statusText);
+      // } else {
+      //   setSnackbarMessage("Error with the server");
+      // }
+
+      setSnackBarMessage("Changes failed to save!");
+      setEmailHasChanges(false);
+      setNameHasChanges(false);
+      setColorHasChanges(false);
+      setIsEditing(false);
+      setEmailIsIncorrect(false);
+      setNameIsIncorrect(false);
+      console.log("error ", error);
+      setFetching(false);
+    }
+  };
+
   const handleDeleteAccount = async () => {
     try {
       setFetching(true);
@@ -275,9 +432,7 @@ const Profile = (props: any) => {
         handleSaveNewName();
       }
       if (colorhasChanges) {
-        setSnackBarMessage("Changes saved!");
-        setIsEditing(false);
-        setColorHasChanges(false);
+        handleSaveNewMainColor();
       }
       if (emailhasChanges || nameHasChanges) {
         const user = {
@@ -303,8 +458,7 @@ const Profile = (props: any) => {
   };
 
   const handleDiscardChanges = () => {
-    setColors(previousColorIndex);
-    setColorPicked(getSpecificColors(previousColorIndex));
+    setColorPickedIndex(previousColorIndex);
     setEmail(defaultEmail);
     setName(defaultName);
     setEmailHasChanges(false);
@@ -415,8 +569,7 @@ const Profile = (props: any) => {
   };
 
   const setMainColor = (colorIndex: number) => {
-    setColors(colorIndex);
-    setColorPicked(getSpecificColors(colorIndex));
+    setColorPickedIndex(colorIndex);
     setColorHasChanges(true);
   };
 
@@ -427,7 +580,7 @@ const Profile = (props: any) => {
         p={3}
         textAlign="center"
         color={"white"}
-        sx={{ backgroundColor: colorPicked.darkColor }}
+        sx={{ backgroundColor: colorPicked!.darkColor }}
       >
         Profile
       </Typography>
@@ -441,29 +594,55 @@ const Profile = (props: any) => {
           padding: "0px 15px",
           marginTop: "20px",
         }}
+        marginX={"auto"}
         width={"100%"}
+        maxWidth={"600px"}
       >
-        <Grid item width={"100%"} xs={10} sm={8} md={6} lg={4} paddingTop={2}>
+        <Grid item width={"100%"} xs={12} paddingTop={2}>
           <Grid
             container
             paddingTop={2}
+            width={"100%"}
             sx={{
               textAlign: "center",
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              border: `10px solid ${colorPicked.darkColor}`,
+              border: `10px solid ${colorPicked!.darkColor}`,
               borderRadius: "25px",
-              backgroundColor: colorPicked.clearColor,
+              backgroundColor: colorPicked!.clearColor,
             }}
           >
-            <img src={avatar} alt="manu tribesman" style={{ width: "100px" }} />
+            {!fetching &&
+              props.avatar !== undefined &&
+              (isEditing ? (
+                <CustomAvatar
+                  typeCode={codeSomatotype}
+                  gender={cookies.user.gender}
+                  indexes={indexes}
+                  setters={setters}
+                  clothes={true}
+                  mainColor={cookies.user.mainColor}
+                />
+              ) : (
+                <Avatar
+                  typeSoma={codeSomatotype}
+                  hair={hairs[props.avatar.indexHair!]}
+                  face={faces[props.avatar.indexFace!]}
+                  beard={beards[props.avatar.indexBeard!]}
+                  gender={cookies.user.gender}
+                  colorsSkin={colorsSkin[props.avatar.indexColorSkin!]}
+                  colorsHair={colorsHair[props.avatar.indexColorHair!]}
+                  cloth={true}
+                  mainColor={colorPickedIndex}
+                />
+              ))}
             <Box
               width={"100%"}
               padding={1}
               sx={{
-                backgroundColor: colorPicked.normalColor,
+                backgroundColor: colorPicked!.normalColor,
                 borderBottomLeftRadius: "12.5px",
                 borderBottomRightRadius: "12.5px",
               }}
@@ -479,7 +658,7 @@ const Profile = (props: any) => {
                   width: "80%",
                   backgroundColor: isEditing
                     ? "#ffffff"
-                    : colorPicked.normalColor,
+                    : colorPicked!.normalColor,
                   borderRadius: "25px",
 
                   "& .MuiOutlinedInput-root": {
@@ -499,7 +678,7 @@ const Profile = (props: any) => {
 
                   "input:-webkit-autofill": {
                     WebkitTextFillColor: isEditing
-                      ? colorPicked.darkColor
+                      ? colorPicked!.darkColor
                       : "#ffffff",
                     transition: `background-color 600000s 0s`,
                     fontFamily: '"Roboto","Helvetica","Arial",sans-serif',
@@ -518,7 +697,7 @@ const Profile = (props: any) => {
                   input: {
                     width: "100%",
                     textAlign: "center",
-                    color: isEditing ? colorPicked.darkColor : "#ffffff",
+                    color: isEditing ? colorPicked!.darkColor : "#ffffff",
                     padding: 0.25,
                     fontSize: small
                       ? xxs
@@ -529,7 +708,7 @@ const Profile = (props: any) => {
                       : "150%",
                     "&.Mui-disabled": {
                       WebkitTextFillColor: isEditing
-                        ? colorPicked.darkColor
+                        ? colorPicked!.darkColor
                         : "#ffffff",
                     },
                   },
@@ -550,10 +729,10 @@ const Profile = (props: any) => {
           )}
         </Grid>
 
-        <Grid item width={"100%"} xs={10} sm={8} md={6} lg={4} paddingTop={2}>
+        <Grid item width={"100%"} xs={12} paddingTop={2}>
           <Box
             sx={{
-              backgroundColor: colorPicked.darkColor,
+              backgroundColor: colorPicked!.darkColor,
               marginTop: 2,
               padding: 2,
               borderRadius: "25px",
@@ -568,7 +747,7 @@ const Profile = (props: any) => {
               value={email}
               sx={{
                 width: "100%",
-                backgroundColor: isEditing ? "#ffffff" : colorPicked.darkColor,
+                backgroundColor: isEditing ? "#ffffff" : colorPicked!.darkColor,
                 borderRadius: "25px",
 
                 "& .MuiOutlinedInput-root": {
@@ -588,7 +767,7 @@ const Profile = (props: any) => {
 
                 "input:-webkit-autofill": {
                   WebkitTextFillColor: isEditing
-                    ? colorPicked.darkColor
+                    ? colorPicked!.darkColor
                     : "#ffffff",
                   transition: `background-color 600000s 0s`,
                   fontFamily: '"Roboto","Helvetica","Arial",sans-serif',
@@ -607,7 +786,7 @@ const Profile = (props: any) => {
                 input: {
                   width: "100%",
                   textAlign: "center",
-                  color: isEditing ? colorPicked.darkColor : "#ffffff",
+                  color: isEditing ? colorPicked!.darkColor : "#ffffff",
                   padding: 1,
                   fontSize: small
                     ? xxs
@@ -618,7 +797,7 @@ const Profile = (props: any) => {
                     : "150%",
                   "&.Mui-disabled": {
                     WebkitTextFillColor: isEditing
-                      ? colorPicked.darkColor
+                      ? colorPicked!.darkColor
                       : "#ffffff",
                   },
                 },
@@ -638,7 +817,7 @@ const Profile = (props: any) => {
         </Grid>
 
         {isEditing && (
-          <Grid item width={"100%"} xs={10} sm={8} md={6} lg={4} marginTop={4}>
+          <Grid item width={"100%"} xs={12} marginTop={4}>
             <Typography
               textAlign={"center"}
               color={"#000000"}
@@ -808,15 +987,7 @@ const Profile = (props: any) => {
               justifyContent={"center"}
               marginTop={4}
             >
-              <Grid
-                item
-                xs={10}
-                sm={8}
-                md={6}
-                lg={4}
-                textAlign={"center"}
-                order={{ xs: 2, md: 1 }}
-              >
+              <Grid item xs={12} textAlign={"center"} order={{ xs: 2, md: 1 }}>
                 <Button
                   sx={{
                     borderColor: "#000000",
@@ -848,15 +1019,7 @@ const Profile = (props: any) => {
                   Discard changes
                 </Button>
               </Grid>
-              <Grid
-                item
-                xs={10}
-                sm={8}
-                md={6}
-                lg={4}
-                textAlign={"center"}
-                order={{ xs: 1, md: 2 }}
-              >
+              <Grid item xs={12} textAlign={"center"} order={{ xs: 1, md: 2 }}>
                 <Button
                   sx={{
                     backgroundColor: "#000000",
@@ -904,10 +1067,7 @@ const Profile = (props: any) => {
               flexGrow: 1,
             }}
             width={"100%"}
-            xs={10}
-            sm={8}
-            md={6}
-            lg={4}
+            xs={12}
           >
             <Button
               sx={{
