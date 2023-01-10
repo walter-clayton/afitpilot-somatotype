@@ -2,10 +2,8 @@ import React from 'react'
 import CssBaseline from "@mui/material/CssBaseline";
 import { Grid, Box, Typography, useMediaQuery } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import avatar from '../image/manu-tribesman.png';
 import NutritionCard from './NutritionCard';
-import Arrow from '../image/Arrow.png';
-import ArrowDown from '../image/ArrowDown.png';
+import nutrition from "../image/Nutrition.svg";
 import cross from '../image/cross.png';
 
 const theme = createTheme();
@@ -23,8 +21,6 @@ theme.typography.h3 = {
     },
     [theme.breakpoints.only("sm")]: {
         fontSize: "30px",
-        // paddingLeft: "50px"
-
     },
     [theme.breakpoints.up('md')]: {
         fontSize: "44px",
@@ -97,7 +93,7 @@ const Nutrition = () => {
                                 textAlign: "center",
                                 pb: 2
                             }}>
-                            Feed your Body
+                            Feed Your Body
                         </Typography>
                         <Typography
                             mb={2}
@@ -108,43 +104,40 @@ const Nutrition = () => {
                                 fontSize: "24px",
                                 px: 2
                             }}>
-                            Our Program focuses on increasing <br></br> mesomorphy and decreasing endomorphy.
+                            Our Program focuses on increasing <br></br>mesomorphy and decreasing endomorphy.
                         </Typography>
                     </Box>
                 </Grid>
-                <Grid container spacing={2}
+                <Grid container spacing={1}
                     sx={{
                         display: "flex",
+                        flexDirection: "row",
                         justifyContent: "center",
+                        alignItems: "center",
                         width: "100%",
-                        marginTop: { md: -10, lg: -10, xl: -10 }
+                        mt: { xs: 1, sm: -4, md: 1, lg: 1 },
+                        mb: { xs: -5, sm: -6, md: 1, lg: 1 }
                     }}>
-                    <Grid item md={3} sm={3}
+                    <Grid item md={6} sm={6} xs={12} lg={6}
                         sx={{
                             display: "flex",
+                            alignItems: "center",
                             justifyContent: "center",
                             width: "100%",
+                            mb: xxSmall ? -10 : ''
                         }}>
-                        <img src={avatar} alt="avatar" width={"150px"} />
-                    </Grid>
-                    <Typography
-                        sx={{ display: { xs: 'none', sm: 'block', md: 'block', lg: 'block' }, color: "#4298B4", textAlign: "center", mt: 18, pl: 2.5 }}
-                        variant="h1">
-                        <img src={Arrow} alt="Arrow" />
-                    </Typography>
-                    <Typography
-                        sx={{ display: { xs: 'block', sm: 'none', md: 'none', lg: 'none' }, color: "#4298B4" }}
-                        variant="h1" mt={1}>
-                        <img src={ArrowDown} alt="ArrowDown" />
-                    </Typography>
-                    <Grid item md={3} sm={3}
-                        sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            width: "100%",
-                        }}
-                    >
-                        <img src={avatar} alt="avatar" width={"150px"} />
+                        <img src={nutrition} alt="Nutrition"
+                            style={{
+                                maxHeight: "600px",
+                                height: '300px',
+                                width: medium
+                                    ? small
+                                        ? extraSmall
+                                            ? "65%"
+                                            : "70%"
+                                        : "75%"
+                                    : "75%",
+                            }} />
                     </Grid>
                 </Grid>
                 {/* Instruction */}
@@ -169,15 +162,15 @@ const Nutrition = () => {
                                 paddingLeft: medium ? "50px" : "",
                             }}>
                             <Typography variant="h3"
-                                sx={{ color: "#FFFFFF", mb: 2, fontSize: '54px' }}>
+                                sx={{ color: "#FFFFFF", mb: 2, fontSize: '54px', textAlign: medium ? "start" : "center", lineHeight: 1.2 }}>
                                 3 MONTHS NUTRITION PROGRAM
                             </Typography>
                             <Typography variant="body1"
-                                sx={{ color: "#FFFFFF", mb: 2, }}>
+                                sx={{ color: "#FFFFFF", mb: 2, textAlign: medium ? "start" : "center", }}>
                                 Changing your body takes time.
                             </Typography>
                             <Typography variant="body2"
-                                sx={{ color: "white" }}>
+                                sx={{ color: "white", textAlign: medium ? "start" : "center", }}>
                                 That's why we are offering 2 months free.
                             </Typography>
                         </Box>
@@ -197,7 +190,7 @@ const Nutrition = () => {
                         <Box>
                             <Typography variant="h5"
                                 sx={{ color: "white", textAlign: "center", fontSize: "42px" }} >
-                                300 <span>&#8364;</span>
+                                450 <span>&#8364;</span>
                             </Typography>
                             <Typography variant="h3" mr={2.6}
                                 sx={{
@@ -208,7 +201,7 @@ const Nutrition = () => {
                             </Typography>
                             <Typography variant="h4"
                                 sx={{ color: "#ffff", textAlign: "center", fontSize: '100px', fontWeight: "bold" }}>
-                                100 <span>&#8364;</span>
+                                150 <span>&#8364;</span>
                             </Typography>
                         </Box>
                     </Grid>
