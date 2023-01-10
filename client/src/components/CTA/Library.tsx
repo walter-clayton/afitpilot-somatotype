@@ -11,6 +11,7 @@ import SomatotypeGraph from "../SomatotypeGraph";
 import { IPoints } from "../Calculation";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import { comparisons } from "../../datas/Comparison";
 
 const Library = () => {
   const [tableComparePage, setTableComparePage] = useState<number>(0);
@@ -19,6 +20,9 @@ const Library = () => {
     IComparison[]
   >([]);
   const [compareSportsResults, setCompareSportsResults] = useState<
+    IComparison[]
+  >([]);
+  const [compareOccupationResults, setCompareOccupationResults] = useState<
     IComparison[]
   >([]);
   const [compareResultsToShow, setCompareResultsToShow] = useState<
@@ -127,6 +131,7 @@ const Library = () => {
   useEffect(() => {
     let tribesArray: IComparison[] = [];
     let sportsArray: IComparison[] = [];
+    let occupationArray: IComparison[] = [];
 
     compareResults.forEach((comparison) => {
       if (comparison.group === "Tribe") {
@@ -135,9 +140,13 @@ const Library = () => {
       if (comparison.group === "Sport") {
         sportsArray.push(comparison);
       }
+      if (comparison.group === "Occupation") {
+        occupationArray.push(comparison);
+      }
     });
     setCompareSportsResults(sportsArray);
     setCompareTribesResults(tribesArray);
+    setCompareOccupationResults(occupationArray);
   }, [compareResults]);
 
   useEffect(() => {
@@ -145,30 +154,8 @@ const Library = () => {
     setCompareResultsToShow(compareTribesResults);
   }, [compareTribesResults]);
 
-  const getCompareDatas = async () => {
-    const headers = {
-      "Content-Type": "application/json",
-      access_key: process.env.REACT_APP_ACCESS_KEY,
-    };
-
-    try {
-      setFetching(true);
-      const response = await axios.get(process.env.REACT_APP_COMPARE_URL!, {
-        headers: headers,
-      });
-      setCompareResults(response.data.comparisons);
-      setFetching(false);
-    } catch (error) {
-      // if (error.response) {
-      //     error.response.data.message
-      //       ? setSnackbarMessage(error.response.data.message)
-      //       : setSnackbarMessage(error.response.statusText);
-      //   } else {
-      //     setSnackbarMessage("Error with the server");
-      //   }
-      console.log("error ", error);
-      setFetching(false);
-    }
+  const getCompareDatas = () => {
+    setCompareResults(comparisons);
   };
 
   return (
@@ -255,7 +242,7 @@ const Library = () => {
                 fontWeight: 600,
               }}
             >
-              0
+              {compareOccupationResults.length}
             </Typography>
             <Typography sx={{ color: "black", textAlign: "center" }}>
               Occupations
@@ -273,7 +260,7 @@ const Library = () => {
                 fontWeight: 600,
               }}
             >
-              13
+              {compareSportsResults.length}
             </Typography>
             <Typography sx={{ color: "black", textAlign: "center" }}>
               Sports
@@ -291,7 +278,7 @@ const Library = () => {
                 fontWeight: 600,
               }}
             >
-              5
+              {compareTribesResults.length}
             </Typography>
             <Typography sx={{ color: "black", textAlign: "center" }}>
               Tribes
@@ -423,6 +410,51 @@ const Library = () => {
                   }}
                 >
                   Sports
+                </Button>
+                <Button
+                  sx={{
+                    backgroundColor: "#000000",
+                    color: "#ffffff",
+                    fontWeight: 600,
+                    textAlign: "center",
+                    lineHeight: "30px",
+                    fontSize: "18px",
+                    textTransform: "initial",
+                    padding: "14px 30px",
+                    borderRadius: "40px",
+                    marginTop: "5px",
+                    width: small
+                      ? extraSmall
+                        ? xxs
+                          ? xxxs
+                            ? "90%"
+                            : "80%"
+                          : "75%"
+                        : "70%"
+                      : "60%",
+                    mx: small
+                      ? extraSmall
+                        ? xxs
+                          ? xxxs
+                            ? "5%"
+                            : "10%"
+                          : "12.5%"
+                        : "15%"
+                      : "20%",
+                    "&.MuiButtonBase-root:hover": {
+                      bgcolor: "#000000",
+                    },
+                    display: "flex",
+                    "&:hover": { bgcolor: "#000000" },
+                  }}
+                  variant="contained"
+                  onClick={() => {
+                    setTableComparePage(0);
+                    setcomparisonState("Occupations");
+                    setCompareResultsToShow(compareOccupationResults);
+                  }}
+                >
+                  Occupations
                 </Button>
               </Box>
 

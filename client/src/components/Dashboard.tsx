@@ -19,7 +19,6 @@ import { useCookies } from "react-cookie";
 import CounterShare from "./CTA/CounterShare";
 import AddPage from "./AddPage";
 import { useNavigate } from "react-router-dom";
-// import avatar from "./image/manu-tribesman.png";
 import TableCompare, { IComparison } from "./TableCompare";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ShareIcon from "@mui/icons-material/Share";
@@ -34,6 +33,7 @@ import {
   faces,
   hairs,
 } from "./avatar/variablesAvatar/VariableAvatar";
+import { comparisons } from "../datas/Comparison";
 
 const theme = createTheme();
 
@@ -92,6 +92,9 @@ const Dashboard: FC<IDashboard> = (props) => {
     IComparison[]
   >([]);
   const [compareSportsResults, setCompareSportsResults] = useState<
+    IComparison[]
+  >([]);
+  const [compareOccupationResults, setCompareOccupationResults] = useState<
     IComparison[]
   >([]);
   const [compareResultsToShow, setCompareResultsToShow] = useState<
@@ -186,31 +189,8 @@ const Dashboard: FC<IDashboard> = (props) => {
     }
   };
 
-  const getCompareDatas = async () => {
-    const headers = {
-      "Content-Type": "application/json",
-      access_key: process.env.REACT_APP_ACCESS_KEY,
-      Authorization: `Bearer ${cookies.user.token}`,
-    };
-
-    try {
-      setFetching(true);
-      const response = await axios.get(process.env.REACT_APP_COMPARE_URL!, {
-        headers: headers,
-      });
-      setCompareResults(response.data.comparisons);
-      setFetching(false);
-    } catch (error) {
-      // if (error.response) {
-      //     error.response.data.message
-      //       ? setSnackbarMessage(error.response.data.message)
-      //       : setSnackbarMessage(error.response.statusText);
-      //   } else {
-      //     setSnackbarMessage("Error with the server");
-      //   }
-      console.log("error ", error);
-      setFetching(false);
-    }
+  const getCompareDatas = () => {
+    setCompareResults(comparisons);
   };
 
   useEffect(() => {
@@ -234,6 +214,7 @@ const Dashboard: FC<IDashboard> = (props) => {
   useEffect(() => {
     let tribesArray: IComparison[] = [];
     let sportsArray: IComparison[] = [];
+    let occupationArray: IComparison[] = [];
 
     compareResults.forEach((comparison) => {
       if (comparison.group === "Tribe") {
@@ -242,9 +223,13 @@ const Dashboard: FC<IDashboard> = (props) => {
       if (comparison.group === "Sport") {
         sportsArray.push(comparison);
       }
+      if (comparison.group === "Occupation") {
+        occupationArray.push(comparison);
+      }
     });
     setCompareSportsResults(sportsArray);
     setCompareTribesResults(tribesArray);
+    setCompareOccupationResults(occupationArray);
   }, [compareResults]);
 
   useEffect(() => {
@@ -1214,6 +1199,53 @@ const Dashboard: FC<IDashboard> = (props) => {
                     }}
                   >
                     Sports
+                  </Button>
+                  <Button
+                    sx={{
+                      backgroundColor: "#000000",
+                      color: "#ffffff",
+                      fontWeight: 600,
+                      textAlign: "center",
+                      lineHeight: "30px",
+                      fontSize: "18px",
+                      textTransform: "initial",
+                      padding: "14px 30px",
+                      borderRadius: "40px",
+                      marginTop: "5px",
+                      width: small
+                        ? xSmall
+                          ? xxs
+                            ? xxxs
+                              ? "90%"
+                              : "80%"
+                            : "75%"
+                          : "70%"
+                        : "60%",
+                      mx: small
+                        ? xSmall
+                          ? xxs
+                            ? xxxs
+                              ? "5%"
+                              : "10%"
+                            : "12.5%"
+                          : "15%"
+                        : "20%",
+                      "&.MuiButtonBase-root:hover": {
+                        bgcolor: "#000000",
+                      },
+                      display: "flex",
+                      "&:hover": { bgcolor: "#000000" },
+                    }}
+                    variant="contained"
+                    onClick={() => {
+                      setTableComparePage(0);
+                      setcomparisonState("Occupations");
+                      setShowComparisonOptions(false);
+                      setShowComparison(true);
+                      setCompareResultsToShow(compareOccupationResults);
+                    }}
+                  >
+                    Occupations
                   </Button>
                 </Box>
               )}
