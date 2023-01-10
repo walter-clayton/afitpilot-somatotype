@@ -93,7 +93,7 @@ const Nutrition = () => {
                                 textAlign: "center",
                                 pb: 2
                             }}>
-                            Feed Your Body
+                            Feed your Body
                         </Typography>
                         <Typography
                             mb={2}
@@ -115,8 +115,8 @@ const Nutrition = () => {
                         justifyContent: "center",
                         alignItems: "center",
                         width: "100%",
-                        mt: { xs: 1, sm: -4, md: 1, lg: 1 },
-                        mb: { xs: -5, sm: -6, md: 1, lg: 1 }
+                        mt: { xs: -3, sm: -4, md: 1, lg: 1 },
+                        mb: { xs: -3, sm: -6, md: 1, lg: 1 }
                     }}>
                     <Grid item md={6} sm={6} xs={12} lg={6}
                         sx={{
