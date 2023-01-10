@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { IAnthropometric, IData, ISomatotype } from "../App";
+import { IAnthropometric, IData, IParamsAvatar, ISomatotype } from "../App";
 import {
   Alert,
   Box,
@@ -38,6 +38,7 @@ interface ITesting {
   idSomatotype?: string;
   setDashboardSnackBarOpen?: (open: boolean) => void;
   setDashboardSnackBarMessage?: (msg: string) => void;
+  avatar?: IParamsAvatar;
 }
 
 interface ISomatotypesStandard {
@@ -555,6 +556,7 @@ const TestPage: FC<ITesting> = (props) => {
         idSomatotype={props.idSomatotype}
         setDashboardSnackBarOpen={props.setDashboardSnackBarOpen}
         setDashboardSnackBarMessage={props.setDashboardSnackBarMessage}
+        avatar={props.avatar}
       />
 
       <Snackbar

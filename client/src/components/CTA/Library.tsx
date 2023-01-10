@@ -294,7 +294,7 @@ const Library = () => {
               5
             </Typography>
             <Typography sx={{ color: "black", textAlign: "center" }}>
-              Tribesman
+              Tribes
             </Typography>
           </Grid>
         </Grid>

@@ -22,9 +22,9 @@ const isFieldsValid = async (
   res: Response,
   next: NextFunction
 ): Promise<Response<any, Record<string, any>> | undefined> => {
-  const { somatotype, anthropometric } = req.body;
+  const { data } = req.body;
 
-  if (isRequired(somatotype, anthropometric))
+  if (isRequired(data.somatotype, data.anthropometric))
     return res.status(403).send({
       message: "somatotype and anthropometric are required.",
     });

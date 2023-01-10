@@ -2,7 +2,6 @@ import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Grid, Box, Button, Typography, useMediaQuery } from "@mui/material/";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
-import manuTribesManBackground from "../image/manu-tribesman-with-background.png";
 import HomeTraining from "../image/HomeTraining.svg";
 import TypeFemale from "../image/TypeFemale.svg";
 import TypeMale from "../image/TypeMale.svg";
@@ -115,10 +114,10 @@ const CallToAction = () => {
                           ? "0%"
                           : "10%"
                         : "15%"
-                      : "0",
+                      : "0%",
                     // minWidth: xxSmall ? "182px" : "225px",
                     paddingY: "14px",
-                    paddingRight: xxSmall ? "20px" : "40px",
+                    paddingRight: xxSmall ? "23px" : "46px",
                     paddingLeft: xxSmall ? "23px" : "46px",
                     fontSize: "18px",
                     maxHeight: "60px",
@@ -130,8 +129,6 @@ const CallToAction = () => {
                     "&.MuiButtonBase-root:hover": {
                       bgcolor: "#6C4D7B",
                     },
-
-                    // textAlign: "start",
                   }}
                   variant="contained"
                   onClick={() => {
@@ -170,48 +167,41 @@ const CallToAction = () => {
           <Box
             sx={{
               display: "flex",
-              flexDirection: "column",
+              flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
+              padding: "25px",
             }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
+          >            <img
+              src={TypeMale}
+              alt="Male Types"
+              style={{
+                maxHeight: "600px",
+                height: '300px',
+                width: medium
+                  ? small
+                    ? extraSmall
+                      ? "65%"
+                      : "70%"
+                    : "75%"
+                  : "75%",
               }}
-            >            <img
-                src={TypeMale}
-                alt="Manu Tribesman with background"
-                style={{
-                  maxWidth: "600px",
-                  width: medium
-                    ? small
-                      ? extraSmall
-                        ? "55%"
-                        : "60%"
-                      : "65%"
-                    : "100%",
-                }}
-              />
-              <img
-                src={TypeFemale}
-                alt="Manu Tribesman with background"
-                style={{
-                  maxWidth: "600px",
-                  width: medium
-                    ? small
-                      ? extraSmall
-                        ? "55%"
-                        : "60%"
-                      : "65%"
-                    : "100%",
-                }}
-              />
-            </Box>
-
+            />
+            <img
+              src={TypeFemale}
+              alt="Female Types"
+              style={{
+                maxHeight: "600px",
+                height: '300px',
+                width: medium
+                  ? small
+                    ? extraSmall
+                      ? "65%"
+                      : "70%"
+                    : "75%"
+                  : "75%",
+              }}
+            />
           </Box>
         </Grid>
       </Grid>
@@ -238,14 +228,14 @@ const CallToAction = () => {
               alt="HomeFeed"
               style={{
                 maxHeight: "600px",
+                height: '300px',
                 width: medium
                   ? small
                     ? extraSmall
                       ? "65%"
                       : "70%"
                     : "75%"
-                  : "100%",
-
+                  : "75%",
               }}
             />
           </Box>
@@ -331,7 +321,7 @@ const CallToAction = () => {
                       : "0",
                     // minWidth: xxSmall ? "182px" : "225px",
                     paddingY: "14px",
-                    paddingRight: xxSmall ? "20px" : "40px",
+                    paddingRight: xxSmall ? "23px" : "46px",
                     paddingLeft: xxSmall ? "23px" : "46px",
                     fontSize: "18px",
                     maxHeight: "60px",
@@ -467,7 +457,7 @@ const CallToAction = () => {
                       : "0",
                     // minWidth: xxSmall ? "182px" : "225px",
                     paddingY: "14px",
-                    paddingRight: xxSmall ? "20px" : "40px",
+                    paddingRight: xxSmall ? "23px" : "46px",
                     paddingLeft: xxSmall ? "23px" : "46px",
                     fontSize: "18px",
                     maxHeight: "60px",
@@ -526,17 +516,18 @@ const CallToAction = () => {
             }}
           >
             <img
-              src={manuTribesManBackground}
+              src={HomeTraining}
               alt="Training"
               style={{
                 maxHeight: "600px",
+                height: '300px',
                 width: medium
                   ? small
                     ? extraSmall
                       ? "65%"
                       : "70%"
                     : "75%"
-                  : "100%",
+                  : "75%",
               }}
             />
           </Box>
@@ -562,16 +553,17 @@ const CallToAction = () => {
           >
             <img
               src={Optimise}
-              alt="Tribes mans"
+              alt="Optimise"
               style={{
                 maxHeight: "600px",
+                height: '300px',
                 width: medium
                   ? small
                     ? extraSmall
                       ? "65%"
                       : "70%"
                     : "75%"
-                  : "100%",
+                  : "75%",
               }}
             />
           </Box>
@@ -657,7 +649,7 @@ const CallToAction = () => {
                       : "0",
                     // minWidth: xxSmall ? "182px" : "225px",
                     paddingY: "14px",
-                    paddingRight: xxSmall ? "20px" : "40px",
+                    paddingRight: xxSmall ? "23px" : "46px",
                     paddingLeft: xxSmall ? "23px" : "46px",
                     fontSize: "18px",
                     maxHeight: "60px",
@@ -781,7 +773,7 @@ const CallToAction = () => {
                       : "0",
                     minWidth: xxSmall ? "182px" : "225px",
                     paddingY: "14px",
-                    paddingRight: xxSmall ? "20px" : "40px",
+                    paddingRight: xxSmall ? "23px" : "46px",
                     paddingLeft: xxSmall ? "23px" : "46px",
                     fontSize: "18px",
                     maxHeight: "60px",
@@ -798,7 +790,7 @@ const CallToAction = () => {
                   }}
                   variant="contained"
                   onClick={() => {
-                    navigate("/");
+                    navigate("/Library");
                     window.scrollTo(0, 0);
                   }}
                 >
@@ -820,16 +812,17 @@ const CallToAction = () => {
           >
             <img
               src={compare}
-              alt=""
+              alt="Compare"
               style={{
                 maxHeight: "600px",
+                height: '300px',
                 width: medium
                   ? small
                     ? extraSmall
                       ? "65%"
                       : "70%"
                     : "75%"
-                  : "100%",
+                  : "75%",
               }}
             />
           </Box>

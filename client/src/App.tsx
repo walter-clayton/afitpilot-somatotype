@@ -30,6 +30,7 @@ import Training from "./components/CTA/Training";
 import TypesPage1 from "./components/CTA/TypesPage1";
 import Disconnection from "./components/Disconnection";
 import Library from "./components/CTA/Library";
+import Optimisation from "./components/CTA/Optimisation";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -56,6 +57,8 @@ export interface IAnthropometric {
 }
 
 export interface IParamsAvatar {
+  titleSoma?: string;
+  codeSoma?: string;
   indexHair?: number;
   indexColorHair?: number;
   indexBeard?: number;
@@ -94,6 +97,8 @@ function App() {
   const [clearInterval, setClearInterval] = useState<number | undefined>(
     undefined
   );
+
+  const [avatar, setAvatar] = useState<IParamsAvatar | undefined>(undefined);
 
   const handleClose = (event: any, reason: any) => {
     if (reason === "clickaway") {
@@ -138,6 +143,7 @@ function App() {
                 setDashboardSnackBarOpen={setDashboardSnackBarOpen}
                 dashboardSnackBarMessage={dashboardSnackBarMessage}
                 setDashboardSnackBarMessage={setDashboardSnackBarMessage}
+                setAvatar={setAvatar}
               />
             ) : (
               <Home />
@@ -180,11 +186,12 @@ function App() {
         <Route path="/Privacy" element={<Privacy />} />
         <Route path="/Types" element={<Types />} />
         <Route path="/FooterCTA" element={<FooterCTA />} />
-        <Route path="/Error404" element={<Error404 />} />
+        <Route path='*' element={<Error404 />} />
         <Route path="/CommentPage" element={<CommentPage />} />
         <Route path="/TypeExample" element={<TypeExample />} />
         <Route path="/Nutrition" element={<Nutrition />} />
         <Route path="/Training" element={<Training />} />
+        <Route path="/Optimisation" element={<Optimisation />} />
         <Route path="/TypesPage1" element={<TypesPage1 />} />
         <Route path="/Library" element={<Library />} />
         <Route
@@ -200,6 +207,7 @@ function App() {
               idSomatotype={idSomatotype}
               setDashboardSnackBarOpen={setDashboardSnackBarOpen}
               setDashboardSnackBarMessage={setDashboardSnackBarMessage}
+              avatar={avatar}
             />
           }
         />
