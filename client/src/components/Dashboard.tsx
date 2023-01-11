@@ -50,7 +50,10 @@ interface IDashboard {
   dashboardSnackBarMessage?: string;
   setDashboardSnackBarMessage?: (msg: string) => void;
   avatar?: IParamsAvatar | undefined;
-  setAvatar: (avatar: IParamsAvatar) => void;
+  setAvatar?: (avatar: IParamsAvatar) => void;
+  fetching?: boolean;
+  setFetching?: (fetching: boolean) => void;
+  getAvatar?: () => void;
 }
 
 const Dashboard: FC<IDashboard> = (props) => {
@@ -80,8 +83,6 @@ const Dashboard: FC<IDashboard> = (props) => {
 
   const [showNoResultsMessage, setShowNoResultsMessage] =
     useState<boolean>(false);
-
-  const [fetching, setFetching] = React.useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -115,8 +116,6 @@ const Dashboard: FC<IDashboard> = (props) => {
     indexColorSkin: 0,
     indexBeard: 0,
   });
-  const [titleSomatotype, setTitleSomatotype] = useState<string>("");
-  const [codeSomatotype, setCodeSomatotype] = useState<string>("");
 
   const [colorIndex, setColorIndex] = useState<number>(cookies.user.mainColor);
 
@@ -139,7 +138,7 @@ const Dashboard: FC<IDashboard> = (props) => {
     };
 
     try {
-      setFetching(true);
+      props.setFetching!(true);
       const response = await axios.get(
         process.env.REACT_APP_GETUSERDATAS_URL!,
         { headers: headers }
@@ -147,7 +146,7 @@ const Dashboard: FC<IDashboard> = (props) => {
 
       setSomatotypes(response.data.data.somatotypes);
       setToggleGraph(!toggleGraph);
-      setFetching(false);
+      props.setFetching!(false);
     } catch (error) {
       // if (error.response) {
       //     error.response.data.message
@@ -157,37 +156,7 @@ const Dashboard: FC<IDashboard> = (props) => {
       //     setSnackbarMessage("Error with the server");
       //   }
       console.log("error ", error);
-      setFetching(false);
-    }
-  };
-
-  const getAvatar = async () => {
-    const headers = {
-      "Content-Type": "application/json",
-      access_key: process.env.REACT_APP_ACCESS_KEY,
-      Authorization: `Bearer ${cookies.user.token}`,
-    };
-
-    try {
-      setFetching(true);
-      const response = await axios.get(process.env.REACT_APP_GETAVATAR_URL!, {
-        headers: headers,
-      });
-
-      props.setAvatar(response.data.avatar);
-      setTitleSomatotype(response.data.avatar.titleSoma);
-      setCodeSomatotype(response.data.avatar.codeSoma);
-      setFetching(false);
-    } catch (error) {
-      // if (error.response) {
-      //     error.response.data.message
-      //       ? setSnackbarMessage(error.response.data.message)
-      //       : setSnackbarMessage(error.response.statusText);
-      //   } else {
-      //     setSnackbarMessage("Error with the server");
-      //   }
-      console.log("error ", error);
-      setFetching(false);
+      props.setFetching!(false);
     }
   };
 
@@ -209,7 +178,6 @@ const Dashboard: FC<IDashboard> = (props) => {
   useEffect(() => {
     getUserDatas();
     getCompareDatas();
-    getAvatar();
     setColorIndex(cookies.user.mainColor);
   }, []);
 
@@ -367,7 +335,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                     color: "#ffffff",
                   }}
                 >
-                  {fetching || somatotypes.length <= 0
+                  {props.fetching || somatotypes.length <= 0
                     ? ""
                     : somatotypes[0].endomorphy?.toFixed()}
                 </Typography>
@@ -393,7 +361,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                     color: "#ffffff",
                   }}
                 >
-                  {fetching || somatotypes.length <= 0
+                  {props.fetching || somatotypes.length <= 0
                     ? ""
                     : somatotypes[0].mesomorphy?.toFixed()}
                 </Typography>
@@ -419,7 +387,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                     color: "#ffffff",
                   }}
                 >
-                  {fetching || somatotypes.length <= 0
+                  {props.fetching || somatotypes.length <= 0
                     ? ""
                     : somatotypes[0].ectomorphy?.toFixed()}
                 </Typography>
@@ -647,9 +615,9 @@ const Dashboard: FC<IDashboard> = (props) => {
                 >
                   {cookies.user.name}
                 </Typography>
-                {!fetching && props.avatar !== undefined && (
+                {!props.fetching && props.avatar !== undefined && (
                   <Avatar
-                    typeSoma={codeSomatotype}
+                    typeSoma={props.avatar.codeSoma!}
                     hair={hairs[props.avatar!.indexHair!]}
                     face={faces[props.avatar!.indexFace!]}
                     beard={beards[props.avatar!.indexBeard!]}
@@ -689,7 +657,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                           color: "#ffffff",
                         }}
                       >
-                        {fetching || somatotypes.length <= 0
+                        {props.fetching || somatotypes.length <= 0
                           ? ""
                           : somatotypes[0].endomorphy?.toFixed() === "0" ||
                             Number(somatotypes[0].endomorphy) < 0
@@ -718,7 +686,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                           color: "#ffffff",
                         }}
                       >
-                        {fetching || somatotypes.length <= 0
+                        {props.fetching || somatotypes.length <= 0
                           ? ""
                           : somatotypes[0].mesomorphy?.toFixed() === "0" ||
                             Number(somatotypes[0].mesomorphy) < 0
@@ -747,7 +715,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                           color: "#ffffff",
                         }}
                       >
-                        {fetching || somatotypes.length <= 0
+                        {props.fetching || somatotypes.length <= 0
                           ? ""
                           : somatotypes[0].ectomorphy?.toFixed() === "0" ||
                             Number(somatotypes[0].ectomorphy) < 0
@@ -789,7 +757,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                         : "150%",
                     }}
                   >
-                    {titleSomatotype}
+                    {props.avatar?.titleSoma}
                   </Typography>
                   <Typography
                     variant="h5"
@@ -814,7 +782,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                         : "150%",
                     }}
                   >
-                    {codeSomatotype}
+                    {props.avatar?.codeSoma}
                   </Typography>
                 </Box>
                 <Grid
@@ -1015,9 +983,11 @@ const Dashboard: FC<IDashboard> = (props) => {
                 setToggleGraph={setToggleGraph}
                 setDashboardSnackBarOpen={props.setDashboardSnackBarOpen}
                 setDashboardSnackBarMessage={props.setDashboardSnackBarMessage}
-                isFetching={fetching}
+                isFetching={props.fetching}
                 setTypeResult={setTypeResult}
                 colorIndex={cookies.user.mainColor}
+                setAvatar={props.setAvatar}
+                getAvatar={props.getAvatar}
               />
               <Button
                 sx={{
@@ -1264,7 +1234,7 @@ const Dashboard: FC<IDashboard> = (props) => {
               {showComparison && (
                 <TableCompare
                   datas={compareResultsToShow}
-                  isFetching={fetching}
+                  isFetching={props.fetching}
                   setPointsArray={setComparisonPointsArray}
                   toggleGraph={toggleGraph}
                   setToggleGraph={setToggleGraph}

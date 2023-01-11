@@ -39,6 +39,7 @@ interface ITesting {
   setDashboardSnackBarOpen?: (open: boolean) => void;
   setDashboardSnackBarMessage?: (msg: string) => void;
   avatar?: IParamsAvatar;
+  setAvatar?: (avatar: IParamsAvatar) => void;
 }
 
 interface ISomatotypesStandard {
@@ -557,6 +558,7 @@ const TestPage: FC<ITesting> = (props) => {
         setDashboardSnackBarOpen={props.setDashboardSnackBarOpen}
         setDashboardSnackBarMessage={props.setDashboardSnackBarMessage}
         avatar={props.avatar}
+        setAvatar={props.setAvatar}
       />
 
       <Snackbar

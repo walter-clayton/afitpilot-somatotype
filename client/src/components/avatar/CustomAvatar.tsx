@@ -6,7 +6,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import Avatar from "./Avatar";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -61,6 +61,7 @@ interface ICustomAvatar {
   setters: ISetters;
   clothes?: boolean;
   mainColor?: number;
+  setHasChanges?: (hasChanges: boolean) => void;
 }
 
 const CustomAvatar: FC<ICustomAvatar> = (props) => {
@@ -70,6 +71,9 @@ const CustomAvatar: FC<ICustomAvatar> = (props) => {
   const xs = useMediaQuery("(max-width: 580px)");
 
   const handleColorHairClick = (direction: string): void => {
+    if (props.setHasChanges !== undefined) {
+      props.setHasChanges!(true);
+    }
     if (direction === "back") {
       props.indexes.indexColorHair === 0
         ? props.setters.setIndexColorHair(colorsHair.length - 1)
@@ -82,6 +86,9 @@ const CustomAvatar: FC<ICustomAvatar> = (props) => {
   };
 
   const handleColorSkinClick = (direction: string): void => {
+    if (props.setHasChanges !== undefined) {
+      props.setHasChanges!(true);
+    }
     if (direction === "back") {
       props.indexes.indexColorSkin === 0
         ? props.setters.setIndexColorSkin(colorsSkin.length - 1)
@@ -94,6 +101,9 @@ const CustomAvatar: FC<ICustomAvatar> = (props) => {
   };
 
   const handleHairClick = (direction: string): void => {
+    if (props.setHasChanges !== undefined) {
+      props.setHasChanges!(true);
+    }
     if (direction === "back") {
       props.indexes.indexHair === 0
         ? props.setters.setIndexHair(hairs.length - 1)
@@ -106,6 +116,9 @@ const CustomAvatar: FC<ICustomAvatar> = (props) => {
   };
 
   const handleFaceClick = (direction: string): void => {
+    if (props.setHasChanges !== undefined) {
+      props.setHasChanges!(true);
+    }
     if (direction === "back") {
       props.indexes.indexFace === 0
         ? props.setters.setIndexFace(faces.length - 1)
@@ -118,6 +131,9 @@ const CustomAvatar: FC<ICustomAvatar> = (props) => {
   };
 
   const handleBeardClick = (direction: string): void => {
+    if (props.setHasChanges !== undefined) {
+      props.setHasChanges!(true);
+    }
     if (direction === "back") {
       props.indexes.indexBeard === 0
         ? props.setters.setIndexBeard(props.indexes.indexBeard - 1)
