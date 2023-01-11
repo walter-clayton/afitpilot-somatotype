@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
+import Fade from '@mui/material/Fade';
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -41,6 +42,7 @@ const dividerStyle = {
 };
 
 const ResponsiveAppBar = (props: any) => {
+  const [openDropDown, setOpenDropDown] = useState<boolean>(false);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElNavLogged, setAnchorElNavLogged] = useState(null);
   const [anchorElNavProfile, setAnchorElNavProfile] = useState(null);
@@ -89,14 +91,6 @@ const ResponsiveAppBar = (props: any) => {
     window.scrollTo(0, 0);
   };
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   useEffect(() => {
     function handleResize() {
       handleCloseNavMenu();
@@ -287,21 +281,29 @@ const ResponsiveAppBar = (props: any) => {
                     <Typography textAlign="center">{page.title}</Typography>
                   </MenuItem>
                 ))}
-                <Button
-                  id="demo-customized-button"
-                  aria-controls={open ? 'demo-customized-menu' : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? 'true' : undefined}
-                  disableElevation
-                  onClick={(e) => {
-                    handleClick(e)
-                    navigate("./Optimisation");
+                <MenuItem
+                  sx={{ minHeight: "36px" }}
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    navigate('/Optimisation');
                     window.scrollTo(0, 0);
                   }}
-                  endIcon={<KeyboardArrowDownIcon />}
                 >
-                  Optimise
-                </Button>
+                  <Typography textAlign="center">Optimize</Typography>
+                </MenuItem>
+                {Optimise.map((item, index) => (
+                  <MenuItem
+                    sx={{ minHeight: "36px" }}
+                    key={index}
+                    onClick={() => {
+                      handleCloseNavMenu();
+                      navigate(item.path);
+                      window.scrollTo(0, 0);
+                    }}
+                  >
+                    <Typography textAlign="center">{item.title}</Typography>
+                  </MenuItem>
+                ))}
                 <MenuItem sx={{ minHeight: "0" }}>
                   <Divider sx={dividerStyle} />
                 </MenuItem>
@@ -389,21 +391,29 @@ const ResponsiveAppBar = (props: any) => {
                     <Typography textAlign="center">{page.title}</Typography>
                   </MenuItem>
                 ))}
-                <Button
-                  id="demo-customized-button"
-                  aria-controls={open ? 'demo-customized-menu' : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? 'true' : undefined}
-                  disableElevation
-                  onClick={(e) => {
-                    handleClick(e)
-                    navigate("./Optimisation");
+                <MenuItem
+                  sx={{ minHeight: "36px" }}
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    navigate('/Optimisation');
                     window.scrollTo(0, 0);
                   }}
-                  endIcon={<KeyboardArrowDownIcon />}
                 >
-                  Optimise
-                </Button>
+                  <Typography textAlign="center">Optimize</Typography>
+                </MenuItem>
+                {Optimise.map((item, index) => (
+                  <MenuItem
+                    sx={{ minHeight: "36px" }}
+                    key={index}
+                    onClick={() => {
+                      handleCloseNavMenu();
+                      navigate(item.path);
+                      window.scrollTo(0, 0);
+                    }}
+                  >
+                    <Typography textAlign="center">{item.title}</Typography>
+                  </MenuItem>
+                ))}
                 <MenuItem sx={{ minHeight: "0" }}>
                   <Divider sx={dividerStyle} />
                 </MenuItem>
@@ -453,48 +463,18 @@ const ResponsiveAppBar = (props: any) => {
                   {page.title}
                 </Button>
               ))}
-              {/* optimise submenu */}
-              <Button
-                sx={{
-                  fontWeight: 400,
-                  color: "white",
-                }}
-                aria-controls={open ? 'demo-customized-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-                disableElevation
-                onClick={(e) => {
-                  handleClick(e)
-                  navigate("./Optimisation");
-                  window.scrollTo(0, 0);
-                }}
-                endIcon={<KeyboardArrowDownIcon />}
-              >
-                Optimise
+              <Button sx={{ color: 'white', position: 'relative' }} onMouseEnter={() => { setOpenDropDown(true) }} onMouseLeave={() => { setOpenDropDown(false) }}>
+                <span onClick={() => { navigate('/Optimisation') }}>Optimize</span>
+                <KeyboardArrowDownIcon />
+                {/* Dropdown */}
+                <Fade in={openDropDown} timeout={{ exit: 1000 }}>
+                  <Box sx={{ backgroundColor: 'black', position: 'absolute', left: 0, right: 0, top: 'calc(100% + 5px)' }}>
+                    {Optimise.map((item, index) => (
+                      <Button key={index} sx={{ color: 'white', width: '100%', borderBottom: index === 0 ? 2 : 0 }} onClick={() => { navigate(`${item.path}`) }}>{item.title}</Button>
+                    ))}
+                  </Box>
+                </Fade>
               </Button>
-              <Menu
-                id="demo-customized-m enu"
-                MenuListProps={{
-                  'aria-labelledby': 'demo-customized-button',
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-              >
-                {Optimise.map((optimise, index) => (
-                  <MenuItem
-                    onClick={() => {
-                      handleClose();
-                      navigate(optimise.path);
-                      window.scrollTo(0, 0);
-                    }}
-                    disableRipple>
-                    <Typography textAlign="center">
-                      {optimise.title}
-                    </Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
 
             </Grid>
             <Grid
