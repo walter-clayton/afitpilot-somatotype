@@ -143,6 +143,7 @@ function App() {
                 setDashboardSnackBarOpen={setDashboardSnackBarOpen}
                 dashboardSnackBarMessage={dashboardSnackBarMessage}
                 setDashboardSnackBarMessage={setDashboardSnackBarMessage}
+                avatar={avatar}
                 setAvatar={setAvatar}
               />
             ) : (
@@ -186,7 +187,7 @@ function App() {
         <Route path="/Privacy" element={<Privacy />} />
         <Route path="/Types" element={<Types />} />
         <Route path="/FooterCTA" element={<FooterCTA />} />
-        <Route path='*' element={<Error404 />} />
+        <Route path="*" element={<Error404 />} />
         <Route path="/CommentPage" element={<CommentPage />} />
         <Route path="/TypeExample" element={<TypeExample />} />
         <Route path="/Nutrition" element={<Nutrition />} />
@@ -221,6 +222,8 @@ function App() {
               <Profile
                 setOpen={setOpen}
                 setSnackbarMessage={setSnackbarMessage}
+                avatar={avatar}
+                setAvatar={setAvatar}
               />
             )
           }

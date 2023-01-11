@@ -44,16 +44,6 @@ const colorsArray: IColors[] = [
   },
 ];
 
-let mainColor: IColors = colorsArray[0];
-
-export function setColors(colorIndex: number) {
-  mainColor = colorsArray[colorIndex];
-}
-
 export function getSpecificColors(colorIndex: number) {
   return colorsArray[colorIndex];
-}
-
-export function getColors() {
-  return mainColor;
 }

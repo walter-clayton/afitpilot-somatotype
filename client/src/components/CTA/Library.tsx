@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import { useState, useEffect } from "react";
 import CardMedia from "@mui/material/CardMedia";
-import { getColors } from "../Colors";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import TableCompare, { IComparison } from "../TableCompare";
 import SomatotypeGraph from "../SomatotypeGraph";

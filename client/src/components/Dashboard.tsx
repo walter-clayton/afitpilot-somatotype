@@ -24,7 +24,6 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ShareIcon from "@mui/icons-material/Share";
 import html2canvas from "html2canvas";
 import CircleIcon from "@mui/icons-material/Circle";
-import { getColors, IColors, setColors } from "./Colors";
 import Avatar from "./avatar/Avatar";
 import {
   beards,
@@ -34,6 +33,7 @@ import {
   hairs,
 } from "./avatar/variablesAvatar/VariableAvatar";
 import { comparisons } from "../datas/Comparison";
+import { getSpecificColors } from "./Colors";
 
 const theme = createTheme();
 
@@ -49,6 +49,7 @@ interface IDashboard {
   setDashboardSnackBarOpen?: (bool: boolean) => void;
   dashboardSnackBarMessage?: string;
   setDashboardSnackBarMessage?: (msg: string) => void;
+  avatar?: IParamsAvatar | undefined;
   setAvatar: (avatar: IParamsAvatar) => void;
 }
 
@@ -117,6 +118,8 @@ const Dashboard: FC<IDashboard> = (props) => {
   const [titleSomatotype, setTitleSomatotype] = useState<string>("");
   const [codeSomatotype, setCodeSomatotype] = useState<string>("");
 
+  const [colorIndex, setColorIndex] = useState<number>(cookies.user.mainColor);
+
   const xxl = useMediaQuery("(min-width:1401px)");
   const xlarge = useMediaQuery("(max-width:1400px)");
   const large = useMediaQuery("(max-width:1200px)");
@@ -172,7 +175,6 @@ const Dashboard: FC<IDashboard> = (props) => {
       });
 
       props.setAvatar(response.data.avatar);
-      setAvatar(response.data.avatar);
       setTitleSomatotype(response.data.avatar.titleSoma);
       setCodeSomatotype(response.data.avatar.codeSoma);
       setFetching(false);
@@ -208,7 +210,7 @@ const Dashboard: FC<IDashboard> = (props) => {
     getUserDatas();
     getCompareDatas();
     getAvatar();
-    setColors(cookies.user.mainColor);
+    setColorIndex(cookies.user.mainColor);
   }, []);
 
   useEffect(() => {
@@ -321,15 +323,15 @@ const Dashboard: FC<IDashboard> = (props) => {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            border: `10px solid ${getColors().darkColor}`,
+            border: `10px solid ${getSpecificColors(colorIndex).darkColor}`,
             borderRadius: "25px",
-            backgroundColor: getColors().clearColor,
+            backgroundColor: getSpecificColors(colorIndex).clearColor,
           }}
         >
           <Typography
             variant="h5"
             sx={{
-              color: getColors().normalColor,
+              color: getSpecificColors(colorIndex).normalColor,
               textAlign: "start",
               alignSelf: "start",
             }}
@@ -343,7 +345,7 @@ const Dashboard: FC<IDashboard> = (props) => {
             marginBottom={1}
             sx={{
               color: "black",
-              backgroundColor: getColors().darkColor,
+              backgroundColor: getSpecificColors(colorIndex).darkColor,
               textAlign: "center",
               borderRadius: "25px",
             }}
@@ -427,14 +429,16 @@ const Dashboard: FC<IDashboard> = (props) => {
           <Box
             sx={{
               width: "100%",
-              borderBottom: `2px solid ${getColors().darkColor}`,
+              borderBottom: `2px solid ${
+                getSpecificColors(colorIndex).darkColor
+              }`,
             }}
           >
             <Typography
               marginBottom={0.3}
               variant="h5"
               sx={{
-                color: getColors().darkColor,
+                color: getSpecificColors(colorIndex).darkColor,
                 textAlign: "center",
                 fontWeight: 600,
               }}
@@ -444,7 +448,7 @@ const Dashboard: FC<IDashboard> = (props) => {
             <Typography
               variant="h5"
               sx={{
-                color: getColors().normalColor,
+                color: getSpecificColors(colorIndex).normalColor,
                 textAlign: "center",
                 fontWeight: 600,
               }}
@@ -500,13 +504,13 @@ const Dashboard: FC<IDashboard> = (props) => {
                     sx={{
                       marginRight: "10px",
                       fontSize: "100%",
-                      color: getColors().darkColor,
+                      color: getSpecificColors(colorIndex).darkColor,
                     }}
                   />
                   <Typography
                     variant="h5"
                     sx={{
-                      color: getColors().darkColor,
+                      color: getSpecificColors(colorIndex).darkColor,
                       textAlign: "center",
                       fontWeight: 600,
                     }}
@@ -555,7 +559,7 @@ const Dashboard: FC<IDashboard> = (props) => {
           p={3}
           textAlign="center"
           color={"white"}
-          sx={{ backgroundColor: getColors().darkColor }}
+          sx={{ backgroundColor: getSpecificColors(colorIndex).darkColor }}
         >
           Dashboard
         </Typography>
@@ -626,32 +630,36 @@ const Dashboard: FC<IDashboard> = (props) => {
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
-                  border: `10px solid ${getColors().darkColor}`,
+                  border: `10px solid ${
+                    getSpecificColors(colorIndex).darkColor
+                  }`,
                   borderRadius: "25px",
-                  backgroundColor: getColors().clearColor,
+                  backgroundColor: getSpecificColors(colorIndex).clearColor,
                 }}
               >
                 <Typography
                   variant="h5"
                   sx={{
-                    color: getColors().normalColor,
+                    color: getSpecificColors(colorIndex).normalColor,
                     textAlign: "start",
                     alignSelf: "start",
                   }}
                 >
                   {cookies.user.name}
                 </Typography>
-                <Avatar
-                  typeSoma={codeSomatotype}
-                  hair={hairs[avatar.indexHair!]}
-                  face={faces[avatar.indexFace!]}
-                  beard={beards[avatar.indexBeard!]}
-                  gender={cookies.user.gender}
-                  colorsSkin={colorsSkin[avatar.indexColorSkin!]}
-                  colorsHair={colorsHair[avatar.indexColorHair!]}
-                  cloth={true}
-                  mainColor={cookies.user.mainColor}
-                />
+                {!fetching && props.avatar !== undefined && (
+                  <Avatar
+                    typeSoma={codeSomatotype}
+                    hair={hairs[props.avatar!.indexHair!]}
+                    face={faces[props.avatar!.indexFace!]}
+                    beard={beards[props.avatar!.indexBeard!]}
+                    gender={cookies.user.gender}
+                    colorsSkin={colorsSkin[props.avatar!.indexColorSkin!]}
+                    colorsHair={colorsHair[props.avatar!.indexColorHair!]}
+                    cloth={true}
+                    mainColor={cookies.user.mainColor}
+                  />
+                )}
 
                 <Grid
                   item
@@ -659,7 +667,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                   marginBottom={1}
                   sx={{
                     color: "black",
-                    backgroundColor: getColors().darkColor,
+                    backgroundColor: getSpecificColors(colorIndex).darkColor,
                     textAlign: "center",
                     borderRadius: "25px",
                   }}
@@ -752,14 +760,16 @@ const Dashboard: FC<IDashboard> = (props) => {
                 <Box
                   sx={{
                     width: "100%",
-                    borderBottom: `2px solid ${getColors().darkColor}`,
+                    borderBottom: `2px solid ${
+                      getSpecificColors(colorIndex).darkColor
+                    }`,
                   }}
                 >
                   <Typography
                     marginBottom={0.3}
                     variant="h5"
                     sx={{
-                      color: getColors().darkColor,
+                      color: getSpecificColors(colorIndex).darkColor,
                       textAlign: "center",
                       fontWeight: 600,
                       fontSize: xxl
@@ -784,7 +794,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                   <Typography
                     variant="h5"
                     sx={{
-                      color: getColors().normalColor,
+                      color: getSpecificColors(colorIndex).normalColor,
                       textAlign: "center",
                       fontWeight: 600,
                       fontSize: xxl
@@ -861,13 +871,13 @@ const Dashboard: FC<IDashboard> = (props) => {
                                   : "70%"
                                 : "80%"
                               : "100%",
-                            color: getColors().darkColor,
+                            color: getSpecificColors(colorIndex).darkColor,
                           }}
                         />
                         <Typography
                           variant="h5"
                           sx={{
-                            color: getColors().darkColor,
+                            color: getSpecificColors(colorIndex).darkColor,
                             textAlign: "center",
                             fontWeight: 600,
                             fontSize: xSmall
@@ -930,8 +940,8 @@ const Dashboard: FC<IDashboard> = (props) => {
               </Grid>
               <Button
                 sx={{
-                  borderColor: getColors().darkColor,
-                  color: getColors().darkColor,
+                  borderColor: getSpecificColors(colorIndex).darkColor,
+                  color: getSpecificColors(colorIndex).darkColor,
                   padding: "14px 30px",
                   fontWeight: 600,
                   textAlign: "center",
@@ -959,9 +969,9 @@ const Dashboard: FC<IDashboard> = (props) => {
                       : "15%"
                     : "20%",
                   "&.MuiButtonBase-root:hover": {
-                    bgcolor: getColors().darkColor,
+                    bgcolor: getSpecificColors(colorIndex).darkColor,
                     color: "#ffffff",
-                    borderColor: getColors().darkColor,
+                    borderColor: getSpecificColors(colorIndex).darkColor,
                   },
                 }}
                 variant="outlined"
@@ -1007,10 +1017,11 @@ const Dashboard: FC<IDashboard> = (props) => {
                 setDashboardSnackBarMessage={props.setDashboardSnackBarMessage}
                 isFetching={fetching}
                 setTypeResult={setTypeResult}
+                colorIndex={cookies.user.mainColor}
               />
               <Button
                 sx={{
-                  backgroundColor: getColors().darkColor,
+                  backgroundColor: getSpecificColors(colorIndex).darkColor,
                   padding: "14px 30px",
                   fontWeight: 600,
                   textAlign: "center",
@@ -1038,7 +1049,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                       : "15%"
                     : "20%",
                   "&.MuiButtonBase-root:hover": {
-                    bgcolor: getColors().darkColor,
+                    bgcolor: getSpecificColors(colorIndex).darkColor,
                   },
                 }}
                 variant="contained"
@@ -1269,7 +1280,7 @@ const Dashboard: FC<IDashboard> = (props) => {
             <Grid item xs={12}>
               <Button
                 sx={{
-                  backgroundColor: getColors().darkColor,
+                  backgroundColor: getSpecificColors(colorIndex).darkColor,
                   padding: "14px 30px",
                   fontWeight: 600,
                   textAlign: "center",
@@ -1280,7 +1291,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                   width: "80%",
                   mx: "10%",
                   "&.MuiButtonBase-root:hover": {
-                    bgcolor: getColors().darkColor,
+                    bgcolor: getSpecificColors(colorIndex).darkColor,
                   },
                 }}
                 variant="contained"
