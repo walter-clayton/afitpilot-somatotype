@@ -2,10 +2,10 @@ import React from 'react'
 import CssBaseline from "@mui/material/CssBaseline";
 import { Grid, Box, Typography, useMediaQuery } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import NutritionCard from './NutritionCard';
 import HomeTraining from "../image/HomeTraining.svg";
 import Nutrition from "../image/Nutrition.svg";
 import cross from '../image/cross.png';
+import OptimiseCard from './OptimiseCard';
 
 const theme = createTheme();
 theme.typography.h1 = {
@@ -227,8 +227,8 @@ const Optimisation = () => {
                         </Box>
                     </Grid>
                 </Grid>
-                {/* NutritionCard page */}
-                <NutritionCard />
+                {/*OptimiseCard page */}
+                <OptimiseCard />
             </Grid >
         </ThemeProvider >
     )
