@@ -274,8 +274,11 @@ usersCtrl.saveResults = async (req: Request, res: Response) => {
 
       // create Avatar
       const avatar = { ...data.avatar };
-
+      console.log(avatar);
+      
       const newAvatar = await Avatar({ ...avatar });
+      console.log(newAvatar);      
+
 
       while (user.avatars.includes(newAvatar._id)) {
         newAvatar._id = new mongoose.Types.ObjectId();
@@ -290,8 +293,6 @@ usersCtrl.saveResults = async (req: Request, res: Response) => {
       user.avatars.push(newAvatar);
       user.somatotypes.push(newSomatotype);
       user.anthropometrics.push(newAnthropometric);
-
-      console.log(newSomatotype);
 
       await newSomatotype.save();
       await newAnthropometric.save();
@@ -427,19 +428,23 @@ usersCtrl.getUserDatas = async (req: Request, res: Response) => {
 usersCtrl.deleteSomatotype = async (req: Request, res: Response) => {
   const { id } = req.params;
 
+  console.log(id);  
+
   try {
     const somatotype = await Somatotype.findById(id);
     const anthropometric = await Anthropometric.findById(
       somatotype.anthropometric
     );
+    const avatar = await Avatar.findById(somatotype.avatar); 
 
     if (!somatotype && !anthropometric) {
       res.status(403).send({ message: "The result is already deleted" });
     } else {
       await anthropometric.delete();
       await somatotype.delete();
+      await avatar.delete();     
 
-      res.status(202).send({ message: "The result deleted successfully" });
+      res.status(202).send({ message: "The result deleted successfully"});
     }
   } catch (error: unknown) {
     console.log(error);
@@ -553,16 +558,26 @@ usersCtrl.getAvatar = async (req: Request, res: Response) => {
     "somatotypes",
   ]);
 
+  const avatar = user.avatars[user.avatars.length - 1]; 
+
   res.send({ avatar: user.avatars[user.avatars.length - 1] });
 };
 
 usersCtrl.updateAvatar = async (req: Request, res: Response) => {
   try {
-    const { avatar } = req.body;
-    let editedAvatar = await Avatar.findById(avatar._id);
+    const { avatar, id } = req.body;
 
-    editedAvatar = { ...avatar };
+    console.log(avatar);
+    
+    
+    let editedAvatar = await Avatar.findById(id);    
 
+    editedAvatar.indexHair = avatar.indexHair;
+    editedAvatar.indexFace = avatar.indexFace;
+    editedAvatar.indexBeard = avatar.indexBeard;
+    editedAvatar.indexSkinColor = avatar.indexSkinColor;
+    editedAvatar.indexHairColor = avatar.indexHairColor;
+    
     await editedAvatar.save();
 
     res.status(200).send({
@@ -580,7 +595,6 @@ usersCtrl.updateAvatar = async (req: Request, res: Response) => {
 usersCtrl.updateMainColor = async (req: Request, res: Response) => {
   try {
     const mainColor = req.body.mainColor;
-    console.log(mainColor);
 
     let editedUser = await User.findById(req.user_id);
 
