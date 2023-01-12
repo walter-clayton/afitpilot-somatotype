@@ -34,7 +34,7 @@ interface ITesting {
   resultsSaved: boolean;
   setResultsSaved: (bool: boolean) => void;
   isAdding?: boolean;
-  idRow?: string;
+  idRow?: number;
   idSomatotype?: string;
   setDashboardSnackBarOpen?: (open: boolean) => void;
   setDashboardSnackBarMessage?: (msg: string) => void;

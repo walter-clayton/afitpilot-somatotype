@@ -88,7 +88,7 @@ function App() {
   const [data, setData] = useState<IData | undefined>(undefined);
 
   const [isAdding, setIsAdding] = useState<boolean>(true);
-  const [idRow, setIdRow] = useState<string>("");
+  const [idRow, setIdRow] = useState<number>();
   const [idSomatotype, setIdSomatotype] = useState<string>("");
   const [dashboardSnackBarOpen, setDashboardSnackBarOpen] =
     useState<boolean>(false);
@@ -141,10 +141,6 @@ function App() {
       setFetching(false);
     }
   };
-
-  useEffect(() => {
-    getAvatar();
-  }, []);
 
   return (
     <Router>
@@ -267,18 +263,6 @@ function App() {
                 setFetching={setFetching}
               />
             )
-          }
-        />
-        <Route
-          path="/Add"
-          element={
-            <AddPage
-              isAdding={isAdding}
-              idRow={idRow}
-              idSomatotype={idSomatotype}
-              setDashboardSnackBarOpen={setDashboardSnackBarOpen}
-              setDashboardSnackBarMessage={setDashboardSnackBarMessage}
-            />
           }
         />
       </Routes>

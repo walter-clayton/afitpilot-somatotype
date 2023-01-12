@@ -41,8 +41,8 @@ interface IDashboard {
   resultsSaved?: boolean;
   setResultsSaved?: (bool: boolean) => void;
   setIsAdding?: (bool: boolean) => void;
-  idRow?: string;
-  setIdRow?: (idRow: string) => void;
+  idRow?: number;
+  setIdRow?: (idRow: number) => void;
   idSomatotype?: string;
   setIdSomatotype?: (idRow: string) => void;
   dashboardSnackBarOpen?: boolean;
@@ -269,6 +269,12 @@ const Dashboard: FC<IDashboard> = (props) => {
       setIsSharing(false);
     };
   });
+
+  useEffect(() => {
+    if (cookies.user) {
+      props.getAvatar!();
+    }
+  }, []);
 
   return (
     <>

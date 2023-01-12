@@ -274,11 +274,8 @@ usersCtrl.saveResults = async (req: Request, res: Response) => {
 
       // create Avatar
       const avatar = { ...data.avatar };
-      console.log(avatar);
-      
-      const newAvatar = await Avatar({ ...avatar });
-      console.log(newAvatar);      
 
+      const newAvatar = await Avatar({ ...avatar });
 
       while (user.avatars.includes(newAvatar._id)) {
         newAvatar._id = new mongoose.Types.ObjectId();
@@ -428,23 +425,21 @@ usersCtrl.getUserDatas = async (req: Request, res: Response) => {
 usersCtrl.deleteSomatotype = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  console.log(id);  
-
   try {
     const somatotype = await Somatotype.findById(id);
     const anthropometric = await Anthropometric.findById(
       somatotype.anthropometric
     );
-    const avatar = await Avatar.findById(somatotype.avatar); 
+    const avatar = await Avatar.findById(somatotype.avatar);
 
     if (!somatotype && !anthropometric) {
       res.status(403).send({ message: "The result is already deleted" });
     } else {
       await anthropometric.delete();
       await somatotype.delete();
-      await avatar.delete();     
+      await avatar.delete();
 
-      res.status(202).send({ message: "The result deleted successfully"});
+      res.status(202).send({ message: "The result deleted successfully" });
     }
   } catch (error: unknown) {
     console.log(error);
@@ -490,8 +485,8 @@ usersCtrl.editSomatotype = async (req: Request, res: Response) => {
 
       // create Avatar
       const avatar = { ...data.avatar };
-      editedAvatar.titleSomatotype = editedSomatotype.titleSomatotype;
-      editedAvatar.codeSomatotype = editedSomatotype.codeSomatotype;
+      editedAvatar.titleSoma = editedSomatotype.titleSomatotype;
+      editedAvatar.codeSoma = editedSomatotype.codeSomatotype;
 
       await editedSomatotype.save();
       await editedAnthropometric.save();
@@ -558,7 +553,7 @@ usersCtrl.getAvatar = async (req: Request, res: Response) => {
     "somatotypes",
   ]);
 
-  const avatar = user.avatars[user.avatars.length - 1]; 
+  const avatar = user.avatars[user.avatars.length - 1];
 
   res.send({ avatar: user.avatars[user.avatars.length - 1] });
 };
@@ -567,17 +562,14 @@ usersCtrl.updateAvatar = async (req: Request, res: Response) => {
   try {
     const { avatar, id } = req.body;
 
-    console.log(avatar);
-    
-    
-    let editedAvatar = await Avatar.findById(id);    
+    let editedAvatar = await Avatar.findById(id);
 
     editedAvatar.indexHair = avatar.indexHair;
     editedAvatar.indexFace = avatar.indexFace;
     editedAvatar.indexBeard = avatar.indexBeard;
     editedAvatar.indexSkinColor = avatar.indexSkinColor;
     editedAvatar.indexHairColor = avatar.indexHairColor;
-    
+
     await editedAvatar.save();
 
     res.status(200).send({

@@ -181,6 +181,23 @@ const Profile = (props: any) => {
 
       setEmail(response.data.user.email);
 
+      const now = new Date();
+      const seconds = Math.floor(now.getTime() / 1000);
+
+      const cookieUser = { ...cookies.user };
+      cookieUser.email = response.data.user.email;
+
+      setCookie(
+        "user",
+        { ...cookieUser, createdAt: seconds },
+        {
+          path: "/",
+          sameSite: "none",
+          secure: true,
+          maxAge: 3600,
+        }
+      );
+
       setSnackBarMessage("Changes saved!");
       setEmailHasChanges(false);
       setNameHasChanges(false);
@@ -232,6 +249,23 @@ const Profile = (props: any) => {
       );
 
       setName(response.data.user.name);
+
+      const now = new Date();
+      const seconds = Math.floor(now.getTime() / 1000);
+
+      const cookieUser = { ...cookies.user };
+      cookieUser.name = response.data.user.name;
+
+      setCookie(
+        "user",
+        { ...cookieUser, createdAt: seconds },
+        {
+          path: "/",
+          sameSite: "none",
+          secure: true,
+          maxAge: 3600,
+        }
+      );
 
       props.setFetching(false);
 
@@ -620,10 +654,6 @@ const Profile = (props: any) => {
     setColorHasChanges(true);
   };
 
-  useEffect(() => {
-    console.log(props.avatar);
-  }, [props.avatar]);
-
   return (
     <>
       <Typography
@@ -674,7 +704,7 @@ const Profile = (props: any) => {
                     indexes={indexes!}
                     setters={setters}
                     clothes={true}
-                    mainColor={cookies.user.mainColor}
+                    mainColor={colorPickedIndex}
                     setHasChanges={setAvatarHasChanges}
                   />
                 ) : (
