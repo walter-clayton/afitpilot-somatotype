@@ -312,11 +312,25 @@ const Library = () => {
             padding={2}
           >
             <Box width={"100%"} mb={5}>
-              <Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: small
+                    ? extraSmall
+                      ? xxs
+                        ? xxxs
+                          ? "column"
+                          : "column"
+                        : "column"
+                      : "column"
+                    : "row",
+                }}
+              >
                 <Button
                   sx={{
-                    backgroundColor: "#000000",
-                    color: "#ffffff",
+                    backgroundColor:
+                      comparisonState === "Tribes" ? "#000000" : "#ffffff",
+                    color: comparisonState === "Tribes" ? "#ffffff" : "#000000",
                     fontWeight: 600,
                     textAlign: "center",
                     lineHeight: "30px",
@@ -324,7 +338,7 @@ const Library = () => {
                     textTransform: "initial",
                     padding: "14px 30px",
                     borderRadius: "40px",
-                    marginTop: "5px",
+                    marginTop: "10px",
                     width: small
                       ? extraSmall
                         ? xxs
@@ -333,7 +347,7 @@ const Library = () => {
                             : "80%"
                           : "75%"
                         : "70%"
-                      : "60%",
+                      : "35%",
                     mx: small
                       ? extraSmall
                         ? xxs
@@ -342,12 +356,16 @@ const Library = () => {
                             : "10%"
                           : "12.5%"
                         : "15%"
-                      : "20%",
+                      : "10px",
                     "&.MuiButtonBase-root:hover": {
-                      bgcolor: "#000000",
+                      bgcolor:
+                        comparisonState === "Tribes" ? "#000000" : "#ffffff",
                     },
                     display: "flex",
-                    "&:hover": { bgcolor: "#000000" },
+                    "&:hover": {
+                      bgcolor:
+                        comparisonState === "Tribes" ? "#000000" : "#ffffff",
+                    },
                   }}
                   variant="contained"
                   onClick={() => {
@@ -360,8 +378,9 @@ const Library = () => {
                 </Button>
                 <Button
                   sx={{
-                    backgroundColor: "#000000",
-                    color: "#ffffff",
+                    backgroundColor:
+                      comparisonState === "Sports" ? "#000000" : "#ffffff",
+                    color: comparisonState === "Sports" ? "#ffffff" : "#000000",
                     fontWeight: 600,
                     textAlign: "center",
                     lineHeight: "30px",
@@ -369,7 +388,7 @@ const Library = () => {
                     textTransform: "initial",
                     padding: "14px 30px",
                     borderRadius: "40px",
-                    marginTop: "5px",
+                    marginTop: "10px",
                     width: small
                       ? extraSmall
                         ? xxs
@@ -378,7 +397,7 @@ const Library = () => {
                             : "80%"
                           : "75%"
                         : "70%"
-                      : "60%",
+                      : "35%",
                     mx: small
                       ? extraSmall
                         ? xxs
@@ -387,12 +406,16 @@ const Library = () => {
                             : "10%"
                           : "12.5%"
                         : "15%"
-                      : "20%",
+                      : "10px",
                     "&.MuiButtonBase-root:hover": {
-                      bgcolor: "#000000",
+                      bgcolor:
+                        comparisonState === "Sports" ? "#000000" : "#ffffff",
                     },
                     display: "flex",
-                    "&:hover": { bgcolor: "#000000" },
+                    "&:hover": {
+                      bgcolor:
+                        comparisonState === "Sports" ? "#000000" : "#ffffff",
+                    },
                   }}
                   variant="contained"
                   onClick={() => {
@@ -405,8 +428,10 @@ const Library = () => {
                 </Button>
                 <Button
                   sx={{
-                    backgroundColor: "#000000",
-                    color: "#ffffff",
+                    backgroundColor:
+                      comparisonState === "Occupations" ? "#000000" : "#ffffff",
+                    color:
+                      comparisonState === "Occupations" ? "#ffffff" : "#000000",
                     fontWeight: 600,
                     textAlign: "center",
                     lineHeight: "30px",
@@ -414,7 +439,7 @@ const Library = () => {
                     textTransform: "initial",
                     padding: "14px 30px",
                     borderRadius: "40px",
-                    marginTop: "5px",
+                    marginTop: "10px",
                     width: small
                       ? extraSmall
                         ? xxs
@@ -423,7 +448,7 @@ const Library = () => {
                             : "80%"
                           : "75%"
                         : "70%"
-                      : "60%",
+                      : "35%",
                     mx: small
                       ? extraSmall
                         ? xxs
@@ -432,12 +457,20 @@ const Library = () => {
                             : "10%"
                           : "12.5%"
                         : "15%"
-                      : "20%",
+                      : "10px",
                     "&.MuiButtonBase-root:hover": {
-                      bgcolor: "#000000",
+                      bgcolor:
+                        comparisonState === "Occupations"
+                          ? "#000000"
+                          : "#ffffff",
                     },
                     display: "flex",
-                    "&:hover": { bgcolor: "#000000" },
+                    "&:hover": {
+                      bgcolor:
+                        comparisonState === "Occupations"
+                          ? "#000000"
+                          : "#ffffff",
+                    },
                   }}
                   variant="contained"
                   onClick={() => {
