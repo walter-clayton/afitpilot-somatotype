@@ -109,6 +109,8 @@ const Dashboard: FC<IDashboard> = (props) => {
 
   const [isSharing, setIsSharing] = useState<boolean>(false);
 
+  const [fetchingDashboard, setFetchingDashboard] = useState<boolean>(false);
+
   const [avatar, setAvatar] = useState<IParamsAvatar>({
     indexHair: 0,
     indexColorHair: 0,
@@ -145,6 +147,15 @@ const Dashboard: FC<IDashboard> = (props) => {
       );
 
       setSomatotypes(response.data.data.somatotypes);
+
+      if (response.data.data.somatotypes !== undefined) {
+        if (response.data.data.somatotypes.length === 0) {
+          setShowNoResultsMessage(true);
+        } else {
+          setShowNoResultsMessage(false);
+        }
+      }
+
       setToggleGraph(!toggleGraph);
       props.setFetching!(false);
     } catch (error) {
@@ -212,13 +223,15 @@ const Dashboard: FC<IDashboard> = (props) => {
     setToggleGraph(!toggleGraph);
   }, [comparisonPointsArray]);
 
-  useEffect(() => {
-    if (somatotypes.length === 0) {
-      setShowNoResultsMessage(true);
-    } else {
-      setShowNoResultsMessage(false);
-    }
-  }, [somatotypes]);
+  // useEffect(() => {
+  //   if (somatotypes !== undefined) {
+  //     if (somatotypes.length === 0) {
+  //       setShowNoResultsMessage(true);
+  //     } else {
+  //       setShowNoResultsMessage(false);
+  //     }
+  //   }
+  // }, [somatotypes]);
 
   const handleSnackBarClose = () => {
     props.setDashboardSnackBarOpen!(false);
@@ -615,31 +628,717 @@ const Dashboard: FC<IDashboard> = (props) => {
         >
           Dashboard
         </Typography>
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-around",
-            alignItems: "start",
-            padding: "0px 15px",
-          }}
-          width={"100%"}
-        >
-          {props.resultsSaved ? (
-            <Box m={4} width={"100%"}>
-              <Alert
-                onClose={() => {
-                  props.setResultsSaved!(false);
-                }}
-              >
-                Results saved successfully!
-              </Alert>
-            </Box>
-          ) : null}
 
-          {/* No Results Message */}
-          {showNoResultsMessage && (
+        {!showNoResultsMessage ? (
+          <Grid
+            container
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-around",
+              alignItems: "start",
+              padding: "0px 15px",
+            }}
+            width={"100%"}
+          >
+            {props.resultsSaved ? (
+              <Box m={4} width={"100%"}>
+                <Alert
+                  onClose={() => {
+                    props.setResultsSaved!(false);
+                  }}
+                >
+                  Results saved successfully!
+                </Alert>
+              </Box>
+            ) : null}
+
+            {/* Result Card */}
+            {!showNoResultsMessage && (
+              <Grid
+                item
+                sx={{
+                  alignItems: "center",
+                  marginTop: "20px",
+                }}
+                xs={12}
+                md={6}
+                xl={4.5}
+                width={"100%"}
+                padding={2}
+              >
+                <Grid
+                  container
+                  padding={2}
+                  sx={{
+                    textAlign: "center",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    border: `10px solid ${
+                      getSpecificColors(colorIndex).darkColor
+                    }`,
+                    borderRadius: "25px",
+                    backgroundColor: getSpecificColors(colorIndex).clearColor,
+                  }}
+                >
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      color: getSpecificColors(colorIndex).normalColor,
+                      textAlign: "start",
+                      alignSelf: "start",
+                    }}
+                  >
+                    {cookies.user.name}
+                  </Typography>
+                  {props.avatar !== undefined && (
+                    <Avatar
+                      typeSoma={props.avatar.codeSoma!}
+                      hair={hairs[props.avatar!.indexHair!]}
+                      face={faces[props.avatar!.indexFace!]}
+                      beard={beards[props.avatar!.indexBeard!]}
+                      gender={cookies.user.gender}
+                      colorsSkin={colorsSkin[props.avatar!.indexColorSkin!]}
+                      colorsHair={colorsHair[props.avatar!.indexColorHair!]}
+                      cloth={true}
+                      mainColor={cookies.user.mainColor}
+                    />
+                  )}
+
+                  <Grid
+                    item
+                    width={"100%"}
+                    marginBottom={1}
+                    sx={{
+                      color: "black",
+                      backgroundColor: getSpecificColors(colorIndex).darkColor,
+                      textAlign: "center",
+                      borderRadius: "25px",
+                    }}
+                  >
+                    <Grid
+                      container
+                      display={"flex"}
+                      flexDirection={"row"}
+                      alignItems={"center"}
+                      justifyContent={"center"}
+                      columnSpacing={small ? (xxs ? 1.5 : 3) : 5}
+                    >
+                      <Grid item>
+                        <Typography
+                          variant="h3"
+                          sx={{
+                            fontWeight: 600,
+                            fontSize: small ? (xxs ? "150%" : "200%") : "300%",
+                            color: "#ffffff",
+                          }}
+                        >
+                          {somatotypes.length <= 0
+                            ? ""
+                            : somatotypes[0].endomorphy?.toFixed() === "0" ||
+                              Number(somatotypes[0].endomorphy) < 0
+                            ? "1"
+                            : somatotypes[0].endomorphy?.toFixed()}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Typography
+                          variant="h3"
+                          sx={{
+                            fontWeight: 600,
+                            fontSize: small ? (xxs ? "150%" : "200%") : "300%",
+                            color: "#ffffff",
+                          }}
+                        >
+                          -
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Typography
+                          variant="h3"
+                          sx={{
+                            fontWeight: 600,
+                            fontSize: small ? (xxs ? "150%" : "200%") : "300%",
+                            color: "#ffffff",
+                          }}
+                        >
+                          {somatotypes.length <= 0
+                            ? ""
+                            : somatotypes[0].mesomorphy?.toFixed() === "0" ||
+                              Number(somatotypes[0].mesomorphy) < 0
+                            ? "1"
+                            : somatotypes[0].mesomorphy?.toFixed()}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Typography
+                          variant="h3"
+                          sx={{
+                            fontWeight: 600,
+                            fontSize: small ? (xxs ? "150%" : "200%") : "300%",
+                            color: "#ffffff",
+                          }}
+                        >
+                          -
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Typography
+                          variant="h3"
+                          sx={{
+                            fontWeight: 600,
+                            fontSize: small ? (xxs ? "150%" : "200%") : "300%",
+                            color: "#ffffff",
+                          }}
+                        >
+                          {somatotypes.length <= 0
+                            ? ""
+                            : somatotypes[0].ectomorphy?.toFixed() === "0" ||
+                              Number(somatotypes[0].ectomorphy) < 0
+                            ? "1"
+                            : somatotypes[0].ectomorphy?.toFixed()}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Box
+                    sx={{
+                      width: "100%",
+                      borderBottom: `2px solid ${
+                        getSpecificColors(colorIndex).darkColor
+                      }`,
+                    }}
+                  >
+                    <Typography
+                      marginBottom={0.3}
+                      variant="h5"
+                      sx={{
+                        color: getSpecificColors(colorIndex).darkColor,
+                        textAlign: "center",
+                        fontWeight: 600,
+                        fontSize: xxl
+                          ? "250%"
+                          : xlarge
+                          ? large
+                            ? medium
+                              ? small
+                                ? xSmall
+                                  ? xxxs
+                                    ? "80%"
+                                    : "100%"
+                                  : "150%"
+                                : "200%"
+                              : "150%"
+                            : "200%"
+                          : "150%",
+                      }}
+                    >
+                      {props.avatar?.titleSoma}
+                    </Typography>
+                    <Typography
+                      variant="h5"
+                      sx={{
+                        color: getSpecificColors(colorIndex).normalColor,
+                        textAlign: "center",
+                        fontWeight: 600,
+                        fontSize: xxl
+                          ? "250%"
+                          : xlarge
+                          ? large
+                            ? medium
+                              ? small
+                                ? xSmall
+                                  ? xxxs
+                                    ? "80%"
+                                    : "100%"
+                                  : "150%"
+                                : "200%"
+                              : "150%"
+                            : "200%"
+                          : "150%",
+                      }}
+                    >
+                      {props.avatar?.codeSoma}
+                    </Typography>
+                  </Box>
+                  <Grid
+                    item
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                    width={"100%"}
+                  >
+                    <SomatotypeGraph
+                      graphColor={"#5c5c5c"}
+                      updateGraph={toggleGraph}
+                      pointsArray={finalPointsArray}
+                    />
+                  </Grid>
+                  <Grid
+                    item
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                    width={"100%"}
+                  >
+                    <Grid
+                      container
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-around",
+                        alignItems: "center",
+                        flexDirection: "row",
+                      }}
+                      width={"100%"}
+                    >
+                      {pointsArray.length > 0 && (
+                        <Grid
+                          item
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            flexDirection: "row",
+                          }}
+                        >
+                          <CircleIcon
+                            sx={{
+                              marginRight: "10px",
+                              fontSize: xSmall
+                                ? xxs
+                                  ? xxxs
+                                    ? "60%"
+                                    : "70%"
+                                  : "80%"
+                                : "100%",
+                              color: getSpecificColors(colorIndex).darkColor,
+                            }}
+                          />
+                          <Typography
+                            variant="h5"
+                            sx={{
+                              color: getSpecificColors(colorIndex).darkColor,
+                              textAlign: "center",
+                              fontWeight: 600,
+                              fontSize: xSmall
+                                ? xxs
+                                  ? xxxs
+                                    ? "85%"
+                                    : "100%"
+                                  : "120%"
+                                : "150%",
+                            }}
+                          >
+                            You
+                          </Typography>
+                        </Grid>
+                      )}
+                      {comparisonPointsArray.length > 0 && (
+                        <Grid
+                          item
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            flexDirection: "row",
+                          }}
+                        >
+                          <CircleIcon
+                            sx={{
+                              marginRight: "10px",
+                              fontSize: xSmall
+                                ? xxs
+                                  ? xxxs
+                                    ? "60%"
+                                    : "70%"
+                                  : "80%"
+                                : "100%",
+                              color: "#000000",
+                            }}
+                          />
+                          <Typography
+                            variant="h5"
+                            sx={{
+                              color: "#000000",
+                              textAlign: "center",
+                              fontWeight: 600,
+                              fontSize: xSmall
+                                ? xxs
+                                  ? xxxs
+                                    ? "85%"
+                                    : "100%"
+                                  : "120%"
+                                : "150%",
+                            }}
+                          >
+                            {comparisonState}
+                          </Typography>
+                        </Grid>
+                      )}
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Button
+                  sx={{
+                    borderColor: getSpecificColors(colorIndex).darkColor,
+                    color: getSpecificColors(colorIndex).darkColor,
+                    padding: "14px 30px",
+                    fontWeight: 600,
+                    textAlign: "center",
+                    lineHeight: "30px",
+                    fontSize: "18px",
+                    borderRadius: "40px",
+                    textTransform: "initial",
+                    marginTop: "20px",
+                    width: small
+                      ? xSmall
+                        ? xxs
+                          ? xxxs
+                            ? "90%"
+                            : "80%"
+                          : "75%"
+                        : "70%"
+                      : "60%",
+                    mx: small
+                      ? xSmall
+                        ? xxs
+                          ? xxxs
+                            ? "5%"
+                            : "10%"
+                          : "12.5%"
+                        : "15%"
+                      : "20%",
+                    "&.MuiButtonBase-root:hover": {
+                      bgcolor: getSpecificColors(colorIndex).darkColor,
+                      color: "#ffffff",
+                      borderColor: getSpecificColors(colorIndex).darkColor,
+                    },
+                  }}
+                  variant="outlined"
+                  onClick={() => {
+                    createExportImage();
+                    setIsSharing(true);
+                  }}
+                  disabled={isSharing}
+                >
+                  <ShareIcon sx={{ marginRight: "10px" }} />
+                  Share
+                </Button>
+              </Grid>
+            )}
+
+            {/* Results Table */}
+            {!showNoResultsMessage && (
+              <Grid
+                item
+                sx={{
+                  alignItems: "center",
+                  marginTop: "20px",
+                }}
+                xs={12}
+                md={6}
+                xl={4.5}
+                width={"100%"}
+                padding={2}
+              >
+                <ResultsTable
+                  somatotypes={somatotypes}
+                  showHistory={true}
+                  getUserDatas={getUserDatas}
+                  setIsAdding={props.setIsAdding}
+                  setIdRow={props.setIdRow}
+                  idRow={props.idRow}
+                  setIdSomatotype={props.setIdSomatotype}
+                  idSomatotype={props.idSomatotype}
+                  setPointsArray={setPointsArray}
+                  toggleGraph={toggleGraph}
+                  setToggleGraph={setToggleGraph}
+                  setDashboardSnackBarOpen={props.setDashboardSnackBarOpen}
+                  setDashboardSnackBarMessage={
+                    props.setDashboardSnackBarMessage
+                  }
+                  isFetching={props.fetching}
+                  setTypeResult={setTypeResult}
+                  colorIndex={cookies.user.mainColor}
+                  setAvatar={props.setAvatar}
+                  getAvatar={props.getAvatar}
+                />
+                <Button
+                  sx={{
+                    backgroundColor: getSpecificColors(colorIndex).darkColor,
+                    padding: "14px 30px",
+                    fontWeight: 600,
+                    textAlign: "center",
+                    lineHeight: "30px",
+                    fontSize: "18px",
+                    borderRadius: "40px",
+                    textTransform: "initial",
+                    marginTop: "20px",
+                    width: small
+                      ? xSmall
+                        ? xxs
+                          ? xxxs
+                            ? "90%"
+                            : "80%"
+                          : "75%"
+                        : "70%"
+                      : "60%",
+                    mx: small
+                      ? xSmall
+                        ? xxs
+                          ? xxxs
+                            ? "5%"
+                            : "10%"
+                          : "12.5%"
+                        : "15%"
+                      : "20%",
+                    "&.MuiButtonBase-root:hover": {
+                      bgcolor: getSpecificColors(colorIndex).darkColor,
+                    },
+                  }}
+                  variant="contained"
+                  onClick={() => {
+                    props.setIsAdding!(true);
+                    navigate("/Test");
+                    window.scrollTo(0, 0);
+                  }}
+                >
+                  Add new
+                </Button>
+                <Button
+                  sx={{
+                    backgroundColor: "#000000",
+                    color: "#ffffff",
+                    fontWeight: 600,
+                    textAlign: "center",
+                    lineHeight: "30px",
+                    fontSize: "18px",
+                    textTransform: "initial",
+                    padding: "14px 30px",
+                    borderRadius: "40px",
+                    marginTop: "20px",
+                    width: small
+                      ? xSmall
+                        ? xxs
+                          ? xxxs
+                            ? "90%"
+                            : "80%"
+                          : "75%"
+                        : "70%"
+                      : "60%",
+                    mx: small
+                      ? xSmall
+                        ? xxs
+                          ? xxxs
+                            ? "5%"
+                            : "10%"
+                          : "12.5%"
+                        : "15%"
+                      : "20%",
+                    "&.MuiButtonBase-root:hover": {
+                      bgcolor: "#000000",
+                    },
+                    display: "flex",
+                    "&:hover": { bgcolor: "#000000" },
+                  }}
+                  variant="contained"
+                  onClick={() => {
+                    setShowComparisonOptions((m) => !m);
+                  }}
+                >
+                  Compare
+                  <ArrowForwardIosIcon
+                    sx={{
+                      marginLeft: "10px",
+                      fontSize: "25px",
+                      transition: "all .3s ease-out",
+                      transform: showComparisonOptions
+                        ? "rotate(90deg)"
+                        : "rotate(0)",
+                    }}
+                  />
+                </Button>
+
+                {showComparisonOptions && (
+                  <Box>
+                    <Button
+                      sx={{
+                        backgroundColor: "#000000",
+                        color: "#ffffff",
+                        fontWeight: 600,
+                        textAlign: "center",
+                        lineHeight: "30px",
+                        fontSize: "18px",
+                        textTransform: "initial",
+                        padding: "14px 30px",
+                        borderRadius: "40px",
+                        marginTop: "5px",
+                        width: small
+                          ? xSmall
+                            ? xxs
+                              ? xxxs
+                                ? "90%"
+                                : "80%"
+                              : "75%"
+                            : "70%"
+                          : "60%",
+                        mx: small
+                          ? xSmall
+                            ? xxs
+                              ? xxxs
+                                ? "5%"
+                                : "10%"
+                              : "12.5%"
+                            : "15%"
+                          : "20%",
+                        "&.MuiButtonBase-root:hover": {
+                          bgcolor: "#000000",
+                        },
+                        display: "flex",
+                        "&:hover": { bgcolor: "#000000" },
+                      }}
+                      variant="contained"
+                      onClick={() => {
+                        setTableComparePage(0);
+                        setcomparisonState("Tribes");
+                        setShowComparisonOptions(false);
+                        setShowComparison(true);
+                        setCompareResultsToShow(compareTribesResults);
+                      }}
+                    >
+                      Tribes
+                    </Button>
+                    <Button
+                      sx={{
+                        backgroundColor: "#000000",
+                        color: "#ffffff",
+                        fontWeight: 600,
+                        textAlign: "center",
+                        lineHeight: "30px",
+                        fontSize: "18px",
+                        textTransform: "initial",
+                        padding: "14px 30px",
+                        borderRadius: "40px",
+                        marginTop: "5px",
+                        width: small
+                          ? xSmall
+                            ? xxs
+                              ? xxxs
+                                ? "90%"
+                                : "80%"
+                              : "75%"
+                            : "70%"
+                          : "60%",
+                        mx: small
+                          ? xSmall
+                            ? xxs
+                              ? xxxs
+                                ? "5%"
+                                : "10%"
+                              : "12.5%"
+                            : "15%"
+                          : "20%",
+                        "&.MuiButtonBase-root:hover": {
+                          bgcolor: "#000000",
+                        },
+                        display: "flex",
+                        "&:hover": { bgcolor: "#000000" },
+                      }}
+                      variant="contained"
+                      onClick={() => {
+                        setTableComparePage(0);
+                        setcomparisonState("Sports");
+                        setShowComparisonOptions(false);
+                        setShowComparison(true);
+                        setCompareResultsToShow(compareSportsResults);
+                      }}
+                    >
+                      Sports
+                    </Button>
+                    <Button
+                      sx={{
+                        backgroundColor: "#000000",
+                        color: "#ffffff",
+                        fontWeight: 600,
+                        textAlign: "center",
+                        lineHeight: "30px",
+                        fontSize: "18px",
+                        textTransform: "initial",
+                        padding: "14px 30px",
+                        borderRadius: "40px",
+                        marginTop: "5px",
+                        width: small
+                          ? xSmall
+                            ? xxs
+                              ? xxxs
+                                ? "90%"
+                                : "80%"
+                              : "75%"
+                            : "70%"
+                          : "60%",
+                        mx: small
+                          ? xSmall
+                            ? xxs
+                              ? xxxs
+                                ? "5%"
+                                : "10%"
+                              : "12.5%"
+                            : "15%"
+                          : "20%",
+                        "&.MuiButtonBase-root:hover": {
+                          bgcolor: "#000000",
+                        },
+                        display: "flex",
+                        "&:hover": { bgcolor: "#000000" },
+                      }}
+                      variant="contained"
+                      onClick={() => {
+                        setTableComparePage(0);
+                        setcomparisonState("Occupations");
+                        setShowComparisonOptions(false);
+                        setShowComparison(true);
+                        setCompareResultsToShow(compareOccupationResults);
+                      }}
+                    >
+                      Occupations
+                    </Button>
+                  </Box>
+                )}
+
+                {showComparison && (
+                  <TableCompare
+                    datas={compareResultsToShow}
+                    isFetching={props.fetching}
+                    setPointsArray={setComparisonPointsArray}
+                    toggleGraph={toggleGraph}
+                    setToggleGraph={setToggleGraph}
+                    tableTitle={comparisonState}
+                    page={tableComparePage}
+                    setPage={setTableComparePage}
+                  />
+                )}
+              </Grid>
+            )}
+          </Grid>
+        ) : (
+          <Grid
+            container
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-around",
+              alignItems: "start",
+              padding: "0px 15px",
+            }}
+            width={"100%"}
+          >
+            {/* No Results Message */}
             <Grid
               item
               sx={{
@@ -657,680 +1356,6 @@ const Dashboard: FC<IDashboard> = (props) => {
                 to see your results.
               </Typography>
             </Grid>
-          )}
-
-          {/* Result Card */}
-          {!showNoResultsMessage && (
-            <Grid
-              item
-              sx={{
-                alignItems: "center",
-                marginTop: "20px",
-              }}
-              xs={12}
-              md={6}
-              xl={4.5}
-              width={"100%"}
-              padding={2}
-            >
-              <Grid
-                container
-                padding={2}
-                sx={{
-                  textAlign: "center",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  border: `10px solid ${
-                    getSpecificColors(colorIndex).darkColor
-                  }`,
-                  borderRadius: "25px",
-                  backgroundColor: getSpecificColors(colorIndex).clearColor,
-                }}
-              >
-                <Typography
-                  variant="h5"
-                  sx={{
-                    color: getSpecificColors(colorIndex).normalColor,
-                    textAlign: "start",
-                    alignSelf: "start",
-                  }}
-                >
-                  {cookies.user.name}
-                </Typography>
-                {!props.fetching && props.avatar !== undefined && (
-                  <Avatar
-                    typeSoma={props.avatar.codeSoma!}
-                    hair={hairs[props.avatar!.indexHair!]}
-                    face={faces[props.avatar!.indexFace!]}
-                    beard={beards[props.avatar!.indexBeard!]}
-                    gender={cookies.user.gender}
-                    colorsSkin={colorsSkin[props.avatar!.indexColorSkin!]}
-                    colorsHair={colorsHair[props.avatar!.indexColorHair!]}
-                    cloth={true}
-                    mainColor={cookies.user.mainColor}
-                  />
-                )}
-
-                <Grid
-                  item
-                  width={"100%"}
-                  marginBottom={1}
-                  sx={{
-                    color: "black",
-                    backgroundColor: getSpecificColors(colorIndex).darkColor,
-                    textAlign: "center",
-                    borderRadius: "25px",
-                  }}
-                >
-                  <Grid
-                    container
-                    display={"flex"}
-                    flexDirection={"row"}
-                    alignItems={"center"}
-                    justifyContent={"center"}
-                    columnSpacing={small ? (xxs ? 1.5 : 3) : 5}
-                  >
-                    <Grid item>
-                      <Typography
-                        variant="h3"
-                        sx={{
-                          fontWeight: 600,
-                          fontSize: small ? (xxs ? "150%" : "200%") : "300%",
-                          color: "#ffffff",
-                        }}
-                      >
-                        {props.fetching || somatotypes.length <= 0
-                          ? ""
-                          : somatotypes[0].endomorphy?.toFixed() === "0" ||
-                            Number(somatotypes[0].endomorphy) < 0
-                          ? "1"
-                          : somatotypes[0].endomorphy?.toFixed()}
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <Typography
-                        variant="h3"
-                        sx={{
-                          fontWeight: 600,
-                          fontSize: small ? (xxs ? "150%" : "200%") : "300%",
-                          color: "#ffffff",
-                        }}
-                      >
-                        -
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <Typography
-                        variant="h3"
-                        sx={{
-                          fontWeight: 600,
-                          fontSize: small ? (xxs ? "150%" : "200%") : "300%",
-                          color: "#ffffff",
-                        }}
-                      >
-                        {props.fetching || somatotypes.length <= 0
-                          ? ""
-                          : somatotypes[0].mesomorphy?.toFixed() === "0" ||
-                            Number(somatotypes[0].mesomorphy) < 0
-                          ? "1"
-                          : somatotypes[0].mesomorphy?.toFixed()}
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <Typography
-                        variant="h3"
-                        sx={{
-                          fontWeight: 600,
-                          fontSize: small ? (xxs ? "150%" : "200%") : "300%",
-                          color: "#ffffff",
-                        }}
-                      >
-                        -
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <Typography
-                        variant="h3"
-                        sx={{
-                          fontWeight: 600,
-                          fontSize: small ? (xxs ? "150%" : "200%") : "300%",
-                          color: "#ffffff",
-                        }}
-                      >
-                        {props.fetching || somatotypes.length <= 0
-                          ? ""
-                          : somatotypes[0].ectomorphy?.toFixed() === "0" ||
-                            Number(somatotypes[0].ectomorphy) < 0
-                          ? "1"
-                          : somatotypes[0].ectomorphy?.toFixed()}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Box
-                  sx={{
-                    width: "100%",
-                    borderBottom: `2px solid ${
-                      getSpecificColors(colorIndex).darkColor
-                    }`,
-                  }}
-                >
-                  <Typography
-                    marginBottom={0.3}
-                    variant="h5"
-                    sx={{
-                      color: getSpecificColors(colorIndex).darkColor,
-                      textAlign: "center",
-                      fontWeight: 600,
-                      fontSize: xxl
-                        ? "250%"
-                        : xlarge
-                        ? large
-                          ? medium
-                            ? small
-                              ? xSmall
-                                ? xxxs
-                                  ? "80%"
-                                  : "100%"
-                                : "150%"
-                              : "200%"
-                            : "150%"
-                          : "200%"
-                        : "150%",
-                    }}
-                  >
-                    {props.avatar?.titleSoma}
-                  </Typography>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      color: getSpecificColors(colorIndex).normalColor,
-                      textAlign: "center",
-                      fontWeight: 600,
-                      fontSize: xxl
-                        ? "250%"
-                        : xlarge
-                        ? large
-                          ? medium
-                            ? small
-                              ? xSmall
-                                ? xxxs
-                                  ? "80%"
-                                  : "100%"
-                                : "150%"
-                              : "200%"
-                            : "150%"
-                          : "200%"
-                        : "150%",
-                    }}
-                  >
-                    {props.avatar?.codeSoma}
-                  </Typography>
-                </Box>
-                <Grid
-                  item
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                  width={"100%"}
-                >
-                  <SomatotypeGraph
-                    graphColor={"#5c5c5c"}
-                    updateGraph={toggleGraph}
-                    pointsArray={finalPointsArray}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                  width={"100%"}
-                >
-                  <Grid
-                    container
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-around",
-                      alignItems: "center",
-                      flexDirection: "row",
-                    }}
-                    width={"100%"}
-                  >
-                    {pointsArray.length > 0 && (
-                      <Grid
-                        item
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          flexDirection: "row",
-                        }}
-                      >
-                        <CircleIcon
-                          sx={{
-                            marginRight: "10px",
-                            fontSize: xSmall
-                              ? xxs
-                                ? xxxs
-                                  ? "60%"
-                                  : "70%"
-                                : "80%"
-                              : "100%",
-                            color: getSpecificColors(colorIndex).darkColor,
-                          }}
-                        />
-                        <Typography
-                          variant="h5"
-                          sx={{
-                            color: getSpecificColors(colorIndex).darkColor,
-                            textAlign: "center",
-                            fontWeight: 600,
-                            fontSize: xSmall
-                              ? xxs
-                                ? xxxs
-                                  ? "85%"
-                                  : "100%"
-                                : "120%"
-                              : "150%",
-                          }}
-                        >
-                          You
-                        </Typography>
-                      </Grid>
-                    )}
-                    {comparisonPointsArray.length > 0 && (
-                      <Grid
-                        item
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          flexDirection: "row",
-                        }}
-                      >
-                        <CircleIcon
-                          sx={{
-                            marginRight: "10px",
-                            fontSize: xSmall
-                              ? xxs
-                                ? xxxs
-                                  ? "60%"
-                                  : "70%"
-                                : "80%"
-                              : "100%",
-                            color: "#000000",
-                          }}
-                        />
-                        <Typography
-                          variant="h5"
-                          sx={{
-                            color: "#000000",
-                            textAlign: "center",
-                            fontWeight: 600,
-                            fontSize: xSmall
-                              ? xxs
-                                ? xxxs
-                                  ? "85%"
-                                  : "100%"
-                                : "120%"
-                              : "150%",
-                          }}
-                        >
-                          {comparisonState}
-                        </Typography>
-                      </Grid>
-                    )}
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Button
-                sx={{
-                  borderColor: getSpecificColors(colorIndex).darkColor,
-                  color: getSpecificColors(colorIndex).darkColor,
-                  padding: "14px 30px",
-                  fontWeight: 600,
-                  textAlign: "center",
-                  lineHeight: "30px",
-                  fontSize: "18px",
-                  borderRadius: "40px",
-                  textTransform: "initial",
-                  marginTop: "20px",
-                  width: small
-                    ? xSmall
-                      ? xxs
-                        ? xxxs
-                          ? "90%"
-                          : "80%"
-                        : "75%"
-                      : "70%"
-                    : "60%",
-                  mx: small
-                    ? xSmall
-                      ? xxs
-                        ? xxxs
-                          ? "5%"
-                          : "10%"
-                        : "12.5%"
-                      : "15%"
-                    : "20%",
-                  "&.MuiButtonBase-root:hover": {
-                    bgcolor: getSpecificColors(colorIndex).darkColor,
-                    color: "#ffffff",
-                    borderColor: getSpecificColors(colorIndex).darkColor,
-                  },
-                }}
-                variant="outlined"
-                onClick={() => {
-                  createExportImage();
-                  setIsSharing(true);
-                }}
-                disabled={isSharing}
-              >
-                <ShareIcon sx={{ marginRight: "10px" }} />
-                Share
-              </Button>
-            </Grid>
-          )}
-
-          {/* Results Table */}
-          {!showNoResultsMessage && (
-            <Grid
-              item
-              sx={{
-                alignItems: "center",
-                marginTop: "20px",
-              }}
-              xs={12}
-              md={6}
-              xl={4.5}
-              width={"100%"}
-              padding={2}
-            >
-              <ResultsTable
-                somatotypes={somatotypes}
-                showHistory={true}
-                getUserDatas={getUserDatas}
-                setIsAdding={props.setIsAdding}
-                setIdRow={props.setIdRow}
-                idRow={props.idRow}
-                setIdSomatotype={props.setIdSomatotype}
-                idSomatotype={props.idSomatotype}
-                setPointsArray={setPointsArray}
-                toggleGraph={toggleGraph}
-                setToggleGraph={setToggleGraph}
-                setDashboardSnackBarOpen={props.setDashboardSnackBarOpen}
-                setDashboardSnackBarMessage={props.setDashboardSnackBarMessage}
-                isFetching={props.fetching}
-                setTypeResult={setTypeResult}
-                colorIndex={cookies.user.mainColor}
-                setAvatar={props.setAvatar}
-                getAvatar={props.getAvatar}
-              />
-              <Button
-                sx={{
-                  backgroundColor: getSpecificColors(colorIndex).darkColor,
-                  padding: "14px 30px",
-                  fontWeight: 600,
-                  textAlign: "center",
-                  lineHeight: "30px",
-                  fontSize: "18px",
-                  borderRadius: "40px",
-                  textTransform: "initial",
-                  marginTop: "20px",
-                  width: small
-                    ? xSmall
-                      ? xxs
-                        ? xxxs
-                          ? "90%"
-                          : "80%"
-                        : "75%"
-                      : "70%"
-                    : "60%",
-                  mx: small
-                    ? xSmall
-                      ? xxs
-                        ? xxxs
-                          ? "5%"
-                          : "10%"
-                        : "12.5%"
-                      : "15%"
-                    : "20%",
-                  "&.MuiButtonBase-root:hover": {
-                    bgcolor: getSpecificColors(colorIndex).darkColor,
-                  },
-                }}
-                variant="contained"
-                onClick={() => {
-                  props.setIsAdding!(true);
-                  navigate("/Test");
-                  window.scrollTo(0, 0);
-                }}
-              >
-                Add new
-              </Button>
-              <Button
-                sx={{
-                  backgroundColor: "#000000",
-                  color: "#ffffff",
-                  fontWeight: 600,
-                  textAlign: "center",
-                  lineHeight: "30px",
-                  fontSize: "18px",
-                  textTransform: "initial",
-                  padding: "14px 30px",
-                  borderRadius: "40px",
-                  marginTop: "20px",
-                  width: small
-                    ? xSmall
-                      ? xxs
-                        ? xxxs
-                          ? "90%"
-                          : "80%"
-                        : "75%"
-                      : "70%"
-                    : "60%",
-                  mx: small
-                    ? xSmall
-                      ? xxs
-                        ? xxxs
-                          ? "5%"
-                          : "10%"
-                        : "12.5%"
-                      : "15%"
-                    : "20%",
-                  "&.MuiButtonBase-root:hover": {
-                    bgcolor: "#000000",
-                  },
-                  display: "flex",
-                  "&:hover": { bgcolor: "#000000" },
-                }}
-                variant="contained"
-                onClick={() => {
-                  setShowComparisonOptions((m) => !m);
-                }}
-              >
-                Compare
-                <ArrowForwardIosIcon
-                  sx={{
-                    marginLeft: "10px",
-                    fontSize: "25px",
-                    transition: "all .3s ease-out",
-                    transform: showComparisonOptions
-                      ? "rotate(90deg)"
-                      : "rotate(0)",
-                  }}
-                />
-              </Button>
-
-              {showComparisonOptions && (
-                <Box>
-                  <Button
-                    sx={{
-                      backgroundColor: "#000000",
-                      color: "#ffffff",
-                      fontWeight: 600,
-                      textAlign: "center",
-                      lineHeight: "30px",
-                      fontSize: "18px",
-                      textTransform: "initial",
-                      padding: "14px 30px",
-                      borderRadius: "40px",
-                      marginTop: "5px",
-                      width: small
-                        ? xSmall
-                          ? xxs
-                            ? xxxs
-                              ? "90%"
-                              : "80%"
-                            : "75%"
-                          : "70%"
-                        : "60%",
-                      mx: small
-                        ? xSmall
-                          ? xxs
-                            ? xxxs
-                              ? "5%"
-                              : "10%"
-                            : "12.5%"
-                          : "15%"
-                        : "20%",
-                      "&.MuiButtonBase-root:hover": {
-                        bgcolor: "#000000",
-                      },
-                      display: "flex",
-                      "&:hover": { bgcolor: "#000000" },
-                    }}
-                    variant="contained"
-                    onClick={() => {
-                      setTableComparePage(0);
-                      setcomparisonState("Tribes");
-                      setShowComparisonOptions(false);
-                      setShowComparison(true);
-                      setCompareResultsToShow(compareTribesResults);
-                    }}
-                  >
-                    Tribes
-                  </Button>
-                  <Button
-                    sx={{
-                      backgroundColor: "#000000",
-                      color: "#ffffff",
-                      fontWeight: 600,
-                      textAlign: "center",
-                      lineHeight: "30px",
-                      fontSize: "18px",
-                      textTransform: "initial",
-                      padding: "14px 30px",
-                      borderRadius: "40px",
-                      marginTop: "5px",
-                      width: small
-                        ? xSmall
-                          ? xxs
-                            ? xxxs
-                              ? "90%"
-                              : "80%"
-                            : "75%"
-                          : "70%"
-                        : "60%",
-                      mx: small
-                        ? xSmall
-                          ? xxs
-                            ? xxxs
-                              ? "5%"
-                              : "10%"
-                            : "12.5%"
-                          : "15%"
-                        : "20%",
-                      "&.MuiButtonBase-root:hover": {
-                        bgcolor: "#000000",
-                      },
-                      display: "flex",
-                      "&:hover": { bgcolor: "#000000" },
-                    }}
-                    variant="contained"
-                    onClick={() => {
-                      setTableComparePage(0);
-                      setcomparisonState("Sports");
-                      setShowComparisonOptions(false);
-                      setShowComparison(true);
-                      setCompareResultsToShow(compareSportsResults);
-                    }}
-                  >
-                    Sports
-                  </Button>
-                  <Button
-                    sx={{
-                      backgroundColor: "#000000",
-                      color: "#ffffff",
-                      fontWeight: 600,
-                      textAlign: "center",
-                      lineHeight: "30px",
-                      fontSize: "18px",
-                      textTransform: "initial",
-                      padding: "14px 30px",
-                      borderRadius: "40px",
-                      marginTop: "5px",
-                      width: small
-                        ? xSmall
-                          ? xxs
-                            ? xxxs
-                              ? "90%"
-                              : "80%"
-                            : "75%"
-                          : "70%"
-                        : "60%",
-                      mx: small
-                        ? xSmall
-                          ? xxs
-                            ? xxxs
-                              ? "5%"
-                              : "10%"
-                            : "12.5%"
-                          : "15%"
-                        : "20%",
-                      "&.MuiButtonBase-root:hover": {
-                        bgcolor: "#000000",
-                      },
-                      display: "flex",
-                      "&:hover": { bgcolor: "#000000" },
-                    }}
-                    variant="contained"
-                    onClick={() => {
-                      setTableComparePage(0);
-                      setcomparisonState("Occupations");
-                      setShowComparisonOptions(false);
-                      setShowComparison(true);
-                      setCompareResultsToShow(compareOccupationResults);
-                    }}
-                  >
-                    Occupations
-                  </Button>
-                </Box>
-              )}
-
-              {showComparison && (
-                <TableCompare
-                  datas={compareResultsToShow}
-                  isFetching={props.fetching}
-                  setPointsArray={setComparisonPointsArray}
-                  toggleGraph={toggleGraph}
-                  setToggleGraph={setToggleGraph}
-                  tableTitle={comparisonState}
-                  page={tableComparePage}
-                  setPage={setTableComparePage}
-                />
-              )}
-            </Grid>
-          )}
-
-          {showNoResultsMessage && (
             <Grid item xs={12}>
               <Button
                 sx={{
@@ -1358,8 +1383,9 @@ const Dashboard: FC<IDashboard> = (props) => {
                 Add new
               </Button>
             </Grid>
-          )}
-        </Grid>
+          </Grid>
+        )}
+
         <CounterShare />
       </ThemeProvider>
       <Snackbar
