@@ -143,7 +143,7 @@ interface ITestSteps {
   setData: (data: IData | undefined) => void;
   data: IData;
   isAdding?: boolean;
-  idRow?: string;
+  idRow?: number;
   idSomatotype?: string;
   setDashboardSnackBarOpen?: (open: boolean) => void;
   setDashboardSnackBarMessage?: (msg: string) => void;
@@ -408,6 +408,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
   };
 
   const handleFinish = async () => {
+    setFetching(true);
     const getFemur = (): number => {
       const toFoot = Number(values.height) * 0.0328084; // convert height cm to Foot Unit
       return (toFoot - 0.9) / 0.60375;
@@ -540,7 +541,8 @@ const TestSteps: FC<ITestSteps> = (props) => {
 
       newAvatar.codeSoma = data.avatar?.codeSoma;
 
-      props.setAvatar!({ ...newAvatar });
+      (props.isAdding || props.idRow === 0) &&
+        props.setAvatar!({ ...newAvatar });
 
       navigate("/");
       window.scrollTo(0, 0);
@@ -889,7 +891,6 @@ const TestSteps: FC<ITestSteps> = (props) => {
     if (!cookies.user) {
       navigate("/signup");
     } else {
-      console.log(data);
       saveResults(data);
     }
   };
@@ -1022,8 +1023,14 @@ const TestSteps: FC<ITestSteps> = (props) => {
 
               currentStep === steps.length - 1 && handleFinish();
 
-              window.scrollTo(0, boxRef.current?.offsetTop! - 20);
+              window.scrollTo(
+                0,
+                cookies.user && currentStep === steps.length - 1
+                  ? 0
+                  : boxRef.current?.offsetTop! - 20
+              );
             }}
+            disabled={fetching}
           >
             {currentStep === steps.length - 1 ? "Finish" : "Next"}
             {currentStep < steps.length - 1 && (

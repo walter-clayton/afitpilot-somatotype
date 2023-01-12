@@ -65,8 +65,8 @@ interface resultProps {
   showHistory?: boolean;
   getUserDatas?: () => void;
   setIsAdding?: (openModal: boolean) => void;
-  setIdRow?: (id: string) => void;
-  idRow?: string;
+  setIdRow?: (id: number) => void;
+  idRow?: number;
   setIdSomatotype?: (id: string) => void;
   idSomatotype?: string;
   multipleResults?: boolean;
@@ -127,7 +127,9 @@ const ResultsTable: FC<resultProps> = (props: any) => {
         { headers: headers }
       );
 
-      props.getAvatar();
+      if (props.idRow === 0) {
+        props.getAvatar();
+      }
 
       props.getUserDatas();
       setUpdating(false);
