@@ -654,6 +654,12 @@ const Profile = (props: any) => {
     setColorHasChanges(true);
   };
 
+  useEffect(() => {
+    if (cookies.user) {
+      props.getAvatar!();
+    }
+  }, []);
+
   return (
     <>
       <Typography
