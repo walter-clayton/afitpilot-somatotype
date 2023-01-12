@@ -31,6 +31,7 @@ import TypesPage1 from "./components/CTA/TypesPage1";
 import Disconnection from "./components/Disconnection";
 import Library from "./components/CTA/Library";
 import Optimisation from "./components/CTA/Optimisation";
+import axios from "axios";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -87,7 +88,7 @@ function App() {
   const [data, setData] = useState<IData | undefined>(undefined);
 
   const [isAdding, setIsAdding] = useState<boolean>(true);
-  const [idRow, setIdRow] = useState<string>("");
+  const [idRow, setIdRow] = useState<number>();
   const [idSomatotype, setIdSomatotype] = useState<string>("");
   const [dashboardSnackBarOpen, setDashboardSnackBarOpen] =
     useState<boolean>(false);
@@ -100,6 +101,8 @@ function App() {
 
   const [avatar, setAvatar] = useState<IParamsAvatar | undefined>(undefined);
 
+  const [fetching, setFetching] = useState<boolean>(false);
+
   const handleClose = (event: any, reason: any) => {
     if (reason === "clickaway") {
       return;
@@ -110,6 +113,34 @@ function App() {
   useEffect(() => {
     cookies.data && setData(cookies.data);
   }, [data, cookies.data]);
+
+  const getAvatar = async () => {
+    const headers = {
+      "Content-Type": "application/json",
+      access_key: process.env.REACT_APP_ACCESS_KEY,
+      Authorization: `Bearer ${cookies.user.token}`,
+    };
+
+    try {
+      setFetching(true);
+      const response = await axios.get(process.env.REACT_APP_GETAVATAR_URL!, {
+        headers: headers,
+      });
+
+      setAvatar(response.data.avatar);
+      setFetching(false);
+    } catch (error) {
+      // if (error.response) {
+      //     error.response.data.message
+      //       ? setSnackbarMessage(error.response.data.message)
+      //       : setSnackbarMessage(error.response.statusText);
+      //   } else {
+      //     setSnackbarMessage("Error with the server");
+      //   }
+      console.log("error ", error);
+      setFetching(false);
+    }
+  };
 
   return (
     <Router>
@@ -143,8 +174,11 @@ function App() {
                 setDashboardSnackBarOpen={setDashboardSnackBarOpen}
                 dashboardSnackBarMessage={dashboardSnackBarMessage}
                 setDashboardSnackBarMessage={setDashboardSnackBarMessage}
-                avatar={avatar}
                 setAvatar={setAvatar}
+                avatar={avatar}
+                fetching={fetching}
+                setFetching={setFetching}
+                getAvatar={getAvatar}
               />
             ) : (
               <Home />
@@ -209,6 +243,7 @@ function App() {
               setDashboardSnackBarOpen={setDashboardSnackBarOpen}
               setDashboardSnackBarMessage={setDashboardSnackBarMessage}
               avatar={avatar}
+              setAvatar={setAvatar}
             />
           }
         />
@@ -224,20 +259,11 @@ function App() {
                 setSnackbarMessage={setSnackbarMessage}
                 avatar={avatar}
                 setAvatar={setAvatar}
+                fetching={fetching}
+                setFetching={setFetching}
+                getAvatar={getAvatar}
               />
             )
-          }
-        />
-        <Route
-          path="/Add"
-          element={
-            <AddPage
-              isAdding={isAdding}
-              idRow={idRow}
-              idSomatotype={idSomatotype}
-              setDashboardSnackBarOpen={setDashboardSnackBarOpen}
-              setDashboardSnackBarMessage={setDashboardSnackBarMessage}
-            />
           }
         />
       </Routes>

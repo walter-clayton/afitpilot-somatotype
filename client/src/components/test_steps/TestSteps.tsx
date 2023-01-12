@@ -143,11 +143,12 @@ interface ITestSteps {
   setData: (data: IData | undefined) => void;
   data: IData;
   isAdding?: boolean;
-  idRow?: string;
+  idRow?: number;
   idSomatotype?: string;
   setDashboardSnackBarOpen?: (open: boolean) => void;
   setDashboardSnackBarMessage?: (msg: string) => void;
   avatar?: IParamsAvatar;
+  setAvatar?: (avatar: IParamsAvatar) => void;
 }
 
 const TestSteps: FC<ITestSteps> = (props) => {
@@ -174,7 +175,9 @@ const TestSteps: FC<ITestSteps> = (props) => {
   const [indexColorSkin, setIndexColorSkin] = useState<number>(0);
   const [indexColorHair, setIndexColorHair] = useState<number>(0);
 
-  const [mainColor, setMainColor] = useState(0);
+  const [mainColor, setMainColor] = useState(
+    !cookies.user ? 0 : cookies.user.mainColor
+  );
 
   const [fetching, setFetching] = useState<boolean>(false);
   const [somatotype, setSomatotype] = useState<ISomatotype | undefined>(
@@ -405,6 +408,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
   };
 
   const handleFinish = async () => {
+    setFetching(true);
     const getFemur = (): number => {
       const toFoot = Number(values.height) * 0.0328084; // convert height cm to Foot Unit
       return (toFoot - 0.9) / 0.60375;
@@ -500,7 +504,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
       somatotype: somatotype,
     };
 
-    if (cookies.user) {
+    if (cookies.user && props.avatar !== undefined) {
       data.avatar = {
         ...props.avatar,
         titleSoma: typeTitle,
@@ -532,6 +536,13 @@ const TestSteps: FC<ITestSteps> = (props) => {
         { data, id: props.idSomatotype },
         { headers: headers }
       );
+
+      let newAvatar = props.avatar ? { ...props.avatar } : { ...data.avatar };
+
+      newAvatar.codeSoma = data.avatar?.codeSoma;
+
+      (props.isAdding || props.idRow === 0) &&
+        props.setAvatar!({ ...newAvatar });
 
       navigate("/");
       window.scrollTo(0, 0);
@@ -817,39 +828,46 @@ const TestSteps: FC<ITestSteps> = (props) => {
           <span>-</span>
           <span>{datas!.somatotype?.ectomorphy?.toFixed()}</span>
         </Stack>
-        <Box>
-          <Typography variant="h5" textAlign="center" fontWeight="bold" mt={2}>
-            Color Picker
-          </Typography>
-          <Stack
-            direction="row"
-            flexWrap="wrap"
-            justifyContent="center"
-            spacing={2}
-            mt={2}
-          >
-            {pickColors.map((item, index) => (
-              <IconButton
-                key={index}
-                sx={{ padding: 0 }}
-                onClick={() => {
-                  setMainColor(index);
-                }}
-              >
-                <CircleIcon
-                  sx={{
-                    color: getSpecificColors(index).normalColor,
-                    fontSize: "50px",
-                    cursor: "pointer",
-                    "&:hover": {
-                      opacity: 0.5,
-                    },
+        {!cookies.user && (
+          <Box>
+            <Typography
+              variant="h5"
+              textAlign="center"
+              fontWeight="bold"
+              mt={2}
+            >
+              Color Picker
+            </Typography>
+            <Stack
+              direction="row"
+              flexWrap="wrap"
+              justifyContent="center"
+              spacing={2}
+              mt={2}
+            >
+              {pickColors.map((item, index) => (
+                <IconButton
+                  key={index}
+                  sx={{ padding: 0 }}
+                  onClick={() => {
+                    setMainColor(index);
                   }}
-                />
-              </IconButton>
-            ))}
-          </Stack>
-        </Box>
+                >
+                  <CircleIcon
+                    sx={{
+                      color: getSpecificColors(index).normalColor,
+                      fontSize: "50px",
+                      cursor: "pointer",
+                      "&:hover": {
+                        opacity: 0.5,
+                      },
+                    }}
+                  />
+                </IconButton>
+              ))}
+            </Stack>
+          </Box>
+        )}
       </Box>
     );
   };
@@ -870,7 +888,11 @@ const TestSteps: FC<ITestSteps> = (props) => {
     };
 
     props.setData(data);
-    navigate("/signup");
+    if (!cookies.user) {
+      navigate("/signup");
+    } else {
+      saveResults(data);
+    }
   };
 
   return (
@@ -1001,8 +1023,14 @@ const TestSteps: FC<ITestSteps> = (props) => {
 
               currentStep === steps.length - 1 && handleFinish();
 
-              window.scrollTo(0, boxRef.current?.offsetTop! - 20);
+              window.scrollTo(
+                0,
+                cookies.user && currentStep === steps.length - 1
+                  ? 0
+                  : boxRef.current?.offsetTop! - 20
+              );
             }}
+            disabled={fetching}
           >
             {currentStep === steps.length - 1 ? "Finish" : "Next"}
             {currentStep < steps.length - 1 && (

@@ -28,7 +28,7 @@ import { alignProperty } from "@mui/material/styles/cssUtils";
 import { display, flexbox, fontWeight } from "@mui/system";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { ISomatotype } from "../App";
+import { IParamsAvatar, ISomatotype } from "../App";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { AddPoint, IPoints } from "./Calculation";
@@ -65,8 +65,8 @@ interface resultProps {
   showHistory?: boolean;
   getUserDatas?: () => void;
   setIsAdding?: (openModal: boolean) => void;
-  setIdRow?: (id: string) => void;
-  idRow?: string;
+  setIdRow?: (id: number) => void;
+  idRow?: number;
   setIdSomatotype?: (id: string) => void;
   idSomatotype?: string;
   multipleResults?: boolean;
@@ -79,6 +79,8 @@ interface resultProps {
   isFetching?: boolean;
   setTypeResult?: (result: string) => void;
   colorIndex?: number;
+  setAvatar?: (avatar: IParamsAvatar) => void;
+  getAvatar?: () => void;
 }
 
 const ResultsTable: FC<resultProps> = (props: any) => {
@@ -124,7 +126,11 @@ const ResultsTable: FC<resultProps> = (props: any) => {
         `${process.env.REACT_APP_DELETESOMATOTYPE_URL}/${props.idSomatotype}`!,
         { headers: headers }
       );
-      //TO DO Set snackbar message to say deleted sucessfully
+
+      if (props.idRow === 0) {
+        props.getAvatar();
+      }
+
       props.getUserDatas();
       setUpdating(false);
     } catch (error) {
