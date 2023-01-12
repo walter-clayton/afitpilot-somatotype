@@ -41,10 +41,9 @@ const Profile = (props: any) => {
   const [emailhasChanges, setEmailHasChanges] = useState(false);
   const [nameHasChanges, setNameHasChanges] = useState(false);
   const [colorhasChanges, setColorHasChanges] = useState(false);
+  const [avatarhasChanges, setAvatarHasChanges] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showPwdConfirmation, setShowPwdConfirmation] = useState(false);
-
-  const [fetching, setFetching] = React.useState<boolean>(false);
 
   const [email, setEmail] = useState(defaultEmail);
   const [name, setName] = useState(defaultName);
@@ -82,8 +81,6 @@ const Profile = (props: any) => {
     cookies.user.mainColor
   );
 
-  const [codeSomatotype, setCodeSomatotype] = useState<string>("");
-
   const medium = useMediaQuery("(max-width:1000px)");
   const small = useMediaQuery("(max-width:600px)");
   const xSmall = useMediaQuery("(max-width:550px)");
@@ -96,6 +93,16 @@ const Profile = (props: any) => {
   const [indexBeard, setIndexBeard] = useState<number>(0);
   const [indexColorSkin, setIndexColorSkin] = useState<number>(0);
   const [indexColorHair, setIndexColorHair] = useState<number>(0);
+
+  useEffect(() => {
+    if (props.avatar !== undefined) {
+      setIndexHair(props.avatar.indexHair);
+      setIndexFace(props.avatar.indexFace);
+      setIndexBeard(props.avatar.indexBeard);
+      setIndexColorHair(props.avatar.indexColorHair);
+      setIndexColorSkin(props.avatar.indexColorSkin);
+    }
+  }, [props.avatar]);
 
   let indexes: IIndexes = {
     indexHair: indexHair,
@@ -125,49 +132,15 @@ const Profile = (props: any) => {
     borderRadius: "25px",
   };
 
-  const getAvatar = async () => {
-    const headers = {
-      "Content-Type": "application/json",
-      access_key: process.env.REACT_APP_ACCESS_KEY,
-      Authorization: `Bearer ${cookies.user.token}`,
-    };
-
-    try {
-      setFetching(true);
-      const response = await axios.get(process.env.REACT_APP_GETAVATAR_URL!, {
-        headers: headers,
-      });
-
-      props.setAvatar(response.data.avatar);
-      setCodeSomatotype(response.data.avatar.codeSoma);
-
-      setFetching(false);
-    } catch (error) {
-      // if (error.response) {
-      //     error.response.data.message
-      //       ? setSnackbarMessage(error.response.data.message)
-      //       : setSnackbarMessage(error.response.statusText);
-      //   } else {
-      //     setSnackbarMessage("Error with the server");
-      //   }
-      console.log("error ", error);
-      setFetching(false);
-    }
-  };
-
-  useEffect(() => {
-    getAvatar();
-  }, []);
-
-  useEffect(() => {
-    if (props.avatar !== undefined) {
-      setIndexHair(props.avatar.indexHair!);
-      setIndexFace(props.avatar.indexFace!);
-      setIndexBeard(props.avatar.indexBeard!);
-      setIndexColorSkin(props.avatar.indexColorSkin!);
-      setIndexColorHair(props.avatar.indexColorHair!);
-    }
-  }, [props.avatar]);
+  // useEffect(() => {
+  //   if (props.avatar !== undefined) {
+  //     setIndexHair(props.avatar.indexHair!);
+  //     setIndexFace(props.avatar.indexFace!);
+  //     setIndexBeard(props.avatar.indexBeard!);
+  //     setIndexColorSkin(props.avatar.indexColorSkin!);
+  //     setIndexColorHair(props.avatar.indexColorHair!);
+  //   }
+  // }, [props.avatar]);
 
   useEffect(() => {
     if (colorPickedIndex !== undefined) {
@@ -190,7 +163,7 @@ const Profile = (props: any) => {
 
   const handleSaveNewEmail = async () => {
     try {
-      setFetching(true);
+      props.setFetching(true);
       const headers = {
         "Content-Type": "application/json",
         access_key: process.env.REACT_APP_ACCESS_KEY,
@@ -208,15 +181,33 @@ const Profile = (props: any) => {
 
       setEmail(response.data.user.email);
 
+      const now = new Date();
+      const seconds = Math.floor(now.getTime() / 1000);
+
+      const cookieUser = { ...cookies.user };
+      cookieUser.email = response.data.user.email;
+
+      setCookie(
+        "user",
+        { ...cookieUser, createdAt: seconds },
+        {
+          path: "/",
+          sameSite: "none",
+          secure: true,
+          maxAge: 3600,
+        }
+      );
+
       setSnackBarMessage("Changes saved!");
       setEmailHasChanges(false);
       setNameHasChanges(false);
       setColorHasChanges(false);
+      setAvatarHasChanges(false);
       setIsEditing(false);
       setEmailIsIncorrect(false);
       setNameIsIncorrect(false);
 
-      setFetching(false);
+      props.setFetching(false);
     } catch (error: any) {
       // if (error.response) {
       //   error.response.data.message
@@ -229,17 +220,19 @@ const Profile = (props: any) => {
       setSnackBarMessage("Changes failed to save!");
       setEmailHasChanges(false);
       setNameHasChanges(false);
+      setColorHasChanges(false);
+      setAvatarHasChanges(false);
       setIsEditing(false);
       setEmailIsIncorrect(false);
       setNameIsIncorrect(false);
       console.log("error ", error);
-      setFetching(false);
+      props.setFetching(false);
     }
   };
 
   const handleSaveNewName = async () => {
     try {
-      setFetching(true);
+      props.setFetching(true);
       const headers = {
         "Content-Type": "application/json",
         access_key: process.env.REACT_APP_ACCESS_KEY,
@@ -257,12 +250,30 @@ const Profile = (props: any) => {
 
       setName(response.data.user.name);
 
-      setFetching(false);
+      const now = new Date();
+      const seconds = Math.floor(now.getTime() / 1000);
+
+      const cookieUser = { ...cookies.user };
+      cookieUser.name = response.data.user.name;
+
+      setCookie(
+        "user",
+        { ...cookieUser, createdAt: seconds },
+        {
+          path: "/",
+          sameSite: "none",
+          secure: true,
+          maxAge: 3600,
+        }
+      );
+
+      props.setFetching(false);
 
       setSnackBarMessage("Changes saved!");
       setEmailHasChanges(false);
       setNameHasChanges(false);
       setColorHasChanges(false);
+      setAvatarHasChanges(false);
       setIsEditing(false);
       setEmailIsIncorrect(false);
       setNameIsIncorrect(false);
@@ -278,17 +289,19 @@ const Profile = (props: any) => {
       setSnackBarMessage("Changes failed to save!");
       setEmailHasChanges(false);
       setNameHasChanges(false);
+      setColorHasChanges(false);
+      setAvatarHasChanges(false);
       setIsEditing(false);
       setEmailIsIncorrect(false);
       setNameIsIncorrect(false);
       console.log("error ", error);
-      setFetching(false);
+      props.setFetching(false);
     }
   };
 
   const handleSaveNewPassword = async () => {
     try {
-      setFetching(true);
+      props.setFetching(true);
       const headers = {
         "Content-Type": "application/json",
         access_key: process.env.REACT_APP_ACCESS_KEY,
@@ -306,7 +319,7 @@ const Profile = (props: any) => {
       );
       props.setOpen(true);
       props.setSnackbarMessage("Password edited successfully");
-      setFetching(false);
+      props.setFetching(false);
     } catch (error: any) {
       // if (error.response) {
       //   error.response.data.message
@@ -317,13 +330,13 @@ const Profile = (props: any) => {
       // }
 
       console.log("error ", error);
-      setFetching(false);
+      props.setFetching(false);
     }
   };
 
   const handleSaveNewMainColor = async () => {
     try {
-      setFetching(true);
+      props.setFetching(true);
       const headers = {
         "Content-Type": "application/json",
         access_key: process.env.REACT_APP_ACCESS_KEY,
@@ -361,11 +374,12 @@ const Profile = (props: any) => {
       setEmailHasChanges(false);
       setNameHasChanges(false);
       setColorHasChanges(false);
+      setAvatarHasChanges(false);
       setIsEditing(false);
       setEmailIsIncorrect(false);
       setNameIsIncorrect(false);
 
-      setFetching(false);
+      props.setFetching(false);
     } catch (error: any) {
       // if (error.response) {
       //   error.response.data.message
@@ -379,17 +393,79 @@ const Profile = (props: any) => {
       setEmailHasChanges(false);
       setNameHasChanges(false);
       setColorHasChanges(false);
+      setAvatarHasChanges(false);
       setIsEditing(false);
       setEmailIsIncorrect(false);
       setNameIsIncorrect(false);
       console.log("error ", error);
-      setFetching(false);
+      props.setFetching(false);
+    }
+  };
+
+  const handleSaveNewAvatar = async () => {
+    let newAvatar: IParamsAvatar = {};
+    newAvatar.indexBeard = indexBeard;
+    newAvatar.indexColorHair = indexColorHair;
+    newAvatar.indexColorSkin = indexColorSkin;
+    newAvatar.indexFace = indexFace;
+    newAvatar.indexHair = indexHair;
+
+    try {
+      props.setFetching(true);
+      const headers = {
+        "Content-Type": "application/json",
+        access_key: process.env.REACT_APP_ACCESS_KEY,
+        Authorization: `Bearer ${cookies.user.token}`,
+      };
+
+      const response = await axios.post(
+        process.env.REACT_APP_EDITAVATAR_URL!,
+        { avatar: newAvatar, id: props.avatar._id },
+        {
+          headers: headers,
+        }
+      );
+
+      props.setAvatar((prevState: IParamsAvatar) => ({
+        ...prevState,
+        ...newAvatar,
+      }));
+
+      setSnackBarMessage("Changes saved!");
+      setEmailHasChanges(false);
+      setNameHasChanges(false);
+      setColorHasChanges(false);
+      setAvatarHasChanges(false);
+      setIsEditing(false);
+      setEmailIsIncorrect(false);
+      setNameIsIncorrect(false);
+
+      props.setFetching(false);
+    } catch (error: any) {
+      // if (error.response) {
+      //   error.response.data.message
+      //     ? setSnackbarMessage(error.response.data.message)
+      //     : setSnackbarMessage(error.response.statusText);
+      // } else {
+      //   setSnackbarMessage("Error with the server");
+      // }
+
+      setSnackBarMessage("Changes failed to save!");
+      setEmailHasChanges(false);
+      setNameHasChanges(false);
+      setColorHasChanges(false);
+      setAvatarHasChanges(false);
+      setIsEditing(false);
+      setEmailIsIncorrect(false);
+      setNameIsIncorrect(false);
+      console.log("error ", error);
+      props.setFetching(false);
     }
   };
 
   const handleDeleteAccount = async () => {
     try {
-      setFetching(true);
+      props.setFetching(true);
       const headers = {
         "Content-Type": "application/json",
         access_key: process.env.REACT_APP_ACCESS_KEY,
@@ -402,7 +478,7 @@ const Profile = (props: any) => {
         },
       });
 
-      setFetching(false);
+      props.setFetching(false);
       handleDeleteConfirmModalClose();
       removeCookie("user", { path: "/", sameSite: "none", secure: true });
       props.setOpen(true);
@@ -419,7 +495,7 @@ const Profile = (props: any) => {
       // }
 
       console.log("error ", error);
-      setFetching(false);
+      props.setFetching(false);
     }
   };
 
@@ -433,6 +509,9 @@ const Profile = (props: any) => {
       }
       if (colorhasChanges) {
         handleSaveNewMainColor();
+      }
+      if (avatarhasChanges) {
+        handleSaveNewAvatar();
       }
       if (emailhasChanges || nameHasChanges) {
         const user = {
@@ -463,6 +542,8 @@ const Profile = (props: any) => {
     setName(defaultName);
     setEmailHasChanges(false);
     setNameHasChanges(false);
+    setColorHasChanges(false);
+    setAvatarHasChanges(false);
     setIsEditing(false);
     setEmailIsIncorrect(false);
     setNameIsIncorrect(false);
@@ -614,29 +695,41 @@ const Profile = (props: any) => {
               backgroundColor: colorPicked!.clearColor,
             }}
           >
-            {!fetching &&
-              props.avatar !== undefined &&
-              (isEditing ? (
-                <CustomAvatar
-                  typeCode={codeSomatotype}
-                  gender={cookies.user.gender}
-                  indexes={indexes}
-                  setters={setters}
-                  clothes={true}
-                  mainColor={cookies.user.mainColor}
-                />
+            {!props.fetching &&
+              (props.avatar !== undefined ? (
+                isEditing ? (
+                  <CustomAvatar
+                    typeCode={props.avatar.codeSoma}
+                    gender={cookies.user.gender}
+                    indexes={indexes!}
+                    setters={setters}
+                    clothes={true}
+                    mainColor={colorPickedIndex}
+                    setHasChanges={setAvatarHasChanges}
+                  />
+                ) : (
+                  <Avatar
+                    typeSoma={props.avatar.codeSoma}
+                    hair={hairs[props.avatar.indexHair!]}
+                    face={faces[props.avatar.indexFace!]}
+                    beard={beards[props.avatar.indexBeard!]}
+                    gender={cookies.user.gender}
+                    colorsSkin={colorsSkin[props.avatar.indexColorSkin!]}
+                    colorsHair={colorsHair[props.avatar.indexColorHair!]}
+                    cloth={true}
+                    mainColor={colorPickedIndex}
+                  />
+                )
               ) : (
-                <Avatar
-                  typeSoma={codeSomatotype}
-                  hair={hairs[props.avatar.indexHair!]}
-                  face={faces[props.avatar.indexFace!]}
-                  beard={beards[props.avatar.indexBeard!]}
-                  gender={cookies.user.gender}
-                  colorsSkin={colorsSkin[props.avatar.indexColorSkin!]}
-                  colorsHair={colorsHair[props.avatar.indexColorHair!]}
-                  cloth={true}
-                  mainColor={colorPickedIndex}
-                />
+                <Typography
+                  variant="h4"
+                  p={3}
+                  textAlign="center"
+                  color={"black"}
+                >
+                  You have no somatotype registered on this account. Please add
+                  one to be able to see your avatar!
+                </Typography>
               ))}
             <Box
               width={"100%"}
@@ -1048,7 +1141,10 @@ const Profile = (props: any) => {
                   variant="contained"
                   onClick={handleSaveChanges}
                   disabled={
-                    (!emailhasChanges && !nameHasChanges && !colorhasChanges) ||
+                    (!emailhasChanges &&
+                      !nameHasChanges &&
+                      !colorhasChanges &&
+                      !avatarhasChanges) ||
                     emailIsIncorrect ||
                     nameIsIncorrect
                   }
@@ -1096,7 +1192,7 @@ const Profile = (props: any) => {
               }}
               variant="contained"
               onClick={handleEditProfile}
-              disabled={fetching}
+              disabled={props.fetching}
             >
               Edit Profile
             </Button>
@@ -1127,7 +1223,7 @@ const Profile = (props: any) => {
               }}
               variant="contained"
               onClick={handleEditPassword}
-              disabled={fetching}
+              disabled={props.fetching}
             >
               Edit Password
             </Button>
@@ -1158,9 +1254,13 @@ const Profile = (props: any) => {
               }}
               variant="outlined"
               onClick={handleDeleteAccountModal}
-              disabled={fetching}
+              disabled={props.fetching}
             >
-              {fetching ? <CircularProgress size={25} /> : "Delete account"}
+              {props.fetching ? (
+                <CircularProgress size={25} />
+              ) : (
+                "Delete account"
+              )}
             </Button>
           </Grid>
         )}

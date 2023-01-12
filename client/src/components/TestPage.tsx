@@ -34,11 +34,12 @@ interface ITesting {
   resultsSaved: boolean;
   setResultsSaved: (bool: boolean) => void;
   isAdding?: boolean;
-  idRow?: string;
+  idRow?: number;
   idSomatotype?: string;
   setDashboardSnackBarOpen?: (open: boolean) => void;
   setDashboardSnackBarMessage?: (msg: string) => void;
   avatar?: IParamsAvatar;
+  setAvatar?: (avatar: IParamsAvatar) => void;
 }
 
 interface ISomatotypesStandard {
@@ -557,6 +558,7 @@ const TestPage: FC<ITesting> = (props) => {
         setDashboardSnackBarOpen={props.setDashboardSnackBarOpen}
         setDashboardSnackBarMessage={props.setDashboardSnackBarMessage}
         avatar={props.avatar}
+        setAvatar={props.setAvatar}
       />
 
       <Snackbar

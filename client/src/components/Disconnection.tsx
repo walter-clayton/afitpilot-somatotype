@@ -24,6 +24,8 @@ const Disconnection: FC<IDisconnection> = (props) => {
           navigate("/");
           window.location.reload();
           clearInterval(props.clearInterval);
+          removeCookie("user", { path: "/", sameSite: "none", secure: true });
+          window.scrollTo(0, 0);
         }
       }, 1000);
       props.setClearInterval!(tempInterval);
