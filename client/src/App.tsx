@@ -261,6 +261,7 @@ function App() {
                 setAvatar={setAvatar}
                 fetching={fetching}
                 setFetching={setFetching}
+                getAvatar={getAvatar}
               />
             )
           }
