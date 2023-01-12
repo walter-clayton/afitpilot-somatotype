@@ -312,7 +312,20 @@ const Dashboard: FC<IDashboard> = (props) => {
           >
             {cookies.user.name}
           </Typography>
-          {/* <img src={avatar} alt="manu tribesman" style={{ width: "150px" }} /> */}
+          {!props.fetching && props.avatar !== undefined && (
+            <Avatar
+              typeSoma={props.avatar.codeSoma!}
+              hair={hairs[props.avatar!.indexHair!]}
+              face={faces[props.avatar!.indexFace!]}
+              beard={beards[props.avatar!.indexBeard!]}
+              gender={cookies.user.gender}
+              colorsSkin={colorsSkin[props.avatar!.indexColorSkin!]}
+              colorsHair={colorsHair[props.avatar!.indexColorHair!]}
+              cloth={true}
+              mainColor={cookies.user.mainColor}
+            />
+          )}
+
           <Grid
             item
             width={"100%"}
@@ -330,19 +343,22 @@ const Dashboard: FC<IDashboard> = (props) => {
               flexDirection={"row"}
               alignItems={"center"}
               justifyContent={"center"}
-              columnSpacing={1.5}
+              columnSpacing={small ? (xxs ? 1.5 : 3) : 5}
             >
               <Grid item>
                 <Typography
                   variant="h3"
                   sx={{
                     fontWeight: 600,
-                    fontSize: "150%",
+                    fontSize: small ? (xxs ? "150%" : "200%") : "300%",
                     color: "#ffffff",
                   }}
                 >
                   {props.fetching || somatotypes.length <= 0
                     ? ""
+                    : somatotypes[0].endomorphy?.toFixed() === "0" ||
+                      Number(somatotypes[0].endomorphy) < 0
+                    ? "1"
                     : somatotypes[0].endomorphy?.toFixed()}
                 </Typography>
               </Grid>
@@ -351,7 +367,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                   variant="h3"
                   sx={{
                     fontWeight: 600,
-                    fontSize: "150%",
+                    fontSize: small ? (xxs ? "150%" : "200%") : "300%",
                     color: "#ffffff",
                   }}
                 >
@@ -363,12 +379,15 @@ const Dashboard: FC<IDashboard> = (props) => {
                   variant="h3"
                   sx={{
                     fontWeight: 600,
-                    fontSize: "150%",
+                    fontSize: small ? (xxs ? "150%" : "200%") : "300%",
                     color: "#ffffff",
                   }}
                 >
                   {props.fetching || somatotypes.length <= 0
                     ? ""
+                    : somatotypes[0].mesomorphy?.toFixed() === "0" ||
+                      Number(somatotypes[0].mesomorphy) < 0
+                    ? "1"
                     : somatotypes[0].mesomorphy?.toFixed()}
                 </Typography>
               </Grid>
@@ -377,7 +396,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                   variant="h3"
                   sx={{
                     fontWeight: 600,
-                    fontSize: "150%",
+                    fontSize: small ? (xxs ? "150%" : "200%") : "300%",
                     color: "#ffffff",
                   }}
                 >
@@ -389,12 +408,15 @@ const Dashboard: FC<IDashboard> = (props) => {
                   variant="h3"
                   sx={{
                     fontWeight: 600,
-                    fontSize: "150%",
+                    fontSize: small ? (xxs ? "150%" : "200%") : "300%",
                     color: "#ffffff",
                   }}
                 >
                   {props.fetching || somatotypes.length <= 0
                     ? ""
+                    : somatotypes[0].ectomorphy?.toFixed() === "0" ||
+                      Number(somatotypes[0].ectomorphy) < 0
+                    ? "1"
                     : somatotypes[0].ectomorphy?.toFixed()}
                 </Typography>
               </Grid>
@@ -415,9 +437,24 @@ const Dashboard: FC<IDashboard> = (props) => {
                 color: getSpecificColors(colorIndex).darkColor,
                 textAlign: "center",
                 fontWeight: 600,
+                fontSize: xxl
+                  ? "250%"
+                  : xlarge
+                  ? large
+                    ? medium
+                      ? small
+                        ? xSmall
+                          ? xxxs
+                            ? "80%"
+                            : "100%"
+                          : "150%"
+                        : "200%"
+                      : "150%"
+                    : "200%"
+                  : "150%",
               }}
             >
-              {formatTypeResultText(typeResult)[0]}
+              {props.avatar?.titleSoma}
             </Typography>
             <Typography
               variant="h5"
@@ -425,9 +462,24 @@ const Dashboard: FC<IDashboard> = (props) => {
                 color: getSpecificColors(colorIndex).normalColor,
                 textAlign: "center",
                 fontWeight: 600,
+                fontSize: xxl
+                  ? "250%"
+                  : xlarge
+                  ? large
+                    ? medium
+                      ? small
+                        ? xSmall
+                          ? xxxs
+                            ? "80%"
+                            : "100%"
+                          : "150%"
+                        : "200%"
+                      : "150%"
+                    : "200%"
+                  : "150%",
               }}
             >
-              {formatTypeResultText(typeResult)[1]}
+              {props.avatar?.codeSoma}
             </Typography>
           </Box>
           <Grid
@@ -477,7 +529,13 @@ const Dashboard: FC<IDashboard> = (props) => {
                   <CircleIcon
                     sx={{
                       marginRight: "10px",
-                      fontSize: "100%",
+                      fontSize: xSmall
+                        ? xxs
+                          ? xxxs
+                            ? "60%"
+                            : "70%"
+                          : "80%"
+                        : "100%",
                       color: getSpecificColors(colorIndex).darkColor,
                     }}
                   />
@@ -487,6 +545,13 @@ const Dashboard: FC<IDashboard> = (props) => {
                       color: getSpecificColors(colorIndex).darkColor,
                       textAlign: "center",
                       fontWeight: 600,
+                      fontSize: xSmall
+                        ? xxs
+                          ? xxxs
+                            ? "85%"
+                            : "100%"
+                          : "120%"
+                        : "150%",
                     }}
                   >
                     You
@@ -506,7 +571,13 @@ const Dashboard: FC<IDashboard> = (props) => {
                   <CircleIcon
                     sx={{
                       marginRight: "10px",
-                      fontSize: "100%",
+                      fontSize: xSmall
+                        ? xxs
+                          ? xxxs
+                            ? "60%"
+                            : "70%"
+                          : "80%"
+                        : "100%",
                       color: "#000000",
                     }}
                   />
@@ -516,6 +587,13 @@ const Dashboard: FC<IDashboard> = (props) => {
                       color: "#000000",
                       textAlign: "center",
                       fontWeight: 600,
+                      fontSize: xSmall
+                        ? xxs
+                          ? xxxs
+                            ? "85%"
+                            : "100%"
+                          : "120%"
+                        : "150%",
                     }}
                   >
                     {comparisonState}
