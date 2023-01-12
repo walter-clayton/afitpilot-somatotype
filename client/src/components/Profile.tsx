@@ -691,7 +691,9 @@ const Profile = (props: any) => {
               justifyContent: "center",
               alignItems: "center",
               border: `10px solid ${colorPicked!.darkColor}`,
-              borderRadius: "25px",
+              borderBottom: "none",
+              borderTopLeftRadius: "25px",
+              borderTopRightRadius: "25px",
               backgroundColor: colorPicked!.clearColor,
             }}
           >
@@ -731,11 +733,29 @@ const Profile = (props: any) => {
                   one to be able to see your avatar!
                 </Typography>
               ))}
+          </Grid>
+          <Grid
+            container
+            paddingTop={2}
+            width={"100%"}
+            sx={{
+              marginTop: "-2px",
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              border: `10px solid ${colorPicked!.darkColor}`,
+              borderTop: "none",
+              borderBottomLeftRadius: "25px",
+              borderBottomRightRadius: "25px",
+              backgroundColor: colorPicked!.normalColor,
+            }}
+          >
             <Box
               width={"100%"}
               padding={1}
               sx={{
-                backgroundColor: colorPicked!.normalColor,
                 borderBottomLeftRadius: "12.5px",
                 borderBottomRightRadius: "12.5px",
               }}
