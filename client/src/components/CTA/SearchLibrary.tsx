@@ -10,7 +10,6 @@ const SearchLibrary = () => {
 
   const handleChange = (e: { target: { value: string } }) => {
     setSearch(e.target.value);
-    console.log(e.target.value);
   };
 
   const imagePerCard = 6;
