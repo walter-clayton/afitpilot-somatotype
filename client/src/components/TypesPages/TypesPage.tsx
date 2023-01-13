@@ -10,7 +10,7 @@ import {
 } from "@mui/material/";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import CounterShare from "./CounterShare";
+import CounterShare from "../CTA/CounterShare";
 import { useNavigate } from "react-router-dom";
 import mesomorpyshape from "../image/mesomorpyshape.png";
 import TypesPage1, { Icategory } from "./TypesPage1";
@@ -183,19 +183,19 @@ const TypesPage = () => {
       image: "EnM_man",
       bodyType: "Endomorphic Mesomorph",
       TypeCode: "EnM",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/EnM",
     },
     {
       image: "BM_man",
       bodyType: "Balanced Mesomorph",
       TypeCode: "BM",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/BM",
     },
     {
       image: "EcM_man",
       bodyType: "Ectomorphic Mesomorph ",
       TypeCode: "EcM",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/EcM",
     },
   ];
   const Ectomorph = [
@@ -203,19 +203,19 @@ const TypesPage = () => {
       image: "MEc_man",
       bodyType: "Mesomorphic Ectomorph ",
       TypeCode: "MEc",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/MEc",
     },
     {
       image: "BEc_man",
       bodyType: "Balanced Ectomorph",
       TypeCode: "BEc",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/BEc",
     },
     {
       image: "EnEc_man",
       bodyType: "Endomorphic Ectomorph ",
       TypeCode: "EnEc",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/EnEc",
     },
   ];
   const Endomorph = [
@@ -223,19 +223,19 @@ const TypesPage = () => {
       image: "EcEn_man",
       bodyType: "Ectomorphic Endomorph",
       TypeCode: "EcEn ",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/EcEn",
     },
     {
       image: "BEn_man",
       bodyType: "Balanced Endomorph",
       TypeCode: "BEn",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/BEn",
     },
     {
       image: "MEn_man",
       bodyType: "Mesomorphic Endomorph ",
       TypeCode: "MEn",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/MEn",
     },
   ];
   const Hybrid = [
@@ -243,19 +243,19 @@ const TypesPage = () => {
       image: "M-Ec_man",
       bodyType: "Mesomorph Ectomorph",
       TypeCode: "M-Ec",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/M-Ec",
     },
     {
       image: "En-Ec_man",
       bodyType: "Endomorph Ectomorph",
       TypeCode: "En-Ec",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/En-Ec",
     },
     {
       image: "M-En_man",
       bodyType: "Mesomorph Endomorph",
       TypeCode: "M-En",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/M-En",
     },
   ];
   const Central = [
@@ -263,7 +263,7 @@ const TypesPage = () => {
       image: "C_man",
       bodyType: "Central",
       TypeCode: "C",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/C",
     },
   ];
 
@@ -448,7 +448,12 @@ const TypesPage = () => {
                   md={4}
                   lg={4}
                   xl={4}
-                  sx={{ textAlign: "center", marginTop: 5, pb: 9 }}
+                  sx={{
+                    textAlign: "center",
+                    marginTop: 5,
+                    pb: 9,
+                    cursor: "pointer",
+                  }}
                   onClick={() => {
                     navigate(step.linkToPage);
                     window.scrollTo(0, 0);
@@ -547,7 +552,12 @@ const TypesPage = () => {
                   md={4}
                   lg={4}
                   xl={4}
-                  sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
+                  sx={{
+                    textAlign: "center",
+                    marginTop: 5,
+                    mb: 5,
+                    cursor: "pointer",
+                  }}
                   onClick={() => {
                     navigate(step.linkToPage);
                   }}
@@ -612,7 +622,12 @@ const TypesPage = () => {
                   md={4}
                   lg={4}
                   xl={4}
-                  sx={{ textAlign: "center", marginTop: 5, pb: 9 }}
+                  sx={{
+                    textAlign: "center",
+                    marginTop: 5,
+                    pb: 9,
+                    cursor: "pointer",
+                  }}
                   onClick={() => {
                     navigate(step.linkToPage);
                     window.scrollTo(0, 0);
@@ -712,7 +727,12 @@ const TypesPage = () => {
                   sm={12}
                   lg={4}
                   xl={4}
-                  sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
+                  sx={{
+                    textAlign: "center",
+                    marginTop: 5,
+                    mb: 5,
+                    cursor: "pointer",
+                  }}
                   onClick={() => {
                     navigate(step.linkToPage);
                   }}
@@ -777,10 +797,16 @@ const TypesPage = () => {
                   md={12}
                   lg={12}
                   xl={12}
-                  sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
+                  sx={{
+                    textAlign: "center",
+                    marginTop: 5,
+                    mb: 5,
+                    cursor: "pointer",
+                  }}
                   onClick={() => {
-                    navigate(step.linkToPage);
                     window.scrollTo(0, 0);
+                    navigate(step.linkToPage);
+                    console.log("hey");
                   }}
                 >
                   <img

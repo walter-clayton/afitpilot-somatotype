@@ -17,7 +17,6 @@ import SomatotypeGraph from "./SomatotypeGraph";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import CounterShare from "./CTA/CounterShare";
-import AddPage from "./AddPage";
 import { useNavigate } from "react-router-dom";
 import TableCompare, { IComparison } from "./TableCompare";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Grid, Box, Button, Typography, useMediaQuery } from "@mui/material/";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import CounterShare from "./CounterShare";
+import CounterShare from "../CTA/CounterShare";
 import { useNavigate } from "react-router-dom";
 import mesomorpyshape from "../image/mesomorpyshape.png";
 
