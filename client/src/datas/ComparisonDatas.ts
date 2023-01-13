@@ -1,4 +1,4 @@
-interface IComparisonData {
+export interface IComparisonData {
   group: string;
   gender: string;
   name: string;
@@ -12,7 +12,7 @@ interface IComparisonData {
 export const comparisonDatas: IComparisonData[] = [
   {
     group: "Tribe",
-    gender: "Male",
+    gender: "Man",
     name: "Nilote",
     endo: 2,
     meso: 3,
@@ -22,7 +22,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Tribe",
-    gender: "Male",
+    gender: "Man",
     name: "Manu",
     endo: 2,
     meso: 7,
@@ -32,7 +32,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Tribe",
-    gender: "Female",
+    gender: "Woman",
     name: "Manu",
     endo: 2,
     meso: 5,
@@ -42,7 +42,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Tribe",
-    gender: "Male",
+    gender: "Man",
     name: "Eskimo",
     endo: 4,
     meso: 6,
@@ -52,7 +52,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Tribe",
-    gender: "Female",
+    gender: "Woman",
     name: "Eskimo",
     endo: 6,
     meso: 4,
@@ -62,7 +62,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Tribe",
-    gender: "Male",
+    gender: "Man",
     name: "Brahmin",
     endo: 2,
     meso: 4,
@@ -72,7 +72,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Sport",
-    gender: "Male",
+    gender: "Man",
     name: "Rugby",
     endo: 3,
     meso: 6,
@@ -81,7 +81,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Sport",
-    gender: "Male",
+    gender: "Man",
     name: "Weightlifting",
     endo: 2,
     meso: 7,
@@ -90,7 +90,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Sport",
-    gender: "Male",
+    gender: "Man",
     name: "Football",
     endo: 2,
     meso: 5,
@@ -99,7 +99,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Sport",
-    gender: "Male",
+    gender: "Man",
     name: "Sumo",
     endo: 5,
     meso: 6,
@@ -108,7 +108,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Sport",
-    gender: "Female",
+    gender: "Woman",
     name: "Sumo",
     endo: 7,
     meso: 5,
@@ -117,7 +117,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Sport",
-    gender: "Male",
+    gender: "Man",
     name: "Bodybuilder",
     endo: 1,
     meso: 9,
@@ -126,7 +126,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Sport",
-    gender: "Female",
+    gender: "Woman",
     name: "Bodybuilder",
     endo: 2,
     meso: 5,
@@ -135,7 +135,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Sport",
-    gender: "Female",
+    gender: "Woman",
     name: "Rower",
     endo: 3,
     meso: 5,
@@ -144,7 +144,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Sport",
-    gender: "Male",
+    gender: "Man",
     name: "Gymnast",
     endo: 1,
     meso: 6,
@@ -153,7 +153,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Sport",
-    gender: "Male",
+    gender: "Man",
     name: "Track Cyclist",
     endo: 2,
     meso: 5,
@@ -162,7 +162,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Sport",
-    gender: "Female",
+    gender: "Woman",
     name: "Swimmer",
     endo: 2,
     meso: 4,
@@ -171,7 +171,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Sport",
-    gender: "Male",
+    gender: "Man",
     name: "Basketball",
     endo: 2,
     meso: 4,
@@ -180,7 +180,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Sport",
-    gender: "Female",
+    gender: "Woman",
     name: "Basketball",
     endo: 4,
     meso: 4,
@@ -189,7 +189,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Sport",
-    gender: "Male",
+    gender: "Man",
     name: "Golf",
     endo: 4,
     meso: 6,
@@ -198,7 +198,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Sport",
-    gender: "Male",
+    gender: "Man",
     name: "Crossfit",
     endo: 2,
     meso: 7,
@@ -207,7 +207,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Sport",
-    gender: "Female",
+    gender: "Woman",
     name: "Crossfit",
     endo: 2,
     meso: 5,
@@ -216,7 +216,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Occupation",
-    gender: "Male",
+    gender: "Man",
     name: "Designer",
     endo: 2,
     meso: 4,
@@ -225,7 +225,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Occupation",
-    gender: "Female",
+    gender: "Woman",
     name: "Student",
     endo: 4,
     meso: 3,
@@ -234,7 +234,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Occupation",
-    gender: "Male",
+    gender: "Man",
     name: "Executive",
     endo: 5,
     meso: 4,
@@ -243,7 +243,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Occupation",
-    gender: "Male",
+    gender: "Man",
     name: "Salesman",
     endo: 3,
     meso: 4,
@@ -252,7 +252,7 @@ export const comparisonDatas: IComparisonData[] = [
   },
   {
     group: "Occupation",
-    gender: "Female",
+    gender: "Woman",
     name: "Accountant",
     endo: 4,
     meso: 3,
