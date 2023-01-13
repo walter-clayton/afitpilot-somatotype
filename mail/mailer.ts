@@ -71,9 +71,14 @@ const sendEmailPassword = async (
     html: htmlTempPassword(message, name, pass, data),
     attachments: [
       {
-        filename: "Logo.png",
+        filename: "avatar.png",
         path: data.svgAvatar,
-        cid: "Logo.png",
+        cid: "avatar.png",
+      },
+      {
+        filename: "logo.png",
+        path: "./logo.png",
+        cid: "logo.png",
       },
     ],
   };

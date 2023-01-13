@@ -128,13 +128,12 @@ export const htmlTempPassword = (
       <div id="container">
         <header>
           <div id="logo-wrap">
-            <img id="logo" src="cid:Logo.png" alt="logo" />
+            <img id="logo" src="cid:logo.png" alt="logo" />
           </div>
           <h1 style="padding: 10px 0;">AFITPILOT</h1>
         </header>
         <div id="avatar">
-          <img src="${data.svgAvatar}" alt="avatar" />
-          <img src="cid:Logo.png" alt="avatar2" />
+          <img src="cid:avatar.png" alt="avatar2" />
         </div>
         <div>
         <p style="margin-bottom: 20px;">The results of your somatotype test are in. Here they are:</p>
