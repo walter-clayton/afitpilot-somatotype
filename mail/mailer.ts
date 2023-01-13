@@ -14,6 +14,7 @@ const transporter = nodemailer.createTransport({
     user: process.env.MAIL_USER,
     pass: process.env.MAIL_PASSWORD,
   },
+  tls: { rejectUnauthorized: false },
 });
 
 interface IOptionsNodemailer {
@@ -71,7 +72,7 @@ const sendEmailPassword = async (
     attachments: [
       {
         filename: "Logo.png",
-        path: "/mail/Logo.png",
+        path: __dirname + "/Logo.png",
         cid: "logo",
       },
     ],
