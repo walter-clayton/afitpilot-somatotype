@@ -39,18 +39,17 @@ interface IAvatar {
 const Avatar: FC<IAvatar> = (props) => {
   // const code = props.typeSoma;
   const code = props.typeSoma;
-  const gen: string = props.gender;
 
   const skinBody: React.ReactNode = getSkin(
     // props.typeSoma,
-    gen,
+    props.gender,
     code,
     props.colorsSkin,
     props.cloth
   ) as React.ReactNode;
 
   const head: React.ReactNode = getHead(
-    gen,
+    props.gender,
     code,
     props.hair,
     props.beard,
@@ -86,7 +85,7 @@ const Avatar: FC<IAvatar> = (props) => {
         strokeLinejoin="round"
         strokeMiterlimit="2"
         clipRule="evenodd"
-        viewBox={gen === "male" ? "0 0 140 351" : "0 0 144 342"}
+        viewBox={props.gender === "male" ? "0 0 140 351" : "0 0 144 342"}
       >
         <g id="body">{skinBody}</g>
 

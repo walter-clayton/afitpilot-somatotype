@@ -31,6 +31,7 @@ import {
   colorsSkin,
   faces,
   hairs,
+  hairsFemale,
 } from "./avatar/variablesAvatar/VariableAvatar";
 import { comparisonDatas } from "../datas/ComparisonDatas";
 import { getSpecificColors } from "./Colors";
@@ -328,7 +329,11 @@ const Dashboard: FC<IDashboard> = (props) => {
           {!props.fetching && props.avatar !== undefined && (
             <Avatar
               typeSoma={props.avatar.codeSoma!}
-              hair={hairs[props.avatar!.indexHair!]}
+              hair={
+                cookies.user.gender === "male"
+                  ? hairs[props.avatar!.indexHair!]
+                  : hairsFemale[props.avatar!.indexHair!]
+              }
               face={faces[props.avatar!.indexFace!]}
               beard={beards[props.avatar!.indexBeard!]}
               gender={cookies.user.gender}
@@ -696,7 +701,11 @@ const Dashboard: FC<IDashboard> = (props) => {
                   {props.avatar !== undefined && (
                     <Avatar
                       typeSoma={props.avatar.codeSoma!}
-                      hair={hairs[props.avatar!.indexHair!]}
+                      hair={
+                        cookies.user.gender === "male"
+                          ? hairs[props.avatar!.indexHair!]
+                          : hairsFemale[props.avatar!.indexHair!]
+                      }
                       face={faces[props.avatar!.indexFace!]}
                       beard={beards[props.avatar!.indexBeard!]}
                       gender={cookies.user.gender}
