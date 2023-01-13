@@ -156,7 +156,7 @@ const TypesPageFemale = (props: any) => {
                   md={4}
                   lg={4}
                   xl={4}
-                  sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
+                  sx={{ textAlign: "center", marginTop: 5, pb: 9 }}
                   onClick={() => {
                     window.scrollTo(0, 0);
                     navigate(step.linkToPage);
@@ -238,7 +238,7 @@ const TypesPageFemale = (props: any) => {
           >
             <Typography
               variant="h2"
-              sx={{ color: "white", textAlign: "center", mb: 2, pt: 2 }}
+              sx={{ color: "white", textAlign: "center", mb: 2, pt: 9 }}
             >
               ECTOMORPH
             </Typography>
@@ -321,7 +321,7 @@ const TypesPageFemale = (props: any) => {
                   md={4}
                   lg={4}
                   xl={4}
-                  sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
+                  sx={{ textAlign: "center", marginTop: 5, pb: 9 }}
                   onClick={() => {
                     window.scrollTo(0, 0);
                     navigate(step.linkToPage);
@@ -403,7 +403,7 @@ const TypesPageFemale = (props: any) => {
           >
             <Typography
               variant="h2"
-              sx={{ color: "white", textAlign: "center", mb: 2, pt: 2 }}
+              sx={{ color: "white", textAlign: "center", mb: 2, pt: 9 }}
             >
               HYBRID
             </Typography>

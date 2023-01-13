@@ -44,7 +44,9 @@ import {
 } from "../avatar/variablesAvatar/VariableAvatar";
 import CircleIcon from "@mui/icons-material/Circle";
 import { getSpecificColors } from "../Colors";
-import axios from "axios";
+import axios, { toFormData } from "axios";
+import html2canvas from "html2canvas";
+import logo from "../image/Afitpilot_logo_black.svg";
 
 const PrettoSlider = styled(Slider)({
   color: "RGB(108, 77, 123)",
@@ -457,6 +459,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
       setFetching(false);
     }
   };
+  const testRef = useRef<any>(null);
 
   const handleFinish = async () => {
     window.scrollTo(0, boxRef.current?.offsetTop! - 20);
@@ -851,6 +854,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
           </Typography>
 
           <Avatar
+            testRef={testRef}
             typeSoma={somatotypeCode}
             hair={
               !cookies.user
@@ -885,11 +889,26 @@ const TestSteps: FC<ITestSteps> = (props) => {
             color: "white",
           }}
         >
-          <span>{datas!.somatotype?.endomorphy?.toFixed()}</span>
+          <span>
+            {datas!.somatotype?.endomorphy?.toFixed() === "0" ||
+            Number(datas!.somatotype?.endomorphy) < 0
+              ? "1"
+              : datas!.somatotype?.endomorphy?.toFixed()}
+          </span>
           <span>-</span>
-          <span>{datas!.somatotype?.mesomorphy?.toFixed()}</span>
+          <span>
+            {datas!.somatotype?.mesomorphy?.toFixed() === "0" ||
+            Number(datas!.somatotype?.mesomorphy) < 0
+              ? "1"
+              : datas!.somatotype?.mesomorphy?.toFixed()}
+          </span>
           <span>-</span>
-          <span>{datas!.somatotype?.ectomorphy?.toFixed()}</span>
+          <span>
+            {datas!.somatotype?.ectomorphy?.toFixed() === "0" ||
+            Number(datas!.somatotype?.ectomorphy) < 0
+              ? "1"
+              : datas!.somatotype?.ectomorphy?.toFixed()}
+          </span>
         </Stack>
         {!cookies.user && (
           <Box>
@@ -935,10 +954,31 @@ const TestSteps: FC<ITestSteps> = (props) => {
     );
   };
 
-  const handleSave = () => {
+  const createExportImageAvatar = async () => {
+    const element: HTMLDivElement = testRef.current;
+    const canvas = await html2canvas(element, { backgroundColor: null });
+
+    const data = canvas.toDataURL("image/png");
+
+    return data;
+  };
+
+  const createExportImageLogo = async () => {
+    const element: HTMLDivElement = testRef.current;
+    const canvas = await html2canvas(element, { backgroundColor: null });
+
+    const data = canvas.toDataURL("image/png");
+
+    return data;
+  };
+
+  const handleSave = async () => {
     const data: IData = { ...datas };
 
     data.user = { gender: values.gender, mainColor: mainColor };
+    data.svgAvatar = await createExportImageAvatar();
+
+    // data.logo = createExportImageLogo();
 
     data.avatar = {
       indexHair,
@@ -949,6 +989,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
       titleSoma: somatotypeTitle,
       codeSoma: somatotypeCode,
     };
+    console.log(data.svgAvatar);
 
     props.setData(data);
     if (!cookies.user) {
