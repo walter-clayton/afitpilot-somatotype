@@ -27,6 +27,7 @@ import {
   colorsSkin,
   faces,
   hairs,
+  hairsFemale,
 } from "./avatar/variablesAvatar/VariableAvatar";
 import { IParamsAvatar } from "../App";
 import CustomAvatar, { IIndexes, ISetters } from "./avatar/CustomAvatar";
@@ -404,11 +405,13 @@ const Profile = (props: any) => {
 
   const handleSaveNewAvatar = async () => {
     let newAvatar: IParamsAvatar = {};
+
     newAvatar.indexBeard = indexBeard;
     newAvatar.indexColorHair = indexColorHair;
     newAvatar.indexColorSkin = indexColorSkin;
     newAvatar.indexFace = indexFace;
     newAvatar.indexHair = indexHair;
+    console.log(newAvatar);
 
     try {
       props.setFetching(true);
@@ -718,7 +721,11 @@ const Profile = (props: any) => {
                 ) : (
                   <Avatar
                     typeSoma={props.avatar.codeSoma}
-                    hair={hairs[props.avatar.indexHair!]}
+                    hair={
+                      cookies.user.gender === "male"
+                        ? hairs[props.avatar!.indexHair!]
+                        : hairsFemale[props.avatar!.indexHair!]
+                    }
                     face={faces[props.avatar.indexFace!]}
                     beard={beards[props.avatar.indexBeard!]}
                     gender={cookies.user.gender}

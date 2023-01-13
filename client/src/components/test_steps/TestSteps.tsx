@@ -273,57 +273,107 @@ const TestSteps: FC<ITestSteps> = (props) => {
     img?: string;
   }
 
-  const steps: ISteps[] = [
-    {
-      label: "age",
-      question: "Your age is:",
-      unity: "years",
-      min: "13",
-      max: "120",
-    },
-    {
-      label: "gender",
-      question: "Your gender is:",
-    },
-    {
-      label: "height",
-      question: "Your height is:",
-      unity: "cm",
-      min: "120",
-      max: "250",
-    },
-    {
-      label: "weight",
-      question: "Your weight is:",
-      unity: "kg",
-      min: "30",
-      max: "300",
-    },
-    {
-      label: "bodyFat",
-      question: "Your body Fat is:",
-      unity: "%",
-      min: "2",
-      max: "50",
-      img: BFImg,
-    },
-    {
-      label: "arm",
-      question: "Your arm circumference is:",
-      unity: "cm",
-      min: "20",
-      max: "70",
-      img: bicepsImg,
-    },
-    {
-      label: "calf",
-      question: "Your calf circumference is:",
-      unity: "cm",
-      min: "20",
-      max: "70",
-      img: calfImg,
-    },
-  ];
+  // if we are logged, we don't allow to change the gender
+  const steps: ISteps[] = !cookies.user
+    ? [
+        {
+          label: "age",
+          question: "Your age is:",
+          unity: "years",
+          min: "13",
+          max: "120",
+        },
+        {
+          label: "gender",
+          question: "Your gender is:",
+        },
+        {
+          label: "height",
+          question: "Your height is:",
+          unity: "cm",
+          min: "120",
+          max: "250",
+        },
+        {
+          label: "weight",
+          question: "Your weight is:",
+          unity: "kg",
+          min: "30",
+          max: "300",
+        },
+        {
+          label: "bodyFat",
+          question: "Your body Fat is:",
+          unity: "%",
+          min: "2",
+          max: "50",
+          img: BFImg,
+        },
+        {
+          label: "arm",
+          question: "Your arm circumference is:",
+          unity: "cm",
+          min: "20",
+          max: "70",
+          img: bicepsImg,
+        },
+        {
+          label: "calf",
+          question: "Your calf circumference is:",
+          unity: "cm",
+          min: "20",
+          max: "70",
+          img: calfImg,
+        },
+      ]
+    : [
+        {
+          label: "age",
+          question: "Your age is:",
+          unity: "years",
+          min: "13",
+          max: "120",
+        },
+        {
+          label: "height",
+          question: "Your height is:",
+          unity: "cm",
+          min: "120",
+          max: "250",
+        },
+        {
+          label: "weight",
+          question: "Your weight is:",
+          unity: "kg",
+          min: "30",
+          max: "300",
+        },
+        {
+          label: "bodyFat",
+          question: "Your body Fat is:",
+          unity: "%",
+          min: "2",
+          max: "50",
+          img: BFImg,
+        },
+        {
+          label: "arm",
+          question: "Your arm circumference is:",
+          unity: "cm",
+          min: "20",
+          max: "70",
+          img: bicepsImg,
+        },
+        {
+          label: "calf",
+          question: "Your calf circumference is:",
+          unity: "cm",
+          min: "20",
+          max: "70",
+          img: calfImg,
+        },
+      ];
+
   const [currentStep, setCurrentStep] = useState<number>(0);
   const stepProgress: number = (100 / steps.length) * (currentStep + 1);
 
@@ -673,7 +723,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
           </Typography>
           <CustomAvatar
             typeCode={somatotypeCode}
-            gender={values.gender}
+            gender={!cookies.user ? values.gender : cookies.user.gender}
             indexes={indexes}
             setters={setters}
           />
@@ -803,13 +853,17 @@ const TestSteps: FC<ITestSteps> = (props) => {
           <Avatar
             typeSoma={somatotypeCode}
             hair={
-              values.gender === "male"
+              !cookies.user
+                ? values.gender === "male"
+                  ? hairs[indexHair]
+                  : hairsFemale[indexHair]
+                : cookies.user.gender === "male"
                 ? hairs[indexHair]
                 : hairsFemale[indexHair]
             }
             face={faces[indexFace]}
             beard={beards[indexBeard]}
-            gender={values.gender}
+            gender={!cookies.user ? values.gender : cookies.user.gender}
             colorsSkin={colorsSkin[indexColorSkin]}
             colorsHair={colorsHair[indexColorHair]}
             cloth={true}

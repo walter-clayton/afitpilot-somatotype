@@ -20,7 +20,7 @@ export const colorsSkin: IColorSkin[] = [
 
 export const colorsHair: IColorHair[] = [
   { light: "#565656", medium: "#4D4D4D" },
-  { light: "#FBE7A1", medium: "#ffdc5f" },
+  { light: "#f3de97", medium: "#fff0b9" },
   { light: "#d1ad7d", medium: "#AA8866" },
   { light: "#909090", medium: "#808080" },
 ];

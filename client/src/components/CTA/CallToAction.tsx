@@ -221,15 +221,8 @@ const CallToAction = () => {
               src={Nutrition}
               alt="HomeFeed"
               style={{
+                width: medium ? "90%" : "",
                 maxHeight: "600px",
-                height: "300px",
-                width: medium
-                  ? small
-                    ? extraSmall
-                      ? "65%"
-                      : "70%"
-                    : "75%"
-                  : "75%",
               }}
             />
           </Box>
@@ -515,14 +508,7 @@ const CallToAction = () => {
               alt="Training"
               style={{
                 maxHeight: "600px",
-                height: "300px",
-                width: medium
-                  ? small
-                    ? extraSmall
-                      ? "65%"
-                      : "70%"
-                    : "75%"
-                  : "75%",
+                width: medium ? "90%" : "",
               }}
             />
           </Box>
@@ -551,14 +537,7 @@ const CallToAction = () => {
               alt="Optimise"
               style={{
                 maxHeight: "600px",
-                height: "300px",
-                width: medium
-                  ? small
-                    ? extraSmall
-                      ? "65%"
-                      : "70%"
-                    : "75%"
-                  : "75%",
+                width: medium ? "90%" : "",
               }}
             />
           </Box>
@@ -735,7 +714,7 @@ const CallToAction = () => {
                 }}
                 variant="body1"
               >
-                Discover different tribes,sports and occupations.
+                Discover different tribes, sports and occupations.
               </Typography>
             </ThemeProvider>
             <Grid
@@ -811,14 +790,7 @@ const CallToAction = () => {
               alt="Compare"
               style={{
                 maxHeight: "600px",
-                height: "300px",
-                width: medium
-                  ? small
-                    ? extraSmall
-                      ? "65%"
-                      : "70%"
-                    : "75%"
-                  : "75%",
+                width: medium ? "90%" : "",
               }}
             />
           </Box>

@@ -567,9 +567,9 @@ usersCtrl.updateAvatar = async (req: Request, res: Response) => {
     editedAvatar.indexHair = avatar.indexHair;
     editedAvatar.indexFace = avatar.indexFace;
     editedAvatar.indexBeard = avatar.indexBeard;
-    editedAvatar.indexSkinColor = avatar.indexSkinColor;
-    editedAvatar.indexHairColor = avatar.indexHairColor;
-
+    editedAvatar.indexColorSkin = avatar.indexColorSkin;
+    editedAvatar.indexColorHair = avatar.indexColorHair;
+    console.log(editedAvatar);
     await editedAvatar.save();
 
     res.status(200).send({
