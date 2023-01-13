@@ -1,20 +1,24 @@
-interface IComparison {
+interface IComparisonData {
   group: string;
   gender: string;
   name: string;
   endo: number;
   meso: number;
   ecto: number;
+  codeSoma: string;
+  imageName?: string;
 }
 
-export const comparisons: IComparison[] = [
+export const comparisonDatas: IComparisonData[] = [
   {
     group: "Tribe",
     gender: "Male",
-    name: "Nilotes",
+    name: "Nilote",
     endo: 2,
     meso: 3,
     ecto: 6,
+    codeSoma: "MEc",
+    imageName: "nilote_man",
   },
   {
     group: "Tribe",
@@ -23,6 +27,8 @@ export const comparisons: IComparison[] = [
     endo: 2,
     meso: 7,
     ecto: 2,
+    codeSoma: "BM",
+    imageName: "manu_man",
   },
   {
     group: "Tribe",
@@ -31,6 +37,8 @@ export const comparisons: IComparison[] = [
     endo: 2,
     meso: 5,
     ecto: 2,
+    codeSoma: "BM",
+    imageName: "manu_woman",
   },
   {
     group: "Tribe",
@@ -39,6 +47,8 @@ export const comparisons: IComparison[] = [
     endo: 4,
     meso: 6,
     ecto: 2,
+    codeSoma: "EnM",
+    imageName: "eskimo_man",
   },
   {
     group: "Tribe",
@@ -47,6 +57,8 @@ export const comparisons: IComparison[] = [
     endo: 6,
     meso: 4,
     ecto: 1,
+    codeSoma: "MEn",
+    imageName: "eskimo_woman",
   },
   {
     group: "Tribe",
@@ -55,6 +67,8 @@ export const comparisons: IComparison[] = [
     endo: 2,
     meso: 4,
     ecto: 4,
+    codeSoma: "EcM",
+    imageName: "brahmin_man",
   },
   {
     group: "Sport",
@@ -63,6 +77,7 @@ export const comparisons: IComparison[] = [
     endo: 3,
     meso: 6,
     ecto: 1,
+    codeSoma: "EnM",
   },
   {
     group: "Sport",
@@ -71,6 +86,7 @@ export const comparisons: IComparison[] = [
     endo: 2,
     meso: 7,
     ecto: 1,
+    codeSoma: "EnM",
   },
   {
     group: "Sport",
@@ -79,6 +95,7 @@ export const comparisons: IComparison[] = [
     endo: 2,
     meso: 5,
     ecto: 2,
+    codeSoma: "BM",
   },
   {
     group: "Sport",
@@ -87,6 +104,7 @@ export const comparisons: IComparison[] = [
     endo: 5,
     meso: 6,
     ecto: 1,
+    codeSoma: "EnM",
   },
   {
     group: "Sport",
@@ -95,6 +113,7 @@ export const comparisons: IComparison[] = [
     endo: 7,
     meso: 5,
     ecto: 1,
+    codeSoma: "MEn",
   },
   {
     group: "Sport",
@@ -103,6 +122,7 @@ export const comparisons: IComparison[] = [
     endo: 1,
     meso: 9,
     ecto: 1,
+    codeSoma: "BM",
   },
   {
     group: "Sport",
@@ -111,6 +131,7 @@ export const comparisons: IComparison[] = [
     endo: 2,
     meso: 5,
     ecto: 2,
+    codeSoma: "BM",
   },
   {
     group: "Sport",
@@ -119,6 +140,7 @@ export const comparisons: IComparison[] = [
     endo: 3,
     meso: 5,
     ecto: 3,
+    codeSoma: "BM",
   },
   {
     group: "Sport",
@@ -127,6 +149,7 @@ export const comparisons: IComparison[] = [
     endo: 1,
     meso: 6,
     ecto: 2,
+    codeSoma: "EcM",
   },
   {
     group: "Sport",
@@ -135,6 +158,7 @@ export const comparisons: IComparison[] = [
     endo: 2,
     meso: 5,
     ecto: 3,
+    codeSoma: "EcM",
   },
   {
     group: "Sport",
@@ -143,6 +167,7 @@ export const comparisons: IComparison[] = [
     endo: 2,
     meso: 4,
     ecto: 4,
+    codeSoma: "M-Ec",
   },
   {
     group: "Sport",
@@ -151,6 +176,7 @@ export const comparisons: IComparison[] = [
     endo: 2,
     meso: 4,
     ecto: 4,
+    codeSoma: "M-Ec",
   },
   {
     group: "Sport",
@@ -159,6 +185,7 @@ export const comparisons: IComparison[] = [
     endo: 4,
     meso: 4,
     ecto: 3,
+    codeSoma: "C",
   },
   {
     group: "Sport",
@@ -167,6 +194,7 @@ export const comparisons: IComparison[] = [
     endo: 4,
     meso: 6,
     ecto: 2,
+    codeSoma: "EnM",
   },
   {
     group: "Sport",
@@ -175,6 +203,7 @@ export const comparisons: IComparison[] = [
     endo: 2,
     meso: 7,
     ecto: 1,
+    codeSoma: "EnM",
   },
   {
     group: "Sport",
@@ -183,6 +212,7 @@ export const comparisons: IComparison[] = [
     endo: 2,
     meso: 5,
     ecto: 2,
+    codeSoma: "BM",
   },
   {
     group: "Occupation",
@@ -191,6 +221,7 @@ export const comparisons: IComparison[] = [
     endo: 2,
     meso: 4,
     ecto: 3,
+    codeSoma: "EcM",
   },
   {
     group: "Occupation",
@@ -199,6 +230,7 @@ export const comparisons: IComparison[] = [
     endo: 4,
     meso: 3,
     ecto: 3,
+    codeSoma: "C",
   },
   {
     group: "Occupation",
@@ -207,6 +239,7 @@ export const comparisons: IComparison[] = [
     endo: 5,
     meso: 4,
     ecto: 2,
+    codeSoma: "MEn",
   },
   {
     group: "Occupation",
@@ -215,6 +248,7 @@ export const comparisons: IComparison[] = [
     endo: 3,
     meso: 4,
     ecto: 2,
+    codeSoma: "C",
   },
   {
     group: "Occupation",
@@ -223,5 +257,6 @@ export const comparisons: IComparison[] = [
     endo: 4,
     meso: 3,
     ecto: 2,
+    codeSoma: "MEn",
   },
 ];
