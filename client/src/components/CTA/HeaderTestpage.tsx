@@ -42,6 +42,7 @@ const icons: any[] = [
 const HeaderTestpage = () => {
   const md = useMediaQuery("(max-width:980px)");
   const xs = useMediaQuery("(max-width:680px)");
+  const xxs = useMediaQuery("(max-width:390px)");
 
   return (
     <Box
@@ -125,14 +126,19 @@ const HeaderTestpage = () => {
               <Box
                 sx={{
                   width: "100%",
+                  height: xxs ? "102.5px" : "auto",
                   padding: "10px",
                 }}
+                display="flex"
+                flexDirection={"column"}
+                justifyContent={"center"}
               >
                 <Typography
-                  variant={xs ? "h6" : "h5"}
+                  variant={xs ? "body1" : "h5"}
                   sx={{
                     textAlign: md ? "left" : "center",
-                    mt: md ? "" : "20px",
+                    mt: "10px",
+                    fontSize: xs ? "15px" : "auto",
                   }}
                 >
                   {item.title}
@@ -140,8 +146,8 @@ const HeaderTestpage = () => {
                 <Typography
                   sx={{
                     textAlign: md ? "left" : "center",
-                    fontSize: xs ? "16px" : "19px",
-                    mt: md ? "10px" : "20px",
+                    fontSize: xs ? "15px" : "19px",
+                    mt: xs ? "5px" : "auto",
                   }}
                 >
                   {item.desc}

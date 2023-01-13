@@ -16,6 +16,7 @@ import {
   colorsSkin,
   faces,
   hairs,
+  hairsFemale,
 } from "./variablesAvatar/VariableAvatar";
 
 export const Plane = styled(Box)({
@@ -106,10 +107,13 @@ const CustomAvatar: FC<ICustomAvatar> = (props) => {
     }
     if (direction === "back") {
       props.indexes.indexHair === 0
-        ? props.setters.setIndexHair(hairs.length - 1)
+        ? props.setters.setIndexHair(
+            gender === "male" ? hairs.length - 1 : hairsFemale.length - 1
+          )
         : props.setters.setIndexHair(props.indexes.indexHair - 1);
     } else {
-      props.indexes.indexHair === hairs.length - 1
+      props.indexes.indexHair ===
+      (gender === "male" ? hairs.length - 1 : hairsFemale.length - 1)
         ? props.setters.setIndexHair(0)
         : props.setters.setIndexHair(props.indexes.indexHair + 1);
     }
@@ -162,7 +166,11 @@ const CustomAvatar: FC<ICustomAvatar> = (props) => {
 
       <Avatar
         typeSoma={typeSoma}
-        hair={hairs[props.indexes.indexHair]}
+        hair={
+          gender === "male"
+            ? hairs[props.indexes.indexHair]
+            : hairsFemale[props.indexes.indexHair]
+        }
         face={faces[props.indexes.indexFace]}
         beard={beards[props.indexes.indexBeard]}
         gender={gender}
@@ -246,23 +254,28 @@ const CustomAvatar: FC<ICustomAvatar> = (props) => {
             }}
           />
         </Stack>
-        <Stack direction="row" spacing={2} sx={stylesStack}>
-          <ArrowBackIosNewIcon
-            sx={{ cursor: "pointer", fontSize: xs ? "20px" : "30px" }}
-            onClick={() => {
-              handleBeardClick("back");
-            }}
-          />
-          <Typography variant={xs ? "body1" : "h5"} sx={{ fontWeight: "bold" }}>
-            Beard
-          </Typography>
-          <ArrowForwardIosIcon
-            sx={{ cursor: "pointer", fontSize: xs ? "20px" : "30px" }}
-            onClick={() => {
-              handleBeardClick("next");
-            }}
-          />
-        </Stack>
+        {gender === "male" && (
+          <Stack direction="row" spacing={2} sx={stylesStack}>
+            <ArrowBackIosNewIcon
+              sx={{ cursor: "pointer", fontSize: xs ? "20px" : "30px" }}
+              onClick={() => {
+                handleBeardClick("back");
+              }}
+            />
+            <Typography
+              variant={xs ? "body1" : "h5"}
+              sx={{ fontWeight: "bold" }}
+            >
+              Beard
+            </Typography>
+            <ArrowForwardIosIcon
+              sx={{ cursor: "pointer", fontSize: xs ? "20px" : "30px" }}
+              onClick={() => {
+                handleBeardClick("next");
+              }}
+            />
+          </Stack>
+        )}
       </Stack>
     </Box>
   );
