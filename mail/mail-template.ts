@@ -77,10 +77,6 @@ export const htmlTempPassword = (
         #container {
           padding: 30px;
           max-width: 600px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
         }
         header {
           display: flex;
