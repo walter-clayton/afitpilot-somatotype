@@ -14,6 +14,7 @@ const transporter = nodemailer.createTransport({
     user: process.env.MAIL_USER,
     pass: process.env.MAIL_PASSWORD,
   },
+  tls: { rejectUnauthorized: false },
 });
 
 interface IOptionsNodemailer {
@@ -52,14 +53,12 @@ interface IOptionsNodemailer {
 //   }
 // };
 
-
 const sendEmailPassword = async (
   email: string,
   name: string,
   pass: string,
   data: IData
 ): Promise<void> => {
-  
   const message: string =
     "You can use this randomly generated password to access your profile";
 
@@ -85,7 +84,6 @@ const sendEmailResetPassword = async (
   name: string,
   pass: string
 ): Promise<void> => {
-  
   const message: string =
     "You can use this randomly generated password to access your profile";
 
