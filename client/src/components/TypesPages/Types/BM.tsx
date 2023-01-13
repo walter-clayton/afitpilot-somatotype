@@ -15,11 +15,11 @@ export default function Types() {
   const BMImages: ITypeCarouselImage[] = [
     {
       image: BMMan,
-      imageAltText: "BEc_man",
+      imageAltText: "BMMan",
     },
     {
       image: BMWoman,
-      imageAltText: "BEc_woman",
+      imageAltText: "BMWoman",
     },
   ];
 
@@ -242,7 +242,7 @@ export default function Types() {
           </Grid>
         )}
       </Grid>
-      <TypeExample />
+      <TypeExample carouselImages={BMImages} />
       <CounterShare />
       {/* <CommentPage /> */}
     </Box>

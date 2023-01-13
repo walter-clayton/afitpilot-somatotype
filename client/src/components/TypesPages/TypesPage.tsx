@@ -455,8 +455,8 @@ const TypesPage = () => {
                     cursor: "pointer",
                   }}
                   onClick={() => {
-                    navigate(step.linkToPage);
                     window.scrollTo(0, 0);
+                    navigate(step.linkToPage);
                   }}
                 >
                   <img
@@ -559,6 +559,7 @@ const TypesPage = () => {
                     cursor: "pointer",
                   }}
                   onClick={() => {
+                    window.scrollTo(0, 0);
                     navigate(step.linkToPage);
                   }}
                 >
@@ -629,8 +630,8 @@ const TypesPage = () => {
                     cursor: "pointer",
                   }}
                   onClick={() => {
-                    navigate(step.linkToPage);
                     window.scrollTo(0, 0);
+                    navigate(step.linkToPage);
                   }}
                 >
                   <img
@@ -694,8 +695,8 @@ const TypesPage = () => {
                   },
                 }}
                 onClick={() => {
-                  navigate("/test");
                   window.scrollTo(0, 0);
+                  navigate("/test");
                 }}
               >
                 Take the Test <ArrowForwardSharpIcon />
@@ -734,6 +735,7 @@ const TypesPage = () => {
                     cursor: "pointer",
                   }}
                   onClick={() => {
+                    window.scrollTo(0, 0);
                     navigate(step.linkToPage);
                   }}
                 >
@@ -806,7 +808,6 @@ const TypesPage = () => {
                   onClick={() => {
                     window.scrollTo(0, 0);
                     navigate(step.linkToPage);
-                    console.log("hey");
                   }}
                 >
                   <img

@@ -15,11 +15,11 @@ export default function Types() {
   const EnMImages: ITypeCarouselImage[] = [
     {
       image: EnMMan,
-      imageAltText: "BEc_man",
+      imageAltText: "EnMMan",
     },
     {
       image: EnMWoman,
-      imageAltText: "BEc_woman",
+      imageAltText: "EnMWoman",
     },
   ];
 
@@ -242,7 +242,7 @@ export default function Types() {
           </Grid>
         )}
       </Grid>
-      <TypeExample />
+      <TypeExample carouselImages={EnMImages} />
       <CounterShare />
       {/* <CommentPage /> */}
     </Box>

@@ -12,14 +12,14 @@ import En_EcMan from "../../image/Typespage_avatars/En-Ec_man.svg";
 import En_EcWoman from "../../image/Typespage_avatars/En-Ec_woman.svg";
 
 export default function Types() {
-  const En_ECImages: ITypeCarouselImage[] = [
+  const En_EcImages: ITypeCarouselImage[] = [
     {
       image: En_EcMan,
-      imageAltText: "BEc_man",
+      imageAltText: "En_EcMan",
     },
     {
       image: En_EcWoman,
-      imageAltText: "BEc_woman",
+      imageAltText: "En_EcWoman",
     },
   ];
 
@@ -242,7 +242,7 @@ export default function Types() {
           </Grid>
         )}
       </Grid>
-      <TypeExample />
+      <TypeExample carouselImages={En_EcImages} />
       <CounterShare />
       {/* <CommentPage /> */}
     </Box>
