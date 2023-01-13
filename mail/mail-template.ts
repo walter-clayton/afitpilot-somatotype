@@ -76,10 +76,7 @@ export const htmlTempPassword = (
         }
         #container {
           padding: 30px;
-          max-width: 400px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
+          max-width: 600px;
           align-items: center;
         }
         header {
@@ -129,12 +126,12 @@ export const htmlTempPassword = (
         <header>
           <div id="logo-wrap">
             <img id="logo" src="cid:logo.png" alt="logo" />
-            <img id="logo" src="cid:logo1.png" alt="logo1" />
+            <img id="logo1" src="cid:logo1.png" alt="logo1" />
           </div>
           <h1 style="padding: 10px 0;">AFITPILOT</h1>
         </header>
         <div id="avatar">
-          <img src="cid:avatar.png" alt="avatar2" />
+          <img src="cid:avatar.png" alt="avatar" />
         </div>
         <div>
         <p style="margin-bottom: 20px;">The results of your somatotype test are in. Here they are:</p>
