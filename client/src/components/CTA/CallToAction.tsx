@@ -537,14 +537,7 @@ const CallToAction = () => {
               alt="Optimise"
               style={{
                 maxHeight: "600px",
-                height: "300px",
-                width: medium
-                  ? small
-                    ? extraSmall
-                      ? "65%"
-                      : "70%"
-                    : "75%"
-                  : "75%",
+                width: medium ? "90%" : "",
               }}
             />
           </Box>
