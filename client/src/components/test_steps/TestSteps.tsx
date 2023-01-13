@@ -40,6 +40,7 @@ import {
   colorsSkin,
   faces,
   hairs,
+  hairsFemale,
 } from "../avatar/variablesAvatar/VariableAvatar";
 import CircleIcon from "@mui/icons-material/Circle";
 import { getSpecificColors } from "../Colors";
@@ -404,6 +405,8 @@ const TestSteps: FC<ITestSteps> = (props) => {
   };
 
   const handleFinish = async () => {
+    window.scrollTo(0, boxRef.current?.offsetTop! - 20);
+
     const getFemur = (): number => {
       const toFoot = Number(values.height) * 0.0328084; // convert height cm to Foot Unit
       return (toFoot - 0.9) / 0.60375;
@@ -665,7 +668,8 @@ const TestSteps: FC<ITestSteps> = (props) => {
           sx={{
             fontWeight: "bold",
             fontSize: "30px",
-            backgroundColor: "#D9D9D9",
+            backgroundColor: "black",
+            color: "white",
           }}
         >
           <span>
@@ -692,7 +696,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
               fontSize: "28px",
               fontWeight: "bold",
               textAlign: "center",
-              color: getColorCode().light,
+              color: "black",
             }}
           >
             {somatotypeTitle}
@@ -703,7 +707,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
               fontSize: "28px",
               fontWeight: "bold",
               textAlign: "center",
-              color: getColorCode().dark,
+              color: "#4a4a4a",
             }}
           >
             {somatotypeCode}
@@ -777,7 +781,11 @@ const TestSteps: FC<ITestSteps> = (props) => {
 
           <Avatar
             typeSoma={somatotypeCode}
-            hair={hairs[indexHair]}
+            hair={
+              values.gender === "male"
+                ? hairs[indexHair]
+                : hairsFemale[indexHair]
+            }
             face={faces[indexFace]}
             beard={beards[indexBeard]}
             gender={values.gender}
@@ -786,6 +794,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
             cloth={true}
             mainColor={mainColor}
           />
+
           <Plane />
         </Box>
 
@@ -864,8 +873,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
   return (
     <Box
       sx={{
-        margin: md ? "" : "calc(100px + 140px) 0 120px 0",
-        padding: "50px 0",
+        marginTop: md ? "100px" : "220px",
       }}
     >
       {/* if datas has somatotypes then we show the second step (steps of avatar svg) else we show the first step (questions's steps) */}
@@ -873,7 +881,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
         <Box
           boxShadow="3"
           sx={{
-            margin: "0 auto",
+            margin: "0 auto 100px auto",
             maxWidth: "600px",
             borderRadius: "20px",
             overflow: "hidden",
@@ -987,8 +995,6 @@ const TestSteps: FC<ITestSteps> = (props) => {
               currentStep < steps.length - 1 && setCurrentStep((c) => c + 1);
 
               currentStep === steps.length - 1 && handleFinish();
-
-              window.scrollTo(0, boxRef.current?.offsetTop! - 20);
             }}
           >
             {currentStep === steps.length - 1 ? "Finish" : "Next"}

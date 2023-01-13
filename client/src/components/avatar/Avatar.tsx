@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import React, { FC } from "react";
 import { IColors } from "../Colors";
+import { getClothFemale } from "./clothes/female/ClothesFemale";
 import { getClothMale } from "./clothes/male/ClothesMale";
 import { Plane } from "./CustomAvatar";
 import { getHead } from "./head/Head";
@@ -37,17 +38,19 @@ interface IAvatar {
 
 const Avatar: FC<IAvatar> = (props) => {
   // const code = props.typeSoma;
-  const code = "BM";
-  const gen: string = "female";
+  const code = props.typeSoma;
+  const gen: string = props.gender;
 
   const skinBody: React.ReactNode = getSkin(
     // props.typeSoma,
     gen,
     code,
-    props.colorsSkin
+    props.colorsSkin,
+    props.cloth
   ) as React.ReactNode;
 
   const head: React.ReactNode = getHead(
+    gen,
     code,
     props.hair,
     props.beard,
@@ -57,7 +60,15 @@ const Avatar: FC<IAvatar> = (props) => {
   ) as React.ReactNode;
 
   const cloth: React.ReactNode = (
-    props.cloth ? (getClothMale(props.mainColor!) as any)[code] : <g></g>
+    props.cloth ? (
+      props.gender === "male" ? (
+        (getClothMale(props.mainColor!) as any)[code]
+      ) : (
+        (getClothFemale(props.mainColor!) as any)[code]
+      )
+    ) : (
+      <g></g>
+    )
   ) as React.ReactNode;
 
   return (
