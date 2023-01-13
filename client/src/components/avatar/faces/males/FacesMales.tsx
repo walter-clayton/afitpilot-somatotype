@@ -7,7 +7,7 @@ interface IFace {
   smiling: React.SVGProps<SVGGElement>;
 }
 
-export const getFacesMales = (colorsSkin: IColorSkin): IFace => ({
+export const getFacesMales = (): IFace => ({
   neutral: (
     <g id="neutral">
       <path
@@ -15,7 +15,7 @@ export const getFacesMales = (colorsSkin: IColorSkin): IFace => ({
         d="M182.172 75.746a.623.623 0 00-.623-.623h-13.478a.623.623 0 00-.624.623v1.246c0 .344.279.623.624.623h13.478a.623.623 0 00.623-.623v-1.246z"
       ></path>
       <path
-        fill="#4D4D4D"
+        fill="#61534B"
         d="M190.872 51.869a.499.499 0 00-.499-.498h-6.98a.498.498 0 00-.498.498v.997c0 .276.223.499.498.499h6.98a.5.5 0 00.499-.499v-.997zM166.918 51.84a.499.499 0 00-.499-.498h-6.98a.499.499 0 00-.499.498v.998c0 .275.224.498.499.498h6.98a.499.499 0 00.499-.498v-.998z"
       ></path>
     </g>
@@ -53,7 +53,7 @@ export const getFacesMales = (colorsSkin: IColorSkin): IFace => ({
         d="M178.996 80.179c3.407 0 6.149-2.929 6.149-6.568v-1.063h-20.707v1.063c0 3.639 2.743 6.568 6.149 6.568h8.409z"
       ></path>
       <path
-        fill="#4D4D4D"
+        fill="#61534B"
         d="M190.872 51.869a.499.499 0 00-.499-.498h-6.98a.498.498 0 00-.498.498v.997c0 .276.223.499.498.499h6.98a.5.5 0 00.499-.499v-.997zM166.918 51.84a.499.499 0 00-.499-.498h-6.98a.499.499 0 00-.499.498v.998c0 .275.224.498.499.498h6.98a.499.499 0 00.499-.498v-.998z"
       ></path>
     </g>
