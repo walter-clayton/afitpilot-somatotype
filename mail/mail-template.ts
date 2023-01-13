@@ -80,7 +80,7 @@ export const htmlTempPassword = (
         }
         header {
           margin: 0 auto;
-          width: 100%;
+          width: min-content;
           margin-bottom: 30px;
         }
         #logo-wrap {
