@@ -714,7 +714,7 @@ const CallToAction = () => {
                 }}
                 variant="body1"
               >
-                Discover different tribes,sports and occupations.
+                Discover different tribes, sports and occupations.
               </Typography>
             </ThemeProvider>
             <Grid
@@ -790,14 +790,7 @@ const CallToAction = () => {
               alt="Compare"
               style={{
                 maxHeight: "600px",
-                height: "300px",
-                width: medium
-                  ? small
-                    ? extraSmall
-                      ? "65%"
-                      : "70%"
-                    : "75%"
-                  : "75%",
+                width: medium ? "90%" : "",
               }}
             />
           </Box>
