@@ -65,10 +65,8 @@ export const htmlTempPassword = (
           padding: 0;
         }
         body {
-          display: flex;
-          justify-content: center;
-          align-items: center;
           font-family: Arial, Helvetica, sans-serif;
+          margin: 0 auto
         }
         a{
           text-decoration: none;
@@ -77,29 +75,34 @@ export const htmlTempPassword = (
         #container {
           padding: 30px;
           max-width: 600px;
+          width: 100%;
+          margin: 0 auto;
         }
         header {
-          margin: 0 auto;
-          width: min-content;
           margin-bottom: 30px;
+          margin: 0 auto;
+          text-align: center;
+          width: min-content;
         }
         #logo-wrap {
           max-width: 70px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin-right: 0.5rem;
+          margin: 0 auto;
+          width: 100%;
         }
         #logo {
           width: 100%;
+          margin: 0 auto;
+          display: block;
         }
         #avatar {
           max-width: 200px;
-          margin: 0 auto;
+          width: 100%;
           margin-bottom: 30px;
+          margin: 0 auto;
         }
         #avatar img {
           width: 100%;
+
         }
         button {
           display: block;
@@ -123,7 +126,7 @@ export const htmlTempPassword = (
           <div id="logo-wrap">
             <img id="logo" src="cid:logo.png" alt="logo" />
           </div>
-          <h1 style="padding: 10px 0;">AFITPILOT</h1>
+          <h1 style="padding: 10px 0; text-align: center">AFITPILOT</h1>
         </header>
         <div id="avatar">
           <img src="cid:avatar.png" alt="avatar" />
