@@ -36,7 +36,7 @@ theme.typography.body2 = {
     },
 };
 
-const NutritionCard = () => {
+const OptimiseCard = () => {
     const medium = useMediaQuery("(min-width:769px)");
     const small = useMediaQuery("(max-width:768px)");
     const extraSmall = useMediaQuery("(max-width:449px)");
@@ -172,7 +172,7 @@ const NutritionCard = () => {
                             spacing={2}
                         >
                             <Button sx={{ display: 'flex', justifyContent: "center", }} variant='contained'
-                                href="https://checkout.stripe.com/c/pay/cs_test_b1RT65qsTuAKmtK3UqnBwRRI7Hlw2zGpc11sbN1Bix4bqkNgL3UrYfyMng#fidkdWxOYHwnPyd1blpxYHZxWjA0SEZCR3JOZmFjVjR9aXZSV0NVbD1dVX81UDxJTUQ3PVJRUHRIdjBHQDRLbX9%2FUWt2XE5gUnA0N2pAdH1tb0JHdXV9Qz1Gf0BMckZ9amhIPFJfR2pGRGhXNTVzalRgbGdwTCcpJ3VpbGtuQH11anZgYUxhJz8ncWB2cVo9ckhgXHM0YHY2T1xjTWRgUFInKSd3YGNgd3dgd0p3bGJsayc%2FJ21xcXV2PyoqcnJyK2JqamJpYCtmamgqJ3gl" target="_blank"
+                                href="https://checkout.stripe.com/c/pay/cs_test_a1OP41G5O0P67dW3qMCVrG5nUUrZWZcCoQyRxBKrFHvMWfg18DdbgG4TQO#fidkdWxOYHwnPyd1blpxYHZxWjA0SEZCR3JOZmFjVjR9aXZSV0NVbD1dVX81UDxJTUQ3PVJRUHRIdjBHQDRLbX9%2FUWt2XE5gUnA0N2pAdH1tb0JHdXV9Qz1Gf0BMckZ9amhIPFJfR2pGRGhXNTVzalRgbGdwTCcpJ3VpbGtuQH11anZgYUxhJz8ncWB2cVo3PWpnSG89QlBmYnBhfzdjXzQneCUl" target="_blank"
                             >Accept
                             </Button>
                             <Button sx={{ display: 'flex', justifyContent: "center", }} variant='outlined'
@@ -312,7 +312,6 @@ const NutritionCard = () => {
                             },
                         }}
                         onClick={handleOpen}
-                        // href="https://checkout.stripe.com/c/pay/cs_test_b1RT65qsTuAKmtK3UqnBwRRI7Hlw2zGpc11sbN1Bix4bqkNgL3UrYfyMng#fidkdWxOYHwnPyd1blpxYHZxWjA0SEZCR3JOZmFjVjR9aXZSV0NVbD1dVX81UDxJTUQ3PVJRUHRIdjBHQDRLbX9%2FUWt2XE5gUnA0N2pAdH1tb0JHdXV9Qz1Gf0BMckZ9amhIPFJfR2pGRGhXNTVzalRgbGdwTCcpJ3VpbGtuQH11anZgYUxhJz8ncWB2cVo9ckhgXHM0YHY2T1xjTWRgUFInKSd3YGNgd3dgd0p3bGJsayc%2FJ21xcXV2PyoqcnJyK2JqamJpYCtmamgqJ3gl" target="_blank"
                         variant="contained"
                     >
                         GET STARTED
@@ -323,4 +322,4 @@ const NutritionCard = () => {
     )
 }
 
-export default NutritionCard
+export default OptimiseCard

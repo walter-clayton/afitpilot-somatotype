@@ -28,13 +28,13 @@ import { alignProperty } from "@mui/material/styles/cssUtils";
 import { display, flexbox, fontWeight } from "@mui/system";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { ISomatotype } from "../App";
+import { IParamsAvatar, ISomatotype } from "../App";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { AddPoint, IPoints } from "./Calculation";
 import { getSomatotypeType } from "./TestPage";
 import { useNavigate } from "react-router-dom";
-import { getColors, IColors } from "./Colors";
+import { getSpecificColors } from "./Colors";
 
 function createRow(
   Endomorphy: string,
@@ -65,8 +65,8 @@ interface resultProps {
   showHistory?: boolean;
   getUserDatas?: () => void;
   setIsAdding?: (openModal: boolean) => void;
-  setIdRow?: (id: string) => void;
-  idRow?: string;
+  setIdRow?: (id: number) => void;
+  idRow?: number;
   setIdSomatotype?: (id: string) => void;
   idSomatotype?: string;
   multipleResults?: boolean;
@@ -78,6 +78,9 @@ interface resultProps {
   setDashboardSnackBarMessage?: (msg: string) => void;
   isFetching?: boolean;
   setTypeResult?: (result: string) => void;
+  colorIndex?: number;
+  setAvatar?: (avatar: IParamsAvatar) => void;
+  getAvatar?: () => void;
 }
 
 const ResultsTable: FC<resultProps> = (props: any) => {
@@ -123,7 +126,11 @@ const ResultsTable: FC<resultProps> = (props: any) => {
         `${process.env.REACT_APP_DELETESOMATOTYPE_URL}/${props.idSomatotype}`!,
         { headers: headers }
       );
-      //TO DO Set snackbar message to say deleted sucessfully
+
+      if (props.idRow === 0) {
+        props.getAvatar();
+      }
+
       props.getUserDatas();
       setUpdating(false);
     } catch (error) {
@@ -220,7 +227,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
         somatotypeToShow.endomorphy!,
         somatotypeToShow.mesomorphy!,
         somatotypeToShow.ectomorphy!,
-        getColors().darkColor!
+        getSpecificColors(props.colorIndex).darkColor!
       );
       pointsResultsArray.push(point);
     });
@@ -344,7 +351,7 @@ const ResultsTable: FC<resultProps> = (props: any) => {
               key={index}
               sx={{
                 backgroundColor: row.IsDisplayed
-                  ? getColors().clearColor
+                  ? getSpecificColors(props.colorIndex).clearColor
                   : "white",
               }}
             >
@@ -358,12 +365,16 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                   icon={
                     <VisibilityOffIcon
                       sx={{
-                        color: getColors().lightColor,
+                        color: getSpecificColors(props.colorIndex).lightColor,
                       }}
                     />
                   }
                   checkedIcon={
-                    <VisibilityIcon sx={{ color: getColors().lightColor }} />
+                    <VisibilityIcon
+                      sx={{
+                        color: getSpecificColors(props.colorIndex).lightColor,
+                      }}
+                    />
                   }
                   sx={{
                     "&:hover": {
@@ -404,10 +415,10 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                     <IconButton
                       aria-label="edit"
                       sx={{
-                        color: getColors().lightColor,
+                        color: getSpecificColors(props.colorIndex).lightColor,
                         padding: "0",
                         "&:hover": {
-                          color: getColors().lightColor,
+                          color: getSpecificColors(props.colorIndex).lightColor,
                           backgroundColor: "rgba(0,0,0,0)",
                         },
                       }}
@@ -426,10 +437,10 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                     <IconButton
                       aria-label="delete"
                       sx={{
-                        color: getColors().lightColor,
+                        color: getSpecificColors(props.colorIndex).lightColor,
                         padding: "0",
                         "&:hover": {
-                          color: getColors().lightColor,
+                          color: getSpecificColors(props.colorIndex).lightColor,
                           backgroundColor: "rgba(0,0,0,0)",
                         },
                       }}
@@ -498,7 +509,8 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                 align="center"
                 colSpan={12}
                 sx={{
-                  backgroundColor: getColors().darkColor,
+                  backgroundColor: getSpecificColors(props.colorIndex)
+                    .darkColor,
                   color: "white",
                   fontWeight: 600,
                   textAlign: "center",

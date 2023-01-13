@@ -2,9 +2,10 @@ import React from 'react'
 import CssBaseline from "@mui/material/CssBaseline";
 import { Grid, Box, Typography, useMediaQuery } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import NutritionCard from './NutritionCard';
 import HomeTraining from "../image/HomeTraining.svg";
+import Nutrition from "../image/Nutrition.svg";
 import cross from '../image/cross.png';
+import OptimiseCard from './OptimiseCard';
 
 const theme = createTheme();
 theme.typography.h1 = {
@@ -61,7 +62,7 @@ theme.typography.body2 = {
     },
 };
 
-const Training = () => {
+const Optimisation = () => {
     const medium = useMediaQuery("(min-width:769px)");
     const small = useMediaQuery("(max-width:768px)");
     const extraSmall = useMediaQuery("(max-width:449px)");
@@ -73,7 +74,7 @@ const Training = () => {
             <Grid item container>
                 <Grid item
                     sx={{
-                        backgroundColor: "#4298B4",
+                        backgroundColor: "#DCB051",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -93,7 +94,7 @@ const Training = () => {
                                 textAlign: "center",
                                 pb: 2
                             }}>
-                            Build your Body
+                            Optimisation
                         </Typography>
                         <Typography
                             mb={2}
@@ -104,7 +105,7 @@ const Training = () => {
                                 fontSize: "24px",
                                 px: 2
                             }}>
-                            Our Program focuses on increasing <br></br>mesomorphy and decreasing endomorphy.
+                            Become a better athlete by following our <br></br> nutrition and training program.
                         </Typography>
                     </Box>
                 </Grid>
@@ -115,8 +116,8 @@ const Training = () => {
                         justifyContent: "center",
                         alignItems: "center",
                         width: "100%",
-                        mt: { xs: -3, sm: -4, md: 1, lg: 1 },
-                        mb: { xs: -3, sm: -6, md: 1, lg: 1 }
+                        mt: { xs: 1, sm: -4, md: 1, lg: 1 },
+                        mb: { xs: -5, sm: -6, md: 1, lg: 1 }
                     }}>
                     <Grid item md={6} sm={6} xs={12} lg={6}
                         sx={{
@@ -126,7 +127,27 @@ const Training = () => {
                             width: "100%",
                             mb: xxSmall ? -10 : ''
                         }}>
-                        <img src={HomeTraining} alt="Nutrition"
+                        <img src={Nutrition} alt="Nutrition"
+                            style={{
+                                maxHeight: "600px",
+                                height: '300px',
+                                width: medium
+                                    ? small
+                                        ? extraSmall
+                                            ? "65%"
+                                            : "70%"
+                                        : "75%"
+                                    : "75%",
+                            }} />
+                    </Grid>
+                    <Grid item md={6} sm={6} xs={12} lg={6}
+                        sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            width: "100%",
+                        }}
+                    >
+                        <img src={HomeTraining} alt="Training"
                             style={{
                                 maxHeight: "600px",
                                 height: '300px',
@@ -148,10 +169,10 @@ const Training = () => {
                     <Grid item sm={8} xs={12}
                         sx={{
                             padding: "50px 0",
-                            backgroundColor: "#4298B4",
+                            backgroundColor: "#DCB051",
                             marginTop: { xs: "50px", sm: "0", },
                             borderRight: 6,
-                            borderColor: '#4298B4'
+                            borderColor: '#DCB051'
                         }}>
                         <Box
                             sx={{
@@ -163,7 +184,7 @@ const Training = () => {
                             }}>
                             <Typography variant="h3"
                                 sx={{ color: "#FFFFFF", mb: 2, fontSize: '54px', textAlign: medium ? "start" : "center", lineHeight: 1.2 }}>
-                                3 MONTHS TRAINING PROGRAM
+                                3 MONTHS NUTRITION PROGRAM & TRAINING PROGRAM
                             </Typography>
                             <Typography variant="body1"
                                 sx={{ color: "#FFFFFF", mb: 2, textAlign: medium ? "start" : "center", }}>
@@ -183,14 +204,14 @@ const Training = () => {
                             justifyContent: "center",
                             alignItems: "center",
                             marginTop: { xs: "50px", sm: "0" },
-                            backgroundColor: "#4298B4",
+                            backgroundColor: "#DCB051",
                             borderLeft: 6,
-                            borderColor: '#4298B4'
+                            borderColor: '#DCB051'
                         }}>
                         <Box>
                             <Typography variant="h5"
                                 sx={{ color: "white", textAlign: "center", fontSize: "42px" }} >
-                                450 <span>&#8364;</span>
+                                900 <span>&#8364;</span>
                             </Typography>
                             <Typography variant="h3" mr={2.6}
                                 sx={{
@@ -201,16 +222,16 @@ const Training = () => {
                             </Typography>
                             <Typography variant="h4"
                                 sx={{ color: "#ffff", textAlign: "center", fontSize: '100px', fontWeight: "bold" }}>
-                                150 <span>&#8364;</span>
+                                300 <span>&#8364;</span>
                             </Typography>
                         </Box>
                     </Grid>
                 </Grid>
-                {/* NutritionCard page */}
-                <NutritionCard />
+                {/*OptimiseCard page */}
+                <OptimiseCard />
             </Grid >
         </ThemeProvider >
     )
 }
 
-export default Training
+export default Optimisation

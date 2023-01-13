@@ -75,7 +75,7 @@ const Avatar: FC<IAvatar> = (props) => {
     <Box
       sx={{
         maxWidth: "250px",
-        width: "70%",
+        width: "100%",
         px: 2,
         margin: "0 auto",
       }}

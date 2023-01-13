@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
+import Fade from '@mui/material/Fade';
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -17,12 +18,17 @@ import Avatar from "@mui/material/Avatar";
 import logoIcon from "./image/Afitpilot_logo_outlined.png";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import Divider from "@mui/material/Divider";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const pages = [
   { title: "Homepage", path: "/Home" },
   { title: "Somatotypes", path: "/Types" },
   { title: "Blogs", path: "/Blog" },
   { title: "Library", path: "/Library" },
+];
+const Optimise = [
+  { title: "Nutrition", path: "/Nutrition" },
+  { title: "Training", path: "/Training" },
 ];
 
 const profilePages = [
@@ -36,6 +42,7 @@ const dividerStyle = {
 };
 
 const ResponsiveAppBar = (props: any) => {
+  const [openDropDown, setOpenDropDown] = useState<boolean>(false);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElNavLogged, setAnchorElNavLogged] = useState(null);
   const [anchorElNavProfile, setAnchorElNavProfile] = useState(null);
@@ -274,6 +281,29 @@ const ResponsiveAppBar = (props: any) => {
                     <Typography textAlign="center">{page.title}</Typography>
                   </MenuItem>
                 ))}
+                <MenuItem
+                  sx={{ minHeight: "36px" }}
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    navigate('/Optimisation');
+                    window.scrollTo(0, 0);
+                  }}
+                >
+                  <Typography textAlign="center">Optimize</Typography>
+                </MenuItem>
+                {Optimise.map((item, index) => (
+                  <MenuItem
+                    sx={{ minHeight: "36px" }}
+                    key={index}
+                    onClick={() => {
+                      handleCloseNavMenu();
+                      navigate(item.path);
+                      window.scrollTo(0, 0);
+                    }}
+                  >
+                    <Typography textAlign="center">{item.title}</Typography>
+                  </MenuItem>
+                ))}
                 <MenuItem sx={{ minHeight: "0" }}>
                   <Divider sx={dividerStyle} />
                 </MenuItem>
@@ -361,6 +391,29 @@ const ResponsiveAppBar = (props: any) => {
                     <Typography textAlign="center">{page.title}</Typography>
                   </MenuItem>
                 ))}
+                <MenuItem
+                  sx={{ minHeight: "36px" }}
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    navigate('/Optimisation');
+                    window.scrollTo(0, 0);
+                  }}
+                >
+                  <Typography textAlign="center">Optimize</Typography>
+                </MenuItem>
+                {Optimise.map((item, index) => (
+                  <MenuItem
+                    sx={{ minHeight: "36px" }}
+                    key={index}
+                    onClick={() => {
+                      handleCloseNavMenu();
+                      navigate(item.path);
+                      window.scrollTo(0, 0);
+                    }}
+                  >
+                    <Typography textAlign="center">{item.title}</Typography>
+                  </MenuItem>
+                ))}
                 <MenuItem sx={{ minHeight: "0" }}>
                   <Divider sx={dividerStyle} />
                 </MenuItem>
@@ -410,6 +463,19 @@ const ResponsiveAppBar = (props: any) => {
                   {page.title}
                 </Button>
               ))}
+              <Button sx={{ color: 'white', position: 'relative' }} onMouseEnter={() => { setOpenDropDown(true) }} onMouseLeave={() => { setOpenDropDown(false) }}>
+                <span onClick={() => { navigate('/Optimisation') }}>Optimize</span>
+                <KeyboardArrowDownIcon />
+                {/* Dropdown */}
+                <Fade in={openDropDown} timeout={{ exit: 1000 }}>
+                  <Box sx={{ backgroundColor: 'black', position: 'absolute', left: 0, right: 0, top: 'calc(100% + 5px)' }}>
+                    {Optimise.map((item, index) => (
+                      <Button key={index} sx={{ color: 'white', width: '100%', borderBottom: index === 0 ? 2 : 0 }} onClick={() => { navigate(`${item.path}`) }}>{item.title}</Button>
+                    ))}
+                  </Box>
+                </Fade>
+              </Button>
+
             </Grid>
             <Grid
               item
@@ -557,8 +623,8 @@ const ResponsiveAppBar = (props: any) => {
                     {cookies.user
                       ? "Add new"
                       : cookies.data
-                      ? "Save results"
-                      : "Take the Test"}
+                        ? "Save results"
+                        : "Take the Test"}
                     <ArrowForwardSharpIcon fontSize="small" />
                   </Button>
                 </Grid>

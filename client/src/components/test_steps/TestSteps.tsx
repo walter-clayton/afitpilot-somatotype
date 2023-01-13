@@ -18,7 +18,7 @@ import { styled } from "@mui/system";
 import CircularProgress, {
   CircularProgressProps,
 } from "@mui/material/CircularProgress";
-import { IAnthropometric, IData, ISomatotype } from "../../App";
+import { IAnthropometric, IData, IParamsAvatar, ISomatotype } from "../../App";
 import ResultsTable from "../ResultsTable";
 import ModalImg from "./Modal";
 import bicepsImg from "../image/bicepsImg.jpeg";
@@ -144,10 +144,12 @@ interface ITestSteps {
   setData: (data: IData | undefined) => void;
   data: IData;
   isAdding?: boolean;
-  idRow?: string;
+  idRow?: number;
   idSomatotype?: string;
   setDashboardSnackBarOpen?: (open: boolean) => void;
   setDashboardSnackBarMessage?: (msg: string) => void;
+  avatar?: IParamsAvatar;
+  setAvatar?: (avatar: IParamsAvatar) => void;
 }
 
 const TestSteps: FC<ITestSteps> = (props) => {
@@ -174,7 +176,9 @@ const TestSteps: FC<ITestSteps> = (props) => {
   const [indexColorSkin, setIndexColorSkin] = useState<number>(0);
   const [indexColorHair, setIndexColorHair] = useState<number>(0);
 
-  const [mainColor, setMainColor] = useState(0);
+  const [mainColor, setMainColor] = useState(
+    !cookies.user ? 0 : cookies.user.mainColor
+  );
 
   const [fetching, setFetching] = useState<boolean>(false);
   const [somatotype, setSomatotype] = useState<ISomatotype | undefined>(
@@ -407,6 +411,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
   const handleFinish = async () => {
     window.scrollTo(0, boxRef.current?.offsetTop! - 20);
 
+    setFetching(true);
     const getFemur = (): number => {
       const toFoot = Number(values.height) * 0.0328084; // convert height cm to Foot Unit
       return (toFoot - 0.9) / 0.60375;
@@ -497,58 +502,71 @@ const TestSteps: FC<ITestSteps> = (props) => {
       codeSomatotype: typeCode,
     };
 
-    if (cookies.user) {
-      let url: string;
-      props.isAdding
-        ? (url = process.env.REACT_APP_SAVEDATA_URL!)
-        : (url =
-            `${process.env.REACT_APP_EDITSOMATOTYPE_URL}/${props.idSomatotype}`!);
-
-      const headers = {
-        "Content-Type": "application/json",
-        access_key: process.env.REACT_APP_ACCESS_KEY,
-        Authorization: `Bearer ${cookies.user.token}`,
-      };
-
-      try {
-        setFetching(true);
-        console.log(somatotype);
-
-        const response = await axios.post(
-          url,
-          { somatotype, anthropometric },
-          { headers: headers }
-        );
-        console.log(response);
-
-        navigate("/");
-        window.scrollTo(0, 0);
-        props.setDashboardSnackBarOpen!(true);
-        props.isAdding
-          ? props.setDashboardSnackBarMessage!("New Somatotype saved !")
-          : props.setDashboardSnackBarMessage!("Somatotype changes saved !");
-
-        setFetching(false);
-        getUserDatas();
-      } catch (error) {
-        // if (error.response) {
-        //     error.response.data.message
-        //       ? setSnackbarMessage(error.response.data.message)
-        //       : setSnackbarMessage(error.response.statusText);
-        //   } else {
-        //     setSnackbarMessage("Error with the server");
-        //   }
-        console.log("error ", error);
-        setFetching(false);
-      }
-    }
-
     const data: IData = {
       anthropometric: anthropometrics,
       somatotype: somatotype,
     };
 
-    setDatas(data);
+    if (cookies.user && props.avatar !== undefined) {
+      data.avatar = {
+        ...props.avatar,
+        titleSoma: typeTitle,
+        codeSoma: typeCode,
+      };
+      saveResults(data);
+    } else {
+      setDatas(data);
+    }
+  };
+
+  const saveResults = async (data: IData) => {
+    let url: string;
+    props.isAdding
+      ? (url = process.env.REACT_APP_SAVEDATA_URL!)
+      : (url = `${process.env.REACT_APP_EDITSOMATOTYPE_URL}`!);
+
+    const headers = {
+      "Content-Type": "application/json",
+      access_key: process.env.REACT_APP_ACCESS_KEY,
+      Authorization: `Bearer ${cookies.user.token}`,
+    };
+
+    try {
+      setFetching(true);
+
+      const response = await axios.post(
+        url,
+        { data, id: props.idSomatotype },
+        { headers: headers }
+      );
+
+      let newAvatar = props.avatar ? { ...props.avatar } : { ...data.avatar };
+
+      newAvatar.codeSoma = data.avatar?.codeSoma;
+
+      (props.isAdding || props.idRow === 0) &&
+        props.setAvatar!({ ...newAvatar });
+
+      navigate("/");
+      window.scrollTo(0, 0);
+      props.setDashboardSnackBarOpen!(true);
+      props.isAdding
+        ? props.setDashboardSnackBarMessage!("New Somatotype saved !")
+        : props.setDashboardSnackBarMessage!("Somatotype changes saved !");
+
+      setFetching(false);
+      getUserDatas();
+    } catch (error) {
+      // if (error.response) {
+      //     error.response.data.message
+      //       ? setSnackbarMessage(error.response.data.message)
+      //       : setSnackbarMessage(error.response.statusText);
+      //   } else {
+      //     setSnackbarMessage("Error with the server");
+      //   }
+      console.log("error ", error);
+      setFetching(false);
+    }
   };
 
   const getColorCode = () => {
@@ -673,19 +691,22 @@ const TestSteps: FC<ITestSteps> = (props) => {
           }}
         >
           <span>
-            {datas!.somatotype?.endomorphy?.toFixed() === "0"
+            {datas!.somatotype?.endomorphy?.toFixed() === "0" ||
+            Number(datas!.somatotype?.endomorphy) < 0
               ? "1"
               : datas!.somatotype?.endomorphy?.toFixed()}
           </span>
           <span>-</span>
           <span>
-            {datas!.somatotype?.mesomorphy?.toFixed() === "0"
+            {datas!.somatotype?.mesomorphy?.toFixed() === "0" ||
+            Number(datas!.somatotype?.mesomorphy) < 0
               ? "1"
               : datas!.somatotype?.mesomorphy?.toFixed()}
           </span>
           <span>-</span>
           <span>
-            {datas!.somatotype?.ectomorphy?.toFixed() === "0"
+            {datas!.somatotype?.ectomorphy?.toFixed() === "0" ||
+            Number(datas!.somatotype?.ectomorphy) < 0
               ? "1"
               : datas!.somatotype?.ectomorphy?.toFixed()}
           </span>
@@ -816,39 +837,46 @@ const TestSteps: FC<ITestSteps> = (props) => {
           <span>-</span>
           <span>{datas!.somatotype?.ectomorphy?.toFixed()}</span>
         </Stack>
-        <Box>
-          <Typography variant="h5" textAlign="center" fontWeight="bold" mt={2}>
-            Color Picker
-          </Typography>
-          <Stack
-            direction="row"
-            flexWrap="wrap"
-            justifyContent="center"
-            spacing={2}
-            mt={2}
-          >
-            {pickColors.map((item, index) => (
-              <IconButton
-                key={index}
-                sx={{ padding: 0 }}
-                onClick={() => {
-                  setMainColor(index);
-                }}
-              >
-                <CircleIcon
-                  sx={{
-                    color: getSpecificColors(index).normalColor,
-                    fontSize: "50px",
-                    cursor: "pointer",
-                    "&:hover": {
-                      opacity: 0.5,
-                    },
+        {!cookies.user && (
+          <Box>
+            <Typography
+              variant="h5"
+              textAlign="center"
+              fontWeight="bold"
+              mt={2}
+            >
+              Color Picker
+            </Typography>
+            <Stack
+              direction="row"
+              flexWrap="wrap"
+              justifyContent="center"
+              spacing={2}
+              mt={2}
+            >
+              {pickColors.map((item, index) => (
+                <IconButton
+                  key={index}
+                  sx={{ padding: 0 }}
+                  onClick={() => {
+                    setMainColor(index);
                   }}
-                />
-              </IconButton>
-            ))}
-          </Stack>
-        </Box>
+                >
+                  <CircleIcon
+                    sx={{
+                      color: getSpecificColors(index).normalColor,
+                      fontSize: "50px",
+                      cursor: "pointer",
+                      "&:hover": {
+                        opacity: 0.5,
+                      },
+                    }}
+                  />
+                </IconButton>
+              ))}
+            </Stack>
+          </Box>
+        )}
       </Box>
     );
   };
@@ -864,10 +892,16 @@ const TestSteps: FC<ITestSteps> = (props) => {
       indexBeard,
       indexColorSkin,
       indexFace,
+      titleSoma: somatotypeTitle,
+      codeSoma: somatotypeCode,
     };
 
     props.setData(data);
-    navigate("/signup");
+    if (!cookies.user) {
+      navigate("/signup");
+    } else {
+      saveResults(data);
+    }
   };
 
   return (
@@ -964,6 +998,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
                       valueLabelDisplay="on"
                       aria-label="pretto slider"
                       defaultValue={Number((defaultValues as any)[item.label])}
+                      value={Number((values as any)[item.label])}
                       min={Number(item.min)}
                       max={Number(item.max)}
                       step={1}
@@ -996,6 +1031,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
 
               currentStep === steps.length - 1 && handleFinish();
             }}
+            disabled={fetching}
           >
             {currentStep === steps.length - 1 ? "Finish" : "Next"}
             {currentStep < steps.length - 1 && (

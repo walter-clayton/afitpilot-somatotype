@@ -6,6 +6,7 @@ const Avatar = require("../models/Avatar");
 const Somatotype = require("../models/Somatotype");
 const Anthropometric = require("../models/Anthropometric");
 const { sendEmailPassword, sendEmailResetPassword } = require("../mail/mailer");
+import mongoose, { Schema, model } from "mongoose";
 
 interface IUsersCtrl {
   register?: (req: Request, res: Response) => void;
@@ -21,6 +22,8 @@ interface IUsersCtrl {
   getAllUsers?: (req: Request, res: Response) => void;
   getAllSomatotypes?: (req: Request, res: Response) => void;
   getAvatar?: (req: Request, res: Response) => void;
+  updateAvatar?: (req: Request, res: Response) => void;
+  updateMainColor?: (req: Request, res: Response) => void;
 }
 
 const usersCtrl: IUsersCtrl = {};
@@ -91,19 +94,24 @@ usersCtrl.register = async (req: Request, res: Response) => {
 
         const newAvatar = await Avatar({ ...avatar });
 
+        while (newUser.avatars.includes(newAvatar._id)) {
+          newAvatar._id = new mongoose.Types.ObjectId();
+        }
+
         // RelationShip
         newUser.somatotypes.push(newSomatotype);
         newUser.anthropometrics.push(newAnthropometric);
         newUser.avatars.push(newAvatar);
 
         newSomatotype.users.push(newUser);
+        newSomatotype.avatar = newAvatar;
         newSomatotype.anthropometric = newAnthropometric;
 
         newAnthropometric.users.push(newUser);
         newAnthropometric.somatotype = newSomatotype;
 
-        newAvatar.user.push(newUser);
-        newAvatar.somatotype.push(newSomatotype);
+        newAvatar.user = newUser;
+        newAvatar.somatotype = newSomatotype;
 
         await newSomatotype.save();
         await newAnthropometric.save();
@@ -219,84 +227,86 @@ usersCtrl.sendResetEmail = async (req: Request, res: Response) => {
 };
 
 usersCtrl.saveResults = async (req: Request, res: Response) => {
-  const { somatotype, anthropometric } = req.body;
+  const { data } = req.body;
+  const user = await User.findById(req.user_id);
 
-  
-  
-  const data = { somatotype, anthropometric };
-  console.log(data);
+  if (data) {
+    if (data.somatotype && data.anthropometric) {
+      const { somatotype, anthropometric }: IData = data;
 
-  try {
-    const user = await User.findById(req.user_id);
+      // create the somatotype
+      const endomorphy = Number(somatotype.endomorphy.toFixed(1));
+      const mesomorphy = Number(somatotype.mesomorphy.toFixed(1));
+      const ectomorphy = Number(somatotype.ectomorphy.toFixed(1));
+      const titleSomatotype = somatotype.titleSomatotype;
+      const codeSomatotype = somatotype.codeSomatotype;
 
-    if (user) {
-      if (data) {
-        if (data.somatotype && data.anthropometric) {
-          const { somatotype, anthropometric }: IData = data;
+      const newSomatotype = await Somatotype({
+        endomorphy,
+        mesomorphy,
+        ectomorphy,
+        titleSomatotype,
+        codeSomatotype,
+      });
 
-          // create the somatotype
-          const endomorphy = Number(somatotype.endomorphy.toFixed(1));
-          const mesomorphy = Number(somatotype.mesomorphy.toFixed(1));
-          const ectomorphy = Number(somatotype.ectomorphy.toFixed(1));
+      // create the anthropometric
+      const height = anthropometric.height;
+      const weight = anthropometric.weight;
+      const supraspinal_skinfold = anthropometric.supraspinal_skinfold;
+      const subscapular_skinfold = anthropometric.subscapular_skinfold;
+      const tricep_skinfold = anthropometric.tricep_skinfold;
+      const femur_breadth = anthropometric.femur_breadth;
+      const humerus_breadth = anthropometric.humerus_breadth;
+      const calf_girth = anthropometric.calf_girth;
+      const bicep_girth = anthropometric.bicep_girth;
 
-          const newSomatotype = await Somatotype({
-            endomorphy,
-            mesomorphy,
-            ectomorphy,
-          });
+      const newAnthropometric = await Anthropometric({
+        height,
+        weight,
+        supraspinal_skinfold,
+        subscapular_skinfold,
+        tricep_skinfold,
+        femur_breadth,
+        humerus_breadth,
+        calf_girth,
+        bicep_girth,
+      });
 
-          // create the anthropometric
-          const height = anthropometric.height;
-          const weight = anthropometric.weight;
-          const supraspinal_skinfold = anthropometric.supraspinal_skinfold;
-          const subscapular_skinfold = anthropometric.subscapular_skinfold;
-          const tricep_skinfold = anthropometric.tricep_skinfold;
-          const femur_breadth = anthropometric.femur_breadth;
-          const humerus_breadth = anthropometric.humerus_breadth;
-          const calf_girth = anthropometric.calf_girth;
-          const bicep_girth = anthropometric.bicep_girth;
+      // create Avatar
+      const avatar = { ...data.avatar };
 
-          const newAnthropometric = await Anthropometric({
-            height,
-            weight,
-            supraspinal_skinfold,
-            subscapular_skinfold,
-            tricep_skinfold,
-            femur_breadth,
-            humerus_breadth,
-            calf_girth,
-            bicep_girth,
-          });
+      const newAvatar = await Avatar({ ...avatar });
 
-          // RelationShip
-          user.somatotypes.push(newSomatotype);
-          user.anthropometrics.push(newAnthropometric);
-
-          newSomatotype.users.push(user);
-          newSomatotype.anthropometric = newAnthropometric;
-
-          newAnthropometric.users.push(user);
-          newAnthropometric.somatotype = newSomatotype;
-
-          await newSomatotype.save();
-          await newAnthropometric.save();
-          await user.save();
-
-          res.status(201).send({ dataSaved: true });
-        } else {
-          return res.status(403).send({
-            message: "data.somatotype and data.anthropometric are required",
-          });
-        }
+      while (user.avatars.includes(newAvatar._id)) {
+        newAvatar._id = new mongoose.Types.ObjectId();
       }
+
+      newSomatotype.avatar = newAvatar;
+
+      newSomatotype.anthropometric = newAnthropometric;
+      newAnthropometric.somatotype = newSomatotype;
+      newAvatar.somatotype = newSomatotype;
+      newAvatar.user = user;
+      user.avatars.push(newAvatar);
+      user.somatotypes.push(newSomatotype);
+      user.anthropometrics.push(newAnthropometric);
+
+      await newSomatotype.save();
+      await newAnthropometric.save();
+      await newAvatar.save();
+      await user.save();
     } else {
-      res.status(403).send({ message: "User not found" });
+      return res.status(403).send({
+        message: "data.somatotype and data.anthropometric are required",
+      });
     }
-  } catch (error) {
-    console.log((error as ErrorEvent).message);
-    res.status(500).send({
-      message: "Error server",
+
+    res.status(202).send({
+      message: `New somatotype added successfully!`,
+      dataSaved: data ? true : false,
     });
+  } else {
+    res.status(403).send({ message: "Data is required" });
   }
 };
 
@@ -420,12 +430,14 @@ usersCtrl.deleteSomatotype = async (req: Request, res: Response) => {
     const anthropometric = await Anthropometric.findById(
       somatotype.anthropometric
     );
+    const avatar = await Avatar.findById(somatotype.avatar);
 
     if (!somatotype && !anthropometric) {
       res.status(403).send({ message: "The result is already deleted" });
     } else {
       await anthropometric.delete();
       await somatotype.delete();
+      await avatar.delete();
 
       res.status(202).send({ message: "The result deleted successfully" });
     }
@@ -439,40 +451,58 @@ usersCtrl.deleteSomatotype = async (req: Request, res: Response) => {
 };
 
 usersCtrl.editSomatotype = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { somatotype, anthropometric }: IData = req.body;
+  const { data, id } = req.body;
 
-  try {
-    const endomorphy = Number(somatotype.endomorphy.toFixed(1));
-    const mesomorphy = Number(somatotype.mesomorphy.toFixed(1));
-    const ectomorphy = Number(somatotype.ectomorphy.toFixed(1));
+  const editedSomatotype = await Somatotype.findById(id);
+  const editedAnthropometric = await Anthropometric.findById(
+    editedSomatotype.anthropometric
+  );
+  const editedAvatar = await Avatar.findById(editedSomatotype.avatar);
 
-    const newSomatotype = await Somatotype.findByIdAndUpdate(id, {
-      endomorphy,
-      mesomorphy,
-      ectomorphy,
-    });
-    const newAnthropometric = await Anthropometric.findByIdAndUpdate(
-      newSomatotype.anthropometric,
-      anthropometric
-    );
+  if (data) {
+    if (data.somatotype && data.anthropometric) {
+      const { somatotype, anthropometric }: IData = data;
 
-    if (!somatotype) {
-      res
-        .status(403)
-        .send({ message: "Unable to update: results doesn't exist" });
+      // create the somatotype
+      editedSomatotype.endomorphy = Number(somatotype.endomorphy.toFixed(1));
+      editedSomatotype.mesomorphy = Number(somatotype.mesomorphy.toFixed(1));
+      editedSomatotype.ectomorphy = Number(somatotype.ectomorphy.toFixed(1));
+      editedSomatotype.titleSomatotype = somatotype.titleSomatotype;
+      editedSomatotype.codeSomatotype = somatotype.codeSomatotype;
+
+      // create the anthropometric
+      editedAnthropometric.height = anthropometric.height;
+      editedAnthropometric.weight = anthropometric.weight;
+      editedAnthropometric.supraspinal_skinfold =
+        anthropometric.supraspinal_skinfold;
+      editedAnthropometric.subscapular_skinfold =
+        anthropometric.subscapular_skinfold;
+      editedAnthropometric.tricep_skinfold = anthropometric.tricep_skinfold;
+      editedAnthropometric.femur_breadth = anthropometric.femur_breadth;
+      editedAnthropometric.humerus_breadth = anthropometric.humerus_breadth;
+      editedAnthropometric.calf_girth = anthropometric.calf_girth;
+      editedAnthropometric.bicep_girth = anthropometric.bicep_girth;
+
+      // create Avatar
+      const avatar = { ...data.avatar };
+      editedAvatar.titleSoma = editedSomatotype.titleSomatotype;
+      editedAvatar.codeSoma = editedSomatotype.codeSomatotype;
+
+      await editedSomatotype.save();
+      await editedAnthropometric.save();
+      await editedAvatar.save();
     } else {
-      await newAnthropometric.save();
-      await newSomatotype.save();
-
-      res.status(202).send({ message: "The results edited successfully" });
+      return res.status(403).send({
+        message: "data.somatotype and data.anthropometric are required",
+      });
     }
-  } catch (error: unknown) {
-    console.log(error);
-    res.status(500).send({
-      message:
-        "Error with the database: please try again or contact the administrator.",
+
+    res.status(202).send({
+      message: `New somatotype added successfully!`,
+      dataSaved: data ? true : false,
     });
+  } else {
+    res.status(403).send({ message: "Data is required" });
   }
 };
 
@@ -518,8 +548,62 @@ usersCtrl.getAllSomatotypes = async (req: Request, res: Response) => {
 };
 
 usersCtrl.getAvatar = async (req: Request, res: Response) => {
-  const user = await User.findById(req.user_id).populate(["avatars", "somatotypes"]);
-  res.send({avatar:user.avatars[user.avatars.length - 1], titleSomatotype: user.somatotypes[user.somatotypes.length -1].titleSomatotype, codeSomatotype: user.somatotypes[user.somatotypes.length -1].codeSomatotype});
+  const user = await User.findById(req.user_id).populate([
+    "avatars",
+    "somatotypes",
+  ]);
+
+  const avatar = user.avatars[user.avatars.length - 1];
+
+  res.send({ avatar: user.avatars[user.avatars.length - 1] });
+};
+
+usersCtrl.updateAvatar = async (req: Request, res: Response) => {
+  try {
+    const { avatar, id } = req.body;
+
+    let editedAvatar = await Avatar.findById(id);
+
+    editedAvatar.indexHair = avatar.indexHair;
+    editedAvatar.indexFace = avatar.indexFace;
+    editedAvatar.indexBeard = avatar.indexBeard;
+    editedAvatar.indexSkinColor = avatar.indexSkinColor;
+    editedAvatar.indexHairColor = avatar.indexHairColor;
+
+    await editedAvatar.save();
+
+    res.status(200).send({
+      message: "Avatar edited successfully!",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
+  }
+};
+
+usersCtrl.updateMainColor = async (req: Request, res: Response) => {
+  try {
+    const mainColor = req.body.mainColor;
+
+    let editedUser = await User.findById(req.user_id);
+
+    editedUser.mainColor = mainColor;
+
+    await editedUser.save();
+
+    res.status(200).send({
+      message: "Main color updated successfully!",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      message:
+        "Error with the database: please try again or contact the administrator.",
+    });
+  }
 };
 
 module.exports = usersCtrl;

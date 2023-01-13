@@ -21,7 +21,9 @@ const {
   editSomatotype,
   getAllUsers,
   getAllSomatotypes,
-  getAvatar
+  getAvatar,
+  updateAvatar,
+  updateMainColor,
 } = require("../controllers/users.controller");
 
 router.post(
@@ -66,12 +68,22 @@ router.delete(
   deleteSomatotype
 );
 
-router.post("/editSomatotype/:id", verifyKey, verifySomatotype, editSomatotype);
+router.post(
+  "/editSomatotype",
+  verifyKey,
+  verifyToken,
+  verifySomatotype,
+  editSomatotype
+);
 
 router.get("/getAllUsers", verifyKey, getAllUsers);
 
 router.get("/getAllSomatotypes", verifyKey, getAllSomatotypes);
 
 router.get("/getAvatar", verifyKey, verifyToken, getAvatar);
+
+router.post("/updateAvatar", verifyKey, verifyToken, updateAvatar);
+
+router.post("/updateMainColor", verifyKey, verifyToken, updateMainColor);
 
 module.exports = router;

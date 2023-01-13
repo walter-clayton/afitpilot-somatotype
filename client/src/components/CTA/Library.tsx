@@ -1,16 +1,90 @@
 import React from "react";
 import { Grid, Box, Button, Typography, useMediaQuery } from "@mui/material/";
 import { useNavigate } from "react-router-dom";
-import Card from "@mui/material/Card";
 import { useState, useEffect } from "react";
-import CardMedia from "@mui/material/CardMedia";
-import { getColors } from "../Colors";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import TableCompare, { IComparison } from "../TableCompare";
 import SomatotypeGraph from "../SomatotypeGraph";
 import { IPoints } from "../Calculation";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import { comparisons } from "../../datas/Comparison";
+import SearchLibrary from "./SearchLibrary";
+
+export const Datas = [
+  {
+    images: "manu_man",
+    bodytype: "Manu man",
+    SomatotypeType: "2 - 7 - 2",
+    TypeCode: "BM",
+  },
+  {
+    images: "eskimo woman",
+    bodytype: "Eskimo woman",
+    SomatotypeType: "6 - 4 - 1",
+    TypeCode: "MEn",
+  },
+  {
+    images: "nilote man",
+    bodytype: "Nilote man",
+    SomatotypeType: "2 - 3 - 6",
+    TypeCode: "MEc",
+  },
+  {
+    images: "brahmin man",
+    bodytype: "Brahmin man",
+    SomatotypeType: "2 - 4 - 4",
+    TypeCode: "EcM",
+  },
+  {
+    images: "manu woman",
+    bodytype: "Manu woman",
+    SomatotypeType: "2 - 5 - 2",
+    TypeCode: "BM",
+  },
+  {
+    images: "eskimo man",
+    bodytype: "Eskimo man",
+    SomatotypeType: "4 - 6 - 2",
+    TypeCode: "EnM",
+  },
+  {
+    images: "manu_man",
+    bodytype: "Manu man",
+    SomatotypeType: "2 - 7 - 2",
+    TypeCode: "BM",
+  },
+  {
+    images: "eskimo woman",
+    bodytype: "Eskimo woman",
+    SomatotypeType: "6 - 4 - 1",
+    TypeCode: "MEn",
+  },
+  {
+    images: "nilote man",
+    bodytype: "Nilote man",
+    SomatotypeType: "2 - 3 - 6",
+    TypeCode: "MEc",
+  },
+  {
+    images: "brahmin man",
+    bodytype: "Brahmin man",
+    SomatotypeType: "2 - 4 - 4",
+    TypeCode: "EcM",
+  },
+  {
+    images: "manu woman",
+    bodytype: "Manu-woman",
+    SomatotypeType: "2 - 5 - 2",
+    TypeCode: "BM",
+  },
+  {
+    images: "eskimo woman",
+    bodytype: "Eskimo man",
+    SomatotypeType: "4 - 6 - 2",
+    TypeCode: "EnM",
+  },
+];
 
 const Library = () => {
   const [tableComparePage, setTableComparePage] = useState<number>(0);
@@ -19,6 +93,9 @@ const Library = () => {
     IComparison[]
   >([]);
   const [compareSportsResults, setCompareSportsResults] = useState<
+    IComparison[]
+  >([]);
+  const [compareOccupationResults, setCompareOccupationResults] = useState<
     IComparison[]
   >([]);
   const [compareResultsToShow, setCompareResultsToShow] = useState<
@@ -39,87 +116,6 @@ const Library = () => {
   const xxs = useMediaQuery("(max-width:380px)");
   const xxxs = useMediaQuery("(max-width:320px)");
 
-  const Datas = [
-    {
-      images: "manu_man",
-      bodytype: "Manu man",
-      SomatotypeType: "2 - 7 - 2",
-      TypeCode: "BM",
-    },
-    {
-      images: "eskimo woman",
-      bodytype: "Eskimo woman",
-      SomatotypeType: "6 - 4 - 1",
-      TypeCode: "MEn",
-    },
-    {
-      images: "nilote man",
-      bodytype: "Nilote man",
-      SomatotypeType: "2 - 3 - 6",
-      TypeCode: "MEc",
-    },
-    {
-      images: "brahmin man",
-      bodytype: "Brahmin man",
-      SomatotypeType: "2 - 4 - 4",
-      TypeCode: "EcM",
-    },
-    {
-      images: "manu woman",
-      bodytype: "Manu woman",
-      SomatotypeType: "2 - 5 - 2",
-      TypeCode: "BM",
-    },
-    {
-      images: "eskimo man",
-      bodytype: "Eskimo man",
-      SomatotypeType: "4 - 6 - 2",
-      TypeCode: "EnM",
-    },
-    {
-      images: "manu_man",
-      bodytype: "Manu man",
-      SomatotypeType: "2 - 7 - 2",
-      TypeCode: "BM",
-    },
-    {
-      images: "eskimo woman",
-      bodytype: "Eskimo woman",
-      SomatotypeType: "6 - 4 - 1",
-      TypeCode: "MEn",
-    },
-    {
-      images: "nilote man",
-      bodytype: "Nilote man",
-      SomatotypeType: "2 - 3 - 6",
-      TypeCode: "MEc",
-    },
-    {
-      images: "brahmin man",
-      bodytype: "Brahmin man",
-      SomatotypeType: "2 - 4 - 4",
-      TypeCode: "EcM",
-    },
-    {
-      images: "manu woman",
-      bodytype: "Manu-woman",
-      SomatotypeType: "2 - 5 - 2",
-      TypeCode: "BM",
-    },
-    {
-      images: "eskimo woman",
-      bodytype: "Eskimo man",
-      SomatotypeType: "4 - 6 - 2",
-      TypeCode: "EnM",
-    },
-  ];
-  const imagePerCard = 6;
-  const [next, setNext] = useState(imagePerCard);
-  const handleMoreCard = () => {
-    setNext(next + imagePerCard);
-  };
-  // console.log(next)
-
   useEffect(() => {
     getCompareDatas();
   }, []);
@@ -127,6 +123,7 @@ const Library = () => {
   useEffect(() => {
     let tribesArray: IComparison[] = [];
     let sportsArray: IComparison[] = [];
+    let occupationArray: IComparison[] = [];
 
     compareResults.forEach((comparison) => {
       if (comparison.group === "Tribe") {
@@ -135,9 +132,13 @@ const Library = () => {
       if (comparison.group === "Sport") {
         sportsArray.push(comparison);
       }
+      if (comparison.group === "Occupation") {
+        occupationArray.push(comparison);
+      }
     });
     setCompareSportsResults(sportsArray);
     setCompareTribesResults(tribesArray);
+    setCompareOccupationResults(occupationArray);
   }, [compareResults]);
 
   useEffect(() => {
@@ -145,30 +146,8 @@ const Library = () => {
     setCompareResultsToShow(compareTribesResults);
   }, [compareTribesResults]);
 
-  const getCompareDatas = async () => {
-    const headers = {
-      "Content-Type": "application/json",
-      access_key: process.env.REACT_APP_ACCESS_KEY,
-    };
-
-    try {
-      setFetching(true);
-      const response = await axios.get(process.env.REACT_APP_COMPARE_URL!, {
-        headers: headers,
-      });
-      setCompareResults(response.data.comparisons);
-      setFetching(false);
-    } catch (error) {
-      // if (error.response) {
-      //     error.response.data.message
-      //       ? setSnackbarMessage(error.response.data.message)
-      //       : setSnackbarMessage(error.response.statusText);
-      //   } else {
-      //     setSnackbarMessage("Error with the server");
-      //   }
-      console.log("error ", error);
-      setFetching(false);
-    }
+  const getCompareDatas = () => {
+    setCompareResults(comparisons);
   };
 
   return (
@@ -255,7 +234,7 @@ const Library = () => {
                 fontWeight: 600,
               }}
             >
-              0
+              {compareOccupationResults.length}
             </Typography>
             <Typography sx={{ color: "black", textAlign: "center" }}>
               Occupations
@@ -273,7 +252,7 @@ const Library = () => {
                 fontWeight: 600,
               }}
             >
-              13
+              {compareSportsResults.length}
             </Typography>
             <Typography sx={{ color: "black", textAlign: "center" }}>
               Sports
@@ -291,7 +270,7 @@ const Library = () => {
                 fontWeight: 600,
               }}
             >
-              5
+              {compareTribesResults.length}
             </Typography>
             <Typography sx={{ color: "black", textAlign: "center" }}>
               Tribes
@@ -332,12 +311,26 @@ const Library = () => {
             width={"100%"}
             padding={2}
           >
-            <Box width={"100%"}>
-              <Box>
+            <Box width={"100%"} mb={5}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: small
+                    ? extraSmall
+                      ? xxs
+                        ? xxxs
+                          ? "column"
+                          : "column"
+                        : "column"
+                      : "column"
+                    : "row",
+                }}
+              >
                 <Button
                   sx={{
-                    backgroundColor: "#000000",
-                    color: "#ffffff",
+                    backgroundColor:
+                      comparisonState === "Tribes" ? "#000000" : "#ffffff",
+                    color: comparisonState === "Tribes" ? "#ffffff" : "#000000",
                     fontWeight: 600,
                     textAlign: "center",
                     lineHeight: "30px",
@@ -345,7 +338,7 @@ const Library = () => {
                     textTransform: "initial",
                     padding: "14px 30px",
                     borderRadius: "40px",
-                    marginTop: "5px",
+                    marginTop: "10px",
                     width: small
                       ? extraSmall
                         ? xxs
@@ -354,7 +347,7 @@ const Library = () => {
                             : "80%"
                           : "75%"
                         : "70%"
-                      : "60%",
+                      : "35%",
                     mx: small
                       ? extraSmall
                         ? xxs
@@ -363,12 +356,16 @@ const Library = () => {
                             : "10%"
                           : "12.5%"
                         : "15%"
-                      : "20%",
+                      : "10px",
                     "&.MuiButtonBase-root:hover": {
-                      bgcolor: "#000000",
+                      bgcolor:
+                        comparisonState === "Tribes" ? "#000000" : "#ffffff",
                     },
                     display: "flex",
-                    "&:hover": { bgcolor: "#000000" },
+                    "&:hover": {
+                      bgcolor:
+                        comparisonState === "Tribes" ? "#000000" : "#ffffff",
+                    },
                   }}
                   variant="contained"
                   onClick={() => {
@@ -381,8 +378,9 @@ const Library = () => {
                 </Button>
                 <Button
                   sx={{
-                    backgroundColor: "#000000",
-                    color: "#ffffff",
+                    backgroundColor:
+                      comparisonState === "Sports" ? "#000000" : "#ffffff",
+                    color: comparisonState === "Sports" ? "#ffffff" : "#000000",
                     fontWeight: 600,
                     textAlign: "center",
                     lineHeight: "30px",
@@ -390,7 +388,7 @@ const Library = () => {
                     textTransform: "initial",
                     padding: "14px 30px",
                     borderRadius: "40px",
-                    marginTop: "5px",
+                    marginTop: "10px",
                     width: small
                       ? extraSmall
                         ? xxs
@@ -399,7 +397,7 @@ const Library = () => {
                             : "80%"
                           : "75%"
                         : "70%"
-                      : "60%",
+                      : "35%",
                     mx: small
                       ? extraSmall
                         ? xxs
@@ -408,12 +406,16 @@ const Library = () => {
                             : "10%"
                           : "12.5%"
                         : "15%"
-                      : "20%",
+                      : "10px",
                     "&.MuiButtonBase-root:hover": {
-                      bgcolor: "#000000",
+                      bgcolor:
+                        comparisonState === "Sports" ? "#000000" : "#ffffff",
                     },
                     display: "flex",
-                    "&:hover": { bgcolor: "#000000" },
+                    "&:hover": {
+                      bgcolor:
+                        comparisonState === "Sports" ? "#000000" : "#ffffff",
+                    },
                   }}
                   variant="contained"
                   onClick={() => {
@@ -423,6 +425,61 @@ const Library = () => {
                   }}
                 >
                   Sports
+                </Button>
+                <Button
+                  sx={{
+                    backgroundColor:
+                      comparisonState === "Occupations" ? "#000000" : "#ffffff",
+                    color:
+                      comparisonState === "Occupations" ? "#ffffff" : "#000000",
+                    fontWeight: 600,
+                    textAlign: "center",
+                    lineHeight: "30px",
+                    fontSize: "18px",
+                    textTransform: "initial",
+                    padding: "14px 30px",
+                    borderRadius: "40px",
+                    marginTop: "10px",
+                    width: small
+                      ? extraSmall
+                        ? xxs
+                          ? xxxs
+                            ? "90%"
+                            : "80%"
+                          : "75%"
+                        : "70%"
+                      : "35%",
+                    mx: small
+                      ? extraSmall
+                        ? xxs
+                          ? xxxs
+                            ? "5%"
+                            : "10%"
+                          : "12.5%"
+                        : "15%"
+                      : "10px",
+                    "&.MuiButtonBase-root:hover": {
+                      bgcolor:
+                        comparisonState === "Occupations"
+                          ? "#000000"
+                          : "#ffffff",
+                    },
+                    display: "flex",
+                    "&:hover": {
+                      bgcolor:
+                        comparisonState === "Occupations"
+                          ? "#000000"
+                          : "#ffffff",
+                    },
+                  }}
+                  variant="contained"
+                  onClick={() => {
+                    setTableComparePage(0);
+                    setcomparisonState("Occupations");
+                    setCompareResultsToShow(compareOccupationResults);
+                  }}
+                >
+                  Occupations
                 </Button>
               </Box>
 
@@ -445,97 +502,7 @@ const Library = () => {
       {/* compare table */}
 
       {/* card */}
-      <Grid
-        container
-        spacing={2}
-        // sx={{
-        //     margin: "0 auto",
-        // }}
-        alignItems={"center"}
-        direction={{ xs: "column", sm: "row", md: "row", lg: "row", xl: "row" }}
-      >
-        {Datas?.slice(0, next)?.map((step, index) => {
-          return (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={4}
-              lg={4}
-              xl={4}
-              key={index}
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
-              width={"100%"}
-            >
-              <Card
-                sx={{
-                  placeSelf: "center",
-                  width: "90%",
-                  borderRadius: "25px",
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  sx={{ objectFit: "fill" }}
-                  image={require("../image/" + step.images + ".svg")}
-                />
-                <Typography
-                  variant="h5"
-                  component="div"
-                  sx={{
-                    backgroundColor: "#D9D9D9",
-                  }}
-                >
-                  {step.bodytype}
-                </Typography>
-                <Typography
-                  variant="h5"
-                  component="div"
-                  sx={{
-                    backgroundColor: "#E7E7E7",
-                  }}
-                >
-                  {step.SomatotypeType}
-                </Typography>
-                <Typography
-                  variant="h6"
-                  component="div"
-                  sx={{
-                    backgroundColor: "#F5F5F6",
-                  }}
-                >
-                  {step.TypeCode}
-                </Typography>
-              </Card>
-            </Grid>
-          );
-        })}
-      </Grid>
-      {/* button */}
-      {next < Datas?.length && (
-        <Button
-          variant="contained"
-          sx={{
-            borderRadius: "40px",
-            fontSize: "18px",
-            lineHeight: "30px",
-            backgroundColor: "RGB(108, 77, 123)",
-            padding: "14px 40px",
-            fontWeight: 600,
-            textAlign: "center",
-            textTransform: "initial",
-            marginTop: 0,
-            mb: 2,
-            "&.MuiButtonBase-root:hover": { bgcolor: "RGB(108, 77, 123)" },
-          }}
-          onClick={handleMoreCard}
-        >
-          Load More
-        </Button>
-      )}
+      <SearchLibrary />
     </Box>
   );
 };

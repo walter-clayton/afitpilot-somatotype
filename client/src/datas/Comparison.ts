@@ -1,19 +1,13 @@
-import { IComparison } from "../interfaces/interfaces";
-
-const dotenv = require("dotenv");
-dotenv.config();
-
-interface IKyes {
-  mongoURI: string;
-  mongoDbName: string;
+interface IComparison {
+  group: string;
+  gender: string;
+  name: string;
+  endo: number;
+  meso: number;
+  ecto: number;
 }
 
-const keys: IKyes = {
-  mongoURI: process.env.MONGODB_URI!,
-  mongoDbName: process.env.MONGODB_DBNAME!,
-};
-
-const comparisons: IComparison[] = [
+export const comparisons: IComparison[] = [
   {
     group: "Tribe",
     gender: "Male",
@@ -231,5 +225,3 @@ const comparisons: IComparison[] = [
     ecto: 2,
   },
 ];
-
-module.exports = { keys, comparisons };
