@@ -84,7 +84,7 @@ const CallToAction = () => {
                 }}
                 variant="body1"
               >
-                In our free descriptions you’ll learn about different body
+                In our descriptions you’ll learn about different body types.
               </Typography>
             </ThemeProvider>
             <Grid
@@ -155,7 +155,7 @@ const CallToAction = () => {
                     minWidth: "160px",
                   }}
                   variant="text"
-                  onClick={() => { }}
+                  onClick={() => {}}
                 >
                   Explore Theory <ArrowForwardSharpIcon />
                 </Button>
@@ -167,24 +167,25 @@ const CallToAction = () => {
           <Box
             sx={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: medium
+                ? small
+                  ? extraSmall
+                    ? "column"
+                    : "column"
+                  : "row"
+                : "row",
               alignItems: "center",
               justifyContent: "center",
               padding: "25px",
             }}
-          >            <img
+          >
+            {" "}
+            <img
               src={TypeMale}
               alt="Male Types"
               style={{
                 maxHeight: "600px",
-                height: '300px',
-                width: medium
-                  ? small
-                    ? extraSmall
-                      ? "65%"
-                      : "70%"
-                    : "75%"
-                  : "75%",
+                width: medium ? "75%" : "",
               }}
             />
             <img
@@ -192,14 +193,7 @@ const CallToAction = () => {
               alt="Female Types"
               style={{
                 maxHeight: "600px",
-                height: '300px',
-                width: medium
-                  ? small
-                    ? extraSmall
-                      ? "65%"
-                      : "70%"
-                    : "75%"
-                  : "75%",
+                width: medium ? "75%" : "",
               }}
             />
           </Box>
@@ -228,7 +222,7 @@ const CallToAction = () => {
               alt="HomeFeed"
               style={{
                 maxHeight: "600px",
-                height: '300px',
+                height: "300px",
                 width: medium
                   ? small
                     ? extraSmall
@@ -288,7 +282,7 @@ const CallToAction = () => {
                 }}
                 variant="body1"
               >
-                Follow a curated nutrition program to improve the mind and body.
+                Follow a curated nutrition program to improve your somatotype.
               </Typography>
             </ThemeProvider>
             <Grid
@@ -359,7 +353,7 @@ const CallToAction = () => {
                     minWidth: "160px",
                   }}
                   variant="text"
-                  onClick={() => { }}
+                  onClick={() => {}}
                 >
                   Explore Theory <ArrowForwardSharpIcon />
                 </Button>
@@ -424,7 +418,8 @@ const CallToAction = () => {
                 }}
                 variant="body1"
               >
-                Follow a tailored training program to increase muscle mass and definition.
+                Follow a tailored training program to increase muscle mass and
+                definition.
               </Typography>
             </ThemeProvider>
             <Grid
@@ -497,7 +492,7 @@ const CallToAction = () => {
                     minWidth: "160px",
                   }}
                   variant="text"
-                  onClick={() => { }}
+                  onClick={() => {}}
                 >
                   Explore Theory <ArrowForwardSharpIcon />
                 </Button>
@@ -520,7 +515,7 @@ const CallToAction = () => {
               alt="Training"
               style={{
                 maxHeight: "600px",
-                height: '300px',
+                height: "300px",
                 width: medium
                   ? small
                     ? extraSmall
@@ -556,7 +551,7 @@ const CallToAction = () => {
               alt="Optimise"
               style={{
                 maxHeight: "600px",
-                height: '300px',
+                height: "300px",
                 width: medium
                   ? small
                     ? extraSmall
@@ -616,7 +611,8 @@ const CallToAction = () => {
                 }}
                 variant="body1"
               >
-                Follow a sport specific training program to gain a competitive advantage.
+                Follow a sport specific training program to gain a competitive
+                advantage.
               </Typography>
             </ThemeProvider>
             <Grid
@@ -688,7 +684,7 @@ const CallToAction = () => {
                     minWidth: "160px",
                   }}
                   variant="text"
-                  onClick={() => { }}
+                  onClick={() => {}}
                 >
                   Explore Theory <ArrowForwardSharpIcon />
                 </Button>
@@ -702,7 +698,7 @@ const CallToAction = () => {
         display={"flex"}
         justifyContent={"space-around"}
         alignItems={"center"}
-        sx={{ backgroundColor: "#F5F5F6", marginTop: 8, padding: 4, }}
+        sx={{ backgroundColor: "#F5F5F6", marginTop: 8, padding: 4 }}
       >
         <Grid
           item
@@ -739,7 +735,7 @@ const CallToAction = () => {
                 }}
                 variant="body1"
               >
-                Discover different tribes and sports.
+                Discover different tribes,sports and occupations.
               </Typography>
             </ThemeProvider>
             <Grid
@@ -756,7 +752,7 @@ const CallToAction = () => {
                     borderRadius: "40px",
                     boxSizing: "border-box",
                     backgroundColor: "#FFFFFF",
-                    color: '#000000',
+                    color: "#000000",
                     width: small
                       ? extraSmall
                         ? xxSmall
@@ -815,7 +811,7 @@ const CallToAction = () => {
               alt="Compare"
               style={{
                 maxHeight: "600px",
-                height: '300px',
+                height: "300px",
                 width: medium
                   ? small
                     ? extraSmall

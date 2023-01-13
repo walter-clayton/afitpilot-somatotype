@@ -3,7 +3,8 @@ import { Box, Button, Typography, useMediaQuery } from "@mui/material/";
 import Card from "@mui/material/Card";
 import { useState } from "react";
 import CardMedia from "@mui/material/CardMedia";
-import { Datas } from "../CTA/Library";
+import { comparisonDatas } from "../../datas/ComparisonDatas";
+import comingSoon from "../image/Library_avatars/coming_soon.svg";
 
 const SearchLibrary = () => {
   const [search, setSearch] = useState("");
@@ -52,11 +53,14 @@ const SearchLibrary = () => {
         maxWidth={"1100px"}
         padding={"50px 0"}
       >
-        {Datas?.slice(0, next)?.map((step, index) => {
+        {comparisonDatas?.slice(0, next)?.map((data, index) => {
           if (
             search === "" ||
-            step.bodytype.toLowerCase().includes(search.toLowerCase()) ||
-            step.TypeCode.toLowerCase().includes(search.toLowerCase())
+            data.group.toLowerCase().includes(search.toLowerCase()) ||
+            data.gender.toLowerCase().includes(search.toLowerCase()) ||
+            data.name.toLowerCase().includes(search.toLowerCase()) ||
+            data.codeSoma.toLowerCase().includes(search.toLowerCase()) ||
+            data.imageName!.toLowerCase().includes(search.toLowerCase())
           ) {
             return (
               <Box
@@ -78,11 +82,21 @@ const SearchLibrary = () => {
                     borderRadius: "25px",
                   }}
                 >
-                  <CardMedia
-                    component="img"
-                    sx={{ objectFit: "fill" }}
-                    image={require("../image/" + step.images + ".svg")}
-                  />
+                  {data.imageName !== undefined ? (
+                    <CardMedia
+                      component="img"
+                      sx={{ objectFit: "fill" }}
+                      image={require("../image/Library_avatars/" +
+                        data.imageName +
+                        ".svg")}
+                    />
+                  ) : (
+                    <CardMedia
+                      component="img"
+                      sx={{ objectFit: "fill" }}
+                      image={comingSoon}
+                    />
+                  )}
                   <Typography
                     variant="h5"
                     component="div"
@@ -90,7 +104,9 @@ const SearchLibrary = () => {
                       backgroundColor: "#D9D9D9",
                     }}
                   >
-                    {step.bodytype}
+                    {data.name +
+                      " " +
+                      (data.gender === "Male" ? "man" : "woman")}
                   </Typography>
                   <Typography
                     variant="h5"
@@ -99,7 +115,7 @@ const SearchLibrary = () => {
                       backgroundColor: "#E7E7E7",
                     }}
                   >
-                    {step.SomatotypeType}
+                    {data.endo + " - " + data.meso + " - " + data.ecto}
                   </Typography>
                   <Typography
                     variant="h6"
@@ -108,16 +124,18 @@ const SearchLibrary = () => {
                       backgroundColor: "#F5F5F6",
                     }}
                   >
-                    {step.TypeCode}
+                    {data.codeSoma}
                   </Typography>
                 </Card>
               </Box>
             );
+          } else {
+            return null;
           }
         })}
       </Box>
       {/* button */}
-      {next < Datas?.length && (
+      {next < comparisonDatas?.length && (
         <Button
           variant="contained"
           sx={{

@@ -20,8 +20,8 @@ export const colorsSkin: IColorSkin[] = [
 
 export const colorsHair: IColorHair[] = [
   { light: "#565656", medium: "#4D4D4D" },
-  { light: "#DBBEA6", medium: "#DEBE99" },
-  { light: "#AA8C66", medium: "#AA8866" },
+  { light: "#FBE7A1", medium: "#ffdc5f" },
+  { light: "#d1ad7d", medium: "#AA8866" },
   { light: "#909090", medium: "#808080" },
 ];
 
@@ -33,6 +33,8 @@ export const hairs: string[] = [
   "large",
   "large2",
 ];
+
+export const hairsFemale: string[] = ["hair1", "hair2", "hair3"];
 
 export const faces: string[] = ["smiling", "neutral", "angry", "sad"];
 

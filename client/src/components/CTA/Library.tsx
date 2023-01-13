@@ -8,83 +8,8 @@ import SomatotypeGraph from "../SomatotypeGraph";
 import { IPoints } from "../Calculation";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import { comparisons } from "../../datas/Comparison";
+import { comparisonDatas } from "../../datas/ComparisonDatas";
 import SearchLibrary from "./SearchLibrary";
-
-export const Datas = [
-  {
-    images: "manu_man",
-    bodytype: "Manu man",
-    SomatotypeType: "2 - 7 - 2",
-    TypeCode: "BM",
-  },
-  {
-    images: "eskimo woman",
-    bodytype: "Eskimo woman",
-    SomatotypeType: "6 - 4 - 1",
-    TypeCode: "MEn",
-  },
-  {
-    images: "nilote man",
-    bodytype: "Nilote man",
-    SomatotypeType: "2 - 3 - 6",
-    TypeCode: "MEc",
-  },
-  {
-    images: "brahmin man",
-    bodytype: "Brahmin man",
-    SomatotypeType: "2 - 4 - 4",
-    TypeCode: "EcM",
-  },
-  {
-    images: "manu woman",
-    bodytype: "Manu woman",
-    SomatotypeType: "2 - 5 - 2",
-    TypeCode: "BM",
-  },
-  {
-    images: "eskimo man",
-    bodytype: "Eskimo man",
-    SomatotypeType: "4 - 6 - 2",
-    TypeCode: "EnM",
-  },
-  {
-    images: "manu_man",
-    bodytype: "Manu man",
-    SomatotypeType: "2 - 7 - 2",
-    TypeCode: "BM",
-  },
-  {
-    images: "eskimo woman",
-    bodytype: "Eskimo woman",
-    SomatotypeType: "6 - 4 - 1",
-    TypeCode: "MEn",
-  },
-  {
-    images: "nilote man",
-    bodytype: "Nilote man",
-    SomatotypeType: "2 - 3 - 6",
-    TypeCode: "MEc",
-  },
-  {
-    images: "brahmin man",
-    bodytype: "Brahmin man",
-    SomatotypeType: "2 - 4 - 4",
-    TypeCode: "EcM",
-  },
-  {
-    images: "manu woman",
-    bodytype: "Manu-woman",
-    SomatotypeType: "2 - 5 - 2",
-    TypeCode: "BM",
-  },
-  {
-    images: "eskimo woman",
-    bodytype: "Eskimo man",
-    SomatotypeType: "4 - 6 - 2",
-    TypeCode: "EnM",
-  },
-];
 
 const Library = () => {
   const [tableComparePage, setTableComparePage] = useState<number>(0);
@@ -147,7 +72,7 @@ const Library = () => {
   }, [compareTribesResults]);
 
   const getCompareDatas = () => {
-    setCompareResults(comparisons);
+    setCompareResults(comparisonDatas);
   };
 
   return (

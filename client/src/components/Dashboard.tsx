@@ -32,7 +32,7 @@ import {
   faces,
   hairs,
 } from "./avatar/variablesAvatar/VariableAvatar";
-import { comparisons } from "../datas/Comparison";
+import { comparisonDatas } from "../datas/ComparisonDatas";
 import { getSpecificColors } from "./Colors";
 
 const theme = createTheme();
@@ -172,7 +172,7 @@ const Dashboard: FC<IDashboard> = (props) => {
   };
 
   const getCompareDatas = () => {
-    setCompareResults(comparisons);
+    setCompareResults(comparisonDatas);
   };
 
   useEffect(() => {
