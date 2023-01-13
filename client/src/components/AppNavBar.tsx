@@ -149,8 +149,8 @@ const ResponsiveAppBar = (props: any) => {
                   color: "inherit",
                   textDecoration: "none",
                   alignSelf: "center",
-                  letterSpacing: xxxs ? ".22rem" : ".3rem",
-                  fontSize: xxxs ? "100%" : "150%",
+                  letterSpacing: xxxs ? ".2rem" : ".25rem",
+                  fontSize: xxxs ? "90%" : "120%",
                 }}
               >
                 AFITPILOT
