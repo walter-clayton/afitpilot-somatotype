@@ -221,15 +221,8 @@ const CallToAction = () => {
               src={Nutrition}
               alt="HomeFeed"
               style={{
+                width: medium ? "90%" : "",
                 maxHeight: "600px",
-                height: "300px",
-                width: medium
-                  ? small
-                    ? extraSmall
-                      ? "65%"
-                      : "70%"
-                    : "75%"
-                  : "75%",
               }}
             />
           </Box>
