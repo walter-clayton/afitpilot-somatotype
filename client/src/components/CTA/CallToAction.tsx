@@ -743,7 +743,7 @@ const CallToAction = () => {
                 }}
                 variant="body1"
               >
-                Discover different tribes and sports.
+                Discover different tribes,sports and occupations.
               </Typography>
             </ThemeProvider>
             <Grid
