@@ -70,6 +70,10 @@ export const htmlTempPassword = (
           align-items: center;
           font-family: Arial, Helvetica, sans-serif;
         }
+        a{
+          text-decoration: none;
+          color: inherit;
+        }
         #container {
           padding: 30px;
           max-width: 400px;
@@ -142,21 +146,23 @@ export const htmlTempPassword = (
         <p>
           <span style="font-weight: bold; display: block; margin-bottom: 2px;">Results:</span>
           <ul style="margin-left: 30px; margin-bottom: 20px;">
-            <li>Endomorphy: ${data.somatotype.endomorphy.toFixed()}</li>
-            <li>Mesomorphy: ${data.somatotype.mesomorphy.toFixed()}</li>
-            <li>Ectomorphy: ${data.somatotype.ectomorphy.toFixed()}</li>
+            <li>Endomorphy: <span style="font-weight: bold">${data.somatotype.endomorphy.toFixed()}</span></li>
+            <li>Mesomorphy: <span style="font-weight: bold">${data.somatotype.mesomorphy.toFixed()}</span></li>
+            <li>Ectomorphy: <span style="font-weight: bold">${data.somatotype.ectomorphy.toFixed()}</span></li>
           </ul>
         </p>
         <hr/>
         <p style="margin: 20px 0;">
-          ${message}: ${pass}
+          ${message}: <span style="font-weight: bold">${pass}</span>
         </p>
         <hr/>
         <h2 style="text-align: center; margin: 20px 0;">Optimise your Somatotype</h2>
         <p>
           Your journey to greatness is just beginning. Gain a more profound understanding of your body and unleash your potential by following our Optimisation Program. 
         </p>
-        <button>Get Started</button>
+        <a href="https://www.afitpilot.com/Optimisation">
+          <button>Get Started</button>
+        </a>
       </div>
       </div>
     </body>
