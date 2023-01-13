@@ -889,11 +889,26 @@ const TestSteps: FC<ITestSteps> = (props) => {
             color: "white",
           }}
         >
-          <span>{datas!.somatotype?.endomorphy?.toFixed()}</span>
+          <span>
+            {datas!.somatotype?.endomorphy?.toFixed() === "0" ||
+            Number(datas!.somatotype?.endomorphy) < 0
+              ? "1"
+              : datas!.somatotype?.endomorphy?.toFixed()}
+          </span>
           <span>-</span>
-          <span>{datas!.somatotype?.mesomorphy?.toFixed()}</span>
+          <span>
+            {datas!.somatotype?.mesomorphy?.toFixed() === "0" ||
+            Number(datas!.somatotype?.mesomorphy) < 0
+              ? "1"
+              : datas!.somatotype?.mesomorphy?.toFixed()}
+          </span>
           <span>-</span>
-          <span>{datas!.somatotype?.ectomorphy?.toFixed()}</span>
+          <span>
+            {datas!.somatotype?.ectomorphy?.toFixed() === "0" ||
+            Number(datas!.somatotype?.ectomorphy) < 0
+              ? "1"
+              : datas!.somatotype?.ectomorphy?.toFixed()}
+          </span>
         </Stack>
         {!cookies.user && (
           <Box>
