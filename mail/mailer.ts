@@ -72,7 +72,7 @@ const sendEmailPassword = async (
     attachments: [
       {
         filename: "Logo.png",
-        path: __dirname + "/Logo.png",
+        path: data.svgAvatar,
         cid: "Logo.png",
       },
     ],
