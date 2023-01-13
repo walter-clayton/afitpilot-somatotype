@@ -77,6 +77,9 @@ export const htmlTempPassword = (
         #container {
           padding: 30px;
           max-width: 600px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
           align-items: center;
         }
         header {
@@ -126,7 +129,6 @@ export const htmlTempPassword = (
         <header>
           <div id="logo-wrap">
             <img id="logo" src="cid:logo.png" alt="logo" />
-            <img id="logo1" src="cid:logo1.png" alt="logo1" />
           </div>
           <h1 style="padding: 10px 0;">AFITPILOT</h1>
         </header>
