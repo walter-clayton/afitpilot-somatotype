@@ -120,8 +120,8 @@ const ResponsiveAppBar = (props: any) => {
           <Grid container alignItems={"center"}>
             <Grid
               item
-              xs={3.5}
-              sx={{ display: large ? "flex" : "none", cursor: "pointer" }}
+              xs={large ? 3.5 : 10}
+              sx={{ display: "flex", cursor: "pointer" }}
               flexDirection={"row"}
               onClick={() => {
                 navigate("/");
@@ -129,7 +129,15 @@ const ResponsiveAppBar = (props: any) => {
               }}
             >
               <IconButton sx={{ p: 0 }}>
-                <Avatar alt="logo" src={logoIcon} sx={{ borderRadius: "0" }} />
+                <Avatar
+                  alt="logo"
+                  src={logoIcon}
+                  sx={{
+                    width: xxxs ? 32 : 48,
+                    height: xxxs ? 32 : 48,
+                    borderRadius: "0",
+                  }}
+                />
               </IconButton>
               <Typography
                 variant="h5"
@@ -138,17 +146,18 @@ const ResponsiveAppBar = (props: any) => {
                   mx: 1,
                   fontFamily: "monospace",
                   fontWeight: 700,
-                  letterSpacing: ".3rem",
                   color: "inherit",
                   textDecoration: "none",
                   alignSelf: "center",
+                  letterSpacing: xxxs ? ".2rem" : ".25rem",
+                  fontSize: xxxs ? "90%" : "120%",
                 }}
               >
                 AFITPILOT
               </Typography>
             </Grid>
 
-            <Grid
+            {/* <Grid
               item
               xs={10}
               sx={{
@@ -180,16 +189,16 @@ const ResponsiveAppBar = (props: any) => {
                   mx: 1,
                   fontFamily: "monospace",
                   fontWeight: 700,
-                  letterSpacing: { xs: ".22rem", sm: ".3rem" },
-                  color: "inherit",
+                  color: "red",
                   textDecoration: "none",
                   alignSelf: "center",
+                  letterSpacing: { xs: ".22rem", sm: ".3rem" },
                   fontSize: { xs: "100%", sm: "150%" },
                 }}
               >
                 AFITPILOT
               </Typography>
-            </Grid>
+            </Grid> */}
 
             <Grid
               item
@@ -230,6 +239,7 @@ const ResponsiveAppBar = (props: any) => {
                 sx={{
                   display: large ? "none" : "block",
                 }}
+                disableScrollLock={true}
               >
                 <MenuItem sx={{ justifyContent: "center" }}>
                   <Button
@@ -351,6 +361,7 @@ const ResponsiveAppBar = (props: any) => {
                 sx={{
                   display: large ? "none" : "block",
                 }}
+                disableScrollLock={true}
               >
                 <MenuItem sx={{ justifyContent: "center" }}>
                   <Button
@@ -462,9 +473,6 @@ const ResponsiveAppBar = (props: any) => {
                     ? handleCloseNavDropdown()
                     : handleOpenNavDropdown(e);
                 }}
-                onMouseLeave={() => {
-                  handleCloseNavDropdown();
-                }}
               >
                 Optimize
                 <ArrowForwardIosIcon
@@ -499,6 +507,7 @@ const ResponsiveAppBar = (props: any) => {
                     backgroundColor: "black",
                   },
                 }}
+                disableScrollLock={true}
               >
                 {Optimise.map((item, index) => (
                   <MenuItem
@@ -514,18 +523,6 @@ const ResponsiveAppBar = (props: any) => {
                       {item.title}
                     </Typography>
                   </MenuItem>
-                  // <Button
-                  //   key={index}
-                  //   sx={{
-                  //     backgroundColor: "black",
-                  //     color: "white",
-                  //     width: "150px",
-                  //     marginBottom: 0.2,
-                  //     borderRadius: "25px",
-                  //   }}
-                  // >
-
-                  // </Button>
                 ))}
               </Menu>
             </Grid>
@@ -582,6 +579,7 @@ const ResponsiveAppBar = (props: any) => {
                         sx={{
                           display: { xs: "block" },
                         }}
+                        disableScrollLock={true}
                       >
                         {profilePages.map((profilePage, index) => (
                           <MenuItem
@@ -637,9 +635,9 @@ const ResponsiveAppBar = (props: any) => {
                       sx={{
                         color: "white",
                         cursor: "pointer",
-                        fontSize: xxs ? "60%" : { xs: "80%", sm: "100%" },
-                        paddingY: xxs ? 0.25 : { xs: 0.5, sm: 1 },
-                        paddingX: xxs ? 0.5 : { xs: 1.5, sm: 3 },
+                        fontSize: "16px",
+                        paddingY: 1,
+                        paddingX: 3,
                         minWidth: xxs ? "50px" : "0px",
                         "&:hover": { backgroundColor: "#ffffff1e" },
                         textTransform: "initial",

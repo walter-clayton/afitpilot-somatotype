@@ -1,16 +1,49 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Button, Typography, useMediaQuery } from "@mui/material/";
 import Card from "@mui/material/Card";
 import { useState } from "react";
 import CardMedia from "@mui/material/CardMedia";
-import { comparisonDatas } from "../../datas/ComparisonDatas";
-import comingSoon from "../image/Library_avatars/coming_soon.svg";
+import { comparisonDatas, IComparisonData } from "../../datas/ComparisonDatas";
+import comingSoon from "../image/Comparison_avatars/coming_soon.svg";
 
 const SearchLibrary = () => {
-  const [search, setSearch] = useState("");
+  const [searchResults, setSearchResults] = useState<IComparisonData[]>([]);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
 
   const handleChange = (e: { target: { value: string } }) => {
-    setSearch(e.target.value);
+    setNext(0 + imagePerCard);
+    if (e.target.value !== "") {
+      setIsSearching(true);
+      setSearchResults([]);
+      let searchValue = e.target.value;
+      let tempResultsArray: IComparisonData[] = [];
+      for (let i = 0; i < comparisonDatas.length; i++) {
+        if (
+          comparisonDatas[i].group
+            .toLowerCase()
+            .includes(searchValue.toLowerCase()) ||
+          comparisonDatas[i].gender
+            .toLowerCase()
+            .includes(searchValue.toLowerCase()) ||
+          comparisonDatas[i].name
+            .toLowerCase()
+            .includes(searchValue.toLowerCase()) ||
+          comparisonDatas[i].codeSoma
+            .toLowerCase()
+            .includes(searchValue.toLowerCase()) ||
+          (comparisonDatas[i].imageName !== undefined &&
+            comparisonDatas[i]
+              .imageName!.toLowerCase()
+              .includes(searchValue.toLowerCase()))
+        ) {
+          tempResultsArray.push(comparisonDatas[i]);
+        }
+      }
+
+      setSearchResults(tempResultsArray);
+    } else {
+      setIsSearching(false);
+    }
   };
 
   const imagePerCard = 6;
@@ -44,98 +77,163 @@ const SearchLibrary = () => {
           border: "1px solid grey",
         }}
       />
+      {isSearching && (
+        <Typography variant="h3" component="div" paddingTop={"50px"}>
+          Search results :
+        </Typography>
+      )}
 
       <Box
         flexWrap={"wrap"}
-        display={"flex"}
+        display={
+          (isSearching && searchResults.length > 0) || !isSearching
+            ? "flex"
+            : "none"
+        }
         alignItems={"center"}
         justifyContent={"center"}
         maxWidth={"1100px"}
         padding={"50px 0"}
       >
-        {comparisonDatas?.slice(0, next)?.map((data, index) => {
-          if (
-            search === "" ||
-            data.group.toLowerCase().includes(search.toLowerCase()) ||
-            data.gender.toLowerCase().includes(search.toLowerCase()) ||
-            data.name.toLowerCase().includes(search.toLowerCase()) ||
-            data.codeSoma.toLowerCase().includes(search.toLowerCase()) ||
-            data.imageName!.toLowerCase().includes(search.toLowerCase())
-          ) {
-            return (
-              <Box
-                key={index}
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                sx={{
-                  textAlign: "center",
-                  padding: "20px",
-                }}
-                maxWidth={"340px"}
-                width={"100%"}
-              >
-                <Card
+        {isSearching
+          ? searchResults?.slice(0, next)?.map((data, index) => {
+              return (
+                <Box
+                  key={index}
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
                   sx={{
-                    placeSelf: "center",
-                    width: "100%",
-                    borderRadius: "25px",
+                    textAlign: "center",
+                    padding: "20px",
                   }}
+                  maxWidth={"340px"}
+                  width={"100%"}
                 >
-                  {data.imageName !== undefined ? (
-                    <CardMedia
-                      component="img"
-                      sx={{ objectFit: "fill" }}
-                      image={require("../image/Library_avatars/" +
-                        data.imageName +
-                        ".svg")}
-                    />
-                  ) : (
-                    <CardMedia
-                      component="img"
-                      sx={{ objectFit: "fill" }}
-                      image={comingSoon}
-                    />
-                  )}
-                  <Typography
-                    variant="h5"
-                    component="div"
+                  <Card
                     sx={{
-                      backgroundColor: "#D9D9D9",
+                      placeSelf: "center",
+                      width: "100%",
+                      borderRadius: "25px",
                     }}
                   >
-                    {data.name +
-                      " " +
-                      (data.gender === "Male" ? "man" : "woman")}
-                  </Typography>
-                  <Typography
-                    variant="h5"
-                    component="div"
+                    {data.imageName !== undefined ? (
+                      <CardMedia
+                        component="img"
+                        sx={{ objectFit: "fill" }}
+                        image={require("../image/Comparison_avatars/" +
+                          data.imageName +
+                          ".svg")}
+                      />
+                    ) : (
+                      <CardMedia
+                        component="img"
+                        sx={{ objectFit: "fill" }}
+                        image={comingSoon}
+                      />
+                    )}
+                    <Typography
+                      variant="h5"
+                      component="div"
+                      sx={{
+                        backgroundColor: "#D9D9D9",
+                      }}
+                    >
+                      {data.name + " " + data.gender.toLowerCase()}
+                    </Typography>
+                    <Typography
+                      variant="h5"
+                      component="div"
+                      sx={{
+                        backgroundColor: "#E7E7E7",
+                      }}
+                    >
+                      {data.endo + " - " + data.meso + " - " + data.ecto}
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      component="div"
+                      sx={{
+                        backgroundColor: "#F5F5F6",
+                      }}
+                    >
+                      {data.codeSoma}
+                    </Typography>
+                  </Card>
+                </Box>
+              );
+            })
+          : comparisonDatas?.slice(0, next)?.map((data, index) => {
+              return (
+                <Box
+                  key={index}
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  sx={{
+                    textAlign: "center",
+                    padding: "20px",
+                  }}
+                  maxWidth={"340px"}
+                  width={"100%"}
+                >
+                  <Card
                     sx={{
-                      backgroundColor: "#E7E7E7",
+                      placeSelf: "center",
+                      width: "100%",
+                      borderRadius: "25px",
                     }}
                   >
-                    {data.endo + " - " + data.meso + " - " + data.ecto}
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    component="div"
-                    sx={{
-                      backgroundColor: "#F5F5F6",
-                    }}
-                  >
-                    {data.codeSoma}
-                  </Typography>
-                </Card>
-              </Box>
-            );
-          } else {
-            return null;
-          }
-        })}
+                    {data.imageName !== undefined ? (
+                      <CardMedia
+                        component="img"
+                        sx={{ objectFit: "fill" }}
+                        image={require("../image/Comparison_avatars/" +
+                          data.imageName +
+                          ".svg")}
+                      />
+                    ) : (
+                      <CardMedia
+                        component="img"
+                        sx={{ objectFit: "fill" }}
+                        image={comingSoon}
+                      />
+                    )}
+                    <Typography
+                      variant="h5"
+                      component="div"
+                      sx={{
+                        backgroundColor: "#D9D9D9",
+                      }}
+                    >
+                      {data.name + " " + data.gender.toLowerCase()}
+                    </Typography>
+                    <Typography
+                      variant="h5"
+                      component="div"
+                      sx={{
+                        backgroundColor: "#E7E7E7",
+                      }}
+                    >
+                      {data.endo + " - " + data.meso + " - " + data.ecto}
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      component="div"
+                      sx={{
+                        backgroundColor: "#F5F5F6",
+                      }}
+                    >
+                      {data.codeSoma}
+                    </Typography>
+                  </Card>
+                </Box>
+              );
+            })}
       </Box>
       {/* button */}
-      {next < comparisonDatas?.length && (
+      {next <
+        (isSearching ? searchResults?.length : comparisonDatas?.length) && (
         <Button
           variant="contained"
           sx={{
@@ -155,6 +253,11 @@ const SearchLibrary = () => {
         >
           Load More
         </Button>
+      )}
+      {isSearching && searchResults.length === 0 && (
+        <Typography variant="h4" component="div" paddingY={"50px"}>
+          No results found
+        </Typography>
       )}
     </Box>
   );

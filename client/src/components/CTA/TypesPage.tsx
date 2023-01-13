@@ -448,7 +448,7 @@ const TypesPage = () => {
                   md={4}
                   lg={4}
                   xl={4}
-                  sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
+                  sx={{ textAlign: "center", marginTop: 5, pb: 9 }}
                   onClick={() => {
                     navigate(step.linkToPage);
                     window.scrollTo(0, 0);
@@ -530,7 +530,7 @@ const TypesPage = () => {
           >
             <Typography
               variant="h2"
-              sx={{ color: "white", textAlign: "center", mb: 2, pt: 2 }}
+              sx={{ color: "white", textAlign: "center", mb: 2, pt: 9 }}
             >
               ECTOMORPH
             </Typography>
@@ -612,7 +612,7 @@ const TypesPage = () => {
                   md={4}
                   lg={4}
                   xl={4}
-                  sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
+                  sx={{ textAlign: "center", marginTop: 5, pb: 9 }}
                   onClick={() => {
                     navigate(step.linkToPage);
                     window.scrollTo(0, 0);
@@ -694,7 +694,7 @@ const TypesPage = () => {
           >
             <Typography
               variant="h2"
-              sx={{ color: "white", textAlign: "center", mb: 2, pt: 2 }}
+              sx={{ color: "white", textAlign: "center", mb: 2, pt: 9 }}
             >
               HYBRID
             </Typography>
