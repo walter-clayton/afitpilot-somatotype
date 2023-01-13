@@ -167,7 +167,13 @@ const CallToAction = () => {
           <Box
             sx={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: medium
+                ? small
+                  ? extraSmall
+                    ? "column"
+                    : "column"
+                  : "row"
+                : "row",
               alignItems: "center",
               justifyContent: "center",
               padding: "25px",
@@ -179,14 +185,7 @@ const CallToAction = () => {
               alt="Male Types"
               style={{
                 maxHeight: "600px",
-                height: "300px",
-                width: medium
-                  ? small
-                    ? extraSmall
-                      ? "65%"
-                      : "70%"
-                    : "75%"
-                  : "75%",
+                width: medium ? "75%" : "",
               }}
             />
             <img
@@ -194,14 +193,7 @@ const CallToAction = () => {
               alt="Female Types"
               style={{
                 maxHeight: "600px",
-                height: "300px",
-                width: medium
-                  ? small
-                    ? extraSmall
-                      ? "65%"
-                      : "70%"
-                    : "75%"
-                  : "75%",
+                width: medium ? "75%" : "",
               }}
             />
           </Box>
