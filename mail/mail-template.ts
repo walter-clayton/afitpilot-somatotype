@@ -79,10 +79,7 @@ export const htmlTempPassword = (
           max-width: 600px;
         }
         header {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-wrap: wrap;
+          margin: 0 auto;
           width: 100%;
           margin-bottom: 30px;
         }
