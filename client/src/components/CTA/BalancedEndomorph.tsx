@@ -231,7 +231,6 @@ export default function Types() {
       </Grid>
       <TypeExample />
       <CounterShare />
-      <CommentPage />
     </Box>
   );
 }
