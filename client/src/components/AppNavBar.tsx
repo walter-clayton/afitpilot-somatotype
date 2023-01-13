@@ -456,7 +456,7 @@ const ResponsiveAppBar = (props: any) => {
                 </Button>
               ))}
               <Button
-                sx={{ color: "white", position: "relative" }}
+                sx={{ my: 2, color: "white", position: "relative" }}
                 onClick={(e) => {
                   Boolean(anchorElNavDropdown)
                     ? handleCloseNavDropdown()
