@@ -25,6 +25,7 @@ export interface ITypesSkin {
 }
 
 interface IAvatar {
+  testRef?: any;
   typeSoma: string;
   hair: string;
   face: string;
@@ -72,6 +73,7 @@ const Avatar: FC<IAvatar> = (props) => {
 
   return (
     <Box
+      ref={props.testRef}
       sx={{
         maxWidth: "250px",
         width: "100%",

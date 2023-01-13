@@ -54,6 +54,9 @@ export interface IAnthropometric {
 export interface IData {
   somatotype: ISomatotype;
   anthropometric: IAnthropometric;
+  avatar?: IAvatar;
+  svgAvatar?: any;
+  logo?: any;
 }
 
 export interface IComparison {
