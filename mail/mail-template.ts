@@ -51,86 +51,116 @@ export const htmlTempPassword = (
   pass: string,
   data: IData
 ): string => {
-  return `
-  <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Reset Password</title>
-    <style>
-    div{
-      margin-top: 20px
-    }
-      #container {
-        width: max-content;
-        background-color: rgb(239, 239, 239);
-        padding: 30px;
-      }
-      button {
-        display: block;
-        margin-top: 20px;
-        background-color: rgb(44, 44, 255);
-        padding: 10px 20px;
-        border-radius: 10px;
-        border: none;
-        color: white;
-      }
-      button:hover {
-        cursor: pointer;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="container">
-      <div>
-        Hello ${name},
-      </div>
-      <div>
-        Thank you for signing up to Afitpilot
-      </div>
-      <div>
-        Your test results:
-      </div>
-      <div>
-        <div>
-          <b>${Object.keys(data)[0]}</b>:
+  return `<!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Reset Password</title>
+      <style>
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-family: Arial, Helvetica, sans-serif;
+        }
+        #container {
+          padding: 30px;
+          max-width: 400px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+        header {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-wrap: wrap;
+          width: 100%;
+          margin-bottom: 30px;
+        }
+        #logo-wrap {
+          max-width: 70px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-right: 0.5rem;
+        }
+        #logo {
+          width: 100%;
+        }
+        #avatar {
+          max-width: 200px;
+          margin: 0 auto;
+          margin-bottom: 30px;
+        }
+        #avatar img {
+          width: 100%;
+        }
+        button {
+          display: block;
+          width: 100%;
+          font-size: 1.2rem;
+          margin-top: 20px;
+          background-color: #6C4D7B;
+          padding: 10px 20px;
+          border-radius: 10px;
+          border: none;
+          color: white;
+        }
+        button:hover {
+          cursor: pointer;
+        }
+      </style>
+    </head>
+    <body>
+      <div id="container">
+        <header>
+          <div id="logo-wrap">
+            <img id="logo" src="cid:logo" alt="logo" />
+          </div>
+          <h1 style="padding: 10px 0;">AFITPILOT</h1>
+        </header>
+        <div id="avatar">
+          <img src="${data.svgAvatar}" alt="avatar" />
         </div>
         <div>
-          <ul>
-            <li>${Object.keys(data.somatotype)[0]}: ${data.somatotype.endomorphy}</li>
-            <li>${Object.keys(data.somatotype)[1]}: ${data.somatotype.ectomorphy}</li>
-            <li>${Object.keys(data.somatotype)[2]}: ${data.somatotype.mesomorphy}</li>
+        <p style="margin-bottom: 20px;">The results of your somatotype test are in. Here they are:</p>
+        <p style="margin-bottom: 5px;">
+          <span style="font-weight: bold">Somatotype: </span>
+          <span>${data.somatotype.titleSomatotype} (${
+    data.somatotype.codeSomatotype
+  })</span>
+        </p>
+        <p>
+          <span style="font-weight: bold; display: block; margin-bottom: 2px;">Results:</span>
+          <ul style="margin-left: 30px; margin-bottom: 20px;">
+            <li>Endomorphy: ${data.somatotype.endomorphy.toFixed()}</li>
+            <li>Mesomorphy: ${data.somatotype.mesomorphy.toFixed()}</li>
+            <li>Ectomorphy: ${data.somatotype.ectomorphy.toFixed()}</li>
           </ul>
-        </div>
+        </p>
+        <hr/>
+        <p style="margin: 20px 0;">
+          ${message}: ${pass}
+        </p>
+        <hr/>
+        <h2 style="text-align: center; margin: 20px 0;">Optimise your Somatotype</h2>
+        <p>
+          Your journey to greatness is just beginning. Gain a more profound understanding of your body and unleash your potential by following our Optimisation Program. 
+        </p>
+        <button>Get Started</button>
       </div>
-      <div>
-        <div>
-          <b>${Object.keys(data)[1]}</b>:
-        </div>
-        <div>
-          <ul>
-            <li>${Object.keys(data.anthropometric)[0]}: ${data.anthropometric.height}</li>
-            <li>${Object.keys(data.anthropometric)[1]}: ${data.anthropometric.weight}</li>
-            <li>${Object.keys(data.anthropometric)[2]}: ${data.anthropometric.supraspinal_skinfold}</li>
-            <li>${Object.keys(data.anthropometric)[3]}: ${data.anthropometric.subscapular_skinfold}</li>
-            <li>${Object.keys(data.anthropometric)[4]}: ${data.anthropometric.tricep_skinfold}</li>
-            <li>${Object.keys(data.anthropometric)[5]}: ${data.anthropometric.femur_breadth}</li>
-            <li>${Object.keys(data.anthropometric)[6]}: ${data.anthropometric.humerus_breadth}</li>
-            <li>${Object.keys(data.anthropometric)[7]}: ${data.anthropometric.calf_girth}</li>
-            <li>${Object.keys(data.anthropometric)[8]}: ${data.anthropometric.bicep_girth}</li>
-          </ul>
-        </div>
       </div>
-      <br/>
-      <p>
-      ${message}: ${pass}
-      </p>
-    </div>
-  </body>
-</html>
-`;
+    </body>
+  </html>`;
 };
 
 export const htmlTempResetPassword = (

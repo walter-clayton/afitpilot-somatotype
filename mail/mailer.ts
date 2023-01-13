@@ -23,6 +23,7 @@ interface IOptionsNodemailer {
   subject: string;
   text: string;
   html: string;
+  attachments?: any;
 }
 
 // /**
@@ -68,6 +69,13 @@ const sendEmailPassword = async (
     subject: "Your password to access your account", // Subject line
     text: message,
     html: htmlTempPassword(message, name, pass, data),
+    attachments: [
+      {
+        filename: "Logo.png",
+        path: __dirname + "/Logo.png",
+        cid: "logo",
+      },
+    ],
   };
 
   try {

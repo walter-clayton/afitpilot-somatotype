@@ -77,6 +77,8 @@ export interface IData {
   anthropometric?: IAnthropometric | undefined;
   user?: IUser;
   avatar?: IParamsAvatar;
+  svgAvatar?: any;
+  logo?: any;
 }
 
 function App() {
