@@ -84,7 +84,7 @@ const CallToAction = () => {
                 }}
                 variant="body1"
               >
-                In our free descriptions you’ll learn about different body
+                In our descriptions you’ll learn about different body types.
               </Typography>
             </ThemeProvider>
             <Grid
