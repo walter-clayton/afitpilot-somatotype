@@ -129,6 +129,7 @@ export const htmlTempPassword = (
         <header>
           <div id="logo-wrap">
             <img id="logo" src="cid:logo.png" alt="logo" />
+            <img id="logo" src="cid:logo1.png" alt="logo1" />
           </div>
           <h1 style="padding: 10px 0;">AFITPILOT</h1>
         </header>
