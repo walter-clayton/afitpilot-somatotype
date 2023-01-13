@@ -77,12 +77,12 @@ const sendEmailPassword = async (
       },
       {
         filename: "logo.png",
-        path: __dirname + "/mail/logo.png",
+        path: __dirname + "/logo.png",
         cid: "logo.png",
       },
       {
         filename: "logo1.png",
-        path: __dirname + "/mail/logo.png",
+        path: __dirname + "/logo.png",
         cid: "logo1.png",
       },
     ],
