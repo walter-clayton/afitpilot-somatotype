@@ -1,5 +1,6 @@
 import { IData } from "../interfaces/interfaces";
 import { htmlTempResetPassword } from "./mail-template";
+const fs = require("fs");
 
 const nodemailer = require("nodemailer");
 const { htmlTempResetPass, htmlTempPassword } = require("./mail-template");
@@ -10,11 +11,11 @@ const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
   secure: true,
+
   auth: {
     user: process.env.MAIL_USER,
     pass: process.env.MAIL_PASSWORD,
   },
-  tls: { rejectUnauthorized: false },
 });
 
 interface IOptionsNodemailer {
