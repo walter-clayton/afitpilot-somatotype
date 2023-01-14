@@ -17,7 +17,6 @@ import SomatotypeGraph from "./SomatotypeGraph";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import CounterShare from "./CTA/CounterShare";
-import AddPage from "./AddPage";
 import { useNavigate } from "react-router-dom";
 import TableCompare, { IComparison } from "./TableCompare";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -302,6 +301,15 @@ const Dashboard: FC<IDashboard> = (props) => {
           zIndex: -10,
         }}
       >
+        <Box
+          sx={{
+            border: "20px solid white",
+            backgroundColor: "white",
+            width: "150%",
+            height: "150%",
+            position: "absolute",
+          }}
+        />
         <Grid
           container
           padding={2}

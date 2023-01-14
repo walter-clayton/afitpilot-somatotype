@@ -51,86 +51,118 @@ export const htmlTempPassword = (
   pass: string,
   data: IData
 ): string => {
-  return `
-  <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Reset Password</title>
-    <style>
-    div{
-      margin-top: 20px
-    }
-      #container {
-        width: max-content;
-        background-color: rgb(239, 239, 239);
-        padding: 30px;
-      }
-      button {
-        display: block;
-        margin-top: 20px;
-        background-color: rgb(44, 44, 255);
-        padding: 10px 20px;
-        border-radius: 10px;
-        border: none;
-        color: white;
-      }
-      button:hover {
-        cursor: pointer;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="container">
-      <div>
-        Hello ${name},
-      </div>
-      <div>
-        Thank you for signing up to Afitpilot
-      </div>
-      <div>
-        Your test results:
-      </div>
-      <div>
-        <div>
-          <b>${Object.keys(data)[0]}</b>:
+  return `<!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Reset Password</title>
+      <style>
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          font-family: Arial, Helvetica, sans-serif;
+          margin: 0 auto
+        }
+        a{
+          text-decoration: none;
+          color: inherit;
+        }
+        #container {
+          padding: 30px;
+          max-width: 600px;
+          width: 100%;
+          margin: 0 auto;
+        }
+        header {
+          margin-bottom: 30px;
+          margin: 0 auto;
+          text-align: center;
+          width: min-content;
+        }
+        #logo-wrap {
+          max-width: 70px;
+          margin: 0 auto;
+          width: 100%;
+        }
+        #logo {
+          width: 100%;
+          margin: 0 auto;
+          display: block;
+        }
+        #avatar {
+          max-width: 200px;
+          width: 100%;
+          margin-bottom: 30px;
+          margin: 0 auto;
+        }
+        #avatar img {
+          width: 100%;
+
+        }
+        button {
+          display: block;
+          width: 100%;
+          font-size: 1.2rem;
+          margin-top: 20px;
+          background-color: #6C4D7B;
+          padding: 10px 20px;
+          border-radius: 10px;
+          border: none;
+          color: white;
+        }
+        button:hover {
+          cursor: pointer;
+        }
+      </style>
+    </head>
+    <body>
+      <div id="container">
+        <header>
+          <div id="logo-wrap">
+            <img id="logo" src="cid:logo.png" alt="logo" />
+          </div>
+          <h1 style="padding: 10px 0; text-align: center">AFITPILOT</h1>
+        </header>
+        <div id="avatar">
+          <img src="cid:avatar.png" alt="avatar" />
         </div>
         <div>
-          <ul>
-            <li>${Object.keys(data.somatotype)[0]}: ${data.somatotype.endomorphy}</li>
-            <li>${Object.keys(data.somatotype)[1]}: ${data.somatotype.ectomorphy}</li>
-            <li>${Object.keys(data.somatotype)[2]}: ${data.somatotype.mesomorphy}</li>
+        <p style="margin-bottom: 20px;">The results of your somatotype test are in. Here they are:</p>
+        <p style="margin-bottom: 5px;">
+          <span style="font-weight: bold">Somatotype: </span>
+          <span>${data.somatotype.titleSomatotype} (${
+    data.somatotype.codeSomatotype
+  })</span>
+        </p>
+        <p>
+          <span style="font-weight: bold; display: block; margin-bottom: 2px;">Results:</span>
+          <ul style="margin-left: 30px; margin-bottom: 20px;">
+            <li>Endomorphy: <span style="font-weight: bold">${data.somatotype.endomorphy.toFixed()}</span></li>
+            <li>Mesomorphy: <span style="font-weight: bold">${data.somatotype.mesomorphy.toFixed()}</span></li>
+            <li>Ectomorphy: <span style="font-weight: bold">${data.somatotype.ectomorphy.toFixed()}</span></li>
           </ul>
-        </div>
+        </p>
+        <hr/>
+        <p style="margin: 20px 0;">
+          ${message}: <span style="font-weight: bold">${pass}</span>
+        </p>
+        <hr/>
+        <h2 style="text-align: center; margin: 20px 0;">Optimise your Somatotype</h2>
+        <p>
+          Your journey to greatness is just beginning. Gain a more profound understanding of your body and unleash your potential by following our Optimisation Program. 
+        </p>
+        <a href="https://www.afitpilot.com/Optimisation">
+          <button>Get Started</button>
+        </a>
       </div>
-      <div>
-        <div>
-          <b>${Object.keys(data)[1]}</b>:
-        </div>
-        <div>
-          <ul>
-            <li>${Object.keys(data.anthropometric)[0]}: ${data.anthropometric.height}</li>
-            <li>${Object.keys(data.anthropometric)[1]}: ${data.anthropometric.weight}</li>
-            <li>${Object.keys(data.anthropometric)[2]}: ${data.anthropometric.supraspinal_skinfold}</li>
-            <li>${Object.keys(data.anthropometric)[3]}: ${data.anthropometric.subscapular_skinfold}</li>
-            <li>${Object.keys(data.anthropometric)[4]}: ${data.anthropometric.tricep_skinfold}</li>
-            <li>${Object.keys(data.anthropometric)[5]}: ${data.anthropometric.femur_breadth}</li>
-            <li>${Object.keys(data.anthropometric)[6]}: ${data.anthropometric.humerus_breadth}</li>
-            <li>${Object.keys(data.anthropometric)[7]}: ${data.anthropometric.calf_girth}</li>
-            <li>${Object.keys(data.anthropometric)[8]}: ${data.anthropometric.bicep_girth}</li>
-          </ul>
-        </div>
       </div>
-      <br/>
-      <p>
-      ${message}: ${pass}
-      </p>
-    </div>
-  </body>
-</html>
-`;
+    </body>
+  </html>`;
 };
 
 export const htmlTempResetPassword = (

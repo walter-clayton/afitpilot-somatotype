@@ -1,15 +1,28 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { Typography, Grid, useMediaQuery } from "@mui/material/";
-import groupImage from "../image/Group.svg";
-import sitting from "../image/sitting-2.svg";
-import CallToActionWidget from "./CallToActionWidget";
-import CounterShare from "./CounterShare";
-import CommentPage from "./CommentPage";
-import TypeExample from "./TypeExample";
+import groupImage from "../../image/Group.svg";
+import sitting from "../../image/sitting-2.svg";
+import CallToActionWidget from "../../CTA/CallToActionWidget";
+import CounterShare from "../../CTA/CounterShare";
+import CommentPage from "../../CTA/CommentPage";
+import TypeExample, { ITypeCarouselImage } from "../TypeCarousel";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import MEnMan from "../../image/Typespage_avatars/MEn_man.svg";
+import MEnWoman from "../../image/Typespage_avatars/MEn_woman.svg";
 
 export default function Types() {
+  const MEnImages: ITypeCarouselImage[] = [
+    {
+      image: MEnMan,
+      imageAltText: "MEnMan",
+    },
+    {
+      image: MEnWoman,
+      imageAltText: "MEnWoman",
+    },
+  ];
+
   const theme = createTheme();
   const medium = useMediaQuery("(max-width:899px)");
   const small = useMediaQuery("(max-width:599px)");
@@ -102,7 +115,7 @@ export default function Types() {
                   fontWeight: 600,
                 }}
               >
-                Balanced Endomorph
+                Mesomorphic Endomorph
               </Typography>
               <Typography
                 component="div"
@@ -115,7 +128,7 @@ export default function Types() {
                   lineHeight: "normal",
                 }}
               >
-                (BEn)
+                (MEn)
               </Typography>
             </ThemeProvider>
           </Box>
@@ -154,7 +167,7 @@ export default function Types() {
                 </Typography>
               </ThemeProvider>
               <Typography variant="h6" gutterBottom>
-                What is a Balanced endomorphy?
+                What is a Mesomorphic endomorphy?
               </Typography>
               <Typography variant="body1" gutterBottom>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -229,9 +242,9 @@ export default function Types() {
           </Grid>
         )}
       </Grid>
-      <TypeExample />
+      <TypeExample carouselImages={MEnImages} />
       <CounterShare />
-      <CommentPage />
+      {/* <CommentPage /> */}
     </Box>
   );
 }

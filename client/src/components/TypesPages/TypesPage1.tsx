@@ -117,6 +117,7 @@ function TypesPage1(props: any) {
           alignItems: "center",
           justifyContent: "center",
           mt: 3,
+          cursor: "pointer",
         }}
       >
         {props.labelCategory === "category1" ? (

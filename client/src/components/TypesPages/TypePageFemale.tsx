@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Grid, Box, Button, Typography, useMediaQuery } from "@mui/material/";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import CounterShare from "./CounterShare";
+import CounterShare from "../CTA/CounterShare";
 import { useNavigate } from "react-router-dom";
 import mesomorpyshape from "../image/mesomorpyshape.png";
 
@@ -43,19 +43,19 @@ const TypesPageFemale = (props: any) => {
       image: "EnM_woman",
       bodyType: "Endomorphic Mesomorph",
       TypeCode: "EnM",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/EnM",
     },
     {
       image: "BM_woman",
       bodyType: "Balanced Mesomorph",
       TypeCode: "BM",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/BM",
     },
     {
       image: "EcM_woman",
       bodyType: "Ectomorphic Mesomorph ",
       TypeCode: "EcM",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/EcM",
     },
   ];
   const Ectomorph = [
@@ -63,19 +63,19 @@ const TypesPageFemale = (props: any) => {
       image: "MEc_woman",
       bodyType: "Mesomorphic Ectomorph ",
       TypeCode: "MEc",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/MEc",
     },
     {
       image: "BEc_woman",
       bodyType: "Balanced Ectomorph",
       TypeCode: "BEc",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/BEc",
     },
     {
       image: "EnEc_woman",
       bodyType: "Endomorphic Ectomorph ",
       TypeCode: "EnEc",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/EnEc",
     },
   ];
   const Endomorph = [
@@ -83,19 +83,19 @@ const TypesPageFemale = (props: any) => {
       image: "EcEn_woman",
       bodyType: "Ectomorphic Endomorph",
       TypeCode: "EcEn ",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/EcEn",
     },
     {
       image: "BEn_woman",
       bodyType: "Balanced Endomorph",
       TypeCode: "BEn",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/BEn",
     },
     {
       image: "MEn_woman",
       bodyType: "Mesomorphic Endomorph ",
       TypeCode: "MEn",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/MEn",
     },
   ];
   const Hybrid = [
@@ -103,19 +103,19 @@ const TypesPageFemale = (props: any) => {
       image: "M-Ec_woman",
       bodyType: "Mesomorph Ectomorph",
       TypeCode: "M-Ec",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/M-Ec",
     },
     {
       image: "En-Ec_woman",
       bodyType: "Endomorph Ectomorph",
       TypeCode: "En-Ec",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/En-Ec",
     },
     {
       image: "M-En_woman",
       bodyType: "Mesomorph Endomorph",
       TypeCode: "M-En",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/M-En",
     },
   ];
   const Central = [
@@ -123,7 +123,7 @@ const TypesPageFemale = (props: any) => {
       image: "C_woman",
       bodyType: "Central",
       TypeCode: "C",
-      linkToPage: "/Balanced-endomorph",
+      linkToPage: "/C",
     },
   ];
 
@@ -156,7 +156,7 @@ const TypesPageFemale = (props: any) => {
                   md={4}
                   lg={4}
                   xl={4}
-                  sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
+                  sx={{ textAlign: "center", marginTop: 5, pb: 9 }}
                   onClick={() => {
                     window.scrollTo(0, 0);
                     navigate(step.linkToPage);
@@ -238,7 +238,7 @@ const TypesPageFemale = (props: any) => {
           >
             <Typography
               variant="h2"
-              sx={{ color: "white", textAlign: "center", mb: 2, pt: 2 }}
+              sx={{ color: "white", textAlign: "center", mb: 2, pt: 9 }}
             >
               ECTOMORPH
             </Typography>
@@ -321,7 +321,7 @@ const TypesPageFemale = (props: any) => {
                   md={4}
                   lg={4}
                   xl={4}
-                  sx={{ textAlign: "center", marginTop: 5, mb: 5 }}
+                  sx={{ textAlign: "center", marginTop: 5, pb: 9 }}
                   onClick={() => {
                     window.scrollTo(0, 0);
                     navigate(step.linkToPage);
@@ -403,7 +403,7 @@ const TypesPageFemale = (props: any) => {
           >
             <Typography
               variant="h2"
-              sx={{ color: "white", textAlign: "center", mb: 2, pt: 2 }}
+              sx={{ color: "white", textAlign: "center", mb: 2, pt: 9 }}
             >
               HYBRID
             </Typography>

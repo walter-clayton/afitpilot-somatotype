@@ -14,20 +14,31 @@ import Footer from "./components/CTA/Footer";
 import Contact from "./components/CTA/Contact";
 import TermsCondition from "./components/CTA/TermsCondition";
 import Privacy from "./components/CTA/Privacy";
-import Types from "./components/CTA/TypesPage";
-import BalancedEndomorph from "./components/CTA/BalancedEndomorph";
+import Types from "./components/TypesPages/TypesPage";
+import BEc from "./components/TypesPages/Types/BEc";
+import BEn from "./components/TypesPages/Types/BEn";
+import BM from "./components/TypesPages/Types/BM";
+import C from "./components/TypesPages/Types/C";
+import EcEn from "./components/TypesPages/Types/EcEn";
+import EcM from "./components/TypesPages/Types/EcM";
+import En_Ec from "./components/TypesPages/Types/En-Ec";
+import EnEc from "./components/TypesPages/Types/EnEc";
+import EnM from "./components/TypesPages/Types/EnM";
+import M_Ec from "./components/TypesPages/Types/M-Ec";
+import M_En from "./components/TypesPages/Types/M-En";
+import MEc from "./components/TypesPages/Types/MEc";
+import MEn from "./components/TypesPages/Types/MEn";
 import TestPage from "./components/TestPage";
 import BlogPage from "./components/BlogPage";
 import Home from "./components/HomePage";
 import FooterCTA from "./components/CTA/FooterCTA";
 import BlogArticlePage from "./components/BlogArticlePage";
-import AddPage from "./components/AddPage";
 import Error404 from "./components/CTA/Error404";
 import CommentPage from "./components/CTA/CommentPage";
-import TypeExample from "./components/CTA/TypeExample";
+import TypeExample from "./components/TypesPages/TypeCarousel";
 import Nutrition from "./components/CTA/Nutrition";
 import Training from "./components/CTA/Training";
-import TypesPage1 from "./components/CTA/TypesPage1";
+import TypesPage1 from "./components/TypesPages/TypesPage1";
 import Disconnection from "./components/Disconnection";
 import Library from "./components/CTA/Library";
 import Optimisation from "./components/CTA/Optimisation";
@@ -77,6 +88,8 @@ export interface IData {
   anthropometric?: IAnthropometric | undefined;
   user?: IUser;
   avatar?: IParamsAvatar;
+  svgAvatar?: any;
+  logo?: any;
 }
 
 function App() {
@@ -249,7 +262,19 @@ function App() {
         />
         <Route path="/Blog" element={<BlogPage />} />
         <Route path="/Blog/:idBlog" element={<BlogArticlePage />} />
-        <Route path="/Balanced-endomorph" element={<BalancedEndomorph />} />
+        <Route path="/BEc" element={<BEc />} />
+        <Route path="/BEn" element={<BEn />} />
+        <Route path="/BM" element={<BM />} />
+        <Route path="/C" element={<C />} />
+        <Route path="/EcEn" element={<EcEn />} />
+        <Route path="/EcM" element={<EcM />} />
+        <Route path="/En-Ec" element={<En_Ec />} />
+        <Route path="/EnEc" element={<EnEc />} />
+        <Route path="/EnM" element={<EnM />} />
+        <Route path="/M-Ec" element={<M_Ec />} />
+        <Route path="/M-En" element={<M_En />} />
+        <Route path="/MEc" element={<MEc />} />
+        <Route path="/MEn" element={<MEn />} />
         <Route
           path="/Profile"
           element={
@@ -273,7 +298,6 @@ function App() {
         message={snackbarMessage}
         onClose={handleClose}
       />
-      {/* <BalancedEndomorph /> */}
       <Footer />
     </Router>
   );
