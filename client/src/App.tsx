@@ -94,8 +94,6 @@ export interface IData {
 }
 
 function App() {
-  ReactGA.send({ hitType: "pageview", page: window.location.pathname });
-
   const [cookies, setCookie, removeCookie] = useCookies(["user", "data"]);
   const [open, setOpen] = useState<boolean>(false);
   const [resultsSaved, setResultsSaved] = useState<boolean>(false);
@@ -125,6 +123,10 @@ function App() {
     }
     setOpen(false);
   };
+
+  useEffect(() => {
+    ReactGA.send({ hitType: "websiteView", page: window.location.pathname });
+  }, []);
 
   useEffect(() => {
     cookies.data && setData(cookies.data);

@@ -104,7 +104,7 @@ const sendEmailResetPassword = async (
   const options: IOptionsNodemailer = {
     from: `noreply <${process.env.MAIL_USER}>`, // sender address
     to: email, // receiver email
-    subject: "Your password to access your account", // Subject line
+    subject: "Your new password to access your account", // Subject line
     text: message,
     html: htmlTempResetPassword(message, name, pass),
   };
