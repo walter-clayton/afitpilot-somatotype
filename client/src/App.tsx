@@ -43,6 +43,7 @@ import Disconnection from "./components/Disconnection";
 import Library from "./components/CTA/Library";
 import Optimisation from "./components/CTA/Optimisation";
 import axios from "axios";
+import ReactGA from "react-ga4";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -93,6 +94,8 @@ export interface IData {
 }
 
 function App() {
+  ReactGA.send({ hitType: "pageview", page: window.location.pathname });
+
   const [cookies, setCookie, removeCookie] = useCookies(["user", "data"]);
   const [open, setOpen] = useState<boolean>(false);
   const [resultsSaved, setResultsSaved] = useState<boolean>(false);
