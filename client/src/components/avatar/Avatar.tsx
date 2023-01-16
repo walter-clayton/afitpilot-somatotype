@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import React, { FC } from "react";
-import { IColors } from "../Colors";
+import { IColors } from "../../datas/Colors";
 import { getClothFemale } from "./clothes/female/ClothesFemale";
 import { getClothMale } from "./clothes/male/ClothesMale";
 import { Plane } from "./CustomAvatar";

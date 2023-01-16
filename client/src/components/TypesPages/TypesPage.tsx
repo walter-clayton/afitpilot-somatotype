@@ -10,10 +10,10 @@ import {
 } from "@mui/material/";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import CounterShare from "../CTA/CounterShare";
+import CounterShare from "../shares/CounterShare";
 import { useNavigate } from "react-router-dom";
-import mesomorpyshape from "../image/mesomorpyshape.png";
-import TypesPage1, { Icategory } from "./TypesPage1";
+import mesomorpyshape from "../../image/mesomorpyshape.png";
+import TypesPage1, { Icategory } from "./GraphTypes";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import TypesPageFemale from "./TypePageFemale";
@@ -460,7 +460,7 @@ const TypesPage = () => {
                   }}
                 >
                   <img
-                    src={require("../image/Typespage_avatars/" +
+                    src={require("../../image/Typespage_avatars/" +
                       step.image +
                       ".svg")}
                     alt="Mesomorph"
@@ -564,7 +564,7 @@ const TypesPage = () => {
                   }}
                 >
                   <img
-                    src={require("../image/Typespage_avatars/" +
+                    src={require("../../image/Typespage_avatars/" +
                       step.image +
                       ".svg")}
                     alt="Ectomorph"
@@ -635,7 +635,7 @@ const TypesPage = () => {
                   }}
                 >
                   <img
-                    src={require("../image/Typespage_avatars/" +
+                    src={require("../../image/Typespage_avatars/" +
                       step.image +
                       ".svg")}
                     alt="Endomorph"
@@ -740,7 +740,7 @@ const TypesPage = () => {
                   }}
                 >
                   <img
-                    src={require("../image/Typespage_avatars/" +
+                    src={require("../../image/Typespage_avatars/" +
                       step.image +
                       ".svg")}
                     alt="Hybrid"
@@ -811,7 +811,7 @@ const TypesPage = () => {
                   }}
                 >
                   <img
-                    src={require("../image/Typespage_avatars/" +
+                    src={require("../../image/Typespage_avatars/" +
                       step.image +
                       ".svg")}
                     alt="central"

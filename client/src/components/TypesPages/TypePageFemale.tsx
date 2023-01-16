@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Grid, Box, Button, Typography, useMediaQuery } from "@mui/material/";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import CounterShare from "../CTA/CounterShare";
+import CounterShare from "../shares/CounterShare";
 import { useNavigate } from "react-router-dom";
-import mesomorpyshape from "../image/mesomorpyshape.png";
+import mesomorpyshape from "../../image/mesomorpyshape.png";
 
 const theme = createTheme();
 theme.typography.h1 = {
@@ -163,7 +163,7 @@ const TypesPageFemale = (props: any) => {
                   }}
                 >
                   <img
-                    src={require("../image/Typespage_avatars/" +
+                    src={require("../../image/Typespage_avatars/" +
                       step.image +
                       ".svg")}
                     alt="manu tribesman"
@@ -262,7 +262,7 @@ const TypesPageFemale = (props: any) => {
                   }}
                 >
                   <img
-                    src={require("../image/Typespage_avatars/" +
+                    src={require("../../image/Typespage_avatars/" +
                       step.image +
                       ".svg")}
                     alt="manu tribesman"
@@ -328,7 +328,7 @@ const TypesPageFemale = (props: any) => {
                   }}
                 >
                   <img
-                    src={require("../image/Typespage_avatars/" +
+                    src={require("../../image/Typespage_avatars/" +
                       step.image +
                       ".svg")}
                     alt="manu tribesman"
@@ -428,7 +428,7 @@ const TypesPageFemale = (props: any) => {
                   }}
                 >
                   <img
-                    src={require("../image/Typespage_avatars/" +
+                    src={require("../../image/Typespage_avatars/" +
                       step.image +
                       ".svg")}
                     alt="manu tribesman"
@@ -494,7 +494,7 @@ const TypesPageFemale = (props: any) => {
                   }}
                 >
                   <img
-                    src={require("../image/Typespage_avatars/" +
+                    src={require("../../image/Typespage_avatars/" +
                       step.image +
                       ".svg")}
                     alt="manu tribesman"
