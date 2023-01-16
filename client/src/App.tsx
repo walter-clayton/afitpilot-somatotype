@@ -43,6 +43,7 @@ import Disconnection from "./components/Disconnection";
 import Library from "./components/CTA/Library";
 import Optimisation from "./components/CTA/Optimisation";
 import axios from "axios";
+import ReactGA from "react-ga4";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -122,6 +123,10 @@ function App() {
     }
     setOpen(false);
   };
+
+  useEffect(() => {
+    ReactGA.send({ hitType: "websiteView", page: window.location.pathname });
+  }, []);
 
   useEffect(() => {
     cookies.data && setData(cookies.data);
