@@ -12,7 +12,7 @@ import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CounterShare from "../shares/CounterShare";
 import { useNavigate } from "react-router-dom";
-import mesomorpyshape from "../../image/mesomorpyshape.png";
+import redFeatureShape from "../../image/redFeatureShape.svg";
 import TypesPage1, { Icategory } from "./GraphTypes";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
@@ -424,7 +424,7 @@ const TypesPage = () => {
       {isShown && (
         <ThemeProvider theme={theme}>
           <Box sx={{ mb: -2, mt: "-70px" }}>
-            <img src={mesomorpyshape} alt="" style={{ width: "100%" }} />
+            <img src={redFeatureShape} alt="" style={{ width: "100%" }} />
           </Box>
           <Box
             ref={section1Ref}
