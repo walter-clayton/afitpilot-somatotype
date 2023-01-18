@@ -1,15 +1,15 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { Typography, Grid, useMediaQuery } from "@mui/material/";
-import groupImage from "../../image/Group.svg";
-import sitting from "../../image/sitting-2.svg";
+import groupImage from "../../../image/Group.svg";
+import sitting from "../../../image/sitting-2.svg";
 import CallToActionWidget from "../../CTA/CallToActionWidget";
-import CounterShare from "../../CTA/CounterShare";
-import CommentPage from "../../CTA/CommentPage";
+import CounterShare from "../../shares/CounterShare";
+import CommentPage from "../../comments/CommentPage";
 import TypeExample, { ITypeCarouselImage } from "../TypeCarousel";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import BEcMan from "../../image/Typespage_avatars/BEc_man.svg";
-import BEcWoman from "../../image/Typespage_avatars/BEc_woman.svg";
+import BEcMan from "../../../image/Typespage_avatars/BEc_man.svg";
+import BEcWoman from "../../../image/Typespage_avatars/BEc_woman.svg";
 
 export default function Types() {
   const BEcImages: ITypeCarouselImage[] = [

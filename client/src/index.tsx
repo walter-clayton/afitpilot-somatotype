@@ -1,12 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import ReactGA from "react-ga4";
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-root.render(
-    <App />
+const GA_MEASUREMENT_ID = "UA-175797285-3";
+ReactGA.initialize(GA_MEASUREMENT_ID);
+
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
 );
+root.render(<App />);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

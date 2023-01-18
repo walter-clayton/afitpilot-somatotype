@@ -1,4 +1,4 @@
-import { getSpecificColors } from "../../../Colors";
+import { getSpecificColors } from "../../../../datas/Colors";
 import { ITypesSkin } from "../../Avatar";
 
 interface IBeard {

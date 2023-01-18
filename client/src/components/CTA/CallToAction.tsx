@@ -2,12 +2,12 @@ import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Grid, Box, Button, Typography, useMediaQuery } from "@mui/material/";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
-import HomeTraining from "../image/HomeTraining.svg";
-import TypeFemale from "../image/TypeFemale.svg";
-import TypeMale from "../image/TypeMale.svg";
-import Nutrition from "../image/Nutrition.svg";
-import compare from "../image/compare.svg";
-import Optimise from "../image/Optimise.svg";
+import HomeTraining from "../../image/HomeTraining.svg";
+import TypeFemale from "../../image/TypeFemale.svg";
+import TypeMale from "../../image/TypeMale.svg";
+import Nutrition from "../../image/Nutrition.svg";
+import compare from "../../image/compare.svg";
+import Optimise from "../../image/Optimise.svg";
 import { useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
