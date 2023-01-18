@@ -35,7 +35,7 @@ export interface IBlogContentElement {
 }
 
 export interface IBlogContent {
-  id?: number;
+  id: number;
   title?: string;
   date?: string;
   cardDescription?: string;
