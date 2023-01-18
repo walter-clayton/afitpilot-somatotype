@@ -73,8 +73,9 @@ const sendEmailPassword = async (
     attachments: [
       {
         filename: "avatar.png",
-        path: data.svgAvatar,
+        content: data.svgAvatar,
         cid: "avatar.png",
+        encoding: "base64",
       },
       // {
       //   filename: "logo.png",
