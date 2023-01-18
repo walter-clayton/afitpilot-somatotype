@@ -2,10 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import ReactGA from "react-ga4";
-
-const GA_MEASUREMENT_ID = "UA-175797285-3";
-ReactGA.initialize(GA_MEASUREMENT_ID);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

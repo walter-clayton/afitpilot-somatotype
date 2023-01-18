@@ -266,7 +266,7 @@ const Dashboard: FC<IDashboard> = (props) => {
     const response = await fetch(dataToShare);
     const blob = await response.blob();
     const filesArray = [
-      new File([blob], "meme.png", {
+      new File([blob], "avatar.png", {
         type: "image/png",
         lastModified: new Date().getTime(),
       }),
