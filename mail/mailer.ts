@@ -1,7 +1,6 @@
 import { IData } from "../interfaces/interfaces";
+import { logoBase64 } from "./logo";
 import { htmlTempResetPassword } from "./mail-template";
-const fs = require("fs");
-
 const nodemailer = require("nodemailer");
 const { htmlTempResetPass, htmlTempPassword } = require("./mail-template");
 
@@ -16,6 +15,7 @@ const transporter = nodemailer.createTransport({
     user: process.env.MAIL_USER,
     pass: process.env.MAIL_PASSWORD,
   },
+  tls: { rejectUnauthorized: false },
 });
 
 interface IOptionsNodemailer {
@@ -70,8 +70,19 @@ const sendEmailPassword = async (
     subject: "Your results and your password to access your account", // Subject line
     text: message,
     html: htmlTempPassword(message, name, pass, data),
+    attachments: [
+      {
+        filename: "logo_afitpilot.png",
+        content: logoBase64,
+        cid: "logo", //same cid value as in the html img src
+      },
+      {
+        filename: "user_avatar.png",
+        content: data.svgAvatar,
+        cid: "user_avatar", //same cid value as in the html img src
+      },
+    ],
   };
-
   try {
     const info = await transporter.sendMail(options);
 

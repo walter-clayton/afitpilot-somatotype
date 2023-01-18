@@ -1,7 +1,6 @@
 // an email template that can be used with Nodemailer to send emails
 
 import { IData } from "../interfaces/interfaces";
-import { logoBase64 } from "./logo";
 
 // export const htmlTempResetPass = (message: string): string => {
 //   return `
@@ -52,6 +51,15 @@ export const htmlTempPassword = (
   pass: string,
   data: IData
 ): string => {
+  // const byteCharacters = atob(logoBase64);
+  // const byteNumbers = new Array(byteCharacters.length);
+  // for (let i = 0; i < byteCharacters.length; i++) {
+  //   byteNumbers[i] = byteCharacters.charCodeAt(i);
+  // }
+  // const byteArray = new Uint8Array(byteNumbers);
+  // const blob = new Blob([byteArray], { type: "image/png" });
+  // const urlImg = URL.createObjectURL(blob as any);
+
   return `<!doctype html>
   <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
   
@@ -162,7 +170,7 @@ export const htmlTempPassword = (
                             <tbody>
                               <tr>
                                 <td style="width:100px;">
-                                  <img height="auto" src="${logoBase64}" style="border:0;display:block;outline:none;text-decoration:none;height:auto;font-size:13px;width:200px" />
+                                  <img height="auto" src="cid:logo" style="border:0;display:block;outline:none;text-decoration:none;height:auto;font-size:13px;width:200px" />
                                 </td>
                               </tr>
                             </tbody>
@@ -175,9 +183,7 @@ export const htmlTempPassword = (
                             <tbody>
                               <tr>
                                 <td style="width:200px;">
-                                  <img height="auto" src="${
-                                    data.svgAvatar
-                                  }" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="200" />
+                                  <img height="auto" src="cid:user_avatar" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="200" />
                                 </td>
                               </tr>
                             </tbody>
