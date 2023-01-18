@@ -10,6 +10,11 @@ import compare from "../../image/compare.svg";
 import Optimise from "../../image/Optimise.svg";
 import { useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import WhitePurpleRectangle from "../../image/WhitePurpleRectangle.svg";
+import PurpleGreenRectangle from "../../image/PurpleGreenRectangle.svg";
+import GreenBlueRectangle from "../../image/GreenBlueRectangle.svg";
+import BlueYellowRectangle from "../../image/BlueYellowRectangle.svg";
+import YellowGreyRectangle from "../../image/YellowGreyRectangle.svg";
 
 const CallToAction = () => {
   const medium = useMediaQuery("(max-width:899px)");
@@ -26,12 +31,15 @@ const CallToAction = () => {
   return (
     <Box>
       <CssBaseline />
+      <Box sx={{ mb: -1, marginTop: 8 }}>
+        <img src={WhitePurpleRectangle} alt="" style={{ width: "100%" }} />
+      </Box>
       <Grid
         container
         display={"flex"}
         justifyContent={"space-around"}
         alignItems={"center"}
-        sx={{ backgroundColor: "#DCD0E1", marginTop: 8, padding: 4 }}
+        sx={{ backgroundColor: "#DCD0E1", padding: 4 }}
       >
         <Grid
           item
@@ -200,12 +208,15 @@ const CallToAction = () => {
         </Grid>
       </Grid>
       {/* second grid */}
+      <Box sx={{ mb: -1, mt: "-1px" }}>
+        <img src={PurpleGreenRectangle} alt="" style={{ width: "100%" }} />
+      </Box>
       <Grid
         container
         display={"flex"}
         justifyContent={"space-around"}
         alignItems={"center"}
-        sx={{ backgroundColor: "#D5E8DD", marginTop: 8, padding: 4 }}
+        sx={{ backgroundColor: "#D5E8DD", padding: 4 }}
       >
         <Grid item xs={small ? 12 : 5}>
           <Box
@@ -356,12 +367,15 @@ const CallToAction = () => {
         </Grid>
       </Grid>
       {/* 3 grid */}
+      <Box sx={{ mb: -1, mt: "-1px" }}>
+        <img src={GreenBlueRectangle} alt="" style={{ width: "100%" }} />
+      </Box>
       <Grid
         container
         display={"flex"}
         justifyContent={"space-around"}
         alignItems={"center"}
-        sx={{ backgroundColor: "#CFE5EC", marginTop: 8, padding: 4 }}
+        sx={{ backgroundColor: "#CFE5EC", padding: 4 }}
       >
         <Grid
           item
@@ -515,12 +529,15 @@ const CallToAction = () => {
         </Grid>
       </Grid>
       {/* 4 grid */}
+      <Box sx={{ mb: -1, mt: "-1px" }}>
+        <img src={BlueYellowRectangle} alt="" style={{ width: "100%" }} />
+      </Box>
       <Grid
         container
         display={"flex"}
         justifyContent={"space-around"}
         alignItems={"center"}
-        sx={{ backgroundColor: "#F2E2BF", marginTop: 8, padding: 4 }}
+        sx={{ backgroundColor: "#F2E2BF", mt: "-10px", padding: 4 }}
       >
         <Grid item xs={small ? 12 : 5}>
           <Box
@@ -672,12 +689,15 @@ const CallToAction = () => {
           </Grid>
         </Grid>
       </Grid>
+      <Box sx={{ mb: -1, mt: "-1px" }}>
+        <img src={YellowGreyRectangle} alt="" style={{ width: "100%" }} />
+      </Box>
       <Grid
         container
         display={"flex"}
         justifyContent={"space-around"}
         alignItems={"center"}
-        sx={{ backgroundColor: "#F5F5F6", marginTop: 8, padding: 4 }}
+        sx={{ backgroundColor: "#F5F5F6", padding: 4 }}
       >
         <Grid
           item
