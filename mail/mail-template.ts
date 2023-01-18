@@ -121,7 +121,7 @@ export const htmlTempPassword = (
       <div id="container">
         <header>
           <div id="logo-wrap">
-           
+            <img id="logo" src="cid:logo.png" alt="logo" />
           </div>
         </header>
         <div id="avatar">
