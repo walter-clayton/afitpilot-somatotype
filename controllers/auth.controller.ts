@@ -12,6 +12,7 @@ const usersCtrl: IUsersCtrl = {};
 
 usersCtrl.login = async (req: Request, res: Response) => {
   const { email, password, data } = req.body;
+  console.log(__dirname);
 
   try {
     const user = await User.findByEmail(email);

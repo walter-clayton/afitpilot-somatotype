@@ -301,15 +301,6 @@ const Dashboard: FC<IDashboard> = (props) => {
           zIndex: -10,
         }}
       >
-        <Box
-          sx={{
-            border: "20px solid white",
-            backgroundColor: "white",
-            width: "150%",
-            height: "150%",
-            position: "absolute",
-          }}
-        />
         <Grid
           container
           padding={2}
