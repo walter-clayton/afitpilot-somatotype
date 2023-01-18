@@ -76,11 +76,11 @@ const sendEmailPassword = async (
         path: data.svgAvatar,
         cid: "avatar.png",
       },
-      {
-        filename: "logo.png",
-        path: "/mail/logo.png",
-        cid: "logo.png",
-      },
+      // {
+      //   filename: "logo.png",
+      //   path: __dirname + "/logo.png",
+      //   cid: "logo.png",
+      // },
     ],
   };
 
