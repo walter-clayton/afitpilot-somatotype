@@ -1,4 +1,5 @@
 import { IData } from "../interfaces/interfaces";
+import { logoBase64 } from "./logo";
 import { htmlTempResetPassword } from "./mail-template";
 const fs = require("fs");
 
@@ -77,11 +78,12 @@ const sendEmailPassword = async (
         cid: "avatar.png",
         encoding: "base64",
       },
-      // {
-      //   filename: "logo.png",
-      //   path: __dirname + "/logo.png",
-      //   cid: "logo.png",
-      // },
+      {
+        filename: "logo.png",
+        content: logoBase64,
+        cid: "logo.png",
+        encoding: "base64",
+      },
     ],
   };
 
