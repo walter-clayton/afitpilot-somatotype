@@ -455,11 +455,9 @@ const TestSteps: FC<ITestSteps> = (props) => {
 
   const [values, setValues] = useState<IValues>({ ...defaultValues });
 
-  const handleChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => {
+  const handleChange = (value: any) => {
     let valuesTemp: IValues = { ...values };
-    (valuesTemp as any)[steps[currentStep].label] = String(event.target.value);
+    (valuesTemp as any)[steps[currentStep].label] = String(value);
 
     setValues({ ...valuesTemp });
   };
@@ -718,7 +716,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
     return (
       <Select
         onChange={(event: any) => {
-          handleChange(event);
+          handleChange(event.target.value);
         }}
         sx={{
           width: "110px",
@@ -1157,7 +1155,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
                       max={Number(item.max)}
                       step={1}
                       onChange={(event: any) => {
-                        handleChange(event);
+                        handleChange(event.target.value);
                       }}
                     />
                   ) : (
@@ -1215,13 +1213,12 @@ const TestSteps: FC<ITestSteps> = (props) => {
               steps[currentStep].label === "humerus") && (
               <Predict
                 onClick={() => {
-                  let valuesTemp: IValues = { ...values };
-                  (valuesTemp as any)[steps[currentStep].label] =
+                  let value =
                     steps[currentStep].label === "femur"
                       ? String(getFemur().toFixed())
                       : String(getHumerus(getFemur()).toFixed());
 
-                  setValues({ ...valuesTemp });
+                  handleChange(value);
                   setWarningPredict(true);
                 }}
               >

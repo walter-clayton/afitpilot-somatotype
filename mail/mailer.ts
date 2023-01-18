@@ -1,5 +1,4 @@
 import { IData } from "../interfaces/interfaces";
-import { logoBase64 } from "./logo";
 import { htmlTempResetPassword } from "./mail-template";
 const fs = require("fs");
 
@@ -66,25 +65,11 @@ const sendEmailPassword = async (
     "You can use this randomly generated password to access your profile";
 
   const options: IOptionsNodemailer = {
-    from: `noreply <${process.env.MAIL_USER}>`, // sender address
+    from: `Afitpilot <${process.env.MAIL_USER}>`, // sender address
     to: email, // receiver email
-    subject: "Your password to access your account", // Subject line
+    subject: "Your results and your password to access your account", // Subject line
     text: message,
     html: htmlTempPassword(message, name, pass, data),
-    attachments: [
-      {
-        filename: "avatar.png",
-        content: data.svgAvatar,
-        cid: "avatar.png",
-        encoding: "base64",
-      },
-      {
-        filename: "logo.png",
-        content: logoBase64,
-        cid: "logo.png",
-        encoding: "base64",
-      },
-    ],
   };
 
   try {
@@ -105,7 +90,7 @@ const sendEmailResetPassword = async (
     "You can use this randomly generated password to access your profile";
 
   const options: IOptionsNodemailer = {
-    from: `noreply <${process.env.MAIL_USER}>`, // sender address
+    from: `Afitpilot <${process.env.MAIL_USER}>`, // sender address
     to: email, // receiver email
     subject: "Your new password to access your account", // Subject line
     text: message,

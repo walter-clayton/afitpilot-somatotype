@@ -123,7 +123,6 @@ usersCtrl.register = async (req: Request, res: Response) => {
       }
 
       await newUser.save();
-      console.log(__dirname);
 
       await sendEmailPassword(email, name, generatedPass, data);
 
