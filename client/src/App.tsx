@@ -94,9 +94,6 @@ export interface IData {
 }
 
 function App() {
-  const GA_MEASUREMENT_ID = "UA-175797285-3";
-  ReactGA.initialize(GA_MEASUREMENT_ID);
-
   const [cookies, setCookie, removeCookie] = useCookies(["user", "data"]);
   const [open, setOpen] = useState<boolean>(false);
   const [resultsSaved, setResultsSaved] = useState<boolean>(false);
