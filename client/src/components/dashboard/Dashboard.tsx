@@ -4,6 +4,7 @@ import {
   Button,
   Grid,
   Snackbar,
+  CircularProgress,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -60,7 +61,7 @@ const Dashboard: FC<IDashboard> = (props) => {
   const [somatotype, setSomatotype] = useState<ISomatotype | undefined>(
     undefined
   );
-
+  const [isFetching, setIsFetching] = useState<boolean>(true);
   const [anthropometric, setAnthropometric] = useState<
     IAnthropometric | undefined
   >(undefined);
@@ -81,8 +82,9 @@ const Dashboard: FC<IDashboard> = (props) => {
     horizontal: "center",
   });
 
-  const [showNoResultsMessage, setShowNoResultsMessage] =
-    useState<boolean>(false);
+  const [showNoResultsMessage, setShowNoResultsMessage] = useState<
+    boolean | undefined
+  >(undefined);
 
   const navigate = useNavigate();
 
@@ -147,17 +149,9 @@ const Dashboard: FC<IDashboard> = (props) => {
       );
 
       setSomatotypes(response.data.data.somatotypes);
-
-      if (response.data.data.somatotypes !== undefined) {
-        if (response.data.data.somatotypes.length === 0) {
-          setShowNoResultsMessage(true);
-        } else {
-          setShowNoResultsMessage(false);
-        }
-      }
-
-      setToggleGraph(!toggleGraph);
       props.setFetching!(false);
+      setIsFetching(false);
+      setToggleGraph(!toggleGraph);
     } catch (error) {
       // if (error.response) {
       //     error.response.data.message
@@ -171,11 +165,29 @@ const Dashboard: FC<IDashboard> = (props) => {
     }
   };
 
+  useEffect(() => {
+    if (!isFetching) {
+      somatotypes.length > 0
+        ? setSomatotype(somatotypes[0])
+        : setSomatotype({});
+    }
+    // if (somatotypes.length > 0 && showNoResultsMessage === true) {
+    //   setShowNoResultsMessage(false);
+    // } else if (
+    //   (somatotypes.length === 0 && showNoResultsMessage === false) ||
+    //   showNoResultsMessage === undefined
+    // ) {
+    //   setShowNoResultsMessage(true);
+    // }
+  }, [somatotypes]);
+
   const getCompareDatas = () => {
     setCompareResults(comparisonDatas);
   };
 
   useEffect(() => {
+    console.log(props.fetching);
+
     const timeId = setTimeout(() => {
       props.setResultsSaved!(false);
     }, 6000);
@@ -277,14 +289,15 @@ const Dashboard: FC<IDashboard> = (props) => {
     navigator.share(shareData);
   };
 
-  useEffect(() => {
-    document.onmouseenter = () => {
-      setIsSharing(false);
-    };
-  });
+  // useEffect(() => {
+  //   document.onmouseenter = () => {
+  //     setIsSharing(false);
+  //   };
+  // });
 
   useEffect(() => {
     if (cookies.user) {
+      setIsFetching(true);
       props.getAvatar!();
     }
   }, []);
@@ -294,9 +307,9 @@ const Dashboard: FC<IDashboard> = (props) => {
       <Box
         ref={cardRef}
         sx={{
-          position: "fixed",
+          position: "absolute",
           top: 0,
-          left: 0,
+          left: "-550px",
           width: "500px",
           zIndex: -10,
         }}
@@ -371,12 +384,12 @@ const Dashboard: FC<IDashboard> = (props) => {
                     color: "#ffffff",
                   }}
                 >
-                  {props.fetching || somatotypes.length <= 0
+                  {props.fetching || !somatotype
                     ? ""
-                    : somatotypes[0].endomorphy?.toFixed() === "0" ||
-                      Number(somatotypes[0].endomorphy) < 0
+                    : somatotype!.endomorphy?.toFixed() === "0" ||
+                      Number(somatotype!.endomorphy) < 0
                     ? "1"
-                    : somatotypes[0].endomorphy?.toFixed()}
+                    : somatotype!.endomorphy?.toFixed()}
                 </Typography>
               </Grid>
               <Grid item>
@@ -400,12 +413,12 @@ const Dashboard: FC<IDashboard> = (props) => {
                     color: "#ffffff",
                   }}
                 >
-                  {props.fetching || somatotypes.length <= 0
+                  {props.fetching || !somatotype
                     ? ""
-                    : somatotypes[0].mesomorphy?.toFixed() === "0" ||
-                      Number(somatotypes[0].mesomorphy) < 0
+                    : somatotype!.mesomorphy?.toFixed() === "0" ||
+                      Number(somatotype!.mesomorphy) < 0
                     ? "1"
-                    : somatotypes[0].mesomorphy?.toFixed()}
+                    : somatotype!.mesomorphy?.toFixed()}
                 </Typography>
               </Grid>
               <Grid item>
@@ -429,12 +442,12 @@ const Dashboard: FC<IDashboard> = (props) => {
                     color: "#ffffff",
                   }}
                 >
-                  {props.fetching || somatotypes.length <= 0
+                  {props.fetching || !somatotype
                     ? ""
-                    : somatotypes[0].ectomorphy?.toFixed() === "0" ||
-                      Number(somatotypes[0].ectomorphy) < 0
+                    : somatotype!.ectomorphy?.toFixed() === "0" ||
+                      Number(somatotype!.ectomorphy) < 0
                     ? "1"
-                    : somatotypes[0].ectomorphy?.toFixed()}
+                    : somatotype!.ectomorphy?.toFixed()}
                 </Typography>
               </Grid>
             </Grid>
@@ -633,7 +646,7 @@ const Dashboard: FC<IDashboard> = (props) => {
           Dashboard
         </Typography>
 
-        {!showNoResultsMessage ? (
+        {somatotype !== undefined && Object.keys(somatotype).length > 0 && (
           <Grid
             container
             sx={{
@@ -743,12 +756,12 @@ const Dashboard: FC<IDashboard> = (props) => {
                             color: "#ffffff",
                           }}
                         >
-                          {somatotypes.length <= 0
+                          {!somatotype
                             ? ""
-                            : somatotypes[0].endomorphy?.toFixed() === "0" ||
-                              Number(somatotypes[0].endomorphy) < 0
+                            : somatotype!.endomorphy?.toFixed() === "0" ||
+                              Number(somatotype!.endomorphy) < 0
                             ? "1"
-                            : somatotypes[0].endomorphy?.toFixed()}
+                            : somatotype!.endomorphy?.toFixed()}
                         </Typography>
                       </Grid>
                       <Grid item>
@@ -772,12 +785,12 @@ const Dashboard: FC<IDashboard> = (props) => {
                             color: "#ffffff",
                           }}
                         >
-                          {somatotypes.length <= 0
+                          {!somatotype
                             ? ""
-                            : somatotypes[0].mesomorphy?.toFixed() === "0" ||
-                              Number(somatotypes[0].mesomorphy) < 0
+                            : somatotype!.mesomorphy?.toFixed() === "0" ||
+                              Number(somatotype!.mesomorphy) < 0
                             ? "1"
-                            : somatotypes[0].mesomorphy?.toFixed()}
+                            : somatotype!.mesomorphy?.toFixed()}
                         </Typography>
                       </Grid>
                       <Grid item>
@@ -801,12 +814,12 @@ const Dashboard: FC<IDashboard> = (props) => {
                             color: "#ffffff",
                           }}
                         >
-                          {somatotypes.length <= 0
+                          {!somatotype
                             ? ""
-                            : somatotypes[0].ectomorphy?.toFixed() === "0" ||
-                              Number(somatotypes[0].ectomorphy) < 0
+                            : somatotype!.ectomorphy?.toFixed() === "0" ||
+                              Number(somatotype!.ectomorphy) < 0
                             ? "1"
-                            : somatotypes[0].ectomorphy?.toFixed()}
+                            : somatotype!.ectomorphy?.toFixed()}
                         </Typography>
                       </Grid>
                     </Grid>
@@ -1031,7 +1044,7 @@ const Dashboard: FC<IDashboard> = (props) => {
                   variant="outlined"
                   onClick={() => {
                     createExportImage();
-                    setIsSharing(true);
+                    // setIsSharing(true);
                   }}
                   disabled={isSharing}
                 >
@@ -1334,7 +1347,9 @@ const Dashboard: FC<IDashboard> = (props) => {
               </Grid>
             )}
           </Grid>
-        ) : (
+        )}
+
+        {somatotype !== undefined && Object.keys(somatotype).length === 0 && (
           <Grid
             container
             sx={{
@@ -1392,6 +1407,12 @@ const Dashboard: FC<IDashboard> = (props) => {
               </Button>
             </Grid>
           </Grid>
+        )}
+
+        {isFetching && (
+          <Box sx={{ margin: "100px auto", width: "min-content" }}>
+            <CircularProgress size={75} />
+          </Box>
         )}
 
         <CounterShare />

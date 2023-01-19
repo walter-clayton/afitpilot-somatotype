@@ -102,6 +102,7 @@ const Profile = (props: any) => {
       setIndexBeard(props.avatar.indexBeard);
       setIndexColorHair(props.avatar.indexColorHair);
       setIndexColorSkin(props.avatar.indexColorSkin);
+      console.log(props.avatar, 5);
     }
   }, [props.avatar]);
 
@@ -148,6 +149,10 @@ const Profile = (props: any) => {
       setColorPicked(getSpecificColors(colorPickedIndex));
     }
   }, [colorPickedIndex]);
+
+  useEffect(() => {
+    console.log(props.avatar);
+  });
 
   const handleEditProfile = () => {
     setPreviousColorIndex(cookies.user.mainColor);

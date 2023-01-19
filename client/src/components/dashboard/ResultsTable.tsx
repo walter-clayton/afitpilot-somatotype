@@ -387,13 +387,13 @@ const ResultsTable: FC<resultProps> = (props: any) => {
                 {row.Date}
               </TableCell>
               <TableCell align="center" sx={cellStyle}>
-                {row.Endomorphy}
+                {Math.abs(row.Endomorphy).toFixed(1)}
               </TableCell>
               <TableCell align="center" sx={cellStyle}>
-                {row.Mesomorphy}
+                {Math.abs(row.Mesomorphy).toFixed(1)}
               </TableCell>
               <TableCell align="center" sx={cellStyle}>
-                {row.Ectomorphy}
+                {Math.abs(row.Ectomorphy).toFixed(1)}
               </TableCell>
               <TableCell align="center" sx={cellStyle}>
                 <Grid
