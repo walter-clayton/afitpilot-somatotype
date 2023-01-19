@@ -115,7 +115,7 @@ function App() {
 
   const [avatar, setAvatar] = useState<IParamsAvatar | undefined>(undefined);
 
-  const [fetching, setFetching] = useState<boolean>(false);
+  const [fetching, setFetching] = useState<boolean>(true);
 
   const handleClose = (event: any, reason: any) => {
     if (reason === "clickaway") {
@@ -132,6 +132,10 @@ function App() {
     cookies.data && setData(cookies.data);
   }, [data, cookies.data]);
 
+  useEffect(() => {
+    avatar && cookies.user && fetching && setFetching(false);
+  }, [avatar]);
+
   const getAvatar = async () => {
     const headers = {
       "Content-Type": "application/json",
@@ -144,9 +148,8 @@ function App() {
       const response = await axios.get(process.env.REACT_APP_GETAVATAR_URL!, {
         headers: headers,
       });
-
-      setAvatar(response.data.avatar);
       setFetching(false);
+      setAvatar(response.data.avatar);
     } catch (error) {
       // if (error.response) {
       //     error.response.data.message
