@@ -560,7 +560,6 @@ const TestSteps: FC<ITestSteps> = (props) => {
       calf_girth: Number(values.calf),
       bicep_girth: Number(values.arm),
     };
-    console.log(anthropometrics);
 
     setAnthropometric((anthropometric) => anthropometrics);
 
@@ -1054,7 +1053,6 @@ const TestSteps: FC<ITestSteps> = (props) => {
       titleSoma: somatotypeTitle,
       codeSoma: somatotypeCode,
     };
-    console.log(data.svgAvatar);
 
     props.setData(data);
     if (!cookies.user) {
