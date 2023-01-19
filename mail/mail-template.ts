@@ -1,7 +1,6 @@
 // an email template that can be used with Nodemailer to send emails
 
 import { IData } from "../interfaces/interfaces";
-import { logoBase64 } from "./logo";
 
 // export const htmlTempResetPass = (message: string): string => {
 //   return `
@@ -52,6 +51,15 @@ export const htmlTempPassword = (
   pass: string,
   data: IData
 ): string => {
+  // const byteCharacters = atob(logoBase64);
+  // const byteNumbers = new Array(byteCharacters.length);
+  // for (let i = 0; i < byteCharacters.length; i++) {
+  //   byteNumbers[i] = byteCharacters.charCodeAt(i);
+  // }
+  // const byteArray = new Uint8Array(byteNumbers);
+  // const blob = new Blob([byteArray], { type: "image/png" });
+  // const urlImg = URL.createObjectURL(blob as any);
+
   return `<!doctype html>
   <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
   
@@ -162,7 +170,7 @@ export const htmlTempPassword = (
                             <tbody>
                               <tr>
                                 <td style="width:100px;">
-                                  <img height="auto" src="${logoBase64}" style="border:0;display:block;outline:none;text-decoration:none;height:auto;font-size:13px;width:200px" />
+                                  <img height="auto" src="cid:logo.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;font-size:13px;width:200px" />
                                 </td>
                               </tr>
                             </tbody>
@@ -175,9 +183,7 @@ export const htmlTempPassword = (
                             <tbody>
                               <tr>
                                 <td style="width:200px;">
-                                  <img height="auto" src="${
-                                    data.svgAvatar
-                                  }" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="200" />
+                                  <img height="auto" src="cid:avatar.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="200" />
                                 </td>
                               </tr>
                             </tbody>
@@ -270,7 +276,7 @@ export const htmlTempPassword = (
                           <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;width:260px;line-height:25px00%;">
                             <tr>
                               <td align="center" bgcolor="#6C4D7B" role="presentation" style="border:none;border-radius:3px;cursor:auto;mso-padding-alt:10px 25px;background:#6C4D7B;" valign="middle">
-                                <a href="https://www.afitpilot.com/Optimisation" style="display:inline-block;width:210px;background:#6C4D7B;color:#ffffff;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:25px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;" target="_blank"> Get Started </a>
+                                <a href="https://www.afitpilot.com/Optimisation" style="display:inline-block;width:250px;background:#6C4D7B;color:#ffffff;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:25px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;" target="_blank"> Get Started </a>
                               </td>
                             </tr>
                           </table>
