@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Modal, Typography, Box, Fade, Backdrop } from "@mui/material";
+import { Modal, useMediaQuery, Box, Fade, Backdrop } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 const style = {
@@ -20,24 +20,33 @@ const style = {
   "& > img": {
     width: "100%",
   },
+
+  "& > video": {
+    background: "black",
+  },
 };
 
 const styleCancelIcon = {
   position: "absolute",
-  top: "10px",
-  right: "10px",
-  fontSize: "35px",
-  color: "lightgray",
+  top: "-50px",
+  right: "0",
+  fontSize: "50px",
+  color: "#eeeeee",
   cursor: "pointer",
 };
 
 interface IModal {
   open: boolean;
   handleClose: () => void;
-  img: string;
+  img?: string;
+  video?: string;
+  poster?: string;
 }
 
 const ModalImg: FC<IModal> = (props) => {
+  const sm = useMediaQuery("(max-width:600px)");
+  const md = useMediaQuery("(max-width:900px)");
+
   return (
     <Modal
       aria-labelledby="transition-modal-title"
@@ -49,7 +58,14 @@ const ModalImg: FC<IModal> = (props) => {
       <Fade in={props.open}>
         <Box sx={style}>
           <CancelIcon sx={styleCancelIcon} onClick={props.handleClose} />
-          <img src={props.img} alt="modal image" />
+
+          {props.img ? (
+            <img src={props.img} alt="modal image" />
+          ) : (
+            <video poster={props.poster} width="100%" height="500px" controls>
+              <source src={props.video} type="video/mp4" />
+            </video>
+          )}
         </Box>
       </Fade>
     </Modal>

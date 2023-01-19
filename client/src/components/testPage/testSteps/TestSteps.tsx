@@ -56,6 +56,10 @@ import { getSpecificColors } from "../../../datas/Colors";
 import axios, { toFormData } from "axios";
 import html2canvas from "html2canvas";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import femurVideo from "../../../videos/femur_video.mp4";
+import humerusVideo from "../../../videos/humerus_video.mp4";
+import humerusPng from "../../../image/humerus.png";
+import femurPng from "../../../image/femur.png";
 
 const PrettoSlider = styled(Slider)({
   color: "RGB(108, 77, 123)",
@@ -290,6 +294,8 @@ const TestSteps: FC<ITestSteps> = (props) => {
     min?: string;
     max?: string;
     img?: string;
+    video?: any;
+    poster?: string;
   }
 
   // if we are logged, we don't allow to change the gender
@@ -350,7 +356,8 @@ const TestSteps: FC<ITestSteps> = (props) => {
           unity: "cm",
           min: "6",
           max: "12",
-          img: calfImg,
+          video: femurVideo,
+          poster: femurPng,
         },
         {
           label: "humerus",
@@ -358,7 +365,8 @@ const TestSteps: FC<ITestSteps> = (props) => {
           unity: "cm",
           min: "5",
           max: "10",
-          img: calfImg,
+          video: humerusVideo,
+          poster: humerusPng,
         },
       ]
     : [
@@ -413,7 +421,8 @@ const TestSteps: FC<ITestSteps> = (props) => {
           unity: "cm",
           min: "6",
           max: "12",
-          img: calfImg,
+          video: femurVideo,
+          poster: femurPng,
         },
         {
           label: "humerus",
@@ -421,7 +430,8 @@ const TestSteps: FC<ITestSteps> = (props) => {
           unity: "cm",
           min: "5",
           max: "10",
-          img: calfImg,
+          video: humerusVideo,
+          poster: humerusPng,
         },
       ];
 
@@ -1074,7 +1084,16 @@ const TestSteps: FC<ITestSteps> = (props) => {
           {stepAvatar === 1 && <AvatarStep1 />}
           {stepAvatar === 2 && <AvatarStep2 />}
           {stepAvatar === 3 && <AvatarStep3 />}
-          <Stack mb={2}>
+          <Stack
+            mb={2}
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-end",
+              flexDirection: xs ? "column" : "row",
+              padding: xs ? "20px 0" : "20px 20px 0 0",
+            }}
+          >
             <Next
               onClick={() => {
                 stepAvatar < 3 ? setStepAvatar((s) => s + 1) : handleSave();
@@ -1128,6 +1147,8 @@ const TestSteps: FC<ITestSteps> = (props) => {
             open={open}
             handleClose={handleClose}
             img={steps[currentStep].img!}
+            video={steps[currentStep].video!}
+            poster={steps[currentStep].poster!}
           />
 
           {steps.map(
