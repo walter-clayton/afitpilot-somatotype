@@ -1,7 +1,6 @@
 import { IData } from "../interfaces/interfaces";
+import { logoBase64 } from "./logo";
 import { htmlTempResetPassword } from "./mail-template";
-const fs = require("fs");
-
 const nodemailer = require("nodemailer");
 const { htmlTempResetPass, htmlTempPassword } = require("./mail-template");
 
@@ -16,7 +15,7 @@ const transporter = nodemailer.createTransport({
     user: process.env.MAIL_USER,
     pass: process.env.MAIL_PASSWORD,
   },
-  tls: { rejectUnauthorized: false },
+  // tls: { rejectUnauthorized: false },
 });
 
 interface IOptionsNodemailer {
@@ -66,9 +65,9 @@ const sendEmailPassword = async (
     "You can use this randomly generated password to access your profile";
 
   const options: IOptionsNodemailer = {
-    from: `noreply <${process.env.MAIL_USER}>`, // sender address
+    from: `Afitpilot <${process.env.MAIL_USER}>`, // sender address
     to: email, // receiver email
-    subject: "Your password to access your account", // Subject line
+    subject: "Your results and your password to access your account", // Subject line
     text: message,
     html: htmlTempPassword(message, name, pass, data),
     attachments: [
@@ -79,12 +78,11 @@ const sendEmailPassword = async (
       },
       {
         filename: "logo.png",
-        path: __dirname + "/logo.png",
+        path: logoBase64,
         cid: "logo.png",
       },
     ],
   };
-
   try {
     const info = await transporter.sendMail(options);
 
@@ -103,7 +101,7 @@ const sendEmailResetPassword = async (
     "You can use this randomly generated password to access your profile";
 
   const options: IOptionsNodemailer = {
-    from: `noreply <${process.env.MAIL_USER}>`, // sender address
+    from: `Afitpilot <${process.env.MAIL_USER}>`, // sender address
     to: email, // receiver email
     subject: "Your new password to access your account", // Subject line
     text: message,

@@ -55,7 +55,11 @@ import CircleIcon from "@mui/icons-material/Circle";
 import { getSpecificColors } from "../../../datas/Colors";
 import axios, { toFormData } from "axios";
 import html2canvas from "html2canvas";
-import logo from "../../../image/Afitpilot_logo_black.svg";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import femurVideo from "../../../videos/femur_video.mp4";
+import humerusVideo from "../../../videos/humerus_video.mp4";
+import humerusPng from "../../../image/humerus.png";
+import femurPng from "../../../image/femur.png";
 
 const PrettoSlider = styled(Slider)({
   color: "RGB(108, 77, 123)",
@@ -148,6 +152,7 @@ const Circles = styled("div")({
   justifyContent: "center",
   alignItems: "center",
   margin: "0 auto",
+  width: "100%",
   padding: "50px 0 20px 0",
 });
 
@@ -204,6 +209,8 @@ const TestSteps: FC<ITestSteps> = (props) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const [warningPredict, setWarningPredict] = useState(false);
+
   const Question = styled("div")({
     backgroundColor: "RGB(108, 77, 123)",
     fontSize: xs ? "20px" : "24px",
@@ -225,13 +232,18 @@ const TestSteps: FC<ITestSteps> = (props) => {
     padding: "10px 50px",
     backgroundColor: "RGB(108, 77, 123)",
     alignSelf: xs ? "center" : "end",
-    marginRight: xs ? "0" : "20px",
-    marginTop: "20px",
     width: xs ? "90%" : "auto",
+    marginTop: xs ? "20px" : "0",
 
     "&:hover": {
       backgroundColor: "RGB(108, 77, 123)",
     },
+  });
+
+  const Predict = styled(Next)({
+    marginTop: "0",
+    marginRight: xs ? "0" : "20px",
+    backgroundColor: "#1774A3",
   });
 
   const CircularProgressWithLabel = (props: any) => {
@@ -282,6 +294,8 @@ const TestSteps: FC<ITestSteps> = (props) => {
     min?: string;
     max?: string;
     img?: string;
+    video?: any;
+    poster?: string;
   }
 
   // if we are logged, we don't allow to change the gender
@@ -336,6 +350,24 @@ const TestSteps: FC<ITestSteps> = (props) => {
           max: "70",
           img: calfImg,
         },
+        {
+          label: "femur",
+          question: "Your femur breadth is:",
+          unity: "cm",
+          min: "6",
+          max: "12",
+          video: femurVideo,
+          poster: femurPng,
+        },
+        {
+          label: "humerus",
+          question: "Your humerus breadth is:",
+          unity: "cm",
+          min: "5",
+          max: "10",
+          video: humerusVideo,
+          poster: humerusPng,
+        },
       ]
     : [
         {
@@ -383,6 +415,24 @@ const TestSteps: FC<ITestSteps> = (props) => {
           max: "70",
           img: calfImg,
         },
+        {
+          label: "femur",
+          question: "Your femur breadth is:",
+          unity: "cm",
+          min: "6",
+          max: "12",
+          video: femurVideo,
+          poster: femurPng,
+        },
+        {
+          label: "humerus",
+          question: "Your humerus breadth is:",
+          unity: "cm",
+          min: "5",
+          max: "10",
+          video: humerusVideo,
+          poster: humerusPng,
+        },
       ];
 
   const [currentStep, setCurrentStep] = useState<number>(0);
@@ -397,6 +447,8 @@ const TestSteps: FC<ITestSteps> = (props) => {
     bodyFat: string;
     arm: string;
     calf: string;
+    femur: string;
+    humerus: string;
   }
 
   const defaultValues: IValues = {
@@ -407,15 +459,15 @@ const TestSteps: FC<ITestSteps> = (props) => {
     bodyFat: "20",
     arm: "35",
     calf: "35",
+    femur: "8",
+    humerus: "7",
   };
 
   const [values, setValues] = useState<IValues>({ ...defaultValues });
 
-  const handleChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => {
+  const handleChange = (value: any) => {
     let valuesTemp: IValues = { ...values };
-    (valuesTemp as any)[steps[currentStep].label] = String(event.target.value);
+    (valuesTemp as any)[steps[currentStep].label] = String(value);
 
     setValues({ ...valuesTemp });
   };
@@ -470,18 +522,19 @@ const TestSteps: FC<ITestSteps> = (props) => {
   };
   const testRef = useRef<any>(null);
 
+  const getFemur = (): number => {
+    const toFoot = Number(values.height) * 0.0328084; // convert height cm to Foot Unit
+    return (toFoot - 0.9) / 0.60375;
+  };
+
+  const getHumerus = (femur: number) => {
+    return femur - 2;
+  };
+
   const handleFinish = async () => {
     window.scrollTo(0, boxRef.current?.offsetTop! - 20);
 
     setFetching(true);
-    const getFemur = (): number => {
-      const toFoot = Number(values.height) * 0.0328084; // convert height cm to Foot Unit
-      return (toFoot - 0.9) / 0.60375;
-    };
-
-    const getHumerus = (femur: number) => {
-      return femur - 2;
-    };
 
     const BF = Number(values.bodyFat);
     const BD = 1 / ((BF + 450) / 495);
@@ -497,14 +550,17 @@ const TestSteps: FC<ITestSteps> = (props) => {
     const anthropometrics: IAnthropometric = {
       height: Number(values.height),
       weight: Number(values.weight),
-      femur_breadth: getFemur(),
-      humerus_breadth: getHumerus(getFemur()),
+      // femur_breadth: getFemur(),
+      // humerus_breadth: getHumerus(getFemur()),
+      femur_breadth: Number(values.femur),
+      humerus_breadth: Number(values.humerus),
       supraspinal_skinfold: getTwoSumSkinfolds() / 2,
       subscapular_skinfold: getTwoSumSkinfolds() / 2,
       tricep_skinfold: getTwoSumSkinfolds() / 2,
       calf_girth: Number(values.calf),
       bicep_girth: Number(values.arm),
     };
+    console.log(anthropometrics);
 
     setAnthropometric((anthropometric) => anthropometrics);
 
@@ -670,7 +726,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
     return (
       <Select
         onChange={(event: any) => {
-          handleChange(event);
+          handleChange(event.target.value);
         }}
         sx={{
           width: "110px",
@@ -1028,7 +1084,16 @@ const TestSteps: FC<ITestSteps> = (props) => {
           {stepAvatar === 1 && <AvatarStep1 />}
           {stepAvatar === 2 && <AvatarStep2 />}
           {stepAvatar === 3 && <AvatarStep3 />}
-          <Stack mb={2}>
+          <Stack
+            mb={2}
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-end",
+              flexDirection: xs ? "column" : "row",
+              padding: xs ? "20px 0" : "20px 20px 0 0",
+            }}
+          >
             <Next
               onClick={() => {
                 stepAvatar < 3 ? setStepAvatar((s) => s + 1) : handleSave();
@@ -1062,7 +1127,9 @@ const TestSteps: FC<ITestSteps> = (props) => {
             {steps[currentStep].question}
             {(steps[currentStep].label === "arm" ||
               steps[currentStep].label === "calf" ||
-              steps[currentStep].label === "bodyFat") && (
+              steps[currentStep].label === "bodyFat" ||
+              steps[currentStep].label === "femur" ||
+              steps[currentStep].label === "humerus") && (
               <QuestionMarkIcon
                 onClick={handleOpen}
                 sx={{
@@ -1080,6 +1147,8 @@ const TestSteps: FC<ITestSteps> = (props) => {
             open={open}
             handleClose={handleClose}
             img={steps[currentStep].img!}
+            video={steps[currentStep].video!}
+            poster={steps[currentStep].poster!}
           />
 
           {steps.map(
@@ -1107,7 +1176,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
                       max={Number(item.max)}
                       step={1}
                       onChange={(event: any) => {
-                        handleChange(event);
+                        handleChange(event.target.value);
                       }}
                     />
                   ) : (
@@ -1118,34 +1187,84 @@ const TestSteps: FC<ITestSteps> = (props) => {
               )
           )}
 
+          {warningPredict && (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "20px",
+                fontWeight: "bold",
+                color: "#1774A3",
+                paddingTop: "20px",
+
+                svg: {
+                  marginRight: "10px",
+                  fontSize: "35px",
+                },
+              }}
+            >
+              <WarningAmberIcon />
+              Predictions will be less accurate.
+            </Box>
+          )}
+
           <Circles>
             {steps.map((item, index) => (
               <Circle
                 key={index}
                 active={index === currentStep}
                 onClick={() => {
+                  warningPredict && setWarningPredict(false);
                   setCurrentStep(index);
                 }}
               />
             ))}
           </Circles>
-          <Next
-            onClick={() => {
-              currentStep < steps.length - 1 && setCurrentStep((c) => c + 1);
-
-              currentStep === steps.length - 1 && handleFinish();
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-end",
+              flexDirection: xs ? "column" : "row",
+              padding: xs ? "20px 0" : "20px 20px 0 0",
             }}
-            disabled={fetching}
           >
-            {currentStep === steps.length - 1 ? "Finish" : "Next"}
-            {currentStep < steps.length - 1 && (
-              <ForwardIcon
-                sx={{
-                  marginLeft: "10px",
+            {(steps[currentStep].label === "femur" ||
+              steps[currentStep].label === "humerus") && (
+              <Predict
+                onClick={() => {
+                  let value =
+                    steps[currentStep].label === "femur"
+                      ? String(getFemur().toFixed())
+                      : String(getHumerus(getFemur()).toFixed());
+
+                  handleChange(value);
+                  setWarningPredict(true);
                 }}
-              />
+              >
+                Predict
+              </Predict>
             )}
-          </Next>
+            <Next
+              onClick={() => {
+                warningPredict && setWarningPredict(false);
+                currentStep < steps.length - 1 && setCurrentStep((c) => c + 1);
+
+                currentStep === steps.length - 1 && handleFinish();
+              }}
+              disabled={fetching}
+            >
+              {currentStep === steps.length - 1 ? "Finish" : "Next"}
+              {currentStep < steps.length - 1 && (
+                <ForwardIcon
+                  sx={{
+                    marginLeft: "10px",
+                  }}
+                />
+              )}
+            </Next>
+          </Box>
 
           <CircularProgressWithLabel value={stepProgress} />
         </Box>

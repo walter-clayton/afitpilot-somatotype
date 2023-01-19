@@ -4,7 +4,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import ReactGA from "react-ga4";
 
-const GA_MEASUREMENT_ID = "UA-175797285-3";
+const GA_MEASUREMENT_ID = "G-VE6XKWVTFG";
 ReactGA.initialize(GA_MEASUREMENT_ID);
 
 const root = ReactDOM.createRoot(

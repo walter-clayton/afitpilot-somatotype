@@ -113,19 +113,16 @@ usersCtrl.register = async (req: Request, res: Response) => {
         newAvatar.user = newUser;
         newAvatar.somatotype = newSomatotype;
 
+        await sendEmailPassword(email, name, generatedPass, data);
         await newSomatotype.save();
         await newAnthropometric.save();
         await newAvatar.save();
+        await newUser.save();
       } else {
         return res.status(403).send({
           message: "data.somatotype and data.anthropometric are required",
         });
       }
-
-      await newUser.save();
-      console.log(__dirname);
-
-      await sendEmailPassword(email, name, generatedPass, data);
 
       const accessToken: string = await newUser.generateAuthToken();
 

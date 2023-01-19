@@ -10,4 +10,9 @@ declare module "*.png" {
 declare module "*.jpeg" {
   export default "" as string;
 }
+
+declare module "*.mp4" {
+  export default "" as string;
+}
+
 declare module "react-swipeable-views-utils";

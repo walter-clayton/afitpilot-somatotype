@@ -2,7 +2,6 @@ html{
     scroll-behavior: smooth;
     overflow-x: hidden ;
     background-color: white;
-    height: 100%;
 }
  body{
     scroll-behavior: smooth;
