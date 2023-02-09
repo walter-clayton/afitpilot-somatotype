@@ -1,27 +1,23 @@
-import * as React from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import { Typography, Grid, useMediaQuery } from "@mui/material/";
-import groupImage from "../../../image/Group.svg";
-import sitting from "../../../image/sitting-2.svg";
 import CallToActionWidget from "../../CTA/CallToActionWidget";
 import CounterShare from "../../shares/CounterShare";
-import CommentPage from "../../comments/CommentPage";
 import TypeExample, { ITypeCarouselImage } from "../TypeCarousel";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import BEnMan from "../../../image/Typespage_avatars/BEn_man.svg";
-import BEnWoman from "../../../image/Typespage_avatars/BEn_woman.svg";
+import WhiteGreyRectangle from "../../../image/WhiteGreyRectangle.svg";
+import GreyWhiteRectangle from "../../../image/GreyWhiteRectangle.svg";
+import { useParams } from "react-router-dom";
+import { comparisonDatas } from "../../../datas/ComparisonDatas";
+export default function Types(typesData: any) {
+  const { codeSoma } = useParams();
+  const filteredType = typesData.dataDescription
+    .filter((e: any) => e.codeSoma === codeSoma)
+    .map((e: any) => e);
 
-export default function Types() {
-  const BEnImages: ITypeCarouselImage[] = [
-    {
-      image: BEnMan,
-      imageAltText: "BEnMan",
-    },
-    {
-      image: BEnWoman,
-      imageAltText: "BEnWoman",
-    },
-  ];
+  const filteredExamples = comparisonDatas.filter(
+    (e) => e.codeSoma === codeSoma
+  );
 
   const theme = createTheme();
   const medium = useMediaQuery("(max-width:899px)");
@@ -61,7 +57,7 @@ export default function Types() {
         flexDirection={"row"}
         alignItems={"center"}
         justifyContent={"center"}
-        sx={{ backgroundColor: "#6C4D7B" }}
+        sx={{ backgroundColor: filteredType[0].categoryBgColor }}
       >
         <Grid
           item
@@ -80,8 +76,26 @@ export default function Types() {
             justifyContent={"center"}
           >
             <img
-              src={sitting}
-              alt="sitting girl"
+              src={require("../../../image/Typespage_avatars/" +
+                filteredType[0].imageMale +
+                ".svg")}
+              alt={`${filteredType[0].name} Man`}
+              style={{
+                maxHeight: "320px",
+                width: medium
+                  ? small
+                    ? extraSmall
+                      ? "65%"
+                      : "60%"
+                    : "55%"
+                  : "60%",
+              }}
+            />
+            <img
+              src={require("../../../image/Typespage_avatars/" +
+                filteredType[0].imageFemale +
+                ".svg")}
+              alt={`${filteredType[0].name} Woman`}
               style={{
                 maxHeight: "320px",
                 width: medium
@@ -115,7 +129,7 @@ export default function Types() {
                   fontWeight: 600,
                 }}
               >
-                Balanced Endomorph
+                {filteredType[0].name}
               </Typography>
               <Typography
                 component="div"
@@ -128,7 +142,7 @@ export default function Types() {
                   lineHeight: "normal",
                 }}
               >
-                (BEn)
+                ({filteredType[0].codeSoma})
               </Typography>
             </ThemeProvider>
           </Box>
@@ -143,7 +157,8 @@ export default function Types() {
             margin: "20px auto",
           }}
           xs={12}
-          md={9}
+          sm={10}
+          md={8}
           lg={8}
         >
           <Grid
@@ -167,70 +182,29 @@ export default function Types() {
                 </Typography>
               </ThemeProvider>
               <Typography variant="h6" gutterBottom>
-                What is a Balanced endomorph?
+                {`What does ${filteredType[0].name} actually mean?`}
               </Typography>
               <Typography variant="body1" gutterBottom>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Deserunt, sapiente? Exercitationem provident itaque nemo iusto
-                consequatur laudantium deleniti? Impedit ad ab facere
-                consequatur unde dolores modi soluta cupiditate veritatis
-                provident?
-              </Typography>
-              <Typography variant="body1" gutterBottom>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Deserunt, sapiente? Exercitationem provident itaque nemo iusto
-                consequatur laudantium deleniti? Impedit ad ab facere
-                consequatur unde dolores modi soluta cupiditate veritatis
-                provident?
-              </Typography>
-              <Typography variant="h6" gutterBottom>
-                The Life of the Mind
+                {filteredType[0].description}
               </Typography>
             </Grid>
-            <Grid
-              item
-              alignSelf={"center"}
-              width={{ xs: "100%", sm: "85%", md: "75%", xl: "65%" }}
-            >
-              <img src={groupImage} alt="" />
-            </Grid>
-            <Grid item width={"100%"}>
-              <Typography mt={3} variant="body1" gutterBottom>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Deserunt, sapiente? Exercitationem provident itaque nemo iusto
-                consequatur laudantium deleniti? Impedit ad ab facere
-                consequatur unde dolores modi soluta cupiditate veritatis
-                provident?
-              </Typography>
-              <Box
-                sx={{
-                  backgroundColor: "#6C4D7B",
-                  padding: 2,
-                  color: "white",
-                  margin: "0px 20px",
+            <Grid item width={"100%"} sx={{ py: 2 }}>
+              <img
+                src={require("../../../image/Types_graphs/" +
+                  filteredType[0].graphImage +
+                  ".svg")}
+                alt={`${filteredType[0].name} Graph"`}
+                style={{
+                  maxHeight: "320px",
+                  width: medium
+                    ? small
+                      ? extraSmall
+                        ? "100%"
+                        : "60%"
+                      : "auto"
+                    : "auto",
                 }}
-              >
-                <Typography variant="overline">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                </Typography>
-              </Box>
-              <Typography mt={3} variant="body1" gutterBottom>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Deserunt, sapiente? Exercitationem provident itaque nemo iusto
-                consequatur laudantium deleniti? Impedit ad ab facere
-                consequatur unde dolores modi soluta cupiditate veritatis
-                provident?
-              </Typography>
-              <Typography variant="h6" gutterBottom>
-                A Thirst for Knowledge
-              </Typography>
-              <Typography mt={3} variant="body1" gutterBottom>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Deserunt, sapiente? Exercitationem provident itaque nemo iusto
-                consequatur laudantium deleniti? Impedit ad ab facere
-                consequatur unde dolores modi soluta cupiditate veritatis
-                provident?
-              </Typography>
+              />
             </Grid>
           </Grid>
         </Grid>
@@ -242,7 +216,15 @@ export default function Types() {
           </Grid>
         )}
       </Grid>
-      <TypeExample carouselImages={BEnImages} />
+      <Box sx={{ mb: -1, marginTop: 8 }}>
+        <img src={WhiteGreyRectangle} alt="" style={{ width: "100%" }} />
+      </Box>
+      <Grid sx={{ py: 2, bgcolor: "#F5F5F6" }}>
+        <TypeExample carouselImages={filteredExamples} />
+      </Grid>
+      <Box>
+        <img src={GreyWhiteRectangle} alt="" style={{ width: "100%" }} />
+      </Box>
       <CounterShare />
       {/* <CommentPage /> */}
     </Box>

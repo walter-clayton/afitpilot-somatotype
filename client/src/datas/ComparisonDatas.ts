@@ -259,4 +259,13 @@ export const comparisonDatas: IComparisonData[] = [
     ecto: 2,
     codeSoma: "MEn",
   },
+  {
+    group: "Research Needed",
+    gender: "Research Needed",
+    name: "Research Needed",
+    endo: 0,
+    meso: 0,
+    ecto: 0,
+    codeSoma: "Research Needed",
+  },
 ];

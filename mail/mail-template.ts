@@ -200,19 +200,19 @@ export const htmlTempPassword = (
                       </tr>
                       <tr>
                       <td align="left" style="font-size:0px;padding:10px 25px;padding-bottom:30px;word-break:break-word;">
-                        <div style="font-family:helvetica;font-size:20px;font-weight:bold;line-height:25px;text-align:left;color:#000000;">Hello ${name},</div>
+                        <div style="font-family:helvetica;font-size:20px;line-height:25px;text-align:left;color:#000000;">Hello ${name},</div>
                       </td>
                     </tr>
                       <tr>
                         <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                          <div style="font-family:helvetica;font-size:20px;font-weight:bold;line-height:25px;text-align:left;color:#000000;">The results of your somatotype are:</div>
+                          <div style="font-family:helvetica;font-size:20px;line-height:25px;text-align:left;color:#000000;">The results of your somatotype are:</div>
                         </td>
                       </tr>
                       <tr>
                         <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:#616161;">Somatotype: ${
+                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:unset;"><span style="font-weight:bold;">Somatotype:</span> <a href="https://www.afitpilot.com/Types">${
                             data.somatotype.titleSomatotype
-                          } (${data.somatotype.codeSomatotype})</div>
+                          } (${data.somatotype.codeSomatotype})</a></div>
                         </td>
                       </tr>
                       <tr>
@@ -222,17 +222,17 @@ export const htmlTempPassword = (
                       </tr>
                       <tr>
                         <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:#616161;">• Endomorphy: ${data.somatotype.endomorphy.toFixed()}</div>
+                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:unset;">• Endomorphy: <span style="font-weight:bold;">${data.somatotype.endomorphy.toFixed()}<span></div>
                         </td>
                       </tr>
                       <tr>
                         <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:#616161;">• Mesomorphy: ${data.somatotype.mesomorphy.toFixed()}</div>
+                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:unset;">• Mesomorphy: <span style="font-weight:bold;">${data.somatotype.mesomorphy.toFixed()}<span></div>
                         </td>
                       </tr>
                       <tr>
                         <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:#616161;">• Ectomorphy: ${data.somatotype.ectomorphy.toFixed()}</div>
+                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:unset;">• Ectomorphy: <span style="font-weight:bold;">${data.somatotype.ectomorphy.toFixed()}<span></div>
                         </td>
                       </tr>
                       <tr>
@@ -245,12 +245,12 @@ export const htmlTempPassword = (
                       </tr>
                       <tr>
                         <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                          <div style="font-family:helvetica;font-size:18px;font-weight:bold;line-height:25px;text-align:left;color:#000000;">You can use this randomly generated password to access your profile:</div>
+                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:#000000;">You can use this randomly generated password to access your profile:</div>
                         </td>
                       </tr>
                       <tr>
                         <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                          <div style="font-family:helvetica;font-size:20px;line-height:25px;text-align:left;color:#616161;">${pass}</div>
+                          <div style="font-family:helvetica;font-size:20px;font-weight:bold;line-height:25px;text-align:left;color:unset;">${pass}</div>
                         </td>
                       </tr>
                       <tr>
@@ -268,7 +268,7 @@ export const htmlTempPassword = (
                       </tr>
                       <tr>
                         <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:#616161;">Your journey to greatness is just beginning. Gain a more profound understanding of your body and unleash your potential by following our Optimisation Program.</div>
+                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:unset;">Your journey to greatness is just beginning. Gain a more profound understanding of your body and unleash your potential by following our <a href="https://www.afitpilot.com/Optimisation">Optimisation Program</a>.</div>
                         </td>
                       </tr>
                       <tr>
@@ -276,7 +276,7 @@ export const htmlTempPassword = (
                           <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;width:260px;line-height:25px00%;">
                             <tr>
                               <td align="center" bgcolor="#6C4D7B" role="presentation" style="border:none;border-radius:3px;cursor:auto;mso-padding-alt:10px 25px;background:#6C4D7B;" valign="middle">
-                                <a href="https://www.afitpilot.com/Optimisation" style="display:inline-block;width:250px;background:#6C4D7B;color:#ffffff;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:25px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;" target="_blank"> Get Started </a>
+                                <a href="https://www.afitpilot.com/test" style="display:inline-block;width:250px;background:#6C4D7B;color:#ffffff;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:25px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;" target="_blank"> Get Started </a>
                               </td>
                             </tr>
                           </table>
