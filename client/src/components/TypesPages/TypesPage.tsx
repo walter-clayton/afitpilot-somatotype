@@ -20,6 +20,7 @@ import TypesPageFemale from "./TypePageFemale";
 import FemaleIcon from "@mui/icons-material/Female";
 import MaleIcon from "@mui/icons-material/Male";
 import IconButton from "@mui/material/IconButton";
+import { Category } from "@mui/icons-material";
 
 const theme = createTheme();
 theme.typography.h1 = {
@@ -65,7 +66,8 @@ interface Icategories {
   category1: Icategory[];
   category2: Icategory[];
 }
-const TypesPage = () => {
+const TypesPage = (typesData: any) => {
+  const filteredType = typesData.dataDescription;
   const navigate = useNavigate();
   const medium = useMediaQuery("(max-width:899px)");
   const small = useMediaQuery("(max-width:599px)");
@@ -177,95 +179,6 @@ const TypesPage = () => {
   const section3Ref = useRef<HTMLDivElement>(null);
   const section4Ref = useRef<HTMLDivElement>(null);
   const section5Ref = useRef<HTMLDivElement>(null);
-
-  const Mesomorph = [
-    {
-      image: "EnM_man",
-      bodyType: "Endomorphic Mesomorph",
-      TypeCode: "EnM",
-      linkToPage: "/EnM",
-    },
-    {
-      image: "BM_man",
-      bodyType: "Balanced Mesomorph",
-      TypeCode: "BM",
-      linkToPage: "/BM",
-    },
-    {
-      image: "EcM_man",
-      bodyType: "Ectomorphic Mesomorph ",
-      TypeCode: "EcM",
-      linkToPage: "/EcM",
-    },
-  ];
-  const Ectomorph = [
-    {
-      image: "MEc_man",
-      bodyType: "Mesomorphic Ectomorph ",
-      TypeCode: "MEc",
-      linkToPage: "/MEc",
-    },
-    {
-      image: "BEc_man",
-      bodyType: "Balanced Ectomorph",
-      TypeCode: "BEc",
-      linkToPage: "/BEc",
-    },
-    {
-      image: "EnEc_man",
-      bodyType: "Endomorphic Ectomorph ",
-      TypeCode: "EnEc",
-      linkToPage: "/EnEc",
-    },
-  ];
-  const Endomorph = [
-    {
-      image: "EcEn_man",
-      bodyType: "Ectomorphic Endomorph",
-      TypeCode: "EcEn ",
-      linkToPage: "/EcEn",
-    },
-    {
-      image: "BEn_man",
-      bodyType: "Balanced Endomorph",
-      TypeCode: "BEn",
-      linkToPage: "/BEn",
-    },
-    {
-      image: "MEn_man",
-      bodyType: "Mesomorphic Endomorph ",
-      TypeCode: "MEn",
-      linkToPage: "/MEn",
-    },
-  ];
-  const Hybrid = [
-    {
-      image: "M-Ec_man",
-      bodyType: "Mesomorph Ectomorph",
-      TypeCode: "M-Ec",
-      linkToPage: "/M-Ec",
-    },
-    {
-      image: "En-Ec_man",
-      bodyType: "Endomorph Ectomorph",
-      TypeCode: "En-Ec",
-      linkToPage: "/En-Ec",
-    },
-    {
-      image: "M-En_man",
-      bodyType: "Mesomorph Endomorph",
-      TypeCode: "M-En",
-      linkToPage: "/M-En",
-    },
-  ];
-  const Central = [
-    {
-      image: "C_man",
-      bodyType: "Central",
-      TypeCode: "C",
-      linkToPage: "/C",
-    },
-  ];
 
   return (
     <Box>
@@ -441,58 +354,60 @@ const TypesPage = () => {
               spacing={2}
               direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
             >
-              {Mesomorph.map((step, index) => (
-                <Grid
-                  key={index}
-                  item
-                  md={4}
-                  lg={4}
-                  xl={4}
-                  sx={{
-                    textAlign: "center",
-                    marginTop: 5,
-                    pb: 9,
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    window.scrollTo(0, 0);
-                    navigate(step.linkToPage);
-                  }}
-                >
-                  <img
-                    src={require("../../image/Typespage_avatars/" +
-                      step.image +
-                      ".svg")}
-                    alt="Mesomorph"
-                    style={{
-                      width: medium
-                        ? small
-                          ? extraSmall
-                            ? "65%"
-                            : "60%"
-                          : "100%"
-                        : "100%",
-                      height: "350px",
+              {filteredType
+                .filter((e: any) => e.category === "Mesomorph")
+                .map((step: any, index: any) => (
+                  <Grid
+                    key={index}
+                    item
+                    md={4}
+                    lg={4}
+                    xl={4}
+                    sx={{
+                      textAlign: "center",
+                      marginTop: 5,
+                      pb: 9,
+                      cursor: "pointer",
                     }}
-                  />
-                  <Typography
-                    variant="h1"
-                    sx={{ color: "#B76060", textAlign: "center" }}
+                    onClick={() => {
+                      window.scrollTo(0, 0);
+                      navigate(step.linkToPage);
+                    }}
                   >
-                    {step.bodyType}
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        color: "#000000",
-                        fontSize: "18px",
-                        fontWeight: 800,
+                    <img
+                      src={require("../../image/Typespage_avatars/" +
+                        step.imageMale +
+                        ".svg")}
+                      alt={`${step.name} Mesomorph`}
+                      style={{
+                        width: medium
+                          ? small
+                            ? extraSmall
+                              ? "65%"
+                              : "60%"
+                            : "100%"
+                          : "100%",
+                        height: "350px",
                       }}
+                    />
+                    <Typography
+                      variant="h1"
+                      sx={{ color: "#B76060", textAlign: "center" }}
                     >
-                      {step.TypeCode}
+                      {step.name}
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          color: "#000000",
+                          fontSize: "18px",
+                          fontWeight: 800,
+                        }}
+                      >
+                        {step.codeSoma}
+                      </Typography>
                     </Typography>
-                  </Typography>
-                </Grid>
-              ))}
+                  </Grid>
+                ))}
             </Grid>
             <Box
               sx={{
@@ -545,58 +460,60 @@ const TypesPage = () => {
               spacing={2}
               direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
             >
-              {Ectomorph.map((step, index) => (
-                <Grid
-                  key={index}
-                  item
-                  md={4}
-                  lg={4}
-                  xl={4}
-                  sx={{
-                    textAlign: "center",
-                    marginTop: 5,
-                    mb: 5,
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    window.scrollTo(0, 0);
-                    navigate(step.linkToPage);
-                  }}
-                >
-                  <img
-                    src={require("../../image/Typespage_avatars/" +
-                      step.image +
-                      ".svg")}
-                    alt="Ectomorph"
-                    style={{
-                      width: medium
-                        ? small
-                          ? extraSmall
-                            ? "65%"
-                            : "60%"
-                          : "100%"
-                        : "100%",
-                      height: "350px",
+              {filteredType
+                .filter((e: any) => e.category === "Ectomorph")
+                .map((step: any, index: any) => (
+                  <Grid
+                    key={index}
+                    item
+                    md={4}
+                    lg={4}
+                    xl={4}
+                    sx={{
+                      textAlign: "center",
+                      marginTop: 5,
+                      mb: 5,
+                      cursor: "pointer",
                     }}
-                  />
-                  <Typography
-                    variant="h1"
-                    sx={{ color: "#DCB051", textAlign: "center" }}
+                    onClick={() => {
+                      window.scrollTo(0, 0);
+                      navigate(step.linkToPage);
+                    }}
                   >
-                    {step.bodyType}
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        color: "#000000",
-                        fontSize: "18px",
-                        fontWeight: 800,
+                    <img
+                      src={require("../../image/Typespage_avatars/" +
+                        step.imageMale +
+                        ".svg")}
+                      alt="Ectomorph"
+                      style={{
+                        width: medium
+                          ? small
+                            ? extraSmall
+                              ? "65%"
+                              : "60%"
+                            : "100%"
+                          : "100%",
+                        height: "350px",
                       }}
+                    />
+                    <Typography
+                      variant="h1"
+                      sx={{ color: "#DCB051", textAlign: "center" }}
                     >
-                      {step.TypeCode}
+                      {step.name}
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          color: "#000000",
+                          fontSize: "18px",
+                          fontWeight: 800,
+                        }}
+                      >
+                        {step.codeSoma}
+                      </Typography>
                     </Typography>
-                  </Typography>
-                </Grid>
-              ))}
+                  </Grid>
+                ))}
             </Grid>
           </Box>
           {/* third grid */}
@@ -616,58 +533,60 @@ const TypesPage = () => {
               spacing={2}
               direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
             >
-              {Endomorph.map((step, index) => (
-                <Grid
-                  key={index}
-                  item
-                  md={4}
-                  lg={4}
-                  xl={4}
-                  sx={{
-                    textAlign: "center",
-                    marginTop: 5,
-                    pb: 9,
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    window.scrollTo(0, 0);
-                    navigate(step.linkToPage);
-                  }}
-                >
-                  <img
-                    src={require("../../image/Typespage_avatars/" +
-                      step.image +
-                      ".svg")}
-                    alt="Endomorph"
-                    style={{
-                      width: medium
-                        ? small
-                          ? extraSmall
-                            ? "65%"
-                            : "60%"
-                          : "100%"
-                        : "100%",
-                      height: "350px",
+              {filteredType
+                .filter((e: any) => e.category === "Endomorph")
+                .map((step: any, index: any) => (
+                  <Grid
+                    key={index}
+                    item
+                    md={4}
+                    lg={4}
+                    xl={4}
+                    sx={{
+                      textAlign: "center",
+                      marginTop: 5,
+                      pb: 9,
+                      cursor: "pointer",
                     }}
-                  />
-                  <Typography
-                    variant="h1"
-                    sx={{ color: "#6C4D7B", textAlign: "center" }}
+                    onClick={() => {
+                      window.scrollTo(0, 0);
+                      navigate(step.linkToPage);
+                    }}
                   >
-                    {step.bodyType}
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        color: "#000000",
-                        fontSize: "18px",
-                        fontWeight: 800,
+                    <img
+                      src={require("../../image/Typespage_avatars/" +
+                        step.imageMale +
+                        ".svg")}
+                      alt="Endomorph"
+                      style={{
+                        width: medium
+                          ? small
+                            ? extraSmall
+                              ? "65%"
+                              : "60%"
+                            : "100%"
+                          : "100%",
+                        height: "350px",
                       }}
+                    />
+                    <Typography
+                      variant="h1"
+                      sx={{ color: "#6C4D7B", textAlign: "center" }}
                     >
-                      {step.TypeCode}
+                      {step.name}
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          color: "#000000",
+                          fontSize: "18px",
+                          fontWeight: 800,
+                        }}
+                      >
+                        {step.codeSoma}
+                      </Typography>
                     </Typography>
-                  </Typography>
-                </Grid>
-              ))}
+                  </Grid>
+                ))}
             </Grid>
             <Box
               sx={{
@@ -720,59 +639,61 @@ const TypesPage = () => {
               spacing={2}
               direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
             >
-              {Hybrid.map((step, index) => (
-                <Grid
-                  key={index}
-                  item
-                  md={4}
-                  sm={12}
-                  lg={4}
-                  xl={4}
-                  sx={{
-                    textAlign: "center",
-                    marginTop: 5,
-                    mb: 5,
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    window.scrollTo(0, 0);
-                    navigate(step.linkToPage);
-                  }}
-                >
-                  <img
-                    src={require("../../image/Typespage_avatars/" +
-                      step.image +
-                      ".svg")}
-                    alt="Hybrid"
-                    style={{
-                      width: medium
-                        ? small
-                          ? extraSmall
-                            ? "65%"
-                            : "60%"
-                          : "100%"
-                        : "100%",
-                      height: "350px",
+              {filteredType
+                .filter((e: any) => e.category === "Hybrid")
+                .map((step: any, index: any) => (
+                  <Grid
+                    key={index}
+                    item
+                    md={4}
+                    sm={12}
+                    lg={4}
+                    xl={4}
+                    sx={{
+                      textAlign: "center",
+                      marginTop: 5,
+                      mb: 5,
+                      cursor: "pointer",
                     }}
-                  />
-                  <Typography
-                    variant="h1"
-                    sx={{ color: "#56A278", textAlign: "center" }}
+                    onClick={() => {
+                      window.scrollTo(0, 0);
+                      navigate(step.linkToPage);
+                    }}
                   >
-                    {step.bodyType}
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        color: "#000000",
-                        fontSize: "18px",
-                        fontWeight: 800,
+                    <img
+                      src={require("../../image/Typespage_avatars/" +
+                        step.imageMale +
+                        ".svg")}
+                      alt="Hybrid"
+                      style={{
+                        width: medium
+                          ? small
+                            ? extraSmall
+                              ? "65%"
+                              : "60%"
+                            : "100%"
+                          : "100%",
+                        height: "350px",
                       }}
+                    />
+                    <Typography
+                      variant="h1"
+                      sx={{ color: "#56A278", textAlign: "center" }}
                     >
-                      {step.TypeCode}
+                      {step.name}
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          color: "#000000",
+                          fontSize: "18px",
+                          fontWeight: 800,
+                        }}
+                      >
+                        {step.codeSoma}
+                      </Typography>
                     </Typography>
-                  </Typography>
-                </Grid>
-              ))}
+                  </Grid>
+                ))}
             </Grid>
           </Box>
           {/* fifth grid */}
@@ -792,58 +713,60 @@ const TypesPage = () => {
               spacing={2}
               direction={{ xs: "column", md: "row", lg: "row", xl: "row" }}
             >
-              {Central.map((step, index) => (
-                <Grid
-                  key={index}
-                  item
-                  md={12}
-                  lg={12}
-                  xl={12}
-                  sx={{
-                    textAlign: "center",
-                    marginTop: 5,
-                    mb: 5,
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    window.scrollTo(0, 0);
-                    navigate(step.linkToPage);
-                  }}
-                >
-                  <img
-                    src={require("../../image/Typespage_avatars/" +
-                      step.image +
-                      ".svg")}
-                    alt="central"
-                    style={{
-                      width: medium
-                        ? small
-                          ? extraSmall
-                            ? "65%"
-                            : "60%"
-                          : "100%"
-                        : "100%",
-                      height: "350px",
+              {filteredType
+                .filter((e: any) => e.category === "Central")
+                .map((step: any, index: any) => (
+                  <Grid
+                    key={index}
+                    item
+                    md={12}
+                    lg={12}
+                    xl={12}
+                    sx={{
+                      textAlign: "center",
+                      marginTop: 5,
+                      mb: 5,
+                      cursor: "pointer",
                     }}
-                  />
-                  <Typography
-                    variant="h1"
-                    sx={{ color: "#1874A3", textAlign: "center" }}
+                    onClick={() => {
+                      window.scrollTo(0, 0);
+                      navigate(step.linkToPage);
+                    }}
                   >
-                    {step.bodyType}
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        color: "#000000",
-                        fontSize: "18px",
-                        fontWeight: 800,
+                    <img
+                      src={require("../../image/Typespage_avatars/" +
+                        step.imageMale +
+                        ".svg")}
+                      alt="central"
+                      style={{
+                        width: medium
+                          ? small
+                            ? extraSmall
+                              ? "65%"
+                              : "60%"
+                            : "100%"
+                          : "100%",
+                        height: "350px",
                       }}
+                    />
+                    <Typography
+                      variant="h1"
+                      sx={{ color: "#1874A3", textAlign: "center" }}
                     >
-                      {step.TypeCode}
+                      {step.name}
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          color: "#000000",
+                          fontSize: "18px",
+                          fontWeight: 800,
+                        }}
+                      >
+                        {step.codeSoma}
+                      </Typography>
                     </Typography>
-                  </Typography>
-                </Grid>
-              ))}
+                  </Grid>
+                ))}
             </Grid>
           </Box>
           <CounterShare />

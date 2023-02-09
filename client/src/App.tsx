@@ -15,19 +15,7 @@ import Contact from "./components/contact/Contact";
 import TermsCondition from "./components/termsAndPrivacy/TermsCondition";
 import Privacy from "./components/termsAndPrivacy/Privacy";
 import Types from "./components/TypesPages/TypesPage";
-import BEc from "./components/TypesPages/Types/BEc";
-import BEn from "./components/TypesPages/Types/BEn";
-import BM from "./components/TypesPages/Types/BM";
-import C from "./components/TypesPages/Types/C";
-import EcEn from "./components/TypesPages/Types/EcEn";
-import EcM from "./components/TypesPages/Types/EcM";
-import En_Ec from "./components/TypesPages/Types/En-Ec";
-import EnEc from "./components/TypesPages/Types/EnEc";
-import EnM from "./components/TypesPages/Types/EnM";
-import M_Ec from "./components/TypesPages/Types/M-Ec";
-import M_En from "./components/TypesPages/Types/M-En";
-import MEc from "./components/TypesPages/Types/MEc";
-import MEn from "./components/TypesPages/Types/MEn";
+import TypeDescription from "./components/TypesPages/Types/TypeDescription";
 import TestPage from "./components/testPage/TestPage";
 import BlogPage from "./components/blogs/BlogPage";
 import Home from "./components/home/HomePage";
@@ -38,12 +26,12 @@ import CommentPage from "./components/comments/CommentPage";
 import TypeExample from "./components/TypesPages/TypeCarousel";
 import Nutrition from "./components/optimization/nutrition/Nutrition";
 import Training from "./components/optimization/training/Training";
-import TypesPage1 from "./components/TypesPages/GraphTypes";
 import Disconnection from "./components/authentification/Disconnection";
 import Library from "./components/library/Library";
 import Optimisation from "./components/optimization/optimise/Optimisation";
 import axios from "axios";
 import ReactGA from "react-ga4";
+import { typeDescriptionDatas } from "./datas/TypeDescriptions";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -94,7 +82,7 @@ export interface IData {
 }
 
 function App() {
-  const [cookies, setCookie, removeCookie] = useCookies(["user", "data"]);
+  const [cookies] = useCookies(["user", "data"]);
   const [open, setOpen] = useState<boolean>(false);
   const [resultsSaved, setResultsSaved] = useState<boolean>(false);
   const [snackbarMessage, setSnackbarMessage] = useState<string>("");
@@ -240,7 +228,10 @@ function App() {
         <Route path="/Contact" element={<Contact />} />
         <Route path="/TermsConditions" element={<TermsCondition />} />
         <Route path="/Privacy" element={<Privacy />} />
-        <Route path="/Types" element={<Types />} />
+        <Route
+          path="/Types"
+          element={<Types dataDescription={typeDescriptionDatas} />}
+        />
         <Route path="/FooterCTA" element={<FooterCTA />} />
         <Route path="*" element={<Error404 />} />
         <Route path="/CommentPage" element={<CommentPage />} />
@@ -248,7 +239,6 @@ function App() {
         <Route path="/Nutrition" element={<Nutrition />} />
         <Route path="/Training" element={<Training />} />
         <Route path="/Optimisation" element={<Optimisation />} />
-        <Route path="/TypesPage1" element={<TypesPage1 />} />
         <Route path="/Library" element={<Library />} />
         <Route
           path="/Test"
@@ -270,19 +260,10 @@ function App() {
         />
         <Route path="/Blog" element={<BlogPage />} />
         <Route path="/Blog/:idBlog" element={<BlogArticlePage />} />
-        <Route path="/BEc" element={<BEc />} />
-        <Route path="/BEn" element={<BEn />} />
-        <Route path="/BM" element={<BM />} />
-        <Route path="/C" element={<C />} />
-        <Route path="/EcEn" element={<EcEn />} />
-        <Route path="/EcM" element={<EcM />} />
-        <Route path="/En-Ec" element={<En_Ec />} />
-        <Route path="/EnEc" element={<EnEc />} />
-        <Route path="/EnM" element={<EnM />} />
-        <Route path="/M-Ec" element={<M_Ec />} />
-        <Route path="/M-En" element={<M_En />} />
-        <Route path="/MEc" element={<MEc />} />
-        <Route path="/MEn" element={<MEn />} />
+        <Route
+          path="/:codeSoma"
+          element={<TypeDescription dataDescription={typeDescriptionDatas} />}
+        />
         <Route
           path="/Profile"
           element={
