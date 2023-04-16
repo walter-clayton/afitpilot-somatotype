@@ -105,6 +105,7 @@ export const comparisonDatas: IComparisonData[] = [
     meso: 6,
     ecto: 1,
     codeSoma: "EnM",
+    imageName: "sumo_man",
   },
   {
     group: "Sport",
@@ -114,6 +115,7 @@ export const comparisonDatas: IComparisonData[] = [
     meso: 5,
     ecto: 1,
     codeSoma: "MEn",
+    imageName: "sumo_woman",
   },
   {
     group: "Sport",
@@ -141,6 +143,7 @@ export const comparisonDatas: IComparisonData[] = [
     meso: 5,
     ecto: 3,
     codeSoma: "BM",
+    imageName: "rower_woman",
   },
   {
     group: "Sport",
@@ -159,6 +162,7 @@ export const comparisonDatas: IComparisonData[] = [
     meso: 5,
     ecto: 3,
     codeSoma: "EcM",
+    imageName: "track_cyclist_man",
   },
   {
     group: "Sport",
@@ -195,6 +199,8 @@ export const comparisonDatas: IComparisonData[] = [
     meso: 6,
     ecto: 2,
     codeSoma: "EnM",
+    imageName: "golfer_man",
+
   },
   {
     group: "Sport",
