@@ -16,6 +16,7 @@ import { getAllBlogContents } from "./BlogContent/BlogContent";
 import { IBlogContent } from "./BlogContent/BlogInterfaces";
 import { IBlogCardInfos } from "./BlogPage";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import axios from "axios";
 
 interface IBlogArticlePage {
   blogCardInfos?: IBlogCardInfos;
@@ -43,6 +44,10 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
   }, []);
 
   useEffect(() => {
+    setAllBlogContent(getAllBlogContents());
+  }, []);
+
+  useEffect(() => {
     if (allBlogContent.length > 0) {
       if (isNaN(Number(idBlog)!)) {
         setNoBlogFound(true);
@@ -56,7 +61,7 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
         setBlogCardInfo(allBlogContent[Number(idBlog)]);
       }
     }
-  }, [allBlogContent]);
+  }, [allBlogContent, idBlog]);
 
   useEffect(() => {
     let arrayTemp: any[] = [];
@@ -64,7 +69,8 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
 
     blogCardInfo?.content?.forEach((blogContentElement) => {
       if (blogContentElement.hasOwnProperty("text")) {
-        arrayTemp.push(getBlogText(layoutElementCount));
+        const textContent = blogContentElement.text || "";
+        arrayTemp.push(getBlogText(layoutElementCount, textContent));
         layoutElementCount++;
       }
       if (blogContentElement.hasOwnProperty("image")) {
@@ -84,8 +90,8 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
     setFinalLayout(arrayTemp);
   }, [blogCardInfo]);
 
-  const getBlogText = (layoutIndex: number) => {
-    const blogText = (
+  const getBlogText = (layoutIndex: number, textContent: string) => {
+    return (
       <Grid item my={3} xs={12} md={8} alignSelf={"center"} key={layoutIndex}>
         <Grid
           container
@@ -100,12 +106,11 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
               fontSize: { xs: "100%", sm: "130%", md: "160%" },
             }}
           >
-            {blogCardInfo?.content![layoutIndex].text!}
+            {textContent}
           </Typography>
         </Grid>
       </Grid>
     );
-    return blogText;
   };
 
   const getBlogImage = (layoutIndex: number) => {
@@ -392,7 +397,7 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
               fontSize: { xs: "230%", sm: "320%", md: "400%" },
             }}
           >
-            No blog found ! :(
+            No blog found ! : (
           </Typography>
         </Grid>
       ) : (

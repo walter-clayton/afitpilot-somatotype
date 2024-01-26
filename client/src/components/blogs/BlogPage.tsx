@@ -1,20 +1,19 @@
 import { Grid, Typography, useMediaQuery } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { FC, useEffect, useState } from "react";
-import BlogArticlePage from "./BlogArticlePage";
+// import BlogArticlePage from "./BlogArticlePage";
 import BlogCard from "./BlogCard";
-import { getAllBlogContents } from "./BlogContent/BlogContent";
 import CounterShare from "../shares/CounterShare";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import SearchIcon from "@mui/icons-material/Search";
-import { styled, alpha } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
+
+import axios from "axios";
 import {
   IBlogCardImage,
   IBlogContentElement,
-  IBlogImage,
-  IBlogTextWithImage,
 } from "./BlogContent/BlogInterfaces";
 
 const Search = styled("div")(({ theme }) => ({
@@ -61,16 +60,21 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const createBlogCard = (
   BlogTitle: string,
   BlogDate: string,
+  BlogText: string,
   BlogCardDescription: string,
-  BlogCardImg: IBlogCardImage,
+  featuredMediaUrl: string,
   BlogContent: IBlogContentElement[]
 ) => {
   return {
     BlogTitle,
     BlogDate,
+    BlogText,
     BlogCardDescription,
-    BlogCardImg,
     BlogContent,
+    BlogCardImg: {
+      imageSrc: featuredMediaUrl,
+      imageAlt: BlogTitle,
+    },
   };
 };
 
@@ -80,9 +84,25 @@ export interface IBlogCardInfos {
   BlogCardDescription?: string;
   BlogCardImg?: IBlogCardImage;
   BlogContent?: IBlogContentElement[];
+  BlogText?: string;
 }
 
-const BlogPage = () => {
+// Define the type for the blog post
+interface BlogPost {
+  title: {
+    rendered: string;
+  };
+  content: {
+    rendered: string;
+  };
+  date: string;
+  excerpt: {
+    rendered: string;
+  };
+  featured_media: string;
+}
+
+const BlogPage: FC = () => {
   const xxs = useMediaQuery("(max-width:420px)");
   const xxxs = useMediaQuery("(max-width:320px)");
   const large = useMediaQuery("(min-width:1200px)");
@@ -213,21 +233,39 @@ const BlogPage = () => {
     setPage(newPage - 1);
   };
 
-  useEffect(() => {
-    setBlogCards([]);
+  // my work
 
-    getAllBlogContents().forEach((blogContent) => {
-      setBlogCards((blogCards) => [
-        ...blogCards,
-        createBlogCard(
-          blogContent.title!,
-          blogContent.date!,
-          blogContent.cardDescription!,
-          blogContent.cardImage!,
-          blogContent.content!
-        ),
-      ]);
-    });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get<BlogPost[]>(
+          "https://testing-123-com.preview-domain.com/wp-json/wp/v2/posts"
+        );
+
+        const fetchedBlogCards = await Promise.all(
+          response.data.map(async (blogData) => {
+            // Fetch media URL for each post
+            const mediaResponse = await axios.get(
+              `https://testing-123-com.preview-domain.com/wp-json/wp/v2/media/${blogData.featured_media}`
+            );
+
+            return createBlogCard(
+              blogData.title.rendered,
+              blogData.date,
+              blogData.content.rendered,
+              blogData.excerpt.rendered,
+              mediaResponse.data.source_url, // Use the fetched media URL directly
+              []
+            );
+          })
+        );
+
+        setBlogCards(fetchedBlogCards);
+      } catch (error) {
+        console.error("Error fetching blog data:", error);
+      }
+    };
+    fetchData();
   }, []);
 
   return (

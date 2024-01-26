@@ -42,3 +42,15 @@ export interface IBlogContent {
   cardImage?: IBlogCardImage;
   content?: IBlogContentElement[];
 }
+
+// blog past types
+// export interface BlogPost {
+//   title: {
+//     rendered: string;
+//   };
+//   date: string;
+//   excerpt: {
+//     rendered: string;
+//   };
+//   featured_media: string;
+// }

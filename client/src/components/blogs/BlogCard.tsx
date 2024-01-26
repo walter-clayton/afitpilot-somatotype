@@ -9,6 +9,7 @@ import {
 import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { IBlogCardInfos } from "./BlogPage";
+
 interface IBlogCard {
   index?: number;
   blogCard?: IBlogCardInfos;
@@ -17,29 +18,25 @@ interface IBlogCard {
 const BlogCard: FC<IBlogCard> = (props) => {
   let navigate = useNavigate();
 
-  let objectFitMethod: string = "";
-  if (props.blogCard?.BlogCardImg?.imageFitMethod != null) {
-    objectFitMethod = props.blogCard.BlogCardImg?.imageFitMethod;
-  } else {
-    objectFitMethod = "cover";
-  }
-
-  const handleClickLearnMore = (index: number) => {
-    navigate(`/Blog/${index}`);
-    window.scrollTo(0, 0);
+  const handleClickLearnMore = () => {
+    navigate(`/Blog/${props.index}`);
   };
 
   return (
     <Card sx={{ maxWidth: 345 }}>
-      {props.blogCard?.BlogCardImg?.imageSrc != null ? (
+      {props.blogCard?.BlogCardImg?.imageSrc != null && (
         <CardMedia
           component="img"
           height="200"
-          image={props.blogCard?.BlogCardImg?.imageSrc}
-          alt={props.blogCard?.BlogCardImg?.imageAlt}
-          sx={{ objectFit: objectFitMethod, backgroundColor: "#eeeeee" }}
+          width="100%"
+          image={props.blogCard.BlogCardImg.imageSrc}
+          alt={props.blogCard.BlogCardImg.imageAlt}
+          sx={{
+            objectFit: props.blogCard.BlogCardImg.imageFitMethod || "contain",
+            backgroundColor: "#eeeeee",
+          }}
         />
-      ) : null}
+      )}
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {props.blogCard?.BlogTitle}
@@ -51,16 +48,16 @@ const BlogCard: FC<IBlogCard> = (props) => {
           overflow={"hidden"}
           maxHeight={"5.8em"}
         >
-          {props.blogCard?.BlogCardDescription}
+          <div
+            dangerouslySetInnerHTML={{
+              __html: props.blogCard?.BlogCardDescription || "",
+            }}
+          />
+          {/* <div>{props.blogCard?.BlogText || ""}</div> */}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button
-          size="small"
-          onClick={() => {
-            handleClickLearnMore(props.index!);
-          }}
-        >
+        <Button size="small" onClick={handleClickLearnMore}>
           Learn More
         </Button>
       </CardActions>
