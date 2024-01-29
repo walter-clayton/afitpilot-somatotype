@@ -1,20 +1,72 @@
-import { Grid, Typography, useMediaQuery } from "@mui/material";
-import { Box } from "@mui/system";
 import React, { FC, useEffect, useState } from "react";
-// import BlogArticlePage from "./BlogArticlePage";
-import BlogCard from "./BlogCard";
-import CounterShare from "../shares/CounterShare";
+import { Grid, Typography, useMediaQuery } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import InputBase from "@mui/material/InputBase";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import SearchIcon from "@mui/icons-material/Search";
-import { styled } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
+import BlogCard from "./BlogCard";
+import CounterShare from "../shares/CounterShare";
 
-import axios from "axios";
-import {
-  IBlogCardImage,
-  IBlogContentElement,
-} from "./BlogContent/BlogInterfaces";
+// Assuming you have these interfaces
+export interface IBlogTextWithImage {
+  text?: string;
+  image?: string;
+  imageAlt?: string;
+  imagePosition?: string;
+}
+
+export interface IBlogImage {
+  imageSrc?: string;
+  imageAlt?: string;
+  imageHasCaption?: boolean;
+  imageCaption?: string;
+}
+
+export interface IBlogCardImage {
+  imageSrc?: string;
+  imageAlt?: string;
+  imageFitMethod?: string;
+}
+
+export interface IBlogCTABtn {
+  buttonText?: string;
+  isExternalLink?: boolean;
+  buttonLink?: string;
+  buttonPosition?: string;
+  buttonColor?: string;
+  buttonStyle?: "text" | "contained" | "outlined" | undefined;
+}
+
+export interface IBlogContentElement {
+  text?: string;
+  image?: IBlogImage;
+  textWithImage?: IBlogTextWithImage;
+  callToActionButton?: IBlogCTABtn;
+}
+
+export interface IBlogContent {
+  id: number;
+  title?: string;
+  date?: string;
+  cardDescription?: string;
+  cardImage?: IBlogCardImage;
+  content?: IBlogContentElement[];
+}
+
+export interface IBlogCardInfos {
+  BlogTitle?: string;
+  BlogDate?: string;
+  BlogCardDescription?: string;
+  BlogCardImg?: IBlogCardImage;
+  BlogContent?: IBlogContentElement[];
+  title?: string;
+  date?: string;
+  id?: number;
+  content?: IBlogContent[];
+  cardImage: IBlogCardImage;
+  cardDescription: string;
+}
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -56,52 +108,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     backgroundColor: "#c8c8c861",
   },
 }));
-
-const createBlogCard = (
-  BlogTitle: string,
-  BlogDate: string,
-  BlogText: string,
-  BlogCardDescription: string,
-  featuredMediaUrl: string,
-  BlogContent: IBlogContentElement[]
-) => {
-  return {
-    BlogTitle,
-    BlogDate,
-    BlogText,
-    BlogCardDescription,
-    BlogContent,
-    BlogCardImg: {
-      imageSrc: featuredMediaUrl,
-      imageAlt: BlogTitle,
-    },
-  };
-};
-
-export interface IBlogCardInfos {
-  BlogTitle?: string;
-  BlogDate?: string;
-  BlogCardDescription?: string;
-  BlogCardImg?: IBlogCardImage;
-  BlogContent?: IBlogContentElement[];
-  BlogText?: string;
-}
-
-// Define the type for the blog post
-interface BlogPost {
-  title: {
-    rendered: string;
-  };
-  content: {
-    rendered: string;
-  };
-  date: string;
-  excerpt: {
-    rendered: string;
-  };
-  featured_media: string;
-}
-
 const BlogPage: FC = () => {
   const xxs = useMediaQuery("(max-width:420px)");
   const xxxs = useMediaQuery("(max-width:320px)");
@@ -109,9 +115,7 @@ const BlogPage: FC = () => {
   const [blogCards, setBlogCards] = useState<IBlogCardInfos[]>([]);
   const [resultblogCards, setResultBlogCards] = useState<IBlogCardInfos[]>([]);
   const [noResultsFound, setNoResultsFound] = useState<boolean>(false);
-
   const [searchValue, setSearchValue] = useState<string>("");
-
   const blogArticlesPerPage: number = 6;
   const [page, setPage] = useState(0);
 
@@ -177,17 +181,9 @@ const BlogPage: FC = () => {
       }
     });
 
-    let hasBeenFound: boolean = false;
-
-    tempArray.forEach((blogContentElement) => {
-      if (
-        blogContentElement.toLowerCase().includes(searchInput.toLowerCase())
-      ) {
-        hasBeenFound = true;
-      }
-    });
-
-    return hasBeenFound;
+    return tempArray.some((blogContentElement) =>
+      blogContentElement.toLowerCase().includes(searchInput.toLowerCase())
+    );
   };
 
   const checkForResults = (
@@ -203,7 +199,6 @@ const BlogPage: FC = () => {
       setResultBlogCards([]);
     } else {
       const searchValue = event.currentTarget.value;
-
       const resultArray = blogCards.filter(
         (blogcard) =>
           blogcard.BlogCardDescription?.toLowerCase().includes(
@@ -233,59 +228,118 @@ const BlogPage: FC = () => {
     setPage(newPage - 1);
   };
 
-  // my work
-
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchWordPressImage = async (imageId: number) => {
       try {
-        const response = await axios.get<BlogPost[]>(
+        const response = await fetch(
+          `https://testing-123-com.preview-domain.com/wp-json/wp/v2/media/${imageId}`
+        );
+        console.log("imageId:", imageId);
+        if (!response.ok) {
+          throw new Error("Failed to fetch WordPress image");
+        }
+
+        const data = await response.json();
+        console.log("Image data:", data);
+
+        const imageUrl = data.source_url;
+
+        return imageUrl;
+      } catch (error) {
+        console.error("Error fetching WordPress image:", error);
+        return null;
+      }
+    };
+
+    const fetchWordPressData = async () => {
+      try {
+        const response = await fetch(
           "https://testing-123-com.preview-domain.com/wp-json/wp/v2/posts"
         );
 
-        const fetchedBlogCards = await Promise.all(
-          response.data.map(async (blogData) => {
-            // Fetch media URL for each post
-            const mediaResponse = await axios.get(
-              `https://testing-123-com.preview-domain.com/wp-json/wp/v2/media/${blogData.featured_media}`
-            );
+        if (!response.ok) {
+          throw new Error("Failed to fetch WordPress data");
+        }
 
-            return createBlogCard(
-              blogData.title.rendered,
-              blogData.date,
-              blogData.content.rendered,
-              blogData.excerpt.rendered,
-              mediaResponse.data.source_url, // Use the fetched media URL directly
-              []
-            );
+        const data = await response.json();
+        console.log("data coming from BlogPage: ", data);
+
+        const fetchedBlogContents: IBlogCardInfos[] = await Promise.all(
+          data.map(async (post: any) => {
+            // Fetch image for the blog card
+            const imageSrc = await fetchWordPressImage(post.featured_media);
+
+            return {
+              id: post.id,
+              title: post.title.rendered,
+              date: post.date,
+              cardDescription: post.excerpt.rendered,
+              cardImage: {
+                imageSrc,
+                imageAlt: post.title.rendered,
+                imageFitMethod: "contain",
+              },
+              BlogContent: [
+                {
+                  text: post.content.rendered,
+                },
+                {
+                  image: {
+                    imageSrc: post.featured_media_src_url,
+                    imageAlt: post.title.rendered,
+                    imageHasCaption: true,
+                    imageCaption: "Your image caption",
+                  },
+                },
+                {
+                  textWithImage: {
+                    text: post.content.rendered,
+                    image: post.featured_media_src_url,
+                    imageAlt: post.title.rendered,
+                    imagePosition: "left",
+                  },
+                },
+                {
+                  callToActionButton: {
+                    buttonText: "Read More",
+                    isExternalLink: true,
+                    buttonLink: post.link,
+                    buttonPosition: "right",
+                    buttonColor: "primary",
+                    buttonStyle: "contained",
+                  },
+                },
+              ],
+            };
           })
         );
 
-        setBlogCards(fetchedBlogCards);
+        setBlogCards(fetchedBlogContents);
+        console.log("fetchedBlogContents:", fetchedBlogContents);
       } catch (error) {
-        console.error("Error fetching blog data:", error);
+        console.error("Error fetching WordPress data:", error);
       }
     };
-    fetchData();
+
+    fetchWordPressData();
   }, []);
 
   return (
     <>
       <Grid container px={4} justifyContent="center" alignItems={"center"}>
-        <Grid item xs={12} sm={8} paddingTop={4} key={"search"} marginX={1}>
+        <Grid item xs={12}>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              onChange={(e) => {
-                checkForResults(e);
-              }}
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
-              fullWidth
+              onChange={(e) => checkForResults(e)}
             />
           </Search>
         </Grid>
+
         {!noResultsFound &&
           (resultblogCards.length > 0
             ? resultblogCards
@@ -308,6 +362,7 @@ const BlogPage: FC = () => {
                       alignContent={"center"}
                       justifyContent={"center"}
                     >
+                      {/* Assuming you have a BlogCard component */}
                       <BlogCard
                         index={page * blogArticlesPerPage + index}
                         blogCard={resultBlogCard}
@@ -335,6 +390,7 @@ const BlogPage: FC = () => {
                       alignContent={"center"}
                       justifyContent={"center"}
                     >
+                      {/* Assuming you have a BlogCard component */}
                       <BlogCard
                         index={page * blogArticlesPerPage + index}
                         blogCard={blogCard}
@@ -342,6 +398,7 @@ const BlogPage: FC = () => {
                     </Grid>
                   </Grid>
                 )))}
+
         {!noResultsFound && (
           <Grid
             item
@@ -394,6 +451,7 @@ const BlogPage: FC = () => {
             </Stack>
           </Grid>
         )}
+
         {noResultsFound && (
           <Grid
             item
@@ -413,6 +471,7 @@ const BlogPage: FC = () => {
           </Grid>
         )}
       </Grid>
+      {/* Assuming you have a CounterShare component */}
       <CounterShare />
     </>
   );
