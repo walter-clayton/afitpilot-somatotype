@@ -23,16 +23,16 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
 
   const navigate = useNavigate();
   const { idBlog } = useParams();
-  console.log("coming from idBlog:", idBlog);
+  // console.log("coming from idBlog:", idBlog);
 
   const [finalLayout, setFinalLayout] = useState<JSX.Element[]>([]);
   const [blogCardInfo, setBlogCardInfo] = useState<IBlogContent | undefined>(
     undefined
   );
-  console.log("blogCardInfos:", blogCardInfo);
+  // console.log("blogCardInfo:", blogCardInfo);
 
   const [allBlogContent, setAllBlogContent] = useState<IBlogContent[]>([]);
-  // console.log("BlogArticlePage:", allBlogContent);
+  // console.log("allBlogContent:", allBlogContent);
   const [noBlogFound, setNoBlogFound] = useState<boolean>(false);
 
   const [blogCards, setBlogCards] = useState<IBlogCardInfos[]>([]);
@@ -66,57 +66,6 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
     }
   }, [allBlogContent, idBlog]);
 
-  //description
-  useEffect(() => {
-    if (blogCardInfo?.content) {
-      let arrayTemp: JSX.Element[] = [];
-      let layoutElementCount = 0;
-
-      blogCardInfo.content.forEach((blogContentElement) => {
-        if (blogContentElement.hasOwnProperty("text")) {
-          arrayTemp.push(getBlogText(layoutElementCount));
-          layoutElementCount++;
-        }
-        if (blogContentElement.hasOwnProperty("image")) {
-          arrayTemp.push(getBlogImage(layoutElementCount));
-          layoutElementCount++;
-        }
-        if (blogContentElement.hasOwnProperty("textWithImage")) {
-          arrayTemp.push(getBlogTextWithImage(layoutElementCount));
-          layoutElementCount++;
-        }
-        if (blogContentElement.hasOwnProperty("callToActionButton")) {
-          arrayTemp.push(getBlogCTAButton(layoutElementCount));
-          layoutElementCount++;
-        }
-      });
-
-      setFinalLayout(arrayTemp);
-    }
-  }, [blogCardInfo]);
-
-  // useEffect(() => {
-  //   const transformToCardInfo = (blogContent: IBlogContent): IBlogCardInfos => {
-  //     return {
-  //       title: blogContent.title,
-  //       date: new Date(blogContent.date).toLocaleDateString("en-GB"),
-  //     };
-  //   };
-
-  //   const fetchWordPressData = async () => {
-  //     try {
-  //       const fetchedBlogContents = await getAllBlogContents();
-  //       const transformedBlogCards =
-  //         fetchedBlogContents.map(transformToCardInfo);
-  //       setBlogCards(transformedBlogCards);
-  //     } catch (error) {
-  //       console.error("Error fetching WordPress data:", error);
-  //     }
-  //   };
-
-  //   fetchWordPressData();
-  // }, [idBlog]);
-
   const getBlogText = (layoutIndex: number) => {
     return (
       <Grid item my={3} xs={12} md={8} alignSelf={"center"} key={layoutIndex}>
@@ -142,6 +91,10 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
   };
 
   const getBlogImage = (layoutIndex: number) => {
+    // const imageSrc = blogCardInfo?.content![layoutIndex].image?.imageSrc;
+    // console.log("Image Source:", imageSrc); // Log to check image source
+    const imageAlt = blogCardInfo?.content![layoutIndex].image?.imageAlt || "";
+
     return (
       <Grid
         item
@@ -175,7 +128,7 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
                 <CardMedia
                   component="img"
                   image={blogCardInfo?.content![layoutIndex].image?.imageSrc}
-                  alt={""}
+                  alt={imageAlt}
                 />
               )}
             {blogCardInfo?.content![layoutIndex].image &&
@@ -191,6 +144,12 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
   };
 
   const getBlogTextWithImage = (layoutIndex: number) => {
+    console.log("getBlogTextWithImage called with layoutIndex:", layoutIndex);
+    console.log(
+      "Image URL:",
+      blogCardInfo?.content![layoutIndex]?.textWithImage?.image
+    );
+
     return (
       <Grid item my={3} xs={12} md={8} alignSelf={"center"} key={layoutIndex}>
         <Grid
@@ -200,42 +159,38 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
             display: "flex",
           }}
         >
+          {blogCardInfo?.content![layoutIndex].textWithImage?.imagePosition ===
+            "left" && (
+            <CardMedia
+              component="img"
+              image={blogCardInfo?.content![layoutIndex].textWithImage?.image}
+              alt=""
+              sx={{
+                marginRight: xxs ? "0" : "20px",
+                width: xxs ? "100%" : "50%",
+              }}
+            />
+          )}
           <Typography
             variant="body1"
             sx={{
               fontSize: { xs: "100%", sm: "130%", md: "160%" },
             }}
           >
+            {blogCardInfo?.content![layoutIndex].textWithImage?.text}
+          </Typography>
+          {blogCardInfo?.content![layoutIndex].textWithImage?.imagePosition ===
+            "right" && (
             <CardMedia
               component="img"
               image={blogCardInfo?.content![layoutIndex].textWithImage?.image}
-              alt={""}
+              alt=""
               sx={{
-                marginLeft:
-                  blogCardInfo?.content![layoutIndex].textWithImage
-                    ?.imagePosition! === "right"
-                    ? xxs
-                      ? "0"
-                      : "20px"
-                    : "0",
-                marginRight:
-                  blogCardInfo?.content![layoutIndex].textWithImage
-                    ?.imagePosition! === "left"
-                    ? xxs
-                      ? "0"
-                      : "20px"
-                    : "0",
-                marginTop: "0",
-                marginBottom: xxs ? "0" : "20px",
-                float: xxs
-                  ? "none"
-                  : blogCardInfo?.content![layoutIndex].textWithImage
-                      ?.imagePosition!,
+                marginLeft: xxs ? "0" : "20px",
                 width: xxs ? "100%" : "50%",
               }}
             />
-            {blogCardInfo?.content![layoutIndex].textWithImage?.text}
-          </Typography>
+          )}
         </Grid>
       </Grid>
     );
@@ -392,6 +347,36 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
       </Grid>
     );
   };
+
+  useEffect(() => {
+    console.log(getBlogTextWithImage);
+    if (blogCardInfo?.content) {
+      let arrayTemp: JSX.Element[] = [];
+      let layoutElementCount = 0;
+
+      blogCardInfo.content.forEach((blogContentElement) => {
+        if (blogContentElement.hasOwnProperty("text")) {
+          arrayTemp.push(getBlogText(layoutElementCount));
+          layoutElementCount++;
+        }
+        if (blogContentElement.hasOwnProperty("image")) {
+          arrayTemp.push(getBlogImage(layoutElementCount));
+          layoutElementCount++;
+        }
+        if (blogContentElement.hasOwnProperty("textWithImage")) {
+          arrayTemp.push(getBlogTextWithImage(layoutElementCount));
+          layoutElementCount++;
+        }
+        if (blogContentElement.hasOwnProperty("callToActionButton")) {
+          arrayTemp.push(getBlogCTAButton(layoutElementCount));
+          layoutElementCount++;
+        }
+      });
+
+      setFinalLayout(arrayTemp);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blogCardInfo]);
 
   return (
     <Grid

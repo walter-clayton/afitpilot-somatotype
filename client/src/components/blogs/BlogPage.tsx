@@ -336,7 +336,7 @@ const BlogPage: FC = () => {
   return (
     <>
       <Grid container px={4} justifyContent="center" alignItems={"center"}>
-        <Grid item xs={12}>
+        <Grid item xs={12} sm={8} paddingTop={4} key={"search"} marginX={1}>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -345,6 +345,7 @@ const BlogPage: FC = () => {
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
               onChange={(e) => checkForResults(e)}
+              fullWidth
             />
           </Search>
         </Grid>
