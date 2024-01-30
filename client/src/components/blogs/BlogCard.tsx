@@ -27,7 +27,7 @@ const BlogCard: FC<IBlogCard> = (props) => {
   };
 
   // Extracting necessary data from blogCard
-  const { cardDescription, cardImage, title } = props.blogCard || {};
+  const { cardDescription, cardImage, title, date } = props.blogCard || {};
   const { imageSrc, imageAlt, imageFitMethod } = cardImage || {};
 
   return (
@@ -47,6 +47,14 @@ const BlogCard: FC<IBlogCard> = (props) => {
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {title}
+          <Typography
+            gutterBottom
+            variant="body1"
+            style={{ fontSize: "12px" }}
+            component="div"
+          >
+            {date}
+          </Typography>
         </Typography>
         <Typography
           variant="body2"

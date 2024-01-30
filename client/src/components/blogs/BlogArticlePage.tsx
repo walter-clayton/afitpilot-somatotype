@@ -23,16 +23,19 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
 
   const navigate = useNavigate();
   const { idBlog } = useParams();
+  console.log("coming from idBlog:", idBlog);
 
   const [finalLayout, setFinalLayout] = useState<JSX.Element[]>([]);
   const [blogCardInfo, setBlogCardInfo] = useState<IBlogContent | undefined>(
     undefined
   );
+  console.log("blogCardInfos:", blogCardInfo);
+
   const [allBlogContent, setAllBlogContent] = useState<IBlogContent[]>([]);
+  // console.log("BlogArticlePage:", allBlogContent);
   const [noBlogFound, setNoBlogFound] = useState<boolean>(false);
 
   const [blogCards, setBlogCards] = useState<IBlogCardInfos[]>([]);
-  console.log("Blog Article Page", blogCards);
 
   useEffect(() => {
     const fetchBlogContents = async () => {
@@ -63,6 +66,7 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
     }
   }, [allBlogContent, idBlog]);
 
+  //description
   useEffect(() => {
     if (blogCardInfo?.content) {
       let arrayTemp: JSX.Element[] = [];
@@ -91,28 +95,28 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
     }
   }, [blogCardInfo]);
 
-  useEffect(() => {
-    const transformToCardInfo = (blogContent: IBlogContent): IBlogCardInfos => {
-      return {
-        title: blogContent.title,
-        date: blogContent.date,
-        // Add other properties you want to include in IBlogCardInfos
-      };
-    };
+  // useEffect(() => {
+  //   const transformToCardInfo = (blogContent: IBlogContent): IBlogCardInfos => {
+  //     return {
+  //       title: blogContent.title,
+  //       date: new Date(blogContent.date).toLocaleDateString("en-GB"),
+  //     };
+  //   };
 
-    const fetchWordPressData = async () => {
-      try {
-        const fetchedBlogContents = await getAllBlogContents();
-        const transformedBlogCards =
-          fetchedBlogContents.map(transformToCardInfo);
-        setBlogCards(transformedBlogCards);
-      } catch (error) {
-        console.error("Error fetching WordPress data:", error);
-      }
-    };
+  //   const fetchWordPressData = async () => {
+  //     try {
+  //       const fetchedBlogContents = await getAllBlogContents();
+  //       const transformedBlogCards =
+  //         fetchedBlogContents.map(transformToCardInfo);
+  //       setBlogCards(transformedBlogCards);
+  //     } catch (error) {
+  //       console.error("Error fetching WordPress data:", error);
+  //     }
+  //   };
 
-    fetchWordPressData();
-  }, []);
+  //   fetchWordPressData();
+  // }, [idBlog]);
+
   const getBlogText = (layoutIndex: number) => {
     return (
       <Grid item my={3} xs={12} md={8} alignSelf={"center"} key={layoutIndex}>
@@ -128,9 +132,10 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
             sx={{
               fontSize: { xs: "100%", sm: "130%", md: "160%" },
             }}
-          >
-            {blogCardInfo?.content![layoutIndex].text!}
-          </Typography>
+            dangerouslySetInnerHTML={{
+              __html: blogCardInfo?.content![layoutIndex].text!,
+            }}
+          />
         </Grid>
       </Grid>
     );
