@@ -31,8 +31,9 @@ export async function getAllBlogContents(): Promise<IBlogContent[]> {
       response.data.map(async (blog: any) => {
         const imageId = blog.featured_media;
 
-        const cardImageSrc = imageId ? await fetchWordPressImage(imageId) : "";
-        // console.log("Card Image Source:", cardImageSrc);
+        const dynamicImageSrc = imageId
+          ? await fetchWordPressImage(imageId)
+          : "https://testing-123-com.preview-domain.com/wp-content/uploads/2024/01/logo.png";
 
         return {
           id: blog.id,
@@ -40,7 +41,7 @@ export async function getAllBlogContents(): Promise<IBlogContent[]> {
           date: new Date(blog.date).toLocaleDateString("en-GB"),
           cardDescription: blog.excerpt.rendered,
           cardImage: {
-            imageSrc: cardImageSrc,
+            imageSrc: dynamicImageSrc,
             imageAlt: blog.title.rendered,
             imageFitMethod: "contain",
           },
@@ -49,10 +50,19 @@ export async function getAllBlogContents(): Promise<IBlogContent[]> {
               text: blog.content.rendered,
             },
             {
+              callToActionButton: {
+                buttonText: "Button text",
+                isExternalLink: false,
+                buttonLink: "/",
+                buttonPosition: "end",
+                buttonColor: "#1976D2",
+                buttonStyle: "contained",
+              },
+            },
+            {
               image: {
-                imageSrc:
-                  "https://testing-123-com.preview-domain.com/wp-content/uploads/2024/01/logo.png",
-                imageAlt: "mss",
+                imageSrc: dynamicImageSrc,
+                imageAlt: blog.title.rendered,
                 // other image properties...
               },
             },

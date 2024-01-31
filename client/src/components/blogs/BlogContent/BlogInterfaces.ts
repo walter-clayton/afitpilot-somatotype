@@ -42,3 +42,5 @@ export interface IBlogContent {
   cardImage?: IBlogCardImage;
   content?: IBlogContentElement[];
 }
+
+//from blogPage

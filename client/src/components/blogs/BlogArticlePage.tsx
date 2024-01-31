@@ -23,19 +23,19 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
 
   const navigate = useNavigate();
   const { idBlog } = useParams();
-  // console.log("coming from idBlog:", idBlog);
 
   const [finalLayout, setFinalLayout] = useState<JSX.Element[]>([]);
   const [blogCardInfo, setBlogCardInfo] = useState<IBlogContent | undefined>(
     undefined
   );
-  // console.log("blogCardInfo:", blogCardInfo);
+  // console.log(blogCardInfo);
 
   const [allBlogContent, setAllBlogContent] = useState<IBlogContent[]>([]);
-  // console.log("allBlogContent:", allBlogContent);
+  // console.log(allBlogContent);
   const [noBlogFound, setNoBlogFound] = useState<boolean>(false);
 
-  const [blogCards, setBlogCards] = useState<IBlogCardInfos[]>([]);
+  // const [blogCards, setBlogCards] = useState<IBlogCardInfos[]>([]);
+  // console.log(blogCards, setBlogCards);
 
   useEffect(() => {
     const fetchBlogContents = async () => {
@@ -67,6 +67,7 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
   }, [allBlogContent, idBlog]);
 
   const getBlogText = (layoutIndex: number) => {
+    console.log(" coming from text:", layoutIndex);
     return (
       <Grid item my={3} xs={12} md={8} alignSelf={"center"} key={layoutIndex}>
         <Grid
@@ -91,6 +92,7 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
   };
 
   const getBlogImage = (layoutIndex: number) => {
+    console.log(" coming from image:", layoutIndex);
     // const imageSrc = blogCardInfo?.content![layoutIndex].image?.imageSrc;
     // console.log("Image Source:", imageSrc); // Log to check image source
     const imageAlt = blogCardInfo?.content![layoutIndex].image?.imageAlt || "";
@@ -144,13 +146,8 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
   };
 
   const getBlogTextWithImage = (layoutIndex: number) => {
-    console.log("getBlogTextWithImage called with layoutIndex:", layoutIndex);
-    console.log(
-      "Image URL:",
-      blogCardInfo?.content![layoutIndex]?.textWithImage?.image
-    );
-
-    return (
+    console.log(" coming from textImage:", layoutIndex);
+    const blogTextWithImage = (
       <Grid item my={3} xs={12} md={8} alignSelf={"center"} key={layoutIndex}>
         <Grid
           container
@@ -159,45 +156,51 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
             display: "flex",
           }}
         >
-          {blogCardInfo?.content![layoutIndex].textWithImage?.imagePosition ===
-            "left" && (
-            <CardMedia
-              component="img"
-              image={blogCardInfo?.content![layoutIndex].textWithImage?.image}
-              alt=""
-              sx={{
-                marginRight: xxs ? "0" : "20px",
-                width: xxs ? "100%" : "50%",
-              }}
-            />
-          )}
           <Typography
             variant="body1"
             sx={{
               fontSize: { xs: "100%", sm: "130%", md: "160%" },
             }}
           >
-            {blogCardInfo?.content![layoutIndex].textWithImage?.text}
-          </Typography>
-          {blogCardInfo?.content![layoutIndex].textWithImage?.imagePosition ===
-            "right" && (
             <CardMedia
               component="img"
               image={blogCardInfo?.content![layoutIndex].textWithImage?.image}
-              alt=""
+              alt={""}
               sx={{
-                marginLeft: xxs ? "0" : "20px",
+                marginLeft:
+                  blogCardInfo?.content![layoutIndex].textWithImage
+                    ?.imagePosition! === "right"
+                    ? xxs
+                      ? "0"
+                      : "20px"
+                    : "0",
+                marginRight:
+                  blogCardInfo?.content![layoutIndex].textWithImage
+                    ?.imagePosition! === "left"
+                    ? xxs
+                      ? "0"
+                      : "20px"
+                    : "0",
+                marginTop: "0",
+                marginBottom: xxs ? "0" : "20px",
+                float: xxs
+                  ? "none"
+                  : blogCardInfo?.content![layoutIndex].textWithImage
+                      ?.imagePosition!,
                 width: xxs ? "100%" : "50%",
               }}
             />
-          )}
+            {blogCardInfo?.content![layoutIndex].textWithImage?.text}
+          </Typography>
         </Grid>
       </Grid>
     );
+    return blogTextWithImage;
   };
 
   const getBlogCTAButton = (layoutIndex: number) => {
-    return (
+    console.log(" coming from call to action:", layoutIndex);
+    const blogCTABtn = (
       <Grid
         item
         my={3}
@@ -346,10 +349,10 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
         </Grid>
       </Grid>
     );
+    return blogCTABtn;
   };
 
   useEffect(() => {
-    console.log(getBlogTextWithImage);
     if (blogCardInfo?.content) {
       let arrayTemp: JSX.Element[] = [];
       let layoutElementCount = 0;
@@ -372,7 +375,6 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
           layoutElementCount++;
         }
       });
-
       setFinalLayout(arrayTemp);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

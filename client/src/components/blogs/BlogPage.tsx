@@ -43,6 +43,7 @@ export interface IBlogContentElement {
   image?: IBlogImage;
   textWithImage?: IBlogTextWithImage;
   callToActionButton?: IBlogCTABtn;
+  imagePosition?: "left" | "right" | undefined;
 }
 
 export interface IBlogContent {
