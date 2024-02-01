@@ -63,14 +63,13 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
   }, [allBlogContent, idBlog]);
 
   const getBlogImage = (layoutIndex: number) => {
-    // const imageSrc = blogCardInfo?.content![layoutIndex].image?.imageSrc;
-    // console.log("Image Source:", imageSrc); // Log to check image source
     const imageAlt = blogCardInfo?.content![layoutIndex].image?.imageAlt || "";
+
     return (
       <Grid
         item
         my={3}
-        m={0}
+        m={0} // Set margin to 0
         xs={12}
         md={8}
         alignSelf={"center"}
@@ -81,7 +80,6 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
         }}
         key={layoutIndex}
       >
-        {/* commented out  */}
         <Grid
           container
           sx={{
@@ -102,9 +100,13 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
                   image={blogCardInfo?.content![layoutIndex].image?.imageSrc}
                   alt={imageAlt}
                   sx={{
-                    width: "100%", // Make the image take up 100% of its container width
-                    height: "30rem", // Allow the height to adjust proportionally based on the width
-                    objectFit: "contain", // Ensure the image covers the entire container
+                    width: "100%",
+                    height: {
+                      xs: "auto", // Auto height on small screens
+                      md: "480px", // 480px height on medium and larger screens
+                    },
+                    objectFit: "contain",
+                    p: 0, // Set padding to 0
                   }}
                 />
               )}
@@ -422,7 +424,7 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
       ) : (
         <Grid
           item
-          m={3}
+          m={2}
           xs={12}
           md={8}
           lg={6}
