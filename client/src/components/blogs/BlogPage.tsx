@@ -8,7 +8,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import BlogCard from "./BlogCard";
 import CounterShare from "../shares/CounterShare";
 
-// Assuming you have these interfaces
 export interface IBlogTextWithImage {
   text?: string;
   image?: string;
@@ -272,7 +271,6 @@ const BlogPage: FC = () => {
         }
 
         const data = await response.json();
-        console.log("data coming from BlogPage: ", data);
 
         const fetchedBlogContents: IBlogCardInfos[] = await Promise.all(
           data.map(async (post: any) => {
@@ -325,7 +323,6 @@ const BlogPage: FC = () => {
         );
 
         setBlogCards(fetchedBlogContents);
-        console.log("fetchedBlogContents:", fetchedBlogContents);
       } catch (error) {
         console.error("Error fetching WordPress data:", error);
       }

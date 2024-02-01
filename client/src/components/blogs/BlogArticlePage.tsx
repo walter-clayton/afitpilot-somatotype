@@ -28,14 +28,10 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
   const [blogCardInfo, setBlogCardInfo] = useState<IBlogContent | undefined>(
     undefined
   );
-  // console.log(blogCardInfo);
 
   const [allBlogContent, setAllBlogContent] = useState<IBlogContent[]>([]);
-  // console.log(allBlogContent);
-  const [noBlogFound, setNoBlogFound] = useState<boolean>(false);
 
-  // const [blogCards, setBlogCards] = useState<IBlogCardInfos[]>([]);
-  // console.log(blogCards, setBlogCards);
+  const [noBlogFound, setNoBlogFound] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchBlogContents = async () => {
@@ -66,37 +62,10 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
     }
   }, [allBlogContent, idBlog]);
 
-  const getBlogText = (layoutIndex: number) => {
-    console.log(" coming from text:", layoutIndex);
-    return (
-      <Grid item my={3} xs={12} md={8} alignSelf={"center"} key={layoutIndex}>
-        <Grid
-          container
-          sx={{
-            width: "100%",
-            display: "flex",
-          }}
-        >
-          <Typography
-            variant="body1"
-            sx={{
-              fontSize: { xs: "100%", sm: "130%", md: "160%" },
-            }}
-            dangerouslySetInnerHTML={{
-              __html: blogCardInfo?.content![layoutIndex].text!,
-            }}
-          />
-        </Grid>
-      </Grid>
-    );
-  };
-
   const getBlogImage = (layoutIndex: number) => {
-    console.log(" coming from image:", layoutIndex);
     // const imageSrc = blogCardInfo?.content![layoutIndex].image?.imageSrc;
     // console.log("Image Source:", imageSrc); // Log to check image source
     const imageAlt = blogCardInfo?.content![layoutIndex].image?.imageAlt || "";
-
     return (
       <Grid
         item
@@ -112,6 +81,7 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
         }}
         key={layoutIndex}
       >
+        {/* commented out  */}
         <Grid
           container
           sx={{
@@ -131,6 +101,11 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
                   component="img"
                   image={blogCardInfo?.content![layoutIndex].image?.imageSrc}
                   alt={imageAlt}
+                  sx={{
+                    width: "100%", // Make the image take up 100% of its container width
+                    height: "30rem", // Allow the height to adjust proportionally based on the width
+                    objectFit: "contain", // Ensure the image covers the entire container
+                  }}
                 />
               )}
             {blogCardInfo?.content![layoutIndex].image &&
@@ -141,6 +116,38 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
               )}
           </Grid>
         </Grid>
+      </Grid>
+    );
+  };
+
+  const getBlogText = (layoutIndex: number) => {
+    const content = blogCardInfo?.content![layoutIndex].text || "";
+    return (
+      <Grid
+        item
+        xs={12}
+        md={8}
+        sx={{ my: 3, mx: "auto", width: { xs: "100%", sm: "80%", md: "70%" } }}
+        alignSelf="center"
+        key={layoutIndex}
+      >
+        <Typography
+          variant="body1"
+          sx={{
+            fontSize: { xs: "1rem", sm: "1.2rem", md: "1.4rem", lg: "1.6rem" },
+            textAlign: "justify",
+            wordBreak: "break-word",
+          }}
+        >
+          <div
+            dangerouslySetInnerHTML={{ __html: content }}
+            style={{
+              width: "100%",
+              height: "auto",
+              maxWidth: "100%",
+            }}
+          />
+        </Typography>
       </Grid>
     );
   };
@@ -199,7 +206,6 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
   };
 
   const getBlogCTAButton = (layoutIndex: number) => {
-    console.log(" coming from call to action:", layoutIndex);
     const blogCTABtn = (
       <Grid
         item
@@ -210,6 +216,7 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
           blogCardInfo?.content![layoutIndex].callToActionButton?.buttonPosition
         }
         key={layoutIndex}
+        display="none" //displayed to none
       >
         <Grid
           container
@@ -358,12 +365,12 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
       let layoutElementCount = 0;
 
       blogCardInfo.content.forEach((blogContentElement) => {
-        if (blogContentElement.hasOwnProperty("text")) {
-          arrayTemp.push(getBlogText(layoutElementCount));
-          layoutElementCount++;
-        }
         if (blogContentElement.hasOwnProperty("image")) {
           arrayTemp.push(getBlogImage(layoutElementCount));
+          layoutElementCount++;
+        }
+        if (blogContentElement.hasOwnProperty("text")) {
+          arrayTemp.push(getBlogText(layoutElementCount));
           layoutElementCount++;
         }
         if (blogContentElement.hasOwnProperty("textWithImage")) {

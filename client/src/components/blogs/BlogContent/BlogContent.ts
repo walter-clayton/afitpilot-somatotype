@@ -1,3 +1,4 @@
+import { display } from "html2canvas/dist/types/css/property-descriptors/display";
 import { IBlogContent } from "./BlogInterfaces";
 import axios from "axios";
 
@@ -47,8 +48,17 @@ export async function getAllBlogContents(): Promise<IBlogContent[]> {
           },
           content: [
             {
+              image: {
+                imageSrc: dynamicImageSrc,
+                imageAlt: blog.title.rendered,
+                // other image properties...
+              },
+            },
+            {
               text: blog.content.rendered,
             },
+
+            //CTA is disable based
             {
               callToActionButton: {
                 buttonText: "Button text",
@@ -59,13 +69,7 @@ export async function getAllBlogContents(): Promise<IBlogContent[]> {
                 buttonStyle: "contained",
               },
             },
-            {
-              image: {
-                imageSrc: dynamicImageSrc,
-                imageAlt: blog.title.rendered,
-                // other image properties...
-              },
-            },
+
             // Add more content objects as needed based on your requirements
           ],
         };
