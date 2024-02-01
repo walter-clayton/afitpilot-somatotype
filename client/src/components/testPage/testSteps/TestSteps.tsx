@@ -1149,6 +1149,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
             poster={steps[currentStep].poster!}
           />
 
+          {/* here to work  */}
           {steps.map(
             (item, index) =>
               index === currentStep && (

@@ -234,14 +234,11 @@ const BlogPage: FC = () => {
         const response = await fetch(
           `https://testing-123-com.preview-domain.com/wp-json/wp/v2/media/${imageId}`
         );
-        console.log("imageId:", imageId);
         if (!response.ok) {
           throw new Error("Failed to fetch WordPress image");
         }
 
         const data = await response.json();
-        console.log("Image data:", data);
-
         const imageUrl = data.source_url;
 
         return imageUrl;

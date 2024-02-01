@@ -77,7 +77,7 @@ const BlogCard: FC<IBlogCard> = (props) => {
           }}
         >
           {cardDescription && (
-            <p dangerouslySetInnerHTML={{ __html: cardDescription }} />
+            <span dangerouslySetInnerHTML={{ __html: cardDescription }} />
           )}
         </Typography>
       </CardContent>
