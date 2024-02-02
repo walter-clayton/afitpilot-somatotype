@@ -60,7 +60,7 @@ const ModalImg: FC<IModal> = (props) => {
           <CancelIcon sx={styleCancelIcon} onClick={props.handleClose} />
 
           {props.img ? (
-            <img src={props.img} alt="modal image" />
+            <img src={props.img} alt="img" />
           ) : (
             <video poster={props.poster} width="100%" height="500px" controls>
               <source src={props.video} type="video/mp4" />

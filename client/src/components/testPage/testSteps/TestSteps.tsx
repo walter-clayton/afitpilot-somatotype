@@ -82,11 +82,11 @@ const PrettoSlider = styled(Slider)({
   },
   "& .MuiSlider-valueLabel": {
     lineHeight: 1.2,
-    fontSize: 16,
+    fontSize: 15,
     background: "unset",
-    padding: 0,
-    width: 32,
-    height: 32,
+    padding: 20,
+    width: 45,
+    height: 45,
     borderRadius: "50% 50% 50% 0",
     backgroundColor: "RGB(108, 77, 123)",
     transformOrigin: "bottom left",
@@ -1149,6 +1149,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
             poster={steps[currentStep].poster!}
           />
 
+          {/* here to work  */}
           {steps.map(
             (item, index) =>
               index === currentStep && (
@@ -1172,7 +1173,19 @@ const TestSteps: FC<ITestSteps> = (props) => {
                       value={Number((values as any)[item.label])}
                       min={Number(item.min)}
                       max={Number(item.max)}
-                      step={1}
+                      // Checking  if the current item requires decimal step
+                      step={
+                        [
+                          "height",
+                          "weight",
+                          "femur",
+                          "humerus",
+                          "calf",
+                          "arm",
+                        ].includes(item.label)
+                          ? 0.1
+                          : 1
+                      }
                       onChange={(event: any) => {
                         handleChange(event.target.value);
                       }}

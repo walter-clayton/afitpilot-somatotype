@@ -2,10 +2,6 @@ import {
   Button,
   CardMedia,
   Grid,
-  ImageList,
-  ImageListItem,
-  ImageListItemBar,
-  Link,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -14,8 +10,8 @@ import React, { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getAllBlogContents } from "./BlogContent/BlogContent";
 import { IBlogContent } from "./BlogContent/BlogInterfaces";
-import { IBlogCardInfos } from "./BlogPage";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import { IBlogCardInfos } from "./BlogPage";
 
 interface IBlogArticlePage {
   blogCardInfos?: IBlogCardInfos;
@@ -25,11 +21,10 @@ interface IBlogArticlePage {
 const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
   const xxs = useMediaQuery("(max-width:450px)");
 
-  let navigate = useNavigate();
-
+  const navigate = useNavigate();
   const { idBlog } = useParams();
 
-  const [finalLayout, setFinalLayout] = useState<any[]>([]);
+  const [finalLayout, setFinalLayout] = useState<JSX.Element[]>([]);
   const [blogCardInfo, setBlogCardInfo] = useState<IBlogContent | undefined>(
     undefined
   );
@@ -39,7 +34,16 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
   const [noBlogFound, setNoBlogFound] = useState<boolean>(false);
 
   useEffect(() => {
-    setAllBlogContent(getAllBlogContents());
+    const fetchBlogContents = async () => {
+      try {
+        const blogContents = await getAllBlogContents();
+        setAllBlogContent(blogContents);
+      } catch (error) {
+        console.error("Error fetching blog contents:", error);
+      }
+    };
+
+    fetchBlogContents();
   }, []);
 
   useEffect(() => {
@@ -56,64 +60,16 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
         setBlogCardInfo(allBlogContent[Number(idBlog)]);
       }
     }
-  }, [allBlogContent]);
-
-  useEffect(() => {
-    let arrayTemp: any[] = [];
-    let layoutElementCount = 0;
-
-    blogCardInfo?.content?.forEach((blogContentElement) => {
-      if (blogContentElement.hasOwnProperty("text")) {
-        arrayTemp.push(getBlogText(layoutElementCount));
-        layoutElementCount++;
-      }
-      if (blogContentElement.hasOwnProperty("image")) {
-        arrayTemp.push(getBlogImage(layoutElementCount));
-        layoutElementCount++;
-      }
-      if (blogContentElement.hasOwnProperty("textWithImage")) {
-        arrayTemp.push(getBlogTextWithImage(layoutElementCount));
-        layoutElementCount++;
-      }
-      if (blogContentElement.hasOwnProperty("callToActionButton")) {
-        arrayTemp.push(getBlogCTAButton(layoutElementCount));
-        layoutElementCount++;
-      }
-    });
-
-    setFinalLayout(arrayTemp);
-  }, [blogCardInfo]);
-
-  const getBlogText = (layoutIndex: number) => {
-    const blogText = (
-      <Grid item my={3} xs={12} md={8} alignSelf={"center"} key={layoutIndex}>
-        <Grid
-          container
-          sx={{
-            width: "100%",
-            display: "flex",
-          }}
-        >
-          <Typography
-            variant="body1"
-            sx={{
-              fontSize: { xs: "100%", sm: "130%", md: "160%" },
-            }}
-          >
-            {blogCardInfo?.content![layoutIndex].text!}
-          </Typography>
-        </Grid>
-      </Grid>
-    );
-    return blogText;
-  };
+  }, [allBlogContent, idBlog]);
 
   const getBlogImage = (layoutIndex: number) => {
-    const image = (
+    const imageAlt = blogCardInfo?.content![layoutIndex].image?.imageAlt || "";
+
+    return (
       <Grid
         item
         my={3}
-        m={0}
+        m={0} // Set margin to 0
         xs={12}
         md={8}
         alignSelf={"center"}
@@ -142,7 +98,16 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
                 <CardMedia
                   component="img"
                   image={blogCardInfo?.content![layoutIndex].image?.imageSrc}
-                  alt={""}
+                  alt={imageAlt}
+                  sx={{
+                    width: "100%",
+                    height: {
+                      xs: "auto", // Auto height on small screens
+                      md: "480px", // 480px height on medium and larger screens
+                    },
+                    objectFit: "contain",
+                    p: 0, // Set padding to 0
+                  }}
                 />
               )}
             {blogCardInfo?.content![layoutIndex].image &&
@@ -155,10 +120,42 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
         </Grid>
       </Grid>
     );
-    return image;
+  };
+
+  const getBlogText = (layoutIndex: number) => {
+    const content = blogCardInfo?.content![layoutIndex].text || "";
+    return (
+      <Grid
+        item
+        xs={12}
+        md={8}
+        sx={{ my: 3, mx: "auto", width: { xs: "100%", sm: "80%", md: "70%" } }}
+        alignSelf="center"
+        key={layoutIndex}
+      >
+        <Typography
+          variant="body1"
+          sx={{
+            fontSize: { xs: "1rem", sm: "1.2rem", md: "1.4rem", lg: "1.6rem" },
+            textAlign: "justify",
+            wordBreak: "break-word",
+          }}
+        >
+          <div
+            dangerouslySetInnerHTML={{ __html: content }}
+            style={{
+              width: "100%",
+              height: "auto",
+              maxWidth: "100%",
+            }}
+          />
+        </Typography>
+      </Grid>
+    );
   };
 
   const getBlogTextWithImage = (layoutIndex: number) => {
+    console.log(" coming from textImage:", layoutIndex);
     const blogTextWithImage = (
       <Grid item my={3} xs={12} md={8} alignSelf={"center"} key={layoutIndex}>
         <Grid
@@ -221,6 +218,7 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
           blogCardInfo?.content![layoutIndex].callToActionButton?.buttonPosition
         }
         key={layoutIndex}
+        display="none" //displayed to none
       >
         <Grid
           container
@@ -363,6 +361,34 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
     return blogCTABtn;
   };
 
+  useEffect(() => {
+    if (blogCardInfo?.content) {
+      let arrayTemp: JSX.Element[] = [];
+      let layoutElementCount = 0;
+
+      blogCardInfo.content.forEach((blogContentElement) => {
+        if (blogContentElement.hasOwnProperty("image")) {
+          arrayTemp.push(getBlogImage(layoutElementCount));
+          layoutElementCount++;
+        }
+        if (blogContentElement.hasOwnProperty("text")) {
+          arrayTemp.push(getBlogText(layoutElementCount));
+          layoutElementCount++;
+        }
+        if (blogContentElement.hasOwnProperty("textWithImage")) {
+          arrayTemp.push(getBlogTextWithImage(layoutElementCount));
+          layoutElementCount++;
+        }
+        if (blogContentElement.hasOwnProperty("callToActionButton")) {
+          arrayTemp.push(getBlogCTAButton(layoutElementCount));
+          layoutElementCount++;
+        }
+      });
+      setFinalLayout(arrayTemp);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blogCardInfo]);
+
   return (
     <Grid
       container
@@ -398,7 +424,7 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
       ) : (
         <Grid
           item
-          m={3}
+          m={2}
           xs={12}
           md={8}
           lg={6}
@@ -436,7 +462,7 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
           }}
         >
           <Box display={"flex"} flexDirection={"row"}>
-            <Typography>Go back at top</Typography>
+            <Typography>Go back to top</Typography>
             <ArrowUpwardIcon
               sx={{ color: "#1976D2", marginLeft: "5px" }}
               fontSize="small"
