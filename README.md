@@ -49,6 +49,10 @@ Common errors [page](errors.md).
 
 [Arnaud Dalcq](https://github.com/DalcqArnaud)
 
+[Prince](https://github.com/DalcqArnaud)
+
+[John](https://github.com/DalcqArnaud)
+
 ### Version
 
 2.0.0
