@@ -49,7 +49,7 @@ Common errors [page](errors.md).
 
 [Arnaud Dalcq](https://github.com/DalcqArnaud)
 
-[Prince](https://github.com/DalcqArnaud)
+[Prince Kyei](https://github.com/prynskaf)
 
 [John](https://github.com/DalcqArnaud)
 
