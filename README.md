@@ -51,7 +51,7 @@ Common errors [page](errors.md).
 
 [Prince Kyei](https://github.com/prynskaf)
 
-[John](https://github.com/DalcqArnaud)
+[Jojo](https://github.com/nattyjojo)
 
 ### Version
 
