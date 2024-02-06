@@ -232,7 +232,7 @@ const BlogPage: FC = () => {
     const fetchWordPressImage = async (imageId: number) => {
       try {
         const response = await fetch(
-          `https://testing-123-com.preview-domain.com/wp-json/wp/v2/media/${imageId}`
+          `https://blog.afitpilot.com/wp-json/wp/v2/media/${imageId}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch WordPress image");
@@ -260,7 +260,7 @@ const BlogPage: FC = () => {
     const fetchWordPressData = async () => {
       try {
         const response = await fetch(
-          "https://testing-123-com.preview-domain.com/wp-json/wp/v2/posts"
+          "https://blog.afitpilot.com/wp-json/wp/v2/posts"
         );
 
         if (!response.ok) {
