@@ -28,6 +28,7 @@ import CounterShare from "../shares/CounterShare";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import TestSteps from "./testSteps/TestSteps";
+import { LiveSomatotypeCalculator } from "./testSteps/LiveSomatotypeCalculator";
 
 const theme = createTheme();
 
@@ -434,7 +435,7 @@ const TestPage: FC<ITesting> = (props) => {
         avatar={props.avatar}
         setAvatar={props.setAvatar}
       />
-
+      {/* <LiveSomatotypeCalculator /> */}
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={snackBarState.open}

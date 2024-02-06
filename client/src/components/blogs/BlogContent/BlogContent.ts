@@ -5,7 +5,7 @@ import axios from "axios";
 const fetchWordPressImage = async (imageId: number) => {
   try {
     const response = await fetch(
-      `https://testing-123-com.preview-domain.com/wp-json/wp/v2/media/${imageId}`
+      `https://blog.afitpilot.com/wp-json/wp/v2/media/${imageId}`
     );
 
     if (!response.ok) {
@@ -25,7 +25,7 @@ const fetchWordPressImage = async (imageId: number) => {
 export async function getAllBlogContents(): Promise<IBlogContent[]> {
   try {
     const response = await axios.get(
-      "https://testing-123-com.preview-domain.com/wp-json/wp/v2/posts"
+      "https://blog.afitpilot.com/wp-json/wp/v2/posts"
     );
 
     const allBlogContent: IBlogContent[] = await Promise.all(
@@ -34,7 +34,7 @@ export async function getAllBlogContents(): Promise<IBlogContent[]> {
 
         const dynamicImageSrc = imageId
           ? await fetchWordPressImage(imageId)
-          : "https://testing-123-com.preview-domain.com/wp-content/uploads/2024/01/logo.png";
+          : "https://blog.afitpilot.com/wp-content/uploads/2024/02/logo.png";
 
         return {
           id: blog.id,
