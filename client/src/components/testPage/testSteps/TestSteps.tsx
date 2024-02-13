@@ -169,14 +169,18 @@ interface ITestSteps {
 }
 
 const TestSteps: FC<ITestSteps> = (props) => {
+  console.log("coming from props");
   const [cookies, setCookie, removeCookie] = useCookies(["user", "data"]);
   const navigate = useNavigate();
   const xs = useMediaQuery("(max-width:680px)");
 
   const [datas, setDatas] = useState<IData | undefined>(undefined);
+  console.log("coming from datas", datas);
 
   const [somatotypeTitle, setSomatotypeTitle] = useState("");
   const [somatotypeCode, setSomatotypeCode] = useState("");
+  console.log("coming from somatotypeCode:", somatotypeCode);
+  console.log("somatotypeTitle:", somatotypeTitle);
 
   const mesoCode = ["EnM", "BM", "EcM"];
   const ectoCode = ["MEc", "BEc", "EnEc"];
@@ -200,6 +204,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
   const [somatotype, setSomatotype] = useState<ISomatotype | undefined>(
     undefined
   );
+
   const [anthropometric, setAnthropometric] = useState<
     IAnthropometric | undefined
   >(undefined);
@@ -563,7 +568,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
 
     setAnthropometric((anthropometric) => anthropometrics);
 
-    // somatotype calcule
+    // somatotype calculation
 
     // endomorphy
     const threeSumSkinfolds = (getTwoSumSkinfolds() / 2) * 3; // conversion for endomorphy
@@ -1068,7 +1073,8 @@ const TestSteps: FC<ITestSteps> = (props) => {
         marginTop: md ? "100px" : "220px",
       }}
     >
-      {/* if datas has somatotypes then we show the second step (steps of avatar svg) else we show the first step (questions's steps) */}
+      {/* if datas has somatotypes then we show the second step (steps of avatar svg) 
+      else we show the first step (questions's steps) */}
       {datas ? (
         <Box
           boxShadow="3"

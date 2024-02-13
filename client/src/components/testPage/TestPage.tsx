@@ -435,7 +435,7 @@ const TestPage: FC<ITesting> = (props) => {
         avatar={props.avatar}
         setAvatar={props.setAvatar}
       />
-      {/* <LiveSomatotypeCalculator /> */}
+      <LiveSomatotypeCalculator />
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={snackBarState.open}
