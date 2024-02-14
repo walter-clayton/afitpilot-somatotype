@@ -200,7 +200,6 @@ export const comparisonDatas: IComparisonData[] = [
     ecto: 2,
     codeSoma: "EnM",
     imageName: "golfer_man",
-
   },
   {
     group: "Sport",
@@ -264,14 +263,5 @@ export const comparisonDatas: IComparisonData[] = [
     meso: 3,
     ecto: 2,
     codeSoma: "MEn",
-  },
-  {
-    group: "Research Needed",
-    gender: "Research Needed",
-    name: "Research Needed",
-    endo: 0,
-    meso: 0,
-    ecto: 0,
-    codeSoma: "Research Needed",
   },
 ];
