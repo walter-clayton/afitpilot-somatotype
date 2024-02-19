@@ -11,6 +11,9 @@ interface ISomatotypeGraph {
   graphColor?: string;
   updateGraph?: boolean;
   pointsArray?: IPoints[];
+  endo?: number;
+  meso?: number;
+  ecto?: number;
 }
 
 const SomatotypeGraph: FC<ISomatotypeGraph> = (props): any => {
@@ -65,10 +68,7 @@ const SomatotypeGraph: FC<ISomatotypeGraph> = (props): any => {
     showSomatotypeGraph();
   }, [props.updateGraph]);
 
-  return (
-    // <canvas style={{border:`1px solid black`}} width="0" height="0" ref={canvasRef} />
-    <canvas width="0" height="0" ref={canvasRef} />
-  );
+  return <canvas width="0" height="0" ref={canvasRef} />;
 };
 
 export default SomatotypeGraph;

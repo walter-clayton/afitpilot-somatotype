@@ -425,9 +425,7 @@ const Library = () => {
         </Grid>
       </Grid>
       {/* compare table */}
-
-      {/* card */}
-      <SearchLibrary />
+      / <SearchLibrary />
     </Box>
   );
 };
