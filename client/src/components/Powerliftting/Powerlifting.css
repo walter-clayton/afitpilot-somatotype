@@ -1,0 +1,52 @@
+.main {
+    display: flex;
+    justify-content: center;
+    white-space: wrap;
+    flex-wrap: wrap;
+}
+
+.chart-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.workout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.chart-wrapper {
+    flex-basis: 300px;
+    margin: 10px;
+}
+
+.grid line {
+    /* stroke: gray; */
+    /* stroke-opacity: 0.7; */
+    /* shape-rendering: crispEdges; */
+    /* stroke-width: 1px; */
+}
+
+
+.tooltip {
+    position: absolute;
+    text-align: center;
+    width: auto;
+    height: auto;
+    padding: 10px 8px;
+    font: 12px Arial, sans-serif;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 6px;
+    pointer-events: none;
+    opacity: 0;
+    margin-top: -19px;
+    /* margin-right: 110px; */
+}
