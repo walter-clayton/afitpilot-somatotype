@@ -1,23 +1,31 @@
 import React, { useState } from "react";
 
 interface WorkoutFormProps {
-  onAddWorkout: (workout: Workout) => void;
+  onAddWorkout: (workout: Omit<Workout, "id">) => void;
+  showTable: boolean; // Prop to control the visibility of the WorkoutTable
 }
 
 interface Workout {
+  id: number;
+  date: string;
   prescribedLoad: number;
   intendedRPE: number;
   actualRPE: number;
 }
 
-const WorkoutForm: React.FC<WorkoutFormProps> = ({ onAddWorkout }) => {
+const WorkoutForm: React.FC<WorkoutFormProps> = ({
+  onAddWorkout,
+  showTable,
+}) => {
   const [prescribedLoad, setPrescribedLoad] = useState<number | "">("");
   const [intendedRPE, setIntendedRPE] = useState<number | "">("");
   const [actualRPE, setActualRPE] = useState<number | "">("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const workout: Workout = {
+    const currentDate = new Date().toLocaleDateString("en-GB");
+    const workout: Omit<Workout, "id"> = {
+      date: currentDate,
       prescribedLoad: Number(prescribedLoad),
       intendedRPE: Number(intendedRPE),
       actualRPE: Number(actualRPE),
@@ -75,7 +83,9 @@ const WorkoutForm: React.FC<WorkoutFormProps> = ({ onAddWorkout }) => {
         {renderRPEOptions()}
       </select>
 
-      <button type="submit">Add Workout</button>
+      <button className="submit" type="submit">
+        Add Workout
+      </button>
     </form>
   );
 };
