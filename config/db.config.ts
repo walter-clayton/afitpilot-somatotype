@@ -1,7 +1,5 @@
 import { IComparison } from "../interfaces/interfaces";
 const url = process.env.MONGODB_URI!;
-console.log(url);
-console.log("hi world");
 
 const dotenv = require("dotenv");
 dotenv.config();

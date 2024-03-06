@@ -3,7 +3,7 @@ import { CiEdit } from "react-icons/ci";
 import { MdCancel, MdDelete, MdOutlineSaveAlt } from "react-icons/md";
 
 interface Workout {
-  id: number;
+  _id: string; // Change type to string
   date: string;
   prescribedLoad: number;
   intendedRPE: number;
@@ -12,15 +12,21 @@ interface Workout {
 
 interface Props {
   workouts: Workout[];
-  onDelete: (id: number) => void;
+  onDelete: (id: string) => void; // Change type of id to string
   onEdit: (workout: Workout) => void;
 }
 
 const WorkoutTable: React.FC<Props> = ({ workouts, onDelete, onEdit }) => {
   const [editedWorkout, setEditedWorkout] = useState<Workout | null>(null);
 
-  const handleEdit = (workout: Workout) => {
-    setEditedWorkout(workout);
+  const handleEdit = (workoutId: string) => {
+    // Change type of workoutId to string
+    const selectedWorkout = workouts.find(
+      (workout) => workout._id === workoutId
+    );
+    if (selectedWorkout) {
+      setEditedWorkout(selectedWorkout);
+    }
   };
 
   const handleChange = (
@@ -57,10 +63,10 @@ const WorkoutTable: React.FC<Props> = ({ workouts, onDelete, onEdit }) => {
       </thead>
       <tbody>
         {workouts.map((workout) => (
-          <tr key={workout.id}>
+          <tr key={workout._id}>
             <td>{workout.date}</td>
             <td>
-              {editedWorkout && editedWorkout.id === workout.id ? (
+              {editedWorkout && editedWorkout._id === workout._id ? (
                 <input
                   type="number"
                   name="prescribedLoad"
@@ -72,7 +78,7 @@ const WorkoutTable: React.FC<Props> = ({ workouts, onDelete, onEdit }) => {
               )}
             </td>
             <td>
-              {editedWorkout && editedWorkout.id === workout.id ? (
+              {editedWorkout && editedWorkout._id === workout._id ? (
                 <select
                   name="intendedRPE"
                   value={editedWorkout.intendedRPE}
@@ -91,7 +97,7 @@ const WorkoutTable: React.FC<Props> = ({ workouts, onDelete, onEdit }) => {
               )}
             </td>
             <td>
-              {editedWorkout && editedWorkout.id === workout.id ? (
+              {editedWorkout && editedWorkout._id === workout._id ? (
                 <select
                   name="actualRPE"
                   value={editedWorkout.actualRPE}
@@ -121,7 +127,7 @@ const WorkoutTable: React.FC<Props> = ({ workouts, onDelete, onEdit }) => {
               )}
             </td>
             <td>
-              {editedWorkout && editedWorkout.id === workout.id ? (
+              {editedWorkout && editedWorkout._id === workout._id ? (
                 <>
                   <button className="icons" onClick={handleSave}>
                     <MdOutlineSaveAlt />
@@ -131,11 +137,14 @@ const WorkoutTable: React.FC<Props> = ({ workouts, onDelete, onEdit }) => {
                   </button>
                 </>
               ) : (
-                <button className="icons" onClick={() => handleEdit(workout)}>
+                <button
+                  className="icons"
+                  onClick={() => handleEdit(workout._id)}
+                >
                   <CiEdit />
                 </button>
               )}
-              <button className="icons" onClick={() => onDelete(workout.id)}>
+              <button className="icons" onClick={() => onDelete(workout._id)}>
                 <MdDelete />
               </button>
             </td>

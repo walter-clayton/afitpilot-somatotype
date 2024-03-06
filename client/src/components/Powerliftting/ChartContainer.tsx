@@ -80,18 +80,20 @@ function ChartsContainer({ workouts }: ChartsContainerProps): JSX.Element {
   }, [workouts]);
 
   useEffect(() => {
-    if (!chartsCreated) {
-      createCharts();
-      setChartsCreated(true);
-    } else {
-      destroyCharts();
-      createCharts();
-    }
+    createCharts();
+    setChartsCreated(true);
 
     return () => {
       destroyCharts();
     };
-  }, [workouts, chartsCreated, createCharts]);
+  }, []);
+
+  useEffect(() => {
+    if (chartsCreated) {
+      destroyCharts();
+      createCharts();
+    }
+  }, [workouts]);
 
   const destroyCharts = (): void => {
     if (rpeChartRef.current) {
@@ -219,12 +221,10 @@ function ChartsContainer({ workouts }: ChartsContainerProps): JSX.Element {
         });
     });
 
-    // Add box and text for intended description if provided
     if (intendedDescription) {
-      const intendedBoxX = width + margin.right / 2 - 300; // Center the box horizontally
+      const intendedBoxX = width + margin.right / 2 - 300;
       const intendedBoxY = -margin.top / 2;
 
-      // Add box next to the text description for intended scores
       svg
         .append("rect")
         .attr("x", intendedBoxX + 20 - 15)
@@ -236,17 +236,15 @@ function ChartsContainer({ workouts }: ChartsContainerProps): JSX.Element {
       svg
         .append("text")
         .attr("x", intendedBoxX + 20 + 5)
-        .attr("y", intendedBoxY + 15) // Position text vertically centered
+        .attr("y", intendedBoxY + 15)
         .text(intendedDescription)
         .style("font-size", "14px");
     }
 
-    // Add box and text for actual description if provided
     if (actualDescription) {
-      const actualBoxX = width + margin.right / 2 - 300; // Center the box horizontally
-      const actualBoxY = -margin.top / 3 - 30; // Offset the box vertically for actual scores
+      const actualBoxX = width + margin.right / 2 - 300;
+      const actualBoxY = -margin.top / 3 - 30;
 
-      // Add box next to the text description for actual scores
       svg
         .append("rect")
         .attr("x", actualBoxX + 20 - 15)
@@ -257,26 +255,12 @@ function ChartsContainer({ workouts }: ChartsContainerProps): JSX.Element {
 
       svg
         .append("text")
-        .attr("x", actualBoxX + 20 + 5) // Position text after the box
-        .attr("y", actualBoxY + 15) // position text vertically centered
+        .attr("x", actualBoxX + 20 + 5)
+        .attr("y", actualBoxY + 15)
         .text(actualDescription)
         .style("font-size", "14px");
     }
   };
-
-  useEffect(() => {
-    if (!chartsCreated) {
-      createCharts();
-      setChartsCreated(true);
-    } else {
-      destroyCharts();
-      createCharts();
-    }
-
-    return () => {
-      destroyCharts();
-    };
-  }, [workouts, chartsCreated, createCharts]);
 
   return (
     <div className="main">
