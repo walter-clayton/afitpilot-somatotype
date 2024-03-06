@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const routesUsers = require("./routes/users.routes");
 const routesAuth = require("./routes/auth.routes");
 const routesCompare = require("./routes/compare.routes");
+import workoutRoutes from "./routes/workout.routes";
 
 // Initialization
 const app: Express = express();
@@ -33,5 +34,6 @@ app.use(
 app.use("/users", routesUsers);
 app.use("/auth", routesAuth);
 app.use("/compare", routesCompare);
+app.use("/workouts", workoutRoutes);
 
 module.exports = app;
