@@ -32,6 +32,7 @@ import Optimisation from "./components/optimization/optimise/Optimisation";
 import axios from "axios";
 import ReactGA from "react-ga4";
 import { typeDescriptionDatas } from "./datas/TypeDescriptions";
+import Powerlifting from "./components/Powerliftting/Powerlifting";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -258,6 +259,7 @@ function App() {
             />
           }
         />
+        <Route path="Powerlifting" element={<Powerlifting />} />
         <Route path="/Blog" element={<BlogPage />} />
         <Route path="/Blog/:idBlog" element={<BlogArticlePage />} />
         <Route

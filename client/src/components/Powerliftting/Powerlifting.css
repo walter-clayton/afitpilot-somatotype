@@ -1,0 +1,115 @@
+.main {
+    display: flex;
+    justify-content: center;
+    white-space: wrap;
+    flex-wrap: wrap;
+}
+
+.chart-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.workout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.chart-wrapper {
+    flex-basis: 300px;
+    margin: 10px;
+}
+
+
+
+
+.tooltip {
+    position: absolute;
+    text-align: center;
+    width: auto;
+    height: auto;
+    padding: 10px 8px;
+    font: 12px Arial, sans-serif;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 6px;
+    pointer-events: none;
+    opacity: 0;
+    margin-top: -19px;
+    /* margin-right: 110px; */
+}
+
+
+/* Powerlifting.css */
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: black;
+    color: white;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Button Styling */
+.submit {
+    cursor: pointer;
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 10px;
+    background-color: #6c4d7b;
+    color: white;
+    transition: background-color 0.3s ease;
+    outline: none;
+}
+
+.submit:hover {
+    background-color: black;
+}
+
+/* Specific to delete button for a visual cue */
+.delete-btn {
+    background-color: #f44336;
+}
+
+.delete-btn:hover {
+    background-color: #d32f2f;
+}
+
+/* icons button */
+.icons {
+    font-size: 1.3rem;
+    font-weight: bold;
+    background-color: transparent;
+    color: black;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+.icons:hover {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
