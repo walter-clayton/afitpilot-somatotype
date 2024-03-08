@@ -34,6 +34,8 @@ import ReactGA from "react-ga4";
 import { typeDescriptionDatas } from "./datas/TypeDescriptions";
 import Powerlifting from "./components/Powerliftting/Powerlifting";
 
+import NavSignUp from "./components/authentification/NavSignUp";
+
 export interface ISomatotype {
   endomorphy?: number | undefined;
   mesomorphy?: number | undefined;
@@ -223,6 +225,7 @@ function App() {
             )
           }
         />
+
         <Route path="/Home" element={<Home />} />
         <Route path="/Forget" element={<Forget />} />
         <Route path="/Resetpass" element={<Resetpass />} />
@@ -259,7 +262,8 @@ function App() {
             />
           }
         />
-        <Route path="Powerlifting" element={<Powerlifting />} />
+        <Route path="/NavSignUp" element={<NavSignUp />} />
+        <Route path="/Powerlifting" element={<Powerlifting />} />
         <Route path="/Blog" element={<BlogPage />} />
         <Route path="/Blog/:idBlog" element={<BlogArticlePage />} />
         <Route
