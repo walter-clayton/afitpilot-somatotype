@@ -33,7 +33,6 @@ import axios from "axios";
 import ReactGA from "react-ga4";
 import { typeDescriptionDatas } from "./datas/TypeDescriptions";
 import Powerlifting from "./components/Powerliftting/Powerlifting";
-
 import NavSignUp from "./components/authentification/NavSignUp";
 
 export interface ISomatotype {
