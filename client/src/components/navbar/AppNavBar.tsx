@@ -420,7 +420,13 @@ const ResponsiveAppBar = (props: any) => {
                 <MenuItem sx={{ minHeight: "0" }}>
                   <Divider sx={dividerStyle} />
                 </MenuItem>
-                <MenuItem sx={{ justifyContent: "center" }}>
+                <MenuItem
+                  sx={{
+                    justifyContent: "center",
+                    flexDirection: "column",
+                    gap: "5px",
+                  }}
+                >
                   <Button
                     onClick={() => {
                       handleCloseNavMenu();
@@ -441,6 +447,27 @@ const ResponsiveAppBar = (props: any) => {
                     variant="contained"
                   >
                     Log in
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      handleCloseNavMenu();
+                      navigate("/NavSignUp");
+                      window.scrollTo(0, 0);
+                    }}
+                    sx={{
+                      color: "white",
+                      backgroundColor: "black",
+                      cursor: "pointer",
+                      "&:hover": { backgroundColor: "#262626" },
+                      fontSize: "16px",
+                      fontWeight: 600,
+                      textTransform: "initial",
+                      width: "160px",
+                      borderRadius: "40px",
+                    }}
+                    variant="contained"
+                  >
+                    Sign up
                   </Button>
                 </MenuItem>
               </Menu>
@@ -646,6 +673,26 @@ const ResponsiveAppBar = (props: any) => {
                       variant="text"
                     >
                       Log in
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        navigate("/NavSignUp");
+                        window.scrollTo(0, 0);
+                      }}
+                      sx={{
+                        color: "white",
+                        cursor: "pointer",
+                        fontSize: "16px",
+                        paddingY: 1,
+                        paddingX: 3,
+                        minWidth: xxs ? "50px" : "0px",
+                        "&:hover": { backgroundColor: "#ffffff1e" },
+                        textTransform: "initial",
+                        borderRadius: "40px",
+                      }}
+                      variant="text"
+                    >
+                      Sign up
                     </Button>
                   </Grid>
                 )}
