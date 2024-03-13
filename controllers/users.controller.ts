@@ -28,8 +28,9 @@ interface IUsersCtrl {
 
 const usersCtrl: IUsersCtrl = {};
 
+// Import necessary modules and types/interfaces as needed
 usersCtrl.register = async (req: Request, res: Response) => {
-  let { email, name, data } = req.body;
+  let { email, name, data, skipTest }: any = req.body;
 
   email = (email as string).toLowerCase();
 
@@ -37,113 +38,88 @@ usersCtrl.register = async (req: Request, res: Response) => {
     const newUser = await User({
       email: email,
       name,
-      gender: data.user.gender,
-      mainColor: data.user.mainColor,
+      gender: data && data.user ? data.user.gender : "female", // Default to 'unknown' if not provided
+      mainColor: data && data.user ? data.user.mainColor : 0, // Default to 0 if not provided
     });
 
-    // random password
     const generatedPass: string = await newUser.generatePassword();
-
-    // newUser.password = await newUser.encryptPassword(generatedPass);
     newUser.password = await newUser.encryptPassword(generatedPass);
 
-    if (data) {
-      if (data.somatotype && data.anthropometric) {
-        const { somatotype, anthropometric }: IData = data;
+    if (skipTest) {
+      newUser.skippedTest = true;
+    } else if (data && data.somatotype && data.anthropometric) {
+      const { somatotype, anthropometric } = data;
 
-        // create the somatotype
-        const endomorphy = Number(somatotype.endomorphy.toFixed(1));
-        const mesomorphy = Number(somatotype.mesomorphy.toFixed(1));
-        const ectomorphy = Number(somatotype.ectomorphy.toFixed(1));
-        const titleSomatotype = somatotype.titleSomatotype;
-        const codeSomatotype = somatotype.codeSomatotype;
+      const newSomatotype = await Somatotype({
+        endomorphy: somatotype.endomorphy,
+        mesomorphy: somatotype.mesomorphy,
+        ectomorphy: somatotype.ectomorphy,
+        titleSomatotype: somatotype.titleSomatotype,
+        codeSomatotype: somatotype.codeSomatotype,
+      });
 
-        const newSomatotype = await Somatotype({
-          endomorphy,
-          mesomorphy,
-          ectomorphy,
-          titleSomatotype,
-          codeSomatotype,
-        });
+      const newAnthropometric = await Anthropometric({
+        height: anthropometric.height,
+        weight: anthropometric.weight,
+        supraspinal_skinfold: anthropometric.supraspinal_skinfold,
+        subscapular_skinfold: anthropometric.subscapular_skinfold,
+        tricep_skinfold: anthropometric.tricep_skinfold,
+        femur_breadth: anthropometric.femur_breadth,
+        humerus_breadth: anthropometric.humerus_breadth,
+        calf_girth: anthropometric.calf_girth,
+        bicep_girth: anthropometric.bicep_girth,
+      });
 
-        // create the anthropometric
-        const height = anthropometric.height;
-        const weight = anthropometric.weight;
-        const supraspinal_skinfold = anthropometric.supraspinal_skinfold;
-        const subscapular_skinfold = anthropometric.subscapular_skinfold;
-        const tricep_skinfold = anthropometric.tricep_skinfold;
-        const femur_breadth = anthropometric.femur_breadth;
-        const humerus_breadth = anthropometric.humerus_breadth;
-        const calf_girth = anthropometric.calf_girth;
-        const bicep_girth = anthropometric.bicep_girth;
+      const avatar = { ...data.avatar };
+      const newAvatar = await Avatar({ ...avatar });
 
-        const newAnthropometric = await Anthropometric({
-          height,
-          weight,
-          supraspinal_skinfold,
-          subscapular_skinfold,
-          tricep_skinfold,
-          femur_breadth,
-          humerus_breadth,
-          calf_girth,
-          bicep_girth,
-        });
-
-        // create Avatar
-        const avatar = { ...data.avatar };
-
-        const newAvatar = await Avatar({ ...avatar });
-
-        while (newUser.avatars.includes(newAvatar._id)) {
-          newAvatar._id = new mongoose.Types.ObjectId();
-        }
-
-        // RelationShip
-        newUser.somatotypes.push(newSomatotype);
-        newUser.anthropometrics.push(newAnthropometric);
-        newUser.avatars.push(newAvatar);
-
-        newSomatotype.users.push(newUser);
-        newSomatotype.avatar = newAvatar;
-        newSomatotype.anthropometric = newAnthropometric;
-
-        newAnthropometric.users.push(newUser);
-        newAnthropometric.somatotype = newSomatotype;
-
-        newAvatar.user = newUser;
-        newAvatar.somatotype = newSomatotype;
-
-        await sendEmailPassword(email, name, generatedPass, data);
-        await newSomatotype.save();
-        await newAnthropometric.save();
-        await newAvatar.save();
-        await newUser.save();
-      } else {
-        return res.status(403).send({
-          message: "data.somatotype and data.anthropometric are required",
-        });
+      while (newUser.avatars.includes(newAvatar._id)) {
+        newAvatar._id = new mongoose.Types.ObjectId();
       }
 
-      const accessToken: string = await newUser.generateAuthToken();
+      newUser.somatotypes.push(newSomatotype);
+      newUser.anthropometrics.push(newAnthropometric);
+      newUser.avatars.push(newAvatar);
 
-      res.status(202).send({
-        message: `User registered successfully, check your email to get your generated password`,
-        dataSaved: data ? true : false,
-        user: {
-          token: accessToken,
-          email: newUser.email,
-          name: newUser.name,
-          gender: newUser.gender,
-          mainColor: newUser.mainColor,
-        },
-      });
+      newSomatotype.users.push(newUser);
+      newSomatotype.avatar = newAvatar;
+      newSomatotype.anthropometric = newAnthropometric;
+
+      newAnthropometric.users.push(newUser);
+      newAnthropometric.somatotype = newSomatotype;
+
+      newAvatar.user = newUser;
+      newAvatar.somatotype = newSomatotype;
+
+      await sendEmailPassword(email, name, generatedPass, data);
+      await newSomatotype.save();
+      await newAnthropometric.save();
+      await newAvatar.save();
     } else {
-      res.status(403).send({ message: "Data is required" });
+      return res.status(403).send({
+        message: "Data, including somatotype and anthropometric, are required",
+      });
     }
+
+    await newUser.save();
+
+    const accessToken: string = await newUser.generateAuthToken();
+
+    res.status(202).send({
+      message: `User registered successfully, check your email to get your generated password`,
+      dataSaved: data ? true : false,
+      user: {
+        token: accessToken,
+        email: newUser.email,
+        name: newUser.name,
+        gender: newUser.gender,
+        mainColor: newUser.mainColor,
+      },
+    });
   } catch (error: unknown) {
-    console.log((error as ErrorEvent).message);
+    console.log((error as Error).message);
     res.status(500).send({
-      message: "Error server",
+      message: "Internal server error",
     });
   }
 };

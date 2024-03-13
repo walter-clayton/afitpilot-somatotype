@@ -10,8 +10,6 @@ import {
   Container,
   CircularProgress,
   InputLabel,
-  Checkbox,
-  FormControlLabel,
   useMediaQuery,
 } from "@mui/material/";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -37,7 +35,6 @@ const Signup: FC<ISignUp> = (props) => {
   const [nameIsIncorrect, setNameIsIncorrect] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [fetching, setFetching] = React.useState<boolean>(false);
-  const [skipTest, setSkipTest] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["user", "data"]);
 
   const xxs = useMediaQuery("(max-width:450px)");
@@ -60,7 +57,6 @@ const Signup: FC<ISignUp> = (props) => {
 
   const isNameValid = (name: string): boolean => {
     const isValid: boolean = name !== "" && /^[a-z\s]*$/.test(name);
-
     return isValid;
   };
 
@@ -69,7 +65,7 @@ const Signup: FC<ISignUp> = (props) => {
       setFetching(true);
       const headers = {
         "Content-Type": "application/json",
-        access_key: process.env.REACT_APP_ACCESS_KEY,
+         access_key: process.env.REACT_APP_ACCESS_KEY,
       };
       const response = await axios.post(
         process.env.REACT_APP_REGISTER_URL!,
@@ -77,7 +73,7 @@ const Signup: FC<ISignUp> = (props) => {
           email: data.get("email"),
           name: name,
           data: props.data,
-          skipTest: skipTest,
+          skipTest: false, // Adjust this as needed based on your backend logic
         },
         { headers: headers }
       );
@@ -137,23 +133,19 @@ const Signup: FC<ISignUp> = (props) => {
     setHasChanges(true);
   };
 
-  const handleChangeSkipTest = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSkipTest(event.target.checked);
-  };
-
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    // Check if the user has already taken the test or if the test is skipped
-    if (props.data || skipTest) {
+    if (props.data && isEmailValid(data.get("email")) && isNameValid(name)) {
       setOpen(false);
       addUser(data);
     } else {
-      // Display a Snackbar message prompting the user to take the test
-      setSnackbarMessage(
-        "You must submit results to sign up. Take the test here!"
-      );
+      if (!isEmailValid(data.get("email"))) {
+        setSnackbarMessage("Email is incorrect");
+      } else if (!isNameValid(name)) {
+        setSnackbarMessage("Name is incorrect");
+      }
     }
   };
 
@@ -188,11 +180,12 @@ const Signup: FC<ISignUp> = (props) => {
           <Alert severity="error" sx={{ margin: "20px 0" }}>
             You must sign up to save your results.
           </Alert>
-        ) : skipTest ? null : (
+        ) : (
           <Alert severity="error" sx={{ margin: "20px 0" }}>
             You must submit results to sign up.
             <br />
-            Take the test{" "}
+            Take the test
+            <span> </span>
             <Link
               onClick={() => {
                 navigate("/Test");
@@ -200,16 +193,9 @@ const Signup: FC<ISignUp> = (props) => {
             >
               here
             </Link>
-            <br />
-            <FormControlLabel
-              control={
-                <Checkbox checked={skipTest} onChange={handleChangeSkipTest} />
-              }
-              label="Skip the test"
-            />
+            <span> !</span>
           </Alert>
         )}
-
         <Box
           component="form"
           onSubmit={handleSubmit}
@@ -339,7 +325,7 @@ const Signup: FC<ISignUp> = (props) => {
                   emailIsIncorrect ||
                   name === "" ||
                   email === "" ||
-                  (!props.data && !skipTest) // Enable the button if no test data and skipTest is checked
+                  !props.data
                 }
               >
                 {fetching ? <CircularProgress size={25} /> : "SIGN UP"}

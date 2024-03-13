@@ -7,13 +7,14 @@ const userSchema: Schema = new Schema<IUser>({
   email: { type: String, required: true },
   name: { type: String, required: true },
   password: { type: String, required: true },
-  gender: { type: String, required: true },
-  mainColor: { type: Number, required: true },
+  gender: { type: String },
+  mainColor: { type: Number },
   somatotypes: [{ type: Schema.Types.ObjectId, ref: "Somatotype" }],
   anthropometrics: [{ type: Schema.Types.ObjectId, ref: "Anthropometric" }],
   avatars: [{ type: Schema.Types.ObjectId, ref: "Avatar" }],
   createdAt: { type: String, default: new Date().toLocaleString() },
   updatedAt: { type: String, default: new Date().toLocaleString() },
+  skippedTest: { type: Boolean, default: false }, // New field to indicate whether the user has skipped the test
 });
 
 userSchema.methods.generateAuthToken = function (): string {

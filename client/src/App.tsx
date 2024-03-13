@@ -90,6 +90,7 @@ function App() {
   const [snackbarMessage, setSnackbarMessage] = useState<string>("");
 
   const [data, setData] = useState<IData | undefined>(undefined);
+  console.log(" data from props", data);
 
   const [isAdding, setIsAdding] = useState<boolean>(true);
   const [idRow, setIdRow] = useState<number>();
@@ -261,7 +262,6 @@ function App() {
             />
           }
         />
-        <Route path="/NavSignUp" element={<NavSignUp />} />
         <Route path="/Powerlifting" element={<Powerlifting />} />
         <Route path="/Blog" element={<BlogPage />} />
         <Route path="/Blog/:idBlog" element={<BlogArticlePage />} />
