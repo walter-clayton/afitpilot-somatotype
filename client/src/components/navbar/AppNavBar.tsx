@@ -451,7 +451,7 @@ const ResponsiveAppBar = (props: any) => {
                   <Button
                     onClick={() => {
                       handleCloseNavMenu();
-                      navigate("/Signup");
+                      navigate("/NavSignup");
                       window.scrollTo(0, 0);
                     }}
                     sx={{
@@ -676,7 +676,7 @@ const ResponsiveAppBar = (props: any) => {
                     </Button>
                     <Button
                       onClick={() => {
-                        navigate("/Signup");
+                        navigate("/NavSignup");
                         window.scrollTo(0, 0);
                       }}
                       sx={{

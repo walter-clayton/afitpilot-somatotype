@@ -13,10 +13,10 @@ import {
   Checkbox,
   FormControlLabel,
   useMediaQuery,
-  Radio,
-  RadioGroup,
   FormControl,
-  FormLabel,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
 } from "@mui/material/";
 import CssBaseline from "@mui/material/CssBaseline";
 import Snackbar from "@mui/material/Snackbar";
@@ -33,7 +33,7 @@ interface ISignUp {
   setResultsSaved?: (bool: boolean) => void;
 }
 
-const Signup: FC<ISignUp> = (props) => {
+const NavSignup: FC<ISignUp> = (props) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -41,7 +41,7 @@ const Signup: FC<ISignUp> = (props) => {
   const [nameIsIncorrect, setNameIsIncorrect] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [fetching, setFetching] = React.useState<boolean>(false);
-  const [skipTest, setSkipTest] = useState(false);
+  const [skipTest, setSkipTest] = useState(true);
   const [gender, setGender] = useState(""); // State to hold selected gender
   const [cookies, setCookie, removeCookie] = useCookies(["user", "data"]);
 
@@ -97,8 +97,8 @@ const Signup: FC<ISignUp> = (props) => {
     setSkipTest(event.target.checked);
   };
 
-  const handleChangeGender = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setGender(event.target.value);
+  const handleChangeGender = (event: SelectChangeEvent<string>) => {
+    setGender(event.target.value as string);
   };
 
   const handleSubmit = (event: any) => {
@@ -161,10 +161,10 @@ const Signup: FC<ISignUp> = (props) => {
       );
       props.setOpen?.(true);
       props.setSnackbarMessage?.(response.data.message);
-      props.setResultsSaved?.(response.data.dataSaved);
+      // props.setResultsSaved?.(response.data.dataSaved);
       props.setData?.(undefined);
       setFetching(false);
-      navigate("/");
+      navigate("/Powerlifting");
       window.scrollTo(0, 0);
     } catch (error: any) {
       setOpen(true);
@@ -207,13 +207,23 @@ const Signup: FC<ISignUp> = (props) => {
               onClick={() => {
                 navigate("/Test");
               }}
+              style={{ cursor: "pointer" }}
             >
               here
             </Link>
             <br />
             <FormControlLabel
               control={
-                <Checkbox checked={skipTest} onChange={handleChangeSkipTest} />
+                <Checkbox
+                  checked={skipTest}
+                  onChange={handleChangeSkipTest}
+                  sx={{
+                    "& .MuiSvgIcon-root": {
+                      fontSize: "18px",
+                    },
+                  }}
+                  style={{ fontSize: "10px" }}
+                />
               }
               label="Skip the test"
             />
@@ -282,26 +292,17 @@ const Signup: FC<ISignUp> = (props) => {
             </Typography>
           ) : null}
           {skipTest && (
-            <FormControl component="fieldset">
-              <FormLabel component="legend">Gender</FormLabel>
-              <RadioGroup
-                aria-label="gender"
-                name="gender"
+            <FormControl fullWidth>
+              <InputLabel id="gender-label">Gender</InputLabel>
+              <Select
+                labelId="gender-label"
+                id="gender"
                 value={gender}
                 onChange={handleChangeGender}
-                style={{ display: "flex" }}
               >
-                <FormControlLabel
-                  value="male"
-                  control={<Radio />}
-                  label="Male"
-                />
-                <FormControlLabel
-                  value="female"
-                  control={<Radio />}
-                  label="Female"
-                />
-              </RadioGroup>
+                <MenuItem value="male">Male</MenuItem>
+                <MenuItem value="female">Female</MenuItem>
+              </Select>
             </FormControl>
           )}
 
@@ -405,4 +406,4 @@ const Signup: FC<ISignUp> = (props) => {
   );
 };
 
-export default Signup;
+export default NavSignup;

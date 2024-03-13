@@ -15,6 +15,10 @@ const Footer = () => {
     bgcolor: "background.paper",
   };
 
+  const getCurrentYear = () => {
+    return new Date().getFullYear();
+  };
+
   const navigate = useNavigate();
   return (
     <div>
@@ -32,7 +36,7 @@ const Footer = () => {
         >
           <Divider sx={style} />
           <Typography variant="body1" mt={3} color={"#abafb8"}>
-            © 2023 Afitpilot, All Rights Reserved.
+            ©{getCurrentYear()} Afitpilot, All Rights Reserved.
           </Typography>
           <Box sx={{ mt: 1 }}>
             <Stack
