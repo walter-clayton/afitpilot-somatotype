@@ -198,29 +198,6 @@ const Signup: FC<ISignUp> = (props) => {
           <Alert severity="error" sx={{ margin: "20px 0" }}>
             You must sign up to save your results.
           </Alert>
-        ) : skipTest ? (
-          <Box>
-            <FormControl component="fieldset">
-              <FormLabel component="legend">Gender</FormLabel>
-              <RadioGroup
-                aria-label="gender"
-                name="gender"
-                value={gender}
-                onChange={handleChangeGender}
-              >
-                <FormControlLabel
-                  value="male"
-                  control={<Radio />}
-                  label="Male"
-                />
-                <FormControlLabel
-                  value="female"
-                  control={<Radio />}
-                  label="Female"
-                />
-              </RadioGroup>
-            </FormControl>
-          </Box>
         ) : (
           <Alert severity="error" sx={{ margin: "20px 0" }}>
             You must submit results to sign up.
@@ -234,6 +211,13 @@ const Signup: FC<ISignUp> = (props) => {
               here
             </Link>
             !
+            <br />
+            <FormControlLabel
+              control={
+                <Checkbox checked={skipTest} onChange={handleChangeSkipTest} />
+              }
+              label="Skip the test"
+            />
           </Alert>
         )}
 
@@ -298,12 +282,30 @@ const Signup: FC<ISignUp> = (props) => {
               • Please enter a valid name (just letters) !
             </Typography>
           ) : null}
-          <FormControlLabel
-            control={
-              <Checkbox checked={skipTest} onChange={handleChangeSkipTest} />
-            }
-            label="Skip the test"
-          />
+          {skipTest ? (
+            <Box sx={{ display: "flex", flexDirection: "row" }}>
+              <FormControl component="fieldset">
+                <FormLabel component="legend">Gender</FormLabel>
+                <RadioGroup
+                  aria-label="gender"
+                  name="gender"
+                  value={gender}
+                  onChange={handleChangeGender}
+                >
+                  <FormControlLabel
+                    value="male"
+                    control={<Radio />}
+                    label="Male"
+                  />
+                  <FormControlLabel
+                    value="female"
+                    control={<Radio />}
+                    label="Female"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Box>
+          ) : null}
           <Grid
             container
             display={"flex"}

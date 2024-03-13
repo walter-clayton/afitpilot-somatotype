@@ -90,7 +90,6 @@ function App() {
   const [snackbarMessage, setSnackbarMessage] = useState<string>("");
 
   const [data, setData] = useState<IData | undefined>(undefined);
-  console.log(" data from props", data);
 
   const [isAdding, setIsAdding] = useState<boolean>(true);
   const [idRow, setIdRow] = useState<number>();

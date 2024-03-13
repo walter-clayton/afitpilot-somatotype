@@ -7,6 +7,7 @@ const Somatotype = require("../models/Somatotype");
 const Anthropometric = require("../models/Anthropometric");
 const { sendEmailPassword, sendEmailResetPassword } = require("../mail/mailer");
 import mongoose, { Schema, model } from "mongoose";
+import sendSkippedTestEmail from "../mail/sendSkippedTestEmail";
 
 interface IUsersCtrl {
   register?: (req: Request, res: Response) => void;
@@ -47,7 +48,7 @@ usersCtrl.register = async (req: Request, res: Response) => {
     if (skipTest) {
       newUser.skippedTest = true;
       // Send email verification when user skips the test
-      // await sendEmailPassword(email, name, generatedPass, data == null);
+      await sendSkippedTestEmail(email, name, generatedPass);
     } else if (data && data.somatotype && data.anthropometric) {
       const { somatotype, anthropometric } = data;
 
