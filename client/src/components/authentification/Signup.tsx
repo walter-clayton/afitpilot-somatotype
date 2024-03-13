@@ -13,6 +13,10 @@ import {
   Checkbox,
   FormControlLabel,
   useMediaQuery,
+  Radio,
+  RadioGroup,
+  FormControl,
+  FormLabel,
 } from "@mui/material/";
 import CssBaseline from "@mui/material/CssBaseline";
 import Snackbar from "@mui/material/Snackbar";
@@ -38,6 +42,7 @@ const Signup: FC<ISignUp> = (props) => {
   const [hasChanges, setHasChanges] = useState(false);
   const [fetching, setFetching] = React.useState<boolean>(false);
   const [skipTest, setSkipTest] = useState(false);
+  const [gender, setGender] = useState(""); // State to hold selected gender
   const [cookies, setCookie, removeCookie] = useCookies(["user", "data"]);
 
   const xxs = useMediaQuery("(max-width:450px)");
@@ -64,6 +69,67 @@ const Signup: FC<ISignUp> = (props) => {
     return isValid;
   };
 
+  const handleChangeEmail = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setEmail(String(event.currentTarget.value).toLowerCase());
+    if (!isEmailValid(event.currentTarget.value)) {
+      setEmailIsIncorrect(true);
+    } else {
+      setEmailIsIncorrect(false);
+    }
+    setHasChanges(true);
+  };
+
+  const handleChangeName = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setName(String(event.currentTarget.value).toLowerCase());
+    if (!isNameValid(event.currentTarget.value.toLowerCase())) {
+      setNameIsIncorrect(true);
+    } else {
+      setNameIsIncorrect(false);
+    }
+    setHasChanges(true);
+  };
+
+  const handleChangeSkipTest = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSkipTest(event.target.checked);
+  };
+
+  const handleChangeGender = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setGender(event.target.value);
+  };
+
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+
+    // Check if the user has already taken the test or if the test is skipped
+    if (props.data || skipTest) {
+      setOpen(false);
+      addUser(data);
+    } else {
+      // Display a Snackbar message prompting the user to take the test
+      setSnackbarMessage(
+        "You must submit results to sign up. Take the test here!"
+      );
+    }
+  };
+
+  const [open, setOpen] = React.useState(false);
+  const [snackbarMessage, setSnackbarMessage] = React.useState("");
+  const handleClose = (event: any, reason: any) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
   const addUser = async (data: FormData) => {
     try {
       setFetching(true);
@@ -75,7 +141,8 @@ const Signup: FC<ISignUp> = (props) => {
         process.env.REACT_APP_REGISTER_URL!,
         {
           email: data.get("email"),
-          name: name,
+          name,
+          gender, // Include gender in the request payload
           data: props.data,
           skipTest: skipTest,
         },
@@ -113,63 +180,6 @@ const Signup: FC<ISignUp> = (props) => {
     }
   };
 
-  const handleChangeEmail = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setEmail(String(event.currentTarget.value).toLowerCase());
-    if (!isEmailValid(event.currentTarget.value)) {
-      setEmailIsIncorrect(true);
-    } else {
-      setEmailIsIncorrect(false);
-    }
-    setHasChanges(true);
-  };
-
-  const handleChangeName = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setName(String(event.currentTarget.value).toLowerCase());
-    if (!isNameValid(event.currentTarget.value.toLowerCase())) {
-      setNameIsIncorrect(true);
-    } else {
-      setNameIsIncorrect(false);
-    }
-    setHasChanges(true);
-  };
-
-  const handleChangeSkipTest = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSkipTest(event.target.checked);
-  };
-
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-
-    // Check if the user has already taken the test or if the test is skipped
-    if (props.data || skipTest) {
-      setOpen(false);
-      addUser(data);
-    } else {
-      // Display a Snackbar message prompting the user to take the test
-      setSnackbarMessage(
-        "You must submit results to sign up. Take the test here!"
-      );
-    }
-  };
-
-  const [open, setOpen] = React.useState(false);
-  const [snackbarMessage, setSnackbarMessage] = React.useState("");
-  const handleClose = (event: any, reason: any) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpen(false);
-  };
-
-  const handleClick = () => {
-    setOpen(true);
-  };
-
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -188,7 +198,30 @@ const Signup: FC<ISignUp> = (props) => {
           <Alert severity="error" sx={{ margin: "20px 0" }}>
             You must sign up to save your results.
           </Alert>
-        ) : skipTest ? null : (
+        ) : skipTest ? (
+          <Box>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Gender</FormLabel>
+              <RadioGroup
+                aria-label="gender"
+                name="gender"
+                value={gender}
+                onChange={handleChangeGender}
+              >
+                <FormControlLabel
+                  value="male"
+                  control={<Radio />}
+                  label="Male"
+                />
+                <FormControlLabel
+                  value="female"
+                  control={<Radio />}
+                  label="Female"
+                />
+              </RadioGroup>
+            </FormControl>
+          </Box>
+        ) : (
           <Alert severity="error" sx={{ margin: "20px 0" }}>
             You must submit results to sign up.
             <br />
@@ -200,13 +233,7 @@ const Signup: FC<ISignUp> = (props) => {
             >
               here
             </Link>
-            <br />
-            <FormControlLabel
-              control={
-                <Checkbox checked={skipTest} onChange={handleChangeSkipTest} />
-              }
-              label="Skip the test"
-            />
+            !
           </Alert>
         )}
 
@@ -271,6 +298,12 @@ const Signup: FC<ISignUp> = (props) => {
               • Please enter a valid name (just letters) !
             </Typography>
           ) : null}
+          <FormControlLabel
+            control={
+              <Checkbox checked={skipTest} onChange={handleChangeSkipTest} />
+            }
+            label="Skip the test"
+          />
           <Grid
             container
             display={"flex"}

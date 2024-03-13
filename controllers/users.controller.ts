@@ -28,9 +28,8 @@ interface IUsersCtrl {
 
 const usersCtrl: IUsersCtrl = {};
 
-// Import necessary modules and types/interfaces as needed
 usersCtrl.register = async (req: Request, res: Response) => {
-  let { email, name, data, skipTest }: any = req.body;
+  let { email, name, data, skipTest, gender }: any = req.body;
 
   email = (email as string).toLowerCase();
 
@@ -38,7 +37,7 @@ usersCtrl.register = async (req: Request, res: Response) => {
     const newUser = await User({
       email: email,
       name,
-      gender: data && data.user ? data.user.gender : "female", // Default to 'unknown' if not provided
+      gender: skipTest ? gender : "unknown", // Default to 'unknown' if not provided
       mainColor: data && data.user ? data.user.mainColor : 0, // Default to 0 if not provided
     });
 
@@ -47,6 +46,8 @@ usersCtrl.register = async (req: Request, res: Response) => {
 
     if (skipTest) {
       newUser.skippedTest = true;
+      // Send email verification when user skips the test
+      // await sendEmailPassword(email, name, generatedPass, data == null);
     } else if (data && data.somatotype && data.anthropometric) {
       const { somatotype, anthropometric } = data;
 
