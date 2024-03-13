@@ -13,10 +13,10 @@ import {
   Checkbox,
   FormControlLabel,
   useMediaQuery,
-  Radio,
-  RadioGroup,
   FormControl,
-  FormLabel,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
 } from "@mui/material/";
 import CssBaseline from "@mui/material/CssBaseline";
 import Snackbar from "@mui/material/Snackbar";
@@ -97,8 +97,8 @@ const Signup: FC<ISignUp> = (props) => {
     setSkipTest(event.target.checked);
   };
 
-  const handleChangeGender = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setGender(event.target.value);
+  const handleChangeGender = (event: SelectChangeEvent<string>) => {
+    setGender(event.target.value as string);
   };
 
   const handleSubmit = (event: any) => {
@@ -198,7 +198,7 @@ const Signup: FC<ISignUp> = (props) => {
           <Alert severity="error" sx={{ margin: "20px 0" }}>
             You must sign up to save your results.
           </Alert>
-        ) : (
+        ) : skipTest ? null : (
           <Alert severity="error" sx={{ margin: "20px 0" }}>
             You must submit results to sign up.
             <br />
@@ -207,14 +207,23 @@ const Signup: FC<ISignUp> = (props) => {
               onClick={() => {
                 navigate("/Test");
               }}
+              style={{ cursor: "pointer" }}
             >
               here
             </Link>
-            !
             <br />
             <FormControlLabel
               control={
-                <Checkbox checked={skipTest} onChange={handleChangeSkipTest} />
+                <Checkbox
+                  checked={skipTest}
+                  onChange={handleChangeSkipTest}
+                  sx={{
+                    "& .MuiSvgIcon-root": {
+                      fontSize: "18px",
+                    },
+                  }}
+                  style={{ fontSize: "10px" }}
+                />
               }
               label="Skip the test"
             />
@@ -282,30 +291,21 @@ const Signup: FC<ISignUp> = (props) => {
               • Please enter a valid name (just letters) !
             </Typography>
           ) : null}
-          {skipTest ? (
-            <Box sx={{ display: "flex", flexDirection: "row" }}>
-              <FormControl component="fieldset">
-                <FormLabel component="legend">Gender</FormLabel>
-                <RadioGroup
-                  aria-label="gender"
-                  name="gender"
-                  value={gender}
-                  onChange={handleChangeGender}
-                >
-                  <FormControlLabel
-                    value="male"
-                    control={<Radio />}
-                    label="Male"
-                  />
-                  <FormControlLabel
-                    value="female"
-                    control={<Radio />}
-                    label="Female"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </Box>
-          ) : null}
+          {skipTest && (
+            <FormControl fullWidth>
+              <InputLabel id="gender-label">Gender</InputLabel>
+              <Select
+                labelId="gender-label"
+                id="gender"
+                value={gender}
+                onChange={handleChangeGender}
+              >
+                <MenuItem value="male">Male</MenuItem>
+                <MenuItem value="female">Female</MenuItem>
+              </Select>
+            </FormControl>
+          )}
+
           <Grid
             container
             display={"flex"}
