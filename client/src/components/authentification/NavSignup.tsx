@@ -33,7 +33,7 @@ interface ISignUp {
   setResultsSaved?: (bool: boolean) => void;
 }
 
-const Signup: FC<ISignUp> = (props) => {
+const NavSignup: FC<ISignUp> = (props) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -41,7 +41,7 @@ const Signup: FC<ISignUp> = (props) => {
   const [nameIsIncorrect, setNameIsIncorrect] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [fetching, setFetching] = React.useState<boolean>(false);
-  const [skipTest, setSkipTest] = useState(false);
+  const [skipTest, setSkipTest] = useState(true);
   const [gender, setGender] = useState(""); // State to hold selected gender
   const [cookies, setCookie, removeCookie] = useCookies(["user", "data"]);
 
@@ -161,10 +161,10 @@ const Signup: FC<ISignUp> = (props) => {
       );
       props.setOpen?.(true);
       props.setSnackbarMessage?.(response.data.message);
-      props.setResultsSaved?.(response.data.dataSaved);
+      // props.setResultsSaved?.(response.data.dataSaved);
       props.setData?.(undefined);
       setFetching(false);
-      navigate("/");
+      navigate("/Powerlifting");
       window.scrollTo(0, 0);
     } catch (error: any) {
       setOpen(true);
@@ -406,4 +406,4 @@ const Signup: FC<ISignUp> = (props) => {
   );
 };
 
-export default Signup;
+export default NavSignup;

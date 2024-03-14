@@ -18,6 +18,7 @@ export interface IUser {
   somatotypes: IRelationShip[];
   anthropometrics: IAnthropometric[];
   avatars: IAvatar[];
+  skippedTest: Boolean;
   createdAt: String;
   updatedAt: String;
 }
