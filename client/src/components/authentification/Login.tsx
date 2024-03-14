@@ -195,17 +195,17 @@ export default function Login(props: any) {
             Login
           </Typography>
           <Typography variant="subtitle1">
-            Not a member yet? Create a free profile by taking our
+            Not a member yet?
             <Link
               onClick={() => {
-                navigate("/test");
+                navigate("/NavSignup");
                 window.scrollTo(0, 0);
               }}
               sx={{ textDecoration: "none", cursor: "pointer" }}
               variant="subtitle1"
             >
               {" "}
-              free personality test
+              Sign up here
             </Link>
             .
           </Typography>
