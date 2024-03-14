@@ -36,7 +36,7 @@ const Footer = () => {
         >
           <Divider sx={style} />
           <Typography variant="body1" mt={3} color={"#abafb8"}>
-            ©{getCurrentYear()} Afitpilot, All Rights Reserved.
+            © {getCurrentYear()} Afitpilot, All Rights Reserved.
           </Typography>
           <Box sx={{ mt: 1 }}>
             <Stack

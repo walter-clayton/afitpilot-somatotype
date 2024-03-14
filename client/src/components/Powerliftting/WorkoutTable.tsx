@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CiEdit } from "react-icons/ci";
+import { IoMdCreate as CiEdit } from "react-icons/io";
 import { MdCancel, MdDelete, MdOutlineSaveAlt } from "react-icons/md";
 
 interface Workout {
