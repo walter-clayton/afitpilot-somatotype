@@ -34,6 +34,7 @@ import ReactGA from "react-ga4";
 import { typeDescriptionDatas } from "./datas/TypeDescriptions";
 import Powerlifting from "./components/Powerliftting/Powerlifting";
 import NavSignup from "./components/authentification/NavSignup";
+import TrainingDiary from "./components/Powerliftting/TrainingDiary";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -276,6 +277,7 @@ function App() {
             ) : null
           }
         />
+        <Route path="/TrainingDiary" element={<TrainingDiary />} />
         <Route path="/Powerlifting" element={<Powerlifting />} />
         <Route path="/Blog" element={<BlogPage />} />
         <Route path="/Blog/:idBlog" element={<BlogArticlePage />} />
