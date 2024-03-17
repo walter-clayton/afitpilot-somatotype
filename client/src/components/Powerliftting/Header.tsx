@@ -1,125 +1,90 @@
-import React, { useState } from "react";
-import { Button, Container, Grid, Typography } from "@mui/material";
+import React from "react";
+import {
+  Button,
+  Container,
+  Grid,
+  Typography,
+  useMediaQuery,
+  createTheme,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ListAltIcon from "@mui/icons-material/ListAlt";
-import { useNavigate } from "react-router-dom";
-import RpeChart from "../../image/RPE-Chart.png";
-import ClearIcon from "@mui/icons-material/Clear";
 
-const Header = () => {
-  const navigate = useNavigate();
-  const [showImage, setShowImage] = useState(false);
-
+const Header: React.FC = () => {
   const handleViewImage = () => {
-    setShowImage(true);
+    console.log("handleViewImage");
   };
 
-  const handleCloseImage = () => {
-    setShowImage(false);
+  const handleAddNewExercise = () => {
+    console.log("toggleModal");
   };
 
-  const handleLinkClick = () => {
-    navigate("/");
-  };
+  const theme = createTheme({});
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Container
-      component="main"
-      maxWidth="xs"
+      component="header"
+      maxWidth={isSmallScreen ? "xs" : "lg"}
       sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        marginY: "60px",
-        width: "100vw",
-        backgroundColor: "",
+        my: 10,
+        width: "100%",
       }}
     >
-      <Typography
-        variant="h4"
-        alignItems="cenrer"
-        sx={{ fontWeight: "bold", mb: 2 }}
-      >
+      <Typography variant="h4" sx={{ fontWeight: "bold", mb: 2 }}>
         RPE Training Diary
       </Typography>
 
-      <Grid container spacing={2} direction="row" alignItems="center">
-        {showImage && (
-          <div
-            style={{
-              position: "relative",
-              maxWidth: "100%",
-              marginBottom: "10px",
-            }}
-          >
-            <img src={RpeChart} alt="RPE Chart" style={{ maxWidth: "100%" }} />
-            <ClearIcon
-              onClick={handleCloseImage}
-              sx={{
-                position: "absolute",
-                top: 0,
-                right: 0,
-                cursor: "pointer",
-                color: "#fff",
-                backgroundColor: "rgba(0, 0, 0, 0.5)",
-                borderRadius: "50%",
-                margin: "10px",
-              }}
-            />
-          </div>
-        )}
-        {!showImage && (
-          <Grid item sx={{ marginLeft: "40px" }}>
-            <Button
-              variant="contained"
-              startIcon={<ListAltIcon />}
-              sx={{
-                backgroundColor: "#B78260",
-                borderRadius: "20px",
-                textTransform: "capitalize",
-                width: "150px",
-                "&:hover": {
-                  backgroundColor: "#965046", // Optional: hover state
-                },
-              }}
-              onClick={handleViewImage}
-            >
-              RPE chart
-            </Button>
-          </Grid>
-        )}
-        {!showImage && (
-          <Grid item>
-            <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              sx={{
-                backgroundColor: "#6C4D7B",
-                borderRadius: "20px",
-                textTransform: "capitalize",
-                width: "150px",
-                "&:hover": {
-                  backgroundColor: "#554364", // Optional: hover state
-                },
-              }}
-              onClick={handleLinkClick}
-            >
-              New exercise
-            </Button>
-          </Grid>
-        )}
-      </Grid>
       <Grid
-        item
-        sx={{
-          backgroundColor: "lightgray",
-          width: "100vw",
-          height: "500px",
-          marginTop: "60px",
-        }}
+        container
+        spacing={2}
+        direction={isSmallScreen ? "column" : "row"}
+        alignItems="center"
+        justifyContent="center"
       >
-        hello
+        <Grid item>
+          <Button
+            variant="contained"
+            startIcon={<ListAltIcon />}
+            sx={{
+              bgcolor: "#B78260",
+              borderRadius: "20px",
+              textTransform: "capitalize",
+              width: isSmallScreen ? "100%" : "150px",
+              "&:hover": {
+                bgcolor: "#965046",
+              },
+            }}
+            onClick={handleViewImage}
+          >
+            RPE chart
+          </Button>
+        </Grid>
+
+        <Grid item>
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            sx={{
+              bgcolor: "#6C4D7B",
+              borderRadius: "20px",
+              textTransform: "capitalize",
+              width: isSmallScreen ? "100%" : "150px",
+              mt: isSmallScreen ? 2 : 0,
+              "&:hover": {
+                bgcolor: "#554364",
+              },
+            }}
+            onClick={handleAddNewExercise}
+          >
+            New exercise
+          </Button>
+        </Grid>
       </Grid>
     </Container>
   );
