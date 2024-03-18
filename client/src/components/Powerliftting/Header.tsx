@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Container,
@@ -6,21 +6,30 @@ import {
   Typography,
   useMediaQuery,
   createTheme,
+  Modal,
+  Box,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ListAltIcon from "@mui/icons-material/ListAlt";
+import RpeChart from "../../image/RPE-Chart.png";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const Header: React.FC = () => {
+  const [showImage, setShowImage] = useState<boolean>(false);
+
   const handleViewImage = () => {
-    console.log("handleViewImage");
+    setShowImage(true);
+  };
+
+  const handleCloseImage = () => {
+    setShowImage(false);
   };
 
   const handleAddNewExercise = () => {
-    console.log("toggleModal");
+    console.log("handleLinkClick");
   };
 
   const theme = createTheme({});
-
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
@@ -36,7 +45,11 @@ const Header: React.FC = () => {
         width: "100%",
       }}
     >
-      <Typography variant="h4" sx={{ fontWeight: "bold", mb: 2 }}>
+      <Typography
+        variant="h4"
+        alignItems="cenrer"
+        sx={{ fontWeight: "bold", mb: 2 }}
+      >
         RPE Training Diary
       </Typography>
 
@@ -47,45 +60,83 @@ const Header: React.FC = () => {
         alignItems="center"
         justifyContent="center"
       >
-        <Grid item>
-          <Button
-            variant="contained"
-            startIcon={<ListAltIcon />}
-            sx={{
-              bgcolor: "#B78260",
-              borderRadius: "20px",
-              textTransform: "capitalize",
-              width: isSmallScreen ? "100%" : "150px",
-              "&:hover": {
-                bgcolor: "#965046",
-              },
-            }}
-            onClick={handleViewImage}
-          >
-            RPE chart
-          </Button>
-        </Grid>
-
-        <Grid item>
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            sx={{
-              bgcolor: "#6C4D7B",
-              borderRadius: "20px",
-              textTransform: "capitalize",
-              width: isSmallScreen ? "100%" : "150px",
-              mt: isSmallScreen ? 2 : 0,
-              "&:hover": {
-                bgcolor: "#554364",
-              },
-            }}
-            onClick={handleAddNewExercise}
-          >
-            New exercise
-          </Button>
-        </Grid>
+        {!showImage && (
+          <Grid item>
+            <Button
+              variant="contained"
+              startIcon={<ListAltIcon />}
+              sx={{
+                bgcolor: "#B78260",
+                borderRadius: "20px",
+                textTransform: "capitalize",
+                width: isSmallScreen ? "100%" : "150px",
+                "&:hover": {
+                  bgcolor: "#965046",
+                },
+              }}
+              onClick={handleViewImage}
+            >
+              RPE chart
+            </Button>
+          </Grid>
+        )}
+        {!showImage && (
+          <Grid item>
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              sx={{
+                bgcolor: "#6C4D7B",
+                borderRadius: "20px",
+                textTransform: "capitalize",
+                width: isSmallScreen ? "100%" : "150px",
+                mt: isSmallScreen ? 2 : 0,
+                "&:hover": {
+                  bgcolor: "#554364",
+                },
+              }}
+              onClick={handleAddNewExercise}
+            >
+              New exercise
+            </Button>
+          </Grid>
+        )}
       </Grid>
+
+      <Modal
+        open={showImage}
+        onClose={handleCloseImage}
+        aria-labelledby="image-modal"
+        aria-describedby="image-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: isSmallScreen ? "90%" : "auto",
+            maxWidth: "90%",
+          }}
+        >
+          <img
+            src={RpeChart}
+            alt="RPE Chart"
+            style={{ width: "100%", height: "auto" }}
+          />
+          <ClearIcon
+            onClick={handleCloseImage}
+            sx={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              cursor: "pointer",
+              color: "#fff",
+              margin: "15px",
+            }}
+          />
+        </Box>
+      </Modal>
     </Container>
   );
 };
