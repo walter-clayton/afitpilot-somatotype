@@ -1,0 +1,98 @@
+/* .container {
+    /* max-width: 500px; */
+margin: auto;
+background-color: white;
+color: black;
+padding: 10px 40px;
+border-radius: 20px;
+font-family: 'Segoe UI',
+Tahoma,
+Geneva,
+Verdana,
+sans-serif;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+    font-weight: bolder;
+}
+
+
+label {
+    font-weight: bold;
+}
+
+.minSelect {
+    width: 20% !important;
+    display: block;
+}
+
+.text {
+    width: 100% !important;
+    display: block;
+    height: 200px;
+}
+
+textarea {
+    height: 50px !important;
+    /* Adjust the height as needed */
+    min-height: 50px !important;
+    /* Ensure a minimum height */
+}
+
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #080000;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    /* outline: none; */
+}
+
+select {
+    height: calc(2.25rem + 2px);
+}
+
+.option {
+    width: 50%;
+}
+
+
+button[type="submit"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-weight: bolder;
+    width: 60%;
+    padding: .80rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #fff;
+    background-color: #6C4D7B;
+    border: 1px solid #6C4D7B;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out;
+    background-color: 0.15s ease-in-out;
+    border-color: 0.15s ease-in-out;
+    box-shadow: 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    color: #fff;
+    background-color: #5c3e6a;
+    border-color: #6C4D7B;
+}
+
+*/
