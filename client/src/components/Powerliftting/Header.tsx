@@ -168,7 +168,7 @@ const Header: React.FC = () => {
               top: 0,
               right: 0,
               cursor: "pointer",
-              color: "#000",
+              color: "#fff",
               margin: "15px",
               zIndex: 99,
             }}

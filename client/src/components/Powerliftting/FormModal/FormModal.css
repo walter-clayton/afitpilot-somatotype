@@ -1,15 +1,15 @@
-/* .container {
+.container {
     /* max-width: 500px; */
-margin: auto;
-background-color: white;
-color: black;
-padding: 10px 40px;
-border-radius: 20px;
-font-family: 'Segoe UI',
-Tahoma,
-Geneva,
-Verdana,
-sans-serif;
+    margin: auto;
+    background-color: white;
+    color: black;
+    padding: 10px 40px;
+    border-radius: 20px;
+    font-family: 'Segoe UI',
+        Tahoma,
+        Geneva,
+        Verdana,
+        sans-serif;
 }
 
 .form-group {
@@ -94,5 +94,3 @@ button[type="submit"]:hover {
     background-color: #5c3e6a;
     border-color: #6C4D7B;
 }
-
-*/

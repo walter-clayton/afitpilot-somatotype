@@ -7,6 +7,7 @@ import {
   Typography,
   Container,
   Grid,
+  Box,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { SelectChangeEvent } from "@mui/material/Select";
@@ -82,53 +83,76 @@ const FormPage: React.FC = () => {
   };
 
   return (
-    <Container
-      maxWidth="xs"
-      sx={{
+    <div
+      style={{
         margin: "auto",
         backgroundColor: "white",
         color: "black",
         borderRadius: "20px",
+        maxWidth: "100%",
       }}
     >
       <Grid
         container
-        maxWidth="xs"
         sx={{
           bgcolor: "#5c3e6a",
+          borderTopLeftRadius: "20px",
+          borderTopRightRadius: "20px",
           color: "white",
-          borderRadius: "20px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "15px",
         }}
       >
-        <Typography variant="h6">Add Exercise</Typography>
+        <Typography>Add Exercise</Typography>
       </Grid>
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
+        <Grid
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            width: "100%",
+            padding: " 20px 60px",
+            gap: "15px",
+          }}
+        >
           <Grid item xs={12}>
-            <Typography>Name</Typography>
+            <Typography sx={{ fontWeight: "bold" }}>Name</Typography>
             <TextField
               variant="outlined"
               value={formState.exerciseName}
               onChange={(e) => handleChange(e, "exerciseName")}
               required
+              fullWidth
               placeholder="squat"
             />
           </Grid>
+
           <Grid item xs={12}>
-            <Typography>Unit Type</Typography>
+            <Typography sx={{ fontWeight: "bold" }}>Unit Type</Typography>
             <Select
               value={formState.unit}
               onChange={(e) => handleSelectChange(e, "unit")}
               displayEmpty
+              fullWidth
             >
-              <MenuItem disabled value="" style={{ fontWeight: "bold" }}>
+              <MenuItem
+                disabled
+                value=""
+                style={{ fontWeight: "bold", fontSize: ".80rem" }}
+              >
                 reps, kg, time, percentage
               </MenuItem>
               {units.map((unit) => (
                 <MenuItem
                   key={unit}
                   value={unit}
-                  style={{ fontWeight: "bold" }}
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: ".80rem",
+                  }}
                 >
                   {unit}
                 </MenuItem>
@@ -137,23 +161,29 @@ const FormPage: React.FC = () => {
           </Grid>
 
           <Grid item xs={12}>
-            <Typography>Intended Score</Typography>
+            <Typography sx={{ fontWeight: "bold" }}>Intended Score</Typography>
             <TextField
               type="number"
               variant="outlined"
               value={formState.intendedScore}
               onChange={(e) => handleChange(e, "intendedScore")}
-              placeholder="  140                         kg"
+              fullWidth
+              placeholder="140 kg"
             />
           </Grid>
 
           <Grid item xs={12}>
-            <Typography>Prescribed RPE</Typography>
+            <Typography sx={{ color: "#56A278", fontWeight: "bold" }}>
+              Prescribed RPE
+            </Typography>
             <Select
               label="Prescribed RPE"
               value={formState.prescribedRPE}
               onChange={(e) => handleSelectChange(e, "prescribedRPE")}
-              style={{ backgroundColor: "#56A278", color: "white" }}
+              style={{
+                backgroundColor: "#56A278",
+                color: "white",
+              }}
             >
               {Array.from({ length: 10 }, (_, i) => i + 1).map((rpe) => (
                 <MenuItem key={rpe} value={rpe}>
@@ -164,7 +194,9 @@ const FormPage: React.FC = () => {
           </Grid>
 
           <Grid item xs={12}>
-            <Typography>Actual RPE</Typography>
+            <Typography sx={{ color: "#9B361A", fontWeight: "bold" }}>
+              Actual RPE
+            </Typography>
             <Select
               label="Actual RPE"
               value={formState.actualRPE}
@@ -180,7 +212,7 @@ const FormPage: React.FC = () => {
           </Grid>
 
           <Grid item xs={12}>
-            <Typography>Date</Typography>
+            <Typography sx={{ fontWeight: "bold" }}>Date</Typography>
             <TextField
               type="date"
               variant="outlined"
@@ -188,15 +220,15 @@ const FormPage: React.FC = () => {
               onChange={(e) => handleChange(e, "date")}
             />
           </Grid>
-
           <Grid item xs={12}>
-            <Typography>Notes</Typography>
+            <Typography sx={{ fontWeight: "bold" }}>Notes</Typography>
             <TextField
               multiline
               rows={1}
               variant="outlined"
               value={formState.notes}
               onChange={(e) => handleChange(e, "notes")}
+              fullWidth
               placeholder="5 sets of 10"
             />
           </Grid>
@@ -207,7 +239,12 @@ const FormPage: React.FC = () => {
               variant="contained"
               sx={{
                 bgcolor: "#6C4D7B",
-                borderRadius: "5",
+                borderRadius: "5px",
+                display: "flex",
+                justifyContent: "flex-start",
+                width: "70%",
+                textTransform: "capitalize",
+
                 "&:hover": {
                   bgcolor: "#554364",
                 },
@@ -219,7 +256,7 @@ const FormPage: React.FC = () => {
           </Grid>
         </Grid>
       </form>
-    </Container>
+    </div>
   );
 };
 
