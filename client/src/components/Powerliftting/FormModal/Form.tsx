@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   TextField,
   Select,
@@ -18,11 +18,12 @@ const FormPage: React.FC = () => {
     intendedScore: 0,
     prescribedRPE: 1,
     actualRPE: 1,
-    date: new Date().toISOString().split("T")[0], // Getting date in YYYY-MM-DD format
+    date: new Date().toISOString().split("T")[0],
     notes: "",
   });
 
   const [errors, setErrors] = useState<Partial<ExerciseFormState>>({});
+  const formRef = useRef<HTMLDivElement>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -39,6 +40,27 @@ const FormPage: React.FC = () => {
       ...prevErrors,
       [name]: "",
     }));
+  };
+
+  const defaultIntendedScore: Record<string, number> = {
+    time: 0,
+    reps: 10,
+    calories: 0,
+    kilograms: 50,
+    kilometers: 5,
+    "kilometers per hour": 0,
+    meters: 100,
+    "meters per second": 0,
+    miles: 2,
+    "miles per hour": 0,
+    "minutes per kilometer": 0,
+    percent: 0,
+    points: 0,
+    rounds: 1,
+    RPM: 0,
+    score: 0,
+    steps: 1000,
+    watts: 0,
   };
 
   const handleSelectChange = (
@@ -59,9 +81,95 @@ const FormPage: React.FC = () => {
 
     // Adjust intended score based on unit selection
     if (name === "unit") {
+      let newIntendedScore = 0;
+      let helperText = "";
+
+      switch (value) {
+        case "time":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter time in minutes (e.g., 90 for 1 hour 30 minutes)";
+          break;
+        case "reps":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the number of repetitions";
+          break;
+        case "calories":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the number of calories burned";
+          break;
+        case "kilograms":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the weight in kilograms";
+          break;
+        case "kilometers":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the distance in kilometers";
+          break;
+        case "kilometers per hour":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the speed in kilometers per hour";
+          break;
+        case "meters":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the distance in meters";
+          break;
+        case "meters per second":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the speed in meters per second";
+          break;
+        case "miles":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the distance in miles";
+          break;
+        case "miles per hour":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the speed in miles per hour";
+          break;
+        case "minutes per kilometer":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the pace in minutes per kilometer";
+          break;
+        case "percent":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the percentage";
+          break;
+        case "points":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the points";
+          break;
+        case "rounds":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the number of rounds";
+          break;
+        case "RPM":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the RPM (Revolutions Per Minute)";
+          break;
+        case "score":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the score";
+          break;
+        case "steps":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the number of steps";
+          break;
+        case "watts":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the watts";
+          break;
+        default:
+          newIntendedScore = 0;
+          helperText = "";
+      }
+
+      // Set the intended score and helper text in form state
       setFormState((prev) => ({
         ...prev,
-        intendedScore: 0, // Adjust your logic here based on unit selection
+        intendedScore: newIntendedScore,
+      }));
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        intendedScore: helperText,
       }));
     }
   };
@@ -70,7 +178,9 @@ const FormPage: React.FC = () => {
     event.preventDefault();
     if (validateForm()) {
       console.log(formState);
-      // Handle form submission logic here
+
+      // Mock function to simulate sending data to the backend
+      sendDataToBackend(formState);
 
       // Reset formState to its initial state
       setFormState({
@@ -82,8 +192,14 @@ const FormPage: React.FC = () => {
         date: new Date().toISOString().split("T")[0],
         notes: "",
       });
+    } else {
+      // Scroll to the first error, ensure the current ref is not null
+      if (formRef.current) {
+        formRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     }
   };
+
   const validateForm = () => {
     let valid = true;
     const errors: { [key: string]: string } = {};
@@ -107,13 +223,22 @@ const FormPage: React.FC = () => {
     return valid;
   };
 
+  // function to demonstrate front-end to back-end integration
+  const sendDataToBackend = (data: ExerciseFormState) => {
+    console.log("Sending data to backend", data);
+    // Here  would typically use fetch or Axios to send data to  server
+  };
+
   return (
     <div
+      ref={formRef}
       style={{
         backgroundColor: "#fff",
         color: "#000",
         borderRadius: "20px",
+        width: "100%",
         maxWidth: "100%",
+        height: "auto",
         paddingBottom: "10px",
       }}
     >
@@ -138,8 +263,9 @@ const FormPage: React.FC = () => {
             display: "flex",
             justifyContent: "center",
             flexDirection: "column",
-            width: "100%",
-            padding: " 10px 60px",
+            width: "400px",
+            maxWidth: "100%",
+            padding: "10px 60px",
             gap: "15px",
           }}
         >
@@ -153,6 +279,7 @@ const FormPage: React.FC = () => {
               onChange={(e) => handleChange(e, "exerciseName")}
               fullWidth
               placeholder="squat"
+              size="small"
             />
           </Grid>
 
@@ -164,6 +291,7 @@ const FormPage: React.FC = () => {
               onChange={(e) => handleSelectChange(e, "unit")}
               displayEmpty
               fullWidth
+              size="small"
             >
               <MenuItem
                 disabled
@@ -209,6 +337,7 @@ const FormPage: React.FC = () => {
               onChange={(e) => handleChange(e, "intendedScore")}
               fullWidth
               placeholder="140 kg"
+              size="small"
             />
           </Grid>
 
@@ -263,6 +392,7 @@ const FormPage: React.FC = () => {
               variant="outlined"
               value={formState.date}
               onChange={(e) => handleChange(e, "date")}
+              size="small"
               sx={{
                 width: "64%",
 
@@ -290,6 +420,7 @@ const FormPage: React.FC = () => {
               onChange={(e) => handleChange(e, "notes")}
               fullWidth
               placeholder="5 sets of 10"
+              size="small"
             />
           </Grid>
 

@@ -1,11 +1,11 @@
 export interface ExerciseFormState {
-  exerciseName: string;
-  unit: string;
-  intendedScore: number;
-  prescribedRPE: number;
-  actualRPE: number;
-  date: string;
-  notes: string;
+  intendedScore: number | string;
+  exerciseName?: string;
+  unit?: string;
+  prescribedRPE?: number;
+  actualRPE?: number;
+  date?: string;
+  notes?: string;
 }
 
 export const units: string[] = [
