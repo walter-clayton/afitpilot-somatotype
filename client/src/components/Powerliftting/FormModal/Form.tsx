@@ -5,43 +5,11 @@ import {
   MenuItem,
   Button,
   Typography,
-  Container,
   Grid,
-  Box,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { SelectChangeEvent } from "@mui/material/Select";
-
-interface ExerciseFormState {
-  exerciseName: string;
-  unit: string;
-  intendedScore: number;
-  prescribedRPE: number;
-  actualRPE: number;
-  date: string; // Changed to string for HTML date input
-  notes: string;
-}
-
-const units: string[] = [
-  "calories",
-  "kilograms",
-  "kilometers",
-  "kilometers per hour",
-  "meters",
-  "meters per second",
-  "miles",
-  "miles per hour",
-  "minutes per kilometer",
-  "percent",
-  "points",
-  "reps",
-  "rounds",
-  "RPM",
-  "score",
-  "steps",
-  "time",
-  "watts",
-];
+import { ExerciseFormState, units } from "./UtilTypes";
 
 const FormPage: React.FC = () => {
   const [formState, setFormState] = useState<ExerciseFormState>({
@@ -54,6 +22,8 @@ const FormPage: React.FC = () => {
     notes: "",
   });
 
+  const [errors, setErrors] = useState<Partial<ExerciseFormState>>({});
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     name: string
@@ -62,6 +32,12 @@ const FormPage: React.FC = () => {
     setFormState((prev) => ({
       ...prev,
       [name]: value,
+    }));
+
+    // Clear errors for the field being changed
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
     }));
   };
 
@@ -74,22 +50,71 @@ const FormPage: React.FC = () => {
       ...prev,
       [name]: value,
     }));
+
+    // Clear errors for the field being changed
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
+
+    // Adjust intended score based on unit selection
+    if (name === "unit") {
+      setFormState((prev) => ({
+        ...prev,
+        intendedScore: 0, // Adjust your logic here based on unit selection
+      }));
+    }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(formState);
-    // Handle form submission logic here
+    if (validateForm()) {
+      console.log(formState);
+      // Handle form submission logic here
+
+      // Reset formState to its initial state
+      setFormState({
+        exerciseName: "",
+        unit: "",
+        intendedScore: 0,
+        prescribedRPE: 1,
+        actualRPE: 1,
+        date: new Date().toISOString().split("T")[0],
+        notes: "",
+      });
+    }
+  };
+  const validateForm = () => {
+    let valid = true;
+    const errors: { [key: string]: string } = {};
+
+    if (!formState.exerciseName) {
+      errors.exerciseName = " Exercise name is required";
+      valid = false;
+    }
+
+    if (!formState.unit) {
+      errors.unit = "Unit Type is required";
+      valid = false;
+    }
+
+    if (!formState.intendedScore) {
+      errors.intendedScore = "Intended Score is required";
+      valid = false;
+    }
+
+    setErrors(errors);
+    return valid;
   };
 
   return (
     <div
       style={{
-        margin: "auto",
-        backgroundColor: "white",
-        color: "black",
+        backgroundColor: "#fff",
+        color: "#000",
         borderRadius: "20px",
         maxWidth: "100%",
+        paddingBottom: "10px",
       }}
     >
       <Grid
@@ -102,7 +127,7 @@ const FormPage: React.FC = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          padding: "15px",
+          padding: "12px",
         }}
       >
         <Typography>Add Exercise</Typography>
@@ -114,17 +139,18 @@ const FormPage: React.FC = () => {
             justifyContent: "center",
             flexDirection: "column",
             width: "100%",
-            padding: " 20px 60px",
+            padding: " 10px 60px",
             gap: "15px",
           }}
         >
           <Grid item xs={12}>
             <Typography sx={{ fontWeight: "bold" }}>Name</Typography>
             <TextField
+              error={!!errors.exerciseName}
+              helperText={errors.exerciseName}
               variant="outlined"
               value={formState.exerciseName}
               onChange={(e) => handleChange(e, "exerciseName")}
-              required
               fullWidth
               placeholder="squat"
             />
@@ -133,6 +159,7 @@ const FormPage: React.FC = () => {
           <Grid item xs={12}>
             <Typography sx={{ fontWeight: "bold" }}>Unit Type</Typography>
             <Select
+              error={!!errors.unit} //  the presence of errors for the unit field
               value={formState.unit}
               onChange={(e) => handleSelectChange(e, "unit")}
               displayEmpty
@@ -158,11 +185,24 @@ const FormPage: React.FC = () => {
                 </MenuItem>
               ))}
             </Select>
+            {errors.unit && (
+              <Typography
+                sx={{
+                  color: "#f44336",
+                  fontSize: ".75rem",
+                  marginLeft: "15px",
+                }}
+              >
+                {errors.unit}
+              </Typography>
+            )}
           </Grid>
 
           <Grid item xs={12}>
             <Typography sx={{ fontWeight: "bold" }}>Intended Score</Typography>
             <TextField
+              error={!!errors.intendedScore}
+              helperText={errors.intendedScore}
               type="number"
               variant="outlined"
               value={formState.intendedScore}
@@ -183,6 +223,7 @@ const FormPage: React.FC = () => {
               style={{
                 backgroundColor: "#56A278",
                 color: "white",
+                height: "40px",
               }}
             >
               {Array.from({ length: 10 }, (_, i) => i + 1).map((rpe) => (
@@ -201,7 +242,11 @@ const FormPage: React.FC = () => {
               label="Actual RPE"
               value={formState.actualRPE}
               onChange={(e) => handleSelectChange(e, "actualRPE")}
-              style={{ backgroundColor: "#9B361A", color: "white" }}
+              style={{
+                backgroundColor: "#9B361A",
+                color: "white",
+                height: "40px",
+              }}
             >
               {Array.from({ length: 10 }, (_, i) => i + 1).map((rpe) => (
                 <MenuItem key={rpe} value={rpe}>
@@ -218,8 +263,23 @@ const FormPage: React.FC = () => {
               variant="outlined"
               value={formState.date}
               onChange={(e) => handleChange(e, "date")}
+              sx={{
+                width: "64%",
+
+                "& input": {
+                  backgroundColor: "#fff",
+                  borderRadius: "5px",
+                  border: "1px solid #ccc",
+                  outline: "none",
+                  transition: "border-color 0.3s",
+                  "&:focus": {
+                    borderColor: "#5c3e6a",
+                  },
+                },
+              }}
             />
           </Grid>
+
           <Grid item xs={12}>
             <Typography sx={{ fontWeight: "bold" }}>Notes</Typography>
             <TextField
@@ -242,8 +302,9 @@ const FormPage: React.FC = () => {
                 borderRadius: "5px",
                 display: "flex",
                 justifyContent: "flex-start",
-                width: "70%",
+                width: "75%",
                 textTransform: "capitalize",
+                padding: "13px",
 
                 "&:hover": {
                   bgcolor: "#554364",
