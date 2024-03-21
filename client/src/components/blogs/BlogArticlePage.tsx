@@ -122,7 +122,7 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
     );
   };
 
-  const getBlogText = (layoutIndex: number) => {
+  const getBlogText = (layoutIndex: number, authorName: string) => {
     const content = blogCardInfo?.content![layoutIndex].text || "";
     return (
       <Grid
@@ -150,11 +150,17 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
             }}
           />
         </Typography>
+        <Typography
+          variant="subtitle1"
+          sx={{ textAlign: "right", fontStyle: "italic", mt: 2 }}
+        >
+          Written by: {authorName}
+        </Typography>
       </Grid>
     );
   };
 
-  const getBlogTextWithImage = (layoutIndex: number) => {
+  const getBlogTextWithImage = (layoutIndex: number, authorName: string) => {
     console.log(" coming from textImage:", layoutIndex);
     const blogTextWithImage = (
       <Grid item my={3} xs={12} md={8} alignSelf={"center"} key={layoutIndex}>
@@ -200,6 +206,12 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
               }}
             />
             {blogCardInfo?.content![layoutIndex].textWithImage?.text}
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            sx={{ textAlign: "right", fontStyle: "italic", mt: 2 }}
+          >
+            Written by: {authorName}
           </Typography>
         </Grid>
       </Grid>
@@ -372,11 +384,21 @@ const BlogArticlePage: FC<IBlogArticlePage> = (props) => {
           layoutElementCount++;
         }
         if (blogContentElement.hasOwnProperty("text")) {
-          arrayTemp.push(getBlogText(layoutElementCount));
+          arrayTemp.push(
+            getBlogText(
+              layoutElementCount,
+              blogCardInfo?.authorName || "Unknown Author"
+            )
+          );
           layoutElementCount++;
         }
         if (blogContentElement.hasOwnProperty("textWithImage")) {
-          arrayTemp.push(getBlogTextWithImage(layoutElementCount));
+          arrayTemp.push(
+            getBlogTextWithImage(
+              layoutElementCount,
+              blogCardInfo?.authorName || "Unknown Author"
+            )
+          );
           layoutElementCount++;
         }
         if (blogContentElement.hasOwnProperty("callToActionButton")) {
