@@ -70,6 +70,9 @@
   "overrides": {
     "nth-check": "$nth-check",
     "postcss": "$postcss",
+    "react-event-listener": {
+      "react": "^18.2.0"
+    },
     "react-swipeable-views": {
       "react": "^18.2.0"
     }
