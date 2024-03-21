@@ -8,6 +8,23 @@ import SearchIcon from "@mui/icons-material/Search";
 import BlogCard from "./BlogCard";
 import CounterShare from "../shares/CounterShare";
 
+interface WordPressPost {
+  id: number;
+  date: string;
+  title: { rendered: string };
+  excerpt: { rendered: string };
+  featured_media: number;
+  featured_media_src_url?: string;
+  author: number;
+  link: string;
+  content: { rendered: string };
+}
+
+interface FetchResponseData {
+  data: WordPressPost[];
+  base: string;
+}
+
 export interface IBlogTextWithImage {
   text?: string;
   image?: string;
@@ -229,26 +246,24 @@ const BlogPage: FC = () => {
   };
 
   useEffect(() => {
-    const fetchWordPressImage = async (imageId: number) => {
+    const fetchWordPressImage = async (imageId: number, baseUrl: string) => {
       try {
         const response = await fetch(
-          `https://blog.afitpilot.com/wp-json/wp/v2/media/${imageId}`
+          `${baseUrl}/wp-json/wp/v2/media/${imageId}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch WordPress image");
         }
-
         const data = await response.json();
-        const imageUrl = data.source_url;
-
-        return imageUrl;
+        return data.source_url;
       } catch (error) {
         console.error("Error fetching WordPress image:", error);
-        return null;
+        // Return a default image based on the source or a generic one
+        return `${baseUrl}/path/to/default/image.png`;
       }
     };
 
-    const formatDate = (dateString: number) => {
+    const formatDate = (dateString: string) => {
       const date = new Date(dateString);
       const day = String(date.getDate()).padStart(2, "0");
       const month = String(date.getMonth() + 1).padStart(2, "0"); // January is 0!
@@ -258,65 +273,54 @@ const BlogPage: FC = () => {
     };
 
     const fetchWordPressData = async () => {
+      const sources = [
+        {
+          url: "https://blog.walterclayton.com/wp-json/wp/v2/posts?categories=3",
+          base: "https://blog.walterclayton.com",
+        },
+        {
+          url: "https://blog.afitpilot.com/wp-json/wp/v2/posts",
+          base: "https://blog.afitpilot.com",
+        },
+      ];
+
       try {
-        const response = await fetch(
-          "https://blog.afitpilot.com/wp-json/wp/v2/posts"
+        const responses: FetchResponseData[] = await Promise.all(
+          sources.map((source) =>
+            fetch(source.url).then((res) =>
+              res
+                .json()
+                .then(
+                  (data): FetchResponseData => ({ data, base: source.base })
+                )
+            )
+          )
         );
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch WordPress data");
-        }
+        const fetchedBlogContents = await Promise.all(
+          responses.flatMap(({ data, base }) =>
+            data.map(async (post: WordPressPost) => {
+              const imageSrc =
+                post.featured_media && typeof post.featured_media === "number"
+                  ? await fetchWordPressImage(post.featured_media, base)
+                  : `${base}/path/to/default/image.png`;
 
-        const data = await response.json();
-
-        const fetchedBlogContents: IBlogCardInfos[] = await Promise.all(
-          data.map(async (post: any) => {
-            // Fetch image for the blog card
-            const imageSrc = await fetchWordPressImage(post.featured_media);
-
-            return {
-              id: post.id,
-              title: post.title.rendered,
-              date: formatDate(post.date),
-              cardDescription: post.excerpt.rendered,
-              cardImage: {
-                imageSrc,
-                imageAlt: post.title.rendered,
-                imageFitMethod: "contain",
-              },
-              BlogContent: [
-                {
-                  text: post.content.rendered,
+              // Now 'post' is typed, you can safely access its properties
+              // Transform post here, using the properties you need
+              return {
+                id: post.id,
+                title: post.title.rendered,
+                date: formatDate(post.date),
+                cardDescription: post.excerpt.rendered,
+                cardImage: {
+                  imageSrc,
+                  imageAlt: post.title.rendered,
+                  imageFitMethod: "contain",
                 },
-                {
-                  image: {
-                    imageSrc: post.featured_media_src_url,
-                    imageAlt: post.title.rendered,
-                    imageHasCaption: true,
-                    imageCaption: "Your image caption",
-                  },
-                },
-                {
-                  textWithImage: {
-                    text: post.content.rendered,
-                    image: post.featured_media_src_url,
-                    imageAlt: post.title.rendered,
-                    imagePosition: "left",
-                  },
-                },
-                {
-                  callToActionButton: {
-                    buttonText: "Read More",
-                    isExternalLink: true,
-                    buttonLink: post.link,
-                    buttonPosition: "right",
-                    buttonColor: "primary",
-                    buttonStyle: "contained",
-                  },
-                },
-              ],
-            };
-          })
+                // Add more transformed properties as needed
+              };
+            })
+          )
         );
 
         setBlogCards(fetchedBlogContents);
