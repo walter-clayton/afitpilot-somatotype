@@ -13,9 +13,11 @@ import AddIcon from "@mui/icons-material/Add";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import RpeChart from "../../image/RPE-Chart.png";
 import ClearIcon from "@mui/icons-material/Clear";
+import FormPage from "./FormModal/Form";
 
 const Header: React.FC = () => {
   const [showImage, setShowImage] = useState<boolean>(false);
+  const [showForm, setShowForm] = useState<boolean>(false);
 
   const handleViewImage = () => {
     setShowImage(true);
@@ -25,8 +27,12 @@ const Header: React.FC = () => {
     setShowImage(false);
   };
 
+  const handleCloseForm = () => {
+    setShowForm(false);
+  };
   const handleAddNewExercise = () => {
-    console.log("handleLinkClick");
+    setShowForm(true);
+    console.log("handleAddNewExercise");
   };
 
   const theme = createTheme({});
@@ -60,7 +66,7 @@ const Header: React.FC = () => {
         alignItems="center"
         justifyContent="center"
       >
-        {!showImage && (
+        {!showImage && !showForm && (
           <Grid item>
             <Button
               variant="contained"
@@ -80,7 +86,7 @@ const Header: React.FC = () => {
             </Button>
           </Grid>
         )}
-        {!showImage && (
+        {!showImage && !showForm && (
           <Grid item>
             <Button
               variant="contained"
@@ -102,7 +108,7 @@ const Header: React.FC = () => {
           </Grid>
         )}
       </Grid>
-
+      {/* modal for image */}
       <Modal
         open={showImage}
         onClose={handleCloseImage}
@@ -133,6 +139,38 @@ const Header: React.FC = () => {
               cursor: "pointer",
               color: "#fff",
               margin: "15px",
+            }}
+          />
+        </Box>
+      </Modal>
+      {/* Modal for adding  new exeercise */}
+      <Modal
+        open={showForm}
+        onClose={handleCloseForm}
+        aria-labelledby="form-modal"
+        aria-describedby="form-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: isSmallScreen ? "90%" : "auto",
+            maxWidth: "90%",
+          }}
+        >
+          <FormPage />
+          <ClearIcon
+            onClick={handleCloseForm}
+            sx={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              cursor: "pointer",
+              color: "#fff",
+              margin: "15px",
+              zIndex: 99,
             }}
           />
         </Box>
