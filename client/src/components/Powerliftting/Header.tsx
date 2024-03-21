@@ -47,7 +47,7 @@ const Header: React.FC = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        my: 10,
+        my: 5,
         width: "100%",
       }}
     >
