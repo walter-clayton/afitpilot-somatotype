@@ -336,7 +336,7 @@ const FormPage: React.FC = () => {
               value={formState.intendedScore}
               onChange={(e) => handleChange(e, "intendedScore")}
               fullWidth
-              placeholder="140 kg"
+              // placeholder="140 kg"
               size="small"
             />
           </Grid>
