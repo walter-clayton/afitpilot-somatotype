@@ -15,7 +15,7 @@ const TrainingDiary: React.FC = () => {
   return (
     <Grid container item>
       <Header addExercise={addExercise} />
-      <UsersInterface exercises={exercises} />
+      <UsersInterface exercises={exercises} addExercise={addExercise} />
     </Grid>
   );
 };
