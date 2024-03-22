@@ -13,9 +13,9 @@ import AddIcon from "@mui/icons-material/Add";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import RpeChart from "../../image/RPE-Chart.png";
 import ClearIcon from "@mui/icons-material/Clear";
-import FormPage from "./FormModal/Form";
+import FormPage, { FormPageProps } from "./FormModal/Form";
 
-const Header: React.FC = () => {
+const Header: React.FC<FormPageProps> = ({ addExercise }) => {
   const [showImage, setShowImage] = useState<boolean>(false);
   const [showForm, setShowForm] = useState<boolean>(false);
 
@@ -160,7 +160,7 @@ const Header: React.FC = () => {
             maxWidth: "90%",
           }}
         >
-          <FormPage />
+          <FormPage addExercise={addExercise} />
           <ClearIcon
             onClick={handleCloseForm}
             sx={{
