@@ -47,14 +47,14 @@ const Header: React.FC<FormPageProps> = ({ addExercise }) => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        my: 5,
+        my: 4,
         width: "100%",
       }}
     >
       <Typography
         variant="h4"
         alignItems="cenrer"
-        sx={{ fontWeight: "bold", mb: 2 }}
+        sx={{ fontWeight: "bold", mb: 3, textAlign: "center" }}
       >
         RPE Training Diary
       </Typography>
@@ -76,6 +76,7 @@ const Header: React.FC<FormPageProps> = ({ addExercise }) => {
                 borderRadius: "20px",
                 textTransform: "capitalize",
                 width: isSmallScreen ? "100%" : "150px",
+                paddingX: "20px",
                 "&:hover": {
                   bgcolor: "#965046",
                 },
@@ -96,7 +97,8 @@ const Header: React.FC<FormPageProps> = ({ addExercise }) => {
                 borderRadius: "20px",
                 textTransform: "capitalize",
                 width: isSmallScreen ? "100%" : "150px",
-                mt: isSmallScreen ? 2 : 0,
+                mt: isSmallScreen ? 1 : 0,
+
                 "&:hover": {
                   bgcolor: "#554364",
                 },
