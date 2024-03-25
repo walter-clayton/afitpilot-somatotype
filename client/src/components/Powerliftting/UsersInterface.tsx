@@ -121,7 +121,11 @@ const UsersInterface: React.FC<UsersInterfaceProps> = ({
             <Legends />
           </Grid>
 
-          <Grid>
+          <Grid
+            item
+            justifyContent="center"
+            sx={{ disply: "flex", justiftyContent: "center" }}
+          >
             <FeedbackCard />
           </Grid>
           <Grid item justifyContent="center">
