@@ -17,6 +17,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { ExerciseFormState } from "./FormModal/UtilTypes";
 import FormPage from "./FormModal/Form";
 import ClearIcon from "@mui/icons-material/Clear";
+import Legends from "./legends/Legends";
 
 interface UsersInterfaceProps {
   exercises: ExerciseFormState[];
@@ -67,97 +68,120 @@ const UsersInterface: React.FC<UsersInterfaceProps> = ({
     >
       {/* data for users  */}
       {exercises.length > 0 ? (
-        <Grid item justifyContent="center">
-          <Box sx={{ position: "relative", width: "100%" }}>
-            <Select
-              value={selectedExerciseName}
-              onChange={handleExerciseNameChange}
-              displayEmpty
-              size="small"
-              inputProps={{ "aria-label": "Select exercise" }}
-              sx={{
-                position: "absolute",
-                left: "50%",
-                top: "50%",
-                transform: "translate(-50%, -50%)",
-                bgcolor: "#fff",
-                color: "#000",
-                border: "1px solid #554364",
-                borderRadius: "10px",
-                paddingX: "20px",
-                minWidth: "220px",
-                "& .MuiSelect-select": {
-                  paddingRight: "30px",
-                },
-              }}
-            >
-              <MenuItem value="" disabled sx={{ textTransform: "capitalize" }}>
-                Select exercise
-              </MenuItem>
-              {exercises.map((exercise, index) => (
+        <>
+          <Grid item justifyContent="center">
+            <Box sx={{ position: "relative", width: "100%" }}>
+              <Select
+                value={selectedExerciseName}
+                onChange={handleExerciseNameChange}
+                displayEmpty
+                size="small"
+                inputProps={{ "aria-label": "Select exercise" }}
+                sx={{
+                  position: "absolute",
+                  left: "50%",
+                  top: "50%",
+                  transform: "translate(-50%, -50%)",
+                  bgcolor: "#fff",
+                  color: "#000",
+                  border: "1px solid #554364",
+                  borderRadius: "10px",
+                  paddingX: "20px",
+                  minWidth: "220px",
+                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                  "& .MuiSelect-select": {
+                    paddingRight: "30px",
+                  },
+                }}
+              >
                 <MenuItem
-                  value={exercise.exerciseName}
-                  key={index}
-                  sx={{
-                    fontWeight: "bold",
-                  }}
+                  value=""
+                  disabled
+                  sx={{ textTransform: "capitalize" }}
                 >
-                  {exercise.exerciseName}
+                  Select exercise
                 </MenuItem>
-              ))}
-            </Select>
-          </Box>
-          {filteredExercises.map((exercise, index) => (
-            <Typography
-              key={index}
-              variant="h6"
-              sx={{
-                marginY: "30px",
-                fontSize: "1rem",
-                backgroundColor: "#fff",
-                fontWeight: "bold",
-                border: "1px dashed black",
-              }}
-            >
-              {/* testing */}
-              <ListItem>exerciseName:{exercise.exerciseName}</ListItem>
-              <ListItem>unit:{exercise.unit}</ListItem>
-              <ListItem>intendedScore:{exercise.intendedScore}</ListItem>
-              <ListItem>prescribedRPE:{exercise.prescribedRPE}</ListItem>
-              <ListItem>actualRPE:{exercise.actualRPE}</ListItem>
-              <ListItem>date:{exercise.date}</ListItem>
-              <ListItem>notes:{exercise.notes}</ListItem>
-            </Typography>
-          ))}
-        </Grid>
+                {exercises.map((exercise, index) => (
+                  <MenuItem
+                    value={exercise.exerciseName}
+                    key={index}
+                    sx={{
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {exercise.exerciseName}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Box>
+          </Grid>
+
+          <Grid item justifyContent="center" sx={{ marginTop: "50px" }}>
+            <Legends />
+          </Grid>
+
+          <Grid item justifyContent="center">
+            {filteredExercises.map((exercise, index) => (
+              <Typography
+                key={index}
+                variant="h6"
+                sx={{
+                  marginY: "30px",
+                  fontSize: "1rem",
+                  backgroundColor: "#fff",
+                  fontWeight: "bold",
+                  border: "1px dashed black",
+                }}
+              >
+                {/* testing */}
+                <ListItem>exerciseName:{exercise.exerciseName}</ListItem>
+                <ListItem>unit:{exercise.unit}</ListItem>
+                <ListItem>intendedScore:{exercise.intendedScore}</ListItem>
+                <ListItem>prescribedRPE:{exercise.prescribedRPE}</ListItem>
+                <ListItem>actualRPE:{exercise.actualRPE}</ListItem>
+                <ListItem>date:{exercise.date}</ListItem>
+                <ListItem>notes:{exercise.notes}</ListItem>
+              </Typography>
+            ))}
+          </Grid>
+        </>
       ) : (
         //  no data for users
         <Grid container item justifyContent="center">
-          <Box sx={{ position: "relative", width: "100%" }} mb={12}>
-            <Button
-              variant="text"
+          <Grid
+            item
+            sx={{
+              position: "relative",
+              width: "100%",
+              // small: isSmallScreen ? "100%" : "150px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginX: "25px",
+            }}
+            mb={12}
+          >
+            <Typography
               sx={{
                 position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                padding: "5px",
+                // top: "50%",
+                // left: "50%",
+                // transform: "translate(-50%, -50%)",
+                padding: "5px 9px",
                 fontWeight: "bold",
                 bgcolor: "#fff",
                 color: "#000",
                 border: "1px solid #554364",
                 borderRadius: "4px",
                 textTransform: "capitalize",
-                "&:hover": {
-                  bgcolor: "#ffff",
-                  color: "#000",
-                  cursor: "revert",
-                },
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                textAlign: "center",
+                // maxWidth: "100%",
               }}
             >
               There is no data, please add a new exercise.
-            </Button>
-          </Box>
+            </Typography>
+          </Grid>
 
           <Box
             mb={12}
