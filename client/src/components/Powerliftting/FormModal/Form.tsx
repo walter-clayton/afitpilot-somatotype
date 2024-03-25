@@ -11,7 +11,11 @@ import AddIcon from "@mui/icons-material/Add";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { ExerciseFormState, units } from "./UtilTypes";
 
-const FormPage: React.FC = () => {
+export interface FormPageProps {
+  addExercise: (newExercise: ExerciseFormState) => void;
+}
+
+const FormPage: React.FC<FormPageProps> = ({ addExercise }) => {
   const [formState, setFormState] = useState<ExerciseFormState>({
     exerciseName: "",
     unit: "",
@@ -177,6 +181,9 @@ const FormPage: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (validateForm()) {
+      // Create a new exercise object
+      const newExercise = { ...formState };
+      addExercise(newExercise); // Call the addExercise function passed from props
       console.log(formState);
 
       // Mock function to simulate sending data to the backend
