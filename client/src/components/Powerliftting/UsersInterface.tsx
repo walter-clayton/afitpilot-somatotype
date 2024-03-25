@@ -18,6 +18,7 @@ import { ExerciseFormState } from "./FormModal/UtilTypes";
 import FormPage from "./FormModal/Form";
 import ClearIcon from "@mui/icons-material/Clear";
 import Legends from "./legends/Legends";
+import FeedbackCard from "./FeedbackCard/FeedbackCard";
 
 interface UsersInterfaceProps {
   exercises: ExerciseFormState[];
@@ -120,6 +121,9 @@ const UsersInterface: React.FC<UsersInterfaceProps> = ({
             <Legends />
           </Grid>
 
+          <Grid>
+            <FeedbackCard />
+          </Grid>
           <Grid item justifyContent="center">
             {filteredExercises.map((exercise, index) => (
               <Typography
