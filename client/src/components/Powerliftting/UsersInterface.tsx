@@ -118,7 +118,7 @@ const UsersInterface: React.FC<UsersInterfaceProps> = ({
             </Box>
           </Grid>
 
-          <Grid item justifyContent="center" sx={{ marginTop: "50px" }}>
+          <Grid item justifyContent="center" sx={{ marginTop: "40px" }}>
             <Legends />
           </Grid>
 
