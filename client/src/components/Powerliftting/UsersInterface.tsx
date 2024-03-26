@@ -20,6 +20,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import Legends from "./legends/Legends";
 import FeedbackCard from "./FeedbackCard/FeedbackCard";
 import ChartContainer from "./Chart/ChartContainer";
+import { useSnackbar } from "notistack";
 
 interface UsersInterfaceProps {
   exercises: ExerciseFormState[];
@@ -32,12 +33,14 @@ const UsersInterface: React.FC<UsersInterfaceProps> = ({
 }) => {
   const [showForm, setShowForm] = useState<boolean>(false);
   const [selectedExerciseName, setSelectedExerciseName] = useState<string>("");
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleAddNewExercise = () => {
     setShowForm(true);
   };
   const handleCloseForm = () => {
     setShowForm(false);
+    enqueueSnackbar("Exercise added successfully!", { variant: "success" });
   };
 
   const theme = createTheme({});
