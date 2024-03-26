@@ -106,7 +106,7 @@ const FeedbackCard: React.FC<FeedbackCardProps> = ({ filteredExercises }) => {
         justifyContent: "center",
         alignItems: "center",
         borderRadius: "20px",
-        mt: "20px",
+        mt: "25px",
         gap: "20px",
         backgroundColor: "#fff",
         pb: "14px",
