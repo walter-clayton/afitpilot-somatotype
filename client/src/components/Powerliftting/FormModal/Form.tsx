@@ -10,6 +10,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { ExerciseFormState, units } from "./UtilTypes";
+import { useSnackbar } from "notistack";
 
 export interface FormPageProps {
   addExercise: (newExercise: ExerciseFormState) => void;
@@ -28,6 +29,7 @@ const FormPage: React.FC<FormPageProps> = ({ addExercise }) => {
 
   const [errors, setErrors] = useState<Partial<ExerciseFormState>>({});
   const formRef = useRef<HTMLDivElement>(null);
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -184,9 +186,10 @@ const FormPage: React.FC<FormPageProps> = ({ addExercise }) => {
       // Create a new exercise object
       const newExercise = { ...formState };
       addExercise(newExercise); // Call the addExercise function passed from props
+
       console.log(formState);
 
-      // Mock function to simulate sending data to the backend
+      //  function to simulate sending data to the backend
       sendDataToBackend(formState);
 
       // Reset formState to its initial state
@@ -199,6 +202,8 @@ const FormPage: React.FC<FormPageProps> = ({ addExercise }) => {
         date: new Date().toISOString().split("T")[0],
         notes: "",
       });
+
+      enqueueSnackbar("Exercise added successfully!", { variant: "success" });
     } else {
       // Scroll to the first error, ensure the current ref is not null
       if (formRef.current) {
@@ -443,7 +448,6 @@ const FormPage: React.FC<FormPageProps> = ({ addExercise }) => {
                 width: "75%",
                 textTransform: "capitalize",
                 padding: "13px",
-
                 "&:hover": {
                   bgcolor: "#554364",
                 },

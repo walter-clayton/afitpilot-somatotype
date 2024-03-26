@@ -35,6 +35,7 @@ import { typeDescriptionDatas } from "./datas/TypeDescriptions";
 import Powerlifting from "./components/Powerliftting/Powerlifting";
 import NavSignup from "./components/authentification/NavSignup";
 import TrainingDiary from "./components/Powerliftting/TrainingDiary";
+import { SnackbarProvider } from "notistack";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -155,161 +156,163 @@ function App() {
   };
 
   return (
-    <Router>
-      <Disconnection
-        clearInterval={clearInterval}
-        setClearInterval={setClearInterval}
-      />
+    <SnackbarProvider maxSnack={3}>
+      <Router>
+        <Disconnection
+          clearInterval={clearInterval}
+          setClearInterval={setClearInterval}
+        />
 
-      <ResponsiveAppBar
-        setOpen={setOpen}
-        setSnackbarMessage={setSnackbarMessage}
-        setData={setData}
-        setIsAdding={setIsAdding}
-        clearInterval={clearInterval}
-        setClearInterval={setClearInterval}
-      />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            cookies.user ? (
-              <Dashboard
+        <ResponsiveAppBar
+          setOpen={setOpen}
+          setSnackbarMessage={setSnackbarMessage}
+          setData={setData}
+          setIsAdding={setIsAdding}
+          clearInterval={clearInterval}
+          setClearInterval={setClearInterval}
+        />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              cookies.user ? (
+                <Dashboard
+                  resultsSaved={resultsSaved}
+                  setResultsSaved={setResultsSaved}
+                  setIsAdding={setIsAdding}
+                  idRow={idRow}
+                  setIdRow={setIdRow}
+                  idSomatotype={idSomatotype}
+                  setIdSomatotype={setIdSomatotype}
+                  dashboardSnackBarOpen={dashboardSnackBarOpen}
+                  setDashboardSnackBarOpen={setDashboardSnackBarOpen}
+                  dashboardSnackBarMessage={dashboardSnackBarMessage}
+                  setDashboardSnackBarMessage={setDashboardSnackBarMessage}
+                  setAvatar={setAvatar}
+                  avatar={avatar}
+                  fetching={fetching}
+                  setFetching={setFetching}
+                  getAvatar={getAvatar}
+                />
+              ) : (
+                <Home />
+              )
+            }
+          />
+          <Route
+            path="/Signup"
+            element={
+              (cookies.user && data) || !cookies.user ? (
+                <Signup
+                  data={data}
+                  setData={setData}
+                  setOpen={setOpen}
+                  setSnackbarMessage={setSnackbarMessage}
+                  setResultsSaved={setResultsSaved}
+                />
+              ) : null
+            }
+          />
+          <Route
+            path="/Login"
+            element={
+              !cookies.user && (
+                <Login
+                  setOpen={setOpen}
+                  data={data}
+                  setData={setData}
+                  setSnackbarMessage={setSnackbarMessage}
+                  setResultsSaved={setResultsSaved}
+                />
+              )
+            }
+          />
+
+          <Route path="/Home" element={<Home />} />
+          <Route path="/Forget" element={<Forget />} />
+          <Route path="/Resetpass" element={<Resetpass />} />
+          <Route path="/Contact" element={<Contact />} />
+          <Route path="/TermsConditions" element={<TermsCondition />} />
+          <Route path="/Privacy" element={<Privacy />} />
+          <Route
+            path="/Types"
+            element={<Types dataDescription={typeDescriptionDatas} />}
+          />
+          <Route path="/FooterCTA" element={<FooterCTA />} />
+          <Route path="*" element={<Error404 />} />
+          <Route path="/CommentPage" element={<CommentPage />} />
+          <Route path="/TypeExample" element={<TypeExample />} />
+          <Route path="/Nutrition" element={<Nutrition />} />
+          <Route path="/Training" element={<Training />} />
+          <Route path="/Optimisation" element={<Optimisation />} />
+          <Route path="/Library" element={<Library />} />
+          <Route
+            path="/Test"
+            element={
+              <TestPage
+                setData={setData}
+                data={data!}
                 resultsSaved={resultsSaved}
                 setResultsSaved={setResultsSaved}
-                setIsAdding={setIsAdding}
+                isAdding={isAdding}
                 idRow={idRow}
-                setIdRow={setIdRow}
                 idSomatotype={idSomatotype}
-                setIdSomatotype={setIdSomatotype}
-                dashboardSnackBarOpen={dashboardSnackBarOpen}
                 setDashboardSnackBarOpen={setDashboardSnackBarOpen}
-                dashboardSnackBarMessage={dashboardSnackBarMessage}
                 setDashboardSnackBarMessage={setDashboardSnackBarMessage}
-                setAvatar={setAvatar}
-                avatar={avatar}
-                fetching={fetching}
-                setFetching={setFetching}
-                getAvatar={getAvatar}
-              />
-            ) : (
-              <Home />
-            )
-          }
-        />
-        <Route
-          path="/Signup"
-          element={
-            (cookies.user && data) || !cookies.user ? (
-              <Signup
-                data={data}
-                setData={setData}
-                setOpen={setOpen}
-                setSnackbarMessage={setSnackbarMessage}
-                setResultsSaved={setResultsSaved}
-              />
-            ) : null
-          }
-        />
-        <Route
-          path="/Login"
-          element={
-            !cookies.user && (
-              <Login
-                setOpen={setOpen}
-                data={data}
-                setData={setData}
-                setSnackbarMessage={setSnackbarMessage}
-                setResultsSaved={setResultsSaved}
-              />
-            )
-          }
-        />
-
-        <Route path="/Home" element={<Home />} />
-        <Route path="/Forget" element={<Forget />} />
-        <Route path="/Resetpass" element={<Resetpass />} />
-        <Route path="/Contact" element={<Contact />} />
-        <Route path="/TermsConditions" element={<TermsCondition />} />
-        <Route path="/Privacy" element={<Privacy />} />
-        <Route
-          path="/Types"
-          element={<Types dataDescription={typeDescriptionDatas} />}
-        />
-        <Route path="/FooterCTA" element={<FooterCTA />} />
-        <Route path="*" element={<Error404 />} />
-        <Route path="/CommentPage" element={<CommentPage />} />
-        <Route path="/TypeExample" element={<TypeExample />} />
-        <Route path="/Nutrition" element={<Nutrition />} />
-        <Route path="/Training" element={<Training />} />
-        <Route path="/Optimisation" element={<Optimisation />} />
-        <Route path="/Library" element={<Library />} />
-        <Route
-          path="/Test"
-          element={
-            <TestPage
-              setData={setData}
-              data={data!}
-              resultsSaved={resultsSaved}
-              setResultsSaved={setResultsSaved}
-              isAdding={isAdding}
-              idRow={idRow}
-              idSomatotype={idSomatotype}
-              setDashboardSnackBarOpen={setDashboardSnackBarOpen}
-              setDashboardSnackBarMessage={setDashboardSnackBarMessage}
-              avatar={avatar}
-              setAvatar={setAvatar}
-            />
-          }
-        />
-
-        <Route
-          path="/NavSignup"
-          element={
-            (cookies.user && data) || !cookies.user ? (
-              <NavSignup
-                data={data}
-                setData={setData}
-                setOpen={setOpen}
-                setSnackbarMessage={setSnackbarMessage}
-                setResultsSaved={setResultsSaved}
-              />
-            ) : null
-          }
-        />
-        <Route path="/TrainingDiary" element={<TrainingDiary />} />
-        <Route path="/Powerlifting" element={<Powerlifting />} />
-        <Route path="/Blog" element={<BlogPage />} />
-        <Route path="/Blog/:idBlog" element={<BlogArticlePage />} />
-        <Route
-          path="/:codeSoma"
-          element={<TypeDescription dataDescription={typeDescriptionDatas} />}
-        />
-        <Route
-          path="/Profile"
-          element={
-            cookies.user && (
-              <Profile
-                setOpen={setOpen}
-                setSnackbarMessage={setSnackbarMessage}
                 avatar={avatar}
                 setAvatar={setAvatar}
-                fetching={fetching}
-                setFetching={setFetching}
-                getAvatar={getAvatar}
               />
-            )
-          }
+            }
+          />
+
+          <Route
+            path="/NavSignup"
+            element={
+              (cookies.user && data) || !cookies.user ? (
+                <NavSignup
+                  data={data}
+                  setData={setData}
+                  setOpen={setOpen}
+                  setSnackbarMessage={setSnackbarMessage}
+                  setResultsSaved={setResultsSaved}
+                />
+              ) : null
+            }
+          />
+          <Route path="/TrainingDiary" element={<TrainingDiary />} />
+          <Route path="/Powerlifting" element={<Powerlifting />} />
+          <Route path="/Blog" element={<BlogPage />} />
+          <Route path="/Blog/:idBlog" element={<BlogArticlePage />} />
+          <Route
+            path="/:codeSoma"
+            element={<TypeDescription dataDescription={typeDescriptionDatas} />}
+          />
+          <Route
+            path="/Profile"
+            element={
+              cookies.user && (
+                <Profile
+                  setOpen={setOpen}
+                  setSnackbarMessage={setSnackbarMessage}
+                  avatar={avatar}
+                  setAvatar={setAvatar}
+                  fetching={fetching}
+                  setFetching={setFetching}
+                  getAvatar={getAvatar}
+                />
+              )
+            }
+          />
+        </Routes>
+        <Snackbar
+          open={open}
+          autoHideDuration={6000}
+          message={snackbarMessage}
+          onClose={handleClose}
         />
-      </Routes>
-      <Snackbar
-        open={open}
-        autoHideDuration={6000}
-        message={snackbarMessage}
-        onClose={handleClose}
-      />
-      <Footer />
-    </Router>
+        <Footer />
+      </Router>
+    </SnackbarProvider>
   );
 }
 
