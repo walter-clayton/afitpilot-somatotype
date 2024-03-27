@@ -33,6 +33,7 @@ const UsersInterface: React.FC<UsersInterfaceProps> = ({
 }) => {
   const [showForm, setShowForm] = useState<boolean>(false);
   const [selectedExerciseName, setSelectedExerciseName] = useState<string>("");
+
   const { enqueueSnackbar } = useSnackbar();
 
   const handleAddNewExercise = () => {
@@ -50,6 +51,7 @@ const UsersInterface: React.FC<UsersInterfaceProps> = ({
   const handleExerciseNameChange = (event: SelectChangeEvent<string>) => {
     setSelectedExerciseName(event.target.value);
   };
+
   // Create a set to store unique exercise names
   const uniqueExerciseNamesSet = new Set<string>();
 
