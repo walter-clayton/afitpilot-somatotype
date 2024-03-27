@@ -30,6 +30,7 @@ interface Dataset {
   borderColor: string;
   backgroundColor: string;
   tension: number;
+  fill: boolean;
 }
 
 const createDataset = (
@@ -41,7 +42,8 @@ const createDataset = (
   data,
   borderColor,
   backgroundColor: borderColor,
-  tension: 0.1,
+  tension: 0.4,
+  fill: false,
 });
 
 // Updated to comply with TypeScript expectations for Chart.js options
@@ -50,11 +52,12 @@ const options: ChartOptions<"line"> = {
   plugins: {
     legend: {
       position: "top",
+      display: true,
     },
     // The title property now correctly placed inside plugins
     title: {
-      display: true,
-      text: "", // Default text, will be overridden
+      display: false,
+      text: "",
     },
   },
 };
@@ -74,16 +77,16 @@ const actualPerformance = [95, 107, 112, 105, 102];
 const rpeChartData: ChartData<"line"> = {
   labels,
   datasets: [
-    createDataset("Prescribed RPE", prescribedRPE, "green"),
-    createDataset("Actual RPE", actualRPE, "red"),
+    createDataset("Prescribed RPE", prescribedRPE, "#56A278"),
+    createDataset("Actual RPE", actualRPE, "#9B361A"),
   ],
 };
 
 const performanceChartData: ChartData<"line"> = {
   labels,
   datasets: [
-    createDataset("Prescribed Performance", prescribedPerformance, "green"),
-    createDataset("Actual Performance", actualPerformance, "red"),
+    createDataset("Prescribed Performance", prescribedPerformance, "#56A278"),
+    createDataset("Actual Performance", actualPerformance, "#9B361A"),
   ],
 };
 
@@ -91,20 +94,24 @@ const ChartContainer: React.FC = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const rpeOptions = {
+  const optionsWithoutGrid: ChartOptions<"line"> = {
     ...options,
-    plugins: {
-      ...options.plugins,
-      title: { ...options.plugins!.title, text: "RPE Scores Over Time" },
+    scales: {
+      x: {
+        display: true,
+        grid: {
+          display: false,
+        },
+      },
+      y: {
+        display: true,
+        grid: {
+          display: false,
+        },
+      },
     },
   };
-  const exerciseOptions = {
-    ...options,
-    plugins: {
-      ...options.plugins,
-      title: { ...options.plugins!.title, text: "Exercise Scores Over Time" },
-    },
-  };
+
   return (
     <Box
       sx={{
@@ -112,20 +119,23 @@ const ChartContainer: React.FC = () => {
         display: "flex",
         gap: "30px",
         flexDirection: isSmallScreen ? "column" : "row",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       {/* RPE scores chart */}
       <Grid
         item
-        component="main"
-        container
         sx={{
           width: isSmallScreen ? "100vw" : "400px",
           flexDirection: "column",
+          flexWrap: "wrap",
+          height: "100%",
           justifyContent: "center",
           alignItems: "center",
           borderRadius: "20px",
-          //   mt: "20px",
+          mt: "20px",
           gap: "20px",
           backgroundColor: "#fff",
           pb: "14px",
@@ -147,24 +157,26 @@ const ChartContainer: React.FC = () => {
         >
           RPE scores
         </Typography>
-        <Grid>
-          {/* RPE scores chart to display */}
-          <Line options={rpeOptions} data={rpeChartData} />
-        </Grid>
+
+        {/* RPE scores chart to display */}
+        <Line
+          options={optionsWithoutGrid}
+          data={rpeChartData}
+          style={{ padding: "10px" }}
+        />
       </Grid>
 
       {/* Exercise scores*/}
       <Grid
         item
-        component="main"
-        container
         sx={{
           width: isSmallScreen ? "100vw" : "400px",
           flexDirection: "column",
           justifyContent: "center",
+          height: "100%",
           alignItems: "center",
           borderRadius: "20px",
-          //   mt: "20px",
+          mt: "20px",
           gap: "20px",
           backgroundColor: "#fff",
           pb: "14px",
@@ -186,10 +198,16 @@ const ChartContainer: React.FC = () => {
         >
           Exercise scores
         </Typography>
-        <Grid>
-          {/* Excerise scores chart to display */}
-          <Line options={exerciseOptions} data={performanceChartData} />
-        </Grid>
+
+        {/* Excerise scores chart to display */}
+        <Line
+          options={optionsWithoutGrid}
+          data={performanceChartData}
+          style={{
+            padding: "10px",
+            width: "100%",
+          }}
+        />
       </Grid>
     </Box>
   );
