@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Grid, Typography, useTheme, useMediaQuery } from "@mui/material";
 import { Line } from "react-chartjs-2";
 import {
@@ -13,6 +13,7 @@ import {
   ChartOptions,
   ChartData,
 } from "chart.js";
+import { ExerciseFormState } from "../FormModal/UtilTypes";
 
 ChartJS.register(
   CategoryScale,
@@ -46,15 +47,13 @@ const createDataset = (
   fill: false,
 });
 
-// Updated to comply with TypeScript expectations for Chart.js options
 const options: ChartOptions<"line"> = {
   responsive: true,
   plugins: {
     legend: {
       position: "top",
-      display: true,
+      display: false,
     },
-    // The title property now correctly placed inside plugins
     title: {
       display: false,
       text: "",
@@ -62,37 +61,52 @@ const options: ChartOptions<"line"> = {
   },
 };
 
-const labels = [
-  "Session 1",
-  "Session 2",
-  "Session 3",
-  "Session 4",
-  "Session 5",
-];
-const prescribedRPE = [6, 7, 8, 7, 6];
-const actualRPE = [5, 7, 9, 6, 5];
-const prescribedPerformance = [100, 105, 110, 108, 104];
-const actualPerformance = [95, 107, 112, 105, 102];
-
-const rpeChartData: ChartData<"line"> = {
-  labels,
-  datasets: [
-    createDataset("Prescribed RPE", prescribedRPE, "#56A278"),
-    createDataset("Actual RPE", actualRPE, "#9B361A"),
-  ],
-};
-
-const performanceChartData: ChartData<"line"> = {
-  labels,
-  datasets: [
-    createDataset("Prescribed Performance", prescribedPerformance, "#56A278"),
-    createDataset("Actual Performance", actualPerformance, "#9B361A"),
-  ],
-};
-
-const ChartContainer: React.FC = () => {
+const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
+  filteredExercises,
+}) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  // const [adjustedActualPerformance, setAdjustedActualPerformance] = useState<
+  //   number[]
+  // >([]);
+  // console.log(
+  //   " coming from adjustedActualPerformance",
+  //   adjustedActualPerformance
+  // );
+
+  useEffect(() => {
+    // const calculateAdjustedPerformances = () => {
+    //   const adjustedPerformances = filteredExercises.map((exercise) => {
+    //     if (typeof exercise.actualRPE === "number") {
+    //       const intendedScore =
+    //         typeof exercise.intendedScore === "number"
+    // ? exercise.intendedScore
+    //           : 0;
+    //       const actualRPE =
+    //         typeof exercise.actualRPE === "number" ? exercise.actualRPE : 10;
+    //       const difference = intendedScore - actualRPE;
+
+    // Check if the difference is a valid number
+    //       if (!isNaN(difference)) {
+    // Adjust the actual performance by adding the difference
+    //         return exercise.actualRPE + difference;
+    //       }
+    //     }
+    // If actualRPE is not a valid number or difference calculation failed, return undefined
+    //     return undefined;
+    //   });
+
+    // Filter out undefined values
+    //   const filteredAdjustedPerformances = adjustedPerformances.filter(
+    //     (value) => typeof value === "number"
+    //   );
+
+    //   setAdjustedActualPerformance(filteredAdjustedPerformances as number[]);
+    // };
+
+    // calculateAdjustedPerformances();
+    console.log("Exercises in ChartContainer:", filteredExercises);
+  }, [filteredExercises]);
 
   const optionsWithoutGrid: ChartOptions<"line"> = {
     ...options,
@@ -110,6 +124,73 @@ const ChartContainer: React.FC = () => {
         },
       },
     },
+  };
+
+  const dates: string[] = filteredExercises.map((exercise) => exercise.date);
+  const labels: string[] = dates.slice(0, 30);
+
+  const prescribedRPE: (number | undefined)[] = filteredExercises.map(
+    (exercise) => exercise.prescribedRPE
+  );
+  const actualRPE: (number | undefined)[] = filteredExercises.map(
+    (exercise) => exercise.actualRPE
+  );
+
+  const filteredPrescribedRPE: number[] = prescribedRPE.filter(
+    (value): value is number => value !== undefined
+  );
+  const filteredActualRPE: number[] = actualRPE.filter(
+    (value): value is number => value !== undefined
+  );
+
+  const prescribedPerformance: (number | undefined)[] = filteredExercises.map(
+    (exercise) => {
+      if (typeof exercise.intendedScore === "string") {
+        return parseInt(exercise.intendedScore);
+      } else if (typeof exercise.intendedScore === "number") {
+        return exercise.intendedScore;
+      } else {
+        return undefined;
+      }
+    }
+  );
+
+  const actualPerformance: (number | undefined)[] = filteredExercises.map(
+    (exercise) =>
+      typeof exercise.actualRPE === "number" ? exercise.actualRPE : undefined
+  );
+
+  const filteredPrescribedPerformance: number[] = prescribedPerformance.filter(
+    (value): value is number => value !== undefined
+  );
+  const filteredActualPerformance: number[] = actualPerformance.filter(
+    (value): value is number => value !== undefined
+  );
+
+  // Return null if there are no filtered exercises
+  if (filteredExercises.length === 0) {
+    return null;
+  }
+
+  const rpeChartData: ChartData<"line"> = {
+    labels,
+    datasets: [
+      createDataset("Prescribed RPE", filteredPrescribedRPE, "#56A278"),
+      createDataset("Actual RPE", filteredActualRPE, "#9B361A"),
+    ],
+  };
+
+  const performanceChartData: ChartData<"line"> = {
+    labels,
+    datasets: [
+      createDataset(
+        "Prescribed Performance",
+        filteredPrescribedPerformance,
+        // adjustedActualPerformance,
+        "#56A278"
+      ),
+      createDataset("Actual Performance", filteredActualPerformance, "#9B361A"),
+    ],
   };
 
   return (
@@ -199,7 +280,7 @@ const ChartContainer: React.FC = () => {
           Exercise scores
         </Typography>
 
-        {/* Excerise scores chart to display */}
+        {/* Exercise scores chart to display */}
         <Line
           options={optionsWithoutGrid}
           data={performanceChartData}

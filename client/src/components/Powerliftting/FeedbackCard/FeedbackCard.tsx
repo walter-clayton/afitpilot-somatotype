@@ -15,9 +15,9 @@ const FeedbackCard: React.FC<FeedbackCardProps> = ({ filteredExercises }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  useEffect(() => {
-    console.log("Exercises in FeedbackCard:", filteredExercises);
-  }, [filteredExercises]);
+  // useEffect(() => {
+  //   console.log("Exercises in FeedbackCard:", filteredExercises);
+  // }, [filteredExercises]);
 
   const getLastExercise = (): ExerciseFormState | undefined => {
     if (filteredExercises.length > 0) {

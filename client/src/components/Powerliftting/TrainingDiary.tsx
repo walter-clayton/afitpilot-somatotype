@@ -12,6 +12,9 @@ const TrainingDiary: React.FC = () => {
     setExercises([...exercises, newExercise]);
   };
 
+  // updating
+  // deleting
+
   return (
     <Grid container item>
       <Header addExercise={addExercise} />

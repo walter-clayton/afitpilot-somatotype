@@ -49,8 +49,18 @@ const UsersInterface: React.FC<UsersInterfaceProps> = ({
   // Changed event handler name to handleExerciseNameChange
   const handleExerciseNameChange = (event: SelectChangeEvent<string>) => {
     setSelectedExerciseName(event.target.value);
-    console.log("selected exercise name:", event.target.value);
   };
+  // Create a set to store unique exercise names
+  const uniqueExerciseNamesSet = new Set<string>();
+
+  // Add exercise names to the set
+  exercises.forEach((exercise) => {
+    if (exercise && exercise.exerciseName) {
+      uniqueExerciseNamesSet.add(exercise.exerciseName);
+    }
+  });
+  // Convert the set back to an array (if necessary)
+  const uniqueExerciseNamesArray = Array.from(uniqueExerciseNamesSet);
 
   // Filter exercises based on selectedExerciseName
   const filteredExercises = exercises.filter(
@@ -106,15 +116,15 @@ const UsersInterface: React.FC<UsersInterfaceProps> = ({
                 >
                   Select exercise
                 </MenuItem>
-                {exercises.map((exercise, index) => (
+                {uniqueExerciseNamesArray.map((exerciseName, index) => (
                   <MenuItem
-                    value={exercise.exerciseName}
+                    value={exerciseName}
                     key={index}
                     sx={{
                       fontWeight: "bold",
                     }}
                   >
-                    {exercise.exerciseName}
+                    {exerciseName}
                   </MenuItem>
                 ))}
               </Select>
@@ -130,7 +140,7 @@ const UsersInterface: React.FC<UsersInterfaceProps> = ({
           </Grid>
 
           <Grid item justifyContent="center">
-            <ChartContainer />
+            <ChartContainer filteredExercises={filteredExercises} />
           </Grid>
 
           <Grid item justifyContent="center">
