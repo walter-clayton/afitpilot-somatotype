@@ -130,7 +130,7 @@ const UsersInterface: React.FC<UsersInterfaceProps> = ({
           </Grid>
 
           <Grid item justifyContent="center">
-            {/* <ChartContainer /> */}
+            <ChartContainer />
           </Grid>
 
           <Grid item justifyContent="center">
