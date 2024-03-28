@@ -75,33 +75,7 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
   // );
 
   useEffect(() => {
-    // const calculateAdjustedPerformances = () => {
-    //   const adjustedPerformances = filteredExercises.map((exercise) => {
-    //     if (typeof exercise.actualRPE === "number") {
-    //       const intendedScore =
-    //         typeof exercise.intendedScore === "number"
-    // ? exercise.intendedScore
-    //           : 0;
-    //       const actualRPE =
-    //         typeof exercise.actualRPE === "number" ? exercise.actualRPE : 10;
-    //       const difference = intendedScore - actualRPE;
-    // Check if the difference is a valid number
-    //       if (!isNaN(difference)) {
-    // Adjust the actual performance by adding the difference
-    //         return exercise.actualRPE + difference;
-    //       }
-    //     }
-    // If actualRPE is not a valid number or difference calculation failed, return undefined
-    //     return undefined;
-    //   });
-    // Filter out undefined values
-    //   const filteredAdjustedPerformances = adjustedPerformances.filter(
-    //     (value) => typeof value === "number"
-    //   );
-    //   setAdjustedActualPerformance(filteredAdjustedPerformances as number[]);
-    // };
-    // calculateAdjustedPerformances();
-    // console.log("Exercises in ChartContainer:", filteredExercises);
+    console.log("Exercises in ChartContainer:", filteredExercises);
   }, [filteredExercises]);
 
   const optionsWithoutGrid: ChartOptions<"line"> = {
@@ -123,7 +97,12 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
   };
 
   const dates: string[] = filteredExercises.map((exercise) => exercise.date);
-  const labels: string[] = dates.slice(0, 30);
+  const labels: string[] = dates.slice(0, 130);
+  // const dates: string[] = filteredExercises.map((exercise) => {
+  //   const date = new Date(exercise.date);
+  //   return date.toLocaleDateString("en-GB");
+  // });
+  // const labels: string[] = dates.slice(0, 30);
 
   const prescribedRPE: (number | undefined)[] = filteredExercises.map(
     (exercise) => exercise.prescribedRPE

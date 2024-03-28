@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Typography,
@@ -35,7 +35,8 @@ const FeedbackCard: React.FC<FeedbackCardProps> = ({ filteredExercises }) => {
     prescribedRPE: number
   ): number => {
     const adjustmentFactor = 1 + (prescribedRPE - actualRPE) / 10; // Adjusting the factor based on RPE difference
-    return intendedScore * adjustmentFactor;
+    const adjustedWeight = intendedScore * adjustmentFactor;
+    return Math.round(adjustedWeight * 100) / 100; // Round to two decimal places
   };
 
   const calculateAdjustedPerformance = (
@@ -54,7 +55,7 @@ const FeedbackCard: React.FC<FeedbackCardProps> = ({ filteredExercises }) => {
       case "meters":
         return `${adjustedScore.toFixed(2)} ${unit}`;
       case "kilograms":
-        return `${adjustedScore.toFixed(2)} ${unit}`;
+        return `${adjustedScore.toFixed(2)} ${unit}`; // Round and add parentheses
       case "minutes per kilometer":
         return `${(intendedScore / adjustedScore).toFixed(2)} ${unit}`;
       case "reps":
@@ -192,18 +193,16 @@ const FeedbackCard: React.FC<FeedbackCardProps> = ({ filteredExercises }) => {
           RPE {lastExercise.prescribedRPE}
         </Typography>
         <Typography>
-          <ListItem sx={{ textAlign: "center" }}>
+          <ListItem sx={{ textAlign: "center", fontWeight: "bold" }}>
             New Target:{" "}
-            {
-              calculateAdjustedPerformance(
-                lastExercise.unit || "",
-                lastExercise.actualRPE || 0,
-                typeof lastExercise.intendedScore === "number"
-                  ? lastExercise.intendedScore
-                  : parseFloat(lastExercise.intendedScore)
-              ).split(" ")[0]
-            }{" "}
-            kg for 10 reps
+            {calculateAdjustedWeight(
+              typeof lastExercise.intendedScore === "string"
+                ? parseFloat(lastExercise.intendedScore)
+                : lastExercise.intendedScore,
+              lastExercise.actualRPE || 0,
+              lastExercise.prescribedRPE || 0
+            )}{" "}
+            {lastExercise.unit} for 10 reps
           </ListItem>
         </Typography>
       </Grid>
