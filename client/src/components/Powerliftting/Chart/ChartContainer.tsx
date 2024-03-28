@@ -85,7 +85,6 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
     //       const actualRPE =
     //         typeof exercise.actualRPE === "number" ? exercise.actualRPE : 10;
     //       const difference = intendedScore - actualRPE;
-
     // Check if the difference is a valid number
     //       if (!isNaN(difference)) {
     // Adjust the actual performance by adding the difference
@@ -95,17 +94,14 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
     // If actualRPE is not a valid number or difference calculation failed, return undefined
     //     return undefined;
     //   });
-
     // Filter out undefined values
     //   const filteredAdjustedPerformances = adjustedPerformances.filter(
     //     (value) => typeof value === "number"
     //   );
-
     //   setAdjustedActualPerformance(filteredAdjustedPerformances as number[]);
     // };
-
     // calculateAdjustedPerformances();
-    console.log("Exercises in ChartContainer:", filteredExercises);
+    // console.log("Exercises in ChartContainer:", filteredExercises);
   }, [filteredExercises]);
 
   const optionsWithoutGrid: ChartOptions<"line"> = {
