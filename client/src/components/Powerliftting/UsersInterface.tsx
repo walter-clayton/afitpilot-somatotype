@@ -178,7 +178,7 @@ const UsersInterface: React.FC<UsersInterfaceProps> = ({
             sx={{
               position: "relative",
               width: "100%",
-              // small: isSmallScreen ? "100%" : "150px",
+
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -189,9 +189,6 @@ const UsersInterface: React.FC<UsersInterfaceProps> = ({
             <Typography
               sx={{
                 position: "absolute",
-                // top: "50%",
-                // left: "50%",
-                // transform: "translate(-50%, -50%)",
                 padding: "5px 9px",
                 fontWeight: "bold",
                 bgcolor: "#fff",
@@ -201,7 +198,6 @@ const UsersInterface: React.FC<UsersInterfaceProps> = ({
                 textTransform: "capitalize",
                 boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                 textAlign: "center",
-                // maxWidth: "100%",
               }}
             >
               There is no data, please add a new exercise.

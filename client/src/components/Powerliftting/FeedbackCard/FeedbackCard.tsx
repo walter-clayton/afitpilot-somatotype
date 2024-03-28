@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Typography,
@@ -29,23 +29,13 @@ const FeedbackCard: React.FC<FeedbackCardProps> = ({ filteredExercises }) => {
     return null;
   }
 
-  const calculateAdjustedWeight = (
-    intendedScore: number,
-    actualRPE: number,
-    prescribedRPE: number
-  ): number => {
-    const adjustmentFactor = 1 + (prescribedRPE - actualRPE) / 10; // Adjusting the factor based on RPE difference
-    const adjustedWeight = intendedScore * adjustmentFactor;
-    return Math.round(adjustedWeight * 100) / 100; // Round to two decimal places
-  };
-
   const calculateAdjustedPerformance = (
     unit: string,
     actualRPE: number,
     intendedScore: number
   ): string => {
-    let adjustmentFactor = 1 - (actualRPE - 4) / 10; // Adjusting the factor based on actual RPE difference from 4
-    adjustmentFactor = Math.max(adjustmentFactor, 0.9); // Ensure the factor is at least 0.9 (to reduce intensity)
+    let adjustmentFactor = 1 - (actualRPE - 4) / 10;
+    adjustmentFactor = Math.max(adjustmentFactor, 0.9);
 
     const adjustedScore = intendedScore * adjustmentFactor;
 
@@ -53,14 +43,27 @@ const FeedbackCard: React.FC<FeedbackCardProps> = ({ filteredExercises }) => {
       case "calories":
       case "kilometers":
       case "meters":
+      case "miles":
+      case "points":
+      case "steps":
         return `${adjustedScore.toFixed(2)} ${unit}`;
       case "kilograms":
-        return `${adjustedScore.toFixed(2)} ${unit}`; // Round and add parentheses
+      case "percent":
+      case "score":
+      case "watts":
+        return `${adjustedScore.toFixed(2)} ${unit}`;
+      case "kilometers per hour":
+      case "miles per hour":
+      case "meters per second":
+        return `${adjustedScore.toFixed(2)} ${unit}`;
       case "minutes per kilometer":
         return `${(intendedScore / adjustedScore).toFixed(2)} ${unit}`;
       case "reps":
       case "rounds":
+      case "RPM":
         return `${Math.round(adjustedScore)} ${unit}`;
+      case "time":
+        return `${Math.round(adjustedScore)} seconds`;
       default:
         return "Adjustment not applicable for this unit";
     }
@@ -69,7 +72,6 @@ const FeedbackCard: React.FC<FeedbackCardProps> = ({ filteredExercises }) => {
   const generateFeedbackMessage = (
     prescribedRPE: number,
     actualRPE: number,
-    performance: number,
     exerciseName: string
   ): string => {
     if (actualRPE > prescribedRPE) {
@@ -170,9 +172,6 @@ const FeedbackCard: React.FC<FeedbackCardProps> = ({ filteredExercises }) => {
           {generateFeedbackMessage(
             lastExercise.prescribedRPE || 0,
             lastExercise.actualRPE || 0,
-            typeof lastExercise.intendedScore === "number"
-              ? lastExercise.intendedScore
-              : 0,
             lastExercise.exerciseName || ""
           )}
         </Typography>
@@ -205,7 +204,7 @@ const FeedbackCard: React.FC<FeedbackCardProps> = ({ filteredExercises }) => {
                 )
               )
             )}{" "}
-            sets of 10
+            {lastExercise.unit} of 10
           </ListItem>
         </Typography>
       </Grid>
