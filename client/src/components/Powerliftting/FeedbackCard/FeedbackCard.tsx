@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Typography,
@@ -204,7 +204,7 @@ const FeedbackCard: React.FC<FeedbackCardProps> = ({ filteredExercises }) => {
                 )
               )
             )}{" "}
-            sets of 10
+            {lastExercise.unit} of 10
           </ListItem>
         </Typography>
       </Grid>

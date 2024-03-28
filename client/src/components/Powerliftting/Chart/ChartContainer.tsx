@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Box, Grid, Typography, useTheme, useMediaQuery } from "@mui/material";
 import { Line } from "react-chartjs-2";
 import {
@@ -34,6 +34,10 @@ interface Dataset {
   fill: boolean;
 }
 
+interface CustomChartOptions extends ChartOptions<"line"> {
+  height?: number;
+}
+
 const createDataset = (
   label: string,
   data: number[],
@@ -47,8 +51,9 @@ const createDataset = (
   fill: false,
 });
 
-const options: ChartOptions<"line"> = {
+const options: CustomChartOptions = {
   responsive: true,
+  maintainAspectRatio: false,
   plugins: {
     legend: {
       position: "top",
@@ -59,6 +64,7 @@ const options: ChartOptions<"line"> = {
       text: "",
     },
   },
+  height: 370,
 };
 
 const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
@@ -66,13 +72,6 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
 }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  // const [adjustedActualPerformance, setAdjustedActualPerformance] = useState<
-  //   number[]
-  // >([]);
-  // console.log(
-  //   " coming from adjustedActualPerformance",
-  //   adjustedActualPerformance
-  // );
 
   useEffect(() => {
     console.log("Exercises in ChartContainer:", filteredExercises);
@@ -97,12 +96,7 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
   };
 
   const dates: string[] = filteredExercises.map((exercise) => exercise.date);
-  const labels: string[] = dates.slice(0, 130);
-  // const dates: string[] = filteredExercises.map((exercise) => {
-  //   const date = new Date(exercise.date);
-  //   return date.toLocaleDateString("en-GB");
-  // });
-  // const labels: string[] = dates.slice(0, 30);
+  const labels: string[] = dates.slice(0, 500);
 
   const prescribedRPE: (number | undefined)[] = filteredExercises.map(
     (exercise) => exercise.prescribedRPE
@@ -161,7 +155,6 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
       createDataset(
         "Prescribed Performance",
         filteredPrescribedPerformance,
-        // adjustedActualPerformance,
         "#56A278"
       ),
       createDataset("Actual Performance", filteredActualPerformance, "#9B361A"),
@@ -171,9 +164,10 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
   return (
     <Box
       sx={{
-        mt: "30px",
+        mt: "20px",
         display: "flex",
         gap: "30px",
+        height: "100%",
         flexDirection: isSmallScreen ? "column" : "row",
         flexWrap: "wrap",
         justifyContent: "center",
@@ -187,14 +181,15 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
           width: isSmallScreen ? "100vw" : "400px",
           flexDirection: "column",
           flexWrap: "wrap",
-          height: "100%",
+          // height: "100%",
+          height: "380px",
           justifyContent: "center",
           alignItems: "center",
           borderRadius: "20px",
-          mt: "20px",
+          mt: "15px",
           gap: "20px",
           backgroundColor: "#fff",
-          pb: "14px",
+          pb: "50px",
           boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
         }}
       >
@@ -218,7 +213,10 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
         <Line
           options={optionsWithoutGrid}
           data={rpeChartData}
-          style={{ padding: "10px" }}
+          style={{
+            padding: "10px",
+            width: "100%",
+          }}
         />
       </Grid>
 
@@ -229,13 +227,13 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
           width: isSmallScreen ? "100vw" : "400px",
           flexDirection: "column",
           justifyContent: "center",
-          height: "100%",
+          height: "380px",
+          objectFit: "contain",
           alignItems: "center",
           borderRadius: "20px",
-          mt: "20px",
           gap: "20px",
           backgroundColor: "#fff",
-          pb: "14px",
+          pb: "50px",
           boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
         }}
       >
