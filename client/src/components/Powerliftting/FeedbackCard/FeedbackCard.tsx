@@ -193,18 +193,7 @@ const FeedbackCard: React.FC<FeedbackCardProps> = ({ filteredExercises }) => {
         </Typography>
         <Typography>
           <ListItem sx={{ textAlign: "center", fontWeight: "bold" }}>
-            {Math.round(
-              parseFloat(
-                calculateAdjustedPerformance(
-                  lastExercise.unit || "",
-                  lastExercise.actualRPE || 0,
-                  typeof lastExercise.intendedScore === "string"
-                    ? parseFloat(lastExercise.intendedScore)
-                    : lastExercise.intendedScore
-                )
-              )
-            )}{" "}
-            {lastExercise.unit} of 10
+            {lastExercise.notes}
           </ListItem>
         </Typography>
       </Grid>

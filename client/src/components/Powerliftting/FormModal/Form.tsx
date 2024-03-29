@@ -15,9 +15,14 @@ import { v4 as uuidv4 } from "uuid";
 
 export interface FormPageProps {
   addExercise: (newExercise: ExerciseFormState) => void;
+  onExerciseAdded?: () => void; // New prop
 }
 
-const FormPage: React.FC<FormPageProps> = ({ addExercise }) => {
+const FormPage: React.FC<FormPageProps> = ({
+  addExercise,
+  onExerciseAdded,
+}) => {
+  // const [showForm, setShowForm] = useState<boolean>(true);
   const [formState, setFormState] = useState<ExerciseFormState>({
     id: "",
     exerciseName: "",
@@ -211,6 +216,9 @@ const FormPage: React.FC<FormPageProps> = ({ addExercise }) => {
         notes: "",
       });
       enqueueSnackbar("Exercise added successfully!", { variant: "success" });
+      if (onExerciseAdded) {
+        onExerciseAdded();
+      }
     } else {
       // Scroll to the first error, ensure the current ref is not null
       if (formRef.current) {
