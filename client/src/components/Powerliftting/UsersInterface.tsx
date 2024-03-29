@@ -21,6 +21,7 @@ import Legends from "./legends/Legends";
 import FeedbackCard from "./FeedbackCard/FeedbackCard";
 import ChartContainer from "./Chart/ChartContainer";
 import { useSnackbar } from "notistack";
+import HistoryCard from "./HistoryCard/HistoryCard";
 
 interface UsersInterfaceProps {
   exercises: ExerciseFormState[];
@@ -143,6 +144,10 @@ const UsersInterface: React.FC<UsersInterfaceProps> = ({
 
           <Grid item justifyContent="center">
             <ChartContainer filteredExercises={filteredExercises} />
+          </Grid>
+
+          <Grid>
+            <HistoryCard filteredExercises={filteredExercises} />
           </Grid>
 
           <Grid item justifyContent="center">

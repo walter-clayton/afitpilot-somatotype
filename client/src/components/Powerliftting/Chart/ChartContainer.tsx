@@ -74,7 +74,7 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
-    console.log("Exercises in ChartContainer:", filteredExercises);
+    // console.log("Exercises in ChartContainer:", filteredExercises);
   }, [filteredExercises]);
 
   const optionsWithoutGrid: ChartOptions<"line"> = {
