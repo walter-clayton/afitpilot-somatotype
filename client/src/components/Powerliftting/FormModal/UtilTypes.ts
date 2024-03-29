@@ -4,8 +4,8 @@ export interface ExerciseFormState {
   unit?: string;
   prescribedRPE?: number;
   actualRPE?: number;
-  date?: string;
-  notes?: string;
+  date: string;
+  notes: string;
 }
 
 export const units: string[] = [

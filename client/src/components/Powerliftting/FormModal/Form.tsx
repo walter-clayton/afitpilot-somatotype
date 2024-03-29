@@ -23,7 +23,7 @@ const FormPage: React.FC<FormPageProps> = ({ addExercise }) => {
     intendedScore: 0,
     prescribedRPE: 1,
     actualRPE: 1,
-    date: new Date().toISOString().split("T")[0],
+    date: new Date().toLocaleDateString("en-GB"),
     notes: "",
   });
 
@@ -187,11 +187,6 @@ const FormPage: React.FC<FormPageProps> = ({ addExercise }) => {
       const newExercise = { ...formState };
       addExercise(newExercise); // Call the addExercise function passed from props
 
-      console.log(formState);
-
-      //  function to simulate sending data to the backend
-      sendDataToBackend(formState);
-
       // Reset formState to its initial state
       setFormState({
         exerciseName: "",
@@ -199,10 +194,9 @@ const FormPage: React.FC<FormPageProps> = ({ addExercise }) => {
         intendedScore: 0,
         prescribedRPE: 1,
         actualRPE: 1,
-        date: new Date().toISOString().split("T")[0],
+        date: new Date().toLocaleDateString("en-GB"),
         notes: "",
       });
-
       enqueueSnackbar("Exercise added successfully!", { variant: "success" });
     } else {
       // Scroll to the first error, ensure the current ref is not null
@@ -233,12 +227,6 @@ const FormPage: React.FC<FormPageProps> = ({ addExercise }) => {
 
     setErrors(errors);
     return valid;
-  };
-
-  // function to demonstrate front-end to back-end integration
-  const sendDataToBackend = (data: ExerciseFormState) => {
-    console.log("Sending data to backend", data);
-    // Here  would typically use fetch or Axios to send data to  server
   };
 
   return (

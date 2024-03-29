@@ -1,33 +1,195 @@
-import React from "react";
-import { Grid, Typography, useTheme, useMediaQuery, Box } from "@mui/material";
+import React, { useEffect } from "react";
+import { Box, Grid, Typography, useTheme, useMediaQuery } from "@mui/material";
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  ChartOptions,
+  ChartData,
+} from "chart.js";
+import { ExerciseFormState } from "../FormModal/UtilTypes";
 
-const ChartContainer: React.FC = () => {
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+interface Dataset {
+  label: string;
+  data: number[];
+  borderColor: string;
+  backgroundColor: string;
+  tension: number;
+  fill: boolean;
+}
+
+interface CustomChartOptions extends ChartOptions<"line"> {
+  height?: number;
+}
+
+const createDataset = (
+  label: string,
+  data: number[],
+  borderColor: string
+): Dataset => ({
+  label,
+  data,
+  borderColor,
+  backgroundColor: borderColor,
+  tension: 0.4,
+  fill: false,
+});
+
+const options: CustomChartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      position: "top",
+      display: false,
+    },
+    title: {
+      display: false,
+      text: "",
+    },
+  },
+  height: 370,
+};
+
+const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
+  filteredExercises,
+}) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  useEffect(() => {
+    console.log("Exercises in ChartContainer:", filteredExercises);
+  }, [filteredExercises]);
+
+  const optionsWithoutGrid: ChartOptions<"line"> = {
+    ...options,
+    scales: {
+      x: {
+        display: true,
+        grid: {
+          display: false,
+        },
+      },
+      y: {
+        display: true,
+        grid: {
+          display: false,
+        },
+      },
+    },
+  };
+
+  const dates: string[] = filteredExercises.map((exercise) => exercise.date);
+  const labels: string[] = dates.slice(0, 500);
+
+  const prescribedRPE: (number | undefined)[] = filteredExercises.map(
+    (exercise) => exercise.prescribedRPE
+  );
+  const actualRPE: (number | undefined)[] = filteredExercises.map(
+    (exercise) => exercise.actualRPE
+  );
+
+  const filteredPrescribedRPE: number[] = prescribedRPE.filter(
+    (value): value is number => value !== undefined
+  );
+  const filteredActualRPE: number[] = actualRPE.filter(
+    (value): value is number => value !== undefined
+  );
+
+  const prescribedPerformance: (number | undefined)[] = filteredExercises.map(
+    (exercise) => {
+      if (typeof exercise.intendedScore === "string") {
+        return parseInt(exercise.intendedScore);
+      } else if (typeof exercise.intendedScore === "number") {
+        return exercise.intendedScore;
+      } else {
+        return undefined;
+      }
+    }
+  );
+
+  const actualPerformance: (number | undefined)[] = filteredExercises.map(
+    (exercise) =>
+      typeof exercise.actualRPE === "number" ? exercise.actualRPE : undefined
+  );
+
+  const filteredPrescribedPerformance: number[] = prescribedPerformance.filter(
+    (value): value is number => value !== undefined
+  );
+  const filteredActualPerformance: number[] = actualPerformance.filter(
+    (value): value is number => value !== undefined
+  );
+
+  // Return null if there are no filtered exercises
+  if (filteredExercises.length === 0) {
+    return null;
+  }
+
+  const rpeChartData: ChartData<"line"> = {
+    labels,
+    datasets: [
+      createDataset("Prescribed RPE", filteredPrescribedRPE, "#56A278"),
+      createDataset("Actual RPE", filteredActualRPE, "#9B361A"),
+    ],
+  };
+
+  const performanceChartData: ChartData<"line"> = {
+    labels,
+    datasets: [
+      createDataset(
+        "Prescribed Performance",
+        filteredPrescribedPerformance,
+        "#56A278"
+      ),
+      createDataset("Actual Performance", filteredActualPerformance, "#9B361A"),
+    ],
+  };
+
   return (
     <Box
       sx={{
-        mt: "30px",
+        mt: "20px",
         display: "flex",
         gap: "30px",
+        height: "100%",
         flexDirection: isSmallScreen ? "column" : "row",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
-      {/* Exercise scores*/}
+      {/* RPE scores chart */}
       <Grid
         item
-        component="main"
-        container
         sx={{
-          width: isSmallScreen ? "100vw" : "300px",
+          width: isSmallScreen ? "100vw" : "400px",
           flexDirection: "column",
+          flexWrap: "wrap",
+          // height: "100%",
+          height: "380px",
           justifyContent: "center",
           alignItems: "center",
           borderRadius: "20px",
-          //   mt: "20px",
+          mt: "15px",
           gap: "20px",
           backgroundColor: "#fff",
-          pb: "14px",
+          pb: "50px",
           boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
         }}
       >
@@ -46,23 +208,32 @@ const ChartContainer: React.FC = () => {
         >
           RPE scores
         </Typography>
-        <Grid>RPE scores</Grid>
+
+        {/* RPE scores chart to display */}
+        <Line
+          options={optionsWithoutGrid}
+          data={rpeChartData}
+          style={{
+            padding: "10px",
+            width: "100%",
+          }}
+        />
       </Grid>
-      {/* RPE scores */}
+
+      {/* Exercise scores*/}
       <Grid
         item
-        component="main"
-        container
         sx={{
-          width: isSmallScreen ? "100vw" : "300px",
+          width: isSmallScreen ? "100vw" : "400px",
           flexDirection: "column",
           justifyContent: "center",
+          height: "380px",
+          objectFit: "contain",
           alignItems: "center",
           borderRadius: "20px",
-          //   mt: "20px",
           gap: "20px",
           backgroundColor: "#fff",
-          pb: "14px",
+          pb: "50px",
           boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
         }}
       >
@@ -81,7 +252,16 @@ const ChartContainer: React.FC = () => {
         >
           Exercise scores
         </Typography>
-        <Grid>Exercise scores</Grid>
+
+        {/* Exercise scores chart to display */}
+        <Line
+          options={optionsWithoutGrid}
+          data={performanceChartData}
+          style={{
+            padding: "10px",
+            width: "100%",
+          }}
+        />
       </Grid>
     </Box>
   );
