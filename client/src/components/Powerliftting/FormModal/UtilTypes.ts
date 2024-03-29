@@ -1,4 +1,5 @@
 export interface ExerciseFormState {
+  id: string;
   intendedScore: number | string;
   exerciseName?: string;
   unit?: string;

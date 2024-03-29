@@ -11,6 +11,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { ExerciseFormState, units } from "./UtilTypes";
 import { useSnackbar } from "notistack";
+import { v4 as uuidv4 } from "uuid";
 
 export interface FormPageProps {
   addExercise: (newExercise: ExerciseFormState) => void;
@@ -18,6 +19,7 @@ export interface FormPageProps {
 
 const FormPage: React.FC<FormPageProps> = ({ addExercise }) => {
   const [formState, setFormState] = useState<ExerciseFormState>({
+    id: "",
     exerciseName: "",
     unit: "",
     intendedScore: 0,
@@ -26,6 +28,11 @@ const FormPage: React.FC<FormPageProps> = ({ addExercise }) => {
     date: new Date().toLocaleDateString("en-GB"),
     notes: "",
   });
+
+  const currentDate = new Date().toLocaleDateString("en-GB");
+  // Parse the current date string
+  const parts = currentDate.split("/");
+  const formattedCurrentDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
 
   const [errors, setErrors] = useState<Partial<ExerciseFormState>>({});
   const formRef = useRef<HTMLDivElement>(null);
@@ -183,12 +190,18 @@ const FormPage: React.FC<FormPageProps> = ({ addExercise }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (validateForm()) {
-      // Create a new exercise object
-      const newExercise = { ...formState };
-      addExercise(newExercise); // Call the addExercise function passed from props
+      const exerciseId = uuidv4();
 
-      // Reset formState to its initial state
+      // a new exercise object without the id property from formState
+      const { id, ...exerciseData } = formState;
+      const newExercise = { id: exerciseId, ...exerciseData };
+
+      //addExercise function passed from props
+      addExercise(newExercise);
+
+      // Reset
       setFormState({
+        id: "",
         exerciseName: "",
         unit: "",
         intendedScore: 0,
@@ -390,7 +403,7 @@ const FormPage: React.FC<FormPageProps> = ({ addExercise }) => {
             <TextField
               type="date"
               variant="outlined"
-              value={formState.date}
+              value={formattedCurrentDate}
               onChange={(e) => handleChange(e, "date")}
               size="small"
               sx={{

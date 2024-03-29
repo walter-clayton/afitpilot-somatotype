@@ -32,7 +32,6 @@ const Header: React.FC<FormPageProps> = ({ addExercise }) => {
   };
   const handleAddNewExercise = () => {
     setShowForm(true);
-    console.log("handleAddNewExercise");
   };
 
   const theme = createTheme({});

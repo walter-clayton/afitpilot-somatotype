@@ -26,11 +26,13 @@ import HistoryCard from "./HistoryCard/HistoryCard";
 interface UsersInterfaceProps {
   exercises: ExerciseFormState[];
   addExercise: (newExercise: ExerciseFormState) => void;
+  deleteExercise: (exerciseId: string) => void;
 }
 
 const UsersInterface: React.FC<UsersInterfaceProps> = ({
   exercises,
   addExercise,
+  deleteExercise,
 }) => {
   const [showForm, setShowForm] = useState<boolean>(false);
   const [selectedExerciseName, setSelectedExerciseName] = useState<string>("");
@@ -147,7 +149,12 @@ const UsersInterface: React.FC<UsersInterfaceProps> = ({
           </Grid>
 
           <Grid>
-            <HistoryCard filteredExercises={filteredExercises} />
+            <HistoryCard
+              filteredExercises={filteredExercises}
+              exercises={exercises}
+              addExercise={addExercise}
+              deleteExercise={deleteExercise}
+            />
           </Grid>
 
           <Grid item justifyContent="center">

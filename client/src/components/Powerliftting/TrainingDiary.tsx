@@ -12,13 +12,22 @@ const TrainingDiary: React.FC = () => {
     setExercises([...exercises, newExercise]);
   };
 
-  // updating
-  // deleting
+  // Function to delete an exercise by ID
+  const deleteExercise = (exerciseId: string) => {
+    const updatedExercises = exercises.filter(
+      (exercise) => exercise.id !== exerciseId
+    );
+    setExercises(updatedExercises);
+  };
 
   return (
     <Grid container item>
       <Header addExercise={addExercise} />
-      <UsersInterface exercises={exercises} addExercise={addExercise} />
+      <UsersInterface
+        exercises={exercises}
+        addExercise={addExercise}
+        deleteExercise={deleteExercise}
+      />
     </Grid>
   );
 };

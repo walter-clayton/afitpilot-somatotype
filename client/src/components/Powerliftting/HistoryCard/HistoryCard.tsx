@@ -1,7 +1,9 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import { ExerciseFormState } from "../FormModal/UtilTypes";
-
+import { SelectChangeEvent } from "@mui/material/Select";
+import { useSnackbar } from "notistack";
+import { v4 as uuidv4 } from "uuid";
 import {
   Grid,
   ListItem,
@@ -15,33 +17,109 @@ import {
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 
-const HistoryCard: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
+interface HistoryCardProps {
+  filteredExercises: ExerciseFormState[];
+  exercises: ExerciseFormState[];
+  addExercise: (newExercise: ExerciseFormState) => void;
+  deleteExercise: (exerciseId: string) => void; // Make sure deleteExercise is declared here
+}
+
+const HistoryCard: React.FC<HistoryCardProps> = ({
+  exercises,
   filteredExercises,
+  addExercise,
+  deleteExercise,
 }) => {
   const [openNewScore, setOpenNewScore] = useState<boolean>(false);
+  const [newExercise, setNewExercise] = useState<ExerciseFormState>({
+    intendedScore: 0,
+    id: "",
+    prescribedRPE: 1,
+    actualRPE: 1,
+    date: new Date().toLocaleDateString("en-GB"),
+    notes: "",
+  });
+
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     console.log("coming from History exeercise:", filteredExercises);
   }, [filteredExercises]);
 
+  const currentDate = new Date().toLocaleDateString("en-GB");
+  const parts = currentDate.split("/");
+  const formattedCurrentDate = `${parts[2]}-${parts[1]}-${parts[0]}`; // Format it as "yyyy-MM-dd"
+
   const newScore = () => {
     setOpenNewScore(true);
   };
 
-  const handleChange = () => {
-    console.log("delete exercise");
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    name: string
+  ) => {
+    const { value } = e.target;
+    setNewExercise((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  const handleDelete = () => {
-    console.log("delete exercise");
+  const handleDelete = (exerciseId: string) => {
+    deleteExercise(exerciseId);
   };
 
   const handleSave = () => {
-    console.log(" exercise saved");
+    const { exerciseName, unit } =
+      filteredExercises.length > 0
+        ? filteredExercises[0]
+        : { exerciseName: "", unit: "" };
+
+    // Generate a unique ID for the new exercise
+    const newExerciseId = uuidv4();
+
+    addExercise({
+      ...newExercise,
+      id: newExerciseId,
+      exerciseName: exerciseName,
+      unit: unit,
+    });
+    console.log("new exercise", addExercise);
+
+    setNewExercise({
+      id: "",
+      intendedScore: 0,
+      prescribedRPE: 1,
+      actualRPE: 1,
+      date: new Date().toLocaleDateString("en-GB"),
+      notes: "",
+      unit: unit,
+    });
+    setOpenNewScore(false);
+    enqueueSnackbar("Exercise added successfully!", { variant: "success" });
+  };
+
+  // Modify handleChange to handle Select components
+  const handleSelectChange = (
+    e: SelectChangeEvent<number | string>,
+    name: string
+  ) => {
+    const { value } = e.target;
+    setNewExercise((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleCancel = () => {
-    console.log(" exercise cancled");
+    setNewExercise({
+      id: "",
+      intendedScore: 0,
+      prescribedRPE: 1,
+      actualRPE: 1,
+      date: new Date().toLocaleDateString("en-GB"),
+      notes: "",
+    });
     setOpenNewScore(false);
   };
 
@@ -99,7 +177,7 @@ const HistoryCard: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
       >
         {filteredExercises.map((exercise, index) => (
           <Grid
-            key={index}
+            key={exercise.id}
             style={{
               width: "100%",
             }}
@@ -144,7 +222,7 @@ const HistoryCard: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
                 cursor: "pointer",
                 display: "inline",
               }}
-              onClick={handleDelete}
+              onClick={() => handleDelete(exercise.id)}
             />
           </Grid>
         ))}
@@ -172,16 +250,17 @@ const HistoryCard: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
                 sx={{ width: "80px", bgColor: "#56A278" }}
                 type="number"
                 variant="outlined"
-                onChange={(e) => handleChange()}
-                value={""}
+                onChange={(e) => handleChange(e, "intendedScore")}
+                value={newExercise.intendedScore}
                 placeholder="140 kg"
                 size="small"
               />
+
               <Select
                 label="Prescribed RPE"
-                value={1}
+                value={newExercise.prescribedRPE}
                 size="small"
-                onChange={(e) => handleChange()}
+                onChange={(e) => handleSelectChange(e, "prescribedRPE")} // Use handleSelectChange here
                 style={{
                   backgroundColor: "#56A278",
                   color: "white",
@@ -197,8 +276,8 @@ const HistoryCard: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
 
               <Select
                 label="Actual RPE"
-                value={1}
-                onChange={(e) => handleChange()}
+                value={newExercise.actualRPE}
+                onChange={(e) => handleSelectChange(e, "actualRPE")}
                 style={{
                   backgroundColor: "#9B361A",
                   color: "white",
@@ -211,20 +290,22 @@ const HistoryCard: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
                   </MenuItem>
                 ))}
               </Select>
+
               <TextField
                 sx={{ width: "80px", bgColor: "#9B361A" }}
                 type="number"
                 variant="outlined"
-                onChange={(e) => handleChange()}
-                value=""
+                onChange={(e) => handleChange(e, "intendedScore")}
+                value={newExercise.intendedScore}
                 placeholder="140 kg"
                 size="small"
               />
+
               <TextField
                 type="date"
                 variant="outlined"
-                value={""}
-                onChange={(e) => handleChange()}
+                value={formattedCurrentDate}
+                onChange={(e) => handleChange(e, "date")}
                 size="small"
                 sx={{
                   width: "130px",
@@ -242,13 +323,14 @@ const HistoryCard: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
                   },
                 }}
               />
+
               <TextField
                 sx={{ width: "100px" }}
                 multiline
                 rows={1}
                 variant="outlined"
-                // value={formState.notes}
-                onChange={(e) => handleChange()}
+                value={newExercise.notes}
+                onChange={(e) => handleChange(e, "notes")}
                 fullWidth
                 placeholder="Add note..."
                 size="small"
