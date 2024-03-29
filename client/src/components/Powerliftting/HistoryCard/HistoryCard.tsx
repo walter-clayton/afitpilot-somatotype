@@ -38,11 +38,11 @@ const HistoryCard: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
 
   const handleSave = () => {
     console.log(" exercise saved");
-    setOpenNewScore(false);
   };
 
   const handleCancel = () => {
     console.log(" exercise cancled");
+    setOpenNewScore(false);
   };
 
   const theme = useTheme();
@@ -85,8 +85,7 @@ const HistoryCard: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
       >
         History
       </Typography>
-
-      {/* card history to perfprm crud operations */}
+      {/* card section to perform  crud operations  */}
       <Grid
         item
         sx={{
@@ -98,55 +97,57 @@ const HistoryCard: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
           // gap: "15px",
         }}
       >
-        <Grid
-          style={{
-            width: "100%",
-          }}
-        >
-          {/* intended score */}
-          <ListItem
-            sx={{ color: "#56A278", fontWeight: "bold", display: "inline" }}
-          >
-            160kg
-          </ListItem>
-          {/* prescribed RPE */}
-          <ListItem
-            sx={{ color: "#56A278", fontWeight: "bold", display: "inline" }}
-          >
-            RPE 8
-          </ListItem>
-          {/* actaul RPE  */}
-          <ListItem
-            sx={{ color: "#9B3519", fontWeight: "bold", display: "inline" }}
-          >
-            RPE 8
-          </ListItem>
-          {/* intended score */}
-          <ListItem
-            sx={{ color: "#9B3519", fontWeight: "bold", display: "inline" }}
-          >
-            160 kg
-          </ListItem>
-          {/* date */}
-          <ListItem sx={{ fontWeight: "bold", display: "inline" }}>
-            10/01/2024
-          </ListItem>
-          {/* notes */}
-          <ListItem sx={{ color: "#4B4B4B", display: "inline" }}>
-            4 X 10
-          </ListItem>
-          {/* delete exercies by id  */}
-          <DeleteIcon
-            sx={{
-              marginTop: "12px",
-              marginLeft: "80px",
-              marginRight: "10px",
-              cursor: "pointer",
-              display: "inline",
+        {filteredExercises.map((exercise, index) => (
+          <Grid
+            key={index}
+            style={{
+              width: "100%",
             }}
-            onClick={handleDelete}
-          />
-        </Grid>
+          >
+            <ListItem
+              sx={{ color: "#56A278", fontWeight: "bold", display: "inline" }}
+            >
+              {exercise.intendedScore} {exercise.unit}
+            </ListItem>
+
+            <ListItem
+              sx={{ color: "#56A278", fontWeight: "bold", display: "inline" }}
+            >
+              RPE {exercise.prescribedRPE}
+            </ListItem>
+
+            <ListItem
+              sx={{ color: "#9B3519", fontWeight: "bold", display: "inline" }}
+            >
+              RPE {exercise.actualRPE}
+            </ListItem>
+
+            <ListItem
+              sx={{ color: "#9B3519", fontWeight: "bold", display: "inline" }}
+            >
+              {exercise.intendedScore} {exercise.unit}
+            </ListItem>
+
+            <ListItem sx={{ fontWeight: "bold", display: "inline" }}>
+              {exercise.date}
+            </ListItem>
+
+            <ListItem sx={{ color: "#4B4B4B", display: "inline" }}>
+              {exercise.notes}
+            </ListItem>
+
+            <DeleteIcon
+              sx={{
+                marginTop: "18px",
+                marginLeft: "80px",
+                marginRight: "10px",
+                cursor: "pointer",
+                display: "inline",
+              }}
+              onClick={handleDelete}
+            />
+          </Grid>
+        ))}
 
         {/* adding new exercise score */}
         {openNewScore && (
