@@ -237,37 +237,32 @@ export const htmlTempPassword = (
                       </tr>
                       <tr>
                         <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:unset;">• Height (cm): <span style="font-weight:bold;">${data.anthropometric.height.toFixed()}<span></div>
+                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:unset;">• Height (cm): <span style="font-weight:bold;">${data.anthropometric.height}<span></div>
                         </td>
                       </tr>
                       <tr>
                         <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:unset;">• Bicep (cm): <span style="font-weight:bold;">${data.anthropometric.bicep_girth.toFixed()}<span></div>
+                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:unset;">• Bicep (cm): <span style="font-weight:bold;">${data.anthropometric.bicep_girth}<span></div>
                         </td>
                       </tr>
                       <tr>
                         <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:unset;">• Calf (cm): <span style="font-weight:bold;">${data.anthropometric.calf_girth.toFixed()}<span></div>
+                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:unset;">• Calf (cm): <span style="font-weight:bold;">${data.anthropometric.calf_girth}<span></div>
                         </td>
                       </tr>
                       <tr>
                         <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:unset;">• Femur (cm): <span style="font-weight:bold;">${data.anthropometric.femur_breadth.toFixed()}<span></div>
+                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:unset;">• Femur (cm): <span style="font-weight:bold;">${data.anthropometric.femur_breadth}<span></div>
                         </td>
                       </tr>
                       <tr>
                         <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:unset;">• Humerus (cm): <span style="font-weight:bold;">${data.anthropometric.humerus_breadth.toFixed()}<span></div>
+                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:unset;">• Humerus (cm): <span style="font-weight:bold;">${data.anthropometric.humerus_breadth}<span></div>
                         </td>
                       </tr>
                       <tr>
                         <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:unset;">• Weight (kg): <span style="font-weight:bold;">${data.anthropometric.weight.toFixed()}<span></div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:unset;">• Body Fat (%): <span style="font-weight:bold;">${data.anthropometric.weight.toFixed()}<span></div>
+                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:unset;">• Weight (kg): <span style="font-weight:bold;">${data.anthropometric.weight}<span></div>
                         </td>
                       </tr>
                       <tr>
