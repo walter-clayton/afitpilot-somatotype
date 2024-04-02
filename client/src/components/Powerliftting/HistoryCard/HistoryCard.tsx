@@ -43,8 +43,21 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
 
   const { enqueueSnackbar } = useSnackbar();
 
+  const calculateAdjustedPerformance = (
+    actualRPE: number,
+    intendedScore: number
+  ): number => {
+    let adjustmentFactor = 1 - (actualRPE - 4) / 10;
+    adjustmentFactor = Math.max(adjustmentFactor, 0.9);
+
+    const adjustedScore = intendedScore * adjustmentFactor;
+
+    // Round the adjusted score to the nearest whole number
+    return Math.round(adjustedScore);
+  };
+
   useEffect(() => {
-    // console.log("coming from History exeercise:", filteredExercises);
+    console.log("coming from History exeercise:", filteredExercises);
   }, [filteredExercises]);
 
   const currentDate = new Date().toLocaleDateString("en-GB");
@@ -79,24 +92,39 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
     // Generate a unique ID for the new exercise
     const newExerciseId = uuidv4();
 
+    // Calculate adjusted performance
+    const adjustedPerformance = calculateAdjustedPerformance(
+      newExercise.actualRPE || 0,
+      typeof newExercise.intendedScore === "number"
+        ? newExercise.intendedScore
+        : parseFloat(newExercise.intendedScore)
+    );
+
+    // Add the new exercise
     addExercise({
       ...newExercise,
       id: newExerciseId,
       exerciseName: exerciseName,
       unit: unit,
+      adjustedPerformance: adjustedPerformance, // Add adjusted performance here
     });
-    console.log("new exercise", addExercise);
 
+    // Reset newExercise state
     setNewExercise({
       id: "",
       intendedScore: 0,
+      adjustedPerformance: 0,
       prescribedRPE: 1,
       actualRPE: 1,
       date: new Date().toLocaleDateString("en-GB"),
       notes: "",
       unit: unit,
     });
+
+    // Close the new score form
     setOpenNewScore(false);
+
+    // Show success message
     enqueueSnackbar("Exercise added successfully!", { variant: "success" });
   };
 
@@ -201,10 +229,11 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
               RPE {exercise.actualRPE}
             </ListItem>
 
+            {/* adjustedPerformance  */}
             <ListItem
               sx={{ color: "#9B3519", fontWeight: "bold", display: "inline" }}
             >
-              {exercise.intendedScore} {exercise.unit}
+              {exercise.adjustedPerformance} {exercise.unit}
             </ListItem>
 
             <ListItem sx={{ fontWeight: "bold", display: "inline" }}>

@@ -27,13 +27,13 @@ const FormPage: React.FC<FormPageProps> = ({
     id: "",
     exerciseName: "",
     unit: "",
+    adjustedPerformance: 0,
     intendedScore: 0,
     prescribedRPE: 1,
     actualRPE: 1,
     date: new Date().toLocaleDateString("en-GB"),
     notes: "",
   });
-
   const currentDate = new Date().toLocaleDateString("en-GB");
   // Parse the current date string
   const parts = currentDate.split("/");
@@ -42,6 +42,19 @@ const FormPage: React.FC<FormPageProps> = ({
   const [errors, setErrors] = useState<Partial<ExerciseFormState>>({});
   const formRef = useRef<HTMLDivElement>(null);
   const { enqueueSnackbar } = useSnackbar();
+
+  const calculateAdjustedPerformance = (
+    actualRPE: number,
+    intendedScore: number
+  ): number => {
+    let adjustmentFactor = 1 - (actualRPE - 4) / 10;
+    adjustmentFactor = Math.max(adjustmentFactor, 0.9);
+
+    const adjustedScore = intendedScore * adjustmentFactor;
+
+    // Round the adjusted score to the nearest whole number
+    return Math.round(adjustedScore);
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -58,6 +71,34 @@ const FormPage: React.FC<FormPageProps> = ({
       ...prevErrors,
       [name]: "",
     }));
+
+    // Calculate adjusted performance whenever actualRPE or intendedScore changes
+    if (name === "actualRPE" || name === "intendedScore") {
+      let actualRPEValue: number = formState.actualRPE || 0;
+      let intendedScoreValue: number =
+        typeof formState.intendedScore === "number"
+          ? formState.intendedScore
+          : parseFloat(value || "0"); // Parse intendedScore as a float
+
+      if (name === "actualRPE") {
+        actualRPEValue = parseInt(value || "0");
+      } else if (name === "intendedScore") {
+        intendedScoreValue = parseFloat(value || "0");
+      }
+
+      const adjustedPerformance = calculateAdjustedPerformance(
+        actualRPEValue,
+        intendedScoreValue
+      );
+
+      console.log("Actual RPE Value:", actualRPEValue);
+      console.log("Intended Score Value:", intendedScoreValue);
+
+      setFormState((prev: ExerciseFormState) => ({
+        ...prev,
+        adjustedPerformance: adjustedPerformance,
+      }));
+    }
   };
 
   const defaultIntendedScore: Record<string, number> = {
