@@ -36,7 +36,6 @@ const Privacy = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "left",
-              textAlign: "justify",
             }}
           >
             <Typography
@@ -50,7 +49,7 @@ const Privacy = () => {
               Privacy Policy
             </Typography>
             <Typography variant="body1" paragraph>
-              Our Privacy Policy was last updated on November 23, 2022.
+              Our Privacy Policy was last updated on April 2, 2024.
             </Typography>
             <Typography variant="body1" paragraph>
               Here’s a very brief summary with the key points we hope you take
@@ -61,8 +60,8 @@ const Privacy = () => {
                     <HexagonIcon />
                   </ListItemIcon>
                   <ListItemText>
-                    We don’t nor have any intention to sell your personal data
-                    to anyone.
+                    We do not sell your personal data and have no intention to
+                    do so in the future.
                   </ListItemText>
                 </ListItem>
                 <ListItem>
@@ -286,7 +285,7 @@ const Privacy = () => {
               you contact us.
             </Typography>
             <Typography component="h3" variant="h5" gutterBottom>
-              Personal Information Provided by You.
+              Personal Information You Provide.
             </Typography>
             <Typography variant="body1" paragraph>
               The personal information that we collect depends on the context of
@@ -304,31 +303,55 @@ const Privacy = () => {
                   <ListItemIcon>
                     <HexagonIcon />
                   </ListItemIcon>
-                  <ListItemText>Somatotype test results</ListItemText>
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <HexagonIcon />
-                  </ListItemIcon>
-                  <ListItemText>Email addresses</ListItemText>
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <HexagonIcon />
-                  </ListItemIcon>
                   <ListItemText>Age</ListItemText>
                 </ListItem>
                 <ListItem>
                   <ListItemIcon>
                     <HexagonIcon />
                   </ListItemIcon>
-                  <ListItemText>Sport</ListItemText>
+                  <ListItemText>Weight</ListItemText>
                 </ListItem>
                 <ListItem>
                   <ListItemIcon>
                     <HexagonIcon />
                   </ListItemIcon>
-                  <ListItemText>Country</ListItemText>
+                  <ListItemText>Gender</ListItemText>
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <HexagonIcon />
+                  </ListItemIcon>
+                  <ListItemText>Femur breadths</ListItemText>
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <HexagonIcon />
+                  </ListItemIcon>
+                  <ListItemText>Humerus breadths</ListItemText>
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <HexagonIcon />
+                  </ListItemIcon>
+                  <ListItemText>Bicep circumferences</ListItemText>
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <HexagonIcon />
+                  </ListItemIcon>
+                  <ListItemText>Calf circumferences</ListItemText>
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <HexagonIcon />
+                  </ListItemIcon>
+                  <ListItemText>Body fat percentages</ListItemText>
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <HexagonIcon />
+                  </ListItemIcon>
+                  <ListItemText>Email addresses</ListItemText>
                 </ListItem>
               </List>
             </Typography>
@@ -390,7 +413,7 @@ const Privacy = () => {
                   </ListItemIcon>
                   <ListItemText>
                     provide you with content and services relevant to you –
-                    e.g., information for people with your personality type;
+                    e.g., information for people with your somatotype type;
                   </ListItemText>
                 </ListItem>
                 <ListItem>
@@ -415,22 +438,6 @@ const Privacy = () => {
               </List>
             </Typography>
             <Typography variant="body1" paragraph>
-              Application Data. If you use our application, we also may collect
-              the following information if you choose to provide us with access
-              or permission:
-            </Typography>
-            <Typography variant="body1" paragraph>
-              Mobile Device Access. We may request access or permission to
-              certain features from your mobile device, include your mobile
-              device’s camera, and other features. If you wish to change our
-              access or permissions, you may do so in your device’s settings.
-            </Typography>
-            <Typography variant="body1" paragraph>
-              The information is primarily needed to maintain the security and
-              operation of our application, for troubleshooting, and for our
-              internal analytics and reporting purposes.
-            </Typography>
-            <Typography variant="body1" paragraph>
               All personal information that you provide to us must be true,
               complete, accurate, and you must notify us of any changes to such
               personal information.
@@ -441,7 +448,7 @@ const Privacy = () => {
             <Typography variant="body1" paragraph>
               In Short: Some information - such as your browser, device
               characteristics - is collected automatically when you visit our
-              Wesbite.
+              Website.
             </Typography>
             <Typography variant="body1" paragraph>
               We automatically collect certain information when you visit, or
@@ -688,7 +695,7 @@ const Privacy = () => {
               (6) Do we use cookies and other tracking technologies?
             </Typography>
             <Typography variant="body1" paragraph>
-              In Short: most of the functionality on our website (such as
+              In Short: Most of the functionality on our website (such as
               viewing your somatotype test results or logging in) requires
               cookies. By using our website, you consent to our use of cookies
               as described in this policy.
@@ -711,8 +718,7 @@ const Privacy = () => {
               We use Google Analytics 4 to analyze the use of our website. These
               third party services may use cookies and other technologies to
               collect technical data on your behavior and your device (such as
-              your device’s screen size). For further details, please see You
-              can also opt out of{" "}
+              your device’s screen size). For further details, please see{" "}
               <Link
                 href="https://policies.google.com/privacy"
                 target={"_blank"}
@@ -931,9 +937,9 @@ const Privacy = () => {
               from you?
             </Typography>
             <Typography variant="body1" paragraph>
-              You have the right ti request access to the personal information
+              You have the right to request access to the personal information
               we collect from you, change that information, or delete it. To
-              requestis to review, update, or delete your personal information,
+              request to review, update, or delete your personal information,
               please visit your user profile on https://www.afitpilot.com.
             </Typography>
           </Box>

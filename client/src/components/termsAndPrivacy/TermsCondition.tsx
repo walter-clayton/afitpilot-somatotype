@@ -34,7 +34,6 @@ const TermsCondition = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "left",
-            textAlign: "justify",
           }}
         >
           <Typography
@@ -47,7 +46,7 @@ const TermsCondition = () => {
             Terms and Conditions
           </Typography>
           <Typography variant="body1" paragraph>
-            Our Terms and Conditions were last updated on November 23, 2022.
+            Our Terms and Conditions were last updated on April 2, 2024.
           </Typography>
           <Typography variant="body1" paragraph>
             Please read these Terms and Conditions carefully before using Our
