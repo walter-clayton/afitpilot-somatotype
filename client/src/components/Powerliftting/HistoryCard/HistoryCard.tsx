@@ -44,7 +44,7 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
-    console.log("coming from History exeercise:", filteredExercises);
+    // console.log("coming from History exeercise:", filteredExercises);
   }, [filteredExercises]);
 
   const currentDate = new Date().toLocaleDateString("en-GB");

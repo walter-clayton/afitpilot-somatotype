@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Box, Grid, Typography, useTheme, useMediaQuery } from "@mui/material";
 import { Line } from "react-chartjs-2";
 import {
@@ -32,6 +32,7 @@ interface Dataset {
   backgroundColor: string;
   tension: number;
   fill: boolean;
+  unitType: string;
 }
 
 interface CustomChartOptions extends ChartOptions<"line"> {
@@ -41,7 +42,8 @@ interface CustomChartOptions extends ChartOptions<"line"> {
 const createDataset = (
   label: string,
   data: number[],
-  borderColor: string
+  borderColor: string,
+  unitType: string
 ): Dataset => ({
   label,
   data,
@@ -49,6 +51,7 @@ const createDataset = (
   backgroundColor: borderColor,
   tension: 0.4,
   fill: false,
+  unitType,
 });
 
 const options: CustomChartOptions = {
@@ -67,12 +70,13 @@ const options: CustomChartOptions = {
   height: 370,
 };
 
-const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
-  filteredExercises,
-}) => {
+const ChartContainer: React.FC<{
+  filteredExercises: ExerciseFormState[];
+}> = ({ filteredExercises }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
+  //  calculateAdjustedPerformance
   const calculateAdjustedPerformance = (
     actualRPE: number,
     intendedScore: number
@@ -85,9 +89,16 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
     // Round the adjusted score to the nearest whole number
     return Math.round(adjustedScore);
   };
-  useEffect(() => {
-    console.log("Exercises in ChartContainer:", filteredExercises);
-  }, [filteredExercises]);
+
+  // Calculate adjusted performance for different datasets
+  const adjustedPerformance: number[] = filteredExercises.map((exercise) =>
+    calculateAdjustedPerformance(
+      exercise.actualRPE || 0,
+      typeof exercise.intendedScore === "number"
+        ? exercise.intendedScore
+        : parseFloat(exercise.intendedScore)
+    )
+  );
 
   const optionsWithoutGrid: ChartOptions<"line"> = {
     ...options,
@@ -113,14 +124,8 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
   const prescribedRPE: (number | undefined)[] = filteredExercises.map(
     (exercise) => exercise.prescribedRPE
   );
-  const actualRPE: (number | undefined)[] = filteredExercises.map(
-    (exercise) => exercise.actualRPE
-  );
 
   const filteredPrescribedRPE: number[] = prescribedRPE.filter(
-    (value): value is number => value !== undefined
-  );
-  const filteredActualRPE: number[] = actualRPE.filter(
     (value): value is number => value !== undefined
   );
 
@@ -136,15 +141,7 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
     }
   );
 
-  const actualPerformance: (number | undefined)[] = filteredExercises.map(
-    (exercise) =>
-      typeof exercise.actualRPE === "number" ? exercise.actualRPE : undefined
-  );
-
   const filteredPrescribedPerformance: number[] = prescribedPerformance.filter(
-    (value): value is number => value !== undefined
-  );
-  const filteredActualPerformance: number[] = actualPerformance.filter(
     (value): value is number => value !== undefined
   );
 
@@ -152,14 +149,22 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
   if (filteredExercises.length === 0) {
     return null;
   }
-
   const rpeChartData: ChartData<"line"> = {
     labels,
     datasets: [
-      createDataset("Prescribed RPE", filteredPrescribedRPE, "#56A278"),
-      createDataset("Actual RPE", filteredActualRPE, "#9B361A"),
+      createDataset("Prescribed RPE", filteredPrescribedRPE, "#56A278", ""),
+      createDataset(
+        "Actual RPE",
+        filteredExercises.map((exercise) => exercise.actualRPE || 0),
+        "#9B361A",
+        ""
+      ),
     ],
   };
+  const unitType =
+    filteredExercises.length > 0 ? filteredExercises[0].unit : "";
+  // Provide a default value if unitType is undefined
+  const unitTypeString = unitType || "";
 
   const performanceChartData: ChartData<"line"> = {
     labels,
@@ -167,11 +172,27 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
       createDataset(
         "Prescribed Performance",
         filteredPrescribedPerformance,
-        "#56A278"
+        "#56A278",
+        unitTypeString
       ),
-      createDataset("Actual Performance", filteredActualPerformance, "#9B361A"),
+      createDataset(
+        "Adjusted Performance",
+        adjustedPerformance,
+        "#9B361A",
+        unitTypeString
+      ),
     ],
   };
+
+  // const getLastExercise = (): ExerciseFormState | undefined => {
+  //   if (filteredExercises.length > 0) {
+  //     return filteredExercises[filteredExercises.length - 1];
+  //   }
+  //   return undefined;
+  // };
+
+  // const lastExercise = getLastExercise();
+  // console.log("last exercise", lastExercise);
 
   return (
     <Box
@@ -193,7 +214,6 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
           width: isSmallScreen ? "100vw" : "400px",
           flexDirection: "column",
           flexWrap: "wrap",
-          // height: "100%",
           height: "380px",
           justifyContent: "center",
           alignItems: "center",
