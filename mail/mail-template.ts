@@ -266,6 +266,11 @@ export const htmlTempPassword = (
                         </td>
                       </tr>
                       <tr>
+                        <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:unset;">• Body Fat (%): <span style="font-weight:bold;"><span></div>
+                        </td>
+                      </tr>
+                      <tr>
                         <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                           <p style="border-top:solid 3px #6C4D7B;font-size:1px;margin:0px auto;width:100%;">
                           </p>
