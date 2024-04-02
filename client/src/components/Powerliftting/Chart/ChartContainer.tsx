@@ -32,7 +32,6 @@ interface Dataset {
   backgroundColor: string;
   tension: number;
   fill: boolean;
-  unitType: string;
 }
 
 interface CustomChartOptions extends ChartOptions<"line"> {
@@ -42,8 +41,7 @@ interface CustomChartOptions extends ChartOptions<"line"> {
 const createDataset = (
   label: string,
   data: number[],
-  borderColor: string,
-  unitType: string
+  borderColor: string
 ): Dataset => ({
   label,
   data,
@@ -51,7 +49,6 @@ const createDataset = (
   backgroundColor: borderColor,
   tension: 0.4,
   fill: false,
-  unitType,
 });
 
 const options: CustomChartOptions = {
@@ -70,16 +67,6 @@ const options: CustomChartOptions = {
   height: 370,
 };
 
-const calculateAdjustedPerformance = (
-  prescribedRPE: number,
-  intendedScore: number
-): number => {
-  let adjustmentFactor = 1 - (prescribedRPE - 4) / 10;
-  adjustmentFactor = Math.max(adjustmentFactor, 0.9);
-
-  return intendedScore * adjustmentFactor;
-};
-
 const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
   filteredExercises,
 }) => {
@@ -87,7 +74,7 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
-    // console.log("Exercises in ChartContainer:", filteredExercises);
+    console.log("Exercises in ChartContainer:", filteredExercises);
   }, [filteredExercises]);
 
   const optionsWithoutGrid: ChartOptions<"line"> = {
@@ -114,8 +101,14 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
   const prescribedRPE: (number | undefined)[] = filteredExercises.map(
     (exercise) => exercise.prescribedRPE
   );
+  const actualRPE: (number | undefined)[] = filteredExercises.map(
+    (exercise) => exercise.actualRPE
+  );
 
   const filteredPrescribedRPE: number[] = prescribedRPE.filter(
+    (value): value is number => value !== undefined
+  );
+  const filteredActualRPE: number[] = actualRPE.filter(
     (value): value is number => value !== undefined
   );
 
@@ -131,18 +124,16 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
     }
   );
 
+  const actualPerformance: (number | undefined)[] = filteredExercises.map(
+    (exercise) =>
+      typeof exercise.actualRPE === "number" ? exercise.actualRPE : undefined
+  );
+
   const filteredPrescribedPerformance: number[] = prescribedPerformance.filter(
     (value): value is number => value !== undefined
   );
-
-  // Calculate adjusted performance
-  const adjustedPerformance: number[] = filteredPrescribedRPE.map(
-    (prescribedRPE, index) => {
-      return calculateAdjustedPerformance(
-        prescribedRPE,
-        filteredPrescribedPerformance[index]
-      );
-    }
+  const filteredActualPerformance: number[] = actualPerformance.filter(
+    (value): value is number => value !== undefined
   );
 
   // Return null if there are no filtered exercises
@@ -153,15 +144,10 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
   const rpeChartData: ChartData<"line"> = {
     labels,
     datasets: [
-      createDataset("Prescribed RPE", filteredPrescribedRPE, "#56A278", ""),
-      createDataset("Actual RPE", filteredPrescribedRPE, "#9B361A", ""),
+      createDataset("Prescribed RPE", filteredPrescribedRPE, "#56A278"),
+      createDataset("Actual RPE", filteredActualRPE, "#9B361A"),
     ],
   };
-
-  const unitType =
-    filteredExercises.length > 0 ? filteredExercises[0].unit : "";
-  // Provide a default value if unitType is undefined
-  const unitTypeString = unitType || "";
 
   const performanceChartData: ChartData<"line"> = {
     labels,
@@ -169,15 +155,9 @@ const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
       createDataset(
         "Prescribed Performance",
         filteredPrescribedPerformance,
-        "#56A278",
-        unitTypeString
+        "#56A278"
       ),
-      createDataset(
-        "Adjusted Performance",
-        adjustedPerformance,
-        "#9B361A",
-        unitTypeString
-      ),
+      createDataset("Actual Performance", filteredActualPerformance, "#9B361A"),
     ],
   };
 
