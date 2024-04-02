@@ -41,6 +41,7 @@
     "react-swipeable-views": "^0.14.0",
     "react-transition-group": "^4.4.5",
     "react-youtube": "^10.1.0",
+    "somatotype": "file:..",
     "styled-components": "^5.3.6",
     "typescript": "^4.8.4",
     "uuid": "^9.0.0",

@@ -205,7 +205,7 @@ export default function Login(props: any) {
               variant="subtitle1"
             >
               {" "}
-              free personality test
+              free somatotype test
             </Link>
             .
           </Typography>
