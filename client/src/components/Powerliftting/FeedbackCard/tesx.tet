@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Typography,
@@ -15,9 +15,6 @@ interface FeedbackCardProps {
 const FeedbackCard: React.FC<FeedbackCardProps> = ({ filteredExercises }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const [adjustedPerformance, setAdjustedPerformance] = useState<string | null>(
-    null
-  );
 
   const getLastExercise = (): ExerciseFormState | undefined => {
     if (filteredExercises.length > 0) {
@@ -25,23 +22,8 @@ const FeedbackCard: React.FC<FeedbackCardProps> = ({ filteredExercises }) => {
     }
     return undefined;
   };
-  console.log("coming from adjustedPerformance:", adjustedPerformance);
-  const lastExercise = getLastExercise();
 
-  useEffect(() => {
-    if (lastExercise) {
-      const adjustedPerformanceValue = calculateAdjustedPerformance(
-        lastExercise.unit || "",
-        lastExercise.actualRPE || 0,
-        typeof lastExercise.intendedScore === "number"
-          ? lastExercise.intendedScore
-          : parseFloat(lastExercise.intendedScore)
-      );
-      setAdjustedPerformance(adjustedPerformanceValue);
-    } else {
-      setAdjustedPerformance(null);
-    }
-  }, [lastExercise]);
+  const lastExercise = getLastExercise();
 
   if (filteredExercises.length === 0 || !lastExercise) {
     return null;

@@ -70,9 +70,10 @@ const options: CustomChartOptions = {
   height: 370,
 };
 
-const ChartContainer: React.FC<{ filteredExercises: ExerciseFormState[] }> = ({
-  filteredExercises,
-}) => {
+const ChartContainer: React.FC<{
+  filteredExercises: ExerciseFormState[];
+  lastExercise: ExerciseFormState | undefined;
+}> = ({ filteredExercises }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 

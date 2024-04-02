@@ -32,8 +32,9 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
 }) => {
   const [openNewScore, setOpenNewScore] = useState<boolean>(false);
   const [newExercise, setNewExercise] = useState<ExerciseFormState>({
-    intendedScore: 0,
     id: "",
+    intendedScore: 0,
+    adjustedPerformance: 0,
     prescribedRPE: 1,
     actualRPE: 1,
     date: new Date().toLocaleDateString("en-GB"),
@@ -291,12 +292,13 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
                 ))}
               </Select>
 
+              {/* adjusted performace */}
               <TextField
                 sx={{ width: "80px", bgColor: "#9B361A" }}
                 type="number"
                 variant="outlined"
-                onChange={(e) => handleChange(e, "intendedScore")}
-                value={newExercise.intendedScore}
+                onChange={(e) => handleChange(e, "adjustedPerformance")}
+                value={newExercise.adjustedPerformance}
                 placeholder="140 kg"
                 size="small"
               />

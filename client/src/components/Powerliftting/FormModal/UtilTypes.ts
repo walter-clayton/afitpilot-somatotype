@@ -7,6 +7,7 @@ export interface ExerciseFormState {
   actualRPE?: number;
   date: string;
   notes: string;
+  adjustedPerformance?: number;
 }
 
 export const units: string[] = [
