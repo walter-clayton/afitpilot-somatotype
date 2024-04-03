@@ -6,6 +6,7 @@ import { ExerciseFormState } from "./FormModal/UtilTypes";
 
 const TrainingDiary: React.FC = () => {
   const [exercises, setExercises] = useState<ExerciseFormState[]>([]);
+  console.log(exercises);
 
   // adding
   const addExercise = (newExercise: ExerciseFormState) => {

@@ -61,6 +61,7 @@ const FormPage: React.FC<FormPageProps> = ({
     name: string
   ) => {
     const { value } = e.target;
+
     setFormState((prev) => ({
       ...prev,
       [name]: value,
@@ -72,30 +73,21 @@ const FormPage: React.FC<FormPageProps> = ({
       [name]: "",
     }));
 
-    // Calculate adjusted performance whenever actualRPE or intendedScore changes
-    if (name === "actualRPE" || name === "intendedScore") {
-      let actualRPEValue: number = formState.actualRPE || 0;
-      let intendedScoreValue: number =
-        typeof formState.intendedScore === "number"
-          ? formState.intendedScore
-          : parseFloat(value || "0"); // Parse intendedScore as a float
+    // Convert intendedScore to a number before performing calculations
+    let intendedScoreValue: number = parseFloat(value);
 
-      if (name === "actualRPE") {
-        actualRPEValue = parseInt(value || "0");
-      } else if (name === "intendedScore") {
-        intendedScoreValue = parseFloat(value || "0");
-      }
+    if (name === "actualRPE" || name === "intendedScore") {
+      let actualRPEValue: number = parseFloat(value || "0");
 
       const adjustedPerformance = calculateAdjustedPerformance(
         actualRPEValue,
         intendedScoreValue
       );
 
-      console.log("Actual RPE Value:", actualRPEValue);
-      console.log("Intended Score Value:", intendedScoreValue);
-
       setFormState((prev: ExerciseFormState) => ({
         ...prev,
+        actualRPE: actualRPEValue, // Update actualRPE here
+        intendedScore: intendedScoreValue, // Parse intendedScore as a number
         adjustedPerformance: adjustedPerformance,
       }));
     }

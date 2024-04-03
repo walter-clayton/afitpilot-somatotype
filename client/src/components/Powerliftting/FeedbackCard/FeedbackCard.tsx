@@ -25,7 +25,7 @@ const FeedbackCard: React.FC<FeedbackCardProps> = ({ filteredExercises }) => {
     }
     return undefined;
   };
-  console.log("coming from adjustedPerformance:", adjustedPerformance);
+  // console.log("coming from adjustedPerformance:", adjustedPerformance);
   const lastExercise = getLastExercise();
 
   useEffect(() => {

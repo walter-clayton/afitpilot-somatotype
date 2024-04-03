@@ -57,7 +57,7 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
   };
 
   useEffect(() => {
-    console.log("coming from History exeercise:", filteredExercises);
+    // console.log("coming from History exeercise:", filteredExercises);
   }, [filteredExercises]);
 
   const currentDate = new Date().toLocaleDateString("en-GB");
@@ -421,7 +421,7 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
         )}
       </Grid>
 
-      {/* button is add new score  */}
+      {/* button to add new score  */}
       <Button
         variant="contained"
         startIcon={<AddIcon />}
