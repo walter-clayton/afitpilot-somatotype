@@ -46,6 +46,7 @@ export interface IAnthropometric {
   humerus_breadth: number;
   calf_girth: number;
   bicep_girth: number;
+  body_fat: number;
   users: IRelationShip[];
   somatotype: IRelationShip;
   createdAt: String;

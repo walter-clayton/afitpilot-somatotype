@@ -502,6 +502,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
             humerus_breadth: 7,
             calf_girth: 38,
             bicep_girth: 38,
+            body_fat: 20,
           }))
         : setAnthropometric(
             response.data.data.anthropometrics.reverse()[props.idRow!]
@@ -559,6 +560,7 @@ const TestSteps: FC<ITestSteps> = (props) => {
       tricep_skinfold: getTwoSumSkinfolds() / 2,
       calf_girth: Number(values.calf),
       bicep_girth: Number(values.arm),
+      body_fat: Number(values.bodyFat),
     };
 
     setAnthropometric((anthropometric) => anthropometrics);

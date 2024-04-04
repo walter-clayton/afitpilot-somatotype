@@ -70,6 +70,7 @@ usersCtrl.register = async (req: Request, res: Response) => {
         humerus_breadth: anthropometric.humerus_breadth,
         calf_girth: anthropometric.calf_girth,
         bicep_girth: anthropometric.bicep_girth,
+        body_fat: anthropometric.body_fat,
       });
 
       const avatar = { ...data.avatar };
@@ -235,6 +236,7 @@ usersCtrl.saveResults = async (req: Request, res: Response) => {
       const humerus_breadth = anthropometric.humerus_breadth;
       const calf_girth = anthropometric.calf_girth;
       const bicep_girth = anthropometric.bicep_girth;
+      const body_fat = anthropometric.body_fat;
 
       const newAnthropometric = await Anthropometric({
         height,
@@ -246,6 +248,7 @@ usersCtrl.saveResults = async (req: Request, res: Response) => {
         humerus_breadth,
         calf_girth,
         bicep_girth,
+        body_fat,
       });
 
       // create Avatar
@@ -458,6 +461,7 @@ usersCtrl.editSomatotype = async (req: Request, res: Response) => {
       editedAnthropometric.humerus_breadth = anthropometric.humerus_breadth;
       editedAnthropometric.calf_girth = anthropometric.calf_girth;
       editedAnthropometric.bicep_girth = anthropometric.bicep_girth;
+      editedAnthropometric.body_fat = anthropometric.body_fat;
 
       // create Avatar
       const avatar = { ...data.avatar };
