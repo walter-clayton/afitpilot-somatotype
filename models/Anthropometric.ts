@@ -11,6 +11,7 @@ const anthropometricSchema: Schema = new Schema<IAnthropometric>({
   humerus_breadth: { type: Number, required: true },
   calf_girth: { type: Number, required: true },
   bicep_girth: { type: Number, required: true },
+  body_fat: { type: Number, required: true },
   users: [{ type: Schema.Types.ObjectId, ref: "User" }],
   somatotype: { type: Schema.Types.ObjectId, ref: "Somatotype" },
   createdAt: { type: String, default: new Date().toLocaleString() },

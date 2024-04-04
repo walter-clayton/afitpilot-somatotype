@@ -59,6 +59,7 @@ export interface IAnthropometric {
   humerus_breadth?: number | undefined;
   calf_girth?: number | undefined;
   bicep_girth?: number | undefined;
+  body_fat?: number | undefined;
 }
 
 export interface IParamsAvatar {

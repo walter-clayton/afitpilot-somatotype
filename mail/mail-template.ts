@@ -267,7 +267,7 @@ export const htmlTempPassword = (
                       </tr>
                       <tr>
                         <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:unset;">• Body Fat (%): <span style="font-weight:bold;"><span></div>
+                          <div style="font-family:helvetica;font-size:18px;line-height:25px;text-align:left;color:unset;">• Body Fat (%): <span style="font-weight:bold;">${data.anthropometric.body_fat}<span></div>
                         </td>
                       </tr>
                       <tr>
