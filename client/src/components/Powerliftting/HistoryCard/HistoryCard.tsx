@@ -6,7 +6,6 @@ import { useSnackbar } from "notistack";
 import { v4 as uuidv4 } from "uuid";
 import {
   Grid,
-  ListItem,
   Typography,
   useMediaQuery,
   useTheme,
@@ -14,6 +13,14 @@ import {
   Button,
   Select,
   MenuItem,
+  Box,
+  Table,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Paper,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 
@@ -192,184 +199,266 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
       >
         History
       </Typography>
+
       {/* card section to perform  crud operations  */}
       <Grid
         item
         sx={{
-          display: "flex",
+          display: isSmallScreen ? "none" : "flex",
           alignItems: "center",
           justifyContent: "space-between",
           flexDirection: "column",
-          padding: "0 40px",
-          // gap: "15px",
+          paddingX: "10px",
+          width: "100%",
+          padding: "10px 10px",
         }}
       >
-        {filteredExercises.map((exercise, index) => (
-          <Grid
-            key={exercise.id}
-            style={{
-              width: "100%",
-            }}
-          >
-            <ListItem
-              sx={{ color: "#56A278", fontWeight: "bold", display: "inline" }}
-            >
-              {exercise.intendedScore} {exercise.unit}
-            </ListItem>
-
-            <ListItem
-              sx={{ color: "#56A278", fontWeight: "bold", display: "inline" }}
-            >
-              RPE {exercise.prescribedRPE}
-            </ListItem>
-
-            <ListItem
-              sx={{ color: "#9B3519", fontWeight: "bold", display: "inline" }}
-            >
-              RPE {exercise.actualRPE}
-            </ListItem>
-
-            {/* adjustedPerformance  */}
-            <ListItem
-              sx={{ color: "#9B3519", fontWeight: "bold", display: "inline" }}
-            >
-              {exercise.adjustedPerformance} {exercise.unit}
-            </ListItem>
-
-            <ListItem sx={{ fontWeight: "bold", display: "inline" }}>
-              {exercise.date}
-            </ListItem>
-
-            <ListItem sx={{ color: "#4B4B4B", display: "inline" }}>
-              {exercise.notes}
-            </ListItem>
-
-            <DeleteIcon
-              sx={{
-                marginTop: "18px",
-                marginLeft: "80px",
-                marginRight: "10px",
-                cursor: "pointer",
-                display: "inline",
-              }}
-              onClick={() => handleDelete(exercise.id)}
-            />
-          </Grid>
-        ))}
-
-        {/* adding new exercise score */}
+        <TableContainer sx={{ width: "100%" }}>
+          <TableBody>
+            {filteredExercises.map((exercise) => (
+              <TableRow key={exercise.id} sx={{ width: "100%" }}>
+                <TableCell
+                  sx={{
+                    color: "#56A278",
+                    fontWeight: "bold",
+                    paddingX: "20px",
+                  }}
+                >
+                  {exercise.intendedScore} {exercise.unit}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    color: "#56A278",
+                    fontWeight: "bold",
+                    paddingX: "20px",
+                  }}
+                >
+                  RPE {exercise.prescribedRPE}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    color: "#9B3519",
+                    fontWeight: "bold",
+                    paddingX: "20px",
+                  }}
+                >
+                  RPE {exercise.actualRPE}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    color: "#9B3519",
+                    fontWeight: "bold",
+                    paddingX: "20px",
+                  }}
+                >
+                  {exercise.adjustedPerformance} {exercise.unit}
+                </TableCell>
+                <TableCell sx={{ fontWeight: "bold", paddingX: "20px" }}>
+                  {exercise.date}
+                </TableCell>
+                <TableCell sx={{ width: "200px" }}>{exercise.notes}</TableCell>
+                <TableCell>
+                  <DeleteIcon
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => handleDelete(exercise.id)}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </TableContainer>
+        ;{/* adding new exercise score */}
         {openNewScore && (
           <Grid
-            style={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              padding: "20px",
-            }}
+            container
+            direction="column"
+            alignItems="flex-start"
+            paddingLeft="20px"
           >
-            <Typography
-              sx={{
-                fontWeight: "bold",
-              }}
-            >
+            <Typography sx={{ fontWeight: "bold", paddingBottom: "10px" }}>
               Add new score
             </Typography>
 
-            <Grid item sx={{ display: "flex", gap: "10px" }}>
-              <TextField
-                sx={{ width: "80px", bgColor: "#56A278" }}
-                type="number"
-                variant="outlined"
-                onChange={(e) => handleChange(e, "intendedScore")}
-                value={newExercise.intendedScore}
-                placeholder="140 kg"
-                size="small"
-              />
+            <Grid item container spacing={1} alignItems="center">
+              <Grid item>
+                <TextField
+                  sx={{
+                    width: "100px",
 
-              <Select
-                label="Prescribed RPE"
-                value={newExercise.prescribedRPE}
-                size="small"
-                onChange={(e) => handleSelectChange(e, "prescribedRPE")} // Use handleSelectChange here
-                style={{
-                  backgroundColor: "#56A278",
-                  color: "white",
-                  height: "40px",
-                }}
-              >
-                {Array.from({ length: 10 }, (_, i) => i + 1).map((rpe) => (
-                  <MenuItem key={rpe} value={rpe}>
-                    {rpe}
-                  </MenuItem>
-                ))}
-              </Select>
-
-              <Select
-                label="Actual RPE"
-                value={newExercise.actualRPE}
-                onChange={(e) => handleSelectChange(e, "actualRPE")}
-                style={{
-                  backgroundColor: "#9B361A",
-                  color: "white",
-                  height: "40px",
-                }}
-              >
-                {Array.from({ length: 10 }, (_, i) => i + 1).map((rpe) => (
-                  <MenuItem key={rpe} value={rpe}>
-                    {rpe}
-                  </MenuItem>
-                ))}
-              </Select>
-
-              {/* adjusted performace */}
-              <TextField
-                sx={{ width: "80px", bgColor: "#9B361A" }}
-                type="number"
-                variant="outlined"
-                onChange={(e) => handleChange(e, "adjustedPerformance")}
-                value={newExercise.adjustedPerformance}
-                placeholder="140 kg"
-                size="small"
-              />
-
-              <TextField
-                type="date"
-                variant="outlined"
-                value={formattedCurrentDate}
-                onChange={(e) => handleChange(e, "date")}
-                size="small"
-                sx={{
-                  width: "130px",
-                  outline: "none",
-                  border: "none",
-                  "& input": {
-                    backgroundColor: "#fff",
-                    borderRadius: "5px",
-                    border: "1px solid #ccc",
-                    outline: "none",
-                    transition: "border-color 0.3s",
-                    "&:focus": {
-                      borderColor: "#5c3e6a",
+                    "& .MuiOutlinedInput-root": {
+                      borderColor: "#56A278",
+                      border: "12px",
+                      color: "green",
                     },
-                  },
-                }}
-              />
+                    "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                      {
+                        borderColor: "#56A278",
+                      },
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#56A278  !important",
+                    },
+                  }}
+                  type="number"
+                  variant="outlined"
+                  onChange={(e) => handleChange(e, "intendedScore")}
+                  value={newExercise.intendedScore}
+                  placeholder="----- kg"
+                  size="small"
+                />
+              </Grid>
+              <Grid item>
+                <div style={{ position: "relative" }}>
+                  <Select
+                    sx={{
+                      backgroundColor: "#56A278",
+                      color: "white",
+                      height: "40px",
+                      "& .MuiOutlinedInput-root": {
+                        borderColor: "#56A278",
+                        color: "green",
+                      },
+                      "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                        {
+                          borderColor: "#56A278",
+                        },
+                    }}
+                    label="Prescribed RPE"
+                    value={newExercise.prescribedRPE}
+                    size="small"
+                    onChange={(e) => handleSelectChange(e, "prescribedRPE")}
+                    MenuProps={{
+                      anchorOrigin: {
+                        vertical: "bottom",
+                        horizontal: "left",
+                      },
+                      transformOrigin: {
+                        vertical: "top",
+                        horizontal: "left",
+                      },
 
-              <TextField
-                sx={{ width: "100px" }}
-                multiline
-                rows={1}
-                variant="outlined"
-                value={newExercise.notes}
-                onChange={(e) => handleChange(e, "notes")}
-                fullWidth
-                placeholder="Add note..."
-                size="small"
-              />
+                      PaperProps: {
+                        style: {
+                          marginTop: "8px",
+                        },
+                      },
+                    }}
+                  >
+                    {Array.from({ length: 10 }, (_, i) => i + 1).map((rpe) => (
+                      <MenuItem key={rpe} value={rpe}>
+                        {rpe}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </div>
+              </Grid>
+
+              <Grid item>
+                <Select
+                  sx={{ marginLeft: "20px" }}
+                  label="Actual RPE"
+                  value={newExercise.actualRPE}
+                  onChange={(e) => handleSelectChange(e, "actualRPE")}
+                  style={{
+                    backgroundColor: "#9B361A",
+                    color: "white",
+                    height: "40px",
+                  }}
+                >
+                  {Array.from({ length: 10 }, (_, i) => i + 1).map((rpe) => (
+                    <MenuItem key={rpe} value={rpe}>
+                      {rpe}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Grid>
+
+              {/* adjusted performance */}
+              <Grid item>
+                <TextField
+                  sx={{
+                    width: "100px",
+                    marginLeft: "20px",
+                    "& .MuiOutlinedInput-root": {
+                      borderColor: "#9B361A",
+                      bgcolor: "#9B361A",
+                      border: "12px",
+                      color: "#fff",
+                    },
+                    "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                      {
+                        borderColor: "#9B361A",
+                      },
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#9B361A  !important",
+                    },
+                  }}
+                  type="number"
+                  variant="outlined"
+                  onChange={(e) => handleChange(e, "adjustedPerformance")}
+                  value={newExercise.adjustedPerformance}
+                  placeholder="----- kg"
+                  size="small"
+                />
+              </Grid>
+
+              <Grid item>
+                <TextField
+                  type="date"
+                  variant="outlined"
+                  value={formattedCurrentDate}
+                  onChange={(e) => handleChange(e, "date")}
+                  size="small"
+                  sx={{
+                    marginLeft: "20px",
+                    fontSize: "10px",
+                    width: "130px",
+                    outline: "none",
+                    border: "none",
+                    "& input": {
+                      backgroundColor: "#fff",
+                      borderRadius: "5px",
+                      border: "1px solid #ccc",
+                      outline: "none",
+                      transition: "border-color 0.3s",
+                      "&:focus": {
+                        borderColor: "#5c3e6a",
+                      },
+                    },
+                  }}
+                />
+              </Grid>
+
+              <Grid item>
+                <TextField
+                  sx={{
+                    width: "200px",
+                    marginLeft: "10px",
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        border: "none",
+                      },
+                      "&:hover fieldset": {
+                        border: "none",
+                      },
+                      "&.Mui-focused fieldset": {
+                        border: "none",
+                      },
+                      backgroundColor: "transparent",
+                    },
+                  }}
+                  multiline
+                  rows={1}
+                  variant="outlined"
+                  value={newExercise.notes}
+                  onChange={(e) => handleChange(e, "notes")}
+                  fullWidth
+                  placeholder="Add note..."
+                  size="small"
+                />
+              </Grid>
             </Grid>
           </Grid>
         )}
-
         {openNewScore && (
           <Grid
             style={{
@@ -377,6 +466,8 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
               justifyContent: "flex-end",
               width: "100%",
               gap: "13px",
+              marginTop: "10px",
+              marginRight: "30px",
             }}
           >
             <Button
@@ -420,6 +511,7 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
           </Grid>
         )}
       </Grid>
+      {/* mobile view */}
 
       {/* button to add new score  */}
       <Button
