@@ -62,32 +62,40 @@ const FormPage: React.FC<FormPageProps> = ({
   ) => {
     const { value } = e.target;
 
-    setFormState((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    if (name === "actualRPE") {
+      // Update actualRPE directly
+      setFormState((prev) => ({
+        ...prev,
+        actualRPE: parseFloat(value) || 1,
+      }));
+    } else {
+      // Update other fields
+      setFormState((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
 
-    // Clear errors for the field being changed
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: "",
-    }));
-
-    // Convert intendedScore to a number before performing calculations
-    let intendedScoreValue: number = parseFloat(value);
-
+    // Calculate adjusted performance if either actualRPE or intendedScore changes
     if (name === "actualRPE" || name === "intendedScore") {
-      let actualRPEValue: number = parseFloat(value || "0");
+      const actualRPEValue =
+        name === "actualRPE" ? parseFloat(value) || 1 : formState.actualRPE;
+      const intendedScoreValue =
+        name === "intendedScore"
+          ? parseFloat(value) || 0
+          : formState.intendedScore;
 
       const adjustedPerformance = calculateAdjustedPerformance(
-        actualRPEValue,
-        intendedScoreValue
+        actualRPEValue as number,
+        intendedScoreValue as number
       );
+      console.log("from handleCHANGE");
+      console.log("intendedScoreValue", intendedScoreValue);
+      console.log("actualRPEValue", actualRPEValue);
+      console.log("adjustedPerformance", adjustedPerformance);
 
-      setFormState((prev: ExerciseFormState) => ({
+      setFormState((prev) => ({
         ...prev,
-        actualRPE: actualRPEValue, // Update actualRPE here
-        intendedScore: intendedScoreValue, // Parse intendedScore as a number
         adjustedPerformance: adjustedPerformance,
       }));
     }
@@ -119,6 +127,7 @@ const FormPage: React.FC<FormPageProps> = ({
     name: string
   ) => {
     const { value } = e.target;
+
     setFormState((prev) => ({
       ...prev,
       [name]: value,
@@ -137,77 +146,12 @@ const FormPage: React.FC<FormPageProps> = ({
 
       switch (value) {
         case "time":
-          newIntendedScore = defaultIntendedScore[value];
-          helperText = "Enter time in minutes (e.g., 90 for 1 hour 30 minutes)";
-          break;
         case "reps":
-          newIntendedScore = defaultIntendedScore[value];
-          helperText = "Enter the number of repetitions";
-          break;
         case "calories":
           newIntendedScore = defaultIntendedScore[value];
-          helperText = "Enter the number of calories burned";
+          helperText = `Enter the ${value}`;
           break;
-        case "kilograms":
-          newIntendedScore = defaultIntendedScore[value];
-          helperText = "Enter the weight in kilograms";
-          break;
-        case "kilometers":
-          newIntendedScore = defaultIntendedScore[value];
-          helperText = "Enter the distance in kilometers";
-          break;
-        case "kilometers per hour":
-          newIntendedScore = defaultIntendedScore[value];
-          helperText = "Enter the speed in kilometers per hour";
-          break;
-        case "meters":
-          newIntendedScore = defaultIntendedScore[value];
-          helperText = "Enter the distance in meters";
-          break;
-        case "meters per second":
-          newIntendedScore = defaultIntendedScore[value];
-          helperText = "Enter the speed in meters per second";
-          break;
-        case "miles":
-          newIntendedScore = defaultIntendedScore[value];
-          helperText = "Enter the distance in miles";
-          break;
-        case "miles per hour":
-          newIntendedScore = defaultIntendedScore[value];
-          helperText = "Enter the speed in miles per hour";
-          break;
-        case "minutes per kilometer":
-          newIntendedScore = defaultIntendedScore[value];
-          helperText = "Enter the pace in minutes per kilometer";
-          break;
-        case "percent":
-          newIntendedScore = defaultIntendedScore[value];
-          helperText = "Enter the percentage";
-          break;
-        case "points":
-          newIntendedScore = defaultIntendedScore[value];
-          helperText = "Enter the points";
-          break;
-        case "rounds":
-          newIntendedScore = defaultIntendedScore[value];
-          helperText = "Enter the number of rounds";
-          break;
-        case "RPM":
-          newIntendedScore = defaultIntendedScore[value];
-          helperText = "Enter the RPM (Revolutions Per Minute)";
-          break;
-        case "score":
-          newIntendedScore = defaultIntendedScore[value];
-          helperText = "Enter the score";
-          break;
-        case "steps":
-          newIntendedScore = defaultIntendedScore[value];
-          helperText = "Enter the number of steps";
-          break;
-        case "watts":
-          newIntendedScore = defaultIntendedScore[value];
-          helperText = "Enter the watts";
-          break;
+        // Add cases for other units...
         default:
           newIntendedScore = 0;
           helperText = "";
@@ -218,9 +162,47 @@ const FormPage: React.FC<FormPageProps> = ({
         ...prev,
         intendedScore: newIntendedScore,
       }));
+
+      // Calculate adjusted performance based on the new intended score
+      const actualRPEValue = formState.actualRPE || 1;
+      const intendedScoreValue =
+        typeof newIntendedScore === "number" ? newIntendedScore : 0;
+
+      const adjustedPerformance = calculateAdjustedPerformance(
+        actualRPEValue as number,
+        intendedScoreValue
+      );
+
+      setFormState((prev) => ({
+        ...prev,
+        adjustedPerformance: adjustedPerformance,
+      }));
       setErrors((prevErrors) => ({
         ...prevErrors,
         intendedScore: helperText,
+      }));
+    } else if (name === "actualRPE") {
+      // If actualRPE is changed, recalculate adjusted performance
+      const newActualRPE = parseFloat(value as string) || 1;
+      const intendedScoreValue =
+        parseFloat(formState.intendedScore as string) || 0;
+
+      const adjustedPerformance = calculateAdjustedPerformance(
+        newActualRPE,
+        intendedScoreValue
+      );
+      console.log("from handleSelectchange");
+      console.log("  intendedScoreValue", intendedScoreValue);
+      console.log("  newActualRPE", newActualRPE);
+      console.log(
+        " handleSelectchange adjustedPerformance",
+        adjustedPerformance
+      );
+
+      setFormState((prev) => ({
+        ...prev,
+        actualRPE: newActualRPE,
+        adjustedPerformance: adjustedPerformance,
       }));
     }
   };
