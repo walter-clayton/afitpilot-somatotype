@@ -382,11 +382,10 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
         </Grid>
 
         {/* adding new exercise score */}
-        {/* adding new exercise score */}
         {openNewScore && (
           <Grid
-            container
-            direction={isSmallScreen ? "column" : "row"} // Change direction to column for small screens
+            // container
+            direction={isSmallScreen ? "column" : "row"}
             alignItems="flex-start"
             paddingLeft="20px"
           >
@@ -404,7 +403,7 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
               <Grid item>
                 <TextField
                   sx={{
-                    width: isSmallScreen ? "100%" : "100px", // Adjust width for small screens
+                    width: isSmallScreen ? "100%" : "100px",
                     "& .MuiOutlinedInput-root": {
                       borderColor: "#56A278",
                       border: "12px",
@@ -430,9 +429,9 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
                 <div style={{ position: "relative" }}>
                   <Select
                     sx={{
-                      width: isSmallScreen ? "100%" : undefined, // Adjust width for small screens
+                      width: isSmallScreen ? "100%" : undefined,
                       backgroundColor: "#56A278",
-                      marginLeft: isSmallScreen ? "0" : "30px", // Adjust margin for small screens
+                      marginLeft: isSmallScreen ? "0" : "30px",
                       color: "white",
                       height: "40px",
                       "& .MuiOutlinedInput-root": {
@@ -475,7 +474,7 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
 
               <Grid item>
                 <Select
-                  sx={{ marginLeft: isSmallScreen ? "0" : "20px" }} // Adjust margin for small screens
+                  sx={{ marginLeft: isSmallScreen ? "0" : "20px" }}
                   label="Actual RPE"
                   value={newExercise.actualRPE}
                   onChange={(e) => handleSelectChange(e, "actualRPE")}
@@ -497,8 +496,8 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
               <Grid item>
                 <TextField
                   sx={{
-                    width: isSmallScreen ? "100%" : "90px", // Adjust width for small screens
-                    marginLeft: isSmallScreen ? "0" : "10px", // Adjust margin for small screens
+                    width: isSmallScreen ? "100%" : "90px",
+                    marginLeft: isSmallScreen ? "0" : "10px",
                     "& .MuiOutlinedInput-root": {
                       borderColor: "#9B361A",
                       bgcolor: "#9B361A",
@@ -530,8 +529,8 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
                   onChange={(e) => handleChange(e, "date")}
                   size="small"
                   sx={{
-                    width: isSmallScreen ? "100%" : "120px", // Adjust width for small screens
-                    marginLeft: isSmallScreen ? "0" : "20px", // Adjust margin for small screens
+                    width: isSmallScreen ? "100%" : "120px",
+                    marginLeft: isSmallScreen ? "0" : "20px",
                     fontSize: "10px",
                     outline: "none",
                     border: "none",
@@ -552,8 +551,8 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
               <Grid item>
                 <TextField
                   sx={{
-                    width: isSmallScreen ? "100%" : "130px", // Adjust width for small screens
-                    marginLeft: isSmallScreen ? "0" : "10px", // Adjust margin for small screens
+                    width: isSmallScreen ? "100%" : "130px",
+                    marginLeft: isSmallScreen ? "0" : "10px",
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
                         border: "none",
@@ -589,7 +588,7 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
               width: "100%",
               gap: "13px",
               marginTop: "29px",
-              marginRight: isSmallScreen ? "0" : "200px",
+              marginRight: isSmallScreen ? "0" : "50px",
             }}
           >
             <Button
