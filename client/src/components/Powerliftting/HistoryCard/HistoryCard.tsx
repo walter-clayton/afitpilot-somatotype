@@ -220,7 +220,8 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
       <Grid
         item
         sx={{
-          display: isSmallScreen ? "none" : "flex",
+          // display: isSmallScreen ? "none" : "flex",
+          display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
           flexDirection: "column",
@@ -229,7 +230,9 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
           padding: "10px 10px",
         }}
       >
-        <TableContainer sx={{ width: "100%" }}>
+        <TableContainer
+          sx={{ width: "100%", display: isSmallScreen ? "none" : "flex" }}
+        >
           <TableBody>
             {filteredExercises.map((exercise) => (
               <TableRow key={exercise.id} sx={{ width: "100%" }}>
@@ -272,7 +275,7 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
                 <TableCell sx={{ fontWeight: "bold", paddingX: "20px" }}>
                   {exercise.date}
                 </TableCell>
-                <TableCell sx={{ width: "80px" }}>{exercise.notes}</TableCell>
+                <TableCell sx={{ width: "120px" }}>{exercise.notes}</TableCell>
                 <TableCell>
                   <DeleteIcon
                     sx={{ cursor: "pointer" }}
@@ -283,11 +286,104 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
             ))}
           </TableBody>
         </TableContainer>
-        ;{/* adding new exercise score */}
+        {/* mobile view */}
+        <Grid
+          item
+          sx={{
+            display: isSmallScreen ? "flex" : "none",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            // paddingX: "10px",
+            width: "100%",
+            padding: "10px 10px",
+          }}
+        >
+          <TableContainer
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <TableBody style={{ display: "block" }}>
+              {filteredExercises.map((exercise) => (
+                <>
+                  <TableRow
+                    key={exercise.id}
+                    sx={{ width: "100%", display: "block" }}
+                  >
+                    {/* false */}
+                    <TableCell
+                      sx={{
+                        color: "#9B3519",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {exercise.adjustedPerformance} {exercise.unit}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        color: "#56A278",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      RPE {exercise.prescribedRPE}
+                    </TableCell>
+
+                    <TableCell sx={{ fontWeight: "bold" }}>
+                      {exercise.date}
+                    </TableCell>
+                    <TableCell>
+                      <KeyboardArrowDownIcon
+                        sx={{
+                          bgcolor: "#000",
+                          color: "#fff",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => toggleDropDownOpen(exercise.id)}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <DeleteIcon
+                        sx={{ cursor: "pointer" }}
+                        onClick={() => handleDelete(exercise.id)}
+                      />
+                    </TableCell>
+                  </TableRow>
+                  {/* true */}
+                  {openDropdown[exercise.id] && (
+                    <TableRow>
+                      <TableCell sx={{ fontWeight: "bold", color: "#56A278" }}>
+                        {exercise.intendedScore} {exercise.unit}
+                      </TableCell>
+                      <TableCell sx={{ fontWeight: "bold", color: "#9B361A" }}>
+                        RPE {exercise.actualRPE}
+                      </TableCell>
+                      <TableCell>{exercise.notes}</TableCell>
+                      <TableCell>
+                        <HighlightOffIcon
+                          sx={{
+                            fontSize: "30px",
+                            marginLeft: "120px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => toggleDropDownClose(exercise.id)}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </>
+              ))}
+            </TableBody>
+          </TableContainer>
+        </Grid>
+        {/* adding new exercise score */}
         {openNewScore && (
           <Grid
             container
-            direction="column"
+            direction="row"
             alignItems="flex-start"
             paddingLeft="20px"
           >
@@ -295,7 +391,16 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
               Add new score
             </Typography>
 
-            <Grid item container spacing={1} alignItems="center">
+            <Grid
+              item
+              container
+              alignItems="center"
+              sx={{
+                display: "flex",
+                // backgroundColor: "red",
+                flexDirection: "row",
+              }}
+            >
               <Grid item>
                 <TextField
                   sx={{
@@ -327,6 +432,7 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
                   <Select
                     sx={{
                       backgroundColor: "#56A278",
+                      marginLeft: "30px",
                       color: "white",
                       height: "40px",
                       "& .MuiOutlinedInput-root": {
@@ -392,8 +498,8 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
               <Grid item>
                 <TextField
                   sx={{
-                    width: "100px",
-                    marginLeft: "20px",
+                    width: "90px",
+                    marginLeft: "10px",
                     "& .MuiOutlinedInput-root": {
                       borderColor: "#9B361A",
                       bgcolor: "#9B361A",
@@ -427,7 +533,7 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
                   sx={{
                     marginLeft: "20px",
                     fontSize: "10px",
-                    width: "130px",
+                    width: "120px",
                     outline: "none",
                     border: "none",
                     "& input": {
@@ -447,7 +553,7 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
               <Grid item>
                 <TextField
                   sx={{
-                    width: "200px",
+                    width: "130px",
                     marginLeft: "10px",
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
@@ -475,6 +581,8 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
             </Grid>
           </Grid>
         )}
+
+        {/* saving and cancelling */}
         {openNewScore && (
           <Grid
             style={{
@@ -527,85 +635,7 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
           </Grid>
         )}
       </Grid>
-      {/* mobile view */}
-      <Grid
-        item
-        sx={{
-          display: isSmallScreen ? "flex" : "none",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "column",
-          // paddingX: "10px",
-          width: "100%",
-          // padding: "10px 10px",
-        }}
-      >
-        <TableContainer>
-          <TableBody style={{ display: "block" }}>
-            {filteredExercises.map((exercise) => (
-              <>
-                <TableRow
-                  key={exercise.id}
-                  sx={{ width: "100%", display: "block" }}
-                >
-                  {/* false */}
-                  <TableCell
-                    sx={{
-                      color: "#9B3519",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {exercise.adjustedPerformance} {exercise.unit}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      color: "#56A278",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    RPE {exercise.prescribedRPE}
-                  </TableCell>
 
-                  <TableCell sx={{ fontWeight: "bold" }}>
-                    {exercise.date}
-                  </TableCell>
-                  <TableCell>
-                    <KeyboardArrowDownIcon
-                      sx={{ bgcolor: "#000", color: "#fff", cursor: "pointer" }}
-                      // onClick={toggleDropDownOpen}
-                      onClick={() => toggleDropDownOpen(exercise.id)}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <DeleteIcon
-                      sx={{ cursor: "pointer" }}
-                      onClick={() => handleDelete(exercise.id)}
-                    />
-                  </TableCell>
-                </TableRow>
-                {/* true */}
-                {openDropdown[exercise.id] && (
-                  <TableRow>
-                    <TableCell sx={{ fontWeight: "bold", color: "#56A278" }}>
-                      {exercise.intendedScore} {exercise.unit}
-                    </TableCell>
-                    <TableCell sx={{ fontWeight: "bold", color: "#9B361A" }}>
-                      RPE {exercise.actualRPE}
-                    </TableCell>
-                    <TableCell>{exercise.notes}</TableCell>
-                    <TableCell>
-                      <HighlightOffIcon
-                        sx={{ fontSize: "30px" }}
-                        onClick={() => toggleDropDownClose(exercise.id)}
-                      />
-                    </TableCell>
-                  </TableRow>
-                )}
-              </>
-            ))}
-          </TableBody>
-        </TableContainer>
-      </Grid>
       {/* button to add new score  */}
       <Button
         variant="contained"
