@@ -272,7 +272,7 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
                 <TableCell sx={{ fontWeight: "bold", paddingX: "20px" }}>
                   {exercise.date}
                 </TableCell>
-                <TableCell sx={{ width: "100px" }}>{exercise.notes}</TableCell>
+                <TableCell sx={{ width: "80px" }}>{exercise.notes}</TableCell>
                 <TableCell>
                   <DeleteIcon
                     sx={{ cursor: "pointer" }}

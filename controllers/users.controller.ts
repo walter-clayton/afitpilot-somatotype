@@ -38,8 +38,13 @@ usersCtrl.register = async (req: Request, res: Response) => {
     const newUser = await User({
       email: email,
       name,
-      gender: skipTest ? gender : "unknown", // Default to 'unknown' if not provided
-      mainColor: data && data.user ? data.user.mainColor : 0, // Default to 0 if not provided
+      gender: skipTest
+        ? gender
+        : data && data.user && data.user.gender
+        ? data.user.gender
+        : "unknown",
+      mainColor:
+        data && data.user && data.user.mainColor ? data.user.mainColor : 0,
     });
 
     const generatedPass: string = await newUser.generatePassword();
