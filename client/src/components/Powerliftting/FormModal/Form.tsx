@@ -146,12 +146,77 @@ const FormPage: React.FC<FormPageProps> = ({
 
       switch (value) {
         case "time":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter time in minutes (e.g., 90 for 1 hour 30 minutes)";
+          break;
         case "reps":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the number of repetitions";
+          break;
         case "calories":
           newIntendedScore = defaultIntendedScore[value];
-          helperText = `Enter the ${value}`;
+          helperText = "Enter the number of calories burned";
           break;
-        // Add cases for other units...
+        case "kilograms":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the weight in kilograms";
+          break;
+        case "kilometers":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the distance in kilometers";
+          break;
+        case "kilometers per hour":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the speed in kilometers per hour";
+          break;
+        case "meters":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the distance in meters";
+          break;
+        case "meters per second":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the speed in meters per second";
+          break;
+        case "miles":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the distance in miles";
+          break;
+        case "miles per hour":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the speed in miles per hour";
+          break;
+        case "minutes per kilometer":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the pace in minutes per kilometer";
+          break;
+        case "percent":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the percentage";
+          break;
+        case "points":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the points";
+          break;
+        case "rounds":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the number of rounds";
+          break;
+        case "RPM":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the RPM (Revolutions Per Minute)";
+          break;
+        case "score":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the score";
+          break;
+        case "steps":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the number of steps";
+          break;
+        case "watts":
+          newIntendedScore = defaultIntendedScore[value];
+          helperText = "Enter the watts";
+          break;
         default:
           newIntendedScore = 0;
           helperText = "";

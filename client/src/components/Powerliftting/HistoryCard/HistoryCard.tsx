@@ -4,6 +4,8 @@ import { ExerciseFormState } from "../FormModal/UtilTypes";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { useSnackbar } from "notistack";
 import { v4 as uuidv4 } from "uuid";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import {
   Grid,
   Typography,
@@ -13,14 +15,10 @@ import {
   Button,
   Select,
   MenuItem,
-  Box,
-  Table,
   TableContainer,
-  TableHead,
   TableRow,
   TableCell,
   TableBody,
-  Paper,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 
@@ -37,7 +35,9 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
   addExercise,
   deleteExercise,
 }) => {
+  const [openDropdown, setOpenDropdown] = useState<Record<string, boolean>>({});
   const [openNewScore, setOpenNewScore] = useState<boolean>(false);
+
   const [newExercise, setNewExercise] = useState<ExerciseFormState>({
     id: "",
     intendedScore: 0,
@@ -162,10 +162,26 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const toggleDropDownOpen = (exerciseId: string) => {
+    setOpenDropdown((prevState) => ({
+      ...prevState,
+      [exerciseId]: !prevState[exerciseId], // Toggle the open state for the exercise
+    }));
+  };
+  const toggleDropDownClose = (exerciseId: string) => {
+    setOpenDropdown((prevState) => {
+      //  copy of the previous state
+      const updatedDropdown = { ...prevState };
+      updatedDropdown[exerciseId] = false;
+      // Return the updated state
+      return updatedDropdown;
+    });
+  };
   // Return null if there are no filtered exercises
   if (filteredExercises.length === 0) {
     return null;
   }
+
   return (
     <Grid
       item
@@ -256,7 +272,7 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
                 <TableCell sx={{ fontWeight: "bold", paddingX: "20px" }}>
                   {exercise.date}
                 </TableCell>
-                <TableCell sx={{ width: "200px" }}>{exercise.notes}</TableCell>
+                <TableCell sx={{ width: "100px" }}>{exercise.notes}</TableCell>
                 <TableCell>
                   <DeleteIcon
                     sx={{ cursor: "pointer" }}
@@ -512,7 +528,84 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
         )}
       </Grid>
       {/* mobile view */}
+      <Grid
+        item
+        sx={{
+          display: isSmallScreen ? "flex" : "none",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          // paddingX: "10px",
+          width: "100%",
+          // padding: "10px 10px",
+        }}
+      >
+        <TableContainer>
+          <TableBody style={{ display: "block" }}>
+            {filteredExercises.map((exercise) => (
+              <>
+                <TableRow
+                  key={exercise.id}
+                  sx={{ width: "100%", display: "block" }}
+                >
+                  {/* false */}
+                  <TableCell
+                    sx={{
+                      color: "#9B3519",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {exercise.adjustedPerformance} {exercise.unit}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: "#56A278",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    RPE {exercise.prescribedRPE}
+                  </TableCell>
 
+                  <TableCell sx={{ fontWeight: "bold" }}>
+                    {exercise.date}
+                  </TableCell>
+                  <TableCell>
+                    <KeyboardArrowDownIcon
+                      sx={{ bgcolor: "#000", color: "#fff", cursor: "pointer" }}
+                      // onClick={toggleDropDownOpen}
+                      onClick={() => toggleDropDownOpen(exercise.id)}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <DeleteIcon
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => handleDelete(exercise.id)}
+                    />
+                  </TableCell>
+                </TableRow>
+                {/* true */}
+                {openDropdown[exercise.id] && (
+                  <TableRow>
+                    <TableCell sx={{ fontWeight: "bold", color: "#56A278" }}>
+                      {exercise.intendedScore} {exercise.unit}
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: "bold", color: "#9B361A" }}>
+                      RPE {exercise.actualRPE}
+                    </TableCell>
+                    <TableCell>{exercise.notes}</TableCell>
+                    <TableCell>
+                      <HighlightOffIcon
+                        sx={{ fontSize: "30px" }}
+                        onClick={() => toggleDropDownClose(exercise.id)}
+                      />
+                    </TableCell>
+                  </TableRow>
+                )}
+              </>
+            ))}
+          </TableBody>
+        </TableContainer>
+      </Grid>
       {/* button to add new score  */}
       <Button
         variant="contained"
