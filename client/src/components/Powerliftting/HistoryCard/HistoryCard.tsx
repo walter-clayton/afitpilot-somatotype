@@ -286,6 +286,7 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
             ))}
           </TableBody>
         </TableContainer>
+
         {/* mobile view */}
         <Grid
           item
@@ -296,7 +297,7 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
             flexDirection: "column",
             // paddingX: "10px",
             width: "100%",
-            padding: "10px 10px",
+            padding: "10px 0",
           }}
         >
           <TableContainer
@@ -379,33 +380,31 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
             </TableBody>
           </TableContainer>
         </Grid>
+
+        {/* adding new exercise score */}
         {/* adding new exercise score */}
         {openNewScore && (
           <Grid
             container
-            direction="row"
+            direction={isSmallScreen ? "column" : "row"} // Change direction to column for small screens
             alignItems="flex-start"
             paddingLeft="20px"
           >
-            <Typography sx={{ fontWeight: "bold", paddingBottom: "10px" }}>
+            <Typography
+              sx={{
+                fontWeight: "bold",
+                paddingBottom: "10px",
+                paddingTop: "15px",
+              }}
+            >
               Add new score
             </Typography>
 
-            <Grid
-              item
-              container
-              alignItems="center"
-              sx={{
-                display: "flex",
-                // backgroundColor: "red",
-                flexDirection: "row",
-              }}
-            >
+            <Grid item container spacing={1} alignItems="center">
               <Grid item>
                 <TextField
                   sx={{
-                    width: "100px",
-
+                    width: isSmallScreen ? "100%" : "100px", // Adjust width for small screens
                     "& .MuiOutlinedInput-root": {
                       borderColor: "#56A278",
                       border: "12px",
@@ -431,8 +430,9 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
                 <div style={{ position: "relative" }}>
                   <Select
                     sx={{
+                      width: isSmallScreen ? "100%" : undefined, // Adjust width for small screens
                       backgroundColor: "#56A278",
-                      marginLeft: "30px",
+                      marginLeft: isSmallScreen ? "0" : "30px", // Adjust margin for small screens
                       color: "white",
                       height: "40px",
                       "& .MuiOutlinedInput-root": {
@@ -457,7 +457,6 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
                         vertical: "top",
                         horizontal: "left",
                       },
-
                       PaperProps: {
                         style: {
                           marginTop: "8px",
@@ -476,7 +475,7 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
 
               <Grid item>
                 <Select
-                  sx={{ marginLeft: "20px" }}
+                  sx={{ marginLeft: isSmallScreen ? "0" : "20px" }} // Adjust margin for small screens
                   label="Actual RPE"
                   value={newExercise.actualRPE}
                   onChange={(e) => handleSelectChange(e, "actualRPE")}
@@ -498,8 +497,8 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
               <Grid item>
                 <TextField
                   sx={{
-                    width: "90px",
-                    marginLeft: "10px",
+                    width: isSmallScreen ? "100%" : "90px", // Adjust width for small screens
+                    marginLeft: isSmallScreen ? "0" : "10px", // Adjust margin for small screens
                     "& .MuiOutlinedInput-root": {
                       borderColor: "#9B361A",
                       bgcolor: "#9B361A",
@@ -531,9 +530,9 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
                   onChange={(e) => handleChange(e, "date")}
                   size="small"
                   sx={{
-                    marginLeft: "20px",
+                    width: isSmallScreen ? "100%" : "120px", // Adjust width for small screens
+                    marginLeft: isSmallScreen ? "0" : "20px", // Adjust margin for small screens
                     fontSize: "10px",
-                    width: "120px",
                     outline: "none",
                     border: "none",
                     "& input": {
@@ -553,8 +552,8 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
               <Grid item>
                 <TextField
                   sx={{
-                    width: "130px",
-                    marginLeft: "10px",
+                    width: isSmallScreen ? "100%" : "130px", // Adjust width for small screens
+                    marginLeft: isSmallScreen ? "0" : "10px", // Adjust margin for small screens
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
                         border: "none",
@@ -581,17 +580,16 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
             </Grid>
           </Grid>
         )}
-
         {/* saving and cancelling */}
         {openNewScore && (
           <Grid
             style={{
               display: "flex",
-              justifyContent: "flex-end",
+              justifyContent: isSmallScreen ? "center" : "flex-end",
               width: "100%",
               gap: "13px",
-              marginTop: "10px",
-              marginRight: "30px",
+              marginTop: "29px",
+              marginRight: isSmallScreen ? "0" : "200px",
             }}
           >
             <Button
