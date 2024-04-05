@@ -634,24 +634,26 @@ const HistoryCard: React.FC<HistoryCardProps> = ({
       </Grid>
 
       {/* button to add new score  */}
-      <Button
-        variant="contained"
-        startIcon={<AddIcon />}
-        sx={{
-          bgcolor: "#6C4D7B",
-          borderRadius: "7px",
-          textTransform: "capitalize",
-          mb: "12px",
-          mt: "12px",
-          width: "150px",
-          "&:hover": {
-            bgcolor: "#554364",
-          },
-        }}
-        onClick={newScore}
-      >
-        New Score
-      </Button>
+      {!openNewScore && (
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          sx={{
+            bgcolor: "#6C4D7B",
+            borderRadius: "7px",
+            textTransform: "capitalize",
+            mb: "12px",
+            mt: "12px",
+            width: "150px",
+            "&:hover": {
+              bgcolor: "#554364",
+            },
+          }}
+          onClick={newScore}
+        >
+          New Score
+        </Button>
+      )}
     </Grid>
   );
 };
