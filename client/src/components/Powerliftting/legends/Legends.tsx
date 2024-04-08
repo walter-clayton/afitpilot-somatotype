@@ -7,7 +7,6 @@ const Legends = () => {
       component="main"
       item
       container
-      // xs={12}
       sx={{
         width: "100%",
         display: "flex",

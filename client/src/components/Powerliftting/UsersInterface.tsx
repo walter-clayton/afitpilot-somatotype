@@ -21,15 +21,18 @@ import Legends from "./legends/Legends";
 import FeedbackCard from "./FeedbackCard/FeedbackCard";
 import ChartContainer from "./Chart/ChartContainer";
 import { useSnackbar } from "notistack";
+import HistoryCard from "./HistoryCard/HistoryCard";
 
 interface UsersInterfaceProps {
   exercises: ExerciseFormState[];
   addExercise: (newExercise: ExerciseFormState) => void;
+  deleteExercise: (exerciseId: string) => void;
 }
 
 const UsersInterface: React.FC<UsersInterfaceProps> = ({
   exercises,
   addExercise,
+  deleteExercise,
 }) => {
   const [showForm, setShowForm] = useState<boolean>(false);
   const [selectedExerciseName, setSelectedExerciseName] = useState<string>("");
@@ -80,6 +83,7 @@ const UsersInterface: React.FC<UsersInterfaceProps> = ({
         justifyContent: "space-around",
         alignItems: "center",
         mt: "25px",
+
         bgcolor: "#D9D9D9",
       }}
     >
@@ -145,6 +149,15 @@ const UsersInterface: React.FC<UsersInterfaceProps> = ({
             <ChartContainer filteredExercises={filteredExercises} />
           </Grid>
 
+          <Grid>
+            <HistoryCard
+              filteredExercises={filteredExercises}
+              exercises={exercises}
+              addExercise={addExercise}
+              deleteExercise={deleteExercise}
+            />
+          </Grid>
+
           <Grid item justifyContent="center">
             {filteredExercises.map((exercise, index) => (
               <Typography
@@ -162,7 +175,9 @@ const UsersInterface: React.FC<UsersInterfaceProps> = ({
                 <ListItem>exerciseName:{exercise.exerciseName}</ListItem>
                 <ListItem>unit:{exercise.unit}</ListItem>
                 <ListItem>intendedScore:{exercise.intendedScore}</ListItem>
-                <ListItem>prescribedRPE:{exercise.prescribedRPE}</ListItem>
+                <ListItem>
+                  adjustedPerformance:{exercise.adjustedPerformance}
+                </ListItem>
                 <ListItem>actualRPE:{exercise.actualRPE}</ListItem>
                 <ListItem>date:{exercise.date}</ListItem>
                 <ListItem>notes:{exercise.notes}</ListItem>

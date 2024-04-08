@@ -32,11 +32,14 @@ const Header: React.FC<FormPageProps> = ({ addExercise }) => {
   };
   const handleAddNewExercise = () => {
     setShowForm(true);
-    console.log("handleAddNewExercise");
   };
 
   const theme = createTheme({});
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const handleExerciseAdded = () => {
+    setShowForm(false); // Close the form after exercise is added
+  };
 
   return (
     <Container
@@ -162,7 +165,10 @@ const Header: React.FC<FormPageProps> = ({ addExercise }) => {
             maxWidth: "90%",
           }}
         >
-          <FormPage addExercise={addExercise} />
+          <FormPage
+            addExercise={addExercise}
+            onExerciseAdded={handleExerciseAdded}
+          />
           <ClearIcon
             onClick={handleCloseForm}
             sx={{

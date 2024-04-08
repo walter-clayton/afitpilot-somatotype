@@ -11,41 +11,94 @@ import AddIcon from "@mui/icons-material/Add";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { ExerciseFormState, units } from "./UtilTypes";
 import { useSnackbar } from "notistack";
+import { v4 as uuidv4 } from "uuid";
 
 export interface FormPageProps {
   addExercise: (newExercise: ExerciseFormState) => void;
+  onExerciseAdded?: () => void; // New prop
 }
 
-const FormPage: React.FC<FormPageProps> = ({ addExercise }) => {
+const FormPage: React.FC<FormPageProps> = ({
+  addExercise,
+  onExerciseAdded,
+}) => {
+  // const [showForm, setShowForm] = useState<boolean>(true);
   const [formState, setFormState] = useState<ExerciseFormState>({
+    id: "",
     exerciseName: "",
     unit: "",
+    adjustedPerformance: 0,
     intendedScore: 0,
     prescribedRPE: 1,
     actualRPE: 1,
     date: new Date().toLocaleDateString("en-GB"),
     notes: "",
   });
+  const currentDate = new Date().toLocaleDateString("en-GB");
+  // Parse the current date string
+  const parts = currentDate.split("/");
+  const formattedCurrentDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
 
   const [errors, setErrors] = useState<Partial<ExerciseFormState>>({});
   const formRef = useRef<HTMLDivElement>(null);
   const { enqueueSnackbar } = useSnackbar();
+
+  const calculateAdjustedPerformance = (
+    actualRPE: number,
+    intendedScore: number
+  ): number => {
+    let adjustmentFactor = 1 - (actualRPE - 4) / 10;
+    adjustmentFactor = Math.max(adjustmentFactor, 0.9);
+
+    const adjustedScore = intendedScore * adjustmentFactor;
+
+    // Round the adjusted score to the nearest whole number
+    return Math.round(adjustedScore);
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     name: string
   ) => {
     const { value } = e.target;
-    setFormState((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
 
-    // Clear errors for the field being changed
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: "",
-    }));
+    if (name === "actualRPE") {
+      // Update actualRPE directly
+      setFormState((prev) => ({
+        ...prev,
+        actualRPE: parseFloat(value) || 1,
+      }));
+    } else {
+      // Update other fields
+      setFormState((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+
+    // Calculate adjusted performance if either actualRPE or intendedScore changes
+    if (name === "actualRPE" || name === "intendedScore") {
+      const actualRPEValue =
+        name === "actualRPE" ? parseFloat(value) || 1 : formState.actualRPE;
+      const intendedScoreValue =
+        name === "intendedScore"
+          ? parseFloat(value) || 0
+          : formState.intendedScore;
+
+      const adjustedPerformance = calculateAdjustedPerformance(
+        actualRPEValue as number,
+        intendedScoreValue as number
+      );
+      console.log("from handleCHANGE");
+      console.log("intendedScoreValue", intendedScoreValue);
+      console.log("actualRPEValue", actualRPEValue);
+      console.log("adjustedPerformance", adjustedPerformance);
+
+      setFormState((prev) => ({
+        ...prev,
+        adjustedPerformance: adjustedPerformance,
+      }));
+    }
   };
 
   const defaultIntendedScore: Record<string, number> = {
@@ -74,6 +127,7 @@ const FormPage: React.FC<FormPageProps> = ({ addExercise }) => {
     name: string
   ) => {
     const { value } = e.target;
+
     setFormState((prev) => ({
       ...prev,
       [name]: value,
@@ -173,9 +227,47 @@ const FormPage: React.FC<FormPageProps> = ({ addExercise }) => {
         ...prev,
         intendedScore: newIntendedScore,
       }));
+
+      // Calculate adjusted performance based on the new intended score
+      const actualRPEValue = formState.actualRPE || 1;
+      const intendedScoreValue =
+        typeof newIntendedScore === "number" ? newIntendedScore : 0;
+
+      const adjustedPerformance = calculateAdjustedPerformance(
+        actualRPEValue as number,
+        intendedScoreValue
+      );
+
+      setFormState((prev) => ({
+        ...prev,
+        adjustedPerformance: adjustedPerformance,
+      }));
       setErrors((prevErrors) => ({
         ...prevErrors,
         intendedScore: helperText,
+      }));
+    } else if (name === "actualRPE") {
+      // If actualRPE is changed, recalculate adjusted performance
+      const newActualRPE = parseFloat(value as string) || 1;
+      const intendedScoreValue =
+        parseFloat(formState.intendedScore as string) || 0;
+
+      const adjustedPerformance = calculateAdjustedPerformance(
+        newActualRPE,
+        intendedScoreValue
+      );
+      console.log("from handleSelectchange");
+      console.log("  intendedScoreValue", intendedScoreValue);
+      console.log("  newActualRPE", newActualRPE);
+      console.log(
+        " handleSelectchange adjustedPerformance",
+        adjustedPerformance
+      );
+
+      setFormState((prev) => ({
+        ...prev,
+        actualRPE: newActualRPE,
+        adjustedPerformance: adjustedPerformance,
       }));
     }
   };
@@ -183,12 +275,18 @@ const FormPage: React.FC<FormPageProps> = ({ addExercise }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (validateForm()) {
-      // Create a new exercise object
-      const newExercise = { ...formState };
-      addExercise(newExercise); // Call the addExercise function passed from props
+      const exerciseId = uuidv4();
 
-      // Reset formState to its initial state
+      // a new exercise object without the id property from formState
+      const { id, ...exerciseData } = formState;
+      const newExercise = { id: exerciseId, ...exerciseData };
+
+      //addExercise function passed from props
+      addExercise(newExercise);
+
+      // Reset
       setFormState({
+        id: "",
         exerciseName: "",
         unit: "",
         intendedScore: 0,
@@ -198,6 +296,9 @@ const FormPage: React.FC<FormPageProps> = ({ addExercise }) => {
         notes: "",
       });
       enqueueSnackbar("Exercise added successfully!", { variant: "success" });
+      if (onExerciseAdded) {
+        onExerciseAdded();
+      }
     } else {
       // Scroll to the first error, ensure the current ref is not null
       if (formRef.current) {
@@ -390,7 +491,7 @@ const FormPage: React.FC<FormPageProps> = ({ addExercise }) => {
             <TextField
               type="date"
               variant="outlined"
-              value={formState.date}
+              value={formattedCurrentDate}
               onChange={(e) => handleChange(e, "date")}
               size="small"
               sx={{

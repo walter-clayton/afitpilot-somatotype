@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Grid, Typography, useTheme, useMediaQuery } from "@mui/material";
 import { Line } from "react-chartjs-2";
 import {
@@ -72,11 +72,11 @@ const options: CustomChartOptions = {
 
 const ChartContainer: React.FC<{
   filteredExercises: ExerciseFormState[];
+  lastExercise: ExerciseFormState | undefined;
 }> = ({ filteredExercises }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  //  calculateAdjustedPerformance
   const calculateAdjustedPerformance = (
     actualRPE: number,
     intendedScore: number
@@ -89,16 +89,9 @@ const ChartContainer: React.FC<{
     // Round the adjusted score to the nearest whole number
     return Math.round(adjustedScore);
   };
-
-  // Calculate adjusted performance for different datasets
-  const adjustedPerformance: number[] = filteredExercises.map((exercise) =>
-    calculateAdjustedPerformance(
-      exercise.actualRPE || 0,
-      typeof exercise.intendedScore === "number"
-        ? exercise.intendedScore
-        : parseFloat(exercise.intendedScore)
-    )
-  );
+  useEffect(() => {
+    // console.log("Exercises in ChartContainer:", filteredExercises);
+  }, [filteredExercises]);
 
   const optionsWithoutGrid: ChartOptions<"line"> = {
     ...options,
@@ -145,22 +138,29 @@ const ChartContainer: React.FC<{
     (value): value is number => value !== undefined
   );
 
+  // Calculate adjusted performance
+  const adjustedPerformance: number[] = filteredPrescribedRPE.map(
+    (prescribedRPE, index) => {
+      return calculateAdjustedPerformance(
+        prescribedRPE,
+        filteredPrescribedPerformance[index]
+      );
+    }
+  );
+
   // Return null if there are no filtered exercises
   if (filteredExercises.length === 0) {
     return null;
   }
+
   const rpeChartData: ChartData<"line"> = {
     labels,
     datasets: [
       createDataset("Prescribed RPE", filteredPrescribedRPE, "#56A278", ""),
-      createDataset(
-        "Actual RPE",
-        filteredExercises.map((exercise) => exercise.actualRPE || 0),
-        "#9B361A",
-        ""
-      ),
+      createDataset("Actual RPE", filteredPrescribedRPE, "#9B361A", ""),
     ],
   };
+
   const unitType =
     filteredExercises.length > 0 ? filteredExercises[0].unit : "";
   // Provide a default value if unitType is undefined
@@ -184,16 +184,6 @@ const ChartContainer: React.FC<{
     ],
   };
 
-  // const getLastExercise = (): ExerciseFormState | undefined => {
-  //   if (filteredExercises.length > 0) {
-  //     return filteredExercises[filteredExercises.length - 1];
-  //   }
-  //   return undefined;
-  // };
-
-  // const lastExercise = getLastExercise();
-  // console.log("last exercise", lastExercise);
-
   return (
     <Box
       sx={{
@@ -214,6 +204,7 @@ const ChartContainer: React.FC<{
           width: isSmallScreen ? "100vw" : "400px",
           flexDirection: "column",
           flexWrap: "wrap",
+          // height: "100%",
           height: "380px",
           justifyContent: "center",
           alignItems: "center",
