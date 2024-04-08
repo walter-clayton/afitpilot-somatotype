@@ -83,6 +83,7 @@ const UsersInterface: React.FC<UsersInterfaceProps> = ({
         justifyContent: "space-around",
         alignItems: "center",
         mt: "25px",
+        pb: "25px",
 
         bgcolor: "#D9D9D9",
       }}
@@ -156,33 +157,6 @@ const UsersInterface: React.FC<UsersInterfaceProps> = ({
               addExercise={addExercise}
               deleteExercise={deleteExercise}
             />
-          </Grid>
-
-          <Grid item justifyContent="center">
-            {filteredExercises.map((exercise, index) => (
-              <Typography
-                key={index}
-                variant="h6"
-                sx={{
-                  marginY: "30px",
-                  fontSize: "1rem",
-                  backgroundColor: "#fff",
-                  fontWeight: "bold",
-                  border: "1px dashed black",
-                }}
-              >
-                {/* testing */}
-                <ListItem>exerciseName:{exercise.exerciseName}</ListItem>
-                <ListItem>unit:{exercise.unit}</ListItem>
-                <ListItem>intendedScore:{exercise.intendedScore}</ListItem>
-                <ListItem>
-                  adjustedPerformance:{exercise.adjustedPerformance}
-                </ListItem>
-                <ListItem>actualRPE:{exercise.actualRPE}</ListItem>
-                <ListItem>date:{exercise.date}</ListItem>
-                <ListItem>notes:{exercise.notes}</ListItem>
-              </Typography>
-            ))}
           </Grid>
         </>
       ) : (
