@@ -50,8 +50,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:staging": "cross-env REACT_APP_ENVIRONMENT=staging react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write ."
   },
   "eslintConfig": {
     "extends": [
@@ -82,6 +85,7 @@
     }
   },
   "devDependencies": {
-    "@types/uuid": "^9.0.8"
+    "@types/uuid": "^9.0.8",
+    "cross-env": "^7.0.3"
   }
 }
