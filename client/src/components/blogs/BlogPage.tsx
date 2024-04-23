@@ -278,10 +278,6 @@ const BlogPage: FC = () => {
           url: "https://blog.walterclayton.com/wp-json/wp/v2/posts?categories=3",
           base: "https://blog.walterclayton.com",
         },
-        {
-          url: "https://blog.afitpilot.com/wp-json/wp/v2/posts",
-          base: "https://blog.afitpilot.com",
-        },
       ];
 
       try {

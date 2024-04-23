@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { IBlogContent } from './BlogInterfaces';
+import axios from "axios";
+import { IBlogContent } from "./BlogInterfaces";
 
 // Modified to dynamically determine the base URL for fetching images
 const fetchWordPressImage = async (imageId: number, baseUrl: string) => {
@@ -7,47 +7,51 @@ const fetchWordPressImage = async (imageId: number, baseUrl: string) => {
     const response = await fetch(`${baseUrl}/wp-json/wp/v2/media/${imageId}`);
 
     if (!response.ok) {
-      throw new Error('Failed to fetch WordPress image');
+      throw new Error("Failed to fetch WordPress image");
     }
 
     const data = await response.json();
     return data.source_url;
   } catch (error) {
-    console.error('Error fetching WordPress image:', error);
+    console.error("Error fetching WordPress image:", error);
     // You may need to specify default images for each source if necessary
     return `${baseUrl}/path/to/default/image.png`;
   }
 };
 
-const fetchAuthorName = async (authorId: number, baseUrl: string): Promise<string> => {
+const fetchAuthorName = async (
+  authorId: number,
+  baseUrl: string
+): Promise<string> => {
   try {
     const response = await fetch(`${baseUrl}/wp-json/wp/v2/users/${authorId}`);
     if (!response.ok) {
-      throw new Error('Failed to fetch author details');
+      throw new Error("Failed to fetch author details");
     }
     const data = await response.json();
     return data.name; // Assuming 'name' is the field you want
   } catch (error) {
-    console.error('Error fetching author details:', error);
-    return 'Unknown Author'; // Default author name if fetch fails
+    console.error("Error fetching author details:", error);
+    return "Unknown Author"; // Default author name if fetch fails
   }
 };
 
 export async function getAllBlogContents(): Promise<IBlogContent[]> {
   const sources = [
-    'https://blog.walterclayton.com/wp-json/wp/v2/posts?categories=3',
-    'https://blog.afitpilot.com/wp-json/wp/v2/posts',
+    "https://blog.walterclayton.com/wp-json/wp/v2/posts?categories=3",
   ];
 
   try {
     // Fetch posts from all sources
     const responses = await Promise.all(sources.map((url) => axios.get(url)));
     // Flatten the response data arrays into a single array
-    const allPostsData = responses.flatMap(response => response.data);
+    const allPostsData = responses.flatMap((response) => response.data);
 
     const allBlogContent: IBlogContent[] = await Promise.all(
       allPostsData.map(async (blog: any) => {
-        const baseUrl = blog.link.includes('walterclayton') ? 'https://blog.walterclayton.com' : 'https://blog.afitpilot.com';
+        const baseUrl = blog.link.includes("walterclayton")
+          ? "https://blog.walterclayton.com"
+          : "";
         const imageId = blog.featured_media;
         const dynamicImageSrc = imageId
           ? await fetchWordPressImage(imageId, baseUrl)
@@ -58,12 +62,12 @@ export async function getAllBlogContents(): Promise<IBlogContent[]> {
           id: blog.id,
           title: blog.title.rendered,
           authorName: authorName,
-          date: new Date(blog.date).toLocaleDateString('en-GB'),
+          date: new Date(blog.date).toLocaleDateString("en-GB"),
           cardDescription: blog.excerpt.rendered,
           cardImage: {
             imageSrc: dynamicImageSrc,
             imageAlt: blog.title.rendered,
-            imageFitMethod: 'contain',
+            imageFitMethod: "contain",
           },
           content: [
             {
@@ -97,7 +101,7 @@ export async function getAllBlogContents(): Promise<IBlogContent[]> {
 
     return allBlogContent;
   } catch (error) {
-    console.error('Error fetching blog data:', error);
+    console.error("Error fetching blog data:", error);
     return [];
   }
 }
