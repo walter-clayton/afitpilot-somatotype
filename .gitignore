@@ -4,4 +4,8 @@ package-lock.json
 .DS_Store
 dist
 .scanApi
-client/.gitignore
+.env.staging
+.env
+client/.env.staging
+client/.env.development
+
