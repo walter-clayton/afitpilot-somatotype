@@ -36,6 +36,7 @@ import Powerlifting from "./components/Powerliftting/Powerlifting";
 import NavSignup from "./components/authentification/NavSignup";
 import TrainingDiary from "./components/Powerliftting/TrainingDiary";
 import { SnackbarProvider } from "notistack";
+import RPEScore from "./components/RPE/RPEScore";
 
 export interface ISomatotype {
   endomorphy?: number | undefined;
@@ -247,6 +248,7 @@ function App() {
           <Route path="/Training" element={<Training />} />
           <Route path="/Optimisation" element={<Optimisation />} />
           <Route path="/Library" element={<Library />} />
+          <Route path="/RPEScore" element={<RPEScore />} />
           <Route
             path="/Test"
             element={
