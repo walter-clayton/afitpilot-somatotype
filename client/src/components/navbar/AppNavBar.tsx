@@ -33,6 +33,11 @@ const Optimise = [
   { title: "Training", path: "/Training" },
 ];
 
+const RPEOptions = [
+  { title: "RPE Score", path: "/RPEScore" },
+  { title: "RPE Dashboard", path: "/RPEDashboard" },
+];
+
 const profilePages = [
   { title: "My Profile", path: "/Profile" },
   { title: "Dashboard", path: "/" },
@@ -69,6 +74,16 @@ const ResponsiveAppBar = (props: any) => {
 
   const handleOpenNavDropdown = (event: any) => {
     setAnchorElNavDropdown(event.currentTarget);
+  };
+
+  const [anchorElNavRPE, setAnchorElNavRPE] = useState(null);
+
+  const handleOpenNavRPE = (event: any) => {
+    setAnchorElNavRPE(event.currentTarget);
+  };
+
+  const handleCloseNavRPE = () => {
+    setAnchorElNavRPE(null);
   };
 
   const handleCloseNavMenu = () => {
@@ -114,7 +129,14 @@ const ResponsiveAppBar = (props: any) => {
   });
 
   return (
-    <AppBar position="static" sx={{ width: "100%", background: "black" }}>
+    <AppBar
+      position="static"
+      sx={{
+        width: "100%",
+        background: "black",
+        margin: "-10px",
+      }}
+    >
       <Container maxWidth={false}>
         <Toolbar disableGutters>
           <Grid container alignItems={"center"}>
@@ -514,7 +536,65 @@ const ResponsiveAppBar = (props: any) => {
                   }}
                 />
               </Button>
+              <Button
+                sx={{ my: 2, color: "white", position: "relative" }}
+                onClick={(e) => {
+                  Boolean(anchorElNavRPE)
+                    ? handleCloseNavRPE()
+                    : handleOpenNavRPE(e);
+                }}
+              >
+                RPE
+                <ArrowForwardIosIcon
+                  sx={{
+                    marginLeft: "0px",
+                    paddingBottom: "2px",
+                    fontSize: "18px",
+                    transition: "all .3s ease-out",
+                    transform: Boolean(anchorElNavRPE)
+                      ? "rotate(90deg)"
+                      : "rotate(0)",
+                  }}
+                />
+              </Button>
               {/* Dropdown */}
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNavRPE}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNavRPE)}
+                onClose={handleCloseNavRPE}
+                sx={{
+                  "& .MuiPaper-root": {
+                    backgroundColor: "black",
+                  },
+                }}
+                disableScrollLock={true}
+              >
+                {RPEOptions.map((item, index) => (
+                  <MenuItem
+                    sx={{ minHeight: "36px" }}
+                    key={index}
+                    onClick={() => {
+                      navigate(`${item.path}`);
+                      window.scrollTo(0, 0);
+                      handleCloseNavRPE();
+                    }}
+                  >
+                    <Typography textAlign="center" color={"white"}>
+                      {item.title}
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorElNavDropdown}

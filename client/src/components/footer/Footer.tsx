@@ -8,8 +8,16 @@ import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
 import Divider from "@mui/material/Divider";
+import { useLocation } from "react-router-dom";
 
 const Footer = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  // Don't render the Footer if the current route is '/rpescore'
+  if (location.pathname === "/RPEScore") {
+    return null;
+  }
+
   const style = {
     width: "100%",
     bgcolor: "background.paper",
@@ -19,7 +27,6 @@ const Footer = () => {
     return new Date().getFullYear();
   };
 
-  const navigate = useNavigate();
   return (
     <div>
       <Container component="main" maxWidth="xl">
