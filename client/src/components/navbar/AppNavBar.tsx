@@ -55,6 +55,7 @@ const ResponsiveAppBar = (props: any) => {
   const [anchorElNavDropdown, setAnchorElNavDropdown] = useState(null);
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(["user", "data"]);
+  const [anchorElNavRPE, setAnchorElNavRPE] = useState(null);
 
   const large = useMediaQuery("(min-width:1200px)");
   const xxs = useMediaQuery("(max-width:380px)");
@@ -75,8 +76,6 @@ const ResponsiveAppBar = (props: any) => {
   const handleOpenNavDropdown = (event: any) => {
     setAnchorElNavDropdown(event.currentTarget);
   };
-
-  const [anchorElNavRPE, setAnchorElNavRPE] = useState(null);
 
   const handleOpenNavRPE = (event: any) => {
     setAnchorElNavRPE(event.currentTarget);
@@ -410,6 +409,7 @@ const ResponsiveAppBar = (props: any) => {
                     <ArrowForwardSharpIcon fontSize="small" />
                   </Button>
                 </MenuItem>
+
                 <MenuItem sx={{ minHeight: "0" }}>
                   <Divider sx={dividerStyle} />
                 </MenuItem>
@@ -427,6 +427,22 @@ const ResponsiveAppBar = (props: any) => {
                   </MenuItem>
                 ))}
                 {Optimise.map((item, index) => (
+                  <MenuItem
+                    sx={{ minHeight: "36px" }}
+                    key={index}
+                    onClick={() => {
+                      handleCloseNavMenu();
+                      navigate(item.path);
+                      window.scrollTo(0, 0);
+                    }}
+                  >
+                    <Typography textAlign="center">{item.title}</Typography>
+                  </MenuItem>
+                ))}
+                <MenuItem sx={{ minHeight: "0" }}>
+                  <Divider sx={dividerStyle} />
+                </MenuItem>
+                {RPEOptions.map((item, index) => (
                   <MenuItem
                     sx={{ minHeight: "36px" }}
                     key={index}

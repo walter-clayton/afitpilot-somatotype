@@ -7,6 +7,7 @@ const routesAuth = require("./routes/auth.routes");
 const routesCompare = require("./routes/compare.routes");
 import workoutRoutes from "./routes/workout.routes";
 import rpeRoutes from "./routes/rpe.routes";
+import rpeDashboardRoutes from "./routes/rpedashboard.routes";
 
 // Initialization
 const app: Express = express();
@@ -37,5 +38,6 @@ app.use("/auth", routesAuth);
 app.use("/compare", routesCompare);
 app.use("/workouts", workoutRoutes);
 app.use("/rpe", rpeRoutes);
+app.use("/rpe", rpeDashboardRoutes);
 
 module.exports = app;

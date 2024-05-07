@@ -11,7 +11,11 @@ router.post("/", async (req: Request, res: Response) => {
     res.status(201).json({ message: "RPE data saved successfully" });
   } catch (err) {
     console.error("Error saving RPE data:", err);
-    res.status(500).json({ error: "Internal Server Error" });
+    if (err instanceof Error) {
+      res.status(500).json({ error: err.message });
+    } else {
+      res.status(500).json({ error: "An unknown error occurred" });
+    }
   }
 });
 
