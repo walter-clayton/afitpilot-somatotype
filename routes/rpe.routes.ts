@@ -8,7 +8,10 @@ router.post("/", async (req: Request, res: Response) => {
     const { emoji, numeroClique, colors } = req.body;
     const rpeData = new RPE({ emoji, numeroClique, colors });
     await rpeData.save();
-    res.status(201).json({ message: "RPE data saved successfully" });
+
+    console.log("RPE data saved successfully");
+
+    res.status(201).json({ message: "RPE data saved successfully" }); // Ensure status code is 201
   } catch (err) {
     console.error("Error saving RPE data:", err);
     if (err instanceof Error) {
@@ -18,5 +21,4 @@ router.post("/", async (req: Request, res: Response) => {
     }
   }
 });
-
 export default router;

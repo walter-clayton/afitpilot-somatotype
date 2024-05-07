@@ -23,16 +23,21 @@ const RPEScore = () => {
 
   const handleClick = async (num: number, emoji: string, colors: string) => {
     try {
+      console.log("Sending POST request to backend...");
+
       const response = await axios.post("/rpe", {
         emoji: emoji, // Make sure these values are provided
         numeroClique: num,
         colors: colors,
       });
 
-      if (response.status !== 201 && response.status !== 200) {
+      console.log("Response from backend:", response);
+
+      if (response.status !== 201) {
         console.error("Error from server:", response.data);
       } else {
         console.log(`RPE data for ${emoji} clicked`);
+        alert("You have registered your score!");
       }
     } catch (error) {
       console.error("Error saving RPE data:", error);
