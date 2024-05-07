@@ -14,7 +14,7 @@ const Footer = () => {
   const location = useLocation();
   const navigate = useNavigate();
   // Don't render the Footer if the current route is '/rpescore'
-  if (location.pathname === "/RPEScore") {
+  if (location.pathname === "/RPEScore" || "/RPEDashboard") {
     return null;
   }
 

@@ -24,12 +24,12 @@ const RPEScore = () => {
   const handleClick = async (num: number, emoji: string, colors: string) => {
     try {
       const response = await axios.post("/rpe", {
-        emoji,
+        emoji: emoji, // Make sure these values are provided
         numeroClique: num,
-        colors,
+        colors: colors,
       });
 
-      if (response.status !== 201) {
+      if (response.status !== 201 && response.status !== 200) {
         console.error("Error from server:", response.data);
       } else {
         console.log(`RPE data for ${emoji} clicked`);
