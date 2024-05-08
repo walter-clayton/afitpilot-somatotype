@@ -6,6 +6,7 @@
   "scripts": {
     "client-install": "npm install --prefix client",
     "start": "npx nodemon --files ./index.ts",
+    "start:prod": "node dist/server.js",
     "server": "nodemon --files ./index.ts",
     "client": "npm start --prefix client",
     "dev": "concurrently \" npm run server\" \"npm run client\"",
