@@ -25,8 +25,8 @@ const RPEScore = () => {
     try {
       console.log("Sending POST request to backend...");
 
-      const response = await axios.post("/rpe", {
-        emoji: emoji, // Make sure these values are provided
+      const response = await axios.post(process.env.REACT_APP_RPEPOST_URL!, {
+        emoji: emoji,
         numeroClique: num,
         colors: colors,
       });

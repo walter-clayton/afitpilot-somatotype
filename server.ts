@@ -11,7 +11,7 @@ import rpeDashboardRoutes from "./routes/rpedashboard.routes";
 
 // Initialization
 const app: Express = express();
-var corsOptions = {
+const corsOptions = {
   origin: "*",
   optionsSuccessStatus: 200,
 };
