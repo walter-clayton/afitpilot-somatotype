@@ -25,7 +25,7 @@ function getEmojiAndColor(score: number) {
   return { emoji: emojis[index], color: colors[index] };
 }
 
-router.get("/", async (req: Request, res: Response) => {
+router.get("", async (req: Request, res: Response) => {
   try {
     const rpeData = await RPE.aggregate([
       {
