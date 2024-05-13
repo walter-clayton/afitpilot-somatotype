@@ -3,6 +3,8 @@ import RPEChart from "../../image/RPE-Chart.png";
 import axios from "axios";
 import { Grid, Typography, Button } from "@mui/material";
 import ListAltIcon from "@mui/icons-material/ListAlt";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const emojis = ["😆", "😋", "😊", "🙂", "😉", "🤨", "😪", "😥", "😭", "🤮"];
 const colors = [
@@ -20,6 +22,15 @@ const colors = [
 
 const RPEScore = () => {
   const [showImage, setShowImage] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleClick = async (num: number, emoji: string, colors: string) => {
     try {
@@ -37,7 +48,7 @@ const RPEScore = () => {
         console.error("Error from server:", response.data);
       } else {
         console.log(`RPE data for ${emoji} clicked`);
-        alert("You have registered your score!");
+        handleOpen();
       }
     } catch (error) {
       console.error("Error saving RPE data:", error);
@@ -147,6 +158,9 @@ const RPEScore = () => {
           </div>
         </div>
       )}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>You have registered your score!</DialogTitle>
+      </Dialog>
     </div>
   );
 };

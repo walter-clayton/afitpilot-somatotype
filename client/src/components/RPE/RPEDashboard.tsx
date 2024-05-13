@@ -23,7 +23,7 @@ const RPEDashboard = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get("/rpe/dashboard");
+      const response = await axios.get(process.env.REACT_APP_GETRPE_URL!);
       if (response.data.rpeData) {
         setData(response.data.rpeData);
       } else {
