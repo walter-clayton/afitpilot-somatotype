@@ -24,7 +24,11 @@ const RPEDashboard = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get("/rpe/dashboard");
-      setData(response.data.rpeData);
+      if (response.data.rpeData) {
+        setData(response.data.rpeData);
+      } else {
+        console.error("Error: response.data.rpeData is undefined");
+      }
     } catch (error) {
       console.error("Error fetching RPE data:", error);
     }
