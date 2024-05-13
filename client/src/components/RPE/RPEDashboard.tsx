@@ -23,7 +23,7 @@ const RPEDashboard = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_GETRPE_URL!);
+      const response = await axios.get(process.env.REACT_APP_RPEPOST_URL!);
       if (response.data.rpeData) {
         setData(response.data.rpeData);
       } else {
