@@ -38,6 +38,6 @@ app.use("/auth", routesAuth);
 app.use("/compare", routesCompare);
 app.use("/workouts", workoutRoutes);
 app.use("/rpe", rpeRoutes);
-app.use("/rpe", rpeDashboardRoutes);
+app.use("/rpe/dashboard", rpeDashboardRoutes);
 
 module.exports = app;
