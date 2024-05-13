@@ -18,10 +18,8 @@ function getEmojiAndColor(score: number) {
     "#fe1616",
   ];
 
-  // Round the score to the nearest integer and subtract 1 to get the index
   const index = Math.round(score) - 1;
 
-  // Return the emoji and color at the corresponding index
   return { emoji: emojis[index], color: colors[index] };
 }
 
@@ -36,7 +34,6 @@ router.get("/", async (req: Request, res: Response) => {
       },
     ]);
 
-    // Map over the rpeData to add the emoji and color for each averageScore
     const rpeDataWithEmojiAndColor = rpeData.map((data: any) => {
       const { emoji, color } = getEmojiAndColor(data.averageScore);
       return { ...data, emoji, color };

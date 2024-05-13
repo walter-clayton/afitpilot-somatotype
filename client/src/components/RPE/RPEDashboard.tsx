@@ -33,7 +33,7 @@ const RPEDashboard = () => {
       console.error("Error fetching RPE data:", error);
     }
   };
-  // D3 graph rendering logic
+
   useEffect(() => {
     if (data.length > 0 && d3Container.current) {
       const svg = d3.select(d3Container.current);
@@ -42,22 +42,14 @@ const RPEDashboard = () => {
       const width = 960 - margin.left - margin.right;
       const height = 500 - margin.top - margin.bottom;
 
-      const daysOfWeek = [
-        "Mon", // Start from Monday and only use the first three letters
-        "Tue",
-        "Wed",
-        "Thu",
-        "Fri",
-        "Sat",
-        "Sun",
-      ];
+      const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
       const x = d3
         .scaleBand()
         .domain(daysOfWeek)
         .rangeRound([0, width])
-        .padding(0.3); // Increase padding to reduce the width of the columns
-      const y = d3.scaleLinear().domain([0, 15]).rangeRound([height, 0]); // Change the y scale domain to [0, 15]
+        .padding(0.3);
+      const y = d3.scaleLinear().domain([0, 15]).rangeRound([height, 0]);
 
       const g = svg
         .append("g")
@@ -66,15 +58,14 @@ const RPEDashboard = () => {
       g.append("g")
         .attr("transform", `translate(0,${height})`)
         .call(d3.axisBottom(x))
-        .selectAll("path") // Select the path of the axis
-        .style("stroke-width", 2.5); // Set the stroke width to 2.5
+        .selectAll("path")
+        .style("stroke-width", 2.5);
 
       g.selectAll("text")
         .style("fill", "white")
-        .style("font-size", "30px") // Increase the font size of the days
-        .style("font-weight", "bold"); // Make the days of the week bold
+        .style("font-size", "30px")
+        .style("font-weight", "bold");
 
-      // Add horizontal lines at y axis positions
       for (let i = 0; i <= 15; i += 2) {
         g.append("line")
           .attr("x1", -80)
@@ -84,48 +75,42 @@ const RPEDashboard = () => {
           .attr("stroke", "white")
           .attr("stroke-width", 2.5);
       }
-      // Get the date 7 days ago
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-      // Filter the data to include only the last 7 days
       const lastSevenDaysData = data.filter(
         (d) => new Date(d._id) >= sevenDaysAgo
       );
 
       lastSevenDaysData.forEach((d) => {
-        // Calculate the day of the week from the _id date
         const dayOfWeek = daysOfWeek[new Date(d._id).getDay() - 1];
-        const barWidth = 50; // Set the bar width to 70px
+        const barWidth = 50;
         const barHeight = height - y(d.averageScore);
 
         g.append("rect")
           .attr("class", "bar")
-          .attr("x", (x(dayOfWeek) || 0) + x.bandwidth() / 2 - barWidth / 2) // Adjust the x position of the bar
-          .attr("y", y(d.averageScore))
+          .attr("x", (x(dayOfWeek) || 0) + x.bandwidth() / 2 - barWidth / 2)
           .attr("width", barWidth)
           .attr("height", barHeight)
           .attr("fill", d.color)
           .attr("stroke-width", 2.5);
 
-        // Add average score text above the emoji
         g.append("text")
           .attr("class", "score")
-          .attr("x", (x(dayOfWeek) || 0) + x.bandwidth() / 2) // Adjust the x position of the score
-          .attr("y", y(d.averageScore) - 50) // Position the score 80px above the emoji
+          .attr("x", (x(dayOfWeek) || 0) + x.bandwidth() / 2)
+          .attr("y", y(d.averageScore) - 50)
           .attr("text-anchor", "middle")
-          .attr("font-size", "20px") // Set the font size of the score
-          .attr("fill", "white") // Set the color of the score
-          .text(Math.round(d.averageScore)) // Display the score as an integer
-          .style("font-size", "30px") // Increase the font size of the days
-          .style("font-weight", "bold"); // Make the days of the week bold
-
+          .attr("font-size", "20px")
+          .attr("fill", "white")
+          .text(Math.round(d.averageScore))
+          .style("font-size", "30px")
+          .style("font-weight", "bold");
         g.append("text")
           .attr("class", "emoji")
-          .attr("x", (x(dayOfWeek) || 0) + x.bandwidth() / 2) // Adjust the x position of the emoji
-          .attr("y", y(d.averageScore) + 20) // Adjust the y position of the emoji to be 10px above the bar
+          .attr("x", (x(dayOfWeek) || 0) + x.bandwidth() / 2)
+          .attr("y", y(d.averageScore) + 20)
           .attr("text-anchor", "middle")
-          .attr("font-size", "70px") // Keep the size of the emoji the same
+          .attr("font-size", "70px")
           .text(d.emoji);
       });
     }
