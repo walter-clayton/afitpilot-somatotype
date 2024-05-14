@@ -3,8 +3,10 @@ import RPEChart from "../../image/RPE-Chart.png";
 import axios from "axios";
 import { Grid, Typography, Button } from "@mui/material";
 import ListAltIcon from "@mui/icons-material/ListAlt";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
+
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 const emojis = ["😆", "😋", "😊", "🙂", "😉", "🤨", "😪", "😥", "😭", "🤮"];
 const colors = [
@@ -28,7 +30,14 @@ const RPEScore = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
     setOpen(false);
   };
 
@@ -158,9 +167,28 @@ const RPEScore = () => {
           </div>
         </div>
       )}
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>You have registered your score!</DialogTitle>
-      </Dialog>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="You have registered your score!"
+        action={
+          <React.Fragment>
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={handleClose}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </React.Fragment>
+        }
+      />
     </div>
   );
 };
