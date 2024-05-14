@@ -90,6 +90,8 @@ const RPEDashboard = () => {
         g.append("rect")
           .attr("class", "bar")
           .attr("x", (x(dayOfWeek) || 0) + x.bandwidth() / 2 - barWidth / 2)
+          .attr("y", y(d.averageScore)) // Set y to the scale of the average score
+
           .attr("width", barWidth)
           .attr("height", barHeight)
           .attr("fill", d.color)
@@ -98,7 +100,7 @@ const RPEDashboard = () => {
         g.append("text")
           .attr("class", "score")
           .attr("x", (x(dayOfWeek) || 0) + x.bandwidth() / 2)
-          .attr("y", y(d.averageScore) - 50)
+          .attr("y", y(d.averageScore) - 70)
           .attr("text-anchor", "middle")
           .attr("font-size", "20px")
           .attr("fill", "white")
