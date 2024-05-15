@@ -147,8 +147,8 @@ const RPEScore = () => {
               src={RPEChart}
               alt="RPE Chart"
               style={{
-                maxWidth: "90vw", // Maximum width of 90% of viewport width
-                maxHeight: "90vh", // Maximum height of 90% of viewport height
+                maxWidth: "90vw",
+                maxHeight: "90vh",
               }}
             />
             <Button
