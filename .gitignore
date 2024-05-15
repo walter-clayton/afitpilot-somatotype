@@ -9,3 +9,4 @@ dist
 client/.env.staging
 client/.env.development
 
+.vercel

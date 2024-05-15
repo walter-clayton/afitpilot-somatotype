@@ -11,7 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getAllBlogContents } from "./BlogContent/BlogContent";
 import { IBlogContent } from "./BlogContent/BlogInterfaces";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import { IBlogCardInfos } from "./BlogPage";
+import { IBlogCardInfos } from "./interfaces-blogPage";
 
 interface IBlogArticlePage {
   blogCardInfos?: IBlogCardInfos;
