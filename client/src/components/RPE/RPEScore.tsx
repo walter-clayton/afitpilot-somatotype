@@ -4,6 +4,10 @@ import axios from "axios";
 import { Grid, Typography, Button } from "@mui/material";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+
 const emojis = ["😆", "😋", "😊", "🙂", "😉", "🤨", "😪", "😥", "😭", "🤮"];
 const colors = [
   "#5ce1e6",
@@ -20,19 +24,40 @@ const colors = [
 
 const RPEScore = () => {
   const [showImage, setShowImage] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const handleClick = async (num: number, emoji: string, colors: string) => {
     try {
-      const response = await axios.post("/rpe", {
-        emoji: emoji, // Make sure these values are provided
+      console.log("Sending POST request to backend...");
+
+      const response = await axios.post(process.env.REACT_APP_RPEPOST_URL!, {
+        emoji: emoji,
         numeroClique: num,
         colors: colors,
       });
 
-      if (response.status !== 201 && response.status !== 200) {
+      console.log("Response from backend:", response);
+
+      if (response.status !== 201) {
         console.error("Error from server:", response.data);
       } else {
         console.log(`RPE data for ${emoji} clicked`);
+        handleOpen();
       }
     } catch (error) {
       console.error("Error saving RPE data:", error);
@@ -122,8 +147,8 @@ const RPEScore = () => {
               src={RPEChart}
               alt="RPE Chart"
               style={{
-                maxWidth: "90vw", // Maximum width of 90% of viewport width
-                maxHeight: "90vh", // Maximum height of 90% of viewport height
+                maxWidth: "90vw",
+                maxHeight: "90vh",
               }}
             />
             <Button
@@ -142,6 +167,28 @@ const RPEScore = () => {
           </div>
         </div>
       )}
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="You have registered your score!"
+        action={
+          <React.Fragment>
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={handleClose}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </React.Fragment>
+        }
+      />
     </div>
   );
 };
