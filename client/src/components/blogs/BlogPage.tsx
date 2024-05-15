@@ -1,325 +1,96 @@
 import React, { FC, useEffect, useState } from "react";
 import { Grid, Typography, useMediaQuery } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import SearchIcon from "@mui/icons-material/Search";
 import BlogCard from "./BlogCard";
 import CounterShare from "../shares/CounterShare";
+import { IBlogCardInfos, WordPressPost } from "./interfaces-blogPage";
+import { Search, SearchIconWrapper, StyledInputBase } from "./styled-component";
 
-interface WordPressPost {
-  id: number;
-  date: string;
-  title: { rendered: string };
-  excerpt: { rendered: string };
-  featured_media: number;
-  featured_media_src_url?: string;
-  author: number;
-  link: string;
-  content: { rendered: string };
-}
-
-interface FetchResponseData {
-  data: WordPressPost[];
-  base: string;
-}
-
-export interface IBlogTextWithImage {
-  text?: string;
-  image?: string;
-  imageAlt?: string;
-  imagePosition?: string;
-}
-
-export interface IBlogImage {
-  imageSrc?: string;
-  imageAlt?: string;
-  imageHasCaption?: boolean;
-  imageCaption?: string;
-}
-
-export interface IBlogCardImage {
-  imageSrc?: string;
-  imageAlt?: string;
-  imageFitMethod?: string;
-}
-
-export interface IBlogCTABtn {
-  buttonText?: string;
-  isExternalLink?: boolean;
-  buttonLink?: string;
-  buttonPosition?: string;
-  buttonColor?: string;
-  buttonStyle?: "text" | "contained" | "outlined" | undefined;
-}
-
-export interface IBlogContentElement {
-  text?: string;
-  image?: IBlogImage;
-  textWithImage?: IBlogTextWithImage;
-  callToActionButton?: IBlogCTABtn;
-  imagePosition?: "left" | "right" | undefined;
-}
-
-export interface IBlogContent {
-  id: number;
-  title?: string;
-  date?: string;
-  cardDescription?: string;
-  cardImage?: IBlogCardImage;
-  content?: IBlogContentElement[];
-}
-
-export interface IBlogCardInfos {
-  BlogTitle?: string;
-  BlogDate?: string;
-  BlogCardDescription?: string;
-  BlogCardImg?: IBlogCardImage;
-  BlogContent?: IBlogContentElement[];
-  title?: string;
-  date?: string;
-  id?: number;
-  content?: IBlogContent[];
-  cardImage: IBlogCardImage;
-  cardDescription: string;
-}
-
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
-    width: "auto",
-  },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  borderRadius: "40px",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
-  backgroundColor: "#c8c8c861",
-  "&:hover": {
-    backgroundColor: "#c8c8c861",
-  },
-}));
 const BlogPage: FC = () => {
   const xxs = useMediaQuery("(max-width:420px)");
   const xxxs = useMediaQuery("(max-width:320px)");
   const large = useMediaQuery("(min-width:1200px)");
   const [blogCards, setBlogCards] = useState<IBlogCardInfos[]>([]);
-  const [resultblogCards, setResultBlogCards] = useState<IBlogCardInfos[]>([]);
+  const [resultBlogCards, setResultBlogCards] = useState<IBlogCardInfos[]>([]);
   const [noResultsFound, setNoResultsFound] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>("");
   const blogArticlesPerPage: number = 6;
   const [page, setPage] = useState(0);
 
-  const isInAllBlogContent = (
-    contentArray: IBlogContentElement[],
-    searchInput: string
-  ) => {
-    let tempArray: string[] = [];
-    contentArray.forEach((content) => {
-      if (
-        content.text !== "" &&
-        content.text !== null &&
-        content.text !== undefined
-      ) {
-        tempArray.push(content.text);
-      }
-      if (content.image !== null && content.image !== undefined) {
-        if (
-          content.image.imageAlt !== "" &&
-          content.image.imageAlt !== null &&
-          content.image.imageAlt !== undefined
-        ) {
-          tempArray.push(content.image.imageAlt!);
-        }
-        if (
-          content.image.imageCaption !== "" &&
-          content.image.imageCaption !== null &&
-          content.image.imageCaption !== undefined
-        ) {
-          tempArray.push(content.image.imageCaption!);
-        }
-      }
-      if (
-        content.textWithImage !== null &&
-        content.textWithImage !== undefined
-      ) {
-        if (
-          content.textWithImage.text !== "" &&
-          content.textWithImage.text !== null &&
-          content.textWithImage.text !== undefined
-        ) {
-          tempArray.push(content.textWithImage.text);
-        }
-        if (
-          content.textWithImage.imageAlt !== "" &&
-          content.textWithImage.imageAlt !== null &&
-          content.textWithImage.imageAlt !== undefined
-        ) {
-          tempArray.push(content.textWithImage.imageAlt);
-        }
-      }
-      if (
-        content.callToActionButton !== null &&
-        content.callToActionButton !== undefined
-      ) {
-        if (
-          content.callToActionButton.buttonText !== "" &&
-          content.callToActionButton.buttonText !== null &&
-          content.callToActionButton.buttonText !== undefined
-        ) {
-          tempArray.push(content.callToActionButton.buttonText);
-        }
-      }
-    });
+  const checkForResults = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchInput = event.currentTarget.value.trim().toLowerCase();
+    setSearchValue(searchInput);
 
-    return tempArray.some((blogContentElement) =>
-      blogContentElement.toLowerCase().includes(searchInput.toLowerCase())
-    );
-  };
-
-  const checkForResults = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setSearchValue(event.currentTarget.value);
-    if (
-      event.currentTarget.value === "" ||
-      event.currentTarget.value === null ||
-      event.currentTarget.value === undefined
-    ) {
+    if (!searchInput) {
       setNoResultsFound(false);
-      setResultBlogCards([]);
+      setResultBlogCards(blogCards);
     } else {
-      const searchValue = event.currentTarget.value;
-      const resultArray = blogCards.filter(
-        (blogcard) =>
-          blogcard.BlogCardDescription?.toLowerCase().includes(
-            searchValue.toLowerCase()
-          ) ||
-          blogcard.BlogTitle?.toLowerCase().includes(
-            searchValue.toLowerCase()
-          ) ||
-          blogcard.BlogCardImg?.imageAlt
-            ?.toLowerCase()
-            .includes(searchValue.toLowerCase()) ||
-          isInAllBlogContent(blogcard.BlogContent!, searchValue)
-      );
-      setPage(0);
-      if (resultArray.length > 0) {
-        setNoResultsFound(false);
-      } else {
-        setNoResultsFound(true);
-      }
+      const resultArray = blogCards.filter((blogCard) => {
+        const isInContent = blogCard.contentArray?.some((content) =>
+          Object.values(content)
+            .map((value) => value?.toString().toLowerCase())
+            .join("")
+            .includes(searchInput)
+        );
+        return (
+          Object.values(blogCard)
+            .map((value) => value?.toString().toLowerCase())
+            .join("")
+            .includes(searchInput) || isInContent
+        );
+      });
 
+      setPage(0);
+      setNoResultsFound(resultArray.length === 0);
       setResultBlogCards(resultArray);
     }
   };
 
-  const handleChangePage = (newPage: number) => {
-    window.scrollTo(0, 0);
-    setPage(newPage - 1);
-  };
+  const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) =>
+    setPage(value - 1);
 
   useEffect(() => {
-    const fetchWordPressImage = async (imageId: number, baseUrl: string) => {
+    const fetchWordPressData = async () => {
       try {
         const response = await fetch(
-          `${baseUrl}/wp-json/wp/v2/media/${imageId}`
+          "https://blog.walterclayton.com/wp-json/wp/v2/posts?categories=3"
         );
-        if (!response.ok) {
-          throw new Error("Failed to fetch WordPress image");
-        }
-        const data = await response.json();
-        return data.source_url;
-      } catch (error) {
-        console.error("Error fetching WordPress image:", error);
-        // Return a default image based on the source or a generic one
-        return `${baseUrl}/path/to/default/image.png`;
-      }
-    };
+        if (!response.ok) throw new Error("Failed to fetch WordPress data");
+        const data: WordPressPost[] = await response.json();
 
-    const formatDate = (dateString: string) => {
-      const date = new Date(dateString);
-      const day = String(date.getDate()).padStart(2, "0");
-      const month = String(date.getMonth() + 1).padStart(2, "0"); // January is 0!
-      const year = date.getFullYear();
+        const fetchedBlogContents: IBlogCardInfos[] = await Promise.all(
+          data.map(async (post) => {
+            const mediaResponse = await fetch(
+              `https://blog.walterclayton.com/wp-json/wp/v2/media/${post.featured_media}`
+            );
+            const mediaData = await mediaResponse.json();
+            const imageUrl = mediaData.source_url;
 
-      return `${day}-${month}-${year}`;
-    };
-
-    const fetchWordPressData = async () => {
-      const sources = [
-        {
-          url: "https://blog.walterclayton.com/wp-json/wp/v2/posts?categories=3",
-          base: "https://blog.walterclayton.com",
-        },
-      ];
-
-      try {
-        const responses: FetchResponseData[] = await Promise.all(
-          sources.map((source) =>
-            fetch(source.url).then((res) =>
-              res
-                .json()
-                .then(
-                  (data): FetchResponseData => ({ data, base: source.base })
-                )
-            )
-          )
-        );
-
-        const fetchedBlogContents = await Promise.all(
-          responses.flatMap(({ data, base }) =>
-            data.map(async (post: WordPressPost) => {
-              const imageSrc =
-                post.featured_media && typeof post.featured_media === "number"
-                  ? await fetchWordPressImage(post.featured_media, base)
-                  : `${base}/path/to/default/image.png`;
-
-              // Now 'post' is typed, you can safely access its properties
-              // Transform post here, using the properties you need
-              return {
-                id: post.id,
-                title: post.title.rendered,
-                date: formatDate(post.date),
-                cardDescription: post.excerpt.rendered,
-                cardImage: {
-                  imageSrc,
-                  imageAlt: post.title.rendered,
-                  imageFitMethod: "contain",
-                },
-                // Add more transformed properties as needed
-              };
-            })
-          )
+            return {
+              id: post.id,
+              title: post.title.rendered,
+              date: new Date(post.date).toLocaleDateString(),
+              cardDescription: post.excerpt.rendered,
+              cardImage: {
+                imageSrc: imageUrl
+                  ? imageUrl
+                  : `https://path/to/default/image.png`,
+                imageAlt: post.title.rendered,
+                imageFitMethod: "contain",
+              },
+              contentArray: [
+                { text: post.title.rendered },
+                { text: post.excerpt.rendered },
+                // Add more properties as needed
+              ],
+            };
+          })
         );
 
         setBlogCards(fetchedBlogContents);
+        setResultBlogCards(fetchedBlogContents);
       } catch (error) {
         console.error("Error fetching WordPress data:", error);
       }
@@ -339,70 +110,37 @@ const BlogPage: FC = () => {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
-              onChange={(e) => checkForResults(e)}
+              onChange={checkForResults}
               fullWidth
             />
           </Search>
         </Grid>
 
         {!noResultsFound &&
-          (resultblogCards.length > 0
-            ? resultblogCards
-                .slice(
-                  page * blogArticlesPerPage,
-                  page * blogArticlesPerPage + blogArticlesPerPage
-                )
-                .map((resultBlogCard, index) => (
-                  <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    lg={4}
-                    paddingTop={4}
-                    key={index}
-                  >
-                    <Grid
-                      container
-                      alignContent={"center"}
-                      justifyContent={"center"}
-                    >
-                      {/* Assuming you have a BlogCard component */}
-                      <BlogCard
-                        index={page * blogArticlesPerPage + index}
-                        blogCard={resultBlogCard}
-                      />
-                    </Grid>
-                  </Grid>
-                ))
-            : blogCards
-                .slice(
-                  page * blogArticlesPerPage,
-                  page * blogArticlesPerPage + blogArticlesPerPage
-                )
-                .map((blogCard, index) => (
-                  <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    lg={4}
-                    paddingTop={4}
-                    key={index}
-                  >
-                    <Grid
-                      container
-                      alignContent={"center"}
-                      justifyContent={"center"}
-                    >
-                      {/* Assuming you have a BlogCard component */}
-                      <BlogCard
-                        index={page * blogArticlesPerPage + index}
-                        blogCard={blogCard}
-                      />
-                    </Grid>
-                  </Grid>
-                )))}
+          resultBlogCards
+            .slice(page * blogArticlesPerPage, (page + 1) * blogArticlesPerPage)
+            .map((blogCard, index) => (
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={6}
+                lg={4}
+                paddingTop={4}
+                key={index}
+              >
+                <Grid
+                  container
+                  alignContent={"center"}
+                  justifyContent={"center"}
+                >
+                  <BlogCard
+                    index={page * blogArticlesPerPage + index}
+                    blogCard={blogCard}
+                  />
+                </Grid>
+              </Grid>
+            ))}
 
         {!noResultsFound && (
           <Grid
@@ -415,16 +153,10 @@ const BlogPage: FC = () => {
             <Stack alignItems="center">
               <Pagination
                 page={page + 1}
-                count={
-                  resultblogCards.length > 0
-                    ? Math.ceil(resultblogCards.length / blogArticlesPerPage)
-                    : Math.ceil(blogCards.length / blogArticlesPerPage)
-                }
+                count={Math.ceil(resultBlogCards.length / blogArticlesPerPage)}
                 variant="outlined"
                 shape="circular"
-                onChange={(e, value) => {
-                  handleChangePage(value);
-                }}
+                onChange={handleChangePage}
                 size={xxs ? "small" : large ? "large" : "medium"}
                 sx={{
                   "& .Mui-selected": { backgroundColor: "#d1d1d1" },
@@ -438,17 +170,17 @@ const BlogPage: FC = () => {
                     minWidth: xxxs
                       ? "20px"
                       : xxs
-                      ? "26px"
-                      : large
-                      ? "40px"
-                      : "32px",
+                        ? "26px"
+                        : large
+                          ? "40px"
+                          : "32px",
                     height: xxxs
                       ? "20px"
                       : xxs
-                      ? "26px"
-                      : large
-                      ? "40px"
-                      : "32px",
+                        ? "26px"
+                        : large
+                          ? "40px"
+                          : "32px",
                     fontSize: xxxs ? "70%" : large ? "108%" : "90%",
                   },
                 }}
@@ -460,15 +192,8 @@ const BlogPage: FC = () => {
         {noResultsFound && (
           <Grid
             item
-            sx={{
-              flexGrow: 1,
-              alignItems: "center",
-              margin: "20px 0",
-            }}
             xs={12}
-            md={9}
-            lg={7}
-            width={"100%"}
+            sx={{ flexGrow: 1, alignItems: "center", margin: "20px 0" }}
           >
             <Typography variant="h5" gutterBottom m={3} textAlign="center">
               {`No results found with '${searchValue}'`}
@@ -476,7 +201,6 @@ const BlogPage: FC = () => {
           </Grid>
         )}
       </Grid>
-      {/* Assuming you have a CounterShare component */}
       <CounterShare />
     </>
   );

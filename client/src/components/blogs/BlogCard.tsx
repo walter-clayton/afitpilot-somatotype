@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { IBlogCardInfos } from "./BlogPage";
+import { IBlogCardInfos } from "./interfaces-blogPage";
 
 interface IBlogCard {
   index?: number;
@@ -30,7 +30,7 @@ const BlogCard: FC<IBlogCard> = (props) => {
     <Card
       sx={{
         maxWidth: "100%",
-        mb: "-2px", // Set margin bottom to -2px to eliminate gaps
+        mb: "12px", // Set margin bottom to -2px to eliminate gaps
         mx: "auto",
         width: { xs: "100%", sm: "345px" },
         display: "flex",
@@ -45,7 +45,7 @@ const BlogCard: FC<IBlogCard> = (props) => {
         sx={{
           flex: "0 0 auto",
           objectFit: "cover", // Ensure the image covers the entire container
-          height: "12rem", // Set a fixed height for the image
+          height: "18rem", // Set a fixed height for the image
         }}
       />
       <CardContent
