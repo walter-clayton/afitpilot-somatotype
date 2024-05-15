@@ -4,7 +4,7 @@ import RPE from "../models/RpeModel";
 const router: Router = Router();
 
 function getEmojiAndColor(score: number) {
-  const emojis = ["😆", "😋", "😊", "🙂", "😉", "🤨", "😪", "😥", "😭", "🤮"];
+  const emojis = ["😆", "😋", "😊", "🙂", "😉", "😯", "😪", "😥", "😭", "😵"];
   const colors = [
     "#5ce1e6",
     "#37b6fe",
