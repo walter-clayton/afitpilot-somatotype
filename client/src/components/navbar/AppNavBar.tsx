@@ -131,7 +131,7 @@ const ResponsiveAppBar = (props: any) => {
     <AppBar
       position="static"
       sx={{
-        width: "100%",
+        width: "auto",
         background: "black",
         margin: "-10px",
       }}

@@ -3,12 +3,14 @@ import RPEChart from "../../image/RPE-Chart.png";
 import axios from "axios";
 import { Grid, Typography, Button } from "@mui/material";
 import ListAltIcon from "@mui/icons-material/ListAlt";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
-const emojis = ["😆", "😋", "😊", "🙂", "😉", "🤨", "😪", "😥", "😭", "🤮"];
+const emojis = ["😆", "😋", "😊", "🙂", "😉", "😯", "😪", "😥", "😭", "😵"];
 const colors = [
   "#5ce1e6",
   "#37b6fe",
@@ -63,6 +65,8 @@ const RPEScore = () => {
       console.error("Error saving RPE data:", error);
     }
   };
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <div
@@ -73,6 +77,7 @@ const RPEScore = () => {
         position: "relative",
         margin: -10, // Reset margin
         padding: 100, // Reset padding
+        width: "auto",
       }}
     >
       <Grid container justifyContent="center" alignItems="center">
@@ -81,9 +86,18 @@ const RPEScore = () => {
         </Typography>
       </Grid>
 
-      <Grid container justifyContent="center">
+      <Grid
+        container
+        justifyContent="center"
+        wrap={isSmallScreen ? "wrap" : "nowrap"}
+      >
         {emojis.map((emoji, index) => (
-          <Grid key={index} item style={{ textAlign: "center" }}>
+          <Grid
+            key={index}
+            item
+            xs={isSmallScreen ? 12 : "auto"}
+            style={{ textAlign: "center" }}
+          >
             <Typography variant="h3" style={{ fontSize: "3em" }}>
               {emoji}
             </Typography>
@@ -108,13 +122,14 @@ const RPEScore = () => {
       <Button
         startIcon={<ListAltIcon />}
         style={{
-          position: "absolute",
+          position: "fixed",
           right: "20px",
-          bottom: "300px",
+          bottom: "20px",
           color: "#fff",
           padding: "10px 50px 10px 50px",
           borderRadius: "40px",
           backgroundColor: "RGB(108, 77, 123)",
+          zIndex: 1000,
         }}
         onClick={() => setShowImage(true)}
       >
