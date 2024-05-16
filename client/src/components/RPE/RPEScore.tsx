@@ -77,6 +77,7 @@ const RPEScore = () => {
         position: "relative",
         margin: -10, // Reset margin
         padding: 100, // Reset padding
+        width: "auto",
       }}
     >
       <Grid container justifyContent="center" alignItems="center">
@@ -121,13 +122,14 @@ const RPEScore = () => {
       <Button
         startIcon={<ListAltIcon />}
         style={{
-          position: "absolute",
+          position: "fixed",
           right: "20px",
-          bottom: "300px",
+          bottom: "20px",
           color: "#fff",
           padding: "10px 50px 10px 50px",
           borderRadius: "40px",
           backgroundColor: "RGB(108, 77, 123)",
+          zIndex: 1000,
         }}
         onClick={() => setShowImage(true)}
       >

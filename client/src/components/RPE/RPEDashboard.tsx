@@ -17,6 +17,7 @@ const RPEDashboard = () => {
   const d3Container = useRef(null);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -24,14 +25,32 @@ const RPEDashboard = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(process.env.REACT_APP_RPEPOST_URL!);
+
       if (response.data.rpeData) {
-        setData(response.data.rpeData);
+        const rpeDataWithDate = response.data.rpeData.map((d: RPEData) => ({
+          ...d,
+          _id: new Date(d._id),
+        }));
+
+        setData(rpeDataWithDate);
       } else {
         console.error("Error: response.data.rpeData is undefined");
       }
     } catch (error) {
       console.error("Error fetching RPE data:", error);
     }
+  };
+
+  const getLastSevenDays = () => {
+    let lastSevenDays = [];
+
+    for (let i = 0; i < 7; i++) {
+      let date = new Date();
+      date.setDate(date.getDate() - i);
+      lastSevenDays.push(date);
+    }
+
+    return lastSevenDays.reverse();
   };
 
   useEffect(() => {
@@ -42,14 +61,20 @@ const RPEDashboard = () => {
       const width = 960 - margin.left - margin.right;
       const height = 500 - margin.top - margin.bottom;
 
-      const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+      const lastSevenDays = getLastSevenDays();
 
       const x = d3
         .scaleBand()
-        .domain(daysOfWeek)
+        .domain(
+          lastSevenDays.map((d) =>
+            d.toLocaleDateString("en-US", { weekday: "long" }).slice(0, 3)
+          )
+        )
         .rangeRound([0, width])
         .padding(0.3);
       const y = d3.scaleLinear().domain([0, 15]).rangeRound([height, 0]);
+
+      svg.selectAll("*").remove();
 
       const g = svg
         .append("g")
@@ -75,23 +100,28 @@ const RPEDashboard = () => {
           .attr("stroke", "white")
           .attr("stroke-width", 2.5);
       }
-      const sevenDaysAgo = new Date();
-      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
       const lastSevenDaysData = data.filter(
-        (d) => new Date(d._id) >= sevenDaysAgo
+        (d) => new Date(d._id) >= new Date(lastSevenDays[0])
       );
 
       lastSevenDaysData.forEach((d) => {
-        const dayOfWeek = daysOfWeek[new Date(d._id).getDay() - 1];
         const barWidth = 50;
         const barHeight = height - y(d.averageScore);
 
         g.append("rect")
           .attr("class", "bar")
-          .attr("x", (x(dayOfWeek) || 0) + x.bandwidth() / 2 - barWidth / 2)
+          .attr(
+            "x",
+            (x(
+              new Date(d._id)
+                .toLocaleDateString("en-US", { weekday: "long" })
+                .slice(0, 3)
+            ) || 0) +
+              x.bandwidth() / 2 -
+              barWidth / 2
+          )
           .attr("y", y(d.averageScore)) // Set y to the scale of the average score
-
           .attr("width", barWidth)
           .attr("height", barHeight)
           .attr("fill", d.color)
@@ -99,7 +129,15 @@ const RPEDashboard = () => {
 
         g.append("text")
           .attr("class", "score")
-          .attr("x", (x(dayOfWeek) || 0) + x.bandwidth() / 2)
+          .attr(
+            "x",
+            (x(
+              new Date(d._id)
+                .toLocaleDateString("en-US", { weekday: "long" })
+                .slice(0, 3)
+            ) || 0) +
+              x.bandwidth() / 2
+          )
           .attr("y", y(d.averageScore) - 70)
           .attr("text-anchor", "middle")
           .attr("font-size", "20px")
@@ -107,9 +145,18 @@ const RPEDashboard = () => {
           .text(Math.round(d.averageScore))
           .style("font-size", "30px")
           .style("font-weight", "bold");
+
         g.append("text")
           .attr("class", "emoji")
-          .attr("x", (x(dayOfWeek) || 0) + x.bandwidth() / 2)
+          .attr(
+            "x",
+            (x(
+              new Date(d._id)
+                .toLocaleDateString("en-US", { weekday: "long" })
+                .slice(0, 3)
+            ) || 0) +
+              x.bandwidth() / 2
+          )
           .attr("y", y(d.averageScore) + 20)
           .attr("text-anchor", "middle")
           .attr("font-size", "70px")
@@ -117,6 +164,7 @@ const RPEDashboard = () => {
       });
     }
   }, [data]);
+
   return (
     <Grid
       container
@@ -154,7 +202,7 @@ const RPEDashboard = () => {
           className="d3-component"
           width="100%"
           height="100%"
-          viewBox="0 0 960 500"
+          viewBox="0 0 960 580"
           preserveAspectRatio="xMidYMid meet"
           ref={d3Container}
         />
