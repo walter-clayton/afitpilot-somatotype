@@ -11,16 +11,22 @@ import rpeRoutes from "./routes/rpe.routes";
 
 // Initialization
 const app: Express = express();
-var corsOptions = {
-  origin: "*",
+const corsOptions = {
+  origin: ["http://localhost:3000", "https://www.afitpilot.com/"],
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
   optionsSuccessStatus: 200,
 };
-app.use(cors(corsOptions));
-dotenv.config();
 
-// Settings
-const PORT: number = parseInt(process.env.PORT!);
-app.set("port", PORT || 3000);
+app.use(cors(corsOptions));
+
+const PORT = process.env.PORT || 4000;
+
+app.listen(PORT, () => {
+  console.log(`[server]: Server is running at ${PORT}`);
+});
+
+dotenv.config();
 
 // Midlewares
 // limit: "50mb" = fixing "413 Request Entity Too Large" errors
@@ -38,6 +44,6 @@ app.use("/auth", routesAuth);
 app.use("/compare", routesCompare);
 app.use("/workouts", workoutRoutes);
 app.use("/rpe", rpeRoutes);
-// app.use("/rpe/dashboard", rpeDashboardRoutes);
+//app.use("/dashboard", rpeDashboardRoutes);
 
 module.exports = app;
