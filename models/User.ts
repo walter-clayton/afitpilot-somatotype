@@ -57,8 +57,10 @@ userSchema.methods.matchPassword = async function (
   return await bcrypt.compare(password, this.password);
 };
 
-userSchema.statics.findByEmail = function (email: string) {
-  return this.find({ email: email });
+userSchema.statics.findByEmail = async function (
+  email: string
+): Promise<IUser[]> {
+  return await this.find({ email: email }).maxTimeMS(120000);
 };
 
 module.exports = model<IUser>("User", userSchema);

@@ -1,15 +1,6 @@
 import mongoose, { Mongoose } from "mongoose";
 import { IComparison } from "./interfaces/interfaces";
 
-const User = require("./models/User");
-const Comparison = require("./models/Comparison");
-const Avatar = require("./models/Avatar");
-const Somatotype = require("./models/Somatotype");
-const Anthropometric = require("./models/Anthropometric");
-
-//const uri: string = require("./config/db.config").keys.mongoURI;
-//const dbName: string = require("./config/db.config").keys.mongoDbName;
-
 import dotenv from "dotenv";
 dotenv.config();
 const uri: string = process.env.MONGODB_URI || "";
@@ -18,26 +9,42 @@ const dbName: string = process.env.MONGODB_DBNAME || "";
 const defaultComparisons: IComparison[] =
   require("./config/db.config").comparisons;
 
-const setupDB = (connectionString: string) => {
-  mongoose
-    .connect(connectionString, { dbName: dbName })
-    .then(async (db: Mongoose) => {
-      //await Comparison.collection.drop();
-      const comparisons = await Comparison.find();
+export const setupDB = (connectionString: string): Promise<void> => {
+  return new Promise<void>(async (resolve, reject) => {
+    try {
+      await mongoose.connect(connectionString, {
+        dbName: dbName,
+        serverSelectionTimeoutMS: Infinity,
+      });
 
-      // await Somatotype.collection.drop();
-      // await Avatar.collection.drop();
-      // await Anthropometric.collection.drop();
-      // await User.collection.drop();
+      mongoose.connection.once("open", async () => {
+        console.log("Connesso a MongoDB");
 
-      comparisons.length === 0 &&
-        (await Comparison.insertMany([...defaultComparisons], {
-          ordered: true,
-        }));
+        const User = require("./models/User");
+        const Comparison = require("./models/Comparison");
+        const Avatar = require("./models/Avatar");
+        const Somatotype = require("./models/Somatotype");
+        const Anthropometric = require("./models/Anthropometric");
 
-      console.log("Database connected successfully");
-    })
-    .catch((err) => console.error("Database connection error:", err));
+        const comparisons = await Comparison.find().maxTimeMS(120000);
+
+        if (comparisons.length === 0) {
+          await Comparison.insertMany([...defaultComparisons], {
+            ordered: true,
+          });
+        }
+
+        console.log("Database connected successfully");
+        resolve();
+      });
+
+      mongoose.connection.on("error", (error) => {
+        console.error("Errore di connessione a MongoDB: ", error);
+        reject(error);
+      });
+    } catch (error) {
+      console.error("Error connecting to the database: ", error);
+      reject(error);
+    }
+  });
 };
-
-setupDB(uri);

@@ -34,15 +34,18 @@ usersCtrl.register = async (req: Request, res: Response) => {
 
   email = (email as string).toLowerCase();
 
+  const existingUser = await User.findOne({ email: email });
+  if (existingUser) {
+    return res.status(400).send({
+      message: "Email already exists",
+    });
+  }
+
   try {
     const newUser = await User({
       email: email,
       name,
-      gender: skipTest
-        ? gender
-        : data && data.user && data.user.gender
-        ? data.user.gender
-        : "unknown",
+      gender: gender, // <-- Cambia questa linea
       mainColor:
         data && data.user && data.user.mainColor ? data.user.mainColor : 0,
     });

@@ -16,7 +16,7 @@ const isRequired = (name: string): boolean => {
  * @returns Boolean
  */
 const isNameValid = (name: string): boolean => {
-  const isValid: boolean = name !== "" && /^[a-z\s]*$/.test(name);
+  const isValid: boolean = name !== "" && /^[a-zA-Z\s]*$/.test(name);
 
   return isValid;
 };
@@ -31,6 +31,7 @@ const isFieldsValid = async (
 ): Promise<Response<any, Record<string, any>> | undefined> => {
   const { name } =
     req.url.split("?")[0] === "/deleteUser" ? req.query : req.body;
+  console.log("name", name);
 
   if (isRequired(name))
     return res.status(403).send({
