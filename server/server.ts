@@ -15,7 +15,7 @@ const corsOptions = {
   origin: [
     "http://localhost:3000",
     "https://www.afitpilot.com/",
-    "https://afitpilot-somatotype.vercel.app/",
+    "https://afitpilot-somatotype.vercel.app",
   ],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
