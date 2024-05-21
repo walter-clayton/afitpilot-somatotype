@@ -12,11 +12,7 @@ import rpeRoutes from "./routes/rpe.routes";
 // Initialization
 const app: Express = express();
 const corsOptions = {
-  origin: [
-    "http://localhost:3000",
-    "https://www.afitpilot.com/",
-    "https://afitpilot-somatotype.vercel.app",
-  ],
+  origin: ["http://localhost:3000", "https://afitpilot-back.vercel.app"],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 200,
