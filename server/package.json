@@ -2,7 +2,7 @@
   "name": "somatotype",
   "version": "2.0.0",
   "description": "somatotype app",
-  "main": "server.js",
+  "main": "./dist/index.js",
   "scripts": {
     "client-install": "npm install --prefix client",
     "start": "npx nodemon --files ./index.ts",
