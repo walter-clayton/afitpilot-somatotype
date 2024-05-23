@@ -16,6 +16,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
+import Backdrop from "@mui/material/Backdrop";
+import { Theme } from "@mui/material/styles";
 
 const emojis = ["😆", "😋", "😊", "🙂", "😉", "😯", "😪", "😥", "😭", "😵"];
 const colors = [
@@ -36,9 +38,9 @@ const RPEScore = () => {
   const [open, setOpen] = useState(false);
   const [buttonsDisabled, setButtonsDisabled] = useState(false);
   const [loading, setLoading] = useState(false); // Loading state for progress indicator
-  const [snackbarMessage, setSnackbarMessage] = useState(""); // Snackbar message state
+  const [snackbarMessage, setSnackbarMessage] = useState<React.ReactNode>(""); // Snackbar message state
 
-  const handleOpen = (message: string) => {
+  const handleOpen = (message: React.ReactNode) => {
     setSnackbarMessage(message);
     setOpen(true);
   };
@@ -71,17 +73,30 @@ const RPEScore = () => {
 
       if (response.status === 201) {
         console.log(`RPE data for ${emoji} clicked`);
-        handleOpen(`✅ You have registered your score! ${emoji} ${num}`);
+        handleOpen(
+          <div>
+            <div>✅ You have registered your score!</div>
+            <div style={{ marginTop: "8px" }}>
+              {emoji} Your score is {num}.
+            </div>
+          </div>
+        );
       } else {
         console.error("Error from server:", response.data);
         handleOpen(
-          `❌ There was a problem registering your score. Please try again.`
+          <div>
+            <div>❌ There was a problem registering your score.</div>
+            <div style={{ marginTop: "8px" }}>Please try again.</div>
+          </div>
         );
       }
     } catch (error) {
       console.error("Error saving RPE data:", error);
       handleOpen(
-        `❌ There was a problem registering your score. Please try again.`
+        <div>
+          <div>❌ There was a problem registering your score.</div>
+          <div style={{ marginTop: "8px" }}>Please try again.</div>
+        </div>
       );
     } finally {
       setButtonsDisabled(false);
@@ -260,29 +275,55 @@ const RPEScore = () => {
               </div>
             </div>
           )}
-
-          <Snackbar
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "center",
-            }}
-            open={open}
-            autoHideDuration={4000}
-            onClose={handleClose}
-            message={snackbarMessage}
-            action={
-              <React.Fragment>
-                <IconButton
-                  size="small"
-                  aria-label="close"
-                  color="inherit"
-                  onClick={handleClose}
-                >
-                  <CloseIcon fontSize="small" />
-                </IconButton>
-              </React.Fragment>
-            }
-          />
+          {open && (
+            <>
+              <Backdrop
+                open={open}
+                sx={{
+                  zIndex: (theme: Theme) => theme.zIndex.drawer + 1,
+                  color: "#fff",
+                  backgroundColor: "rgba(0, 0, 0, 0.8)",
+                }}
+              />
+              <div
+                style={{
+                  position: "fixed",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  zIndex: 1400,
+                }}
+              >
+                <Snackbar
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "center",
+                  }}
+                  open={open}
+                  autoHideDuration={4000}
+                  onClose={handleClose}
+                  message={snackbarMessage}
+                  ContentProps={{
+                    sx: {
+                      textAlign: "left",
+                    },
+                  }}
+                  action={
+                    <React.Fragment>
+                      <IconButton
+                        size="small"
+                        aria-label="close"
+                        color="inherit"
+                        onClick={handleClose}
+                      >
+                        <CloseIcon fontSize="small" />
+                      </IconButton>
+                    </React.Fragment>
+                  }
+                />
+              </div>
+            </>
+          )}
         </>
       )}
     </div>
