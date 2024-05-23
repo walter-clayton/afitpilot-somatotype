@@ -85,7 +85,7 @@ const RPEScore = () => {
       );
     } finally {
       setButtonsDisabled(false);
-      setLoading(true); // Hide progress indicator
+      setLoading(false); // Hide progress indicator
     }
   };
 
