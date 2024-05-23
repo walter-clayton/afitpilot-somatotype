@@ -14,6 +14,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const emojis = ["😆", "😋", "😊", "🙂", "😉", "😯", "😪", "😥", "😭", "😵"];
 const colors = [
@@ -32,8 +34,12 @@ const colors = [
 const RPEScore = () => {
   const [showImage, setShowImage] = useState(false);
   const [open, setOpen] = useState(false);
+  const [buttonsDisabled, setButtonsDisabled] = useState(false);
+  const [loading, setLoading] = useState(false); // Loading state for progress indicator
+  const [snackbarMessage, setSnackbarMessage] = useState(""); // Snackbar message state
 
-  const handleOpen = () => {
+  const handleOpen = (message: string) => {
+    setSnackbarMessage(message);
     setOpen(true);
   };
 
@@ -48,10 +54,9 @@ const RPEScore = () => {
     setOpen(false);
   };
 
-  const [buttonsDisabled, setButtonsDisabled] = useState(false);
-
   const handleClick = async (num: number, emoji: string, colors: string) => {
     setButtonsDisabled(true);
+    setLoading(true); // Show progress indicator
 
     try {
       console.log("Sending POST request to backend...");
@@ -64,42 +69,41 @@ const RPEScore = () => {
 
       console.log("Response from backend:", response);
 
-      if (response.status !== 201) {
-        console.error("Error from server:", response.data);
-      } else {
+      if (response.status === 201) {
         console.log(`RPE data for ${emoji} clicked`);
-        handleOpen();
+        handleOpen(`✅ You have registered your score! ${emoji} ${num}`);
+      } else {
+        console.error("Error from server:", response.data);
+        handleOpen(
+          `❌ There was a problem registering your score. Please try again.`
+        );
       }
     } catch (error) {
       console.error("Error saving RPE data:", error);
+      handleOpen(
+        `❌ There was a problem registering your score. Please try again.`
+      );
     } finally {
-      // Réactivez les boutons une fois que la requête est terminée
       setButtonsDisabled(false);
+      setLoading(true); // Hide progress indicator
     }
   };
+
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  // Ajoutez un nouvel état pour suivre si la boîte de dialogue est ouverte
   const [dialogOpen, setDialogOpen] = useState(true);
-
-  // Ajoutez un nouvel état pour suivre le mot de passe entré par l'utilisateur
   const [password, setPassword] = useState("");
 
-  // Ajoutez une fonction pour gérer la soumission du mot de passe
   const handlePasswordSubmit = () => {
-    // Vérifiez si le mot de passe est correct
-    if (password === "rpe scoring") {
-      // Si le mot de passe est correct, fermez la boîte de dialogue
+    if (password === "123") {
       setDialogOpen(false);
     } else {
-      // Si le mot de passe est incorrect, réinitialisez le mot de passe et laissez la boîte de dialogue ouverte
       setPassword("");
       alert("Incorrect password");
     }
   };
 
-  // Réinitialisez l'état de la boîte de dialogue chaque fois que la page est actualisée
   useEffect(() => {
     setDialogOpen(true);
   }, []);
@@ -111,14 +115,13 @@ const RPEScore = () => {
         minHeight: "100vh",
         color: "#fff",
         position: "relative",
-        margin: -10, // Reset margin
-        padding: 100, // Reset padding
+        margin: -10,
+        padding: 100,
         width: "auto",
       }}
     >
       <Dialog open={dialogOpen} onClose={handlePasswordSubmit}>
         <DialogTitle>Enter Password</DialogTitle>
-
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -155,39 +158,45 @@ const RPEScore = () => {
             </Typography>
           </Grid>
 
-          <Grid
-            container
-            justifyContent="center"
-            wrap={isSmallScreen ? "wrap" : "nowrap"}
-          >
-            {emojis.map((emoji, index) => (
-              <Grid
-                key={index}
-                item
-                xs={isSmallScreen ? 12 : "auto"}
-                style={{ textAlign: "center" }}
-              >
-                <Typography variant="h3" style={{ fontSize: "3em" }}>
-                  {emoji}
-                </Typography>
-                <Button
-                  variant="contained"
-                  style={{
-                    fontSize: "2em",
-                    color: "black",
-                    margin: "10px",
-                    padding: "0px 20px 0px 20px",
-                    backgroundColor: colors[index],
-                    borderRadius: "15px",
-                  }}
-                  onClick={() => handleClick(index + 1, emoji, colors[index])}
-                  disabled={buttonsDisabled} // Désactivez le bouton si buttonsDisabled est vrai
+          {loading ? (
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <CircularProgress size={100} />
+            </Box>
+          ) : (
+            <Grid
+              container
+              justifyContent="center"
+              wrap={isSmallScreen ? "wrap" : "nowrap"}
+            >
+              {emojis.map((emoji, index) => (
+                <Grid
+                  key={index}
+                  item
+                  xs={isSmallScreen ? 12 : "auto"}
+                  style={{ textAlign: "center" }}
                 >
-                  {index + 1}
-                </Button>
-              </Grid>
-            ))}
-          </Grid>
+                  <Typography variant="h3" style={{ fontSize: "3em" }}>
+                    {emoji}
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    style={{
+                      fontSize: "2em",
+                      color: "black",
+                      margin: "10px",
+                      padding: "0px 20px 0px 20px",
+                      backgroundColor: colors[index],
+                      borderRadius: "15px",
+                    }}
+                    onClick={() => handleClick(index + 1, emoji, colors[index])}
+                    disabled={buttonsDisabled}
+                  >
+                    {index + 1}
+                  </Button>
+                </Grid>
+              ))}
+            </Grid>
+          )}
 
           <Button
             startIcon={<ListAltIcon />}
@@ -241,7 +250,6 @@ const RPEScore = () => {
                     position: "absolute",
                     top: "10px",
                     right: "10px",
-
                     color: "white",
                     borderRadius: "50%",
                   }}
@@ -252,15 +260,16 @@ const RPEScore = () => {
               </div>
             </div>
           )}
+
           <Snackbar
             anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "right",
+              vertical: "top",
+              horizontal: "center",
             }}
             open={open}
-            autoHideDuration={6000}
+            autoHideDuration={4000}
             onClose={handleClose}
-            message="You have registered your score!"
+            message={snackbarMessage}
             action={
               <React.Fragment>
                 <IconButton
