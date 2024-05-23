@@ -2,11 +2,45 @@ node_modules
 package-lock.json
 .env
 .DS_Store
-dist
 .scanApi
 .env.staging
 .env
-client/.env.staging
-client/.env.development
 
 .vercel
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/client/node_modules
+/server/node_modules
+/client/package-lock.json
+/server/package-lock.json
+/client/.pnp
+/client/.pnp.js
+
+
+# testing
+/client/coverage
+
+# production
+/client/build
+/server/dist
+
+# misc
+/client/.env
+/server/.env
+/client/.DS_Store
+/server/.DS_Store
+/client/.env.local
+/client/.env.development.local
+/client/.env.test.local
+/client/.env.production.local
+/client/.env-production
+/client/.env.staging
+/client/.env.development
+/client/.env.development
+/client/.env.staging
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
