@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
-dotenv.config({ path: ".env.staging" });
+dotenv.config({ path: ".env" });
 
 const verifyKey = (req: Request, res: Response, next: NextFunction): void => {
   const access_key: string | string[] = req.headers.access_key!;

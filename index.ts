@@ -1,10 +1,7 @@
-import { Express } from "express";
-require("./database");
+import { createServer } from "./server";
 
-const app: Express = require("./server");
+const server = createServer();
 
-const PORT: number = app.get("port");
-
-app.listen(PORT, () => {
-  console.log(`[server]: Server is running at ${PORT}`);
+server.listen(server.get("port"), () => {
+  console.log(`Server running on port ${server.get("port")}`);
 });

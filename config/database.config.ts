@@ -1,5 +1,5 @@
 import mongoose, { Mongoose } from "mongoose";
-import { IComparison } from "./interfaces/interfaces";
+import { IComparison } from "./interfaces/interfaces"; //?
 
 const User = require("./models/User");
 const Comparison = require("./models/Comparison");
