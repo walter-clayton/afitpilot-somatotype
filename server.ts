@@ -8,12 +8,15 @@ const routesCompare = require("./routes/compare.routes");
 import workoutRoutes from "./routes/workout.routes";
 import rpeRoutes from "./routes/rpe.routes";
 //import rpeDashboardRoutes from "./routes/rpedashboard.routes";
+import { setupDB } from "./config/database.config";
 
-// Initialization
+dotenv.config();
+const uri: string = process.env.MONGODB_URI || "";
+
 export const createServer = (): Express => {
   const app = express();
-  var corsOptions = {
-    origin: "*",
+  const corsOptions = {
+    origin: "http://localhost:3000",
     optionsSuccessStatus: 200,
   };
   const PORT: number = parseInt(process.env.PORT!);
@@ -43,6 +46,8 @@ export const createServer = (): Express => {
     .use("/workouts", workoutRoutes)
     .use("/rpe", rpeRoutes);
   // app.use("/rpe/dashboard", rpeDashboardRoutes);
+
+  setupDB(uri); // Initialization
 
   return app;
 };
