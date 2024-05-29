@@ -53,7 +53,7 @@ usersCtrl.register = async (req: Request, res: Response) => {
     if (skipTest) {
       newUser.skippedTest = true;
       // Send email verification when user skips the test
-      await sendSkippedTestEmail(email, name, generatedPass);
+      //await sendSkippedTestEmail(email, name, generatedPass);
     } else if (data && data.somatotype && data.anthropometric) {
       const { somatotype, anthropometric } = data;
 

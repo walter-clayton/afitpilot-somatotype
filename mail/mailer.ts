@@ -85,10 +85,10 @@ const sendEmailPassword = async (
   };
   try {
     const info = await transporter.sendMail(options);
-
+    console.log("Message sent: %s", info.messageId);
     return info;
   } catch (error) {
-    console.log(error);
+    console.error(" ⚠ error with sendEmailPassword : ", error);
   }
 };
 

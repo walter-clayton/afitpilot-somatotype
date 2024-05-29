@@ -57,7 +57,7 @@ const sendSkippedTestEmail = async (
 
     return info;
   } catch (error) {
-    console.log("Error sending email:", error);
+    console.log("Error from email (sendSkippedTestEmail):", error);
     throw error;
   }
 };
