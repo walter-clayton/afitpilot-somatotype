@@ -55,7 +55,7 @@ Common errors [page](errors.md).
 
 ### Version
 
-2.0.0
+![Afitpilot Version](https://img.shields.io/badge/Afipilot-3.00-blue)
 
 ### License
 
