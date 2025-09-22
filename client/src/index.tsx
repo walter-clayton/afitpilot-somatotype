@@ -4,7 +4,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import ReactGA from "react-ga4";
 
-const GA_MEASUREMENT_ID = "G-VE6XKWVTFG";
+const GA_MEASUREMENT_ID = "";
 ReactGA.initialize(GA_MEASUREMENT_ID);
 
 if (process.env.REACT_APP_ENVIRONMENT === "staging") {
